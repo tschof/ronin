@@ -1,0 +1,14 @@
+2011-03-17 v1.0.0
+* Initial version.
+
+2011-03-21 v1.0.1
+* Fixes to project and solution for Windows builds.
+
+2011-04-14 v1.0.2
+* Send Account tag on all messages.
+
+2011-05-09 v1.0.3
+* Send clearing account in FIX tag 116.
+
+2011-09-21 v1.0.4
+* Latest framework.

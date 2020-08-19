@@ -1,0 +1,13 @@
+exchanges/edg/edg
+exchanges/server_objects/libserver_obj.so
+exchanges/ex_db/libdartdb_obj.so
+exchanges/ex_common/libdartexcommon.so
+exchanges/smtp/libdartsmtp.so
+exchanges/edg/cfg/RomToFixOut
+exchanges/edg/cfg/RomToFixRpl
+exchanges/edg/cfg/RomToFixCnl
+exchanges/edg/cfg/RomToFixStat
+exchanges/edg/cfg/FixToRomExe
+exchanges/edg/cfg/FixToRomNew
+exchanges/edg/cfg/FixToRomRpl
+exchanges/edg/cfg/FixToRomCnl

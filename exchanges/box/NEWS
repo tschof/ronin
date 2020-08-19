@@ -1,0 +1,15 @@
+box-1.0 2013-01-17
+
+* First Linux version on new framework; regrssion against the old
+Windows version with only minor differences.
+
+
+box-1.1 2013-01-17
+
+* Only added dist capability to Makefile
+
+
+box-1.2 2013-01-17
+
+* Fixed up dist-targets file
+ 

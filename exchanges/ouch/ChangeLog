@@ -1,0 +1,35 @@
+2012-11-23  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* ouch-1.4
+	* ouch-reflector/main.c (ouch_replaced): Adding replacement
+	functionality.
+	(on_order): Fill every 5th order; allow replaces.
+
+2012-11-19  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* ouch-1.3
+	* ouch.c (ouch__on_accepted): Send back Order Reference Number in
+	the DART CSV open message as the exchange order ID.
+	(ouch__on_order_executed): Report Match Number as the DART CSV
+	exchange execution ID.
+
+2012-06-05  dcondon  <dcondon@wdrt-orl-dcond1>
+	* ouch-1.2
+	* ouch.c: Fixed OUCH message processing loop.
+
+2012-05-29  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* ouch.c: Bug fix: convert_results in
+	ouch__on_message_using_parser_helper function could be returned
+	uninitialized in some code paths.
+	* ouch-1.1
+
+2012-05-25  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* Email when unrecognized messages come from OUCH
+	* Fixed memory leaks, not returning databufs to pool in some cases
+
+2012-05-24  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* 1.0 Initial OUCH version.
+

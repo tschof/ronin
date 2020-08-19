@@ -1,0 +1,36 @@
+[FIX SERVER]
+Target Comp ID=BATS
+Target Sub ID=TEST
+Sender Comp ID=DART
+Sender Sub ID=0001
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=../BATS
+Fix IP=10.138.106.26
+Fix Port=10173
+Heartbeat Int=60
+Dest ID=24
+ClearingID=DART
+DefRouteInst=B
+
+[ROM SERVER]
+Rom Port=8885
+
+[TIMES]
+Reset Hour=9
+Reset Min=10
+Last Run Day=20101115
+End Hour=23
+End Min=00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=LTC_DEV_DS_1
+#Server=USDEV1_2
+User=rom_user
+Password=resu_mor

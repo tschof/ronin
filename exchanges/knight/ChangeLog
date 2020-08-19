@@ -1,0 +1,7 @@
+2012-06-13  dcondon  <dcondon@wdrt-orl-dcond1>
+	* knight-1.4: Latest tag, only doing a Linux build.
+	* knight.c: Added ability to send 115 (OnBehalfOfCompID) and
+	100 (ExDest) on all messages.  They are configured by setting the
+	OnBehalfOfCompID and/or ExDest keys within the knight.dat file
+	under the [FIX SERVER] section.
+

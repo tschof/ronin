@@ -1,0 +1,38 @@
+2012-08-17  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* rash-1.4: Build problem (server objects) with rash-1.3; fixed in
+	rash-1.4.
+
+	* rash-1.3
+
+	* rash.c: Log RASH messages (thereby timestamping them) before
+	processing them; we were logging after sending back to ROM.
+
+	* framework: Now includes microsecond timestamping in the rolling
+	log.
+
+2012-08-15  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* rash-1.2
+
+	* rash.c: Fixed small memory leak; CSV status messages weren't
+	being added back to the databuf pool.
+
+2012-08-07  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* rash-1.1: Production release after certification test.
+
+	* rash_util.c: Account for Central versus Eastern time zone when
+	translating RASH timestamps into a UTC timestamp.  The RASH
+	timestamp is the number of milliseconds since midnight Eastern
+	time.  mktime is called to convert the time to UTC, assuming that
+	the time specified is in the local time zone.  If the server is
+	running in Chicago in the Central time zone, the resulting UTC
+	time will be one hour in the future.  To address this, on startup
+	we check the timezone and, if it is Central, set a flag indicating
+	one hour must be subtracted from the time.  If it is Eastern time
+	zone, no adjustment is made.
+
+2012-08-01  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* rash-1.0: Final release before certification test.

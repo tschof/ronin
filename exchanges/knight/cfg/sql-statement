@@ -1,0 +1,2 @@
+SELECT callPut, capacity, clearingAccount, clearingID, CMTAID, cumQty, exchangeTag, leavesQty, maxFloor, mmAcct, omTag, orderTag, orderType, price, qty, secType, side, stopPrice, strikePrice, symbol, tag, tif, expDate, shortLender, cplxtype, parentOmTag, mmExchange, openClose, tradeFor, (case when expireDate is NULL THEN NULL  else substring(convert(varchar,expireDate,112), 7, 2) end), DestID FROM rom..Orders WHERE DestID = 1000 AND status <> 2 AND status <> 4 AND status <> 8 AND status <> 12
+

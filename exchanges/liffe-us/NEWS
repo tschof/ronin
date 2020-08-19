@@ -1,0 +1,40 @@
+liffe-us-1.4    2013-02-13
+
+* Configure ucode with "ucode" key in FIXSERVER section of the
+  configuration file.
+
+======================================================================
+
+liffe-us-1.3    2013-02-13
+
+* Add account information to cancel/replace and cancel messages.  This
+  is required by REDI otherwise the order is canceled upon receiving a
+  cancel/replace without account information.  The account information
+  is saved from the original order, if needed.
+
+* We have seen a strange situation in which a cancel/reject is set
+  pending (150=6), accepted (150=5), but then rejected (35=9) with an
+  OrdStatus of Rejected (39=8).  If this situation occurs we now
+  change the status from replace rejected (20) to rejected (8) so the
+  client knows the order is out.
+
+=====================================================================
+
+liffe-us-1.2    2013-02-06
+
+* Check security type and reject non-futures
+
+=====================================================================
+
+liffe-us-1.1    2013-01-13
+
+Provide the ability to map root symbols via a mapping file.
+
+=====================================================================
+
+2012-12-10  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* liffe-us-1.0
+	* liffe-us.c: Initial version.
+
+=====================================================================

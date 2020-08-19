@@ -1,0 +1,33 @@
+[FIX SERVER]
+Sender Comp ID=DXE
+Target Comp ID=AFIX207
+username=DXE:DXE
+senderSubId=DXE:DXE
+targetSubId=TEST
+Exec Broker=CFE
+Trading Session=CFE_MAIN
+Branch Code=200
+Reserved Branch Codes=HMQ,YYY,RRR,ZZZ,TTT,QQQ,ZYY,ZYZ,ZYX
+Fix Port=22507
+Fix IP=10.106.106.254
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=99
+Mod Name=CFE
+
+[ROM SERVER]
+Rom User Name=ROM3
+Rom Connection Name=ROM3
+Rom Port=9898
+
+[TIMES]
+End Hour=18
+End Min=23
+Reset Hour=8
+Reset Min=21
+Last Run Day=20130307
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

@@ -1,0 +1,35 @@
+[FIX SERVER]
+Target Comp ID=FXALL
+Sender Comp ID=RONINTEST-CCG-1
+Username=api@RONIN
+Password=fxall123
+Fix Version=FIX.4.3
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=FXALL
+Fix IP=66.150.88.179
+Fix Port=8091
+Heartbeat Int=30
+Dest ID=49
+Account=RONIN_RBS
+
+[ROM SERVER]
+Rom Port=9049
+
+[TIMES]
+Reset Hour=17
+Reset Min=30
+Last Run Day=20111026
+End Hour=18
+End Min=00
+Next Seq Reset=20111023-02:00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=DEV_DS_1
+User=rom_user
+Password=resu_mor

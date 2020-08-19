@@ -1,0 +1,28 @@
+[FIX SERVER]
+Sender Comp ID=ronintrader2
+Target Comp ID=CNX
+Fix Port=443
+Fix IP=208.89.235.136
+Username=ronintrader2
+password=test1234
+Firm ID=RONINF1
+Reset Incoming=1
+Reset Outgoing=1
+Heartbeat Int=30
+Dest ID=116
+Mod Name=CRNX
+
+[ROM SERVER]
+Rom Port=9812
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20120222
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

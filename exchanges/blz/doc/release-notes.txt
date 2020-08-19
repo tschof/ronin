@@ -1,0 +1,110 @@
+2010-12-07 v1.0.0
+* Initial Belzberg version
+
+2010-12-08 v1.0.1
+* Bug fix: Release build is now built using ASCII libraries instead of Unicode.
+
+2011-01-12 v1.0.2
+* Bug fix: Removed RawData and RawDataLength fields from Logon message; they
+  probably don't hurt but definitly aren't needed for this destination.
+* Feature: Use the ROM Destination field (ROM field 13) to map to the proper
+  FIX ExDest (tag 100) field on New Order - Single messages (35=D).
+* Feature: Add configurable mapping for Destination to ExDest fields using the
+  [BLZ] DestMap key in the INI file.
+* Feature: New day processing (resetting ROM and FIX sequence numbers and
+  purging sequence files) works with the new framework logic such that anytime
+  the Last Run Day in the config file differs from the calculated current run
+  day sequence numbers are reset and sequence files are purged.  The time
+  used is the current day as determined by the CRT function localtime.
+
+2011-01-20 v1.0.3
+* Feature: FIX constants can now be configured by setting the FixConstants key
+  in the BLZ section of the configuration file.  The full <tag>=<value> syntax
+  of the FIX tag constant must be provided and will simply be inserted into
+  each message verbatim.  For example:
+    [BLZ]
+    FixConstants=6750=CL
+  In this example "6750=CL" will be inserted into the FIX message, along with a
+  FIX field separator (0x01) in each message.
+* Spec change: Tag 50 is not needed for clearing; the *last* 4 characters of the
+  clearing account are to be sent in FIX tag 1 (Account).
+
+2011-02-01 v1.0.4
+* Update: Modified to use latest framework.
+
+2011-02-03 v1.0.5
+* Feature: Map capacity of 'A' to 'CL', required for Canadian equity trading.
+
+2011-02-03 v1.0.6
+* Bug fix: Capacity not sent on Cancel or Cancel/Replace messages; now saves
+  capacity in the internal order book.
+* Bug fix: Under certain circumstances the ExDest tag would not be sent for
+  New Order - Single messages.
+
+2011-02-03 v1.0.7
+* Changed resource file, no code changes from v1.0.6 but cannot re-tag in git
+  repository.
+
+2011-02-16 v1.0.8
+* Modified symbol handling code to strip either .TO or .TV extensions from the
+  symbol before sending out.  Existing suffix handling, e.g. B shares as
+  expressed in a symbol such as SU.B will load 55 with the symbol 'SU' and 65
+  with the suffix 'B'.  '.TO' and '.TV' will never be sent to BLZ and are only
+  needed on the ROM message symbol for proper TPOS reporting.
+
+2011-02-18 v1.1.0
+* Framework: Do not log out the FIX session if receiving a SequenceReset (35=4)
+  message without a GapFillFlag set (123=Y).  Belzber erroneously sends these
+  before fulfilling ResendRequests and the implications are pretty unappealing
+  if we don't drop this single erroneous message (we would never sync up on the
+  FIX session and would have to handle missed messages manually).
+* Framework: Read short locate ID, if any, from the database and store in
+  internal order book.
+* BLZ: Apply short locate ID from book if missing on ROM message.  This is
+  needed for Cancel/Replaces of short orders.
+
+2011-03-08 v1.1.1
+* BLZ: FIX tag 100 should always be "TSES" while 113 will be the result (if any
+  of mapping the destination ID to a string as specified in the configuration
+  file.
+
+2011-03-08 v1.1.2
+* BLZ: Add full peg order support.
+
+2011-03-10 v1.1.3
+* BLZ: Strip commas from FIX text field.
+
+2011-03-11 v1.1.4
+* Suppress error messages resulting from the v1.1.3 change; no impact on actually
+  processing the messages, just lots of messages to stdout.
+
+2011-03-22 v1.1.5
+* Bug fix: It was premature to remove the special CancelReject processing;
+  problems still exist in Belzberg's implementation of CancelReject messages so
+  the custom handling has been added back.
+* Feature reversion: Tag 100 is now mapped from the mapping specified in the
+  configuration file; previously this configuration mapped tag 113.
+
+  Digression: There is a confusing set of changes surrounding this "feature
+  reversion". The root cause is needing to send peg orders to Chi-X. Originally,
+  we were told to specify 113=CHIX to route to Chi-X. It turns out that tag,
+  113, is a direction to the Smart Order Router (SOR). The SOR, however, does
+  not support peg orders. In order to route peg orders we need Belzberg to allow
+  us to access Chi-X directly, not through the SOR. Tag 100 (ExDestination)
+  specifies what "destination" orders are routed to at Belzberg; sending
+  "100=TSES" sends to the SOR while "100=CHIX" will send to Chi-X. Tag 113
+  specifies directions to the SOR; however, we will not be specifying any
+  directions to the SOR so tag 113 will not be used.
+
+2011-04-06 v1.1.6
+* Feature: Allow sell short exempt for Canadian markets. For a Sell Short order,
+  if the short lender is "ETFX" the side is changed to Sell Short Exempt (54=6).
+  This should only be done for ETFs, hence the ETFeXempt short lender acronym.
+  Any other short lender or side combination will result in the normal mappings.
+
+2011-06-30 v1.1.7
+* Changed suffix mapping code to include a leading period in suffix on direction
+  from Belzberg.
+
+2011-09-21 v1.1.8
+* Latest framework.

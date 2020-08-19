@@ -1,0 +1,28 @@
+[FIX SERVER]
+Sender Comp ID=RONIN2
+Target Comp ID=ISE
+Fix Port=6669
+Fix IP=10.106.96.90
+#Fix Port=21675
+#Fix IP=10.157.113.13
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=21
+Mod Name=ISE
+
+[ROM SERVER]
+Rom User Name=ROM3
+Rom Connection Name=ROM3
+Rom Port=8920
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20130109
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

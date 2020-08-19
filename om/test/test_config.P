@@ -21,8 +21,6 @@ test_config.o: test_config.c /usr/include/stdc-predef.h tests.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h /usr/include/time.h \
  /usr/include/x86_64-linux-gnu/bits/time.h \
- /usr/include/x86_64-linux-gnu/bits/timex.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
@@ -36,6 +34,7 @@ test_config.o: test_config.c /usr/include/stdc-predef.h tests.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/sys/time.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/sys/select.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
@@ -64,8 +63,6 @@ test_config.c /usr/include/stdc-predef.h tests.h :
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h :
  /usr/include/strings.h /usr/include/time.h :
  /usr/include/x86_64-linux-gnu/bits/time.h :
- /usr/include/x86_64-linux-gnu/bits/timex.h :
- /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h :
  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h :
  /usr/include/x86_64-linux-gnu/bits/types/time_t.h :
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h :
@@ -79,6 +76,7 @@ test_config.c /usr/include/stdc-predef.h tests.h :
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h :
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h :
  /usr/include/x86_64-linux-gnu/sys/time.h :
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h :
  /usr/include/x86_64-linux-gnu/sys/select.h :
  /usr/include/x86_64-linux-gnu/bits/select.h :
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h :

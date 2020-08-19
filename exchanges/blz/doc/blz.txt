@@ -1,0 +1,5 @@
+Belzberg treats the FIX tag 100 (ExDestination) as the listing exchange and FIX
+tag 113 (ReportToExch) as the routing destination. These are very FIX unfriendly
+ways to send this information. The listing exchange should be in FIX tag 207
+(SecurityExchange), and the routing destination should be in FIX tag 100
+(ExDestination).

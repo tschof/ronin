@@ -1,0 +1,33 @@
+[FIX SERVER]
+Sender Comp ID=CSFX-RONIN-TEST2
+Target Comp ID=CSTEST
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=logs/CSFX
+Fix IP=199.53.16.207
+Fix Port=33041
+Heartbeat Int=30
+Dest ID=119
+Account=CSFX_RONIN
+ClientID=csfx-ronin-user
+
+[ROM SERVER]
+Rom Port=2001
+
+[TIMES]
+Reset Hour=7
+Reset Min=45
+Last Run Day=20120229
+End Hour=16
+End Min=05
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=RON_SYB_DEV1
+User=rom_user
+Password=resu_mor

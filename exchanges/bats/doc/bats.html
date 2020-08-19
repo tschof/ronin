@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>
+      DART Executions Support for BATS US Equities (BYX)
+    </title>
+  </head>
+  <body>
+    <h1>Symbology</h1>
+    Since our internal symbology is largely based off of CMS symbology we are
+    parsing symbols, breaking them up into two parts based on the presence of
+    a forward-slash character ('/'), and placing the root symbol (before the
+    slash) into FIX field 55 (Symbol) and the suffix into FIX field 65
+    (SymbolSfx); no translation of the suffix is required.  See
+    <a href="http://www.batstrading.com/resources/membership/BATS_Symbology.pdf">this document</a> for more information.
+
+    <h1>Side</h1>
+    <ul>
+      <li>Buy (54=1)</li>
+      <li>Sell (54=2)</li>
+      <li>Sell Short (54=5, 114=N)</li>
+    </ul>
+    LocateReqd (FIX Tag 114) is automatically sent as "N" for shorts.
+
+    <h1>Order Types</h1>
+
+    <h2>Reserve Orders</h2>
+    The number of shares to display can be sent in ROM field 34 which is mapped
+    to MaxFloor (FIX tag 111).  This value is ignored by BATS on IOC orders.
+
+    <h2>Market Orders</h2>
+
+    <h2>Limit Orders</h2>
+
+    <h2>Pegged Orders</h2>
+    The ROM type field is ignored for these types of orders (ROM field 8).
+    Instead, the ROM Execution Instruction field (ROM field 57) is inspected.
+    If ROM field 57 contains either "P", "M", or "R", the order is considered
+    a Pegged order and the FIX OrdType field (FIX tag 40) is set to "P".  The
+    FIX ExecInst field (tag 18) is automatically mapped rom ROM tag 57 via the
+    configuration file.  BATS will only allow Pegged orders to be placed if
+    they are not routable, therefore Pegged orders must be placed with 9303=B
+    to indicate a RoutingInst of BATS (BYX) only.  This is done by default
+    based on the default routing instruction configuration in the configuration
+    file.  The DisplayIndicator field (FIX tag 9479) is "V" by default for
+    Pegged orders.  Pegged order offsets are allowed and are copied from ROM
+    field 64 into PegDifference (FIX tag 211).  This is handled by default via
+    the mapping tables in the handler.
+
+    <h2>Add Liquidity Only</h2>
+    This is an order type provided by DART Executions across several
+    destinations that translates to the destination-specific tags required to
+    only add liquidity to a particular market center's book.  For BYX this
+    amounts to settings the RoutingInst field (FIX tag 9303) to "B" to park the
+    order on the BATS book and not allow routing out.  Additionally, the
+    DisplayIndicator field (FIX tag 9479) is set to "V".  On BATS BYX this
+    should enable price sliding for the order.
+
+    <h2>Minimum Quantity</h2>
+    ROM message field 18 is mapped to the MinQty FIX tag (110) to indicate the
+    minimum number of shares acceptable for matching.
+
+    <h1>Knobs To Turn for BYX (Configuration Options)</h1>
+
+    <h2>Default Routing Instructions</h2>
+    Default routing instructions to be placed into FIX tag 9303 are configured
+    via the "DefaultRoutingInstruction" key in the "FIX Information" section of
+    the configuration file.  This default value is used if the ROM Instructions
+    field (CSV field 15) is empty.
+    <i>No validation is done either on the default value specified or routing
+      instructions passed in the ROM message.  This is <b>by design</b> to
+      reduce maintenance.</i>
+
+    <h2>Clearing ID</h2>
+    Each order sent to BYX must have clearing information attached in FIX tag
+    439 (ClearingFirm).  Since this is the same for all orders (but may possibly
+    change in the future) it is configured via the "ClearingID" key in the
+    "FIX Information" section of the configuration file.
+
+  </body>
+</html>

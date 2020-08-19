@@ -1,0 +1,34 @@
+[FIX SERVER]
+Sender Comp ID=DART_FIX_INTERFACE
+Target Comp ID=DART_FIX_TESTER
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=CHIX
+Fix IP=127.0.0.1
+Fix Port=2000
+Heartbeat Int=30
+Dest ID=237
+CHIX USER ID=FI225RO
+CHIX NT KEY=DART99
+BROKER NUM=101
+
+[ROM SERVER]
+Rom Port=2001
+
+[TIMES]
+Reset Hour=9
+Reset Min=40
+Last Run Day=20130110
+End Hour=18
+End Min=00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=DEV_DS_1
+User=rom_user
+Password=resu_mor

@@ -1,0 +1,9 @@
+knight-1.5
+* Latest framework changes
+* Adds ident-compatible information to executable
+
+---------------------
+
+knight-1.6 2013-01-25
+
+* Do not send 57=ALGO for messages with CSV ALGOTYPE (73) of 0 (None).

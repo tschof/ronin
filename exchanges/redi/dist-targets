@@ -1,0 +1,9 @@
+exchanges/redi/redi
+exchanges/server_objects/libserver_obj.so
+exchanges/ex_db/libdartdb_obj.so
+exchanges/ex_common/libdartexcommon.so
+exchanges/smtp/libdartsmtp.so
+exchanges/redi/cfg/RomToFixOut
+exchanges/redi/cfg/RomToFixRpl
+exchanges/redi/cfg/RomToFixCnl
+exchanges/redi/cfg/FixToRomExe

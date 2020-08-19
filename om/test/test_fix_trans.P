@@ -32,11 +32,8 @@ test_fix_trans.o: test_fix_trans.c /usr/include/stdc-predef.h tests.h \
  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
- /usr/include/x86_64-linux-gnu/bits/iscanonical.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h /usr/include/time.h \
  /usr/include/x86_64-linux-gnu/bits/time.h \
- /usr/include/x86_64-linux-gnu/bits/timex.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
@@ -50,6 +47,7 @@ test_fix_trans.o: test_fix_trans.c /usr/include/stdc-predef.h tests.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/sys/time.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/sys/select.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
@@ -67,8 +65,7 @@ test_fix_trans.o: test_fix_trans.c /usr/include/stdc-predef.h tests.h \
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio-ext.h ../server_objects/databuf.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h ../server_objects/databuf.h \
  /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
@@ -116,11 +113,8 @@ test_fix_trans.c /usr/include/stdc-predef.h tests.h :
  /usr/include/x86_64-linux-gnu/bits/fp-logb.h :
  /usr/include/x86_64-linux-gnu/bits/fp-fast.h :
  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h :
- /usr/include/x86_64-linux-gnu/bits/mathcalls.h :
- /usr/include/x86_64-linux-gnu/bits/iscanonical.h /usr/include/time.h :
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h /usr/include/time.h :
  /usr/include/x86_64-linux-gnu/bits/time.h :
- /usr/include/x86_64-linux-gnu/bits/timex.h :
- /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h :
  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h :
  /usr/include/x86_64-linux-gnu/bits/types/time_t.h :
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h :
@@ -134,6 +128,7 @@ test_fix_trans.c /usr/include/stdc-predef.h tests.h :
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h :
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h :
  /usr/include/x86_64-linux-gnu/sys/time.h :
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h :
  /usr/include/x86_64-linux-gnu/sys/select.h :
  /usr/include/x86_64-linux-gnu/bits/select.h :
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h :
@@ -151,8 +146,7 @@ test_fix_trans.c /usr/include/stdc-predef.h tests.h :
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h :
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h :
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h :
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h :
- /usr/include/x86_64-linux-gnu/bits/uio-ext.h ../server_objects/databuf.h :
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h ../server_objects/databuf.h :
  /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h :
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/alloca.h :
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h :

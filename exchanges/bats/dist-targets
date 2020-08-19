@@ -1,0 +1,12 @@
+exchanges/bats/bats
+exchanges/server_objects/libserver_obj.so
+exchanges/ex_db/libdartdb_obj.so
+exchanges/ex_common/libdartexcommon.so
+exchanges/smtp/libdartsmtp.so
+exchanges/bats/cfg/RomToFixOut
+exchanges/bats/cfg/RomToFixRpl
+exchanges/bats/cfg/RomToFixCnl
+exchanges/bats/cfg/FixToRomExe
+exchanges/bats/cfg/FixToRomNew
+exchanges/bats/cfg/FixToRomRpl
+exchanges/bats/cfg/FixToRomCnl

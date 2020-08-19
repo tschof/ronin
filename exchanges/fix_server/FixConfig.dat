@@ -1,0 +1,24 @@
+[FIX SERVER]
+Sender Comp ID=ROMFIX
+Target Comp ID=PARNELL
+Fix Port=9505
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=FIXPARNELL
+
+[ROM SERVER]
+Rom User Name=PARNELL
+Rom Connection Name=ROM3
+Rom Port=7007
+Rom Host=10.106.96.90
+Reset Incoming=0
+Reset Outgoing=0
+
+
+[TIMES]
+End Hour=18
+End Min=10
+Reset Hour=11
+Reset Min=10
+Last Run Day=20120712
+

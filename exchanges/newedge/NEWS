@@ -1,0 +1,10 @@
+newedge-1.2
+* Includes framework change to ex_db that allows a specific database to be
+  specified.
+
+newedge-1.1
+* Added dist-targets to project.
+* Added newedge to exchanges Makefile.
+
+newedge-1.0
+* Initial version

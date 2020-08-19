@@ -1,0 +1,10 @@
+oo      OnOpen                  6206           Y/N
+oc      OnClose                 6207           Y/N
+iwould  I Would Price           6208           Price
+mvp     Max Vol Pct             6209           Float
+style   Style                   6210           Float
+10b-18  10b-18                  6212           Y/N
+msp     Market Stop Price       6258           Price
+ds      Dark Switch             6260           Y/N
+dmq     Dark Min Qty            6261           Qty
+dur     Duration                6263           Int

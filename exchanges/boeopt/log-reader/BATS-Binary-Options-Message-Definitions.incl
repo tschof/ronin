@@ -1,0 +1,658 @@
+/* 0x01 LoginRequest */
+FIXED_FIELDS_START(LoginRequest)
+        MessageHeader,
+        SessionSubID,
+        Username,
+        Password,
+        NoUnspecifiedUnitReplay,
+FIXED_FIELDS_END
+OPT_FIELDS_START(LoginRequest)
+        /* Order Acknowledgement Bitfields */
+
+        /* Byte 0 */
+        Side,
+        PegDifference,
+        Price,
+        ExecInst,
+        OrdType,
+        TimeInForce,
+        MinQty,
+        MaxRemovePct,
+
+        /* Byte 1 */
+        Symbol,
+        SymbolSfx,
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Capacity,
+        Reserved(1),
+
+        /* Byte 2 */
+        Account,
+        ClearingFirm,
+        ClearingAccount,
+        DisplayIndicator,
+        MaxFloor,
+        DiscretionAmount,
+        OrderQty,
+        PreventMemberMatch,
+
+        /* Byte 3 */
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+
+        /* Byte 4 */
+        OrigClOrdID,
+        LeavesQty,
+        LastShares,
+        LastPx,
+        DisplayPrice,
+        WorkingPrice,
+        BaseLiquidityIndicator,
+        ExpireTime,
+
+        /* Byte 5 */
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        AttributedQuote,
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+
+        /* Byte 6 */
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+
+        /* Order Rejected Bitfields */
+
+        /* Byte 7 */
+        Side,
+        PegDifference,
+        Price,
+        ExecInst,
+        OrdType,
+        TimeInForce,
+        MinQty,
+        MaxRemovePct,
+
+        /* Byte 8 */
+        Symbol,
+        SymbolSfx,
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Reserved(1),
+        Capacity,
+        Reserved(1),
+
+        /* Byte 9 */
+        Account,
+        ClearingFirm,
+        ClearingAccount,
+        DisplayIndicator,
+        MaxFloor,
+        DiscretionAmount,
+        OrderQty,
+        PreventMemberMatch,
+
+        /* There are a lot more fields, not going to display them for
+           now, they should all be 0. */
+OPT_FIELDS_END
+
+/* 0x04 NewOrder */
+FIXED_FIELDS_START(NewOrder)
+    MessageHeader,
+    ClOrdID,
+    Side,
+    OrderQty,
+FIXED_FIELDS_END
+OPT_FIELDS_START(NewOrder)
+    /* Byte 0 */
+    ClearingFirm,
+    ClearingAccount,
+    Price,
+    ExecInst,
+    OrdType,
+    TimeInForce,
+    MinQty,
+    MaxFloor,
+
+    /* Byte 1 */
+    Symbol,
+    Reserved(5),
+    Capacity,
+    RoutingInst,
+
+    /* Byte 2 */
+    Account,
+    DisplayIndicator,
+    MaxRemovePct,
+    DiscretionAmount,
+    Reserved(1),
+    PreventMemberMatch,
+    Reserved(1),
+    ExpireTime,
+
+    /* Byte 3 */
+    MaturityDate,
+    StrikePrice,
+    PutOrCall,
+    RiskReset,
+    OpenClose,
+    CMTANumber,
+    Reserved(2),
+
+    /* Byte 4 */
+    Reserved(1),
+    AttributedQuote,
+    Reserved(6),
+
+    /* Byte 5 */
+    Reserved(8),
+
+OPT_FIELDS_END
+
+/* 0x05 CancelOrder */
+FIXED_FIELDS_START(CancelOrder)
+        MessageHeader,
+        OrigClOrdID,
+FIXED_FIELDS_END
+OPT_FIELDS_START(CancelOrder)
+        /* Byte 0 */
+        ClearingFirm,
+        Reserved(1),
+        MassCancel,
+        OsiRoot,
+        MassCancelID,
+        Reserved(3),
+
+        /* Byte 1 */
+        Reserved(8),
+OPT_FIELDS_END
+
+/* 0x06 ModifyOrder */
+FIXED_FIELDS_START(ModifyOrder)
+        MessageHeader,
+        ClOrdID,
+        OrigClOrdID,
+FIXED_FIELDS_END
+OPT_FIELDS_START(ModifyOrder)
+        /* Byte 0 */
+        ClearingFirm,
+        Reserved(1),
+        OrderQty,
+        Price,
+        OrdType,
+        CancelOrigOnReject,
+        ExecInst,
+        Reserved(1),
+
+        /* Byte 1 */
+        Reserved(8),
+OPT_FIELDS_END
+
+/* Login Response 0x07 */
+FIXED_FIELDS_START(LoginResponse)
+    MessageHeader,
+    LoginResponseStatus,
+    LoginResponseText,
+    NoUnspecifiedUnitReplay,
+FIXED_FIELDS_END
+OPT_FIELDS_START(LoginResponse)
+    Side,
+    PegDifference,
+    Price,
+    ExecInst,
+    OrdType,
+    TimeInForce,
+    MinQty,
+    MaxRemovePct,
+    Symbol,
+    SymbolSfx,
+    Reserved(92),
+OPT_FIELDS_END
+
+/* 0x08 Logout */
+FIXED_FIELDS_START(Logout)
+	MessageHeader,
+	LogoutReason,
+	LogoutReasonText,
+	LastReceivedSequenceNumber,
+	NumberOfUnits,
+FIXED_FIELDS_END
+
+/* 0x0A OrderAcknowledgement */
+FIXED_FIELDS_START(OrderAcknowledgement)
+        MessageHeader,
+        TransactionTime,
+        ClOrdID,
+        OrderID,
+FIXED_FIELDS_END
+OPT_FIELDS_START(OrderAcknowledgement)
+        /* Byte 0 */
+        Side,
+        Reserved(1),
+        Price,
+        ExecInst,
+        OrdType,
+        TimeInForce,
+        MinQty,
+        MaxRemovePct,
+
+        /* Byte 1 */
+        Symbol,
+        Reserved(5),
+        Capacity,
+        Reserved(1),
+
+        /* Byte 2 */
+        Account,
+        ClearingFirm,
+        ClearingAccount,
+        DisplayIndicator,
+        MaxFloor,
+        DiscretionAmount,
+        OrderQty,
+        PreventMemberMatch,
+
+        /* Byte 3 */
+        MaturityDate,
+        StrikePrice,
+        PutOrCall,
+        OpenClose,
+        ClOrdIDBatch,
+        Reserved(3),
+
+        /* Byte 4 */
+        OrigClOrdID,
+        LeavesQty,
+        LastShares,
+        LastPx,
+        DisplayPrice,
+        WorkingPrice,
+        BaseLiquidityIndicator,
+        ExpireTime,
+OPT_FIELDS_END
+
+/* 0x0B OrderRejected */
+FIXED_FIELDS_START(OrderRejected)
+        MessageHeader,
+        TransactionTime,
+        ClOrdID,
+        OrderRejectReason,
+        TextField,
+FIXED_FIELDS_END
+OPT_FIELDS_START(OrderRejected)
+        /* Byte 0 */
+        Side,
+        Reserved(1),
+        Price,
+        ExecInst,
+        OrdType,
+        TimeInForce,
+        MinQty,
+        MaxRemovePct,
+
+        /* Byte 1 */
+        Symbol,
+        Reserved(5),
+        Capacity,
+        Reserved(1),
+
+        /* Byte 2 */
+        Account,
+        ClearingFirm,
+        ClearingAccount,
+        DisplayIndicator,
+        MaxFloor,
+        DiscretionAmount,
+        OrderQty,
+        PreventMemberMatch,
+
+        /* Byte 3 */
+        MaturityDate,
+        StrikePrice,
+        PutOrCall,
+        OpenClose,
+        ClOrdIDBatch,
+        Reserved(3),
+
+        /* Bytes 4, 5, 6 and 7 */
+        Reserved(32),
+OPT_FIELDS_END
+
+/* 0x0C OrderModified */
+FIXED_FIELDS_START(OrderModified)
+        MessageHeader,
+        TransactionTime,
+        ClOrdID,
+        OrderID,
+FIXED_FIELDS_END
+OPT_FIELDS_START(OrderModified)
+        /* Byte 0 */
+        Side,
+        PegDifference,
+        Price,
+        ExecInst,
+        OrdType,
+        TimeInForce,
+        MinQty,
+        MaxRemovePct,
+
+        /* Byte 1 */
+        Account,
+        ClearingFirm,
+        ClearingAccount,
+        DisplayIndicator,
+        MaxFloor,
+        DiscretionAmount,
+        OrderQty,
+        PreventMemberMatch,
+
+        /* Byte 2 */
+        OrigClOrdID,
+        LeavesQty,
+        LastShares,
+        LastPx,
+        DisplayPrice,
+        WorkingPrice,
+        BaseLiquidityIndicator,
+        ExpireTime,
+
+        /* Byte 3 */
+        SecondaryOrderID,
+        Reserved(1),
+OPT_FIELDS_END
+
+/* 0x0D OrderRestated */
+FIXED_FIELDS_START(OrderRestated)
+        MessageHeader,
+        TransactionTime,
+        ClOrdID,
+        OrderID,
+        RestatementReason,
+FIXED_FIELDS_END
+OPT_FIELDS_START(OrderRestated)
+        /* Byte 0 */
+        Side,
+        Reserved(1),
+        Price,
+        ExecInst,
+        OrdType,
+        TimeInForce,
+        MinQty,
+        MaxRemovePct,
+
+        /* Byte 1 */
+        Symbol,
+        Reserved(5),
+        Capacity,
+        Reserved(1),
+
+        /* Byte 2 */
+        Account,
+        ClearingFirm,
+        ClearingAccount,        
+        DisplayIndicator,
+        MaxFloor,
+        DiscretionAmount,
+        OrderQty,
+        PreventMemberMatch,
+
+        /* Byte 3 */
+        MaturityDate,
+        StrikePrice,
+        PutOrCall,
+        OpenClose,
+        ClOrdIDBatch,
+        Reserved(3),
+
+        /* Byte 4 */
+        OrigClOrdID,
+        LeavesQty,
+        LastShares,
+        LastPx,
+        DisplayPrice,
+        WorkingPrice,
+        BaseLiquidityIndicator,
+        ExpireTime,
+
+        /* Byte 5 */
+        SecondaryOrderID,
+        Reserved(1),
+        ContraCapacity,
+        Reserved(5),
+
+        /* Bytes 6 */
+        Reserved(8),
+OPT_FIELDS_END
+
+/* 0x0E ModifyRejected */
+FIXED_FIELDS_START(ModifyRejected)
+        MessageHeader,
+        TransactionTime,
+        ClOrdID,
+        ModifyRejectReason,
+        TextField,
+FIXED_FIELDS_END
+OPT_FIELDS_START(ModifyRejected)
+        Reserved(8),
+OPT_FIELDS_END
+
+/* 0x0F OrderCancelled */
+FIXED_FIELDS_START(OrderCancelled)
+        MessageHeader,
+        TransactionTime,
+        ClOrdID,
+        CancelReason,
+FIXED_FIELDS_END
+OPT_FIELDS_START(OrderCancelled)
+        /* Byte 0 */
+        Side,
+        Reserved(1),
+        Price,
+        ExecInst,
+        OrdType,
+        TimeInForce,
+        MinQty,
+        MaxRemovePct,
+
+        /* Byte 1 */
+        Symbol,
+        Reserved(5),
+        Capacity,
+        Reserved(1),
+
+        /* Byte 2 */
+        Account,
+        ClearingFirm,
+        ClearingAccount,
+        DisplayIndicator,
+        MaxFloor,
+        DiscretionAmount,
+        OrderQty,
+        PreventMemberMatch,
+
+        /* Byte 3 */
+        MaturityDate,
+        StrikePrice,
+        PutOrCall,
+        OpenClose,
+        ClOrdIDBatch,
+        Reserved(3),
+
+        /* Byte 4 */
+        OrigClOrdID,
+        LeavesQty,
+        LastShares,
+        LastPx,
+        DisplayPrice,
+        WorkingPrice,
+        BaseLiquidityIndicator,
+        ExpireTime,
+
+        /* Byte 5 */
+        SecondaryOrderID,
+        Reserved(1),
+        ContraCapacity,
+        Reserved(5),
+
+        /* Bytes 6 & 7 */
+        Reserved(16),
+OPT_FIELDS_END
+
+/* 0x10 CancelRejected */
+FIXED_FIELDS_START(CancelRejected)
+        MessageHeader,
+        TransactionTime,
+        ClOrdID,
+        CancelRejectReason,
+        TextField,
+FIXED_FIELDS_END
+OPT_FIELDS_START(CancelRejected)
+        Reserved(1),
+OPT_FIELDS_END
+
+/* 0x11 OrderExecution */
+FIXED_FIELDS_START(OrderExecution)
+        MessageHeader,
+        TransactionTime,
+        ClOrdID,
+        ExecID,
+        LastShares,
+        LastPx,
+        LeavesQty,
+        BaseLiquidityIndicator,
+        SubLiquidityIndicator,
+        AccessFee,
+        ContraBroker,
+FIXED_FIELDS_END
+OPT_FIELDS_START(OrderExecution)
+        /* Bytes 0 */
+        Side,
+        Reserved(1),
+        Price,
+        ExecInst,
+        OrdType,
+        TimeInForce,
+        MinQty,
+        MaxRemovePct,
+
+        /* Byte 1 */
+        Symbol,
+        Reserved(5),
+        Capacity,
+        Reserved(1),
+
+        /* Byte 2 */
+        Account,
+        ClearingFirm,
+        ClearingAccount,
+        DisplayIndicator,
+        MaxFloor,
+        DiscretionAmount,
+        OrderQty,
+        PreventMemberMatch,
+
+        /* Byte 3 */
+        MaturityDate,
+        StrikePrice,
+        PutOrCall,
+        OpenClose,
+        ClOrdIDBatch,
+        Reserved(2),
+
+        /* Byte 4 */
+        Reserved(8),
+
+        /* Byte 5 */
+        SecondaryOrderID,
+        Reserved(1),
+        ContraCapacity,
+        Reserved(5),
+
+        /* Byte 6 */
+        Reserved(8),
+OPT_FIELDS_END
+
+/* 0x12 TradeCancelOrCorrect */
+FIXED_FIELDS_START(TradeCancelOrCorrect)
+        MessageHeader,
+        TransactionTime,
+        ClOrdID,
+        OrderID,
+        ExecRefID,
+        Side,
+        BaseLiquidityIndicator,
+        ClearingFirm,
+        ClearingAccount,
+        LastShares,
+        LastPx,
+        CorrectedPrice,
+        OrigTime,
+FIXED_FIELDS_END
+OPT_FIELDS_START(TradeCancelOrCorrect)
+        /* Bytes 0 */
+        Reserved(8),
+
+        /* Byte 1 */
+        Symbol,
+        Reserved(5),
+        Capacity,
+        Reserved(1),
+
+        /* Byte 2 */
+        Reserved(8),
+
+        /* Byte 3 */
+        MaturityDate,
+        StrikePrice,
+        PutOrCall,
+        OpenClose,
+        ClOrdIDBatch,
+        CorrectedSize,
+        Reserved(2),
+
+        /* Bytes 4, 5, 6 & 7*/
+        Reserved(32),
+OPT_FIELDS_END
+
+/* Replay Complete 0x13 */
+FIXED_FIELDS_START(ReplayComplete)
+    MessageHeader,
+FIXED_FIELDS_END
+
+MESSAGES_BEGIN
+        DECL_MSG_OPT_FLAGS_ONLY(0x01, LoginRequest)
+        DECL_MSG(0x04, NewOrder)
+        DECL_MSG(0x05, CancelOrder)
+        DECL_MSG(0x06, ModifyOrder)
+        DECL_MSG_OPT_FLAGS_ONLY(0x07, LoginResponse)
+        DECL_MSG_NO_OPT(0x08, Logout)
+        DECL_MSG(0x0A, OrderAcknowledgement)
+        DECL_MSG(0x0B, OrderRejected)
+        DECL_MSG(0x0C, OrderModified)
+        DECL_MSG(0x0D, OrderRestated)
+        DECL_MSG(0x0E, ModifyRejected)
+        DECL_MSG(0x0F, OrderCancelled)
+        DECL_MSG(0x10, CancelRejected)
+        DECL_MSG(0x11, OrderExecution)
+        DECL_MSG(0x12, TradeCancelOrCorrect)
+        DECL_MSG_NO_OPT(0x13, ReplayComplete)
+MESSAGES_END

@@ -1,0 +1,12 @@
+exchanges/fix_server/fix_server
+exchanges/server_objects/libserver_obj.so
+exchanges/ex_db/libdartdb_obj.so
+exchanges/ex_common/libdartexcommon.so
+exchanges/smtp/libdartsmtp.so
+exchanges/complex/libdartcomplex.so
+exchanges/fix_server/FixToRomCnl
+exchanges/fix_server/FixToRomExe
+exchanges/fix_server/FixToRomNew
+exchanges/fix_server/FixToRomRpl
+exchanges/fix_server/RomToFixOut
+exchanges/fix_server/RomToFixStat

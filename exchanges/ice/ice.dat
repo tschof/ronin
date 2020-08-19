@@ -1,0 +1,34 @@
+[FIX SERVER]
+Sender Comp ID=1168
+Target Comp ID=ICE
+Fix Port=80
+Fix IP=63.247.113.190
+Sender Sub ID=5
+Username=dt_fix_os
+password=Starts123
+Firm ID=1168
+trader=dt_fix_trader
+on_behalf_comp_id=DART|DART
+on_behalf_sub_id=DART
+on_behalf_loc_id=DAU|ROMCHI
+originator_id=dt_fix_trader
+Reset Incoming=0
+Reset Outgoing=0
+Heartbeat Int=30
+Dest ID=38
+Mod Name=ICE
+
+[ROM SERVER]
+Rom Port=8691
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20140122
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

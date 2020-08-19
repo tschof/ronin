@@ -1,0 +1,32 @@
+[FIX SERVER]
+Target Comp ID=s.ord.ul.chi1
+Sender Comp ID=s.ronin
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=NEWEDGE
+Fix IP=10.106.128.22
+Fix Port=19920
+Heartbeat Int=30
+Dest ID=1005
+DestMap=1006:XOSE,1007:XKFE,1008:XHKF,1009:XKFE
+
+[ROM SERVER]
+Rom Port=10005
+
+[TIMES]
+Reset Hour=20
+Reset Min=45
+Last Run Day=20130317
+End Hour=16
+End Min=30
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=DEV_DS_1
+User=rom_user
+Password=resu_mor

@@ -1,0 +1,31 @@
+[FIX SERVER]
+Target Comp ID=NMRUS_TEST
+Sender Comp ID=DART
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=../NX
+Fix IP=147.62.110.9
+Fix Port=53112
+Heartbeat Int=30
+Dest ID=50
+
+[ROM SERVER]
+Rom Port=9050
+
+[TIMES]
+Reset Hour=9
+Reset Min=30
+Last Run Day=20110915
+End Hour=18
+End Min=00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=RON_SYB_DEV1
+User=rom_user
+Password=resu_mor

@@ -1,0 +1,11 @@
+2011-10-25 v1.0.0
+* Initial version
+
+2012-01-23 v1.0.1
+* Using ROM CSV field 3 to stash status in. Used to use 15, this conflicted with
+  recent changes in the framework.
+
+2012-01-23 v1.0.2
+* Bug fix: Incorrect determination of FIX ExecutionReport length in order to
+  send the BN message back to FXALL, now fixed and using the correct fix_len
+  passed in callback.

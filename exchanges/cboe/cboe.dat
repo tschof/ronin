@@ -1,0 +1,33 @@
+[FIX SERVER]
+Sender Comp ID=DAR
+Target Comp ID=AFIX201
+username=DAR:DAR
+senderSubId=DAR:DAR
+targetSubId=TEST
+Exec Broker=CBOE2
+Trading Session=C2_MAIN
+Branch Code=900
+Reserved Branch Codes=HMQ,YYY,RRR,ZZZ,TTT,QQQ,ZYY,ZYZ,ZYX
+Fix Port=22501
+Fix IP=10.106.106.203
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=22
+Mod Name=C2
+
+[ROM SERVER]
+Rom User Name=ROM3
+Rom Connection Name=ROM3
+Rom Port=8899
+
+[TIMES]
+End Hour=18
+End Min=23
+Reset Hour=8
+Reset Min=21
+Last Run Day=20130314
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

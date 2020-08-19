@@ -1,0 +1,9 @@
+2011-05-24 v1.0.0
+* Initial version of Credit Suisse CrossFinder.
+
+2011-05-26 v1.0.1
+* Split ROM symbols by slash and put base symbol in FIX tag 55 and the suffix in
+  FIX tag 65.
+
+2011-09-21 v1.0.2
+* Latest framework

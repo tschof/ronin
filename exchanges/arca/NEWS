@@ -1,0 +1,50 @@
+arca-3.7 2013-05-29
+
+* To accommodate clearing account mappings, the Clearing Firm ID
+mapping can be configured via a ClearingFirmMap configuration setting.
+
+
+2012-11-02  dcondon  <dcondon@wdrt-orl-dcond1>
+	
+	* arca-3.6
+	* arca.c (arca_trans_ordtype): Added Midpoint Passive Liquidity
+	orders.
+
+2012-09-28    <romserver@pdrt-ltc-lrom1.ronin.roncap.com>
+
+	* arca-3.5: Release just for latest framework.
+
+2012-06-08  dcondon  <dcondon@wdrt-orl-dcond1>
+	* arca-3.4: Added tag
+
+	* generic_fix_interface.c: Use the new send_logon function pointer
+	instead of the hard-coded logon function.  Removed #ifdef _WIN32
+	preprocessor definitions.
+
+	* generic_fix_interface.h: Added new send_logon function pointer
+	to fix_interface structure.
+
+	* arca.c: Moved arca-specific logon function to this file.
+	Configured the handler structure with the arca-specific logon
+	function.  Added code to read CancelOnDisconnect option from the
+	configuration file.
+
+2012-06-06  dcondon  <dcondon@wdrt-orl-dcond1>
+	* arca-3.3 tag
+
+	* cfg: Added config files to repository
+
+	* arca-3.2 tag
+
+	* cfg/RomToFixRpl: Map Instructions to 9416 on replaces the same
+	as for new orders.
+
+	* cfg/RomToFixOut: Updated with production config to map
+	ExpireTime according to the old system mappings (pre-algo).
+
+2012-06-05  dcondon  <dcondon@wdrt-orl-dcond1>
+	* arca-3.1: Support for the new GCCG Gateway
+	* generic_fix_interface.c: Changed logon message for new GCCG
+	gateway
+	* arca.c: Send TargetSubID=ARCA on all messages
+

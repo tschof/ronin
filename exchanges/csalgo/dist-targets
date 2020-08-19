@@ -1,0 +1,10 @@
+exchanges/csalgo/csalgo
+exchanges/server_objects/libserver_obj.so
+exchanges/ex_db/libdartdb_obj.so
+exchanges/ex_common/libdartexcommon.so
+exchanges/smtp/libdartsmtp.so
+exchanges/csalgo/cfg/RomToFixOut
+exchanges/csalgo/cfg/RomToFixRpl
+exchanges/csalgo/cfg/RomToFixCnl
+exchanges/csalgo/cfg/FixToRomExe
+exchanges/csalgo/NEWS

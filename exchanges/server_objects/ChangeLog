@@ -1,0 +1,30 @@
+2013-06-24  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* rom_handler.c (handle_csv_logon): If only one message is sent to
+	a disconnected ROM, when ROM reconnects that single message will
+	not be resent.  This only applies for the case of 1 message, if
+	more than one message has been sent to the ROM the resending
+	happens correctly.
+
+2012-10-24  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* databuf.c (databuf_reserve): The difference between the
+	requested buffer size and the current space left is calculated
+	twice yielding an incorrect size to grow by as passed to
+	databuf_reserve.
+
+2012-10-18  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* client_manager.c (dart_rolling_log_going_iovec): Fixed iovec
+	logging memory leak.
+
+	* rom_handler.c (ph_build_non_fix_rom_pos): Fix small memory leak.
+	Each time get_name is called on the connection object the char *
+	needs to be freed after the callback to the application is called.
+
+2012-09-05  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* server-objects-tests.c: Added tests for stringutils.
+
+	* Makefile: Added stringutils to build.
+

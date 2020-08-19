@@ -1,0 +1,15 @@
+pcx-3.1 2013-05-28
+
+Allow additional configuration for the OnBehalfOfCompID (FIX 115)
+field to accommodate changes with ABN AMRO clearing.  To add this, the
+RomToFixOut mapping must be changed to map DART CSV field 11 (Clearing
+Firm) to FIX tag 115.  Also, to run this mapping through a table, the
+key ClearingFirmMap must be added to the FIX SERVER section.  The
+syntax of the ClearingFirmMap is
+"<fieldkey1>:<fieldval1>,<fieldkey2:fieldval2>,...".
+
+
+pcx-3.2 2013-05-28
+
+This is just a packaging change; the previous version did not include
+libdartcomplex.so, which is required for pcx.

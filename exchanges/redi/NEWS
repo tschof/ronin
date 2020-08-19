@@ -1,0 +1,4 @@
+2013-01-23 redi-1.0
+
+* Linux build, fully regression tested against last month's worth of
+log data.

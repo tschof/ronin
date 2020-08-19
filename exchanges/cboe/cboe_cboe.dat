@@ -1,0 +1,33 @@
+[FIX SERVER]
+Sender Comp ID=RNB
+Target Comp ID=AFIX202
+username=RNB:RNB
+senderSubId=RNB:RNB
+targetSubId=TEST
+Exec Broker=CBOE
+Trading Session=W_MAIN
+Branch Code=900
+Reserved Branch Codes=HMQ,YYY,RRR,ZZZ,TTT,QQQ,ZYY,ZYZ,ZYX
+Fix Port=22502
+Fix IP=10.106.106.254
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=22
+Mod Name=CBOE
+
+[ROM SERVER]
+Rom User Name=ROM3
+Rom Connection Name=ROM3
+Rom Port=8899
+
+[TIMES]
+End Hour=18
+End Min=23
+Reset Hour=8
+Reset Min=21
+Last Run Day=20130314
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

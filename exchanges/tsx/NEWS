@@ -1,0 +1,13 @@
+TSX (Toronto Stock eXchange)
+
+tsx-1.1
+* Latest version with latest framework.
+
+tsx-1.0 Initial version.  Uses TSX SOR (Smart Order Router) to conform
+to the Canadian Order Protection Rule on Best Execution.  No routing
+is enabled by removing DART CSV tag processing for field 13 from the
+RomToFixOut configuration file.  If routing is needed, add this back
+in to map to FIX tag 6780 and add a 'DestMap' key to the [TSX]
+section.  The value of this field is a comma-separated list of DestID
+to string mappings in the format
+'DestID:<string>,DestID:<other-string>'.

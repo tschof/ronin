@@ -1,0 +1,31 @@
+[FIX SERVER]
+Sender Comp ID=DART01
+Target Comp ID=ARCA
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=ARCA
+Fix IP=10.107.106.40
+Fix Port=52209
+Heartbeat Int=30
+Dest ID=0
+
+[ROM SERVER]
+Rom Port=8010
+
+[TIMES]
+Reset Hour=9
+Reset Min=30
+Last Run Day=20120606
+End Hour=18
+End Min=00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=DEV_DS_1
+User=rom_user
+Password=resu_mor

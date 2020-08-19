@@ -1,0 +1,33 @@
+[FIX SERVER]
+Target Comp ID=INET
+Sender Comp ID=DARTRT
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=../INET
+Fix IP=10.106.160.21
+Fix Port=26491
+Heartbeat Int=30
+Dest ID=1
+
+[ROM SERVER]
+Rom Port=8960
+
+[TIMES]
+Reset Hour=9
+Reset Min=30
+Last Run Day=20101228
+End Hour=18
+End Min=00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+#Server=LTC_DEV_DS_1
+Server=DEV_DS_1
+#Server=USDEV1_2
+User=rom_user
+Password=resu_mor

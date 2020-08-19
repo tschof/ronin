@@ -1,0 +1,4 @@
+1. Translate peg orders in the normal way.
+2. Support the "A" order type:
+   * Set 9303 (RoutingInst) to "P" (not routable, add liquidity only)
+   and set 9400 to the default routing strategy.

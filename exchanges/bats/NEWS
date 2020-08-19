@@ -1,0 +1,22 @@
+bats-2.7
+* Added support for Alternate Midpoint Peg orders.
+
+bats-2.6
+* Framework change to fix intermittent problem with the create_new
+flag on startup.
+
+bats-2.5
+* Just changed version.h, forgot to for bats-2.4 but had already made
+a tag and pushed to the origin.
+
+bats-2.4
+* Support market-maker pegs (18=Q)
+* Support conditional midpoint peg (18=m), "peg to NBBO Midpoint, but
+do not match in event the NBBO locks".
+
+bats-2.3
+* Release for latest framework, in particular to include the latest framework
+to prevent the crossing of orders when reporting status messages.
+* Adding ident-readable version information to executable
+* As of this version will use the 'make dist' feature to make versioned
+tarballs.

@@ -1,0 +1,32 @@
+[FIX SERVER]
+Sender Comp ID=DART
+Target Comp ID=NITE
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=KNIGHTSIM
+Fix IP=205.167.86.111
+Fix Port=5467
+Heartbeat Int=30
+Dest ID=1000
+Algo Dest ID=1001
+
+[ROM SERVER]
+Rom Port=9900
+
+[TIMES]
+Reset Hour=10
+Reset Min=15
+Last Run Day=20111110
+End Hour=18
+End Min=00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=DEV_DS_1
+User=rom_user
+Password=resu_mor

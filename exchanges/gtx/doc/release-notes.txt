@@ -1,0 +1,19 @@
+2011-02-08 v1.0.0
+* Initial GTX version.
+
+2011-02-15 v1.0.1
+* Bug fix: Weekend sequence number resets not correct, should now be able to
+  set a reset weekly for a Friday.
+* Bug fix: Framework problem handling non-sequenced ROM login messages.
+* Bug fix: Framework bug in rare case of starting the second time on a given
+  day with no order flow, the next expected sequence number sent on the login
+  message is incorrect (shows 2 when it should be 1).
+
+2011-02-22 v1.0.2
+* Feature: ExecInst can be specified via the ExecInst key in the FIXSERVER
+  section of the configuration file.  Tag 18 (ExecInst) in any mapped messages
+  will be set to the value of this key.  This will be initially done to
+  specify "18=h Q".
+
+2011-09-21 v1.0.3
+* Latest framework.

@@ -1,0 +1,49 @@
+#MAKEFILE
+
+CC=icc
+DEBUG=0
+PROCESSOR=""
+PROFILE_IN= -O2 -prof-gen -prof-dir/home/romserver/test/rom_intel_prof/prof
+PROFILE_OUT= -fast -prof-use -prof-dir/home/zxie/Dart/Servers/ROM/prof 
+FAST= -fast -mtune=corei7-avx -ffat-lto-objects
+#FAST=$(PROFILE_OUT)
+ifeq ($(DEBUG),0)
+ifeq ($(PROCESSOR), "")
+CFLAGS= -shared $(FAST) -fomit-frame-pointer -funroll-loops -ftree-vectorize -D_REENTRANT -D_BOGUS_FIX_=1
+else
+CFLAGS= $(FAST) -x$(PROCESSOR) -fomit-frame-pointer -funroll-loops -ftree-vectorize -D_REENTRANT -D_BOGUS_FIX_=1
+endif
+else
+CFLAGS= -g -std=c99 -pedantic -D_REENTRANT -D_POSIX_C_SOURCE=199309L -D_GNU_SOURCE
+endif
+
+#CFLAGS=-shared -g -std=c99 -pedantic -D_REENTRANT -D_POSIX_C_SOURCE=199309L -D_GNU_SOURCE
+
+INCLUDES=-I../server_objects
+
+SRC = mailer.c
+
+MAKEDEPEND = icc -M -o $*.d $<
+
+all: libdartsmtp_intel.so
+
+libdartsmtp_intel.so: $(SRC:.c=.o)
+	$(CC) $(CFLAGS) $(INCLUDES) -fpic -Wall -ggdb -o $@ $^ $(SYB_LIBS)
+	 
+%.o: %.c
+	$(CC) $(INCLUDES) $(CFLAGS) -fpic -Wall -g -c $< -MD -o $@
+	@cp $*.d $*.P; \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	-e '/^$$/ d' -e's/$$/ :/' < $*.d >> $*.P; \
+	rm -f $*.d
+
+include $(SRC:.c=.P)
+clean:
+	rm -f libdartsmtp_intel.so *.o
+
+clobber: clean
+	rm -f *~
+depend:
+	makedepend -- $(CFLAGS) -- $(SRC)
+
+.PHONY: clean clobber# DO NOT DELETE

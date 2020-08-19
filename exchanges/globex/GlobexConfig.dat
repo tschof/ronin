@@ -1,0 +1,40 @@
+[FIX SERVER]
+Sender Comp ID=P08
+Target Comp ID=CME
+Fix Port=60472
+Fix IP=10.135.172.85
+Reset Incoming=0
+Reset Outgoing=0
+Target Sub ID=G
+Sender Sub ID=K04
+Firm ID=130
+FTI=N
+Dest ID=28
+password=P08
+SenderLocationID=US,IL
+Session ID=P08
+Customer Type Code=2
+Customer or Firm=0
+Application Name=ROM
+Application Version=2.0
+Application Vender=Ronin
+Fee Billing=H
+Mod Name=Globex
+
+[ROM SERVER]
+Rom User Name=ROM3
+Rom Connection Name=ROM3
+Rom Port=8961
+
+[TIMES]
+End Hour=18
+End Min=42
+Reset Day=1
+Reset Hour=8
+Reset Min=0
+Last Run Day=20121107
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

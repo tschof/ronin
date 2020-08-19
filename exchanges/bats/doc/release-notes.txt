@@ -1,0 +1,45 @@
+2010-12-13 v2.0.0
+* First release of BATS destination with new framework. 
+
+2010-12-15 v2.0.1
+* Default ExecInst to 'w' (Do Not DRT)
+
+2010-12-15 v2.0.2
+* Bug fix: ExecInst not needed on cancel or cancel/replace messages; processing
+  was failing when not receiving field 57 (CSV_EXEC_INSTRUCTION) from ROM.
+
+2010-12-16 v2.0.3
+* BZX support: Set the FIX Account (1) field in pre-translate step,
+  ClearingAccount (440) and Account (1) are needed for BZX but the mapping file
+  allows for only mapping one of the two fields.  With this configuration, the
+  handler will automatically send Account (1) if the ClearingAccount (440) is
+  configured in the RomToFixOut mapping file.
+
+2010-12-17 v2.0.4
+* Bug fix: SenderSubID was being sent twice.
+
+2010-12-17 v2.0.5
+* Allow ClearingAccount field to be configurable, for BATS could be either 115
+  or 439.
+* Added no-op for ROM field 17 translation
+
+2010-12-17 v2.0.6
+* Windows build only: Added version resource to executable.
+
+2011-08-09 v2.0.8
+* Production rollout of hashmap fix and all of latest BATS changes.
+
+2011-08-10 v2.0.9
+* Temporary workaround: Initialize order book with 150,000 orders instead of
+  the normal 50,000.
+
+2011-08-10 v2.0.10
+* Included the new server_objects in which the FIX message header buffer is
+  doubled to accommodate creating FIX messages with big headers, e.g. BATS,
+  in which a SenderSubID and TargetSubID are required.
+
+2011-08-15 v2.1.0
+* Latest framework.
+
+2011-09-21 v2.1.1
+* Latest framework

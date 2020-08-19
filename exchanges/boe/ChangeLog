@@ -1,0 +1,109 @@
+2012-10-31  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* boe-1.6
+
+	* OptionalFields.c (setOptionalBinary): bug fix, when setting
+	optional binary fields do NOT compare the length of the char
+	buffer source to the length of the binary integer output.
+
+2012-10-24  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* log-reader/BATS-Binary-Textualizer.c (printBinary): Bug fix: 8
+	byte binary values would not print correctly.
+
+	* boe-1.5
+
+	* log-reader/BATS-Binary-BZX-Message-Definitions.incl: Using new
+	multi-bit reserved optional field macros and added support for the
+	Logout message.
+
+	* log-reader/BATS-Binary-Fields.h: Added new fields.
+
+	* log-reader/BATS-Binary-Textualizer.c (printOptionalFieldPayloads):
+	Recognizes Reserved bits in the optional payload with a size
+	greater than 1. This notations signals the number of contiguous
+	reserved bits the field represents.  The changes account for this
+	and correctly parse the optional bits and payload.
+
+	* boe.c (modifyOrder): Leak: destroy ModifyOrder objects.
+	(placeOrder): Modified control flow so that instead of returning
+	on error all error conditions go to the cleanup tag so the order
+	can be reclaimed by the object factory.
+	(onDartCsvMessage): Reject orders properly and make sure they are
+	logged.
+	(onDartCsvMessage): Fixed memory leak for databufs containing
+	(onConnectionEstablished): Log outgoing login request message.
+	(boe_connectedState): Return the databuf used to send status
+	messages back to ROM to the object factory.
+
+	* OptionalFields.c (getAndPrepDatabuf): Fixed prepping of
+	databufs; the databuf was not allocating enough space to account
+	for the first 8 bytes of the buffer being used to store a pointer
+	to the next node in the list of optional field databufs.
+	(ensureSpace): Fixed bug writing the next linked list pointer into
+	the databuf buffer.
+	(destroyOptionalFields): Fixed bug in walking the linked list of
+	databufs, handing them back to the object factory.
+
+	* ModifyOrder.c (destroyModifyOrder): Added function which works
+	exactly as destroyEnterOrder.
+
+	* EnterOrder.c (destroyEnterOrder): Added function to cleanup the
+	EnterOrder object.  It really just destroys the optional fields as
+	that is the only piece that uses memory and needs to be cleaned
+	up.
+
+2012-10-18  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* boe.c: Made all functions used only in boe.c static and removed
+	those functions that were not being used.  Moved all struct
+	declarations for messages into boemsg.h for easy browsing.
+	(onDartCsvMessage): Make sure rejects are sent back to ROM.
+	(boe_frame): Fixed memory leak.  The dart_rolling_log_coming
+	copies all the data within the message passed to it.  A message
+	structure and its associated data do not need to be allocated on
+	the heap before calling dart_rolling_log_coming.
+	(cancelOrder): Call dart_rolling_log_going when sending cancels.
+
+	* boemsg.h (BoeHeader): Changed the StartOfMessage field data type
+	from a two character array to a uint16_t for easier comparison
+	purposes.
+
+	* boe.c (cancelOrder): Make sure mutex is unlocked before
+	returning if the order to be cancelled cannot be found in the
+	order book.
+	(getFramingLength): BOE message lengths, as represented in the
+	header, do not include the first 2 bytes of the header.  When
+	referencing this length for framing, these 2 bytes always need to
+	be accounted for.  This function ensures that the correct length
+	is always used.
+	(boe_frame): Fixed framing; under conditions in which the buffer
+	was 1 to 2 bytes smaller than the message length indicated in the
+	header (without adding the 2 bytes for the StartOfMessage field)
+	the framer overran the bounds of the buffer.  The getFramingLength
+	function is now used to make sure those 2 bytes are always
+	accounted for.
+
+2012-10-04  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* boe-1.4
+
+	* boe-test.c: Added tests for round-trip testing of DART CSV
+	string prices to BATS binary and back.
+
+	* boe.c (main): Use the binaryPriceToString function to translate
+	from BATS binary prices to DART CSV for order executions and
+	busts/corrections.
+
+	* DataTypes.c: Added binaryPriceToString functiont to take the 8
+	byte binary price from BATS and convert it to the string to send
+	back to ROM.
+
+2012-10-02  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* boe-1.3
+	* boe.c (placeOrder): Set DART CSV Account field (12) in the BOE
+	Account field.  Since the BOE Account field is 16 characters long
+	we have enough room for the complete 8 character Goldman Sachs or
+	ABN Amro account.
+

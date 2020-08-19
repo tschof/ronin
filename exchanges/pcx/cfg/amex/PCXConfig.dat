@@ -1,0 +1,28 @@
+[FIX SERVER]
+Sender Comp ID=DART_FIX_INTERFACE
+Target Comp ID=DART_FIX_TESTER
+Fix Port=2000
+Fix IP=127.0.0.1
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=34
+Mod Name=PCXTEST
+ClearingFirmMap= 695:Q89, 396:A95, 0695:Q89, 0396:A95
+AMEX=1
+
+[ROM SERVER]
+Rom User Name=ROM89
+Rom Connection Name=ROM89
+Rom Port=2001
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20130528
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

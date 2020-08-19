@@ -1,0 +1,52 @@
+2011-05-18 v1.0.0
+* Initial version on new framework.
+
+2011-09-08 v1.1.0
+* Framework upgrade.
+
+2011-09-21 v1.1.1
+* Framework upgrade
+
+2011-11-11 v1.2.0
+* Latest framework
+* Arrival Price algo support
+
+A note about algo support:
+The only certified algorithm is Arrival Price. For Arrival Price the following
+table shows the supported fields:
+
+Name    Description             FIX Field      Data Type
+oo      OnOpen                  6206           Y/N
+oc      OnClose                 6207           Y/N
+iwould  I Would Price           6208           Price
+mvp     Max Vol Pct             6209           Float
+style   Style                   6210           Float
+10b-18  10b-18                  6212           Y/N
+msp     Market Stop Price       6258           Price
+ds      Dark Switch             6260           Y/N
+dmq     Dark Min Qty            6261           Qty
+dur     Duration                6263           Int
+
+The "Name" column indicates the name to be provided in ROM field 15
+(Instructions). As with other algo destinations, field 15 should contain a
+space-separated list of name=value pairs that represent the algo parameters.
+Additionally, fields 76 and 77 (Begin and End Time) will map to begin and end
+times on the FIX session. Finally, AlgoType (ROM field 73) must contain a
+"4" for the Arrival Price algo.
+
+2011-11-14 v1.2.1
+* Added 57=ALGO (TargetSubID) for algo orders. Any order send to the algo
+  destination (ROM field 13), as determined by the configuration
+  ("Algo Dest ID" in the "FIX SERVER" section of the INI file) will
+  automatically be tagged with 57=ALGO.
+
+2011-12-16 v1.2.2
+* Added Option translation code.
+
+2012-02-27 v1.3.0
+* Removed dependence on the algo destination being a separate destination
+  re-routed to the Knight handler separate from the normal equity order flow.
+  This was done to make sure algo orders were tagged as going to a TargetSubID
+  of "ALGO" but causes too many destinations defined now that we have multiple
+  clearing firms. This version simply looks at the ALGOTYPE (73) field to see
+  if this is an algorithm order; if so it adds 57=ALGO.

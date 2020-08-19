@@ -1,0 +1,32 @@
+[FIX SERVER]
+Sender Comp ID=NXDCH1
+Target Comp ID=NSDQ
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=NSDQ6
+Fix IP=206.200.52.102
+Fix Port=10003
+Heartbeat Int=30
+Dest ID=224
+ClientID=DCHF
+
+[ROM SERVER]
+Rom Port=9224
+
+[TIMES]
+Reset Hour=9
+Reset Min=30
+Last Run Day=20120711
+End Hour=17
+End Min=00
+
+[MAIL SERVER]
+Server=10.97.1.102
+tech group=techalert@dartexecutions.com
+biz group=busalerts@dartexecutions.com
+
+[DB INFO]
+Server=UsRom1_1
+User=rom_user
+Password=resu_mor

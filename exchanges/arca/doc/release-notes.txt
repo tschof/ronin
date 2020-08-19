@@ -1,0 +1,30 @@
+2011-04-20 v3.0.0
+* Upgraded to new framework.
+
+2011-04-25 v3.0.1
+* Modified ClOrdID generation to include date,
+  necessary for placing GTC orders on arca.
+
+2011-04-27 v3.0.2
+* Do not send MaxFloor of 0.
+* Removed date string from ClOrdID due to OATS length problem.
+
+2011-04-29 v3.0.3
+* Added back date string to front of ClOrdID.
+* Using new create_order_token implementation that generates shorter
+  base-36 integer representations for ClOrdIDs.
+
+2011-04-29 v3.0.4
+* Fixed bug in which ClOrdIDs were not stored on the book properly (the return
+  value from the Arca-specific ClOrdID generator indicated an incorrect ClOrdID
+  length).
+
+2011-09-20 v3.0.5
+* Updated to latest framework.
+
+2011-11-08 v3.0.6
+* Updated to latest framework to get a FIX parsing bug.
+
+2012-02-15 v3.0.7
+* Include new framework change to automatically reject messages if an individual
+  field processing fails.

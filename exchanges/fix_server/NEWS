@@ -1,0 +1,6 @@
+fix_server 3.8 2013-07-01
+* Fixed dist-targets
+
+fix_server 3.7 2013-07-01
+* Added dist target to Makefile.
+* Latest framework.

@@ -1,0 +1,15 @@
+2011-05-09 v1.0.0
+* Initial version on new framework.
+
+2011-05-09 v1.0.1
+* Windows build changed to non-Unicode.
+
+2011-05-12 v1.0.2
+* Removed FIX tag 50 (SenderSubID) on messages.
+* Map CSV_INSTRUCTIONS to 9400 if the value is not "A" or "N".
+
+2011-09-07 v1.1.0
+* Latest framework version.
+
+2011-09-21 v1.1.1
+* Framework upgrade

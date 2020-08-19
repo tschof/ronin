@@ -1,0 +1,22 @@
+Arca GCCG Gateway
+----------------- 
+
+The main difference is the login message.  In it, the client can
+specify session behavior on login through the specification of a
+series of FIX tag 96 values that roughly correspond to bits,
+i.e. pieces of functionality that are turned on or off.  These "bits"
+are order-dependent, obviously, and can be extended by Arca at any
+time.  Subsequent bits not specified in the message take on default
+values as specified by Arca.
+
+The current "bits" (defaults in parentheses) are:
+
+1. Cancel on disconnect (0)
+2. Send Busts and Correct Messages (1)
+3. Send Liquidity Indicator (1)
+4. Send ArcaExID (0)
+5. Default Extended ExecInst (Z - Do not default)
+6. Send ExecBroker (0)
+7. Default ProactiveIfLocked (0)
+
+Other than cancel on disconnect, the rest are fine as defaults.

@@ -1,0 +1,30 @@
+[FIX SERVER]
+Sender Comp ID=DEGS
+Target Comp ID=PHLX
+senderSubId=DEGS
+#Fix Port=8697
+#Fix IP=10.157.114.11
+Fix Port=22503
+Fix IP=10.106.96.90
+Reset Incoming=0
+Reset Outgoing=0
+ClearingFirmMap= 695:DCHF, 396:DRTL, 0695:DCHF, 0396:DRTL
+Dest ID=35
+Mod Name=PHLX
+
+[ROM SERVER]
+Rom User Name=ROM3
+Rom Connection Name=ROM3
+Rom Port=8883
+
+[TIMES]
+End Hour=18
+End Min=23
+Reset Hour=7
+Reset Min=21
+Last Run Day=20141016132623
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

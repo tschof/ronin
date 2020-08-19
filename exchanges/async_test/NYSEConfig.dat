@@ -1,0 +1,30 @@
+[FIX SERVER]
+Sender Comp ID=DART
+Target Comp ID=SIMULATOR
+Fix Port=6523
+Fix IP=10.105.96.43
+OnBehalfOfCompId=DIO
+Branch Code=12000
+Reserved Branch Codes=HMQ,YYY,RRR,ZZZ,TTT,QQQ,ZYY,ZYZ,ZYX
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=2
+Mod Name=SIM
+
+[ROM SERVER]
+Rom User Name=ROM3
+Rom Connection Name=ROM3
+Rom Host=hidden
+Rom Port=8091
+
+[TIMES]
+End Hour=19
+End Min=05
+Reset Hour=8
+Reset Min=21
+Last Run Day=20131220
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

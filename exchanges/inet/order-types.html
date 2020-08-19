@@ -1,0 +1,32 @@
+<html>
+<head><title>INET Order Types</title></head>
+<body>
+  <h1>ROM CSV Message Translations</h1>
+  <h2>Instructions</h2>
+  <ol>
+  <li>ROM field 15, Instructions, is translated to 0, 1, or 2 fields; the values within field 15 are separated by a dash ('-'), with the first field mapping to FIX tag 76 (ExecBroker), the second field mapping to FIX tag 9355 (CrossTradeFlag):</br><code>[<76>[-<9355>]]</code></li>
+  <li>If the ROM Instructions field is empty, ROM field 29 is mapped to FIX tag 76 (ExecBroker) according to the following table
+    <table border="1">
+      <tr><th>ROM Field 29 (ExDestination)</th><th>FIX tag 76 (ExecBroker)</th></tr>
+      <tr><td>N</td><td>DOTI</td></tr>
+      <tr><td>A</td><td>DOTI</td></tr>
+      <tr><td>Direct+</td><td>DOTI</td></tr>
+      <tr><td>O</td><td>STGY</td></tr>
+      <tr><td>&lt;empty&gt;</td><td>default route</td></tr>
+    </table>
+  </li>
+  <li>If the ROM Instructions field is empty, FIX tag 9355 (CrossTradeFlag) is set to <code>O</code> (the letter O) if the TimeInForce is <code>2</code> (Opg)</li>
+  <li>FIX tag 76 (ExecBroker) is <i>always</i> set to <code>INET</code> if the order type is any kind of pegged order</li>
+  <li>If the ROM CSV field 34 (MaxFloor) is zero, FIX tag 9140 (DisplayInst) is set to <code>N</code> (Non-Display)</li>
+  <li>ROM CSV field 8 (Type) is mapped to FIX tag 40 (OrdType) and, depending on the value, also to FIX tag 59 (TimeInForce)
+    <table border="1">
+      <tr><th>ROM CSV Type</th><th>FIX OrdType</th><th>FIX TimeInForce</th></tr>
+      <tr><td>MarketOnClose (5)</td><td>Market (1)</td><td>At the Close (7)</td></tr>
+      <tr><td>LimitOnClose (11)</td><td>Limit (2)</td><td>At the Close (7)</td></tr>
+    </table>
+  </li>
+  <li>All short sales (ROM CSV field 4 equal to 5) will automatically set FIX tag 114 (LocateReqd) to <code>N</code></li>
+  <li>All symbols are translated from the internal Ronin symbology to the CMS suffix symbology required by NASDAQ</li>
+  </ol>
+</body>
+</html>

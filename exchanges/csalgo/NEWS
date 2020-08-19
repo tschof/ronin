@@ -1,0 +1,13 @@
+2011-06-14 v1.0.0
+* Initial version on new framework.
+
+2011-09-21 v1.0.1
+* Latest framework.
+
+2013-01-22 csalgo-1.1
+* Latest framework
+* Linux build
+
+2012-01-23 csalgo-1.2
+* Fixed FixToRomExe, map ClOrdID to field 15
+* Added regression test input file

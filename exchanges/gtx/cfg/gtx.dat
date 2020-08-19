@@ -1,0 +1,36 @@
+[FIX SERVER]
+Target Comp ID=GTXDEMO
+Target Sub ID=TRADING
+Sender Comp ID=demo770
+Username=demo770
+Password=ronin123
+Fix Version=FIX.4.3
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=../GTX
+Fix IP=74.217.51.182
+Fix Port=2193
+Heartbeat Int=30
+Dest ID=61
+ExecInst=h Q
+
+[ROM SERVER]
+Rom Port=9999
+
+[TIMES]
+Reset Hour=9
+Reset Min=30
+Last Run Day=20110303
+End Hour=18
+End Min=00
+Next Seq Reset=20110304-18:00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=RON_SYB_DEV1
+User=rom_user
+Password=resu_mor

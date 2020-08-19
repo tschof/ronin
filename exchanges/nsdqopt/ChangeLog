@@ -1,0 +1,22 @@
+2012-11-09  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* nsdqopt-1.5
+	* nsdqopt.c (nsdqopt_fix_generate_id): Prefix ClOrdID with the
+	current date so that GTC orders can be supported.
+
+2012-10-17  pflynn  <pflynn@wdrt-orl-pflynn2>
+
+	* nsdqopt-1.4: Bug fix for cancels reject orders that clean out the
+	book.
+
+2012-07-18  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* nsdqopt-1.3: Problem tagging, adding new tag identical to
+	nsdqopt-1.2.
+
+2012-07-18  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* nsdqopt-1.2: Bug fix for cancels and cancel/replace on orders
+	after loading from database.
+
+

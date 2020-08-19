@@ -1,0 +1,17 @@
+exchanges/newedge/newedge
+exchanges/server_objects/libserver_obj.so
+exchanges/ex_db/libdartdb_obj.so
+exchanges/ex_common/libdartexcommon.so
+exchanges/smtp/libdartsmtp.so
+exchanges/newedge/cfg/RomToFixOut
+exchanges/newedge/cfg/RomToFixRpl
+exchanges/newedge/cfg/RomToFixCnl
+exchanges/newedge/cfg/RomToFixLeg
+exchanges/newedge/cfg/RomToFixStat
+exchanges/newedge/cfg/FixToRomExe
+exchanges/newedge/cfg/FixToRomNew
+exchanges/newedge/cfg/FixToRomRpl
+exchanges/newedge/cfg/FixToRomCnlRej
+exchanges/newedge/cfg/FixToRomCnl
+exchanges/newedge/cfg/ric-code-mappings.in
+exchanges/newedge/NEWS

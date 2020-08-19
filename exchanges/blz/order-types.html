@@ -1,0 +1,140 @@
+
+<html>
+  <head>
+    <title>Belzberg Toronto Stock Exchange Order Types</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+
+      .dart-table
+      {
+        padding: 0;
+        margin: 0;
+        border-collapse: collapse;
+        border: 1px solid #333;
+        font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+        font-size: 0.9em;
+        color: #000;
+      }
+
+      .dart-table caption
+      {
+        caption-side: bottom;
+        font-size: 0.9em;
+        font-style: italic;
+        text-align: right;
+        padding: 0.5em 0;
+      }
+
+      .dart-table th, .dart-table td
+      {
+        border: 1px dotted #666;
+        padding: 0.5em;
+        text-align: left;
+        color: #632a39;
+      }
+
+      .dart-table th[scope=col]
+      {
+        color: #000;
+        background-color: #8fadcc;
+        text-transform: uppercase;
+        font-size: 0.9em;
+        border-bottom: 2px solid #333;
+        border-right: 2px solid #333;
+      }
+
+      .dart-table th+th[scope=col]
+      {
+        color: #fff;
+        background-color: #7d98b3;
+        border-right: 1px dotted #666;
+      }
+
+      .dart-table th[scope=row]
+      {
+        background-color: #b8cfe5
+        border-right: 2px solid #333;
+      }
+
+      .dart-table tr.alt th, .dart-table tr.alt td
+      {
+        color: #2a4763;
+      }
+
+/*
+      .dart-table tr:hover th[scope=row], .dart-table tr:hover td
+      {
+        background-color: #632a2a;
+        color: #fff;
+      }
+*/
+
+      .dart-header
+      {
+        font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+    <table class="dart-table" summary="This table shows the mapping from ROM CSV field 8 to FIX tag 40">
+      <caption>Supported Order Types</caption>
+      <tr><th>Type</th><th>ROM CSV Field 8</th><th>FIX tag 40 (OrdType)</th></tr>
+      <tr><td>Market</td><td>1</td><td>1</td></tr>
+      <tr><td>Limit</td><td>2</td><td>2</td></tr>
+      <tr><td>Market on Close</td><td>5</td><td>5</td></tr>
+    </table>
+
+    <table class="dart-table" summary="This table shows supported TimeInForce values for Toronto orders through Belzberg">
+      <caption>Supported TimeInForce</caption>
+      <tr><th>Type</th><th>ROM CSV Field 9</th><th>FIX tag 59 (TimeInForce)</th></tr>
+      <tr><td>Day</td><td>0</td><td>0</td></tr>
+      <tr><td>GTC</td><td>1</td><td>1</td></tr>
+      <tr><td>IOC</td><td>3</td><td>3</td></tr>
+      <tr><td>FOK</td><td>4</td><td>4</td></tr>
+    </table>
+
+
+    <table class="dart-table" summary="This table shows the order attributes that are supported">
+      <caption>Supported Order Attributes</caption>
+      <tr><th>Type</th><th>ROM CSV Field</th><th>FIX Tag</th></tr>
+      <tr><td>Display Qty</td><td>34</td><td>111</td></tr>
+      <tr><td>Min Qty</td><td>18</td><td>100</td></tr>
+      <tr><td>All Or None (AON)</td><td>57</td><td>18</td></tr>
+    </table>
+
+    <table class="dart-table" summary="This table shows unsupported order types">
+      <caption>Unsupported Order Types</caption>
+      <tr><th>Type</th><th>FIX Tag</th><th>Description</th></tr>
+      <tr><td>MBF</td><td></td><td>Enters the order into the Must Be Filled session, for more information see <a href="http://www.tmxmoney.com/en/market_activity/must_be_filled.html">The Must Be Filled (MBF) Session</a></td></tr>
+      <tr><td>Basis Cross</td><td></td><td></td></tr>
+      <tr><td>VWAP Cross</td><td></td><td></td></tr>
+      <tr><td>Contingent Cross</td><td></td><td></td></tr>
+      <tr><td>STS Cross</td><td></td><td></td></tr>
+      <tr><td>Internal Cross</td><td></td><td></td></tr>
+    </table>
+
+    <table class="dart-table" summary="This table shows the order attributes that are not supported">
+      <caption>Unsupported Order Attributes</caption>
+      <tr><th>Type</th><th>FIX Tag</th><th>Description</th></tr>
+      <tr><td>Jitney</td><td>9025</td><td></td></tr>
+      <tr><td>UMIR (Universal Market Integrity Rules)</td><td>11002</td><td>1=IA, 2=SS</td></tr>
+      <tr><td>Anonymous</td><td>9962</td><td></td></tr>
+      <tr><td>Program Trade</td><td>9031</td><td></td></tr>
+      <tr><td>Non-MGF</td><td>9027</td><td>Non-minimum guaranteed fill</td></tr>
+    </table>
+
+    <table class="dart-table" summary="A listing of settlement term options">
+      <caption>Unsupported Settlement Options</caption>
+      <tr><th>Settlement Type</th><th>FIX Representation</th><th>Description</th></tr>
+      <tr><td>Cash</td><td>63=1</td><td>Settle T+1 (next business day)</td></tr>
+      <tr><td>Cash Today</td><td>63=E</td><td>Settle same business day</td></tr>
+      <tr><td>Delayed Delivery</td><td>63=C</td><td>Settle on a specified day that is greater than T+3, will require 64=YYMMDD to set the date</td></tr>
+      <tr><td>Non-Net</td><td>63=A</td><td>Cash and securities settle independently of other trades executed by Participating Organization (PO)</td></tr>
+    </table>
+
+    <h3>What are the changeable fields?</h3>
+  </body>
+</html>

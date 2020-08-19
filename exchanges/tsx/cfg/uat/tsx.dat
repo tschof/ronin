@@ -1,0 +1,39 @@
+[FIX SERVER]
+Sender Comp ID=101SOR02
+#Sender Sub ID=01015061
+Target Comp ID=TEST
+#Target Sub ID=00000011
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=TSX
+TSX USER ID=NEWMIT2
+TSX NT KEY=DART99
+BROKER NUM=101
+Fix IP=74.114.223.241
+Fix Port=10500
+Heartbeat Int=30
+Dest ID=236
+
+[TSX]
+DestMap=236:00000X0
+
+[ROM SERVER]
+Rom Port=9236
+
+[TIMES]
+Reset Hour=9
+Reset Min=40
+Last Run Day=20130422
+End Hour=18
+End Min=00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=DEV_DS_1
+User=rom_user
+Password=resu_mor

@@ -1,0 +1,31 @@
+[FIX SERVER]
+Sender Comp ID=DARTTEST
+Target Comp ID=KNIGHTSIM
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=KNIGHTSIM
+Fix IP=10.105.96.42
+Fix Port=10100
+Heartbeat Int=30
+Dest ID=1000
+
+[ROM SERVER]
+Rom Port=9900
+
+[TIMES]
+Reset Hour=14
+Reset Min=35
+Last Run Day=20111107
+End Hour=18
+End Min=00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=DEV_DS_1
+User=rom_user
+Password=resu_mor

@@ -1,0 +1,27 @@
+2012-07-18  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* rom2fix.c (def_trans_call_put): Rewrote to translate from DART
+	call/put values (P/C) in all cases; this fixes a bug in which GTC
+	orders loaded from the database are not properly translated.
+
+2012-02-15  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* rom2fix.c: In the ROM field processing loop, if any field processing
+	function returns -1 and/or the rejected flag is set the framework will
+	produce a message reject with a message similar to "Error processing ROM
+	field xx" where xx is the ROM field. This should be enough information
+	for the user to identify the problem or to trigger a call to our help
+	desk. This behavior is in contrast to the previous behavior; previously,
+	if a ROM field processing function did not explicitly set the reject
+	flag, clear the output databuf, and create a message reject status
+	message, the processing would continue with bad results. The new
+	behavior will override some of the exchange interface's message reject
+	processing, but a review of these cases indicates this will be
+	acceptable. An enhancement to the framework in the future may allow
+	field processing functions to override the framework reject mechanism.
+
+2012-02-16  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* generic_fix_interface.c: Adding generic_fix_interface.[ch] to
+	ex_common. This version is a Linux-only version that we will
+	eventually migrate all exchange interfaces to use.

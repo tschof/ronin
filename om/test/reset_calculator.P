@@ -18,8 +18,6 @@ reset_calculator.o: reset_calculator.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h /usr/include/time.h \
  /usr/include/x86_64-linux-gnu/bits/time.h \
- /usr/include/x86_64-linux-gnu/bits/timex.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
@@ -44,6 +42,7 @@ reset_calculator.o: reset_calculator.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
  /usr/include/x86_64-linux-gnu/bits/sysmacros.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
@@ -70,8 +69,6 @@ reset_calculator.c /usr/include/stdc-predef.h :
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h :
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h /usr/include/time.h :
  /usr/include/x86_64-linux-gnu/bits/time.h :
- /usr/include/x86_64-linux-gnu/bits/timex.h :
- /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h :
  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h :
  /usr/include/x86_64-linux-gnu/bits/types/time_t.h :
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h :
@@ -96,6 +93,7 @@ reset_calculator.c /usr/include/stdc-predef.h :
  /usr/include/x86_64-linux-gnu/bits/select.h :
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h :
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h :
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h :
  /usr/include/x86_64-linux-gnu/sys/sysmacros.h :
  /usr/include/x86_64-linux-gnu/bits/sysmacros.h :
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h :

@@ -1,0 +1,34 @@
+2012-12-19  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* inet-3.6
+	* inet.c (inet_translate_ordtype): An ExecInst of 'Q' will also
+	trigger sending 40=P for peg orders. This is to support
+	market maker quote pegs via the FIX session.
+
+2012-09-05  dcondon  <dcondon@wdrt-orl-dcond1>
+	* inet-3.5: server_objects didn't have all the new files it needed
+	in inet-3.4; inet builds properly now.
+
+2012-09-04  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* inet-3.4
+	* inet.c (translate_reject_codes): Translate single character
+	reject codes from NASDAQ into a full description.
+	(inet_translate_maxfloor): Automatically mark mid-point peg orders
+	as hidden (9140=N) if not already explicitly set to be
+	hidden (MaxFloor is 0).
+
+2012-08-21  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* inet-3.3
+	* cfg/FixToRomExe: The Execution Report message mapping from
+	ClOrdID to DART client tag is updated for more recent versions of
+	the framework.  Previously DART CSV field 3 was used.  Now DART
+	CSV field 15 is used.
+
+2012-08-20  dcondon  <dcondon@wdrt-orl-dcond1>
+
+	* inet-3.2
+	* inet.c: Bug fix; Send 9355 flag for OPG orders. The bug sent tag
+	93 instead of tag 9355.
+

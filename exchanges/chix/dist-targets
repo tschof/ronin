@@ -1,0 +1,13 @@
+exchanges/chix/chix
+exchanges/server_objects/libserver_obj.so
+exchanges/ex_db/libdartdb_obj.so
+exchanges/ex_common/libdartexcommon.so
+exchanges/smtp/libdartsmtp.so
+exchanges/chix/cfg/RomToFixOut
+exchanges/chix/cfg/RomToFixRpl
+exchanges/chix/cfg/RomToFixCnl
+exchanges/chix/cfg/RomToFixStat
+exchanges/chix/cfg/FixToRomExe
+exchanges/chix/cfg/FixToRomNew
+exchanges/chix/cfg/FixToRomRpl
+exchanges/chix/cfg/FixToRomCnl

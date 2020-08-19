@@ -1,0 +1,33 @@
+[FIX SERVER]
+Target Comp ID=DEA
+Sender Comp ID=DEGSA01
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=../EDG
+Fix IP=74.112.227.203
+Fix IP=74.112.227.143
+Fix Port=9051
+Fix Port=9021
+Heartbeat Int=30
+Dest ID=0
+
+[ROM SERVER]
+Rom Port=2001
+
+[TIMES]
+Reset Hour=9
+Reset Min=30
+Last Run Day=20110509
+End Hour=18
+End Min=00
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=david.condon@dartexecutions.com
+biz group=david.condon@dartexecutions.com
+
+[DB INFO]
+Server=RON_SYB_DEV1
+User=rom_user
+Password=resu_mor

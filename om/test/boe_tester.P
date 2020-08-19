@@ -11,8 +11,6 @@ boe_tester.o: boe_tester.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
- /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/x86_64-linux-gnu/sys/types.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
@@ -45,9 +43,10 @@ boe_tester.o: boe_tester.c /usr/include/stdc-predef.h \
  /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h /usr/include/time.h \
  /usr/include/x86_64-linux-gnu/bits/time.h \
- /usr/include/x86_64-linux-gnu/bits/timex.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
  /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
@@ -79,8 +78,7 @@ boe_tester.o: boe_tester.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  ../server_objects/transaction_recorder.h \
  /usr/include/x86_64-linux-gnu/sys/uio.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio-ext.h ../server_objects/databuf.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h ../server_objects/databuf.h \
  ../server_objects/message_queue.h ../server_objects/dart_seq_request.h \
  ../server_objects/common_structs.h ../server_objects/config_loader.h \
  ../server_objects/dart_obj_factory.h ../server_objects/dart_order_obj.h \
@@ -107,8 +105,6 @@ boe_tester.c /usr/include/stdc-predef.h :
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h :
  /usr/include/x86_64-linux-gnu/bits/floatn.h :
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h :
- /usr/include/x86_64-linux-gnu/bits/types/locale_t.h :
- /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h :
  /usr/include/x86_64-linux-gnu/sys/types.h :
  /usr/include/x86_64-linux-gnu/bits/types.h :
  /usr/include/x86_64-linux-gnu/bits/typesizes.h :
@@ -141,9 +137,10 @@ boe_tester.c /usr/include/stdc-predef.h :
  /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h :
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h :
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h /usr/include/string.h :
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h :
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h :
  /usr/include/strings.h /usr/include/time.h :
  /usr/include/x86_64-linux-gnu/bits/time.h :
- /usr/include/x86_64-linux-gnu/bits/timex.h :
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h :
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h :
  /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h :
@@ -175,8 +172,7 @@ boe_tester.c /usr/include/stdc-predef.h :
  /usr/include/x86_64-linux-gnu/bits/wchar.h :
  ../server_objects/transaction_recorder.h :
  /usr/include/x86_64-linux-gnu/sys/uio.h :
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h :
- /usr/include/x86_64-linux-gnu/bits/uio-ext.h ../server_objects/databuf.h :
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h ../server_objects/databuf.h :
  ../server_objects/message_queue.h ../server_objects/dart_seq_request.h :
  ../server_objects/common_structs.h ../server_objects/config_loader.h :
  ../server_objects/dart_obj_factory.h ../server_objects/dart_order_obj.h :
