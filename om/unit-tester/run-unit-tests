@@ -1,0 +1,35 @@
+#!/usr/bin/perl -w
+use strict;
+use Cwd;
+use File::Basename;
+use Getopt::Std;
+our ($opt_v);
+getopts('v');
+my $dir = getcwd;
+my $scriptdir = dirname(__FILE__);
+my $unit_test_exe = join('/', $scriptdir, "unit-test");
+
+foreach my $soname (@ARGV) {
+    print "Shared object name $soname\n";
+    if (!-e $soname) {
+        print "File DOES NOT EXISTS\n";
+        next;
+        print "File EXISTS\n";
+    }
+    my $nm_output = `nm $soname`;
+    my @nm_entries = split(/\n/, $nm_output);
+    my @functions_to_call;
+    foreach my $nm_entry (@nm_entries) {
+        my ($address, $code, $exported_function) = split(/\s+/, $nm_entry);
+        if ($exported_function =~ /^unit_test_case__/) {
+            push(@functions_to_call, $exported_function);
+        }
+    }
+    my $unit_test_args = join(' ', @functions_to_call);
+    my $valgrind_commands = "";
+    if ($opt_v) {
+        $valgrind_commands = "valgrind --leak-check=full --track-origins=yes";
+    }
+    my $commandline = join(' ', $valgrind_commands, $unit_test_exe, $soname, $unit_test_args);
+    print `$commandline`;
+}

@@ -1,0 +1,3010 @@
+async_server.c:        return -1;
+async_server.c:    if(!pa->is_server) {
+async_server.c:        destroy_queue(pa->in_args_list);
+async_server.c:    destroy_sock_recv_manager(pa->con);
+async_server.c:    destroy_call_back_wrapper(pa->read_wrapper);
+async_server.c:    destroy_call_back_wrapper(pa->write_wrapper);
+async_server.c:    if (pthread_spin_lock(&set->clean_mutex) == 0) {
+async_server.c:        ret = contains_key(set->parse_args, name, name_len);
+async_server.c:        pthread_spin_unlock(&set->clean_mutex);
+async_server.c:    if (pthread_spin_lock(&set->clean_mutex) == 0) {
+async_server.c:        ret = no_copy_insert(set->parse_args, name, name_len, apa);
+async_server.c:        pthread_spin_unlock(&set->clean_mutex);
+async_server.c:    if (pthread_spin_lock(&set->clean_mutex) == 0) {
+async_server.c:        ret = remove_from_map(set->parse_args, name, name_len);
+async_server.c:        pthread_spin_unlock(&set->clean_mutex);
+async_server.c:    thr_pool_destroy(set->thr);
+async_server.c:    set->keep_running = 0;
+async_server.c:    if (flags == -1) {
+async_server.c:            (sock, IPPROTO_TCP, TCP_NODELAY, (char *) &on, sizeof(on)) == -1) {
+async_server.c:             sizeof(on)) == -1) {
+async_server.c:             sizeof(buffer)) == -1) {
+async_server.c:             sizeof(buffer)) == -1) {
+async_server.c:    if (sock == -1) {
+async_server.c:        return -1;
+async_server.c:        return -1;
+async_server.c:        con = connect(sock, res->ai_addr, res->ai_addrlen);
+async_server.c:            --i;
+async_server.c:            sock = -1;
+async_server.c:    int sock = -1;
+async_server.c:    if (connect(sock, (struct sockaddr *) &addr, sizeof(addr)) == -1) {
+async_server.c:        sock = -1;
+async_server.c:    if (listenfd == -1) {
+async_server.c:        return -1;
+async_server.c:        return -1;
+async_server.c:    int sock = -1;
+async_server.c:    if (sock == -1) {
+async_server.c:        return -1;
+async_server.c:    if (pthread_spin_lock(&eo->ass->clean_mutex) == 0) {
+async_server.c:            rb_tree_get_val(eo->ass->connections, &eo->sock);
+async_server.c:                epoll_ctl(pa->read_wrapper->efd, EPOLL_CTL_ADD, pa->sock,
+async_server.c:                        pa->read_wrapper->ee);
+async_server.c:            if (ret_code == -1) {
+async_server.c:                        epoll_ctl(pa->read_wrapper->efd, EPOLL_CTL_MOD,
+async_server.c:                                pa->sock, pa->read_wrapper->ee);
+async_server.c:                    if (ret_code == -1) {
+async_server.c:                 eo->sock);
+async_server.c:            rb_tree_print(eo->ass->connections);
+async_server.c:        pthread_spin_unlock(&eo->ass->clean_mutex);
+async_server.c:    wo->ass = pa->ass;
+async_server.c:    wo->stuff = pa;
+async_server.c:    wo->sock = pa->sock;
+async_server.c:    wo->ctl_call_event = async_add_back;
+async_server.c:    if (pthread_spin_lock(&pa->ass->clean_mutex) == 0) {
+async_server.c:        enqueue(pa->ass->event_q, wo);
+async_server.c:        pthread_spin_unlock(&pa->ass->clean_mutex);
+async_server.c:    if (pthread_spin_lock(&set->clean_mutex) == 0) {
+async_server.c:            get_map_entry(set->parse_args, name, name_len, (void **) &apa);
+async_server.c:        pthread_spin_unlock(&set->clean_mutex);
+async_server.c:    int s = pa->sock;
+async_server.c:    if (pthread_spin_lock(&pa->ass->clean_mutex) == 0) {
+async_server.c:        rb_tree_delete(pa->ass->connections, &s);
+async_server.c:        if(pa->write_wrapper) {
+async_server.c:            async_close_socket(pa->write_wrapper->sock);
+async_server.c:        pa->is_logged_on = 0;
+async_server.c:        pthread_spin_unlock(&pa->ass->clean_mutex);
+async_server.c:        if(pa->in_args && pa->in_args->name) {
+async_server.c:            if(pa->removed == 0) {
+async_server.c:                remove_connection(pa->ass, pa->in_args->name,
+async_server.c:                                  pa->in_args->name_len, pa);
+async_server.c:            pa->connection_notice(pa, 0, NULL, 0);
+async_server.c:        destroy_call_back_wrapper(pa->read_wrapper);
+async_server.c:        pa->read_wrapper = 0;
+async_server.c:        destroy_call_back_wrapper(pa->write_wrapper);
+async_server.c:        pa->write_wrapper = 0;
+async_server.c:        if (pa->is_server) {
+async_server.c:            pthread_spin_lock(&pa->ass->clean_mutex);
+async_server.c:            destroy_sock_recv_manager(pa->con);
+async_server.c:            pthread_spin_unlock(&pa->ass->clean_mutex);
+async_server.c:    epoll_ctl(pa->write_wrapper->efd, EPOLL_CTL_DEL, pa->write_wrapper->sock,
+async_server.c:            pa->write_wrapper->ee);
+async_server.c:    pa->write_callback(pa->in_args->name, pa->in_args->name_len,
+async_server.c:            pa->write_pass_back);
+async_server.c:    manage_socket(pa, pa->sock, &cut_connection);
+async_server.c:        int s = pa->sock;
+async_server.c:    } else if (pa->ass->num_threads > 2) {
+async_server.c:    pa->connection_notice = connection_callback;
+async_server.c:    pa->is_logged_on = 0;
+async_server.c:    pa->ds_book = ob;
+async_server.c:    pa->parse_v = parse_v;
+async_server.c:    pa->obj_callback = obj_callback;
+async_server.c:    pa->in_args_list = in_q;  //args;
+async_server.c:    pa->in_args = (struct init_args *) args;
+async_server.c:    pa->ip = (char *) ip;
+async_server.c:    pa->ip_len = ip_len;
+async_server.c:    pa->port = port;
+async_server.c:    pa->sock = sock;
+async_server.c:    pa->removed = 0;
+async_server.c:    pa->parse = (*client_mess_parse);
+async_server.c:    //pa->seq_parse = (*seq_parse);
+async_server.c:    pa->init_con = init_con;
+async_server.c:    pa->con = create_sock_recv_manager();
+async_server.c:    pa->write_callback = write_callback;
+async_server.c:    pa->write_pass_back = write_pass_back;
+async_server.c:    pa->async_cb_func = raw_sock_parser;
+async_server.c:        lpa->parse = pa->parse;
+async_server.c:        lpa->connection_notice = pa->connection_notice;
+async_server.c:        lpa->in_args_list = pa->in_args_list;
+async_server.c:        //lpa->mc = pa->ass->mc;
+async_server.c:        lpa->in_args = NULL;
+async_server.c:        lpa->is_server = 1;
+async_server.c:        lpa->sock = newSock;
+async_server.c:        lpa->is_logged_on = 0;
+async_server.c:        lpa->ip = NULL;
+async_server.c:        lpa->ip_len = 0;
+async_server.c:        lpa->removed = 0;
+async_server.c:        lpa->parse_v = pa->parse_v;
+async_server.c:        lpa->gk = pa->gk;
+async_server.c:        lpa->obj_callback = pa->obj_callback;
+async_server.c:        lpa->ds_book = pa->ds_book;
+async_server.c:        lpa->con = create_sock_recv_manager();
+async_server.c:        lpa->init_con = pa->init_con;
+async_server.c:        lpa->async_cb_func = raw_sock_parser;
+async_server.c:        lpa->write_callback = pa->write_callback;
+async_server.c:        lpa->write_pass_back = pa->write_pass_back;
+async_server.c:    pa->read_wrapper = create_call_back_wrapper(pa,
+async_server.c:            pa->async_cb_func, disconnect_wrapper, sock);
+async_server.c:    pa->read_wrapper->ee->events = EPOLLIN | EPOLLRDHUP | EPOLLET; //EPOLLONESHOT;
+async_server.c:    pa->read_wrapper->efd = ascs->ass->efd;
+async_server.c:    pa->ass = ascs->ass;
+async_server.c:    if (dupper == -1) {
+async_server.c:    pa->write_wrapper = create_call_back_wrapper(pa,
+async_server.c:    pa->write_wrapper->ee->events =  EPOLLOUT | EPOLLET; //EPOLLONESHOT;
+async_server.c:    pa->write_wrapper->efd = ascs->ass->efd;
+async_server.c:    if (pthread_spin_lock(&ascs->ass->clean_mutex) == 0) {
+async_server.c:        rb_tree_no_delete_insert(ascs->ass->connections, in_sock, pa);
+async_server.c:        pthread_spin_unlock(&ascs->ass->clean_mutex);
+async_server.c:    int listenfd = pa->sock;
+async_server.c:        int sock = -1;
+async_server.c:        if ((sock = accept(listenfd, NULL, NULL)) == -1) {
+async_server.c:    int listenfd = pa->sock;
+async_server.c:        if (sock == -1) {
+async_server.c:    if (pthread_spin_lock(&ev->ass->clean_mutex) == 0) {
+async_server.c:            rb_tree_get_val(ev->ass->connections, &ev->sock);
+async_server.c:            pa->write_pass_back = ev->stuff;
+async_server.c:                epoll_ctl(pa->write_wrapper->efd, EPOLL_CTL_ADD, pa->write_wrapper->sock,
+async_server.c:                        pa->write_wrapper->ee);
+async_server.c:                 ret_code, ev->sock);
+async_server.c:            if (ret_code == -1) {
+async_server.c:                        epoll_ctl(pa->write_wrapper->efd, EPOLL_CTL_MOD,
+async_server.c:                                pa->write_wrapper->sock, pa->write_wrapper->ee);
+async_server.c:                    if (ret_code == -1) {
+async_server.c:                         ret_code, ev->sock);
+async_server.c:                 ev->sock);
+async_server.c:            rb_tree_print(ev->ass->connections);
+async_server.c:        pthread_spin_unlock(&ev->ass->clean_mutex);
+async_server.c:    if (pthread_spin_lock(&ev->ass->clean_mutex) == 0) {
+async_server.c:        call_back_wrapper* cbw = (call_back_wrapper*)ev->stuff;
+async_server.c:            int ret_code = epoll_ctl(cbw->efd, EPOLL_CTL_ADD, cbw->sock,
+async_server.c:                    cbw->ee);
+async_server.c:            if(ret_code == -1) {
+async_server.c:                    epoll_ctl(cbw->efd, EPOLL_CTL_MOD, cbw->sock,
+async_server.c:                            cbw->ee);
+async_server.c:        pthread_spin_unlock(&ev->ass->clean_mutex);
+async_server.c:    if (ass->num_threads > 2) {
+async_server.c:        wo->ass = ass;
+async_server.c:        wo->stuff = cbw;
+async_server.c:        wo->sock = cbw->sock;
+async_server.c:        wo->ctl_call_event = add_timer_task;
+async_server.c:        if (pthread_spin_lock(&ass->clean_mutex) == 0) {
+async_server.c:            enqueue(ass->event_q, wo);
+async_server.c:            pthread_spin_unlock(&ass->clean_mutex);
+async_server.c:    if(timerfd_settime(cbw->sock, TFD_TIMER_ABSTIME, &newtime, NULL) == -1) {
+async_server.c:    wo->ass = ass;
+async_server.c:    wo->stuff = cbw;
+async_server.c:    wo->sock = cbw->sock;
+async_server.c:    wo->ctl_call_event = add_timer_task;
+async_server.c:    if (pthread_spin_lock(&ass->clean_mutex) == 0) {
+async_server.c:        enqueue(ass->event_q, wo);
+async_server.c:        pthread_spin_unlock(&ass->clean_mutex);
+async_server.c:    if(timerfd_settime(cbw->sock, TFD_TIMER_ABSTIME, &newtime, NULL) == -1) {
+async_server.c:    if (ass->num_threads > 2) {
+async_server.c:        wo->ass = ass;
+async_server.c:        wo->stuff = cbw;
+async_server.c:        wo->sock = cbw->sock;
+async_server.c:        wo->ctl_call_event = add_timer_task;
+async_server.c:        if (pthread_spin_lock(&ass->clean_mutex) == 0) {
+async_server.c:            enqueue(ass->event_q, wo);
+async_server.c:            pthread_spin_unlock(&ass->clean_mutex);
+async_server.c:    cbw->ee->events = EPOLLIN | EPOLLRDHUP | EPOLLET; //EPOLLONESHOT;
+async_server.c:    cbw->efd = ass->efd;
+async_server.c:    wo->ass = ass;
+async_server.c:    wo->stuff = cbw;
+async_server.c:    wo->sock = cbw->sock;
+async_server.c:    wo->ctl_call_event = add_timer_task;
+async_server.c:    if (pthread_spin_lock(&ass->clean_mutex) == 0) {
+async_server.c:        enqueue(ass->event_q, wo);
+async_server.c:        pthread_spin_unlock(&ass->clean_mutex);
+async_server.c:    int sock = -1;
+async_server.c:    cbw->ee->events = EPOLLIN | EPOLLET; //EPOLLONESHOT;
+async_server.c:    cbw->efd = ass->efd;
+async_server.c:    wo->ass = ass;
+async_server.c:    wo->stuff = cbw;
+async_server.c:    wo->sock = sock;
+async_server.c:    wo->ctl_call_event = add_timer_task;
+async_server.c:    if (pthread_spin_lock(&ass->clean_mutex) == 0) {
+async_server.c:        enqueue(ass->event_q, wo);
+async_server.c:        pthread_spin_unlock(&ass->clean_mutex);
+async_server.c:    pthread_spin_lock(&set->clean_mutex);
+async_server.c:    e = dequeue(set->event_q);
+async_server.c:    pthread_spin_unlock(&set->clean_mutex);
+async_server.c:        event_object *wo = (event_object *) e->d;
+async_server.c:        wo->ctl_call_event(wo);
+async_server.c:        e = temp->next;
+async_server.c:        pthread_spin_lock(&set->clean_mutex);
+async_server.c:        free_element(set->event_q, temp);
+async_server.c:        pthread_spin_unlock(&set->clean_mutex);
+async_server.c:    while (ascs->keep_running) {
+async_server.c:        n = epoll_wait(ascs->efd, events, 512, ascs->time_out);
+async_server.c:                        rb_tree_get_val(ascs->connections, &cbw->sock);
+async_server.c:                        printf("Got a disconnect event %d \n", cbw->sock); 
+async_server.c:                        epoll_ctl(cbw->efd, EPOLL_CTL_DEL,
+async_server.c:                                cbw->sock, &events[i]);
+async_server.c:                        cbw->clean_up(cbw->stuff);
+async_server.c:                        printf("Could not find parse_args for disconnect event %d \n", cbw->sock); 
+async_server.c:                } else if (ascs->num_threads > 2) {
+async_server.c:                    epoll_ctl(cbw->efd, EPOLL_CTL_DEL, cbw->sock,
+async_server.c:                    thr_pool_queue(ascs->thr, ((call_back_wrapper*)events[i].data.ptr)->call_back_func,
+async_server.c:                            ((call_back_wrapper*)events[i].data.ptr)->stuff);
+async_server.c:                    ((call_back_wrapper*)events[i].data.ptr)->call_back_func(
+async_server.c:                        ((call_back_wrapper*)events[i].data.ptr)->stuff);
+async_server.c:        } else if(ascs->num_threads <= 2) {
+async_server.c:            one_stop_pop(ascs->thr);
+async_server.c:    int ret = close(ascs->efd);
+async_server.c:    connected = pa->init_con(pa);
+async_server.c:    if (connected == -1) {
+async_server.c:        if (pthread_spin_lock(&pa->ass->clean_mutex) == 0) {
+async_server.c:            *sock = pa->sock;
+async_server.c:            rb_tree_no_delete_insert(pa->ass->connections, sock, pa);
+async_server.c:            pthread_spin_unlock(&pa->ass->clean_mutex);
+async_server.c:    pa->read_wrapper = create_call_back_wrapper(pa,
+async_server.c:            pa->async_cb_func,disconnect_wrapper, sock);
+async_server.c:    pa->read_wrapper->ee->events = EPOLLIN | EPOLLRDHUP | EPOLLET;
+async_server.c:    pa->read_wrapper->efd = acsm->efd;
+async_server.c:    pa->ass = acsm;
+async_server.c:    if (dupper == -1) {
+async_server.c:    pa->write_wrapper = create_call_back_wrapper(pa,
+async_server.c:    pa->write_wrapper->ee->events = EPOLLOUT | EPOLLET; 
+async_server.c:    pa->write_wrapper->efd = acsm->efd;
+async_server.c:    if(acsm->num_threads > 2) {
+async_server.c:        thr_pool_queue(acsm->thr, async_connect_1, pa);
+async_server.c:    int sock = -1;
+async_server.c:        pa->is_server = 0;
+async_server.c:        pa->is_logged_on = 0;
+async_server.c:        pa->gk = acsm->gk;
+async_server.c:        pa->ass = acsm;
+async_server.c:        //pa->mc = acsm->mc;
+async_server.c:    int sock = -1;
+async_server.c:    if (arg->ip_len > 0 && (memchr(arg->ip, '.', arg->ip_len) == 0)) {
+async_server.c:        sock = ud_connect(arg->ip, arg->ip_len);
+async_server.c:        sock = async_rec_connection(arg->port, arg->ip, attempts);
+async_server.c:        arg->sock = sock;
+async_server.c:        arg->disconnect = 0;
+async_server.c:        if (arg && arg->con->wr_ptr == 0) {
+async_server.c:            arg->con->wr_ptr = arg->con->buffer;
+async_server.c:            arg->con->rd_ptr = arg->con->buffer;
+async_server.c:        init_connection(arg->ass, arg, sock);
+async_server.c:        arg->connection_notice(arg, 0, NULL, 0);
+async_server.c:    wo->ass = set;
+async_server.c:    wo->stuff = pass_back;
+async_server.c:    wo->sock = sock;
+async_server.c:    wo->ctl_call_event = async_add_sender;
+async_server.c:    if (pthread_spin_lock(&set->clean_mutex) == 0) {
+async_server.c:        enqueue(set->event_q, wo);
+async_server.c:        pthread_spin_unlock(&set->clean_mutex);
+async_server.c:    int e_controls = -1;
+async_server.c:    ascs->num_threads = ascs->num_threads < 2 ? 2 : ascs->num_threads;
+async_server.c:    ascs->thr = thr_pool_create(ascs->num_threads, ascs->num_threads, 0,
+async_server.c:            ascs->cpus );
+async_server.c:    ascs->efd = e_controls;
+async_server.c:        ret = create_thr(ascs->thr, record_messages, ra);
+async_server.c:    ret = create_thr(ascs->thr, run_async_listener, ascs);
+async_server.c:    thr_pool_wait_n_join(ass->thr);
+async_server.c:    rb_tree_destroy(ass->connections);
+async_server.c:    delete_map(ass->parse_args);
+async_server.c:    destroy_queue(ass->event_q);
+async_server.c:    pthread_spin_init(&scs->clean_mutex, PTHREAD_PROCESS_PRIVATE);
+async_server.c:    scs->time_out = time_out;
+async_server.c:    scs->num_threads = num_threads;
+async_server.c:    scs->cpus = cpus;
+async_server.c:    scs->gk = mb;
+async_server.c:    scs->keep_running = 1;
+async_server.c:    scs->event_q = create_sized_queue(depth);
+async_server.c:    scs->connections =
+async_server.c:    scs->parse_args = create_map(depth);
+async_server.c:    pa->connection_notice = connection_callback;
+async_server.c:    pa->is_logged_on = 0;
+async_server.c:    pa->in_args_list = l_args;
+async_server.c:    pa->in_args = NULL;
+async_server.c:    pa->is_server = 1;
+async_server.c:    pa->parse_v = parse_v;
+async_server.c:    pa->obj_callback = obj_callback;
+async_server.c:    pa->gk = mb;
+async_server.c:    pa->obj_callback = obj_callback;
+async_server.c:    pa->ds_book = NULL;
+async_server.c:    pa->parse = (*mess_parse);
+async_server.c:    //pa->seq_parse = (*seq_parse);
+async_server.c:    pa->gk = mb;
+async_server.c:    pa->con = create_sock_recv_manager();
+async_server.c:    pa->write_callback = write_callback;
+async_server.c:    pa->write_pass_back = write_pass_back;
+async_server.c:    pa->ass = scs;
+async_server.c:    pa->sock = -1;
+async_server.c:        pa->sock = ud_create_and_bind(ip, len);
+async_server.c:        pa->async_cb_func = ud_listen_call_back_func;
+async_server.c:        pa->sock = create_and_bind(port);
+async_server.c:        pa->async_cb_func = listen_call_back_func;
+async_server.c:    int ret_code = listen(pa->sock, MAXCONNECTIONS);
+async_server.c:    if (ret_code == -1 || scs->efd == -1) {
+async_server.c:        return -1;
+async_server.c:    pa->write_wrapper = create_call_back_wrapper(pa,
+async_server.c:            write_master, disconnect_wrapper, pa->sock);
+async_server.c:    pa->read_wrapper = create_call_back_wrapper(pa,
+async_server.c:            pa->async_cb_func, disconnect_wrapper, pa->sock);
+async_server.c:    pa->read_wrapper->ee->events = EPOLLIN | EPOLLRDHUP | EPOLLET; //EPOLLONESHOT;
+async_server.c:    pa->read_wrapper->efd = scs->efd;
+async_server.c:    if (pthread_spin_lock(&scs->clean_mutex) == 0) {
+async_server.c:        *in_sock = pa->sock;
+async_server.c:        rb_tree_no_delete_insert(scs->connections, in_sock, pa);
+async_server.c:        pthread_spin_unlock(&scs->clean_mutex);
+call_back_wrapper.c:    cbw->stuff = cb_object;
+call_back_wrapper.c:    cbw->call_back_func = cb_func;
+call_back_wrapper.c:    cbw->ee = calloc(1, sizeof(struct epoll_event));
+call_back_wrapper.c:    cbw->sock = socket;
+call_back_wrapper.c:    cbw->ee->data.ptr = cbw;
+call_back_wrapper.c:    cbw->clean_up = clean_up;
+call_back_wrapper.c:    if(cbw && cbw->ee) {
+call_back_wrapper.c:        free(cbw->ee);
+call_back_wrapper.c:        cbw->ee = 0;
+common_structs.c:        ret = ret * 10 + *num - '0';
+common_structs.c: * YYYYMMDD-HH:MM:SS
+common_structs.c:    t.tm_year = make_long(yyyymmddhhmmss, 4) - 1900;
+common_structs.c:    t.tm_mon = make_long(yyyymmddhhmmss + 4, 2) -1;
+common_structs.c:    t.tm_isdst = -1;
+common_structs.c:    t.tm_year = make_long(yyyymmddhhmmss, 4) - 1900;
+common_structs.c:    t.tm_mon = make_long(yyyymmddhhmmss + 4, 2) -1;
+common_structs.c:    t.tm_isdst = -1;
+common_structs.c:    if (in->name_len > 0 && in->name != NULL) {
+common_structs.c:        free(in->name);
+common_structs.c:        in->name = 0;
+common_structs.c:        in->name_len = 0;
+common_structs.c:    if (in->sc_len > 0 && in->sender_comp != NULL) {
+common_structs.c:        free(in->sender_comp);
+common_structs.c:        in->sender_comp = 0;
+common_structs.c:        in->sc_len = 0;
+common_structs.c:    if (in->tc_len > 0 && in->target_comp != NULL) {
+common_structs.c:        free(in->target_comp);
+common_structs.c:        in->target_comp = 0;
+common_structs.c:        in->tc_len = 0;
+common_structs.c:    if (in->ts_len > 0 && in->target_sub != NULL) {
+common_structs.c:        free(in->target_sub);
+common_structs.c:        in->target_sub = 0;
+common_structs.c:        in->ts_len = 0;
+common_structs.c:    if (in->ss_len > 0 && in->sender_sub != NULL) {
+common_structs.c:        free(in->sender_sub);
+common_structs.c:        in->sender_sub = 0;
+common_structs.c:        in->ss_len = 0;
+common_structs.c:    if (in->un_len > 0 && in->username != NULL) {
+common_structs.c:        free(in->username);
+common_structs.c:        in->username = 0;
+common_structs.c:        in->un_len = 0;
+common_structs.c:    if (in->p_len > 0 && in->password != NULL) {
+common_structs.c:        free(in->password);
+common_structs.c:        in->password = 0;
+common_structs.c:        in->p_len = 0;
+common_structs.c:    if (in->fv_len > 0 && in->fix_version != 0) {
+common_structs.c:        free(in->fix_version);
+common_structs.c:        in->fix_version = 0;
+common_structs.c:        in->fv_len = 0;
+common_structs.c:    if (in->reset_time != NULL) {
+common_structs.c:        free(in->reset_time);
+common_structs.c:        struct init_args *rr = (struct init_args *) e->d;
+common_structs.c:        e = temp->next;
+config_loader.c:    return pthread_spin_lock(&doj->lock);
+config_loader.c:    return pthread_spin_unlock(&doj->lock);
+config_loader.c:    *size = -1;
+config_loader.c:                *size = -1;
+config_loader.c:            val_len = len - (c_offset + 1);
+config_loader.c:    end = find_offset(l_off, (end_pos - 1), e_bracket, 1);
+config_loader.c:        end = end_pos - 1;
+config_loader.c:    int result = -1;
+config_loader.c:            end_pos = find_offset(d_off, (size - cur_pos), eol, eol_len);
+config_loader.c:                bracket_off = find_offset(d_off, (end_pos - 1), "[", 1);
+config_loader.c:    clean_header_map(df->header_map);
+config_loader.c:    delete_map(df->header_map);
+config_loader.c:    if(df->filename) {
+config_loader.c:        free(df->filename);
+config_loader.c:    clean_header_map(df->header_map);
+config_loader.c:    delete_map(df->header_map);
+config_loader.c:    df->header_map = create_map(32);
+config_loader.c:    build_map_from_file(df->filename, df->header_map);
+config_loader.c:    df->filename = calloc(len + 1, 1);
+config_loader.c:    memcpy(df->filename, filename, len);
+config_loader.c:    df->header_map = create_map(32);
+config_loader.c:    pthread_spin_init(&df->lock, PTHREAD_PROCESS_PRIVATE);
+config_loader.c:    build_map_from_file(df->filename, df->header_map);
+config_loader.c:        get_map_entry(df->header_map, section, sec_len, (void *) &l_map);
+config_loader.c:    *val_len = get_map_entry(df->header_map, section, sec_len,
+config_loader.c:    int val_len = get_map_entry(df->header_map, section, sec_len,
+config_loader.c:        bytes_to_write -= written;
+config_loader.c:    map_file = fopen(df->filename, "r+b");
+config_loader.c:                    if ((sec_off - 1) != NULL && *(sec_off - 1) != '[') {
+config_loader.c:                        if((tag_off - 1)[0] == '\n') {
+config_loader.c:                            if(next_eq && next_eq - tag_off == tag_len) {
+config_loader.c:                                tag_off = strstr(tag_off + (next_eq - tag_off), tag);
+config_loader.c:                         ((next_sec - sec_off) > (tag_off - sec_off)))) {
+config_loader.c:                        offset = tag_off - buff;
+config_loader.c:                            bytes_to_write -= written;
+config_loader.c:                            long b_to_w = size - ((old_eol) - buff);
+config_loader.c:                            offset = ((next_sec - 1) - buff);
+config_loader.c:                            offset = size - 1;
+config_loader.c:                            long b_to_w = size - ((next_sec - 1) - buff);
+config_loader.c:                                              (next_sec - 1));
+config_loader.c:                       df->filename);
+connection_interface.c:        remove_obj_by_client_id(ci->gk, ci->fix_con_name, ci->fix_con_len);
+connection_interface.c:        free(ci->module_name);
+connection_interface.c:        free(ci->fix_con_name);
+connection_interface.c:        free(ci->ip_str);
+connection_interface.c:        free(ci->dest_id);
+connection_interface.c:        databuf_destroy(ci->mess_to_send);
+connection_interface.c:        if(ci->session_conf) {
+connection_interface.c:            dart_destroy_config(ci->session_conf->dc);
+connection_interface.c:            destroy_init_args(ci->session_conf);
+connection_interface.c:        if(ci->connection_conf) {
+connection_interface.c:            destroy_ex_config(ci->connection_conf);
+connection_interface.c:            free(ci->connection_conf);
+connection_interface.c:        if(ci->recon_wrapper) {
+connection_interface.c:            destroy_call_back_wrapper(ci->recon_wrapper);
+connection_interface.c:    dart_reset_maps(ci->session_conf->dc);
+connection_interface.c:    //async_parse_args *apa = (struct async_parse_args *) ci->ap->apa;
+connection_interface.c:    disconnect(ci->ap);
+connection_interface.c:    async_parse_args *con = ci->ap;
+connection_interface.c:    con->in_args->reset_time->create_new = 1;
+connection_interface.c:    con->in_args->reset_time->new_incoming = in;
+connection_interface.c:    con->in_args->reset_time->new_outgoing = out;
+connection_interface.c:    if (ci->connected) {
+connection_interface.c:        //hasync_parse_args *apa = (struct async_parse_args *) ci->ap->apa;
+connection_interface.c:        disconnect(ci->ap);
+connection_interface.c:    cb->connect = connect;
+connection_interface.c:    cb->build_offset = build_offset;
+connection_interface.c:    cb->on_enter_order = on_enter_order;
+connection_interface.c:    cb->on_cancel_order = on_cancel_order;
+connection_interface.c:    cb->on_replace_order = on_replace_order;
+connection_interface.c:    cb->cl_ord_id_map = get_initial_order_map(gk, dest_id, dest_id_len);
+connection_interface.c:    cb->module_name = calloc(name_len + 1, 1);
+connection_interface.c:    memcpy(cb->module_name, name, name_len);
+connection_interface.c:    cb->module_name_len = name_len;
+connection_interface.c:    cb->fix_con_name = calloc(send_len + 1, 1);
+connection_interface.c:    memcpy(cb->fix_con_name, send_name, send_len);
+connection_interface.c:    cb->fix_con_len = send_len;
+connection_interface.c:    cb->ass = NULL;
+connection_interface.c:    cb->session_conf = NULL;
+connection_interface.c:    cb->can_send_orders = 0;
+connection_interface.c:    cb->is_blocked = 0;
+connection_interface.c:    cb->on_connect = on_connect;
+connection_interface.c:    cb->cleansing_rinse = ci_cleansing_rinse;
+connection_interface.c:    cb->disconnect = ci_disconnect;
+connection_interface.c:    cb->reset_seq = ci_reset_seq;
+connection_interface.c:    cb->seq = 0;
+connection_interface.c:    cb->last_sent = 0;
+connection_interface.c:    cb->last_recv = 0;
+connection_interface.c:    cb->ip_str = calloc(64, 1);
+connection_interface.c:    cb->ci_iovec_sender = ci_async_iovec_sender;
+connection_interface.c:        cb->dest_id = calloc(dest_id_len + 1, 1);
+connection_interface.c:        memcpy(cb->dest_id, dest_id, dest_id_len);
+connection_interface.c:        cb->dest_id = NULL;
+connection_interface.c:    cb->dest_len = dest_id_len;
+connection_interface.c:    cb->cancel_on_dis = 0;
+connection_interface.c:    cb->do_oats_balance = 1;
+connection_interface.c:    cb->should_buffer = 0;
+connection_interface.c:    if (pthread_spin_init(&cb->mutex, PTHREAD_PROCESS_PRIVATE) != 0) {
+connection_interface.c:    if (pthread_spin_init(&cb->send_mutex, PTHREAD_PROCESS_PRIVATE) != 0) {
+connection_interface.c:    cb->recon_wrapper = 0;
+connection_interface.c:    cb->connect = 0;
+connection_interface.c:    cb->build_offset = 0;
+connection_interface.c:    cb->on_enter_order = 0;
+connection_interface.c:    cb->on_cancel_order = 0;
+connection_interface.c:    cb->on_replace_order = 0;
+connection_interface.c:    cb->cl_ord_id_map = 0;
+connection_interface.c:    cb->module_name = 0;
+connection_interface.c:    cb->module_name_len = 0;
+connection_interface.c:    cb->fix_con_name = 0;
+connection_interface.c:    cb->fix_con_len = 0;
+connection_interface.c:    cb->mess_to_send = databuf_alloc(1024);
+connection_interface.c:    cb->ass = NULL;
+connection_interface.c:    cb->session_conf = NULL;
+connection_interface.c:    cb->can_send_orders = 0;
+connection_interface.c:    cb->is_blocked = 0;
+connection_interface.c:    cb->on_connect = on_connect;
+connection_interface.c:    cb->seq = 0;
+connection_interface.c:    cb->last_sent = 0;
+connection_interface.c:    cb->last_recv = 0;
+connection_interface.c:    cb->cleansing_rinse = ci_cleansing_rinse;
+connection_interface.c:    cb->ip_str = 0;
+connection_interface.c:    cb->disconnect = ci_disconnect;
+connection_interface.c:    cb->reset_seq = ci_reset_seq;
+connection_interface.c:    cb->ci_iovec_sender = ci_async_iovec_sender;
+connection_interface.c:    cb->dest_id = 0;
+connection_interface.c:    cb->dest_len = 0;
+connection_interface.c:    cb->cancel_on_dis = 0;
+connection_interface.c:    cb->do_oats_balance = 1;
+connection_interface.c:    cb->should_buffer = 0;
+connection_interface.c:    cb->tg = 0;
+connection_interface.c:    cb->parser = 0;
+connection_interface.c:    cb->sym_trans = 0;
+connection_interface.c:    cb->sbm = 0;
+connection_interface.c:    if (pthread_spin_init(&cb->mutex, PTHREAD_PROCESS_PRIVATE) != 0) {
+connection_interface.c:    if (pthread_spin_init(&cb->send_mutex, PTHREAD_PROCESS_PRIVATE) != 0) {
+connection_interface.c:    cb->cl_ord_id_map =get_initial_order_map(gk, name, name_len);// create_map(num_orders);
+connection_interface.c:    cb->module_name = calloc(name_len + 1, 1);
+connection_interface.c:    memcpy(cb->module_name, name, name_len);
+connection_interface.c:    cb->module_name_len = name_len;
+connection_interface.c:    cb->fix_con_name = calloc(name_len + 1, 1);
+connection_interface.c:    memcpy(cb->fix_con_name, name, name_len);
+connection_interface.c:    cb->fix_con_len = name_len;
+connection_interface.c:    cb->mess_to_send = databuf_alloc(1024);
+connection_interface.c:    cb->session_conf = 0;
+connection_interface.c:    cb->connection_conf = 0;
+connection_interface.c:    cb->ass = ass;
+connection_interface.c:    cb->gk = gk;
+connection_interface.c:    cb->ap = ap;
+connection_interface.c:    cb->sock = sock;
+connection_interface.c:    cb->connect = 0;
+connection_interface.c:    cb->build_offset = 0;
+connection_interface.c:    cb->on_enter_order = 0;
+connection_interface.c:    cb->on_cancel_order = 0;
+connection_interface.c:    cb->on_replace_order = 0;
+connection_interface.c:    cb->on_connect = on_connect;
+connection_interface.c:    cb->ci_iovec_sender = ci_async_iovec_sender;
+connection_interface.c:    cb->cleansing_rinse = ci_cleansing_rinse;
+connection_interface.c:    cb->ip_str = calloc(64, 1);
+connection_interface.c:    cb->disconnect = ci_disconnect;
+connection_interface.c:    cb->reset_seq = ci_reset_seq;
+connection_interface.c:    cb->can_send_orders = can_send_orders;
+connection_interface.c:    cb->is_blocked = 0;
+connection_interface.c:    cb->dest_id = 0;
+connection_interface.c:    cb->dest_len = 0;
+connection_interface.c:    cb->last_sent = 0;
+connection_interface.c:    cb->last_recv = 0;
+connection_interface.c:    cb->cancel_on_dis = 0;
+connection_interface.c:    cb->do_oats_balance = 1;
+connection_interface.c:    cb->should_buffer = 1;
+connection_interface.c:    cb->recon_wrapper = 0;
+connection_interface.c:    cb->parser = 0;
+connection_interface.c:    cb->sym_trans = 0;
+connection_interface.c:    cb->sbm = 0;
+connection_interface.c:        cb->can_send_orders = 0;
+connection_interface.c:        cb->connected = 0;
+connection_interface.c:        if (!cb->ap->is_server) {
+connection_interface.c:            reload_config(cb->connection_conf);
+connection_interface.c:            reload_init_args(cb->session_conf);
+connection_interface.c:            cb->ap->port = cb->connection_conf->fix_port;
+connection_interface.c:            cb->ap->ip = (char *) cb->connection_conf->fix_ip;
+connection_interface.c:            cb->ap->ip_len = cb->connection_conf->fix_ip_len;
+connection_interface.c:            //off_thread_reconnect(cb->ap);
+connection_interface.c:            if(cb->recon_wrapper == 0) {
+connection_interface.c:                cb->recon_wrapper = add_timer(cb->ass, 0,
+connection_interface.c:                             0, 30, 0, cb->ap,async_reconnect_t);
+connection_interface.c:                cb->recon_wrapper->stuff = cb->ap;
+connection_interface.c:                cb->recon_wrapper->call_back_func = async_reconnect_t;
+connection_interface.c:                add_back_recon_timer(cb->ass, cb->recon_wrapper);
+connection_interface.c:        } else if (cb->cancel_on_dis) {
+connection_interface.c:            if (cb->on_cancel_all != 0) {
+connection_interface.c:                cb->on_cancel_all(cb, NULL);
+connection_interface.c:        cb->can_send_orders = 1;
+connection_interface.c:        cb->connected = 1;
+connection_interface.c:        if (databuf_unread(cb->mess_to_send) > 0) {
+connection_interface.c:            ci_async_write_callback(cb->module_name, cb->module_name_len,
+connection_interface.c:        cb->can_send_orders = 0;
+connection_interface.c:        cb->connected = 1;
+connection_interface.c:    time(&ci->last_sent);                  \
+connection_interface.c:    int return_code = -1;
+connection_interface.c:            return_code = -1;
+connection_interface.c:            ap->disconnect = 1;
+connection_interface.c:    if (cb && pthread_spin_lock(&ob->send_mutex) == 0) {
+connection_interface.c:        int unread = databuf_unread(ob->mess_to_send);
+connection_interface.c:                con_send_mess(ob->sock, ob->mess_to_send->rd_ptr,
+connection_interface.c:                              databuf_unread(ob->mess_to_send), ob->ap);
+connection_interface.c:                add_sender(ob->ass, ob, ob->sock);
+connection_interface.c:                databuf_reset(ob->mess_to_send);
+connection_interface.c:                ob->mess_to_send->rd_ptr += len_sent;
+connection_interface.c:            databuf_reset(ob->mess_to_send);
+connection_interface.c:        if (pthread_spin_unlock(&ob->send_mutex) != 0) {
+connection_interface.c:            if (iov->iov_len <= ret_code) {
+connection_interface.c:                ret_code -= iov->iov_len;
+connection_interface.c:                    iov->iov_base -= in_iovec;
+connection_interface.c:                    iov->iov_len += in_iovec;
+connection_interface.c:                --iovcnt;
+connection_interface.c:                iov->iov_base += ret_code;
+connection_interface.c:                iov->iov_len -= ret_code;
+connection_interface.c:        iov->iov_base -= in_iovec;
+connection_interface.c:        iov->iov_len += in_iovec;
+connection_interface.c:            *err = -1;
+connection_interface.c:    int return_code = -1;
+connection_interface.c:    if (cb && pthread_spin_lock(&ob->send_mutex) == 0) {
+connection_interface.c:        if (databuf_unread(ob->mess_to_send) <= 0) {
+connection_interface.c:                    send(ob->sock, data->rd_ptr, databuf_unread(data),
+connection_interface.c:                        databuf_memcpy(ob->mess_to_send, data->rd_ptr,
+connection_interface.c:                        add_sender(ob->ass, ob, ob->sock);
+connection_interface.c:                        ob->ap->disconnect = 1;
+connection_interface.c:                    data->rd_ptr += return_code;
+connection_interface.c:            if (pthread_spin_unlock(&ob->send_mutex) != 0) {
+connection_interface.c:            databuf_memcpy(ob->mess_to_send, data->rd_ptr,
+connection_interface.c:            if (pthread_spin_unlock(&ob->send_mutex) != 0) {
+connection_interface.c:        if (iov->iov_len <= bytes_sent) {
+connection_interface.c:            bytes_sent -= iov->iov_len;
+connection_interface.c:        databuf_memcpy(buff, iov->iov_base + bytes_sent, iov->iov_len - bytes_sent);
+connection_interface.c:        --iovcnt;
+connection_interface.c:    if (databuf_unread(con->mess_to_send) > 0) {
+connection_interface.c:        databuf_memcpy(con->mess_to_send, buff->rd_ptr, databuf_unread(buff));
+connection_interface.c:      con_send_mess(con->sock,buff->rd_ptr, databuf_unread(buff), con->ap);
+connection_interface.c:        databuf_memcpy(con->mess_to_send, buff->rd_ptr + bytes_sent, databuf_unread(buff));
+connection_interface.c:        if (con->ass != 0) {
+connection_interface.c:            add_sender(con->ass, con, con->sock);
+connection_interface.c:    if (pthread_spin_lock(&ob->send_mutex) == 0) {
+connection_interface.c:        if (databuf_unread(ob->mess_to_send) <= 0) {
+connection_interface.c:                     name, iov->iov_len,
+connection_interface.c:                     iov_unsent, iovcnt, bytes_sent, (char*)iov->iov_base);
+connection_interface.c:                copy_iovecs_to_buff(iov, iov_unsent, ob->mess_to_send,
+connection_interface.c:                if (ob->ass != 0) {
+connection_interface.c:                    add_sender(ob->ass, ob, sock);
+connection_interface.c:            if (pthread_spin_unlock(&ob->send_mutex) != 0) {
+connection_interface.c:            copy_iovecs_to_buff(iov, iovcnt, ob->mess_to_send, 0);
+connection_interface.c:            if (pthread_spin_unlock(&ob->send_mutex) != 0) {
+connection_interface.c:    if (ob->can_send_orders) {
+connection_interface.c:        if (ob->should_buffer) {
+connection_interface.c:            copy_iovecs_to_buff(iov, iovcnt, ob->mess_to_send, 0);
+connection_interface.c:    hashmap_iterator_t hi = hashmap_iterator_begin(con->cl_ord_id_map);
+connection_interface.c:        valid = hashmap_iterator_next(con->cl_ord_id_map, hi);
+connection_interface.c:        buff = (dart_order_obj *) e->d;
+connection_interface.c:        memcpy(ord_num, buff->positions[ROM_CLORDID].iov_base,
+connection_interface.c:               buff->positions[ROM_CLORDID].iov_len);
+connection_interface.c:        no_copy_insert(con->cl_ord_id_map, (char *) &new_id, 4, buff);
+connection_interface.c:        e = temp->next;
+connection_interface.c:        temp->d = NULL;
+dart_allocator.c:    --size;
+dart_allocator.c:    keyglob->payload = 0;
+dart_allocator.c:    DART_ALLOC(keyglob->payload, DART_PG_SIZE, DART_PG_SIZE, ret);
+dart_allocator.c:    void* offset = keyglob->payload;
+dart_allocator.c:        cur->payload = 0;
+dart_allocator.c:        cur->next = dmg->empty;
+dart_allocator.c:        dmg->empty = cur;
+dart_allocator.c:        total--;
+dart_allocator.c:    keyglob->next = cur_glob->next;
+dart_allocator.c:    cur_glob->next = keyglob; 
+dart_allocator.c:    unsigned int step = dmg->size;
+dart_allocator.c:    if(dmg->size < DART_PG_SIZE) {
+dart_allocator.c:        total = DART_PG_SIZE / dmg->size;
+dart_allocator.c:        cur_glob->payload = 0;
+dart_allocator.c:        DART_ALLOC(cur_glob->payload, DART_PG_SIZE,DART_PG_SIZE, ret);
+dart_allocator.c:        cur_glob->payload = 0;
+dart_allocator.c:        DART_ALLOC(cur_glob->payload, DART_PG_SIZE, dmg->size, ret);
+dart_allocator.c:        total = dmg->size / DART_PG_SIZE;
+dart_allocator.c:    void* cur = cur_glob->payload;
+dart_allocator.c:        dmg->init_func(cur);
+dart_allocator.c:        total--;
+dart_allocator.c:    dmg->empty = 0;
+dart_allocator.c:    dmg->ready = 0;
+dart_allocator.c:    dmg->globs = 0;
+dart_allocator.c:    DART_ALLOC(dmg->globs, 8, sizeof(struct walker_texas_ranger), ret);
+dart_allocator.c:    dmg->globs->next = 0;
+dart_allocator.c:    dmg->size = size;
+dart_allocator.c:    dmg->init_func = init_func;
+dart_allocator.c:    set_ready_list(dmg, dmg->globs);
+dart_allocator.c:    if(dmg->ready == 0) {
+dart_allocator.c:        glob1->next = dmg->globs;
+dart_allocator.c:        dmg->globs = glob1;
+dart_allocator.c:    wtr* cur = dmg->ready;
+dart_allocator.c:    dmg->ready = cur->next;
+dart_allocator.c:    cur->next = dmg->empty;
+dart_allocator.c:    dmg->empty = cur;
+dart_allocator.c:    ret =  cur->payload;
+dart_allocator.c:    cur->payload = 0;
+dart_allocator.c:    if(dmg->empty != 0) {
+dart_allocator.c:        wtr* cur = dmg->empty;
+dart_allocator.c:        dmg->empty = cur->next;
+dart_allocator.c:        cur->payload = v;
+dart_allocator.c:        cur->next = dmg->ready;
+dart_allocator.c:        dmg->ready = cur;
+dart_allocator.c:        printf("Ran out of empties of size: %u \n", dmg->size);
+dart_allocator.c:        create_keys(dmg, dmg->globs);
+dart_allocator.c:        wtr* cur = dmg->empty;
+dart_allocator.c:        dmg->empty = cur->next;
+dart_allocator.c:        cur->payload = v;
+dart_allocator.c:        cur->next = dmg->ready;
+dart_allocator.c:        dmg->ready = cur;
+dart_allocator.c:    if(dmg->globs) {
+dart_allocator.c:            wtr* cur_glob = dmg->globs;
+dart_allocator.c:            dmg->globs = cur_glob->next;
+dart_allocator.c:            free(cur_glob->payload);
+dart_allocator.c:        } while(dmg->globs != 0);
+dart_obj_factory.c:    d->init_alloc = initial_amt;
+dart_obj_factory.c:    d->destroy_func = destroy_func;
+dart_obj_factory.c:    d->create_func = create_func;
+dart_obj_factory.c:    d->clear_obj = clear_obj;
+dart_obj_factory.c:    d->free_list = create_sized_queue(initial_amt);
+dart_obj_factory.c:    d->glob_list = create_sized_queue(initial_amt);
+dart_obj_factory.c:    pthread_spin_init(&d->dart_obj_fact_mutex, PTHREAD_PROCESS_PRIVATE);
+dart_obj_factory.c:    create_func(d->glob_list, d->free_list, initial_amt);
+dart_obj_factory.c:    if (pthread_spin_lock(&d->dart_obj_fact_mutex) == 0) {
+dart_obj_factory.c:        d->create_func(d->glob_list, d->free_list, d->init_alloc * 2);
+dart_obj_factory.c:        if (pthread_spin_unlock(&d->dart_obj_fact_mutex) != 0) {
+dart_obj_factory.c:    if (pthread_spin_lock(&d->dart_obj_fact_mutex) == 0) {
+dart_obj_factory.c:        if (is_empty(d->free_list)) {
+dart_obj_factory.c:            d->create_func(d->glob_list, d->free_list, d->init_alloc * 2);
+dart_obj_factory.c:            d->init_alloc = d->init_alloc * 2;
+dart_obj_factory.c:        e = pop_front(d->free_list);
+dart_obj_factory.c:        ret = e->d;
+dart_obj_factory.c:        free_element(d->free_list, e);
+dart_obj_factory.c:        if (pthread_spin_unlock(&d->dart_obj_fact_mutex) != 0) {
+dart_obj_factory.c:    if (pthread_spin_lock(&d->dart_obj_fact_mutex) == 0) {
+dart_obj_factory.c:        e = dequeue(d->free_list);
+dart_obj_factory.c:            e = temp->next;
+dart_obj_factory.c:            d->destroy_func(temp->d);
+dart_obj_factory.c:            free_element(d->free_list, temp);
+dart_obj_factory.c:        e = dequeue(d->glob_list);
+dart_obj_factory.c:            e = temp->next;
+dart_obj_factory.c:            free(temp->d);
+dart_obj_factory.c:            free_element(d->glob_list, temp);
+dart_obj_factory.c:        destroy_queue(d->free_list);
+dart_obj_factory.c:        destroy_queue(d->glob_list);
+dart_obj_factory.c:        if (pthread_spin_unlock(&d->dart_obj_fact_mutex) != 0) {
+dart_obj_factory.c:    if (pthread_spin_lock(&d->dart_obj_fact_mutex) == 0) {
+dart_obj_factory.c:        d->clear_obj(e);
+dart_obj_factory.c:        place_front(d->free_list, e);
+dart_obj_factory.c:        if (pthread_spin_unlock(&d->dart_obj_fact_mutex) != 0) {
+dart_order_obj.c:    memcpy(doj->positions, def_pos, (sizeof(struct iovec) * ROM_LEN));
+dart_order_obj.c:    doj->in_use = 0;
+dart_order_obj.c:    doj->ex_mess = 0;
+dart_order_obj.c:    doj->rep = NULL;
+dart_order_obj.c:    db_node_t *db = doj->head;
+dart_order_obj.c:        databuf_reset(db->data);
+dart_order_obj.c:        db = db->next;
+dart_order_obj.c:    doj->current = doj->head;
+dart_order_obj.c:    doj->positions[161].iov_base = "\n";
+dart_order_obj.c:    doj->positions[161].iov_len = 1;
+dart_order_obj.c:    doj->dest = NULL;
+dart_order_obj.c:    doj->sender = 0;
+dart_order_obj.c:    doj->childs = 0;
+dart_order_obj.c:    doj->num_childs = 0;
+dart_order_obj.c:    if (databuf_unread(orig->head->data) > DEFAULT_BUFF_SIZE) {
+dart_order_obj.c:        long buff_len = databuf_unread(orig->head->data);
+dart_order_obj.c:            if (orig->positions[i].iov_len > 0
+dart_order_obj.c:                && (orig->positions[i].iov_base < orig->head->end_ptr
+dart_order_obj.c:                    && orig->positions[i].iov_base >
+dart_order_obj.c:                    orig->head->start_ptr)) {
+dart_order_obj.c:                    orig->positions[i].iov_base - orig->head->start_ptr;
+dart_order_obj.c:        memcpy(buff, orig->head->data->buffer, buff_len);
+dart_order_obj.c:    memcpy(cp->positions, orig->positions,
+dart_order_obj.c:    memcpy(cp->head->data->buffer, orig->head->data->buffer,
+dart_order_obj.c:            orig->head->data->buflen);
+dart_order_obj.c:           //databuf_unread(orig->head->data));
+dart_order_obj.c:    cp->head->start_ptr = orig->head->start_ptr;
+dart_order_obj.c:    cp->head->end_ptr = orig->head->end_ptr;
+dart_order_obj.c:    cp->head->data->wr_ptr += databuf_unread(orig->head->data);
+dart_order_obj.c:    cp->head->data->rd_ptr = cp->head->data->buffer;
+dart_order_obj.c:    cp->head->data->buflen = orig->head->data->buflen;
+dart_order_obj.c:    if (orig->head->next == NULL) {
+dart_order_obj.c:        cp->head->next = NULL;
+dart_order_obj.c:        struct db_node *db = orig->head->next;
+dart_order_obj.c:        struct db_node *prev = cp->head;
+dart_order_obj.c:            struct db_node *t = get_new_buffer((oofact*)cp->dalloc);
+dart_order_obj.c:            prev->next = t;
+dart_order_obj.c:            t->start_ptr = db->start_ptr;
+dart_order_obj.c:            t->end_ptr = db->end_ptr;
+dart_order_obj.c:            t->next = db->next;
+dart_order_obj.c:            if(t->data->buflen < databuf_unread(db->data)) {
+dart_order_obj.c:                        t->data->buflen, databuf_unread(db->data));
+dart_order_obj.c:            databuf_memcpy(t->data, db->data->buffer,
+dart_order_obj.c:                           db->data->buflen);
+dart_order_obj.c:                           //databuf_unread(db->data));
+dart_order_obj.c:            db = db->next;
+dart_order_obj.c:    struct db_node *db = doj->head;
+dart_order_obj.c:        if (doj->positions[i].iov_len != 0) {
+dart_order_obj.c:                   && !(doj->positions[i].iov_base < db->end_ptr
+dart_order_obj.c:                        && doj->positions[i].iov_base > db->start_ptr)) {
+dart_order_obj.c:                db = db->next;
+dart_order_obj.c:                if(i == 0 && ((char*)doj->positions[i].iov_base)[0] == 'C') {
+dart_order_obj.c:                    send_debug_message("The C came from the either: %lu  \n",doj->positions[i].iov_base);
+dart_order_obj.c:                    databuf_memcpy(d, doj->positions[i].iov_base,
+dart_order_obj.c:                                   doj->positions[i].iov_len);
+dart_order_obj.c:                if(i == 0 && ((char*)doj->positions[i].iov_base)[0] == 'C') {
+dart_order_obj.c:                    send_debug_message("The C came from our buffer: %d  \n",doj->positions[i].iov_base);
+dart_order_obj.c:                    int len = doj->positions[i].iov_base - db->start_ptr;
+dart_order_obj.c:                    char *offset = db->data->buffer + len;
+dart_order_obj.c:                    databuf_memcpy(d, offset, doj->positions[i].iov_len);
+dart_order_obj.c:            db = doj->head;
+dart_order_obj.c:    struct db_node *db = doj->head;
+dart_order_obj.c:    if (doj->positions[ROM_SENDER].iov_len != 0) {
+dart_order_obj.c:               && !(doj->positions[ROM_SENDER].iov_base < db->end_ptr
+dart_order_obj.c:                    && doj->positions[ROM_SENDER].iov_base >
+dart_order_obj.c:                    db->start_ptr)) {
+dart_order_obj.c:            db = db->next;
+dart_order_obj.c:        if (db == NULL && doj->positions[ROM_SENDER].iov_len > 0) {
+dart_order_obj.c:            return doj->positions[ROM_SENDER].iov_base;
+dart_order_obj.c:        } else if (doj->positions[ROM_SENDER].iov_len > 0) {
+dart_order_obj.c:            int len = doj->positions[ROM_SENDER].iov_base - db->start_ptr;
+dart_order_obj.c:            char *offset = db->data->buffer + len;
+dart_order_obj.c:    struct db_node *db = doj->head;
+dart_order_obj.c:    if (doj->positions[rom_id].iov_len != 0) {
+dart_order_obj.c:               && !(doj->positions[rom_id].iov_base < db->end_ptr
+dart_order_obj.c:                    && doj->positions[rom_id].iov_base > db->start_ptr)) {
+dart_order_obj.c:            db = db->next;
+dart_order_obj.c:        if (db == NULL && doj->positions[rom_id].iov_len > 0) {
+dart_order_obj.c:            *ret_len = doj->positions[rom_id].iov_len;
+dart_order_obj.c:            return doj->positions[rom_id].iov_base;
+dart_order_obj.c:        } else if (doj->positions[rom_id].iov_len > 0) {
+dart_order_obj.c:            int len = doj->positions[rom_id].iov_base - db->start_ptr;
+dart_order_obj.c:            char *offset = db->data->buffer + len;
+dart_order_obj.c:            *ret_len = doj->positions[rom_id].iov_len;
+dart_order_obj.c:    while (__sync_val_compare_and_swap(&doj->lock, 0, 1) == 1);
+dart_order_obj.c:    if (doj->in_use) {
+dart_order_obj.c:        __sync_fetch_and_sub(&doj->lock, 1);
+dart_order_obj.c:        __sync_fetch_and_sub(&doj->lock, 1);
+dart_order_obj.c:    while (__sync_val_compare_and_swap(&doj->lock, 0, 1) == 1);
+dart_order_obj.c:    return __sync_fetch_and_sub(&doj->lock, 1);
+dart_order_obj.c:    if(sender != 0 && doj != 0 && doj->positions != 0 &&
+dart_order_obj.c:            strncmp(clordid, doj->positions[ROM_CLIENT_ID].iov_base,
+dart_order_obj.c:    *len = doj->positions[rom_num].iov_len;
+dart_order_obj.c:    return doj->positions[rom_num].iov_base;
+dart_order_obj.c:    db_node_t* node = get_new_buffer((oofact*)doj->dalloc);
+dart_order_obj.c:    doj->current->next = node;
+dart_order_obj.c:    node->next = NULL;
+dart_order_obj.c:    doj->current = node;
+dart_order_obj.c:    ret = databuf_memcpy(doj->current->data, val, len);
+dart_order_obj.c:        doj->positions[rom_num].iov_len = len;
+dart_order_obj.c:        doj->positions[rom_num].iov_base =
+dart_order_obj.c:            doj->current->data->wr_ptr - len;
+dart_order_obj.c:        databuf_memcpy(doj->current->data, val, len);
+dart_order_obj.c:        doj->positions[rom_num].iov_len = len;
+dart_order_obj.c:        doj->positions[rom_num].iov_base =
+dart_order_obj.c:            doj->current->data->wr_ptr - len;
+dart_order_obj.c:    doj->positions[rom_num].iov_len = len;
+dart_order_obj.c:    doj->positions[rom_num].iov_base = beg;
+dart_order_obj.c:    if (doj->positions[rom_num].iov_len >= len) {
+dart_order_obj.c:        doj->positions[rom_num].iov_len = len;
+dart_order_obj.c:        memcpy(doj->positions[rom_num].iov_base, val, len);
+dart_order_obj.c:    if (databuf_space_left(doj->current->data) >= space_needed) {
+dart_order_obj.c:    char *str = db->buffer;
+dart_order_obj.c:        value = -value;
+dart_order_obj.c:        str[n++] = '-';
+dart_order_obj.c:    for (p = str, q = p + (n - 1); p < q; ++p, --q) {
+dart_order_obj.c:    fill_in_rom_field(doj, rom_tag, db->buffer,n);
+dart_order_obj.c:    char *str = db->buffer;
+dart_order_obj.c:    for (p = str, q = p + (n - 1); p < q; ++p, --q) {
+dart_order_obj.c:    fill_in_rom_field(doj, rom_tag, db->buffer,n);
+dart_order_obj.c:    for (p = str, q = p + (n - 1); p < q; ++p, --q) {
+dart_order_obj.c:           doj->positions[ROM_SENDER].iov_base,
+dart_order_obj.c:           doj->positions[ROM_SENDER].iov_len);
+dart_order_obj.c:    int len = no_set_unsigned_itoa(itoa_buff->wr_ptr, v);
+dart_order_obj.c:    itoa_buff->wr_ptr += len;
+dart_order_obj.c:    databuf_memcpy(itoa_buff, "-", 1);
+dart_order_obj.c:    len = no_set_unsigned_itoa(itoa_buff->wr_ptr, doj->ex_mess);
+dart_order_obj.c:    itoa_buff->wr_ptr += len;
+dart_order_obj.c:    ++doj->ex_mess;
+dart_order_obj.c:    int space = databuf_space_left(doj->current->data);
+dart_order_obj.c:    databuf_memcpy(doj->current->data, itoa_buff->rd_ptr, len);
+dart_order_obj.c:    doj->positions[ROM_EXECUTION_TAG].iov_len = len;
+dart_order_obj.c:    doj->positions[ROM_EXECUTION_TAG].iov_base =
+dart_order_obj.c:        doj->current->data->wr_ptr - len;
+dart_order_obj.c:    doj->current->data->wr_ptr += 5;
+dart_order_obj.c:    if(doj->childs != 0) {
+dart_order_obj.c:        children* lch = doj->childs;
+dart_order_obj.c:            dart_order_obj* ldoj = (dart_order_obj*)lch->payload;
+dart_order_obj.c:            lch = lch->next;
+dart_order_obj.c:    doj->ex_mess = ex;
+dart_order_obj.c:    memcpy(itoa_buff + len, "-", 1);
+dart_order_obj.c:    len += no_set_unsigned_itoa(itoa_buff + len, doj->ex_mess);
+dart_order_obj.c:    ++doj->ex_mess;
+dart_order_obj.c:        int len = no_set_unsigned_itoa(offset, doj->ex_mess);
+dart_order_obj.c:        doj->positions[ROM_EXECUTION_TAG].iov_len = (inital_len + len);
+dart_order_obj.c:        ++doj->ex_mess;
+dart_order_obj.c:    sock_recv_manager* rph = apa->con;
+dart_order_obj.c:    *len = obj->current->data->buflen;
+dart_order_obj.c:    return rph->rd_ptr; 
+dart_order_obj.c:    lch->payload = child;
+dart_order_obj.c:    lch->next = 0;
+dart_order_obj.c:    if(parent->childs == 0) {
+dart_order_obj.c:       parent->childs = lch; 
+dart_order_obj.c:        children* front = parent->childs;
+dart_order_obj.c:        while (front->next != NULL) {
+dart_order_obj.c:            front = front->next;
+dart_order_obj.c:        front->next = lch;
+dart_order_obj.c:    parent->num_childs++;
+dart_resend_request.c:        rr->name = calloc(name_len + 1, 1);
+dart_resend_request.c:        memcpy(rr->name, name, name_len);
+dart_resend_request.c:        rr->name_len = name_len;
+dart_resend_request.c:        rr->beg = beg;
+dart_resend_request.c:        rr->end = end;
+dart_resend_request.c:        rr->output = NULL;
+dart_resend_request.c:        rr->len = 0;
+dart_resend_request.c:        rr->parse_resend_req = parse_req;
+dart_resend_request.c:        if (pthread_mutex_init(&rr->seq_mutex, NULL) != 0) {
+dart_resend_request.c:        if (pthread_cond_init(&rr->seq_cond, NULL) != 0) {
+dart_resend_request.c:        if (pthread_mutex_destroy(&rr->seq_mutex) != 0) {
+dart_resend_request.c:        if (pthread_cond_destroy(&rr->seq_cond) != 0) {
+dart_resend_request.c:        if (rr->output) {
+dart_resend_request.c:            free(rr->output);
+dart_resend_request.c:            rr->output = NULL;
+dart_resend_request.c:            rr->len = 0;
+dart_resend_request.c:    *len = rr->name_len;
+dart_resend_request.c:    return rr->name;
+dart_resend_request.c:    if (pthread_mutex_lock(&rr->seq_mutex) == 0) {
+dart_resend_request.c:        if (pthread_cond_signal(&rr->seq_cond) == 0) {
+dart_resend_request.c:            pthread_mutex_unlock(&rr->seq_mutex);
+dart_resend_request.c:    *len = rr->len;
+dart_resend_request.c:    return rr->output;
+dart_resend_request.c:    return pthread_mutex_lock(&rr->seq_mutex);
+dart_resend_request.c:    pthread_mutex_unlock(&rr->seq_mutex);
+dart_resend_request.c:    if (pthread_cond_wait(&rr->seq_cond, &rr->seq_mutex) == 0) {
+dart_resend_request.c:        pthread_mutex_unlock(&rr->seq_mutex);
+dart_resend_request.c:        if ((total_size - write_offset) <= RESEND_REQ_FILE_READ_CHUNK) {
+dart_resend_request.c:            prev_total_size = (write_offset - read_offset);
+dart_resend_request.c:        total_bytes_read = bytes_read + (write_offset - read_offset);
+dart_resend_request.c:        bytes_used = rr->parse_resend_req(rd_ptr, &seq, total_bytes_read,
+dart_resend_request.c:                                          cum_bytes_used, rr->beg, rr->end,
+dart_resend_request.c:        if (end_off > 0 || (rr->end == 0 && (seq >= rr->beg))) {
+dart_resend_request.c:        cp_len = end_off - beg_off;
+dart_resend_request.c:        cp_len = end_off - beg_off;
+dart_resend_request.c:    rr->output = calloc((cp_len + 1), 1);
+dart_resend_request.c:    read_bytes = read(fp, rr->output, cp_len);
+dart_resend_request.c:        char *off = rr->output;
+dart_resend_request.c:        size_t b_left = cp_len - read_bytes;
+dart_resend_request.c:    rr->len = read_bytes;
+dart_seq_request.c:    return sr->new_incoming;
+dart_seq_request.c:    return sr->new_outgoing;
+dart_seq_request.c:    *name_len = sr->name_len;
+dart_seq_request.c:    return sr->name;
+dart_seq_request.c:    return sr->create_new;
+dart_seq_request.c:    return sr->parse_messages(data, size, bytes_used, seq_num, sr->p_helper);
+dart_seq_request.c:    return sr->create_reset_pad(seq, sr->fix_version, len);
+dart_seq_request.c:    localtime_r(&in->reset_time->last_logon, &ll);
+dart_seq_request.c:    int day_offset = reset_day_offsets[ti->tm_wday][ll.tm_wday];
+dart_seq_request.c:    if(in->reset_time->reset_day == 7 && 
+dart_seq_request.c:    } else if(in->reset_time->reset_day == 7 || in->reset_time->reset_day == ti->tm_wday) {
+dart_seq_request.c:        int sec_diff = ((lm.tm_hour * 3600) + (lm.tm_min * 60))  -
+dart_seq_request.c:             ((in->reset_time->reset_hour * 3600) + (in->reset_time->reset_min * 60));
+dart_seq_request.c:        time_t reset_time = now - sec_diff;
+dart_seq_request.c:        create_new = (now >= reset_time && in->reset_time->last_logon < reset_time) ? 1 : 0;
+dart_seq_request.c:    } else if(in->reset_time->reset_day != 7) {
+dart_seq_request.c:        int reset_offset = reset_day_offsets[ti->tm_wday][in->reset_time->reset_day];        
+dart_seq_request.c:        t.tm_year = ti->tm_year;
+dart_seq_request.c:        t.tm_mon = ti->tm_mon;
+dart_seq_request.c:        t.tm_mday = ti->tm_mday - reset_offset;
+dart_seq_request.c:        t.tm_hour = in->reset_time->reset_hour;
+dart_seq_request.c:        t.tm_min = in->reset_time->reset_min;
+dart_seq_request.c:        t.tm_isdst = -1;
+dart_seq_request.c:        create_new = (now >= reset_time && in->reset_time->last_logon < reset_time) ? 1 : 0;
+dart_seq_request.c:        sr->name = calloc(name_len + 1, 1);
+dart_seq_request.c:        memcpy(sr->name, name, name_len);
+dart_seq_request.c:        sr->name_len = name_len;
+dart_seq_request.c:        sr->create_new = in->reset_time->create_new;
+dart_seq_request.c:        sr->new_incoming = in->reset_time->new_incoming;
+dart_seq_request.c:        sr->new_outgoing = in->reset_time->new_outgoing;
+dart_seq_request.c:        sr->incoming = 0;
+dart_seq_request.c:        sr->outgoing = 0;
+dart_seq_request.c:        sr->parse_messages = p_messages;
+dart_seq_request.c:        sr->fix_version = in->fix_version;
+dart_seq_request.c:        sr->create_reset_pad = create_pad;
+dart_seq_request.c:        sr->p_helper = p_helper;
+dart_seq_request.c:        if(in->reset_time->create_new == 0 && in->reset_time->last_logon != 0) {
+dart_seq_request.c:            sr->create_new = ll_before_reset_time(in, now);
+dart_seq_request.c:        in->reset_time->last_logon = now;
+dart_seq_request.c:        if (pthread_mutex_init(&sr->seq_mutex, NULL) != 0) {
+dart_seq_request.c:        if (pthread_cond_init(&sr->seq_cond, NULL) != 0) {
+dart_seq_request.c:        if (pthread_mutex_destroy(&sr->seq_mutex) != 0) {
+dart_seq_request.c:        if (pthread_cond_destroy(&sr->seq_cond) != 0) {
+dart_seq_request.c:        free(sr->name);
+dart_seq_request.c:    return sr->incoming;
+dart_seq_request.c:    return sr->outgoing;
+dart_seq_request.c:    sr->incoming = incoming;
+dart_seq_request.c:    sr->outgoing = outgoing;
+dart_seq_request.c:    if (pthread_mutex_lock(&sr->seq_mutex) != 0) {
+dart_seq_request.c:    pthread_cond_wait(&sr->seq_cond, &sr->seq_mutex);
+dart_seq_request.c:    pthread_mutex_unlock(&sr->seq_mutex);
+dart_seq_request.c:    pthread_mutex_lock(&sr->seq_mutex);
+dart_seq_request.c:    pthread_cond_signal(&sr->seq_cond);
+dart_seq_request.c:    pthread_mutex_unlock(&sr->seq_mutex);
+dart_thr_pool.c:        pthread_create(&l_thread, &pool->thr->pool_attr, worker_thread_2,
+dart_thr_pool.c:    thr_pool_t *pool = wp->thr;
+dart_thr_pool.c:    a->active_tid = thread;
+dart_thr_pool.c:    a->next = pool->pool_active;
+dart_thr_pool.c:    pool->pool_active = a;
+dart_thr_pool.c:    if (pool->cpus != NULL) {
+dart_thr_pool.c:        l_thr = *(pool->cpus + wp->thread_num);
+dart_thr_pool.c:                     wp->thread_num, l_thr);
+dart_thr_pool.c:                     wp->thread_num, l_thr);
+dart_thr_pool.c:                                   s, wp->thread_num, l_thr);
+dart_thr_pool.c:                     wp->thread_num, l_thr);
+dart_thr_pool.c:                               wp->thread_num, l_thr);
+dart_thr_pool.c:    wp->func(wp->arg);
+dart_thr_pool.c:    tpw->thread_num = pool->pool_num_thr;
+dart_thr_pool.c:    tpw->thr = pool;
+dart_thr_pool.c:    tpw->func = func;
+dart_thr_pool.c:    tpw->arg = arg;
+dart_thr_pool.c:    error = pthread_create(&l_thread, &pool->pool_attr, do_one_job, tpw);
+dart_thr_pool.c:    pool->pool_num_thr++;
+dart_thr_pool.c:    thr_pool_t *pool = wp->thr;
+dart_thr_pool.c:    a->active_tid = thread;
+dart_thr_pool.c:    a->next = pool->pool_active;
+dart_thr_pool.c:    pool->pool_active = a;
+dart_thr_pool.c:    if (pool->cpus != NULL) {
+dart_thr_pool.c:        l_thr = *(pool->cpus + wp->thread_num);
+dart_thr_pool.c:                     wp->thread_num, l_thr);
+dart_thr_pool.c:                     wp->thread_num, l_thr);
+dart_thr_pool.c:                                   s, wp->thread_num, l_thr);
+dart_thr_pool.c:                     wp->thread_num, l_thr);
+dart_thr_pool.c:                               wp->thread_num, l_thr);
+dart_thr_pool.c:        if (!is_empty(pool->jobs)) {
+dart_thr_pool.c:            element_t e = pop_front(pool->jobs);
+dart_thr_pool.c:            j = (struct job *) e->d;
+dart_thr_pool.c:            func = j->job_func;
+dart_thr_pool.c:            void* m_arg = j->job_arg;
+dart_thr_pool.c:            return_stuff(pool->job_fact, j);
+dart_thr_pool.c:            free_element(pool->jobs, e);
+dart_thr_pool.c:        if (pool->pool_flags & POOL_DESTROY) {
+dart_thr_pool.c:    if(!is_empty(pool->jobs)) {
+dart_thr_pool.c:        element_t e = pop_front(pool->jobs);
+dart_thr_pool.c:        struct job *j = (struct job *) e->d;
+dart_thr_pool.c:        func = j->job_func;
+dart_thr_pool.c:        void* arg = j->job_arg;
+dart_thr_pool.c:        return_stuff(pool->job_fact, j);
+dart_thr_pool.c:        free_element(pool->jobs, e);
+dart_thr_pool.c:        pthread_spin_init(&pool->pool_mutex, PTHREAD_PROCESS_PRIVATE);
+dart_thr_pool.c:    pool->job_fact = create_mem_glob(sizeof(struct job), job_clear_obj);
+dart_thr_pool.c:    pool->pool_active = NULL;
+dart_thr_pool.c:    pool->jobs = create_sized_queue(8);
+dart_thr_pool.c:    pool->pool_flags = 0;
+dart_thr_pool.c:    pool->pool_linger = linger;
+dart_thr_pool.c:    pool->pool_min = min_threads;
+dart_thr_pool.c:    pool->pool_max = max_threads;
+dart_thr_pool.c:    pool->pool_num_thr = 0;
+dart_thr_pool.c:    pool->pool_idle = 0;
+dart_thr_pool.c:        pool->cpus = NULL;
+dart_thr_pool.c:        pool->cpus = calloc(max_threads * sizeof(int), 1);
+dart_thr_pool.c:        memcpy(pool->cpus, cpus, (max_threads * sizeof(int)));
+dart_thr_pool.c:    clone_attributes(&pool->pool_attr, NULL);
+dart_thr_pool.c:        pool->pool_forw = pool;
+dart_thr_pool.c:        pool->pool_back = pool;
+dart_thr_pool.c:        thr_pools->pool_back->pool_forw = pool;
+dart_thr_pool.c:        pool->pool_forw = thr_pools;
+dart_thr_pool.c:        pool->pool_back = thr_pools->pool_back;
+dart_thr_pool.c:        thr_pools->pool_back = pool;
+dart_thr_pool.c:    struct job *j = get_stuff(pool->job_fact);
+dart_thr_pool.c:    j->next = NULL;
+dart_thr_pool.c:    j->job_func = func;
+dart_thr_pool.c:    j->job_arg = arg;
+dart_thr_pool.c:    enqueue(pool->jobs, j);
+dart_thr_pool.c:    if (pool->pool_num_thr < pool->pool_max) {
+dart_thr_pool.c:        tpw->thread_num = pool->pool_num_thr;
+dart_thr_pool.c:        tpw->thr = pool;
+dart_thr_pool.c:            pool->pool_num_thr++;
+dart_thr_pool.c:    pool->pool_flags |= POOL_DESTROY;
+dart_thr_pool.c:    activep = pool->pool_active;
+dart_thr_pool.c:        pthread_join(activep->active_tid, NULL);
+dart_thr_pool.c:        activep = activep->next;
+dart_thr_pool.c:        thr_pools = pool->pool_forw;
+dart_thr_pool.c:        pool->pool_back->pool_forw = pool->pool_forw;
+dart_thr_pool.c:        pool->pool_forw->pool_back = pool->pool_back;
+dart_thr_pool.c:    destroy_queue(pool->jobs);
+dart_thr_pool.c:    destroy_mem_glob(pool->job_fact);
+dart_thr_pool.c:    free(pool->cpus);
+dart_thr_pool.c:    pthread_attr_destroy(&pool->pool_attr);
+databuf.c:        pbuf->buffer = malloc(suggestedsize);
+databuf.c:        if (pbuf->buffer) {
+databuf.c:            memset(pbuf->buffer, 0, suggestedsize);
+databuf.c:            pbuf->buflen = suggestedsize;
+databuf.c:            pbuf->rd_ptr = pbuf->wr_ptr = pbuf->buffer;
+databuf.c:    int retval = -1;
+databuf.c:        databuf->rd_ptr = buf;
+databuf.c:        databuf->wr_ptr = buf;
+databuf.c:        databuf->buffer = buf;
+databuf.c:        databuf->buflen = len;
+databuf.c:        databuf->flags = DATABUF_FLAGS_NOREALLOC | DATABUF_FLAGS_NO_FREE;
+databuf.c:    int result = -1;
+databuf.c:        && databuf->buffer != 0
+databuf.c:        && databuf->wr_ptr >= databuf->rd_ptr
+databuf.c:        && databuf->rd_ptr >= databuf->buffer) {
+databuf.c:        databuf->rd_ptr = databuf->wr_ptr = databuf->buffer;
+databuf.c:    if (databuf != 0 && ((databuf->flags & DATABUF_FLAGS_NOREALLOC) == 0)) {
+databuf.c:        free(databuf->buffer);
+databuf.c:    ((databuf->buffer + databuf->buflen) - databuf->wr_ptr) >= bytes;  \
+databuf.c:    return ((databuf->buffer + databuf->buflen) - databuf->wr_ptr);
+databuf.c:    return (databuf->wr_ptr - databuf->rd_ptr);
+databuf.c:    if (databuf != 0 && ((databuf->flags & DATABUF_FLAGS_NOREALLOC) == 0)) {
+databuf.c:        long write_offset = (databuf->wr_ptr - databuf->rd_ptr);
+databuf.c:        DART_ALLOC(temp, 8, growby + databuf->buflen, result);
+databuf.c:        memcpy(temp, databuf->rd_ptr, write_offset);
+databuf.c:        if(databuf->flags & DATABUF_FLAGS_NO_FREE) {
+databuf.c:            databuf->flags = 0;
+databuf.c:            free(databuf->buffer);
+databuf.c:        databuf->buflen += growby;
+databuf.c:        databuf->buffer = temp;
+databuf.c:        databuf->rd_ptr = databuf->buffer;
+databuf.c:        databuf->wr_ptr = databuf->buffer;
+databuf.c:        databuf->wr_ptr += write_offset;
+databuf.c:    int nspace_if_doubled = nspace + databuf->buflen;
+databuf.c:    result = vsnprintf(databuf->wr_ptr, nspace, formatstr, argp);
+databuf.c:        result = vsnprintf(databuf->wr_ptr, nspace, formatstr, argp);
+databuf.c:    if (result > -1 && result < nspace) {
+databuf.c:        databuf->wr_ptr += result;
+databuf.c:    *db->wr_ptr++ = c;
+databuf.c:            memcpy(databuf->wr_ptr, source, nbytes);
+databuf.c:            databuf->wr_ptr += nbytes;
+databuf.c:    } else if(source && nbytes && ((databuf->flags & DATABUF_FLAGS_NOREALLOC) == 0)) {
+databuf.c:            memcpy(databuf->wr_ptr, source, nbytes);
+databuf.c:            databuf->wr_ptr += nbytes;
+databuf.c:        result = -1;
+debug_logger.c:    int retval = -1;
+debug_logger.c:    int result = -1;
+debug_logger.c:        int nspace = 1000 - t_len;
+debug_logger.c:        m1->data = wr_ptr;
+debug_logger.c:        m1->len = t_len + result;
+debug_logger.c:        m1->name = calloc(6, 1);
+debug_logger.c:        memcpy(m1->name, "DEBUG", 5);
+debug_logger.c:        m1->name_len = 5;
+debug_logger.c:        m1->file_name = calloc(6, 1);
+debug_logger.c:        memcpy(m1->file_name, "DEBUG", 5);
+debug_logger.c:        m1->file_name_len = 5;
+debug_logger.c:    int ret_code = -1;
+debug_logger.c:    m1->data = wr_ptr;
+debug_logger.c:    m1->len = nbytes;
+debug_logger.c:    m1->name = calloc(6, 1);
+debug_logger.c:    memcpy(m1->name, "DEBUG", 5);
+debug_logger.c:    m1->name_len = 5;
+debug_logger.c:    m1->file_name = calloc(6, 1);
+debug_logger.c:    memcpy(m1->file_name, "DEBUG", 5);
+debug_logger.c:    m1->file_name_len = 5;
+ex_config_helper.c:    ex->mail_server =
+ex_config_helper.c:        get_val_for_tag(ex->dc, "MAIL SERVER", 11, "Server", 6, &ret_len);
+ex_config_helper.c:    ex->mail_server_len = ret_len;
+ex_config_helper.c:    ex->tech_group =
+ex_config_helper.c:        get_val_for_tag(ex->dc, "MAIL SERVER", 11, "tech group", 10,
+ex_config_helper.c:    ex->t_len = ret_len;
+ex_config_helper.c:    ex->biz_group =
+ex_config_helper.c:        get_val_for_tag(ex->dc, "MAIL SERVER", 11, "biz group", 9,
+ex_config_helper.c:    ex->b_len = ret_len;
+ex_config_helper.c:    ex->mod_name =
+ex_config_helper.c:        get_val_for_tag(ex->dc, ex->server, ex->server_len, "Mod Name", 8,
+ex_config_helper.c:    ex->mod_name_len = ret_len;
+ex_config_helper.c:    ex->fix_ip =
+ex_config_helper.c:        get_val_for_tag(ex->dc, ex->server, ex->server_len, "Fix IP", 6,
+ex_config_helper.c:    ex->fix_ip_len = ret_len;
+ex_config_helper.c:        get_val_for_tag(ex->dc, ex->server, ex->server_len, "Fix Port", 8,
+ex_config_helper.c:        ex->fix_port = atoi(f_port);
+ex_config_helper.c:        ex->fix_port = 0;
+ex_config_helper.c:        get_val_for_tag(ex->dc, "ROM SERVER", 10, "Rom Port", 8, &ret_len);
+ex_config_helper.c:        ex->rom_port = atoi(r_port);
+ex_config_helper.c:        ex->rom_port = 0;
+ex_config_helper.c:    ex->rom_ip =
+ex_config_helper.c:        get_val_for_tag(ex->dc, "ROM SERVER", 10, "Rom Host", 8, &ret_len);
+ex_config_helper.c:    ex->rom_ip_len = ret_len;
+ex_config_helper.c:        get_val_for_tag(ex->dc, ex->server, ex->server_len,
+ex_config_helper.c:        ex->heart_beat_int = atoi(hb_int_str);
+ex_config_helper.c:        ex->heart_beat_int = 30;
+ex_config_helper.c:        get_val_for_tag(ex->dc, ex->server, ex->server_len,
+ex_config_helper.c:        ex->order_allocation = 80000;
+ex_config_helper.c:        ex->order_allocation = atoi(num_objects);
+ex_config_helper.c:    end_str = get_val_for_tag(ex->dc, "TIMES", 5, "End Hour", 8, &ret_len);
+ex_config_helper.c:        ex->end_hour = atoi(end_str);
+ex_config_helper.c:        ex->end_hour = 17;
+ex_config_helper.c:    end_str = get_val_for_tag(ex->dc, "TIMES", 5, "End Min", 7, &ret_len);
+ex_config_helper.c:        ex->end_min = atoi(end_str);
+ex_config_helper.c:        ex->end_min = 17;
+ex_config_helper.c:    end_str = get_val_for_tag(ex->dc, "TIMES", 5, "End Day", 7, &ret_len);
+ex_config_helper.c:        ex->end_day = atoi(end_str);
+ex_config_helper.c:        ex->end_day = 7;
+ex_config_helper.c:        get_val_for_tag(ex->dc, "TIMES", 5, "Reset Hour", 10, &ret_len);
+ex_config_helper.c:        ex->reset_hour = atoi(end_str);
+ex_config_helper.c:        ex->reset_hour = 0;
+ex_config_helper.c:        get_val_for_tag(ex->dc, "TIMES", 5, "Reset Min", 9, &ret_len);
+ex_config_helper.c:        ex->reset_min = atoi(end_str);
+ex_config_helper.c:        ex->reset_min = 0;
+ex_config_helper.c:    ex->dest_id =
+ex_config_helper.c:        get_val_for_tag(ex->dc, ex->server, ex->server_len, "Dest ID", 7,
+ex_config_helper.c:    ex->dest_id_len = ret_len;
+ex_config_helper.c:    ex->db_user_name =
+ex_config_helper.c:        get_val_for_tag(ex->dc, "DB INFO", 7, "User", 4, &ret_len);
+ex_config_helper.c:    ex->db_user_name_len = ret_len;
+ex_config_helper.c:    ex->db_password =
+ex_config_helper.c:        get_val_for_tag(ex->dc, "DB INFO", 7, "Password", 8, &ret_len);
+ex_config_helper.c:    ex->db_password_len = ret_len;
+ex_config_helper.c:    ex->db_server =
+ex_config_helper.c:        get_val_for_tag(ex->dc, "DB INFO", 7, "Server", 6, &ret_len);
+ex_config_helper.c:    ex->db_server_len = ret_len;
+ex_config_helper.c:    return get_no_copy_val(ex->dc, header, hlen, tag, tlen, ret_len);
+ex_config_helper.c:    lock_config_loader(ex->dc);
+ex_config_helper.c:    int ret = cp_to_buff(ex->dc, header, hlen, tag, tlen,
+ex_config_helper.c:    unlock_config_loader(ex->dc);
+ex_config_helper.c:    if (ex->mail_server) {
+ex_config_helper.c:        free((char *) ex->mail_server);
+ex_config_helper.c:    if (ex->tech_group) {
+ex_config_helper.c:        free((char *) ex->tech_group);
+ex_config_helper.c:    if (ex->biz_group) {
+ex_config_helper.c:        free((char *) ex->biz_group);
+ex_config_helper.c:    if (ex->fix_ip) {
+ex_config_helper.c:        free((char *) ex->fix_ip);
+ex_config_helper.c:    if (ex->rom_ip) {
+ex_config_helper.c:        free((char *) ex->rom_ip);
+ex_config_helper.c:    if (ex->dest_id) {
+ex_config_helper.c:        free((char *) ex->dest_id);
+ex_config_helper.c:    if (ex->db_user_name) {
+ex_config_helper.c:        free((char *) ex->db_user_name);
+ex_config_helper.c:    if (ex->db_password) {
+ex_config_helper.c:        free((char *) ex->db_password);
+ex_config_helper.c:    if (ex->db_server) {
+ex_config_helper.c:        free((char *) ex->db_server);
+ex_config_helper.c:    if (ex->mod_name) {
+ex_config_helper.c:        free((char *) ex->mod_name);
+ex_config_helper.c:    lock_config_loader(ex->dc);
+ex_config_helper.c:    dart_reset_maps(ex->dc);
+ex_config_helper.c:    unlock_config_loader(ex->dc);
+ex_config_helper.c:    ex->dc = initialize_config(file_name, len);
+ex_config_helper.c:    ex->server = calloc(server_len + 1, 1);
+ex_config_helper.c:    memcpy(ex->server, server, server_len);
+ex_config_helper.c:    ex->server_len = server_len;
+ex_config_helper.c:    if (ex->mail_server) {
+ex_config_helper.c:        free((char *) ex->mail_server);
+ex_config_helper.c:    if (ex->tech_group) {
+ex_config_helper.c:        free((char *) ex->tech_group);
+ex_config_helper.c:    if (ex->biz_group) {
+ex_config_helper.c:        free((char *) ex->biz_group);
+ex_config_helper.c:    if (ex->fix_ip) {
+ex_config_helper.c:        free((char *) ex->fix_ip);
+ex_config_helper.c:    if (ex->rom_ip) {
+ex_config_helper.c:        free((char *) ex->rom_ip);
+ex_config_helper.c:    if (ex->dest_id) {
+ex_config_helper.c:        free((char *) ex->dest_id);
+ex_config_helper.c:    if (ex->db_user_name) {
+ex_config_helper.c:        free((char *) ex->db_user_name);
+ex_config_helper.c:    if (ex->db_password) {
+ex_config_helper.c:        free((char *) ex->db_password);
+ex_config_helper.c:    if (ex->db_server) {
+ex_config_helper.c:        free((char *) ex->db_server);
+ex_config_helper.c:    if (ex->mod_name) {
+ex_config_helper.c:        free((char *) ex->mod_name);
+ex_config_helper.c:    if(ex->server) {
+ex_config_helper.c:        free(ex->server);
+ex_config_helper.c:    dart_destroy_config(ex->dc);
+ex_config_helper.c:    if (ex->name) {
+ex_config_helper.c:        free((char *) ex->name);
+ex_config_helper.c:    ex->name_len = 0;
+ex_config_helper.c:    if (ex->sender_comp) {
+ex_config_helper.c:        free((char *) ex->sender_comp);
+ex_config_helper.c:    ex->sc_len = 0;
+ex_config_helper.c:    if (ex->target_comp) {
+ex_config_helper.c:        free((char *) ex->target_comp);
+ex_config_helper.c:    ex->tc_len = 0;
+ex_config_helper.c:    if (ex->target_sub) {
+ex_config_helper.c:        free((char *) ex->target_sub);
+ex_config_helper.c:    ex->ts_len = 0;
+ex_config_helper.c:    if (ex->sender_sub) {
+ex_config_helper.c:        free((char *) ex->sender_sub);
+ex_config_helper.c:    ex->ss_len = 0;
+ex_config_helper.c:    if (ex->username) {
+ex_config_helper.c:        free((char *) ex->username);
+ex_config_helper.c:    ex->un_len = 0;
+ex_config_helper.c:    if (ex->password) {
+ex_config_helper.c:        free((char *) ex->password);
+ex_config_helper.c:    ex->p_len = 0;
+ex_config_helper.c:    if (ex->fix_version) {
+ex_config_helper.c:        free((char *) ex->fix_version);
+ex_config_helper.c:    ex->fv_len = 0;
+ex_config_helper.c:    if (ex->reset_time) {
+ex_config_helper.c:        free(ex->reset_time);
+ex_config_helper.c:    in_args->name = get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Name",
+ex_config_helper.c:    in_args->name_len = ret_len;
+ex_config_helper.c:    if(in_args->name_len <= 0) {
+ex_config_helper.c:        in_args->name =
+ex_config_helper.c:            get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Target Comp ID",
+ex_config_helper.c:        in_args->name_len = ret_len;
+ex_config_helper.c:    in_args->sender_comp =
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Sender Comp ID",
+ex_config_helper.c:    in_args->sc_len = ret_len;
+ex_config_helper.c:    in_args->target_comp =
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Target Comp ID",
+ex_config_helper.c:    in_args->tc_len = ret_len;
+ex_config_helper.c:    in_args->target_sub =
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Target Sub ID", 13,
+ex_config_helper.c:    in_args->ts_len = ret_len;
+ex_config_helper.c:    in_args->sender_sub =
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Sender Sub ID", 13,
+ex_config_helper.c:    in_args->ss_len = ret_len;
+ex_config_helper.c:    in_args->username =
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Username", 8,
+ex_config_helper.c:    in_args->un_len = ret_len;
+ex_config_helper.c:    in_args->password =
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Password", 8,
+ex_config_helper.c:    in_args->p_len = ret_len;
+ex_config_helper.c:    in_args->fix_version =
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Fix Version", 11,
+ex_config_helper.c:    if (in_args->fix_version == NULL) {
+ex_config_helper.c:        in_args->fix_version = calloc(8, 1);
+ex_config_helper.c:        memcpy(in_args->fix_version, "FIX.4.2", 7);
+ex_config_helper.c:        in_args->fv_len = 7;
+ex_config_helper.c:        in_args->fv_len = ret_len;
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "TIMES", 5, "Reset Hour", 10,
+ex_config_helper.c:        rt->reset_hour = atoi(reset_h);
+ex_config_helper.c:        rt->reset_hour = 0;
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "TIMES", 5, "Reset Min", 9, &ret_len);
+ex_config_helper.c:        rt->reset_min = atoi(reset_m);
+ex_config_helper.c:        rt->reset_min = 0;
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "TIMES", 5, "Reset Day", 9, &ret_len);
+ex_config_helper.c:        rt->reset_day = atoi(reset_day);
+ex_config_helper.c:        rt->reset_day = 7;
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Reset Incoming",
+ex_config_helper.c:        rt->new_incoming = atoi(new_incoming);
+ex_config_helper.c:        rt->new_incoming = 0;
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "FIX SERVER", 10, "Reset Outgoing",
+ex_config_helper.c:        rt->new_outgoing = atoi(new_outgoing);
+ex_config_helper.c:        rt->new_outgoing = 0;
+ex_config_helper.c:        get_val_for_tag(in_args->dc, "TIMES", 5, "Last Run Day", 12,
+ex_config_helper.c:    year = 1900 + ti->tm_year;
+ex_config_helper.c:    month = 1 + ti->tm_mon;
+ex_config_helper.c:    len = sprintf(now, "%04d%02d%02d%02d%02d%02d", year, month, ti->tm_mday,
+ex_config_helper.c:                  ti->tm_hour, ti->tm_min, ti->tm_sec);
+ex_config_helper.c:    rt->create_new = 0;
+ex_config_helper.c:        rt->last_logon = convert_to_sec_since_1970(last_run_date);
+ex_config_helper.c:        rt->last_logon = 0;
+ex_config_helper.c:    in_args->log_outgoing = 1;
+ex_config_helper.c:    in_args->reset_time = rt;
+ex_config_helper.c:    in_args->cancel_only = 0;
+ex_config_helper.c:    set_val_for_tag(in_args->dc, "TIMES", 5, "Last Run Day", 12, now, 14);
+ex_config_helper.c:    dart_reset_maps(in_args->dc);
+ex_config_helper.c:    in_args->dc = initialize_config(filename, file_len);
+ex_config_helper.c:    if (in_args->dc == NULL) {
+ex_config_helper.c:        first_off = strchr(om_tag, '-');
+ex_config_helper.c:        if (first_off != NULL && (first_off - om_tag) < om_tag_len) {
+ex_config_helper.c:            sec_off = strchr(d_off, '-');
+ex_config_helper.c:            if (sec_off != NULL && (sec_off - om_tag) < om_tag_len) {
+ex_config_helper.c:                sec_off -= 7;
+ex_config_helper.c:                len = sec_off - d_off;
+fix_handler.c:    int retval = -1;
+fix_handler.c:    pthread_spin_lock(&con->send_mutex);
+fix_handler.c:    trans_t* fix_t = (trans_t*)con->parser;
+fix_handler.c:    set_num_val(fix_t, obj, 34, con->seq);
+fix_handler.c:    con->last_sent = now;
+fix_handler.c:    ++con->seq;
+fix_handler.c:    pthread_spin_unlock(&con->send_mutex);
+fix_handler.c:    record_raw_message(con->session_conf->name,
+fix_handler.c:                       con->session_conf->name_len,
+fix_handler.c:                       b->buffer, databuf_unread(b), 0x1);
+fix_handler.c:            len -= FIX_BEG_MESSAGE_LEN;
+fix_handler.c:                len -= jump;
+fix_handler.c:        return size - roll_back;
+fix_handler.c:        len -= FIX_BEG_MESSAGE_LEN;
+fix_handler.c:            len -= jump;
+fix_handler.c:            if(*seq_off == beg_seq) { *beg_off = byte_offset + (size - roll_back);} 
+fix_handler.c:               *end_off = byte_offset + (size - len); //end of last message.
+fix_handler.c:    return ((roll_back >= 0) ? size - roll_back : size);
+fix_handler.c:    trans_t* fix_t = (trans_t*)pc->parser;
+fix_handler.c:                    (m_len - FIX_CHECKSUM_LEN),
+fix_handler.c:    con_interface* pa = (con_interface*)pc->ds_book;
+fix_handler.c:    pa->ap = pc;
+fix_handler.c:    pa->sock = pc->sock;
+fix_handler.c:    sequence_req* sr = create_sequence_request(pa->ap->in_args->name,//sender_comp,
+fix_handler.c:                                 pa->ap->in_args->name_len,//sc_len,
+fix_handler.c:                                 pa->ap->in_args,
+fix_handler.c:    pc->in_seq = dsr_get_incoming(sr);
+fix_handler.c:    pc->out_seq = dsr_get_outgoing(sr) + 1;
+fix_handler.c:    pa->seq = dsr_get_outgoing(sr) + 1;
+fix_handler.c:    trans_t* fix_t = (trans_t*)pa->parser;
+fix_handler.c:            init = (struct init_args *) e->d;
+fix_handler.c:                if (init->tc_len == name_len
+fix_handler.c:                        && (strncmp(name, init->target_comp, name_len) == 0)) {
+fix_handler.c:                e = e->next;
+fix_handler.c:                e = e->next;
+fix_handler.c:    trans_t* fix_t = (trans_t*)con->parser;
+fix_handler.c:    dart_order_obj* rej = (dart_order_obj *) get_gk_obj(pc->gk);
+fix_handler.c:                                                pc->in_args_list);
+fix_handler.c:        long expected = pc->in_seq + 1;
+fix_handler.c:        con->time_wrapper =  add_timer(pc->ass, con->connection_conf->heart_beat_int,
+fix_handler.c:        pc->connection_notice(pc, 1, NULL, 0);
+fix_handler.c:    trans_t* fix_t = (trans_t*)fco->parser;
+fix_handler.c:        if((test_req = m_off - d_off) <= m_len && m_off[0] == FIX_FIELD_DELIM) {
+fix_handler.c:            trans_t* fix_t = (trans_t*)fco->parser;
+fix_handler.c:        long c_seq = pc->in_seq;
+fix_handler.c:        long diff = n_seq - c_seq;
+fix_handler.c:                create_incoming_message(pc->in_args->name,//sender_comp,
+fix_handler.c:                                        pc->in_args->name_len, /*sc_len,*/diff);
+fix_handler.c:            pc->in_seq = n_seq;
+fix_handler.c:    trans_t* fix_t = (trans_t*)con->parser;
+fix_handler.c:    pthread_spin_lock(&con->send_mutex);
+fix_handler.c:    if(seq == -1) {
+fix_handler.c:        set_num_val(fix_t, obj, 36, con->seq);
+fix_handler.c:    con->last_sent = now;
+fix_handler.c:    pthread_spin_unlock(&con->send_mutex);
+fix_handler.c:            long m_len = (d_off - t_one) +1;
+fix_handler.c:            unsigned long total_len = m_len + ((t_one - start) - 1) + time_len + time_2_len;
+fix_handler.c:            int h_len = sprintf(header, "8=%s%c9=%ld", pc->in_args->fix_version,
+fix_handler.c:            iov[1].iov_len = (t_one - start);
+fix_handler.c:            ci_raw_iovec_sender(iov, 6, pc->in_args->target_comp,
+fix_handler.c:                                  pc->in_args->tc_len, pc->ds_book, pc->sock);
+fix_handler.c:    if (pc->ds_book == NULL) {
+fix_handler.c:        found = get_obj_by_client_id(pc->gk, pc->in_args->target_comp,
+fix_handler.c:                                     pc->in_args->tc_len, (void **) &ci);
+fix_handler.c:        pc->ds_book = ci;
+fix_handler.c:        ci = (con_interface*)pc->ds_book;
+fix_handler.c:            len -= 4;
+fix_handler.c:            long end_val = end == 0 ? -1: end;
+fix_handler.c:            resend_req* rr = create_resend_request(pc->in_args->name,
+fix_handler.c:                                                   pc->in_args->name_len,
+fix_handler.c:        short stype = end - d_off > 1 ?((d_off[1] << CHAR_BIT) + d_off[0]) :
+fix_handler.c:        con_interface* con = (con_interface*)pc->ds_book;
+fix_handler.c:        trans_t* fix_t = (trans_t*)con->parser;
+fix_handler.c:        dart_order_obj* rej = (dart_order_obj *) get_gk_obj(pc->gk);
+fix_handler.c:                rej->type = 0x38;
+fix_handler.c:                rej->type = 0x39;
+fix_handler.c:                rej->type = 0x39;
+fix_handler.c:                rej->type = stype;
+fix_handler.c:        pc->obj_callback(rej, pc);
+fix_handler.c:        destroy_gk_obj(pc->gk, rej);
+fix_handler.c:        rr = create_resend_request(pc->in_args->name, pc->in_args->name_len, beg_res, beg_res,
+fix_handler.c:             handle_fix_logon((con_interface*)pc->ds_book, pc, 
+fix_handler.c:            test_req_response(message, m_len, (con_interface*)pc->ds_book);            
+fix_handler.c:    sock_recv_manager* pc = apa->con;
+fix_handler.c:    long len = (pc->wr_ptr - pc->rd_ptr);
+fix_handler.c:            char* d_off = pc->rd_ptr;
+fix_handler.c:            len -= FIX_BEG_MESSAGE_LEN;
+fix_handler.c:            pc->rd_ptr += FIX_BEG_MESSAGE_LEN;
+fix_handler.c:            int sn_len = (d_off - pc->rd_ptr);
+fix_handler.c:                int t_len = t_end - d_off;
+fix_handler.c:                pc->rd_ptr += sn_len + 1;
+fix_handler.c:                        rec_in = handle_admin_message(pc->rd_ptr, byte_len, cut_con, apa, stype);
+fix_handler.c:                            dart_order_obj* cur_doj = (dart_order_obj *) get_gk_obj(apa->gk);
+fix_handler.c:                            con_interface* con = (con_interface*)apa->ds_book;
+fix_handler.c:                            trans_t* t = (trans_t*)con->parser;
+fix_handler.c:                            cur_doj->type = stype;
+fix_handler.c:                            translate_fix_msg(t, pc->rd_ptr, byte_len, 
+fix_handler.c:                            size_t buf_len = cur_doj->current->data->buflen;
+fix_handler.c:                            cur_doj->current->data->buflen = byte_len;
+fix_handler.c:                            apa->obj_callback(cur_doj, apa);
+fix_handler.c:                            cur_doj->current->data->buflen = buf_len;
+fix_handler.c:                            destroy_gk_obj(apa->gk, cur_doj);
+fix_handler.c:                record_raw_message(apa->in_args->name,
+fix_handler.c:                                   apa->in_args->name_len, pc->rd_ptr, (byte_len + 7), 0x0);
+fix_handler.c:                        create_incoming_message(apa->in_args->name,
+fix_handler.c:                                                apa->in_args->name_len, /*tc_len,*/1);
+fix_handler.c:                    apa->in_seq++;
+fix_handler.c:                    con_interface* con = (con_interface*)apa->ds_book;
+fix_handler.c:                    con->last_recv = now;
+fix_handler.c:                len -= sn_len;
+fix_handler.c:                pc->rd_ptr += byte_len + FIX_CHECKSUM_LEN;
+fix_handler.c:                pc->rd_ptr -= FIX_BEG_MESSAGE_LEN;
+fix_handler.c:    trans_t* fix_t = (trans_t*)fco->parser;
+fix_handler.c:    read(fco->time_wrapper->sock,buff, 256); 
+fix_handler.c:    long diff = now - fco->last_sent;
+fix_handler.c:    if(diff >= fco->connection_conf->heart_beat_int) {
+fix_handler.c:        trans_t* fix_t = (trans_t*)fco->parser;
+fix_handler.c:    diff = diff >= fco->connection_conf->heart_beat_int ?
+fix_handler.c:                  fco->connection_conf->heart_beat_int :
+fix_handler.c:                  (fco->connection_conf->heart_beat_int - diff);
+fix_handler.c:    add_back_rep_timer_adjust(fco->ass,fco->time_wrapper,diff);
+fix_handler.c:    if(now - fco->last_recv > (fco->connection_conf->heart_beat_int * 2)) {
+fix_trans.c:        return -1;
+fix_trans.c:        pa->map = 0;
+fix_trans.c:                tag_len = end - start;
+fix_trans.c:            --size;
+fix_trans.c:                    dfp[i].len = d_off - buff;
+fix_trans.c:                        dfp[i].val_start = buff - start;
+fix_trans.c:                        dfp[i].vlen = d_off - buff;
+fix_trans.c:            --size;
+fix_trans.c:    dallocator* p = rb_tree_get_val(t->out_types, &doj->type);
+fix_trans.c:        doj->buff->wr_ptr = doj->buff->rd_ptr + doj->header_len;
+fix_trans.c:        int off = sti_tree_get_val(doj->map, offset);
+fix_trans.c:            memset(doj->buff->rd_ptr + doj->pos[off].val_start,
+fix_trans.c:                    '0', doj->pos[off].vlen);
+fix_trans.c:        off = sti_tree_get_val(doj->map, offset);
+fix_trans.c:            memset(doj->buff->rd_ptr + doj->pos[off].val_start,
+fix_trans.c:                    '0', doj->pos[off].vlen);
+fix_trans.c:    build_fix_pos_array(out->pos,buff, size,out->map);
+fix_trans.c:    out->type = get_type(out->map, out->pos, buff);
+fix_trans.c:        databuf_memcpy(out->buff, out->pos[i].name, out->pos[i].len);
+fix_trans.c:        if(out->pos[i].val_start == 0) {
+fix_trans.c:            memset(out->buff->wr_ptr, '0', out->pos[i].vlen);
+fix_trans.c:            memcpy(out->buff->wr_ptr, buff + out->pos[i].val_start, out->pos[i].vlen);
+fix_trans.c:        out->pos[i].val_start = out->buff->wr_ptr - out->buff->rd_ptr;
+fix_trans.c:        out->buff->wr_ptr += out->pos[i].vlen;
+fix_trans.c:        *out->buff->wr_ptr++ = '\x01';
+fix_trans.c:    out->header_len = databuf_unread(out->buff);
+fix_trans.c:    return out->type;
+fix_trans.c:        --size;
+fix_trans.c:        out->header_len = 0;
+fix_trans.c:        out->pos = (mem + sizeof(ofp));
+fix_trans.c:        out->raw = mem + sizeof(ofp) + pos_len;
+fix_trans.c:        memcpy(out->raw, buff, size);
+fix_trans.c:        out->map = 
+fix_trans.c:        out->buff = mem + sizeof(ofp) + pos_len + size + map_size;
+fix_trans.c:        out->buff->buffer = mem + sizeof(ofp) + pos_len 
+fix_trans.c:        out->buff->rd_ptr = out->buff->wr_ptr = out->buff->buffer;
+fix_trans.c:        out->buff->buflen = 4096 - (sizeof(ofp) + pos_len + 
+fix_trans.c:        out->buff->flags = 0x2;
+fix_trans.c:        *type = build_order_obj(out, out->raw, size,num_tags);
+fix_trans.c:    rb_tree_insert(t->out_types, type, objs);
+fix_trans.c:    rb_tree_insert(t->in_types, itype, l);
+fix_trans.c:    t->out_types = create_rb_tree(t_compare, t_destroy,
+fix_trans.c:    t->in_types = create_rb_tree(t_compare, t_destroy,
+fix_trans.c:    t->field = calloc(1, sizeof(int));
+fix_trans.c:        create_fix_outgoing_trans(t, out_types[--out_len].filename);
+fix_trans.c:        --in_len;
+fix_trans.c:    transy = rb_tree_get_val(t->in_types, &type);
+fix_trans.c:                if(find_n_fill(transy, tag, (val - tag),
+fix_trans.c:                            (void **)&t->field) > 0) {
+fix_trans.c:                    reset_rom_field(obj, *t->field, val, end - val);
+fix_trans.c:            --len;
+fix_trans.c:    dallocator* p = rb_tree_get_val(t->out_types, &type);
+fix_trans.c:    dallocator* p = rb_tree_get_val(t->out_types, &doj->type);
+fix_trans.c:    for (p = str, q = p + (n - 1); p < q; ++p, --q) {
+fix_trans.c:    unsigned int len = local_unsigned_itoa(obj->buff->wr_ptr, offset);
+fix_trans.c:    obj->buff->wr_ptr += len;
+fix_trans.c:    *obj->buff->wr_ptr++ = '=';
+fix_trans.c:    databuf_memcpy(obj->buff, val, val_len);
+fix_trans.c:    *obj->buff->wr_ptr++ = '\x01';
+fix_trans.c:    databuf_memcpy(obj->buff, fix_tag, f_len);
+fix_trans.c:    *obj->buff->wr_ptr++ = '=';
+fix_trans.c:    databuf_memcpy(obj->buff, val, val_len);
+fix_trans.c:    *obj->buff->wr_ptr++ = '\x01';
+fix_trans.c:    databuf_memcpy(obj->buff, fix_tag, f_len);
+fix_trans.c:    *obj->buff->wr_ptr++ = '=';
+fix_trans.c:    *obj->buff->wr_ptr++ = val;
+fix_trans.c:    *obj->buff->wr_ptr++ = '\x01';
+fix_trans.c:    int off = sti_tree_get_val(p->map, offset);
+fix_trans.c:        if(p->pos[off].vlen == (indent +val_len)) {
+fix_trans.c:            memcpy((p->buff->rd_ptr + p->pos[off].val_start) + indent, val, val_len);
+fix_trans.c:            ret_val = -1;
+fix_trans.c:    char* off = (obj->buff->rd_ptr + obj->pos[1].val_start) + (obj->pos[1].vlen);
+fix_trans.c:    unsigned int value = obj->buff->wr_ptr - off;
+fix_trans.c:    value -= 1;
+fix_trans.c:    p = ((obj->buff->rd_ptr + obj->pos[1].val_start) + (obj->pos[1].vlen - n));
+fix_trans.c:        *p++ = str[n - 1];
+fix_trans.c:        --n;
+fix_trans.c:    int off = sti_tree_get_val(p->map, offset);
+fix_trans.c:                         p->buff->rd_ptr + p->pos[off].val_start,
+fix_trans.c:                         p->pos[off].vlen);
+fix_trans.c:        unsigned int len = local_unsigned_itoa(p->buff->wr_ptr, offset);
+fix_trans.c:        p->buff->wr_ptr += len;
+fix_trans.c:        *p->buff->wr_ptr++ = '=';
+fix_trans.c:        tm_to_str_millis(timeval, rtime.millitm, p->buff->wr_ptr,
+fix_trans.c:        p->buff->wr_ptr += 21;
+fix_trans.c:        *p->buff->wr_ptr++ = '\x01';
+fix_trans.c:    unsigned int len = local_unsigned_itoa(p->buff->wr_ptr, offset);
+fix_trans.c:    p->buff->wr_ptr += len;
+fix_trans.c:    *p->buff->wr_ptr++ = '=';
+fix_trans.c:    tm_to_str_millis(timeval, rtime.millitm, p->buff->wr_ptr,
+fix_trans.c:    p->buff->wr_ptr += 21;
+fix_trans.c:    *p->buff->wr_ptr++ = '\x01';
+fix_trans.c:    int sum = calc_check_sum(obj->buff->rd_ptr, databuf_unread(obj->buff));
+fix_trans.c:    unsigned int len = local_unsigned_itoa(obj->buff->wr_ptr, 10);
+fix_trans.c:    obj->buff->wr_ptr += len;
+fix_trans.c:    *obj->buff->wr_ptr++ = '=';
+fix_trans.c:    databuf_memcpy(obj->buff, "000", 3);
+fix_trans.c:    p = obj->buff->wr_ptr - n;
+fix_trans.c:        *p++ = str[n - 1];
+fix_trans.c:        --n;
+fix_trans.c:    *obj->buff->wr_ptr++ = '\x01';
+fix_trans.c:    int off = sti_tree_get_val(obj->map, fix_tag);
+fix_trans.c:        p = ((obj->buff->rd_ptr + obj->pos[off].val_start) + (obj->pos[off].vlen - n));
+fix_trans.c:            *p++ = str[n - 1 ];
+fix_trans.c:            --n;
+fix_trans.c:        unsigned int len = local_unsigned_itoa(obj->buff->wr_ptr, fix_tag);
+fix_trans.c:        obj->buff->wr_ptr += len;
+fix_trans.c:        *obj->buff->wr_ptr++ = '=';
+fix_trans.c:        len = local_unsigned_itoa(obj->buff->wr_ptr, value);
+fix_trans.c:        obj->buff->wr_ptr += len;
+fix_trans.c:        *obj->buff->wr_ptr++ = '\x01';
+fix_trans.c:    unsigned int len = local_unsigned_itoa(obj->buff->wr_ptr, fix_tag);
+fix_trans.c:    obj->buff->wr_ptr += len;
+fix_trans.c:    *obj->buff->wr_ptr++ = '=';
+fix_trans.c:    len = local_unsigned_itoa(obj->buff->wr_ptr, value);
+fix_trans.c:    obj->buff->wr_ptr += len;
+fix_trans.c:    *obj->buff->wr_ptr++ = '\x01';
+fix_trans.c:    databuf_memcpy(obj->buff, fix_tag, len);
+fix_trans.c:    *obj->buff->wr_ptr++ = '=';
+fix_trans.c:    len = local_unsigned_itoa(obj->buff->wr_ptr, val);
+fix_trans.c:    obj->buff->wr_ptr += len;
+fix_trans.c:    *obj->buff->wr_ptr++ = '\x01';
+fix_trans.c:    databuf_write(obj->buff, "%d=%ld%c", fix_tag, value, '\x01');
+fix_trans.c:    databuf_memcpy(obj->buff, fix_tag, flen);
+fix_trans.c:    databuf_safe_inc(obj->buff, '=');
+fix_trans.c:    databuf_memcpy(obj->buff, val, len);
+fix_trans.c:    databuf_safe_inc(obj->buff, '\x01');
+fix_trans.c:    return o->buff;
+gatekeeper.c:        (ti->tm_hour * MICRO_HOUR) + (ti->tm_min * MICRO_MIN) +
+gatekeeper.c:        (ti->tm_sec * MICRO_SEC);
+gatekeeper.c:    off_time = tv.tv_usec - dart_sec;
+gatekeeper.c:    return tv.tv_usec - off_time;
+gatekeeper.c:    node->buffer = g + sizeof(databuf_t);
+gatekeeper.c:    node->rd_ptr = node->wr_ptr = node->buffer;
+gatekeeper.c:    node->flags = 0x1;
+gatekeeper.c:    node->buflen = 512 - sizeof(databuf_t);
+gatekeeper.c:    return __sync_add_and_fetch(&(gk->dom_num), 1);
+gatekeeper.c:    *len = gk->dom_len;
+gatekeeper.c:    return gk->dom_tag;
+gatekeeper.c:    return gk->cc;
+gatekeeper.c:    gk->cc = cc;
+gatekeeper.c:    return gk->jp;
+gatekeeper.c:    *len = gk->mod_name_len;
+gatekeeper.c:    return gk->mod_name;
+gatekeeper.c:    hashmap_iterator_t hi = hashmap_iterator_begin(gk->init_con_orders);
+gatekeeper.c:        valid = hashmap_iterator_next(gk->init_con_orders, hi);
+gatekeeper.c:    hashmap_iterator_t hi = hashmap_iterator_begin(gk->name_to_con);
+gatekeeper.c:        rlf->cleansing_rinse(rlf);
+gatekeeper.c:        valid = hashmap_iterator_next(gk->name_to_con, hi);
+gatekeeper.c:    if(gk->init_con_orders) {
+gatekeeper.c:        delete_map(gk->init_con_orders);
+gatekeeper.c:        delete_map(gk->id_to_dest);
+gatekeeper.c:        delete_map(gk->unused_routes);
+gatekeeper.c:        delete_map(gk->name_to_con);
+gatekeeper.c:        delete_map(gk->db_mapping);
+gatekeeper.c:        clean_route_map(gk->route_to_dest);
+gatekeeper.c:        clean_route_map(gk->logical_dests);
+gatekeeper.c:    clean_fact(gk->ord_obj);
+gatekeeper.c:    destroy_mem_glob(gk->databufs);
+gatekeeper.c:    free(gk->dom_tag);
+gatekeeper.c:                tag_len = end - start;
+gatekeeper.c:                insert_map(map, start, tag_len, comma, end - comma);
+gatekeeper.c:            --size;
+gatekeeper.c:    gk->id_to_dest = 0;
+gatekeeper.c:    gk->route_to_dest =0;
+gatekeeper.c:    gk->unused_routes = 0;
+gatekeeper.c:    gk->name_to_con = 0;
+gatekeeper.c:    gk->db_mapping = 0;
+gatekeeper.c:    gk->allocation = order_allocation;
+gatekeeper.c:    gk->init_con_orders = 0;
+gatekeeper.c:    gk->ord_obj = create_order_obj_factory(order_allocation);
+gatekeeper.c:    gk->databufs = create_mem_glob(512, create_gk_databuffs);
+gatekeeper.c:    gk->logical_dests = 0;
+gatekeeper.c:    gk->dom_tag = 0;
+gatekeeper.c:    gk->cc = 0;
+gatekeeper.c:    gk->jp = jp;
+gatekeeper.c:    gk->dom_len = 0;
+gatekeeper.c:    gk->update_eq_limits = 0;
+gatekeeper.c:    gk->mod_name = mod_name;
+gatekeeper.c:    gk->mod_name_len = mod_name_len;
+gatekeeper.c:    pthread_spin_init(&gk->db_protector, PTHREAD_PROCESS_PRIVATE);
+gatekeeper.c:    gk->id_to_dest = create_map(128);
+gatekeeper.c:    gk->route_to_dest = create_map(128);
+gatekeeper.c:    gk->unused_routes = create_map(128);
+gatekeeper.c:    gk->name_to_con = create_map(512);
+gatekeeper.c:    gk->db_mapping = create_map(512);
+gatekeeper.c:    gk->allocation = order_allocation;
+gatekeeper.c:    gk->init_con_orders = create_map(order_allocation);
+gatekeeper.c:    gk->ord_obj = create_order_obj_factory(order_allocation);
+gatekeeper.c:    gk->databufs = create_mem_glob(512, create_gk_databuffs);
+gatekeeper.c:    gk->logical_dests = create_map(64);
+gatekeeper.c:    gk_build_map_from_file(filename, gk->logical_dests);
+gatekeeper.c:        gk->dom_num = 1;
+gatekeeper.c:        gk->dom_num = create_time_offset();
+gatekeeper.c:    gk->dom_tag = calloc(64, 1);
+gatekeeper.c:    gk->cc = 0;
+gatekeeper.c:    year = ti->tm_year - 100;
+gatekeeper.c:    month = 1 + ti->tm_mon;
+gatekeeper.c:    gk->jp = jp;
+gatekeeper.c:    gk->dom_len =
+gatekeeper.c:        sprintf(gk->dom_tag, "-%s%03d%02d%02d-", mod_name, year, month,
+gatekeeper.c:                ti->tm_mday);
+gatekeeper.c:    gk->update_eq_limits = update_eq_limits;
+gatekeeper.c:    gk->mod_name = mod_name;
+gatekeeper.c:    gk->mod_name_len = mod_name_len;
+gatekeeper.c:    pthread_spin_init(&gk->db_protector, PTHREAD_PROCESS_PRIVATE);
+gatekeeper.c:    int ret_val = get_map_entry(gk->route_to_dest, destid, dest_id_len,
+gatekeeper.c:            if(ret_val != gk->mod_name_len || 
+gatekeeper.c:                    strncmp(gk->mod_name, real_route, ret_val) != 0) {
+gatekeeper.c:                    no_copy_insert(gk->unused_routes, destid, dest_id_len,
+gatekeeper.c:        no_copy_insert(gk->id_to_dest, destid, dest_id_len, con_int);
+gatekeeper.c:    int ret_val = no_copy_insert(gk->name_to_con, clientid, clid_len, doj);
+gatekeeper.c:    int len = get_map_entry(gk->logical_dests, destid, dest_len,
+gatekeeper.c:        insert_map(gk->route_to_dest, destid, dest_len, real_route, len);
+gatekeeper.c:        insert_map(gk->route_to_dest, destid, dest_len, route, route_len);
+gatekeeper.c:    hashmap_iterator_t hi = hashmap_iterator_begin(gk->route_to_dest);
+gatekeeper.c:        valid = hashmap_iterator_next(gk->route_to_dest, hi);
+gatekeeper.c:    int ret_val = contains_key(gk->id_to_dest, dest_route, dest_route_len);
+gatekeeper.c:    ret_val = contains_key(gk->route_to_dest, dest, dest_len);
+gatekeeper.c:        ret_val = remove_from_map(gk->route_to_dest, dest, dest_len);
+gatekeeper.c:    insert_map(gk->route_to_dest, dest, dest_len, dest_route,
+gatekeeper.c:    ret_val = get_map_entry(gk->id_to_dest, dest, dest_len, &muck);
+gatekeeper.c:        ret_val = no_copy_insert(gk->unused_routes, dest, dest_len, muck);
+gatekeeper.c:        remove_from_map(gk->id_to_dest, dest, dest_len);
+gatekeeper.c:        get_map_entry(gk->id_to_dest, dest_route, dest_route_len,
+gatekeeper.c:        no_copy_insert(gk->id_to_dest, dest, dest_len, new_guy);
+gatekeeper.c:            get_map_entry(gk->unused_routes, dest_route, dest_route_len,
+gatekeeper.c:            no_copy_insert(gk->id_to_dest, dest, dest_len, new_guy);
+gatekeeper.c:            remove_from_map(gk->unused_routes, dest_route, dest_route_len);
+gatekeeper.c:    int dest_ret = get_map_entry(gk->id_to_dest, destid, dest_id_len, dipper);
+gatekeeper.c:        int len = get_map_entry(gk->logical_dests, destid, dest_id_len,
+gatekeeper.c:            dest_ret = get_map_entry(gk->id_to_dest, real_route, len, dipper);
+gatekeeper.c:    return get_map_entry(gk->name_to_con, clientid, client_id_len,
+gatekeeper.c:    remove_from_map(gk->name_to_con, clientid, client_id_len);
+gatekeeper.c:    return contains_key(gk->name_to_con, name, name_len);
+gatekeeper.c:    if (pthread_spin_lock(&gk->db_protector) == 0) {
+gatekeeper.c:        doj = get_doj(gk->ord_obj);
+gatekeeper.c:        if (pthread_spin_unlock(&gk->db_protector) != 0) {
+gatekeeper.c:    if (pthread_spin_lock(&gk->db_protector) == 0) {
+gatekeeper.c:        db = (databuf_t *) get_stuff(gk->databufs);
+gatekeeper.c:        if (pthread_spin_unlock(&gk->db_protector) != 0) {
+gatekeeper.c:    if (pthread_spin_lock(&gk->db_protector) == 0) {
+gatekeeper.c:        reset_doj(gk->ord_obj, obj);
+gatekeeper.c:        if (pthread_spin_unlock(&gk->db_protector) != 0) {
+gatekeeper.c:    if (pthread_spin_lock(&gk->db_protector) == 0) {
+gatekeeper.c:        return_stuff(gk->databufs, db);
+gatekeeper.c:        if (pthread_spin_unlock(&gk->db_protector) != 0) {
+gatekeeper.c:    int ret = get_map_entry(gk->init_con_orders, dest, dest_len,
+gatekeeper.c:        dest_map = create_map(gk->allocation);
+gatekeeper.c:        no_copy_insert(gk->init_con_orders, dest, dest_len, dest_map);
+gatekeeper.c:    no_copy_insert(dest_map, doj->positions[ROM_CLORDID].iov_base,
+gatekeeper.c:                   doj->positions[ROM_CLORDID].iov_len, order);
+gatekeeper.c:    no_copy_insert(dest_map, doj->positions[ROM_TAG].iov_base,
+gatekeeper.c:                   doj->positions[ROM_TAG].iov_len, order);
+gatekeeper.c:    remove_from_map(gk->init_con_orders, dest, dest_len);
+gatekeeper.c:    int ret = get_map_entry(gk->init_con_orders, dest, dest_len,
+gatekeeper.c:        dest_map = create_map(gk->allocation);
+gatekeeper.c:        no_copy_insert(gk->init_con_orders, dest, dest_len, dest_map);
+hashmap.c:    return h & (map_size - 1);
+hashmap.c:    return h & (map_size - 1);
+hashmap.c:    ptr->size = next_power_of_two(buckets);
+hashmap.c:    DART_ALLOC(ptr->buckets, 8, (ptr->size * sizeof(struct hashbucket_s)), ret);
+hashmap.c:    if (!ptr->buckets) {
+hashmap.c:    ptr->end_iter = 0;
+hashmap.c:    ptr->free_keys = create_mem_glob(128, init_keys);
+hashmap.c:    ptr->free_entries = create_mem_glob(sizeof(struct hashentry_s), init_entries);
+hashmap.c:    destroy_mem_glob(map->free_keys);
+hashmap.c:    destroy_mem_glob(map->free_entries);
+hashmap.c:    free(map->buckets);
+hashmap.c:    hash = hashfunc((unsigned char *) key, key_len, map->size);
+hashmap.c:    key_copy = get_stuff(map->free_keys);
+hashmap.c:    ptr = get_stuff(map->free_entries);
+hashmap.c:        return_stuff(map->free_keys, key_copy);
+hashmap.c:    ptr->key = key_copy;
+hashmap.c:    ptr->key_len = key_len;
+hashmap.c:    ptr->data = data;
+hashmap.c:    ptr->len = 4;
+hashmap.c:    ptr->is_copy = 0;
+hashmap.c:    ptr->next = NULL;
+hashmap.c:    ptr->prev = map->buckets[hash].tail;
+hashmap.c:    if (map->buckets[hash].tail) {
+hashmap.c:        map->buckets[hash].tail->next = ptr;
+hashmap.c:    map->buckets[hash].tail = ptr;
+hashmap.c:    if (!map->buckets[hash].head) {
+hashmap.c:        map->buckets[hash].head = ptr;
+hashmap.c:    map->end_iter++;
+hashmap.c:    hash = hashfunc((unsigned char *) key, key_len, map->size);
+hashmap.c:    key_copy = get_stuff(map->free_keys);
+hashmap.c:            return_stuff(map->free_keys, key_copy);
+hashmap.c:    ptr = get_stuff(map->free_entries);
+hashmap.c:        return_stuff(map->free_keys, key_copy);
+hashmap.c:    ptr->key = key_copy;
+hashmap.c:    ptr->key_len = key_len;
+hashmap.c:    ptr->data = data_copy;
+hashmap.c:    ptr->is_copy = 1;
+hashmap.c:    ptr->len = len;
+hashmap.c:    ptr->next = NULL;
+hashmap.c:    ptr->prev = map->buckets[hash].tail;
+hashmap.c:    if (map->buckets[hash].tail) {
+hashmap.c:        map->buckets[hash].tail->next = ptr;
+hashmap.c:    map->buckets[hash].tail = ptr;
+hashmap.c:    if (!map->buckets[hash].head) {
+hashmap.c:        map->buckets[hash].head = ptr;
+hashmap.c:    map->end_iter++;
+hashmap.c:    hash = hashfunc((unsigned char *) key, key_len, map->size);
+hashmap.c:    ptr = map->buckets[hash].head;
+hashmap.c:        if (ptr->key_len == key_len &&
+hashmap.c:            (strncmp(ptr->key, key, key_len) == 0)) {
+hashmap.c:            ptr = ptr->next;
+hashmap.c:    hash = hashfunc((unsigned char *) key, key_len, map->size);
+hashmap.c:    ptr = map->buckets[hash].head;
+hashmap.c:        if (ptr->key_len == key_len &&
+hashmap.c:            (strncmp(ptr->key, key, key_len) == 0)) {
+hashmap.c:            *data = ptr->data;
+hashmap.c:            return ptr->len;
+hashmap.c:            ptr = ptr->next;
+hashmap.c:    hash = hashfunc((unsigned char *) key, key_len, map->size);
+hashmap.c:    ptr = map->buckets[hash].head;
+hashmap.c:        if (ptr->key_len == key_len &&
+hashmap.c:            (strncmp(ptr->key, key, key_len) == 0)) {
+hashmap.c:            *data = ptr->data;
+hashmap.c:            return ptr->len;
+hashmap.c:            ptr = ptr->next;
+hashmap.c:    hash = hashfunc((unsigned char *) key, key_len, map->size);
+hashmap.c:    ptr = map->buckets[hash].head;
+hashmap.c:        if (ptr->key_len == key_len &&
+hashmap.c:            (strncmp(ptr->key, key, key_len) == 0)) {
+hashmap.c:            next = ptr->next;
+hashmap.c:            if (ptr->prev) {
+hashmap.c:                ptr->prev->next = ptr->next;
+hashmap.c:            if (ptr->next) {
+hashmap.c:                ptr->next->prev = ptr->prev;
+hashmap.c:            if (map->buckets[hash].head == ptr) {
+hashmap.c:                map->buckets[hash].head = ptr->next;
+hashmap.c:            if (map->buckets[hash].tail == ptr) {
+hashmap.c:                map->buckets[hash].tail = ptr->prev;
+hashmap.c:            return_stuff(map->free_keys, ptr->key);
+hashmap.c:            if (ptr->is_copy) {
+hashmap.c:                free(ptr->data);
+hashmap.c:            ptr->key = 0;
+hashmap.c:            ptr->key_len = 0;
+hashmap.c:            ptr->data = 0;
+hashmap.c:            ptr->len = 0;
+hashmap.c:            return_stuff(map->free_entries, ptr);
+hashmap.c:            --map->end_iter;
+hashmap.c:        ptr = ptr->next;
+hashmap.c:        if (iter->entry != 0) {
+hashmap.c:            iter->entry = iter->entry->next;
+hashmap.c:        while (iter->entry == 0 && iter->bucket < map->size) {
+hashmap.c:            ++iter->bucket;
+hashmap.c:            if(iter->bucket < map->size) {
+hashmap.c:                iter->entry = map->buckets[iter->bucket].head;
+hashmap.c:        if (iter->entry != 0) {
+hashmap.c:            iter->bucket = 0;
+hashmap.c:            iter->entry = map->buckets[iter->bucket].head;
+hashmap.c:            if (iter->entry == 0) {
+hashmap.c:                if (hashmap_iterator_next(map, iter) == -1) {
+hashmap.c:    if (key != 0 && keylen != 0 && iter && iter->entry && data) {
+hashmap.c:        *key = iter->entry->key;
+hashmap.c:        *keylen = iter->entry->len;
+hashmap.c:        *data = iter->entry->data;
+lifecycle_master.c:    async_stop_system(cm->asc);
+lifecycle_master.c:    async_stop_system(cm->asc);
+lifecycle_master.c:    fd = signalfd(-1, &mask, SFD_NONBLOCK);
+lifecycle_master.c:        if(end_hour < newtime->tm_hour) {
+lifecycle_master.c:            int sec_till_eod = ((24 - newtime->tm_hour)*SEC_PER_MIN) - newtime->tm_min;
+lifecycle_master.c:            int min_to_hour =  ((end_hour - newtime->tm_hour) * 60) - newtime->tm_min; 
+lifecycle_master.c:                min_to_hour = abs(end_min - newtime->tm_min);
+lifecycle_master.c:        int full_day_secs = (end_day - newtime->tm_wday) -1;
+lifecycle_master.c:        if(end_day == newtime->tm_wday) {
+lifecycle_master.c:            sec_till_eod = ((end_hour - newtime->tm_hour) * 60) - newtime->tm_min;
+lifecycle_master.c:                sec_till_eod = abs(end_min - newtime->tm_min);
+lifecycle_master.c:            sec_till_eod = ((24 - newtime->tm_hour)*60) - newtime->tm_min;
+lifecycle_master.c:    int sec_till_drop = get_sec_till_end_time(mc->end_hour, mc->end_min,
+lifecycle_master.c:                                              mc->end_day, newtime); 
+lifecycle_master.c:    cm->eod_wrapper =  add_timer(asc, 0, 0, sec_till_drop,
+lifecycle_master.c:    destroy_call_back_wrapper(cm->sig_wrapper);
+lifecycle_master.c:    destroy_call_back_wrapper(cm->eod_wrapper);
+lifecycle_master.c:    m->asc = asc;
+lifecycle_master.c:    m->gk = gk;
+lifecycle_master.c:    m->mc = mc;
+lifecycle_master.c:    m->sig_wrapper = create_signal_handler(m);
+lifecycle_master.c:    add_signal_listener(asc, m->sig_wrapper);
+mailer.c:        return -1;
+mailer.c:    con = connect(sock, res->ai_addr, res->ai_addrlen);
+mailer.c:        return -1;
+mailer.c:    return -1;
+mailer.c:             recv(sock, resp_buf, SMTP_RESPONSE_BUFF_SIZE - 1, 0))) {
+mailer.c:    case -1:
+mailer.c:            ret_code = -1;
+mailer.c:        ret_code = -1;
+mailer.c:        return_code = -1;
+mailer.c:    year = 1900 + ti->tm_year;
+mailer.c:    month = 1 + ti->tm_mon;
+mailer.c:    day_of_week = ti->tm_wday;
+mailer.c:    s_len = sprintf(ls_off, "%02u", ti->tm_mday);
+mailer.c:                    ti->tm_hour, ti->tm_min, ti->tm_sec);
+mailer.c:        sprintf(h_off, "Subject: %s\r\nX-Mailer: Send RV Mail\r\n\r\n",
+mailer.c:        return -1;
+mailer.c:    sock = dart_smtp_connect(dma->mail_server, 25);
+mailer.c:        return -1;
+mailer.c:        return -1;
+mailer.c:        return -1;
+mailer.c:    s_len = sprintf(to_str, "RCPT TO: <%s>\r\n", m->to);
+mailer.c:        return -1;
+mailer.c:        return -1;
+mailer.c:    s_len = prepare_header(header, local_host, m->to, m->title);
+mailer.c:        return -1;
+mailer.c:    body = calloc((m->m_len + 10), 1);
+mailer.c:    s_len = cook_body(m->message, m->m_len, body);
+mailer.c:        printf("Body had an illegal sequence: %s\n", m->message);
+mailer.c:        return -1;
+mailer.c:        return -1;
+mailer.c:        m = (struct dart_mail_message *) e->d;
+mailer.c:        e = temp->next;
+mailer.c:        free(m->to);
+mailer.c:        free(m->message);
+mailer.c:        free(m->title);
+mailer.c:        temp->d = NULL;
+mailer.c:        if (lm.tm_hour == dma->end_hour &&
+mailer.c:            lm.tm_min >= dma->end_min
+mailer.c:            && ((newtime->tm_wday == dma->end_day)
+mailer.c:                || (dma->end_day == 7))) {
+mailer.c:        dma->mail_server = calloc(m_len + 1, 1);
+mailer.c:        memcpy(dma->mail_server, mail_server, m_len);
+mailer.c:        dma->m_len = m_len;
+mailer.c:        dma->biz_group = calloc(b_len + 1, 1);
+mailer.c:        memcpy(dma->biz_group, biz_group, b_len);
+mailer.c:        dma->b_len = b_len;
+mailer.c:        dma->tech_group = calloc(t_len + 1, 1);
+mailer.c:        memcpy(dma->tech_group, tech_group, t_len);
+mailer.c:        dma->t_len = t_len;
+mailer.c:        dma->end_hour = end_hour;
+mailer.c:        dma->end_min = end_min;
+mailer.c:        dma->end_day = end_day;
+mailer.c:        dmm->message = calloc(len + 1, 1);
+mailer.c:        memcpy(dmm->message, message, len);
+mailer.c:        dmm->m_len = len;
+mailer.c:        dmm->title = calloc(t_len + 1, 1);
+mailer.c:        memcpy(dmm->title, title, t_len);
+mailer.c:        dmm->t_len = t_len;
+mailer.c:        dmm->to = calloc(to_len + 1, 1);
+mailer.c:        dmm->to_len = to_len;
+mailer.c:        memcpy(dmm->to, to, to_len);
+master_config.c:    ex->dc = initialize_config(file_name, len);
+master_config.c:    ex->mail_server =
+master_config.c:        get_val_for_tag(ex->dc, "MAIL SERVER", 11, "Server", 6, &ret_len);
+master_config.c:    ex->mail_server_len = ret_len;
+master_config.c:    ex->tech_group =
+master_config.c:        get_val_for_tag(ex->dc, "MAIL SERVER", 11, "tech group", 10,
+master_config.c:    ex->t_len = ret_len;
+master_config.c:    ex->biz_group =
+master_config.c:        get_val_for_tag(ex->dc, "MAIL SERVER", 11, "biz group", 9,
+master_config.c:    ex->b_len = ret_len;
+master_config.c:    ex->mod_name =
+master_config.c:        get_val_for_tag(ex->dc, server, server_len, "Mod Name", 8,
+master_config.c:    ex->mod_name_len = ret_len;
+master_config.c:        get_val_for_tag(ex->dc, "ROM SERVER", 10, "Rom Port", 8, &ret_len);
+master_config.c:        ex->server_port = atoi(r_port);
+master_config.c:        ex->server_port = 0;
+master_config.c:    ex->server_ip =
+master_config.c:        get_val_for_tag(ex->dc, "ROM SERVER", 10, "Rom Host", 8, &ret_len);
+master_config.c:    ex->server_ip_len = ret_len;
+master_config.c:    ex->destinations =
+master_config.c:        get_val_for_tag(ex->dc, server, server_len, "Dests", 5, &ret_len);
+master_config.c:    ex->dest_len = ret_len;
+master_config.c:    ex->dir = get_val_for_tag(ex->dc, "GLOB", 4, "directory", 9, &ret_len);
+master_config.c:    ex->dir_len = ret_len;
+master_config.c:    ex->cpus = get_val_for_tag(ex->dc, "GLOB", 4, "CPU", 3, &ret_len);
+master_config.c:    ex->cpu_len = ret_len;
+master_config.c:        get_val_for_tag(ex->dc, server, server_len, "Order Allocation", 16,
+master_config.c:        ex->order_allocation = 80000;
+master_config.c:        ex->order_allocation = atoi(num_objects);
+master_config.c:    end_str = get_val_for_tag(ex->dc, "TIMES", 5, "End Hour", 8, &ret_len);
+master_config.c:        ex->end_hour = atoi(end_str);
+master_config.c:        ex->end_hour = 17;
+master_config.c:    end_str = get_val_for_tag(ex->dc, "TIMES", 5, "End Min", 7, &ret_len);
+master_config.c:        ex->end_min = atoi(end_str);
+master_config.c:        ex->end_min = 17;
+master_config.c:    end_str = get_val_for_tag(ex->dc, "TIMES", 5, "End Day", 7, &ret_len);
+master_config.c:        ex->end_day = atoi(end_str);
+master_config.c:        ex->end_day = 7;
+master_config.c:        get_val_for_tag(ex->dc, "TIMES", 5, "Reset Hour", 10, &ret_len);
+master_config.c:        ex->reset_hour = atoi(end_str);
+master_config.c:        ex->reset_hour = 0;
+master_config.c:        get_val_for_tag(ex->dc, "TIMES", 5, "Reset Min", 9, &ret_len);
+master_config.c:        ex->reset_min = atoi(end_str);
+master_config.c:        ex->reset_min = 0;
+master_config.c:        get_val_for_tag(ex->dc, "TIMES", 5, "Reset Day", 9, &ret_len);
+master_config.c:    ex->db_user_name =
+master_config.c:        get_val_for_tag(ex->dc, "DB INFO", 7, "User", 4, &ret_len);
+master_config.c:    ex->db_user_name_len = ret_len;
+master_config.c:    ex->db_password =
+master_config.c:        get_val_for_tag(ex->dc, "DB INFO", 7, "Password", 8, &ret_len);
+master_config.c:    ex->db_password_len = ret_len;
+master_config.c:    ex->db_server =
+master_config.c:        get_val_for_tag(ex->dc, "DB INFO", 7, "Server", 6, &ret_len);
+master_config.c:    ex->db_server_len = ret_len;
+master_config.c:        get_val_for_tag(ex->dc, "TIMES", 5, "Last Run Day", 12, &ret_len);
+master_config.c:    year = 1900 + ti->tm_year;
+master_config.c:    month = 1 + ti->tm_mon;
+master_config.c:    int slen = sprintf(now, "%04d%02d%02d", year, month, ti->tm_mday);
+master_config.c:        ex->create_new = 0;
+master_config.c:        if (ti->tm_hour == ex->reset_hour &&
+master_config.c:            (ti->tm_min >= ex->reset_min &&
+master_config.c:             (ex->reset_min + 5) >= ti->tm_min) &&
+master_config.c:            (day_of_reset == 7 || day_of_reset == ti->tm_wday)) {
+master_config.c:            ex->create_new = 1;
+master_config.c:    } else if (day_of_reset == 7 || day_of_reset == ti->tm_wday) {
+master_config.c:        ex->create_new = 1;
+master_config.c:        ex->create_new = 0;
+master_config.c:    set_val_for_tag(ex->dc, "TIMES", 5, "Last Run Day", 12, now, 8);
+master_config.c:    if (ex->mail_server) {
+master_config.c:        free((char *) ex->mail_server);
+master_config.c:    if (ex->tech_group) {
+master_config.c:        free((char *) ex->tech_group);
+master_config.c:    if (ex->biz_group) {
+master_config.c:        free((char *) ex->biz_group);
+master_config.c:    if (ex->server_ip) {
+master_config.c:        free((char *) ex->server_ip);
+master_config.c:    if (ex->db_user_name) {
+master_config.c:        free((char *) ex->db_user_name);
+master_config.c:    if (ex->db_password) {
+master_config.c:        free((char *) ex->db_password);
+master_config.c:    if (ex->db_server) {
+master_config.c:        free((char *) ex->db_server);
+master_config.c:    if (ex->mod_name) {
+master_config.c:        free((char *) ex->mod_name);
+master_config.c:    if(ex->destinations) {
+master_config.c:        free((char*)ex->destinations);
+master_config.c:    if(ex->cpus) {
+master_config.c:        free((char*)ex->cpus);
+master_config.c:    dart_destroy_config(ex->dc);
+message_queue.c:    q->front = q->rear = 0;
+message_queue.c:    q->free_list = create_mem_glob(sizeof(struct queue_elem), init_elems);
+message_queue.c:    q->front = q->rear = get_stuff(q->free_list);
+message_queue.c:    q->front->d = 0;
+message_queue.c:        destroy_mem_glob(q->free_list);
+message_queue.c:    return q->rear->d;
+message_queue.c:    return q->front;
+message_queue.c:    if (q && q->front) {
+message_queue.c:        return (q->front->next == NULL);
+message_queue.c:    while (f->next != NULL) {
+message_queue.c:        f = f->next;
+message_queue.c:    q->rear = f;
+message_queue.c:        element_t temp = q->front->next;
+message_queue.c:        q->front->next = NULL;
+message_queue.c:        q->rear = q->front;
+message_queue.c:        q->front->d = 0;
+message_queue.c:    if (q && q->front && q->front->next) {
+message_queue.c:        element_t temp = q->front->next;
+message_queue.c:        q->front->next = temp->next;
+message_queue.c:        if (temp->next == NULL) {
+message_queue.c:            q->rear = q->front;
+message_queue.c:            q->rear->d = 0;
+message_queue.c:            q->front->d = 0;
+message_queue.c:        temp->next = NULL;
+message_queue.c:    e->next = q->front->next;
+message_queue.c:    if (q->front == q->rear) {
+message_queue.c:        q->rear = e;
+message_queue.c:    q->front->next = e;
+message_queue.c:    if (e && q && q->free_list) {
+message_queue.c:        e->next = NULL;
+message_queue.c:        e->d = NULL;
+message_queue.c:        return_stuff(q->free_list, e);
+message_queue.c:    elem = get_stuff(q->free_list);
+message_queue.c:        elem->d = x;
+message_queue.c:    elem = get_stuff(q->free_list);
+message_queue.c:        elem->d = x;
+message_queue.c:        elem->next = NULL;
+message_queue.c:        q->rear->next = elem;
+message_queue.c:        q->rear = elem;
+order_obj_fact.c:    doj->head = glob + sizeof(dart_order_obj);
+order_obj_fact.c:    doj->current = doj->head;
+order_obj_fact.c:    doj->head->start_ptr = glob + buff_offset;
+order_obj_fact.c:    doj->head->data = glob + obj_n_node_size;
+order_obj_fact.c:    doj->head->data->buffer =  glob + buff_offset;
+order_obj_fact.c:    doj->head->data->buflen = DART_PG_SIZE - buff_offset;
+order_obj_fact.c:    doj->head->end_ptr = glob + DART_PG_SIZE;
+order_obj_fact.c:    doj->head->data->rd_ptr = doj->head->data->wr_ptr = doj->head->data->buffer;
+order_obj_fact.c:    doj->head->data->flags = 0x1;
+order_obj_fact.c:    doj->positions = glob + lil_obj_size;
+order_obj_fact.c:    node->data = g + sizeof(struct db_node);
+order_obj_fact.c:    node->data->buffer = g + sizeof(struct db_node) + sizeof(databuf_t);
+order_obj_fact.c:    node->data->rd_ptr = node->data->wr_ptr = node->data->buffer;
+order_obj_fact.c:    node->data->flags = 0x1;
+order_obj_fact.c:    node->data->buflen = 512 - (sizeof(databuf_t) + sizeof(struct db_node));
+order_obj_fact.c:    node->start_ptr = node->data->buffer;
+order_obj_fact.c:    node->end_ptr = g + 512;
+order_obj_fact.c:    ofact->d_buffs = create_mem_glob(512, init_db);
+order_obj_fact.c:    ofact->objs = create_mem_glob(num_obj * DART_PG_SIZE, init_obj);
+order_obj_fact.c:    destroy_mem_glob(ofact->d_buffs);
+order_obj_fact.c:    destroy_mem_glob(ofact->objs);
+order_obj_fact.c:    dart_order_obj* doj = get_stuff(ofact->objs);
+order_obj_fact.c:    doj->dalloc = ofact;
+order_obj_fact.c:    if(doj->childs != 0) {
+order_obj_fact.c:        children* lch = doj->childs;
+order_obj_fact.c:            dart_order_obj* doj_child =(dart_order_obj*)llch->payload;
+order_obj_fact.c:            lch = lch->next;
+order_obj_fact.c:            return_stuff(ofact->objs, doj_child);
+order_obj_fact.c:        doj->childs = 0;
+order_obj_fact.c:    return_stuff(ofact->objs, doj);
+order_obj_fact.c:    void* g = get_stuff(ofact->d_buffs);
+order_token_generator.c:    tg->offset = (tmparts.tm_hour * MICRO_HOUR) +
+order_token_generator.c:    tg->counter = 1;
+order_token_generator.c:    ret_val = snprintf(tg->datestr,9, "%04d%02d%02d", 
+order_token_generator.c:    tg->create_in_place_token = create_in_place_ord_token;
+order_token_generator.c:        sprintf(tg->key, "%s%*.*s", t, 3, 3,padding);
+order_token_generator.c:        memcpy(tg->key, t, 3);
+order_token_generator.c:    for (p = str, q = p + (n - 1); p < q; ++p, --q) {
+order_token_generator.c:    unsigned int next = __sync_add_and_fetch(&tg->counter, 1);
+order_token_generator.c:    return base_36_ltoa(tg->offset + next,off);
+order_token_generator.c:        memcpy(off, tg->datestr, 8);
+order_token_generator.c:        len += create_in_place_ord_token(tg, o2, max_len -8);
+order_token_generator.c:    for (p = str, q = p + (n - 1); p < q; ++p, --q) {
+order_token_generator.c:        memcpy(off, tg->key, 3);
+order_token_generator.c:        memcpy(off + 3, tg->datestr + 4, 4);
+order_token_generator.c:        memcpy(off, tg->datestr, 8);
+order_token_generator.c:    len += base_10_ltoa_with_max(seq, o2, max_len - 7);
+parser_func.c:        return -1;
+parser_func.c:        while (l_off < hlen && *s1 && *s2 && !(*s1 - *s2)) {
+parser_func.c:    return -1;
+rb_tree.c:    ret_tree->node_maker = create_mem_glob(sizeof(struct rb_node), set_rb_node);
+rb_tree.c:        ret_tree->rb_compare = compare_func;
+rb_tree.c:        ret_tree->rb_destroy_key = destroy_func;
+rb_tree.c:        ret_tree->rb_destroy_info = destroy_info_func;
+rb_tree.c:        ret_tree->print_func_key = print_func;
+rb_tree.c:        ret_tree->print_func_info = print_func_info;
+rb_tree.c:        ret_tree->nil = get_stuff(ret_tree->node_maker);//malloc(sizeof(struct rb_node));
+rb_tree.c:        if (ret_tree->nil) {
+rb_tree.c:            temp = ret_tree->nil;
+rb_tree.c:            temp->parent = temp->left = temp->right = temp;
+rb_tree.c:            temp->red = 0;
+rb_tree.c:            temp->key = 0;
+rb_tree.c:            temp->delete_val = 0;
+rb_tree.c:            temp = ret_tree->root = get_stuff(ret_tree->node_maker);//malloc(sizeof(struct rb_node));
+rb_tree.c:                temp->parent = temp->left = temp->right = ret_tree->nil;
+rb_tree.c:                temp->key = 0;
+rb_tree.c:                temp->red = 0;
+rb_tree.c:                temp->delete_val = 0;
+rb_tree.c:                ret_tree->nil = 0;
+rb_tree.c:                destroy_mem_glob(ret_tree->node_maker);
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:    y = x->right;
+rb_tree.c:    x->right = y->left;
+rb_tree.c:    if (y->left != nil) {
+rb_tree.c:        y->left->parent = x;
+rb_tree.c:    y->parent = x->parent;
+rb_tree.c:    if (x == x->parent->left) {
+rb_tree.c:        x->parent->left = y;
+rb_tree.c:        x->parent->right = y;
+rb_tree.c:    y->left = x;
+rb_tree.c:    x->parent = y;
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:    x = y->left;
+rb_tree.c:    y->left = x->right;
+rb_tree.c:    if (nil != x->right) {
+rb_tree.c:        x->right->parent = y;
+rb_tree.c:    x->parent = y->parent;
+rb_tree.c:    if (y == y->parent->left) {
+rb_tree.c:        y->parent->left = x;
+rb_tree.c:        y->parent->right = x;
+rb_tree.c:    x->right = y;
+rb_tree.c:    y->parent = x;
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:    z->left = z->right = nil;
+rb_tree.c:    y = tree->root;
+rb_tree.c:    x = tree->root->left;
+rb_tree.c:        if (1 == tree->rb_compare(x->key, z->key)) {
+rb_tree.c:            x = x->left;
+rb_tree.c:            x = x->right;
+rb_tree.c:    z->parent = y;
+rb_tree.c:    if ((y == tree->root) || (1 == tree->rb_compare(y->key, z->key))) {
+rb_tree.c:        y->left = z;
+rb_tree.c:        y->right = z;
+rb_tree.c:    x = get_stuff(tree->node_maker);//malloc(sizeof(struct rb_node));
+rb_tree.c:    x->key = key;
+rb_tree.c:    x->info = val;
+rb_tree.c:    x->delete_val = delete;
+rb_tree.c:    x->red = 1;
+rb_tree.c:    while (x->parent->red) {
+rb_tree.c:        if (x->parent == x->parent->parent->left) {
+rb_tree.c:            y = x->parent->parent->right;
+rb_tree.c:            if (y->red) {
+rb_tree.c:                x->parent->red = 0;
+rb_tree.c:                y->red = 0;
+rb_tree.c:                x->parent->parent->red = 1;
+rb_tree.c:                x = x->parent->parent;
+rb_tree.c:                if (x == x->parent->right) {
+rb_tree.c:                    x = x->parent;
+rb_tree.c:                x->parent->red = 0;
+rb_tree.c:                x->parent->parent->red = 1;
+rb_tree.c:                right_rotate(tree, x->parent->parent);
+rb_tree.c:            y = x->parent->parent->left;
+rb_tree.c:            if (y->red) {
+rb_tree.c:                x->parent->red = 0;
+rb_tree.c:                y->red = 0;
+rb_tree.c:                x->parent->parent->red = 1;
+rb_tree.c:                x = x->parent->parent;
+rb_tree.c:                if (x == x->parent->left) {
+rb_tree.c:                    x = x->parent;
+rb_tree.c:                x->parent->red = 0;
+rb_tree.c:                x->parent->parent->red = 1;
+rb_tree.c:                left_rotate(tree, x->parent->parent);
+rb_tree.c:    tree->root->left->red = 0;
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:    rb_node_t *root = tree->root;
+rb_tree.c:    if (nil != (y = x->right)) {
+rb_tree.c:        while (y->left != nil) {
+rb_tree.c:            y = y->left;
+rb_tree.c:        y = x->parent;
+rb_tree.c:        while (x == y->right) {
+rb_tree.c:            y = y->parent;
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:    rb_node_t *root = tree->root;
+rb_tree.c:    if (nil != (y = x->left)) {
+rb_tree.c:        while (y->right != nil) {
+rb_tree.c:            y = y->right;
+rb_tree.c:        y = x->parent;
+rb_tree.c:        while (x == y->left) {
+rb_tree.c:            y = y->parent;
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:        kill_node(tree, x->left);
+rb_tree.c:        kill_node(tree, x->right);
+rb_tree.c:        tree->rb_destroy_key(x->key);
+rb_tree.c:        //if (x->delete_val) {
+rb_tree.c:            tree->rb_destroy_info(x->info);
+rb_tree.c:        return_stuff(tree->node_maker, x);
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:    rb_node_t *root = tree->root;
+rb_tree.c:    if (x != tree->nil) {
+rb_tree.c:        print_node(tree, x->left);
+rb_tree.c:        tree->print_func_info(x->info);
+rb_tree.c:        tree->print_func_key(x->key);
+rb_tree.c:        printf("  l->key = ");
+rb_tree.c:        if (x->left == nil) {
+rb_tree.c:            tree->print_func_key(x->left->key);
+rb_tree.c:        printf(" r->key= ");
+rb_tree.c:        if (x->right == nil) {
+rb_tree.c:            tree->print_func_key(x->right->key);
+rb_tree.c:        printf(" p->key= ");
+rb_tree.c:        if (x->parent == root) {
+rb_tree.c:            tree->print_func_key(x->parent->key);
+rb_tree.c:        printf(" red=%i\n", x->red);
+rb_tree.c:        print_node(tree, x->right);
+rb_tree.c:    rb_node_t *x = tree->root->left;
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:    comp_val = tree->rb_compare(x->key, (int *) q);
+rb_tree.c:            x = x->left;
+rb_tree.c:            x = x->right;
+rb_tree.c:        comp_val = tree->rb_compare(x->key, (int *) q);
+rb_tree.c:    rb_node_t *root = tree->root->left;
+rb_tree.c:    while ((!x->red) && (root != x)) {
+rb_tree.c:        if (x == x->parent->left) {
+rb_tree.c:            w = x->parent->right;
+rb_tree.c:            if (w->red) {
+rb_tree.c:                w->red = 0;
+rb_tree.c:                x->parent->red = 1;
+rb_tree.c:                left_rotate(tree, x->parent);
+rb_tree.c:                w = x->parent->right;
+rb_tree.c:            if ((!w->right->red) && (!w->left->red)) {
+rb_tree.c:                w->red = 1;
+rb_tree.c:                x = x->parent;
+rb_tree.c:                if (!w->right->red) {
+rb_tree.c:                    w->left->red = 0;
+rb_tree.c:                    w->red = 1;
+rb_tree.c:                    w = x->parent->right;
+rb_tree.c:                w->red = x->parent->red;
+rb_tree.c:                x->parent->red = 0;
+rb_tree.c:                w->right->red = 0;
+rb_tree.c:                left_rotate(tree, x->parent);
+rb_tree.c:            w = x->parent->left;
+rb_tree.c:            if (w->red) {
+rb_tree.c:                w->red = 0;
+rb_tree.c:                x->parent->red = 1;
+rb_tree.c:                right_rotate(tree, x->parent);
+rb_tree.c:                w = x->parent->left;
+rb_tree.c:            if ((!w->right->red) && (!w->left->red)) {
+rb_tree.c:                w->red = 1;
+rb_tree.c:                x = x->parent;
+rb_tree.c:                if (!w->left->red) {
+rb_tree.c:                    w->right->red = 0;
+rb_tree.c:                    w->red = 1;
+rb_tree.c:                    w = x->parent->left;
+rb_tree.c:                w->red = x->parent->red;
+rb_tree.c:                x->parent->red = 0;
+rb_tree.c:                w->left->red = 0;
+rb_tree.c:                right_rotate(tree, x->parent);
+rb_tree.c:    x->red = 0;
+rb_tree.c:    print_node(tree, tree->root->left);
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:    rb_node_t *root = tree->root;
+rb_tree.c:    y = ((z->left == nil)
+rb_tree.c:         || (z->right == nil)) ? z : tree_next_node(tree, z);
+rb_tree.c:    x = (y->left == nil) ? y->right : y->left;
+rb_tree.c:    if (root == (x->parent = y->parent)) {
+rb_tree.c:        root->left = x;
+rb_tree.c:        if (y == y->parent->left) {
+rb_tree.c:            y->parent->left = x;
+rb_tree.c:            y->parent->right = x;
+rb_tree.c:        if (!(y->red)) {
+rb_tree.c:        y->left = z->left;
+rb_tree.c:        y->right = z->right;
+rb_tree.c:        y->parent = z->parent;
+rb_tree.c:        y->red = z->red;
+rb_tree.c:        z->left->parent = z->right->parent = y;
+rb_tree.c:        if (z == z->parent->left) {
+rb_tree.c:            z->parent->left = y;
+rb_tree.c:            z->parent->right = y;
+rb_tree.c:        return_stuff(tree->node_maker, z);
+rb_tree.c:        if (!(y->red)) {
+rb_tree.c:        return_stuff(tree->node_maker, y);
+rb_tree.c:    rb_node_t *nil = tree->nil;
+rb_tree.c:    rb_node_t *root = tree->root;
+rb_tree.c:    y = ((z->left == nil)
+rb_tree.c:         || (z->right == nil)) ? z : tree_next_node(tree, z);
+rb_tree.c:    x = (y->left == nil) ? y->right : y->left;
+rb_tree.c:    if (root == (x->parent = y->parent)) {
+rb_tree.c:        root->left = x;
+rb_tree.c:        if (y == y->parent->left) {
+rb_tree.c:            y->parent->left = x;
+rb_tree.c:            y->parent->right = x;
+rb_tree.c:        if (!(y->red)) {
+rb_tree.c:        tree->rb_destroy_key(z->key);
+rb_tree.c:        if (z->delete_val) {
+rb_tree.c:            tree->rb_destroy_info(z->info);
+rb_tree.c:        y->left = z->left;
+rb_tree.c:        y->right = z->right;
+rb_tree.c:        y->parent = z->parent;
+rb_tree.c:        y->red = z->red;
+rb_tree.c:        z->left->parent = z->right->parent = y;
+rb_tree.c:        if (z == z->parent->left) {
+rb_tree.c:            z->parent->left = y;
+rb_tree.c:            z->parent->right = y;
+rb_tree.c:        return_stuff(tree->node_maker, z);
+rb_tree.c:        tree->rb_destroy_key(y->key);
+rb_tree.c:        if (y->delete_val) {
+rb_tree.c:            tree->rb_destroy_info(y->info);
+rb_tree.c:        if (!(y->red)) {
+rb_tree.c:        return_stuff(tree->node_maker, y);
+rb_tree.c:    kill_node(tree, tree->root->left);
+rb_tree.c:    destroy_mem_glob(tree->node_maker);
+rb_tree.c:        return x->info;
+rom_fix_trans_funcs.c:    pthread_spin_lock(&ci->mutex);
+rom_fix_trans_funcs.c:    remove_from_map(ci->cl_ord_id_map, id, id_len);
+rom_fix_trans_funcs.c:    pthread_spin_unlock(&ci->mutex);
+rom_fix_trans_funcs.c:    if (doj->sender != NULL) {
+rom_fix_trans_funcs.c:        ((con_interface *) doj->sender)->ci_iovec_sender(doj->positions,
+rom_fix_trans_funcs.c:            doj->positions
+rom_fix_trans_funcs.c:            doj->positions
+rom_fix_trans_funcs.c:             doj->sender),
+rom_fix_trans_funcs.c:             doj->
+rom_fix_trans_funcs.c:             sender)->sock);
+rom_fix_trans_funcs.c:        if(((con_interface*)doj->sender)->do_oats_balance) {
+rom_fix_trans_funcs.c:    pthread_spin_lock(&ob->mutex);
+rom_fix_trans_funcs.c:    ret = get_map_entry(ob->cl_ord_id_map, clordid, len, (void **) obj);
+rom_fix_trans_funcs.c:    pthread_spin_unlock(&ob->mutex);
+rom_fix_trans_funcs.c:                 bin_leaves = bin_shares - lcum;
+rom_fix_trans_funcs.c:                bin_leaves = bin_shares - lcum;
+rom_fix_trans_funcs.c:    char *off = rep->positions[ROM_SHARES].iov_base;
+rom_fix_trans_funcs.c:            rep->positions[ROM_SHARES].iov_len);
+rom_fix_trans_funcs.c:    if (rep->positions[ROM_BIN_PRICE].iov_base != NULL) {
+rom_fix_trans_funcs.c:        memcpy(ute->positions[ROM_BIN_PRICE].iov_base,
+rom_fix_trans_funcs.c:                rep->positions[ROM_BIN_PRICE].iov_base, 4);
+rom_fix_trans_funcs.c:    fill_in_rom_field(ute, ROM_PRICE, rep->positions[ROM_PRICE].iov_base,
+rom_fix_trans_funcs.c:            rep->positions[ROM_PRICE].iov_len);
+rom_fix_trans_funcs.c:    if(ute->positions[ROM_BIN_CUM].iov_base != NULL) {
+rom_fix_trans_funcs.c:        memcpy(&l_cum, ute->positions[ROM_BIN_CUM].iov_base, 4);
+rom_fix_trans_funcs.c:    int leaves = l_q - l_cum;
+rom_fix_trans_funcs.c:    databuf_t *itoa_buff = get_databuf(ob->gk);
+rom_fix_trans_funcs.c:    pthread_spin_lock(&ob->mutex);
+rom_fix_trans_funcs.c:    remove_from_map(ob->cl_ord_id_map,
+rom_fix_trans_funcs.c:                    ute->positions[ROM_CLORDID].iov_base,
+rom_fix_trans_funcs.c:                    ute->positions[ROM_CLORDID].iov_len);
+rom_fix_trans_funcs.c:    reset_rom_field(ute, ROM_CLORDID, ute->positions[ROM_PENDING_ID].iov_base,
+rom_fix_trans_funcs.c:                   ute->positions[ROM_PENDING_ID].iov_len);
+rom_fix_trans_funcs.c:    no_copy_insert(ob->cl_ord_id_map, getpval(ute, ROM_CLORDID), getplen(ute, ROM_CLORDID),
+rom_fix_trans_funcs.c:    destroy_gk_obj(ob->gk, rep);
+rom_fix_trans_funcs.c:    destroy_gk_db(ob->gk, itoa_buff);
+rom_fix_trans_funcs.c:    ute->rep = 0;
+rom_fix_trans_funcs.c:    pthread_spin_unlock(&ob->mutex);
+rom_fix_trans_funcs.c:    int found = get_obj_by_id(ci, doj->positions[FIX_CLORDID].iov_base,
+rom_fix_trans_funcs.c:            doj->positions[FIX_CLORDID].iov_len, &ute);
+rom_fix_trans_funcs.c:        found = get_obj_by_id(ci, doj->positions[FIX_ORIG_ID].iov_base,
+rom_fix_trans_funcs.c:                              doj->positions[FIX_ORIG_ID].iov_len, &ute);
+rom_fix_trans_funcs.c:        ci->on_reject(ci, ute);
+rom_fix_trans_funcs.c:    return doj->positions[ROM_SPREAD].iov_len > 0;
+rom_handler.c:    int return_code = -1;
+rom_handler.c:        send(co->sock, data, len, MSG_DONTWAIT | MSG_NOSIGNAL);
+rom_handler.c:            co->disconnect = 1;
+rom_handler.c:            if (failed_attempts >= 128 || co->disconnect) {
+rom_handler.c:        bytes_to_send -= ret_code;
+rom_handler.c:    return sprintf(mlbk, "%02d%02d%02d,", ti->tm_hour, ti->tm_min,
+rom_handler.c:                   ti->tm_sec);
+rom_handler.c:            init = (struct init_args *) e->d;
+rom_handler.c:                strncmp(name, init->name, name_len) == 0) {
+rom_handler.c:                e = e->next;
+rom_handler.c:            int l = (ret_val - d_off) + 1;
+rom_handler.c:        bytes_read = (ret_val - d_off);
+rom_handler.c:    sr = create_sequence_request(pa->in_args->name, pa->in_args->name_len,
+rom_handler.c:                                 pa->in_args,
+rom_handler.c:            //send_seq = get_incoming_seq(pa->co) + 1;
+rom_handler.c:                        pa->in_args->username, pa->in_args->password,
+rom_handler.c:                        pa->in_args->username, pa->in_args->password);
+rom_handler.c:            pa->disconnect = 1;
+rom_handler.c:            ret_code = find_offset(d_off, (size - read_bytes), eol, 1);
+rom_handler.c:            ret_code = find_offset(d_off, (size - read_bytes), eol, 1);
+rom_handler.c:                ret_code = (ret_val - d_off);
+rom_handler.c:        ret_code = find_offset(d_off, (len - cur_pos), comma, 1);
+rom_handler.c:        if (ret_code <= 0 && !pc->is_server) {
+rom_handler.c:            nLen = pc->in_args->name_len;
+rom_handler.c:            name_ptr =pc->in_args->name;
+rom_handler.c:                ret_code = (ret_val - d_off);
+rom_handler.c:            end = find_offset(d_off, (len - cur_pos), comma, 1);
+rom_handler.c:        if (pc->is_server) {
+rom_handler.c:                pc->in_args =
+rom_handler.c:                    get_init_args(name_ptr, nLen, pc->in_args_list);
+rom_handler.c:            if (nLen == 0 || pc->in_args == NULL) {
+rom_handler.c:                pc->removed = 1;
+rom_handler.c:            if (check_is_connected(pc->ass, name_ptr, nLen)) {
+rom_handler.c:                pc->removed = 1;
+rom_handler.c:            if (pc->in_args->sc_len > 0
+rom_handler.c:                && pc->in_args->sender_comp != NULL) {
+rom_handler.c:                send_name = pc->in_args->sender_comp;
+rom_handler.c:                send_name = pc->in_args->name;
+rom_handler.c:                                         pc->in_args,
+rom_handler.c:            send_seq = dsr_get_incoming(sr) + 1;//set_incoming_seq(pc->co, dsr_get_incoming(sr));
+rom_handler.c:                pc->is_logged_on = 1;
+rom_handler.c:                pc->disconnect =1;
+rom_handler.c:        pc->is_logged_on = 1;
+rom_handler.c:        pc->connection_notice(pc, 2, NULL, 0);
+rom_handler.c:        out_seq = pc->out_seq;
+rom_handler.c:                pc->in_args =
+rom_handler.c:                    get_init_args(name_ptr, nLen, pc->in_args_list);
+rom_handler.c:                if (pc->in_args != 0 && pc->in_args->cancel_only) {
+rom_handler.c:        pc->connection_notice(pc, 1, logger, len);
+rom_handler.c:    sock_recv_manager* pc = apa->con;
+rom_handler.c:    long len = (pc->wr_ptr - pc->rd_ptr);
+rom_handler.c:    char* raw_bytes = pc->rd_ptr;
+rom_handler.c:    if (len > 0 && apa->is_logged_on) {
+rom_handler.c:        apa->parse_v(pc->rd_ptr, len, apa);
+rom_handler.c:        if (end != NULL && (end - raw_bytes) <= len) {
+rom_handler.c:            unsigned long log_len = (end - raw_bytes) + 1;
+rom_handler.c:            pc->rd_ptr += log_len;
+rom_handler.c:                apa->parse_v(pc->rd_ptr, len - log_len, apa);
+rom_handler.c:    } else if(len > 0 && !apa->is_logged_on) {
+rom_handler.c:    long len = databuf_unread(doj->current->data);
+rom_handler.c:    char *c = doj->current->data->buffer;
+rom_handler.c:    for (; *c != '\n' && (c - doj->current->data->buffer) < len; ++c) {
+rom_handler.c:            doj->positions[i].iov_len = c - d_off;
+rom_handler.c:            doj->positions[i].iov_base = d_off;
+rom_handler.c:    if (c - d_off > 0) {
+rom_handler.c:        doj->positions[i].iov_len = c - d_off;
+rom_handler.c:        doj->positions[i].iov_base = d_off;
+rom_handler.c:    sock_recv_manager* rph = apa->con;
+rom_handler.c:    vend_ptr = memchr(rph->rd_ptr, '\n', len_left);
+rom_handler.c:        val_end = (vend_ptr - rph->rd_ptr);
+rom_handler.c:        len_left -= (val_end + 1);
+rom_handler.c:        dart_order_obj* cur_doj = (dart_order_obj *) get_gk_obj(apa->gk);
+rom_handler.c:        char* leg_off = strstr(rph->rd_ptr, ROM_SPREAD_SEP);
+rom_handler.c:        if(leg_off == NULL || ((leg_off - rph->rd_ptr) > val_end)) {
+rom_handler.c:            int copied = databuf_memcpy(cur_doj->current->data, rph->rd_ptr,
+rom_handler.c:                set_rom_field(cur_doj, ROM_SENDER, apa->in_args->name,
+rom_handler.c:                              apa->in_args->name_len);
+rom_handler.c:                if (apa->in_args->name_len > 0) {
+rom_handler.c:                    record_raw_message(apa->in_args->name, apa->in_args->name_len, rph->rd_ptr, val_end + 1, 0x0);
+rom_handler.c:                    m1 = create_incoming_message(apa->in_args->name, apa->in_args->name_len, 1);
+rom_handler.c:                apa->obj_callback(cur_doj, apa);
+rom_handler.c:                rph->rd_ptr += val_end + 1;
+rom_handler.c:                vend_ptr = memchr(rph->rd_ptr, '\n', len_left);
+rom_handler.c:            } else if(apa->in_args->name_len > 0) {
+rom_handler.c:                record_raw_message(apa->in_args->name, apa->in_args->name_len, rph->rd_ptr, val_end + 1, 0x0);
+rom_handler.c:                rph->rd_ptr += val_end + 1;
+rom_handler.c:            if (apa->in_args->name_len > 0) {
+rom_handler.c:                record_raw_message(apa->in_args->name, apa->in_args->name_len, rph->rd_ptr, val_end + 1, 0x0);
+rom_handler.c:                m1 = create_incoming_message(apa->in_args->name, apa->in_args->name_len, 1);
+rom_handler.c:            char* sprd_beg = rph->rd_ptr;
+rom_handler.c:            long sprd_len = leg_off - sprd_beg;
+rom_handler.c:            databuf_memcpy(cur_doj->current->data, sprd_beg,
+rom_handler.c:            set_rom_field(cur_doj, ROM_SENDER, apa->in_args->name,
+rom_handler.c:                              apa->in_args->name_len);
+rom_handler.c:            slen_left -= sprd_len;
+rom_handler.c:                    (leg_off - sprd_beg > slen_left)) {
+rom_handler.c:                    sprd_len = leg_off - sprd_beg;
+rom_handler.c:                dart_order_obj* child_doj = (dart_order_obj *) get_gk_obj(apa->gk);
+rom_handler.c:                databuf_memcpy(child_doj->current->data, sprd_beg,
+rom_handler.c:                set_rom_field(child_doj, ROM_SENDER, apa->in_args->name,
+rom_handler.c:                              apa->in_args->name_len);
+rom_handler.c:                if(cur_doj->num_childs == 1) {
+rom_handler.c:                slen_left -= sprd_len;
+rom_handler.c:            apa->obj_callback(cur_doj, apa);
+rom_handler.c:            rph->rd_ptr += val_end + 1;
+rom_handler.c:            vend_ptr = memchr(rph->rd_ptr, '\n', len_left);
+rom_handler.c:    sock_recv_manager* rph = apa->con;
+rom_handler.c:    vend_ptr = memchr(rph->rd_ptr, '\n', len_left);
+rom_handler.c:        val_end = (vend_ptr - rph->rd_ptr);
+rom_handler.c:        len_left -= (val_end + 1);
+rom_handler.c:        dart_order_obj* cur_doj = (dart_order_obj *) get_gk_obj(apa->gk);
+rom_handler.c:        int copied = databuf_memcpy(cur_doj->current->data, rph->rd_ptr,
+rom_handler.c:            set_rom_field(cur_doj, ROM_SENDER, apa->in_args->name,
+rom_handler.c:                          apa->in_args->name_len);
+rom_handler.c:            if (apa->in_args->name_len > 0) {
+rom_handler.c:                record_raw_message(apa->in_args->name, apa->in_args->name_len, rph->rd_ptr, val_end + 1, 0x0);
+rom_handler.c:                m1 = create_incoming_message(apa->in_args->name, apa->in_args->name_len, 1);
+rom_handler.c:            apa->obj_callback(cur_doj, apa);
+rom_handler.c:            rph->rd_ptr += val_end + 1;
+rom_handler.c:            vend_ptr = memchr(rph->rd_ptr, '\n', len_left);
+rom_handler.c:        } else if(apa->in_args->name_len > 0) {
+rom_handler.c:            record_raw_message(apa->in_args->name, apa->in_args->name_len, rph->rd_ptr, val_end + 1, 0x0);
+rom_handler.c:            rph->rd_ptr += val_end + 1;
+service_bureau.c:        c_offset = off - buffer;
+service_bureau.c:        int val_len = len - (c_offset + 1);
+service_bureau.c:            end_pos = find_offset(d_off, (size - cur_pos), eol, 1);
+service_bureau.c:    sbm->id_to_mnemonic = create_map(8);
+service_bureau.c:    ret = gen_build_clear_id_map(filename, sbm->id_to_mnemonic);
+service_bureau.c:            find_n_fill(sbm->id_to_mnemonic, clr_acct, cl_acct_len, (void *) &rom_val);
+sock_recv_manager.c:    srm->buffer = 0;
+sock_recv_manager.c:    DART_ALLOC(srm->buffer, 8,BUFFER_SIZE + 1, ret);
+sock_recv_manager.c:    srm->wr_ptr = srm->buffer;
+sock_recv_manager.c:    srm->rd_ptr = srm->buffer;
+sock_recv_manager.c:    srm->end = srm->buffer + BUFFER_SIZE;
+sock_recv_manager.c:    if(srm && srm->buffer) {
+sock_recv_manager.c:        free(srm->buffer);
+sock_recv_manager.c:    long total = ((pa->end - pa->buffer) + BUFFER_SIZE);
+sock_recv_manager.c:    long write_offset = pa->wr_ptr - pa->rd_ptr;
+sock_recv_manager.c:    memcpy(temp, pa->rd_ptr, (pa->wr_ptr - pa->rd_ptr));
+sock_recv_manager.c:    free(pa->buffer);
+sock_recv_manager.c:    pa->buffer = 0;
+sock_recv_manager.c:    pa->buffer = temp;
+sock_recv_manager.c:    pa->end = pa->buffer + total;
+sock_recv_manager.c:    pa->wr_ptr = pa->buffer;
+sock_recv_manager.c:    pa->wr_ptr += write_offset;
+sock_recv_manager.c:    pa->rd_ptr = pa->buffer;
+sock_recv_manager.c:    sock_recv_manager* pa = apa->con;
+sock_recv_manager.c:            recv(sock, pa->wr_ptr,
+sock_recv_manager.c:                    (pa->end - pa->wr_ptr), 0);
+sock_recv_manager.c:            pa->wr_ptr += num_bytes;
+sock_recv_manager.c:            apa->parse(cut_connection, apa);
+sock_recv_manager.c:            if (*cut_connection == 1 || apa->disconnect) {
+sock_recv_manager.c:                pa->wr_ptr = 0;
+sock_recv_manager.c:                pa->rd_ptr = 0;
+sock_recv_manager.c:            if (pa->rd_ptr == pa->wr_ptr ||
+sock_recv_manager.c:                    pa->rd_ptr - pa->wr_ptr > 0) {
+sock_recv_manager.c:                pa->wr_ptr = pa->buffer;
+sock_recv_manager.c:                pa->rd_ptr = pa->buffer;
+sock_recv_manager.c:                if(pa->end - pa->wr_ptr <= 0 ) {
+sock_recv_manager.c:                    if (pa->buffer == NULL) {
+sock_recv_manager.c:                        pa->wr_ptr = 0;
+sock_recv_manager.c:                        pa->rd_ptr = 0;
+sock_recv_manager.c:        } else if (num_bytes == -1) {
+sock_recv_manager.c:            pa->wr_ptr = 0;
+sock_recv_manager.c:            pa->rd_ptr = 0;
+sti_tree.c:    ret_tree->nil = mem + sizeof(struct sti_tree);
+sti_tree.c:    ret_tree->nil->parent = ret_tree->nil->left =
+sti_tree.c:        ret_tree->nil->right = ret_tree->nil;
+sti_tree.c:    ret_tree->nil->red = 0;
+sti_tree.c:    ret_tree->nil->key = 0;
+sti_tree.c:    ret_tree->root =mem + sizeof(struct sti_tree) + (sizeof(struct sti_node));
+sti_tree.c:    ret_tree->root->parent = ret_tree->root->left = ret_tree->root->right = ret_tree->nil;
+sti_tree.c:    ret_tree->root->key = 0;
+sti_tree.c:    ret_tree->root->red = 0;
+sti_tree.c:    long len_left = len - cur_off;
+sti_tree.c:            if(ret_tree->free_nodes != 0) {
+sti_tree.c:                sti_node_t* n = ret_tree->free_nodes;
+sti_tree.c:                x->free_next = n;
+sti_tree.c:            ret_tree->free_nodes = x;
+sti_tree.c:            len_left -= sizeof(struct sti_node);
+sti_tree.c:    sti_node_t *nil = tree->nil;
+sti_tree.c:    y = x->right;
+sti_tree.c:    x->right = y->left;
+sti_tree.c:    if (y->left != nil) {
+sti_tree.c:        y->left->parent = x;
+sti_tree.c:    y->parent = x->parent;
+sti_tree.c:    if (x == x->parent->left) {
+sti_tree.c:        x->parent->left = y;
+sti_tree.c:        x->parent->right = y;
+sti_tree.c:    y->left = x;
+sti_tree.c:    x->parent = y;
+sti_tree.c:    sti_node_t *nil = tree->nil;
+sti_tree.c:    x = y->left;
+sti_tree.c:    y->left = x->right;
+sti_tree.c:    if (nil != x->right) {
+sti_tree.c:        x->right->parent = y;
+sti_tree.c:    x->parent = y->parent;
+sti_tree.c:    if (y == y->parent->left) {
+sti_tree.c:        y->parent->left = x;
+sti_tree.c:        y->parent->right = x;
+sti_tree.c:    x->right = y;
+sti_tree.c:    y->parent = x;
+sti_tree.c:    sti_node_t *nil = tree->nil;
+sti_tree.c:    z->left = z->right = nil;
+sti_tree.c:    y = tree->root;
+sti_tree.c:    x = tree->root->left;
+sti_tree.c:        if (x->key > z->key) { 
+sti_tree.c:            x = x->left;
+sti_tree.c:            x = x->right;
+sti_tree.c:    z->parent = y;
+sti_tree.c:    if ((y == tree->root) || (y->key > z->key)) { 
+sti_tree.c:        y->left = z;
+sti_tree.c:        y->right = z;
+sti_tree.c:    if(tree->free_nodes != 0) {
+sti_tree.c:        sti_node_t* temp = tree->free_nodes;
+sti_tree.c:        tree->free_nodes = temp->free_next;
+sti_tree.c:        temp->free_next = 0;
+sti_tree.c:    x->key = key;
+sti_tree.c:    x->info = val;
+sti_tree.c:    x->red = 1;
+sti_tree.c:    while (x->parent->red) {
+sti_tree.c:        if (x->parent == x->parent->parent->left) {
+sti_tree.c:            y = x->parent->parent->right;
+sti_tree.c:            if (y->red) {
+sti_tree.c:                x->parent->red = 0;
+sti_tree.c:                y->red = 0;
+sti_tree.c:                x->parent->parent->red = 1;
+sti_tree.c:                x = x->parent->parent;
+sti_tree.c:                if (x == x->parent->right) {
+sti_tree.c:                    x = x->parent;
+sti_tree.c:                x->parent->red = 0;
+sti_tree.c:                x->parent->parent->red = 1;
+sti_tree.c:                right_rotate(tree, x->parent->parent);
+sti_tree.c:            y = x->parent->parent->left;
+sti_tree.c:            if (y->red) {
+sti_tree.c:                x->parent->red = 0;
+sti_tree.c:                y->red = 0;
+sti_tree.c:                x->parent->parent->red = 1;
+sti_tree.c:                x = x->parent->parent;
+sti_tree.c:                if (x == x->parent->left) {
+sti_tree.c:                    x = x->parent;
+sti_tree.c:                x->parent->red = 0;
+sti_tree.c:                x->parent->parent->red = 1;
+sti_tree.c:                left_rotate(tree, x->parent->parent);
+sti_tree.c:    tree->root->left->red = 0;
+sti_tree.c:    sti_node_t *nil = tree->nil;
+sti_tree.c:    sti_node_t *root = tree->root;
+sti_tree.c:    if (nil != (y = x->right)) {
+sti_tree.c:        while (y->left != nil) {
+sti_tree.c:            y = y->left;
+sti_tree.c:        y = x->parent;
+sti_tree.c:        while (x == y->right) {
+sti_tree.c:            y = y->parent;
+sti_tree.c:    sti_node_t *nil = tree->nil;
+sti_tree.c:    sti_node_t *root = tree->root;
+sti_tree.c:    if (x != tree->nil) {
+sti_tree.c:        sti_print_node(tree, x->left);
+sti_tree.c:        printf("\nInfo=%d ", x->info);
+sti_tree.c:        printf("  Key= %d", x->key);
+sti_tree.c:        printf("  l->key = ");
+sti_tree.c:        if (x->left == nil) {
+sti_tree.c:            printf("%d", x->left->key);
+sti_tree.c:        printf(" r->key= ");
+sti_tree.c:        if (x->right == nil) {
+sti_tree.c:            printf("%d", x->right->key);
+sti_tree.c:        printf(" p->key= ");
+sti_tree.c:        if (x->parent == root) {
+sti_tree.c:            printf("%d", x->parent->key);
+sti_tree.c:        printf(" red=%i\n", x->red);
+sti_tree.c:        sti_print_node(tree, x->right);
+sti_tree.c:        return -1;
+sti_tree.c:    sti_node_t *x = tree->root->left;
+sti_tree.c:    sti_node_t *nil = tree->nil;
+sti_tree.c:    comp_val = short_compare(x->key, q);
+sti_tree.c:            x = x->left;
+sti_tree.c:            x = x->right;
+sti_tree.c:        comp_val = short_compare(x->key, q);
+sti_tree.c:    sti_node_t *root = tree->root->left;
+sti_tree.c:    while ((!x->red) && (root != x)) {
+sti_tree.c:        if (x == x->parent->left) {
+sti_tree.c:            w = x->parent->right;
+sti_tree.c:            if (w->red) {
+sti_tree.c:                w->red = 0;
+sti_tree.c:                x->parent->red = 1;
+sti_tree.c:                left_rotate(tree, x->parent);
+sti_tree.c:                w = x->parent->right;
+sti_tree.c:            if ((!w->right->red) && (!w->left->red)) {
+sti_tree.c:                w->red = 1;
+sti_tree.c:                x = x->parent;
+sti_tree.c:                if (!w->right->red) {
+sti_tree.c:                    w->left->red = 0;
+sti_tree.c:                    w->red = 1;
+sti_tree.c:                    w = x->parent->right;
+sti_tree.c:                w->red = x->parent->red;
+sti_tree.c:                x->parent->red = 0;
+sti_tree.c:                w->right->red = 0;
+sti_tree.c:                left_rotate(tree, x->parent);
+sti_tree.c:            w = x->parent->left;
+sti_tree.c:            if (w->red) {
+sti_tree.c:                w->red = 0;
+sti_tree.c:                x->parent->red = 1;
+sti_tree.c:                right_rotate(tree, x->parent);
+sti_tree.c:                w = x->parent->left;
+sti_tree.c:            if ((!w->right->red) && (!w->left->red)) {
+sti_tree.c:                w->red = 1;
+sti_tree.c:                x = x->parent;
+sti_tree.c:                if (!w->left->red) {
+sti_tree.c:                    w->right->red = 0;
+sti_tree.c:                    w->red = 1;
+sti_tree.c:                    w = x->parent->left;
+sti_tree.c:                w->red = x->parent->red;
+sti_tree.c:                x->parent->red = 0;
+sti_tree.c:                w->left->red = 0;
+sti_tree.c:                right_rotate(tree, x->parent);
+sti_tree.c:    x->red = 0;
+sti_tree.c:    sti_print_node(tree, tree->root->left);
+sti_tree.c:    if(tree->free_nodes == 0) {
+sti_tree.c:        tree->free_nodes = n;
+sti_tree.c:        n->free_next = tree->free_nodes;
+sti_tree.c:        tree->free_nodes = n;
+sti_tree.c:    sti_node_t *nil = tree->nil;
+sti_tree.c:    sti_node_t *root = tree->root;
+sti_tree.c:    y = ((z->left == nil)
+sti_tree.c:         || (z->right == nil)) ? z : sti_next_node(tree, z);
+sti_tree.c:    x = (y->left == nil) ? y->right : y->left;
+sti_tree.c:    if (root == (x->parent = y->parent)) {
+sti_tree.c:        root->left = x;
+sti_tree.c:        if (y == y->parent->left) {
+sti_tree.c:            y->parent->left = x;
+sti_tree.c:            y->parent->right = x;
+sti_tree.c:        if (!(y->red)) {
+sti_tree.c:        y->left = z->left;
+sti_tree.c:        y->right = z->right;
+sti_tree.c:        y->parent = z->parent;
+sti_tree.c:        y->red = z->red;
+sti_tree.c:        z->left->parent = z->right->parent = y;
+sti_tree.c:        if (z == z->parent->left) {
+sti_tree.c:            z->parent->left = y;
+sti_tree.c:            z->parent->right = y;
+sti_tree.c:        if (!(y->red)) {
+sti_tree.c:        return x->info;
+sti_tree.c:        return -1;
+suffix_map.c:                tag_len = end - start;
+suffix_map.c:                insert_map(map, start, tag_len, val, end - val);
+suffix_map.c:            --size;
+suffix_map.c:    b->suffixs = create_map(512);
+suffix_map.c:    build_map_from_file(filename, b->suffixs);
+suffix_map.c:    int len = find_n_fill(smap->suffixs, rom_suffix, rlen, (void**)&suffix);
+timeval.c:    if (tv->tv_usec > 999999) {
+timeval.c:        tv->tv_sec += tv->tv_usec / 1000000;
+timeval.c:        tv->tv_usec = tv->tv_usec % 1000000;
+timeval.c:        return -1;
+tm_to_str.c:/* Converts a struct tm into a human-readable string. Returns 0 on
+tm_to_str.c: * success, -1 on error. The format followed is YYYYMMDD-HH:MM:SS, 17
+tm_to_str.c:    int retval = -1;
+tm_to_str.c:        if (tm->tm_year > 110 && tm->tm_year < 120
+tm_to_str.c:            && tm->tm_mon > -1 && tm->tm_mon < 12
+tm_to_str.c:            && tm->tm_mday > 0 && tm->tm_mday < 32
+tm_to_str.c:            && tm->tm_hour > -1 && tm->tm_hour < 24
+tm_to_str.c:            && tm->tm_min > -1 && tm->tm_min < 60
+tm_to_str.c:            && tm->tm_sec > -1 && tm->tm_sec < 60) {
+tm_to_str.c:            const char *idx = yr_str[tm->tm_year - 111];
+tm_to_str.c:            idx = digit_str[tm->tm_mon + 1];
+tm_to_str.c:            idx = digit_str[tm->tm_mday];
+tm_to_str.c:            *buf++ = '-';
+tm_to_str.c:            idx = digit_str[tm->tm_hour];
+tm_to_str.c:            idx = digit_str[tm->tm_min];
+tm_to_str.c:            idx = digit_str[tm->tm_sec];
+tm_to_str.c:            memcpy(buf, yr_str[tm->tm_year - 111], 4);
+tm_to_str.c:            memcpy(buf, digit_str[tm->tm_mon + 1], 2);
+tm_to_str.c:            memcpy(buf, digit_str[tm->tm_mday], 2);
+tm_to_str.c:            *buf++ = '-';
+tm_to_str.c:            memcpy(buf, digit_str[tm->tm_hour], 2);
+tm_to_str.c:            memcpy(buf, digit_str[tm->tm_min], 2);
+tm_to_str.c:            memcpy(buf, digit_str[tm->tm_sec], 2);
+tm_to_str.c:            printf("Failed validation: %d %d %d %d %d %d \n:", tm->tm_year,
+tm_to_str.c:                   tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min,
+tm_to_str.c:                   tm->tm_sec);
+tm_to_str.c:    int retval = -1;
+transaction_recorder.c:    master_rec->gk = gk;
+transaction_recorder.c:    master_rec->oats = ci;
+transaction_recorder.c:    master_rec->oats_sender = oats_sender;
+transaction_recorder.c:    memcpy(im->name, name, name_len);
+transaction_recorder.c:    im->name_len = name_len;
+transaction_recorder.c:    im->num = num;
+transaction_recorder.c:    im->name = mem + 24;
+transaction_recorder.c:            len_left -= b_w;
+transaction_recorder.c:        m = (sequence_req *) e->d;
+transaction_recorder.c:            get_map_entry(ra->out_seq_map, local_name, local_name_len,
+transaction_recorder.c:        e = temp->next;
+transaction_recorder.c:        total_bytes_read = bytes_read + (write_offset - read_offset);
+transaction_recorder.c:        if ((total_size - write_offset) <= FILE_READ_CHUNK) {
+transaction_recorder.c:            prev_total_size = (write_offset - read_offset) + 1;
+transaction_recorder.c:            memcpy(temp, rd_ptr, (write_offset - read_offset));
+transaction_recorder.c:            write_offset = (write_offset - read_offset);
+transaction_recorder.c:    memset(in_seq_writer->buffer, '\0', IN_SEQ_SIZE);
+transaction_recorder.c:    rlf->file_ptr = -1;
+transaction_recorder.c:    in_file_name = calloc(1, ra->dir_len + in_len + namelen + 1);
+transaction_recorder.c:    memcpy(in_file_name, ra->directory, ra->dir_len);
+transaction_recorder.c:    file_off = in_file_name + ra->dir_len;
+transaction_recorder.c:    rlf->file_ptr = open(in_file_name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:    if (rlf->file_ptr != -1 && (ra->create_new == 0)) {
+transaction_recorder.c:        size = lseek(rlf->file_ptr, 0, SEEK_END);
+transaction_recorder.c:            lseek(rlf->file_ptr, 0, SEEK_SET);
+transaction_recorder.c:                read(rlf->file_ptr, in_seq_writer->buffer, IN_SEQ_SIZE - 1);
+transaction_recorder.c:                seq = atol(in_seq_writer->buffer);
+transaction_recorder.c:            close(rlf->file_ptr);
+transaction_recorder.c:            rlf->file_ptr = open(in_file_name, O_TRUNC | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:            if (rlf->file_ptr != -1) {
+transaction_recorder.c:                trans_writer(in_seq_writer->buffer, sprint_len, 
+transaction_recorder.c:                             rlf->file_ptr);
+transaction_recorder.c:                    no_copy_insert(ra->in_file_map, name, name_len,
+transaction_recorder.c:            close(rlf->file_ptr);
+transaction_recorder.c:            rlf->file_ptr = open(in_file_name, O_TRUNC | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:            if (rlf->file_ptr > 0) {
+transaction_recorder.c:                    no_copy_insert(ra->in_file_map, name, name_len,
+transaction_recorder.c:            memset(in_seq_writer->buffer, '\0', IN_SEQ_SIZE);
+transaction_recorder.c:            trans_writer(in_seq_writer->buffer, sprint_len, rlf->file_ptr);
+transaction_recorder.c:            insert_map(ra->in_seq_map, name, name_len, &seq, sizeof(seq));
+transaction_recorder.c:    } else if (ra->create_new) {
+transaction_recorder.c:        rlf->file_ptr = open(in_file_name, O_TRUNC | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:        if (rlf->file_ptr > 0) {
+transaction_recorder.c:                no_copy_insert(ra->in_file_map, name, name_len, rlf);
+transaction_recorder.c:            memset(in_seq_writer->buffer, '\0', IN_SEQ_SIZE);
+transaction_recorder.c:            trans_writer(in_seq_writer->buffer, sprint_len, rlf->file_ptr);
+transaction_recorder.c:                insert_map(ra->in_seq_map, name, name_len, &seq,
+transaction_recorder.c:    memset(in_seq_writer->buffer, '\0', IN_SEQ_SIZE);
+transaction_recorder.c:    rlf->file_ptr = -1;
+transaction_recorder.c:    out_file_name = calloc(1, ra->dir_len + out_len + namelen + 1);
+transaction_recorder.c:    memcpy(out_file_name, ra->directory, ra->dir_len);
+transaction_recorder.c:    file_off = out_file_name + ra->dir_len;
+transaction_recorder.c:    if (ra->create_new) {
+transaction_recorder.c:        rlf->file_ptr = open(out_file_name, O_TRUNC | O_CREAT | O_APPEND | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:        rlf->file_ptr = open(out_file_name, O_APPEND | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:    if (rlf->file_ptr > 0) {
+transaction_recorder.c:            no_copy_insert(ra->out_file_map, name, name_len, rlf);
+transaction_recorder.c:        set_sequence_queue(&seq, rlf->file_ptr, req);
+transaction_recorder.c:            insert_map(ra->out_seq_map, name, name_len, &seq,
+transaction_recorder.c:    memset(in_seq_writer->buffer, '\0', IN_SEQ_SIZE);
+transaction_recorder.c:    in_rlf->file_ptr = 0;
+transaction_recorder.c:    out_rlf->file_ptr = 0;
+transaction_recorder.c:    in_file_name = calloc(1, ra->dir_len + in_len + namelen + 1);
+transaction_recorder.c:    out_file_name = calloc(1, ra->dir_len + out_len + namelen + 1);
+transaction_recorder.c:    memcpy(in_file_name, ra->directory, ra->dir_len);
+transaction_recorder.c:    file_off = in_file_name + ra->dir_len;
+transaction_recorder.c:        in_rlf->file_ptr = open(in_file_name, O_TRUNC | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:        if (in_rlf->file_ptr > 0) {
+transaction_recorder.c:                no_copy_insert(ra->in_file_map, sr_name, sr_name_len,
+transaction_recorder.c:            trans_writer(in_seq_writer->buffer, sprint_len, in_rlf->file_ptr);
+transaction_recorder.c:            lseek(in_rlf->file_ptr, 0, SEEK_SET);
+transaction_recorder.c:                insert_map(ra->in_seq_map, sr_name, sr_name_len, &seq,
+transaction_recorder.c:        memcpy(out_file_name, ra->directory, ra->dir_len);
+transaction_recorder.c:        file_off = out_file_name + ra->dir_len;
+transaction_recorder.c:        out_rlf->file_ptr = open(in_file_name, O_TRUNC | O_CREAT | O_APPEND | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:        if (out_rlf->file_ptr > 0) {
+transaction_recorder.c:            trans_writer(w_off, len_left, out_rlf->file_ptr);
+transaction_recorder.c:            close(out_rlf->file_ptr);
+transaction_recorder.c:            out_rlf->file_ptr = open(in_file_name, O_APPEND | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:            if (out_rlf->file_ptr > 0) {
+transaction_recorder.c:                    no_copy_insert(ra->out_file_map, sr_name, sr_name_len,
+transaction_recorder.c:                set_sequence_queue(&seq_num, out_rlf->file_ptr, sr);
+transaction_recorder.c:                map_ret = insert_map(ra->out_seq_map, sr_name, sr_name_len,
+transaction_recorder.c:        resend_req *rr = (resend_req *) e->d;
+transaction_recorder.c:            ret = (long) get_map_entry(ra->out_file_map, name, name_len,
+transaction_recorder.c:                drr_create_resend_out(rr, rlf->file_ptr);
+transaction_recorder.c:        e = temp->next;
+transaction_recorder.c:    memset(in_seq_writer->buffer, '\0', IN_SEQ_SIZE);
+transaction_recorder.c:        memset(in_seq_writer->buffer, '\0', IN_SEQ_SIZE);
+transaction_recorder.c:        m = (struct incoming_message *) e->d;
+transaction_recorder.c:        ret = get_map_entry(map, m->name, m->name_len, (void *) &rlf);
+transaction_recorder.c:                get_map_entry(ra->in_seq_map, m->name, m->name_len,
+transaction_recorder.c:                    read(rlf->file_ptr, in_seq_writer->buffer, (size_t) 
+transaction_recorder.c:                          (size_t) (IN_SEQ_SIZE - 1));
+transaction_recorder.c:                         b_used, seq, m->name, m->num);
+transaction_recorder.c:                         in_seq_writer->buffer, m->name, m->num);
+transaction_recorder.c:                    seq += atol(in_seq_writer->buffer);
+transaction_recorder.c:            seq += m->num;
+transaction_recorder.c:            lseek(rlf->file_ptr, 0, SEEK_SET);
+transaction_recorder.c:            trans_writer(in_seq_writer->buffer, w_len, rlf->file_ptr);
+transaction_recorder.c:                remove_from_map(ra->in_seq_map, m->name, m->name_len);
+transaction_recorder.c:                insert_map(ra->in_seq_map, m->name, m->name_len, &seq,
+transaction_recorder.c:                 m->name);
+transaction_recorder.c:        e = temp->next;
+transaction_recorder.c:        temp->d = NULL;
+transaction_recorder.c:    grab_incoming_messages(incoming_queue, ra->in_file_map,
+transaction_recorder.c:                                   ra->in_seq_map, ra);
+transaction_recorder.c:        m = (sequence_req *) e->d;
+transaction_recorder.c:            ra->create_new = create_new;
+transaction_recorder.c:                remove_from_map(ra->out_seq_map, local_name,
+transaction_recorder.c:                remove_from_map(ra->in_seq_map, local_name,
+transaction_recorder.c:            get_map_entry(ra->out_seq_map, local_name, local_name_len,
+transaction_recorder.c:            ra->create_new = dsr_get_create_new(m);     //m->create_new;
+transaction_recorder.c:                get_map_entry(ra->out_seq_map, local_name, local_name_len,
+transaction_recorder.c:            get_map_entry(ra->in_seq_map, local_name, local_name_len,
+transaction_recorder.c:        e = temp->next;
+transaction_recorder.c:        e = temp->next;
+transaction_recorder.c:        free(temp->d);
+transaction_recorder.c:        temp->d = NULL;
+transaction_recorder.c:    return ti->tm_mday == day;
+transaction_recorder.c:    ret = close(rlf->file_ptr);
+transaction_recorder.c:        printf("Error closing this file: %s \n", rlf->file_name);
+transaction_recorder.c:    rlf->file_ptr = open(rlf->file_name, O_APPEND | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:    if (rlf->file_ptr) {
+transaction_recorder.c:        printf("Unable to reopen: %s \n", rlf->file_name);
+transaction_recorder.c:    ret = get_map_entry(ra->rolling_map, "DEBUG", 5, (void *) &rlf);
+transaction_recorder.c:        eof = lseek(rlf->file_ptr, 0, SEEK_END);
+transaction_recorder.c:        if (eof < ROLL_FILE_SIZE && day_check(rlf->day)) {
+transaction_recorder.c:            if (trans_writer("ERROR-- ", 8, rlf->file_ptr) < 8) {
+transaction_recorder.c:            if (trans_writer(prev, prev_len, rlf->file_ptr) < prev_len) {
+transaction_recorder.c:            if (trans_writer(w_off, len_left, rlf->file_ptr) < len_left) {
+transaction_recorder.c:                trans_writer(w_off, len_left, rlf->file_ptr);
+transaction_recorder.c:        eof = lseek(rlf->file_ptr, 0, SEEK_END);
+transaction_recorder.c:                   (unsigned long) rlf->file_ptr);
+transaction_recorder.c:        if (eof < ROLL_FILE_SIZE && day_check(rlf->day)) {
+transaction_recorder.c:            if (trans_writer(w_off, len_left, rlf->file_ptr) < len_left) {
+transaction_recorder.c:                trans_writer(w_off, len_left, rlf->file_ptr);
+transaction_recorder.c:            close(rlf->file_ptr);
+transaction_recorder.c:                   (unsigned long) rlf->file_ptr);
+transaction_recorder.c:            year = (size_t) (1900 + ti->tm_year);
+transaction_recorder.c:            month = (size_t) (1 + ti->tm_mon);
+transaction_recorder.c:                              year, month, ti->tm_mday,
+transaction_recorder.c:                              ti->tm_hour, ti->tm_min, ti->tm_sec);
+transaction_recorder.c:            free(rlf->file_name);
+transaction_recorder.c:            rlf->file_name = calloc(1, ra->dir_len + sprinter + file_name_len + 1);
+transaction_recorder.c:            memcpy(rlf->file_name, ra->directory, ra->dir_len);
+transaction_recorder.c:            memcpy(rlf->file_name + ra->dir_len, mblk->buffer, databuf_unread(mblk));
+transaction_recorder.c:            rlf->file_ptr = open(rlf->file_name, O_APPEND | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:            if (rlf->file_ptr) {
+transaction_recorder.c:                rlf->day = ti->tm_mday;
+transaction_recorder.c:                //setbuf(rlf->file_ptr, NULL);
+transaction_recorder.c:                       (unsigned long) rlf->file_ptr);
+transaction_recorder.c:                trans_writer(w_off, len_left, rlf->file_ptr);
+transaction_recorder.c:        year = (size_t) (1900 + ti->tm_year);
+transaction_recorder.c:        month = (size_t) (1 + ti->tm_mon);
+transaction_recorder.c:                          year, month, ti->tm_mday);
+transaction_recorder.c:        rlf->file_name = calloc(1, ra->dir_len + sprinter + file_name_len + 1);
+transaction_recorder.c:        memcpy(rlf->file_name, ra->directory, ra->dir_len);
+transaction_recorder.c:        memcpy(rlf->file_name + ra->dir_len, mblk->buffer, databuf_unread(mblk));
+transaction_recorder.c:        rlf->file_ptr = open(rlf->file_name, O_APPEND | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:        if (rlf->file_ptr) {
+transaction_recorder.c:            rlf->day = ti->tm_mday;
+transaction_recorder.c:             //      (unsigned long) rlf->file_ptr, file_name);
+transaction_recorder.c:            trans_writer(w_off, len_left, rlf->file_ptr);
+transaction_recorder.c:        m = (struct rolling_log_message *) e->d;
+transaction_recorder.c:            gen_rolling_log(ra, ra->rolling_map, m->file_name,
+transaction_recorder.c:                            m->file_name_len, m->data, m->len);
+transaction_recorder.c:        e = temp->next;
+transaction_recorder.c:            free(m->data);
+transaction_recorder.c:            free(m->name);
+transaction_recorder.c:            free(m->file_name);
+transaction_recorder.c:        temp->d = NULL;
+transaction_recorder.c:    int retval = -1;
+transaction_recorder.c:    memcpy((wr_ptr + i_len), buff->rd_ptr, len);
+transaction_recorder.c:    gen_rolling_log(ra, ra->rolling_map, file_name, file_name_len,
+transaction_recorder.c:    char *out_file_name = calloc(1, ra->dir_len + SUFFIX_LEN + name_len + 1);
+transaction_recorder.c:    memcpy(out_file_name, ra->directory, ra->dir_len);
+transaction_recorder.c:    cp_off += ra->dir_len;
+transaction_recorder.c:    remove_from_map(ra->out_file_map, name, name_len);
+transaction_recorder.c:    close(rlf->file_ptr);
+transaction_recorder.c:    rlf->file_ptr = open(out_file_name, O_APPEND | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:    if (rlf->file_ptr > 0) {
+transaction_recorder.c:        trans_writer(w_off + write_ret, (len_left - write_ret),
+transaction_recorder.c:                     rlf->file_ptr);
+transaction_recorder.c:        no_copy_insert(ra->out_file_map, name, name_len, rlf);
+transaction_recorder.c:        w_off = data->rd_ptr;
+transaction_recorder.c:        write_ret = trans_writer(w_off, len_left, rlf->file_ptr);
+transaction_recorder.c:        internal_debug_roller(ra, data->buffer, databuf_unread(data),
+transaction_recorder.c:        out_file_name = calloc(1, ra->dir_len + out_len + name_len + 1);
+transaction_recorder.c:        memcpy(out_file_name, ra->directory, ra->dir_len);
+transaction_recorder.c:        file_off = out_file_name + ra->dir_len;
+transaction_recorder.c:        rlf->file_ptr = open(out_file_name, O_APPEND | O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+transaction_recorder.c:        if (rlf->file_ptr > 0) {
+transaction_recorder.c:            w_off = data->rd_ptr;
+transaction_recorder.c:            write_ret = trans_writer(w_off,  len_left, rlf->file_ptr);
+transaction_recorder.c:                    no_copy_insert(ra->out_file_map, name,
+transaction_recorder.c:        if (e->d != NULL) {
+transaction_recorder.c:            databuf_t *buff = (databuf_t *) e->d;
+transaction_recorder.c:            memcpy(&inc_out, buff->rd_ptr, sizeof(char));
+transaction_recorder.c:            buff->rd_ptr += sizeof(char);
+transaction_recorder.c:            memcpy(&name_len, buff->rd_ptr, sizeof(int));
+transaction_recorder.c:            buff->rd_ptr += sizeof(int);
+transaction_recorder.c:            char *name = buff->rd_ptr;//buffer + sizeof(int);
+transaction_recorder.c:            buff->rd_ptr += name_len;
+transaction_recorder.c:                set_message_in_out_file(name, name_len,buff, ra->out_file_map,
+transaction_recorder.c:                                        ra->out_seq_map, ra);
+transaction_recorder.c:        e = temp->next;
+transaction_recorder.c:        temp->d = NULL;
+transaction_recorder.c:        temp->next = 0;
+transaction_recorder.c:        if (e->d != NULL) {
+transaction_recorder.c:            m = (struct dart_order_obj *) e->d;
+transaction_recorder.c:                                        m->positions[ROM_SENDER].iov_len,
+transaction_recorder.c:                pre_process_rolling_log(ra, name, m->positions[ROM_SENDER].iov_len,
+transaction_recorder.c:                internal_debug_roller(ra, m->head->data->buffer,
+transaction_recorder.c:                                      databuf_unread(m->head->data),
+transaction_recorder.c:        e = temp->next;
+transaction_recorder.c:        temp->d = NULL;
+transaction_recorder.c:        temp->next = 0;
+transaction_recorder.c:        if (e->d != NULL) {
+transaction_recorder.c:            m = (struct dart_order_obj *) e->d;
+transaction_recorder.c:            if (master_rec->oats && ((con_interface*)master_rec->oats)->can_send_orders) {
+transaction_recorder.c:                master_rec->oats_sender("OATS", 4, data, master_rec->oats);
+transaction_recorder.c:        e = temp->next;
+transaction_recorder.c:        temp->d = NULL;
+transaction_recorder.c:        temp->next = 0;
+transaction_recorder.c:        free(rlf->file_name);
+transaction_recorder.c:            send_oats_messages(oats_queue, ra->out_file_map,
+transaction_recorder.c:                               ra->out_seq_map, ra);
+transaction_recorder.c:            record_raw(raw_queue, ra->out_file_map, ra->out_seq_map, ra);
+transaction_recorder.c:            record_client_out(client_out_queue, ra->out_file_map,
+transaction_recorder.c:                              ra->out_seq_map, ra);
+transaction_recorder.c:            grab_incoming_messages(incoming_queue, ra->in_file_map,
+transaction_recorder.c:                                   ra->in_seq_map, ra);
+transaction_recorder.c:    clean_seq_map(ra->in_seq_map);
+transaction_recorder.c:    clean_seq_map(ra->out_seq_map);
+transaction_recorder.c:    clean_pointers_from_map(ra->rolling_map);
+transaction_recorder.c:    clean_pointers_from_map(ra->out_file_map);
+transaction_recorder.c:    clean_pointers_from_map(ra->in_file_map);
+transaction_recorder.c:        master_rec->create_new = 0;
+transaction_recorder.c:        master_rec->timeout_value = 30;
+transaction_recorder.c:        master_rec->gk = 0;
+transaction_recorder.c:        master_rec->oats = 0;
+transaction_recorder.c:        master_rec->oats_sender = 0;
+transaction_recorder.c:        master_rec->out_file_map = create_map(map_size);
+transaction_recorder.c:        master_rec->in_file_map = create_map(map_size);
+transaction_recorder.c:        master_rec->in_seq_map = create_map(map_size);
+transaction_recorder.c:        master_rec->out_seq_map = create_map(map_size);
+transaction_recorder.c:        master_rec->rolling_map = create_map(map_size);
+transaction_recorder.c:        master_rec->directory = calloc(1, dir_len + 1);
+transaction_recorder.c:        memcpy(master_rec->directory, directory, dir_len);
+transaction_recorder.c:        master_rec->dir_len = dir_len;
+transaction_recorder.c:    if(rc->dir_len > 0) {
+transaction_recorder.c:        free(rc->directory);
+transaction_recorder.c:    rc->directory = calloc(1, dir_len + 1);
+transaction_recorder.c:    memcpy(rc->directory, dir, dir_len);
+transaction_recorder.c:    rc->dir_len = dir_len;
+transaction_recorder.c:        memcpy(buff->wr_ptr, &rec_out_seq, sizeof(char));
+transaction_recorder.c:        buff->wr_ptr += sizeof(char);
+transaction_recorder.c:        memcpy(buff->wr_ptr, &name_len, sizeof(int));
+transaction_recorder.c:        buff->wr_ptr += sizeof(int);
+transaction_recorder.c:        memcpy(buff->wr_ptr, name, name_len);
+transaction_recorder.c:        buff->wr_ptr += name_len;
+transaction_recorder.c:    int retval = -1;
+transaction_recorder.c:    children* lch = doj->childs;
+transaction_recorder.c:        dart_order_obj* child = (dart_order_obj*)lch->payload;
+transaction_recorder.c:        lch = lch->next;
+transaction_recorder.c:        if (doj->positions[ROM_TIME].iov_len <= 0) {
+transaction_recorder.c:            int len = set_time_stamp(doj->current->data->wr_ptr);
+transaction_recorder.c:            reset_rom_field(doj, ROM_TIME, doj->current->data->wr_ptr,
+transaction_recorder.c:            doj->current->data->wr_ptr += len;
+transaction_recorder.c:            set_time_stamp((char *) doj->positions[ROM_TIME].iov_base);
+transaction_recorder.c:        if(doj->childs != 0) {
+xor_dll.c:        elem->link = 0;
+xor_dll.c:        elem->count = 0;
+xor_dll.c:        elem->cur_off = 0;
+xor_dll.c:        list->size = 0;
+xor_dll.c:        list->front = elem;
+xor_dll.c:        list->rear = elem;
+xor_dll.c:    return list->size;
+xor_dll.c:    return (list->size == 0);
+xor_dll.c:    if (elem->count == NUM_VALS) {

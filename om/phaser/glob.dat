@@ -1,0 +1,26 @@
+[ROM SERVER]
+Rom Port=8092
+Rom Host=phaser
+
+[GLOB]
+Mod Name=70
+Order Allocation=30000
+Dests=601
+CPU=8,9
+
+[TIMES]
+End Hour=17
+End Min=10
+Reset Hour=19
+Reset Min=30
+Last Run Day=20150723
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=zhen.cha@dartexecutions.com
+biz group=zhen.cha@dartexecutions.com

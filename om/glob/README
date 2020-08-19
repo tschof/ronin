@@ -1,0 +1,11 @@
+DART Glob
+
+The main dartglob process takes one argument: the glob conf file. The
+glob conf file contains all of the shared objects to be loaded, along
+with the configuration file to go along with a configuration file to
+be used with that file. Each line of shared object and configuration
+represents a separate destination and is loaded separately.
+
+One port is used to listen for messages from ROM. When messages are
+received they are parsed and directed to the appropriate destination
+instance.

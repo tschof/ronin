@@ -1,0 +1,5 @@
+#!/bin/bash
+make -k clean
+make
+make tags
+~/Dart2/om/unit-tester/run-unit-tests ~/Dart2/om/exchanges/translation_engine/libengine-tests.so

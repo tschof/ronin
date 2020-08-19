@@ -1,0 +1,58 @@
+#MAKEFILE
+
+CC= cc
+DEBUG=0
+ifeq ($(DEBUG),0)
+CFLAGS=-shared -O3 -march=native -fomit-frame-pointer -funroll-loops -ftree-vectorize -D_REENTRANT -D_BOGUS_FIX_=1
+else
+CFLAGS=-shared -g -std=c99 -Wall -D_REENTRANT -D_POSIX_C_SOURCE=199309L -D_GNU_SOURCE
+endif
+
+SPREAD=0
+ifeq ($(SPREAD),1)
+CFLAGS=-g -shared -O3 -march=native -std=c99 -Wall -D_POSIX_C_SOURCE=199309L -D_GNU_SOURCE -D_GNU_SOURCE -D_SPREAD_N_READY_
+endif
+
+SPREAD_DEBUG=0
+ifeq ($(SPREAD_DEBUG),1)
+CFLAGS=-shared -g -std=c99 -Wall -D_REENTRANT -D_POSIX_C_SOURCE=199309L -D_GNU_SOURCE -D_SPREAD_N_READY_
+endif
+SYB_LIBS = -L../server_objects -lserver_obj -lpthread -L../ex_db -ldartdb_obj -L../jigglypuff -ljiggley -L../oats -loats  -ldl -pthread
+INCLUDES = -I../server_objects -I../ex_db -I../jigglypuff -I../oats
+EXECUTABLE = dartglob
+SRC = main.c dartglob.c startup.c switchboard_master.c
+OBJECTS = $(SRC:.c=.o)
+MAKEDEPEND = gcc -M -o $*.d $<
+
+all: $(SRC) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@ $(SYB_LIBS)
+
+%.o: %.c
+	$(CC) $(INCLUDES) $(CFLAGS) -fpic -Wall -g -c $< -MD -o $@
+	@cp $*.d $*.P; \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	-e '/^$$/ d' -e's/$$/ :/' < $*.d >> $*.P; \
+	rm -f $*.d
+include $(SRC:.c=.P)
+
+clean:
+	rm -f $(EXECUTABLE) *.o
+
+indent:
+	find -name '*.[ch]' | xargs indent -kr --no-tabs
+clobber: clean
+	rm -f *~
+
+depend:
+	makedepend -- $(CFLAGS) -- $(SRC)
+
+.PHONY: clean clobber# DO NOT DELETE
+
+tags:
+	tags *.[ch]
+	tags -a ../jigglypuff/*.[ch]
+	tags -a ../ex_db/*.[ch]
+	tags -a ../server_objects/*.[ch]
+	tags -a ../smtp/*.[ch]

@@ -1,0 +1,222 @@
+async_server.c:    if(!pa->is_server) {
+async_server.c:        destroy_queue(pa->in_args_list);
+async_server.c:    destroy_sock_recv_manager(pa->con);
+async_server.c:    destroy_call_back_wrapper(pa->read_wrapper);
+async_server.c:    destroy_call_back_wrapper(pa->write_wrapper);
+async_server.c:                epoll_ctl(pa->read_wrapper->efd, EPOLL_CTL_ADD, pa->sock,
+async_server.c:                        pa->read_wrapper->ee);
+async_server.c:                        epoll_ctl(pa->read_wrapper->efd, EPOLL_CTL_MOD,
+async_server.c:                                pa->sock, pa->read_wrapper->ee);
+async_server.c:    wo->ass = pa->ass;
+async_server.c:    wo->sock = pa->sock;
+async_server.c:    if (pthread_spin_lock(&pa->ass->clean_mutex) == 0) {
+async_server.c:        enqueue(pa->ass->event_q, wo);
+async_server.c:        pthread_spin_unlock(&pa->ass->clean_mutex);
+async_server.c:    int s = pa->sock;
+async_server.c:    if (pthread_spin_lock(&pa->ass->clean_mutex) == 0) {
+async_server.c:        rb_tree_delete(pa->ass->connections, &s);
+async_server.c:        if(pa->write_wrapper) {
+async_server.c:            async_close_socket(pa->write_wrapper->sock);
+async_server.c:        pa->is_logged_on = 0;
+async_server.c:        pthread_spin_unlock(&pa->ass->clean_mutex);
+async_server.c:        if(pa->in_args && pa->in_args->name) {
+async_server.c:            if(pa->removed == 0) {
+async_server.c:                remove_connection(pa->ass, pa->in_args->name,
+async_server.c:                                  pa->in_args->name_len, pa);
+async_server.c:            pa->connection_notice(pa, 0, NULL, 0);
+async_server.c:        destroy_call_back_wrapper(pa->read_wrapper);
+async_server.c:        pa->read_wrapper = 0;
+async_server.c:        destroy_call_back_wrapper(pa->write_wrapper);
+async_server.c:        pa->write_wrapper = 0;
+async_server.c:        if (pa->is_server) {
+async_server.c:            pthread_spin_lock(&pa->ass->clean_mutex);
+async_server.c:            destroy_sock_recv_manager(pa->con);
+async_server.c:            pthread_spin_unlock(&pa->ass->clean_mutex);
+async_server.c:    epoll_ctl(pa->write_wrapper->efd, EPOLL_CTL_DEL, pa->write_wrapper->sock,
+async_server.c:            pa->write_wrapper->ee);
+async_server.c:    pa->write_callback(pa->in_args->name, pa->in_args->name_len,
+async_server.c:            pa->write_pass_back);
+async_server.c:    manage_socket(pa, pa->sock, &cut_connection);
+async_server.c:        int s = pa->sock;
+async_server.c:    } else if (pa->ass->num_threads > 2) {
+async_server.c:    pa->connection_notice = connection_callback;
+async_server.c:    pa->is_logged_on = 0;
+async_server.c:    pa->ds_book = ob;
+async_server.c:    pa->parse_v = parse_v;
+async_server.c:    pa->obj_callback = obj_callback;
+async_server.c:    pa->cur_doj = 0;
+async_server.c:    pa->in_args_list = in_q;  //args;
+async_server.c:    pa->in_args = (struct init_args *) args;
+async_server.c:    pa->ip = (char *) ip;
+async_server.c:    pa->ip_len = ip_len;
+async_server.c:    pa->port = port;
+async_server.c:    pa->sock = sock;
+async_server.c:    pa->removed = 0;
+async_server.c:    pa->parse = (*client_mess_parse);
+async_server.c:    //pa->seq_parse = (*seq_parse);
+async_server.c:    pa->init_con = init_con;
+async_server.c:    pa->con = create_sock_recv_manager();
+async_server.c:    pa->write_callback = write_callback;
+async_server.c:    pa->write_pass_back = write_pass_back;
+async_server.c:    pa->async_cb_func = raw_sock_parser;
+async_server.c:        lpa->parse = pa->parse;
+async_server.c:        lpa->connection_notice = pa->connection_notice;
+async_server.c:        lpa->in_args_list = pa->in_args_list;
+async_server.c:        lpa->mc = pa->ass->mc;
+async_server.c:        lpa->in_args = NULL;
+async_server.c:        lpa->is_server = 1;
+async_server.c:        lpa->sock = newSock;
+async_server.c:        lpa->is_logged_on = 0;
+async_server.c:        lpa->ip = NULL;
+async_server.c:        lpa->ip_len = 0;
+async_server.c:        lpa->removed = 0;
+async_server.c:        lpa->parse_v = pa->parse_v;
+async_server.c:        lpa->gk = pa->gk;
+async_server.c:        lpa->cur_doj = (dart_order_obj *) get_gk_obj(pa->gk);
+async_server.c:        lpa->obj_callback = pa->obj_callback;
+async_server.c:        lpa->ds_book = pa->ds_book;
+async_server.c:        lpa->con = create_sock_recv_manager();
+async_server.c:        lpa->init_con = pa->init_con;
+async_server.c:        lpa->async_cb_func = raw_sock_parser;
+async_server.c:        lpa->write_callback = pa->write_callback;
+async_server.c:        lpa->write_pass_back = pa->write_pass_back;
+async_server.c:    pa->read_wrapper = create_call_back_wrapper(pa,
+async_server.c:            pa->async_cb_func, disconnect_wrapper, sock);
+async_server.c:    pa->read_wrapper->ee->events = EPOLLIN | EPOLLRDHUP | EPOLLET; //EPOLLONESHOT;
+async_server.c:    pa->read_wrapper->efd = ascs->ass->efd;
+async_server.c:    pa->ass = ascs->ass;
+async_server.c:    pa->write_wrapper = create_call_back_wrapper(pa,
+async_server.c:    pa->write_wrapper->ee->events =  EPOLLOUT | EPOLLET; //EPOLLONESHOT;
+async_server.c:    pa->write_wrapper->efd = ascs->ass->efd;
+async_server.c:    int listenfd = pa->sock;
+async_server.c:    int listenfd = pa->sock;
+async_server.c:            pa->write_pass_back = ev->stuff;
+async_server.c:                epoll_ctl(pa->write_wrapper->efd, EPOLL_CTL_ADD, pa->write_wrapper->sock,
+async_server.c:                        pa->write_wrapper->ee);
+async_server.c:                        epoll_ctl(pa->write_wrapper->efd, EPOLL_CTL_MOD,
+async_server.c:                                pa->write_wrapper->sock, pa->write_wrapper->ee);
+async_server.c:    connected = pa->init_con(pa);
+async_server.c:        if (pthread_spin_lock(&pa->ass->clean_mutex) == 0) {
+async_server.c:            *sock = pa->sock;
+async_server.c:            rb_tree_no_delete_insert(pa->ass->connections, sock, pa);
+async_server.c:            pthread_spin_unlock(&pa->ass->clean_mutex);
+async_server.c:    pa->read_wrapper = create_call_back_wrapper(pa,
+async_server.c:            pa->async_cb_func,disconnect_wrapper, sock);
+async_server.c:    pa->read_wrapper->ee->events = EPOLLIN | EPOLLRDHUP | EPOLLET;
+async_server.c:    pa->read_wrapper->efd = acsm->efd;
+async_server.c:    pa->ass = acsm;
+async_server.c:    pa->write_wrapper = create_call_back_wrapper(pa,
+async_server.c:    pa->write_wrapper->ee->events = EPOLLOUT | EPOLLET; 
+async_server.c:    pa->write_wrapper->efd = acsm->efd;
+async_server.c:        pa->is_server = 0;
+async_server.c:        pa->is_logged_on = 0;
+async_server.c:        pa->gk = acsm->gk;
+async_server.c:        pa->ass = acsm;
+async_server.c:        pa->mc = acsm->mc;
+async_server.c:    pa->connection_notice = connection_callback;
+async_server.c:    pa->is_logged_on = 0;
+async_server.c:    pa->in_args_list = l_args;
+async_server.c:    pa->in_args = NULL;
+async_server.c:    pa->is_server = 1;
+async_server.c:    pa->parse_v = parse_v;
+async_server.c:    pa->obj_callback = obj_callback;
+async_server.c:    pa->gk = mb;
+async_server.c:    pa->obj_callback = obj_callback;
+async_server.c:    pa->ds_book = NULL;
+async_server.c:    pa->parse = (*mess_parse);
+async_server.c:    //pa->seq_parse = (*seq_parse);
+async_server.c:    pa->gk = mb;
+async_server.c:    pa->con = create_sock_recv_manager();
+async_server.c:    pa->write_callback = write_callback;
+async_server.c:    pa->write_pass_back = write_pass_back;
+async_server.c:    pa->ass = scs;
+async_server.c:    pa->sock = -1;
+async_server.c:        pa->sock = ud_create_and_bind(ip, len);
+async_server.c:        pa->async_cb_func = ud_listen_call_back_func;
+async_server.c:        pa->sock = create_and_bind(port);
+async_server.c:        pa->async_cb_func = listen_call_back_func;
+async_server.c:    int ret_code = listen(pa->sock, MAXCONNECTIONS);
+async_server.c:    pa->write_wrapper = create_call_back_wrapper(pa,
+async_server.c:            write_master, disconnect_wrapper, pa->sock);
+async_server.c:    pa->read_wrapper = create_call_back_wrapper(pa,
+async_server.c:            pa->async_cb_func, disconnect_wrapper, pa->sock);
+async_server.c:    pa->read_wrapper->ee->events = EPOLLIN | EPOLLRDHUP | EPOLLET; //EPOLLONESHOT;
+async_server.c:    pa->read_wrapper->efd = scs->efd;
+async_server.c:        *in_sock = pa->sock;
+fix_handler.c:    pa->ap = pc;
+fix_handler.c:    pa->sock = pc->sock;
+fix_handler.c:    sequence_req* sr = create_sequence_request(pa->ap->in_args->sender_comp,
+fix_handler.c:                                 pa->ap->in_args->sc_len,
+fix_handler.c:                                 pa->ap->in_args,
+fix_handler.c:    pa->seq = dsr_get_outgoing(sr) + 1;
+fix_handler.c:    trans_t* fix_t = (trans_t*)pa->parser;
+fix_handler.c:    sock_recv_manager* pc = apa->con;
+fix_handler.c:                            apa->cur_doj = (dart_order_obj *) get_gk_obj(apa->gk);
+fix_handler.c:                            con_interface* con = (con_interface*)apa->ds_book;
+fix_handler.c:                            apa->cur_doj->type = stype;
+fix_handler.c:                                              apa->cur_doj, stype);
+fix_handler.c:                            size_t buf_len = apa->cur_doj->current->data->buflen;
+fix_handler.c:                            apa->cur_doj->current->data->buflen = byte_len;
+fix_handler.c:                            apa->obj_callback(apa->cur_doj, apa);
+fix_handler.c:                            apa->cur_doj->current->data->buflen = buf_len;
+fix_handler.c:                            destroy_gk_obj(apa->gk, apa->cur_doj);
+fix_handler.c:                record_raw_message(apa->in_args->target_comp,
+fix_handler.c:                                   apa->in_args->tc_len, pc->rd_ptr, (byte_len + 7), 0x0);
+fix_handler.c:                        create_incoming_message(apa->in_args->target_comp,
+fix_handler.c:                                                apa->in_args->tc_len,1);
+fix_handler.c:                    apa->in_seq++;
+fix_handler.c:                    con_interface* con = (con_interface*)apa->ds_book;
+fix_trans.c:        pa->map = 0;
+rom_handler.c:    sr = create_sequence_request(pa->in_args->name, pa->in_args->name_len,
+rom_handler.c:                                 pa->in_args,
+rom_handler.c:            //send_seq = get_incoming_seq(pa->co) + 1;
+rom_handler.c:                        pa->in_args->username, pa->in_args->password,
+rom_handler.c:                        pa->in_args->username, pa->in_args->password);
+rom_handler.c:            pa->disconnect = 1;
+rom_handler.c:    sock_recv_manager* pc = apa->con;
+rom_handler.c:    if (len > 0 && apa->is_logged_on) {
+rom_handler.c:        apa->parse_v(pc->rd_ptr, len, apa);
+rom_handler.c:                apa->parse_v(pc->rd_ptr, len - log_len, apa);
+rom_handler.c:    } else if(len > 0 && !apa->is_logged_on) {
+rom_handler.c:    sock_recv_manager* rph = apa->con;
+rom_handler.c:        if (apa->cur_doj == NULL) {
+rom_handler.c:            apa->cur_doj = (dart_order_obj *) get_gk_obj(apa->gk);
+rom_handler.c:        databuf_memcpy(apa->cur_doj->current->data, rph->rd_ptr,
+rom_handler.c:        ph_build_iovec(apa->cur_doj);
+rom_handler.c:        //char *name = (char *) get_name(apa->co);
+rom_handler.c:        //int name_len = get_name_len(apa->co);
+rom_handler.c:        set_rom_field(apa->cur_doj, ROM_SENDER, apa->in_args->name,
+rom_handler.c:                      apa->in_args->name_len);
+rom_handler.c:        if (apa->in_args->name_len > 0) {
+rom_handler.c:            record_raw_message(apa->in_args->name, apa->in_args->name_len, rph->rd_ptr, val_end + 1, 0x0);
+rom_handler.c:            m1 = create_incoming_message(apa->in_args->name, apa->in_args->name_len, 1);
+rom_handler.c:        apa->obj_callback(apa->cur_doj, apa);
+rom_handler.c:        apa->cur_doj = (dart_order_obj *) get_gk_obj(apa->gk);
+sock_recv_manager.c:    long total = ((pa->end - pa->buffer) + BUFFER_SIZE);
+sock_recv_manager.c:    long write_offset = pa->wr_ptr - pa->rd_ptr;
+sock_recv_manager.c:    memcpy(temp, pa->rd_ptr, (pa->wr_ptr - pa->rd_ptr));
+sock_recv_manager.c:    free(pa->buffer);
+sock_recv_manager.c:    pa->buffer = 0;
+sock_recv_manager.c:    pa->buffer = temp;
+sock_recv_manager.c:    pa->end = pa->buffer + total;
+sock_recv_manager.c:    pa->wr_ptr = pa->buffer;
+sock_recv_manager.c:    pa->wr_ptr += write_offset;
+sock_recv_manager.c:    pa->rd_ptr = pa->buffer;
+sock_recv_manager.c:    sock_recv_manager* pa = apa->con;
+sock_recv_manager.c:            recv(sock, pa->wr_ptr,
+sock_recv_manager.c:                    (pa->end - pa->wr_ptr), 0);
+sock_recv_manager.c:            pa->wr_ptr += num_bytes;
+sock_recv_manager.c:            apa->parse(cut_connection, apa);
+sock_recv_manager.c:            if (*cut_connection == 1 || apa->disconnect) {
+sock_recv_manager.c:                pa->wr_ptr = 0;
+sock_recv_manager.c:                pa->rd_ptr = 0;
+sock_recv_manager.c:            if (pa->rd_ptr == pa->wr_ptr ||
+sock_recv_manager.c:                    pa->rd_ptr - pa->wr_ptr > 0) {
+sock_recv_manager.c:                pa->wr_ptr = pa->buffer;
+sock_recv_manager.c:                pa->rd_ptr = pa->buffer;
+sock_recv_manager.c:                if(pa->end - pa->wr_ptr <= 0 ) {
+sock_recv_manager.c:                    if (pa->buffer == NULL) {
+sock_recv_manager.c:                        pa->wr_ptr = 0;
+sock_recv_manager.c:                        pa->rd_ptr = 0;
+sock_recv_manager.c:            pa->wr_ptr = 0;
+sock_recv_manager.c:            pa->rd_ptr = 0;

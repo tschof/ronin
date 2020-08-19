@@ -1,0 +1,22 @@
+[FIX SERVER]
+Sender Comp ID=ICE
+Target Comp ID=ICE
+Fix Port=80
+Fix IP=63.247.113.190
+Reset Incoming=0
+Reset Outgoing=0
+directory=/home/fparnell/git_repo/Dart2/om/ice/
+Dest ID=38
+Mod Name=ICE
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20140519000000
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1
