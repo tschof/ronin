@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SymbolMap>
+  <Symbol key="F:ZQ"
+          mapTo="FF">
+  </Symbol>
+  <Symbol key="F:ER2"
+        mapTo="ER">
+  </Symbol>
+  <Symbol key="F:ZB"
+        mapTo="US">
+  </Symbol>
+  <Symbol key="F:ZF"
+        mapTo="FV">
+  </Symbol>
+  <Symbol key="F:ZI"
+        mapTo="S">
+  </Symbol>
+  <Symbol key="F:ZT"
+        mapTo="TU">
+  </Symbol>
+  <Symbol key="F:OZB"
+         mapTo="US_OF">
+  </Symbol>
+</SymbolMap>

@@ -1,0 +1,86 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/RDS_Test/", "http://localhost/RDS_Test", "{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = ""$/OrderExecution/SERVERS/RDS/1.0.10/RDS_Test", VINCAAAA"
+		SccAuxPath = ""
+		SccLocalPath = "."
+		SccProvider = "MSSCCI:Microsoft Visual SourceSafe"
+		ProjectReferences = "{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}|TposWrapper.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/RDS_Test"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\..\..\inetpub\wwwroot\RDS_Test\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\RDS_Test\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/RDS_Test"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\..\..\inetpub\wwwroot\RDS_Test\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\RDS_Test\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "..\..\..\..\..\..\inetpub\wwwroot\RDS_Test\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TposWrapper", "..\TposWrapper\TposWrapper\TposWrapper.vcproj", "{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 3
+		SccProjectName0 = \u0022$/OrderExecution/SERVERS/RDS/1.0.10/RDS_Test\u0022,\u0020VINCAAAA
+		SccLocalPath0 = ..
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection0 = RDS.1.0.10\\
+		SccProjectUniqueName1 = ..\\TposWrapper\\TposWrapper\\TposWrapper.vcproj
+		SccLocalPath1 = ..
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection1 = TposWrapper\\TposWrapper\\
+		SccWebProject2 = true
+		SccProjectUniqueName2 = http://localhost/RDS_Test
+		SccLocalPath2 = c:\\inetpub\\wwwroot\\RDS_Test
+		CanCheckoutShared = false
+		SccProjectEnlistmentChoice2 = 2
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Release|.NET = Release|.NET
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Debug|.NET.ActiveCfg = Debug|.NET
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Debug|.NET.Build.0 = Debug|.NET
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Debug|Win32.ActiveCfg = Debug|.NET
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Release|.NET.ActiveCfg = Debug|.NET
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Release|.NET.Build.0 = Debug|.NET
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Release|Mixed Platforms.Build.0 = Debug|.NET
+		{9B56DA8C-7327-47B8-85EC-C67CBB80BB0E}.Release|Win32.ActiveCfg = Debug|.NET
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Debug|.NET.ActiveCfg = Debug|Win32
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Debug|Mixed Platforms.ActiveCfg = Release|Win32
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Debug|Mixed Platforms.Build.0 = Release|Win32
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Debug|Win32.Build.0 = Debug|Win32
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Release|.NET.ActiveCfg = Release|Win32
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Release|Win32.ActiveCfg = Release|Win32
+		{8FA8BCDB-5F48-48C4-8A8A-9442BB869272}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

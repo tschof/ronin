@@ -1,0 +1,61 @@
+[CBOE Connection]
+Exchange=CBOE
+Port=21502
+Host=170.137.230.11
+
+[Runtime Information]
+Last Run Date=20020619
+Start Time=700
+End Time=1715
+
+[Recorder Connection]
+Exchange=Recorder
+Port=8012
+Host=localhost
+Retry=1
+
+[CBOE Server]
+Port=8904
+
+[Special ID]
+BranchID=STA
+
+[Fix Information]
+SenderId=ROM3
+TargetId=TESTFIX002
+#TargetSubId=INET
+BeginString=FIX.4.1
+Heartbeat=30
+Encryption=0
+Initiate Logon=1
+Incoming Sequence File=C:\OrderManager\CBOE\IncomingSeq.txt
+Outgoing Sequence File=C:\OrderManager\CBOE\OutgoingSeq.txt
+
+
+[Clearing Information]
+Default Clearing Code=0551
+
+[Log File Information]
+Log File Path=c:\ordermanager\CBOE\
+
+[Database Information]
+User=ordermgr
+Password=order2k
+Database=OM
+DataSource=SQL_ANYWHERE
+Server=sebastian
+
+[External Database Information]
+User=ordermgr
+Password=order2k
+DataSource=SYBASE
+#DataSource=CHI_MAIN_PROD_SQL
+
+[Rv Information]
+Server=tcp:carbomb:7500
+Port=7501
+
+[Email Recipients]
+Mail Server=chi-mail1.win.xcaliber.com
+Business Group=david.liu@tdsecurities.com
+Developer Group=david.liu@tdsecurities.com

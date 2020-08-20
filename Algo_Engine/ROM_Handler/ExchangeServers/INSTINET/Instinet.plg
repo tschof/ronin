@@ -1,0 +1,71 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Instinet - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Debug/Instinet.res" /d "_DEBUG" /d "_AFXDLL" "C:\ExecutionSystems\Servers\ExchangeServers\Instinet\Instinet.rc"" 
+Creating temporary file "C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP18C.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\..\Common\ordermanagerbase" /I "..\..\..\Common\FixSession" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Fo"Debug/" /Fd"Debug/" /FD /c 
+"C:\ExecutionSystems\Servers\ExchangeServers\Instinet\InstinetHandler.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Instinet\InstinetStatus.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Instinet\InstinetDoc.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Instinet\InstinetView.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Instinet\IncaFixSession.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Instinet\Instinet.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Instinet\InstinetMemTagSet.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Instinet\SeqDlg.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP18C.tmp" 
+Creating temporary file "C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP18D.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\..\Common\ordermanagerbase" /I "..\..\..\Common\FixSession" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Fp"Debug/Instinet.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /c 
+"C:\ExecutionSystems\Servers\ExchangeServers\Instinet\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP18D.tmp" 
+Creating temporary file "C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP18E.tmp" with contents
+[
+fixsession-dynamic-d.lib ombase-dynamic-d.lib librvcpp.lib rvwin.lib libtibd.lib rv.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/Instinet.pdb" /debug /machine:I386 /force /out:"..\..\..\Bin\Instinet.exe" /pdbtype:sept /libpath:"..\..\..\Bin" /force/incremental:yes 
+.\Debug\InstinetHandler.obj
+.\Debug\InstinetStatus.obj
+.\Debug\InstinetDoc.obj
+.\Debug\InstinetView.obj
+.\Debug\IncaFixSession.obj
+.\Debug\Instinet.obj
+.\Debug\InstinetMemTagSet.obj
+.\Debug\SeqDlg.obj
+.\Debug\StdAfx.obj
+.\Debug\Instinet.res
+]
+Creating command line "link.exe @C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP18E.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+InstinetHandler.cpp
+InstinetStatus.cpp
+InstinetDoc.cpp
+InstinetView.cpp
+IncaFixSession.cpp
+Instinet.cpp
+InstinetMemTagSet.cpp
+SeqDlg.cpp
+Generating Code...
+c:\executionsystems\servers\exchangeservers\instinet\incafixsession.cpp(136) : warning C4715: 'CIncaFixSession::INCADestination' : not all control paths return a value
+Linking...
+LINK : warning LNK4044: unrecognized option "force/incremental:yes"; ignored
+LINK : warning LNK4075: ignoring /INCREMENTAL due to /FORCE specification
+LINK : warning LNK4098: defaultlib "LIBCMT" conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib "MSVCRT" conflicts with use of other libs; use /NODEFAULTLIB:library
+
+
+
+<h3>Results</h3>
+Instinet.exe - 0 error(s), 5 warning(s)
+</pre>
+</body>
+</html>

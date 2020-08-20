@@ -1,0 +1,252 @@
+<om>
+	<enum name="Side">
+		<value name="Buy" const="1"/>
+		<value name="Sell" const="2"/>
+		<value name="BuyMinus" const="3"/>
+		<value name="SellPlus" const="4"/>
+		<value name="Short" const="5"/>
+		<value name="Exempt" const="6"/>
+		<value name="Undisclosed" const="7"/>
+		<value name="Cross" const="8"/>
+	</enum>
+	<enum name="Type">
+		<value name="Market" const="1"/>
+		<value name="Limit" const="2"/>
+		<value name="Stop" const="3"/>
+		<value name="StopLimit" const="4"/>
+	</enum>
+	<enum name="TIF">
+		<value name="Day" const="0"/>
+		<value name="GTC" const="1"/>
+		<value name="OPG" const="2"/>
+		<value name="IC" const="3"/>
+		<value name="FOK" const="4"/>
+		<value name="GTX" const="5"/>
+		<value name="GTD" const="6"/>
+	</enum>
+	<enum name="Capacity">
+		<value name="Agent" const="'A'"/>
+		<value name="Principal" const="'P'"/>
+	</enum>
+	<enum name="Exchange">
+		<value name="Archipelago" const="0"/>
+		<value name="Instinet" const="1"/>
+		<value name="NYSE" const="2"/>
+		<value name="Island" const="3"/>
+		<value name="AMEX" const="4"/>
+		<value name="Globex" const="6"/>
+		<value name="Brut" const="7"/>
+		<value name="TLW" const="13"/>
+		<value name="ISI_SFU" const="15"/>
+		<value name="ISI_SFV" const="16"/>
+		<value name="ISI_SFW" const="17"/>
+		<value name="ISI_SFX" const="18"/>
+		<value name="ISI_SFY" const="19"/>
+		<value name="Jeffries" const="23"/>
+		<value name="XCaliber" const="24"/>
+		<value name="Brass" const="25"/>
+		<value name="BTrade" const="26"/>
+		<value name="CHX" const="27"/>
+		<value name="ITG" const="28"/>
+		<value name="ADOT" const="29"/>
+		<value name="SGES" const="30"/>
+		<value name="DirectPlus" const="31"/>
+	</enum>
+	<enum name="Status">
+		<value name="New" const="0"/>
+		<value name="PartiallyFilled" const="1"/>
+		<value name="Filled" const="2"/>
+		<value name="DoneForDay" const="3"/>
+		<value name="Cancelled" const="4"/>
+		<value name="Replaced" const="5"/>
+		<value name="PendingCancel" const="6"/>
+		<value name="Stopped" const="7"/>
+		<value name="Rejected" const="8"/>
+		<value name="Suspended" const="9"/>
+		<value name="PendingNew" const="10"/>
+		<value name="Calculated" const="11"/>
+		<value name="Expired" const="12"/>
+		<value name="Open" const="13"/>
+		<value name="CancelRejected" const="14"/>
+		<value name="Corrected" const="15"/>
+		<value name="Busted" const="16"/>
+		<value name="ReplaceRejected" const="20"/>
+		<value name="ReplacePending" const="21"/>
+	</enum>
+	<msg name="Login" command="L" length="2">
+		<field name="Timestamp" type="time" position="1"/>
+		<field name="LoginName" type="string" position="2"/>
+		<field name="AutoCancel" type="int" position="3"/>
+		<field name="Password" type="string" position="7"/>
+	</msg>
+	<msg name="EnterOrder" command="E" length="33">
+		<field name="Timestamp" type="time" position="1"/>
+		<field name="Trader" type="string" position="2"/>
+		<field name="Tag" type="string" position="3"/>
+		<field name="Side" type="int" position="4"/>
+		<field name="Symbol" type="string" position="5"/>
+		<field name="Shares" type="int" position="6"/>
+		<field name="Price" type="double" position="7"/>
+		<field name="Type" type="int" position="8"/>
+		<field name="TIF" type="char" position="9"/>
+		<field name="Capacity" type="char" position="10"/>
+		<field name="ClearingID" type="string" position="11"/>
+		<field name="ClearingAccount" type="string" position="12"/>
+		<field name="Exchange" type="int" position="13"/>
+		<field name="Status" type="int" position="14"/>
+		<field name="Instructions" type="string" position="15"/>
+		<field name="PriceCheck" type="char" position="16"/>
+		<field name="Floor" type="int" position="17"/>
+		<field name="MinQty" type="int" position="18"/>
+		<field name="StopPrice" type="double" position="19"/>
+		<field name="Discretionary" type="char" position="20"/>
+		<field name="Solicited" type="char" position="21"/>
+		<field name="LocalAccount" type="string" position="22"/>
+		<field name="Firm" type="string" position="23"/>
+		<field name="TradeFor" type="string" position="24"/>
+		<field name="DBSymbol" type="string" position="26"/>
+		<field name="Multiplier" type="int" position="28"/>
+		<field name="ExecutionDestination" type="string" position="29"/>
+		<field name="ExpirationDate" type="string" position="30"/>
+		<field name="OptionType" type="char" position="31"/>
+		<field name="StrikePrice" type="double" position="32"/>
+		<field name="Underlying" type="string" position="33"/>
+		<field name="MaxFloor" type="int" position="34"/>
+		<field name="SecurityType" type="char" position="35"/>
+		<field name="MMAccount" type="string" position="36"/>
+		<field name="MMHomeExchange" type="string" position="37"/>
+		<field name="OpenClose" type="int" position="38"/>
+		<field name="TradingSession" type="char" position="39"/>
+		<field name="Giveup" type="string" position="40"/>
+		<field name="CMTA" type="string" position="46"/>
+		<field name="GTDDate" type="string" position="47"/>
+		<field name="CumQty" type="int" position="48"/>
+		<field name="LeaveQty" type="int" position="49"/>
+		<field name="AvgPrc" type="double" position="51"/>
+		<field name="ExecInst" type="string" position="57"/>
+		<field name="SSFirm" type="string" position="58"/> 
+	</msg>
+	<msg name="CancelOrder" command="C" length="28">
+		<field name="Timestamp" type="time" position="1"/>
+		<field name="Trader" type="string" position="2"/>
+		<field name="Tag" type="string" position="3"/>
+		<field name="Side" type="int" position="4"/>
+		<field name="Symbol" type="string" position="5"/>
+		<field name="Shares" type="int" position="6"/>
+		<field name="Price" type="double" position="7"/>
+		<field name="Type" type="int" position="8"/>
+		<field name="TIF" type="char" position="9"/>
+		<field name="Capacity" type="char" position="10"/>
+		<field name="ClearingID" type="string" position="11"/>
+		<field name="ClearingAccount" type="string" position="12"/>
+		<field name="Exchange" type="int" position="13"/>
+		<field name="Status" type="int" position="14"/>
+		<field name="OrderTag" type="string" position="15"/>
+		<field name="ExchangeTag" type="string" position="16"/>
+		<field name="FirmTag" type="string" position="17"/>
+		<field name="CancelTag" type="string" position="18"/>
+		<field name="ExecTag" type="string" position="19"/>
+		<field name="ExecConfirm" type="string" position="20"/>
+		<field name="Reference" type="string" position="21"/>
+		<field name="Report" type="char" position="22"/>
+		<field name="Contra" type="string" position="23"/>
+		<field name="TradeFor" type="string" position="24"/>
+		<field name="QueryTag" type="string" position="25"/>
+		<field name="Text" type="string" position="26"/>
+		<field name="Owner" type="string" position="27"/>
+		<field name="OMExecTag" type="string" position="28"/>
+		<field name="ActionID" type="string" position="59"/>
+	</msg>
+	<msg name="ReplaceOrder" command="R" length="28">
+		<field name="Timestamp" type="time" position="1"/>
+		<field name="Trader" type="string" position="2"/>
+		<field name="Tag" type="string" position="3"/>
+		<field name="Side" type="int" position="4"/>
+		<field name="Symbol" type="string" position="5"/>
+		<field name="Shares" type="int" position="6"/>
+		<field name="Price" type="double" position="7"/>
+		<field name="Type" type="int" position="8"/>
+		<field name="TIF" type="char" position="9"/>
+		<field name="Capacity" type="char" position="10"/>
+		<field name="ClearingID" type="string" position="11"/>
+		<field name="ClearingAccount" type="string" position="12"/>
+		<field name="Exchange" type="int" position="13"/>
+		<field name="Status" type="int" position="14"/>
+		<field name="OrderTag" type="string" position="15"/>
+		<field name="ExchangeTag" type="string" position="16"/>
+		<field name="FirmTag" type="string" position="17"/>
+		<field name="CancelTag" type="string" position="18"/>
+		<field name="ExecTag" type="string" position="19"/>
+		<field name="ExecConfirm" type="string" position="20"/>
+		<field name="Reference" type="string" position="21"/>
+		<field name="Report" type="char" position="22"/>
+		<field name="Contra" type="string" position="23"/>
+		<field name="TradeFor" type="string" position="24"/>
+		<field name="QueryTag" type="string" position="25"/>
+		<field name="Text" type="string" position="26"/>
+		<field name="Owner" type="string" position="27"/>
+		<field name="OMExecTag" type="string" position="28"/>
+		<field name="GTDDate" type="string" position="47"/>
+		<field name="LeaveQty" type="int" position="49"/>
+		<field name="ExecInst" type="string" position="57"/>
+		<field name="SSFirm" type="string" position="58"/> 
+		<field name="ActionID" type="string" position="59"/>
+		<field name="NewOrderID" type="string" position="60" />
+	</msg>
+	<msg name="Status" command="S" length="28">
+		<field name="Timestamp" type="time" position="1"/>
+		<field name="Trader" type="string" position="2"/>
+		<field name="Tag" type="string" position="3"/>
+		<field name="Side" type="int" position="4"/>
+		<field name="Symbol" type="string" position="5"/>
+		<field name="Shares" type="int" position="6"/>
+		<field name="Price" type="double" position="7"/>
+		<field name="Type" type="int" position="8"/>
+		<field name="TIF" type="char" position="9"/>
+		<field name="Capacity" type="char" position="10"/>
+		<field name="ClearingID" type="string" position="11"/>
+		<field name="ClearingAccount" type="string" position="12"/>
+		<field name="Exchange" type="int" position="13"/>
+		<field name="Status" type="int" position="14"/>
+		<field name="OrderTag" type="string" position="15"/>
+		<field name="ExchangeTag" type="string" position="16"/>
+		<field name="FirmTag" type="string" position="17"/>
+		<field name="CancelTag" type="string" position="18"/>
+		<field name="ExecTag" type="string" position="19"/>
+		<field name="ExecConfirm" type="string" position="20"/>
+		<field name="Reference" type="string" position="21"/>
+		<field name="Report" type="char" position="22"/>
+		<field name="Contra" type="string" position="23"/>
+		<field name="TradeFor" type="string" position="24"/>
+		<field name="QueryTag" type="string" position="25"/>
+		<field name="Text" type="string" position="26"/>
+		<field name="Owner" type="string" position="27"/>
+		<field name="OMExecTag" type="string" position="28"/>
+		<field name="ExpirationDate" type="string" position="30"/>
+		<field name="OptionType" type="char" position="31"/>
+		<field name="StrikePrice" type="double" position="32"/>
+		<field name="Underlying" type="string" position="33"/>
+		<field name="SecurityType" type="char" position="35"/>
+		<field name="OpenClose" type="int" position="38"/>
+		<field name="Account" type="string" position="45"/>
+		<field name="CumQty" type="double" position="48"/>
+		<field name="LeaveQty" type="double" position="49"/>
+		<field name="ExecutionTime" type="string" position="50"/>
+		<field name="AvgPx" type="double" position="51"/>
+		<field name="ActionID" type="string" position="59"/>
+		<field name="NewOrderID" type="string" position="60" />
+		<field name="OrderStatus" type="int" position="61" />
+	</msg>
+	<msg name="Invalid" command="I" length="26">
+		<field name="Timestamp" type="time" position="1"/>
+		<field name="Text" type="string" position="26"/>
+	</msg>
+	<msg name="Query" command="Q" length="27">
+		<field name="Timestamp" type="time" position="1"/>
+		<field name="Owner" type="string" position="27"/>
+	</msg>
+	<msg name="Logout" command="O" length="2">
+		<field name="Timestamp" type="time" position="1"/>
+		<field name="LoginName" type="string" position="2"/>
+	</msg>
+</om>

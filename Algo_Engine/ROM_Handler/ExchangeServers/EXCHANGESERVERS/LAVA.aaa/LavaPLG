@@ -1,0 +1,59 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: LAVA - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Debug/Lava.res" /d "_DEBUG" /d "_AFXDLL" "C:\ExecutionSystems\Servers\ExchangeServers\LAVA\Lava.rc"" 
+Creating temporary file "C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP135.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\..\Common\ordermanagerbase" /I "..\..\..\Common\FixSession" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Fo"Debug/" /Fd"Debug/" /FD /c 
+"C:\ExecutionSystems\Servers\ExchangeServers\LAVA\Lava.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\LAVA\LavaDoc.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\LAVA\LavaFixSession.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\LAVA\LavaHandler.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\LAVA\LavaMemTagSet.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\LAVA\LavaStatus.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\LAVA\LavaView.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\LAVA\SeqDlg.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP135.tmp" 
+Creating temporary file "C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP136.tmp" with contents
+[
+ombase-dynamic-d.lib fixsession-dynamic-d.lib librvcpp.lib rvwin.lib libtib.lib rv.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/Lava.pdb" /debug /machine:I386 /out:"..\..\..\Bin\LAVA.exe" /pdbtype:sept /libpath:"..\..\..\Bin" 
+.\Debug\Lava.obj
+.\Debug\LavaDoc.obj
+.\Debug\LavaFixSession.obj
+.\Debug\LavaHandler.obj
+.\Debug\LavaMemTagSet.obj
+.\Debug\LavaStatus.obj
+.\Debug\LavaView.obj
+.\Debug\SeqDlg.obj
+.\Debug\Lava.res
+]
+Creating command line "link.exe @C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP136.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+Lava.cpp
+LavaDoc.cpp
+LavaFixSession.cpp
+LavaHandler.cpp
+LavaMemTagSet.cpp
+LavaStatus.cpp
+LavaView.cpp
+SeqDlg.cpp
+Generating Code...
+Linking...
+LINK : warning LNK4098: defaultlib "LIBCMT" conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib "MSVCRT" conflicts with use of other libs; use /NODEFAULTLIB:library
+
+
+
+<h3>Results</h3>
+Lava.exe - 0 error(s), 2 warning(s)
+</pre>
+</body>
+</html>

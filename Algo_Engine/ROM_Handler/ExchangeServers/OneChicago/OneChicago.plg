@@ -1,0 +1,37 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: OneChicago - Win32 FIX42 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\wxu\LOCALS~1\Temp\RSP16AB.tmp" with contents
+[
+FixMsg42-r.lib ombase-dynamic-r-can.lib version.lib DBOLib.lib libct.lib libcs.lib threadpool.lib OrderTypeValidator.lib DatabaseSettings.lib /nologo /subsystem:windows /incremental:no /pdb:"FIX42_Release/OneChicago.pdb" /machine:I386 /out:"..\..\..\Bin\OneChicago.exe" /libpath:"..\..\..\Bin" 
+.\FIX42_Release\ExchangeApp.obj
+.\FIX42_Release\ExchangeStatus.obj
+.\FIX42_Release\OneChicago.obj
+.\FIX42_Release\OneChicagoDoc.obj
+.\FIX42_Release\OneChicagoFixSession.obj
+.\FIX42_Release\OneChicagoHandler.obj
+.\FIX42_Release\OneChicagoMemTagSet.obj
+.\FIX42_Release\OneChicagoView.obj
+.\FIX42_Release\OptFixSession.obj
+.\FIX42_Release\OptionMemTagSet.obj
+.\FIX42_Release\SeqDlg.obj
+.\FIX42_Release\StdAfx.obj
+.\FIX42_Release\OneChicago.res
+]
+Creating command line "link.exe @C:\DOCUME~1\wxu\LOCALS~1\Temp\RSP16AB.tmp"
+<h3>Output Window</h3>
+Linking...
+LINK : warning LNK4075: ignoring /EDITANDCONTINUE due to /INCREMENTAL:NO specification
+
+
+
+<h3>Results</h3>
+OneChicago.exe - 0 error(s), 1 warning(s)
+</pre>
+</body>
+</html>

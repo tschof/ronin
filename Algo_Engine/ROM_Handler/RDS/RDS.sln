@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://10.100.100.197/RDS107/", "http://10.100.100.197/RDS107", "{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.VirtualPath = "/RDS"
+		Debug.AspNetCompiler.PhysicalPath = "..\RDS\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\RDS\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/RDS"
+		Release.AspNetCompiler.PhysicalPath = "..\RDS\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\RDS\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "..\RDS\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Release|.NET = Release|.NET
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Debug|.NET.ActiveCfg = Debug|.NET
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Debug|.NET.Build.0 = Debug|.NET
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Debug|Win32.ActiveCfg = Debug|.NET
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Release|.NET.ActiveCfg = Debug|.NET
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Release|.NET.Build.0 = Debug|.NET
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Release|Mixed Platforms.Build.0 = Debug|.NET
+		{66BCDC32-DF33-4C6A-BA25-A1B7A541C704}.Release|Win32.ActiveCfg = Debug|.NET
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

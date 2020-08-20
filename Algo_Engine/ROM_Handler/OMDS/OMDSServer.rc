@@ -1,0 +1,253 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\OMDSServer.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\OMDSServer.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About OMDSServer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "OMDSServer Version 3.0.0",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2002",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_OMDSSERVER_DIALOG DIALOGEX 0, 0, 478, 321
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "OptionMan Market Data Server"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "&Start",IDC_BUTTON_START,422,12,45,14
+    PUSHBUTTON      "S&top",IDC_BUTTON_STOP,422,29,45,14
+    LTEXT           "Server Port:",IDC_STATIC,14,19,40,8
+    EDITTEXT        IDC_EDIT_PORT,54,17,33,12,ES_AUTOHSCROLL
+    LTEXT           "Tib Network:",IDC_STATIC,93,36,42,8
+    LTEXT           "Tib Daemon:",IDC_STATIC,93,19,42,8
+    LTEXT           "Tib Service:",IDC_STATIC,13,36,41,8
+    EDITTEXT        IDC_EDIT_NETWORK,139,34,92,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_DAEMON,139,17,91,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SERVICE,55,34,33,12,ES_AUTOHSCROLL
+    GROUPBOX        "Settings:",IDC_STATIC,7,7,231,46
+    GROUPBOX        "Warnings && Messages:",IDC_STATIC,7,124,464,88
+    GROUPBOX        "Errors:",IDC_STATIC,7,218,464,90
+    GROUPBOX        "Connection Status:",IDC_STATIC,7,58,464,31
+    LISTBOX         IDC_LIST_REQUEST,13,135,451,73,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST_RESPONSE,13,230,451,70,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "# Clients:",IDC_STATIC,13,71,30,8
+    EDITTEXT        IDC_EDIT_CLIENTS,64,69,26,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    LTEXT           "Request Queue Size:",IDC_STATIC,255,35,68,8
+    LTEXT           "Response Queue Size:",IDC_STATIC,249,19,74,8
+    EDITTEXT        IDC_EDIT_REQUESTS,326,33,41,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_RESPONSE,325,17,41,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_IN,146,69,36,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_OUT,239,69,45,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "# Requests:",IDC_STATIC,94,71,45,8
+    LTEXT           "# Tib Message:",IDC_STATIC,187,71,51,8
+    EDITTEXT        IDC_EDIT_TIBSUB,88,101,34,12,ES_AUTOHSCROLL
+    LTEXT           "Client Requests/Sec:",IDC_STATIC,14,102,68,8
+    EDITTEXT        IDC_EDIT_TIBRATE,339,69,31,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    LTEXT           "Tib Msg / Sec:",IDC_STATIC,289,71,50,8
+    GROUPBOX        "Queues",IDC_STATIC,243,6,131,46
+    EDITTEXT        IDC_EDIT_TIBRATEPEAK,427,69,31,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    RTEXT           "Peak TMsg/S:",IDC_STATIC,373,71,49,8
+    PUSHBUTTON      "&Go",IDC_BUTTON_SIMULATE,425,100,45,14
+    LTEXT           "Symbol File:",IDC_STATIC,129,102,38,8
+    EDITTEXT        IDC_EDIT_SYMFILE,173,101,200,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,378,100,45,14
+    GROUPBOX        "Load Simulation:",IDC_STATIC,7,90,464,31
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 4,0,0,0
+ PRODUCTVERSION 4,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "OMDSServer MFC Application\0"
+            VALUE "FileVersion", "4, 0, 0, 0\0"
+            VALUE "InternalName", "OMDSServer\0"
+            VALUE "LegalCopyright", "Copyright (C) 2002\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "OMDSServer.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "OMDSServer Application\0"
+            VALUE "ProductVersion", "4, 0, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_OMDSSERVER_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 471
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 314
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About OMDSServer..."
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\OMDSServer.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

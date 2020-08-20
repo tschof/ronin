@@ -1,0 +1,149 @@
+[ILinkGlobex Server]
+# Failover processing will occur
+# if the FailOver flag is non-zero
+#(1 = Y, 0 = N)
+UseFailOver=1
+Exchange Destination Id=6
+ReconnectAttempts=3
+Port=8090
+
+[ILinkGlobex-P Connection]
+Exchange=ILinkGlobex
+#PROD
+#HOST=65.164.7.92
+HOST=10.99.12.55
+Port=11786
+#DEV
+#Host=10.1.56.138
+#Port=10642
+#CERT
+#HOST=10.1.63.82
+#Port=7001
+
+
+[ILinkGlobex-S Connection]
+Exchange=ILinkGlobex
+#PROD
+#HOST=65.164.7.91
+HOST=10.99.12.56
+Port=11786
+#DEV
+#Host=10.1.56.139
+#Host=localhost
+#Port=10642
+
+
+[Email Recipients]
+Mail Server=sron-chi-mail01.ronin.roncap.com
+Business Group=ROMBusAlerts@ronin-capital.com
+Developer Group=ROMTechAlerts@ronin-capital.com
+
+
+[Fix Information]
+BeginString=FIX.4.2
+Encryption=0
+Heartbeat=999
+Initiate Logon=1
+Incoming Sequence File=C:\OrderManager\ILinkGlobex\IncomingSeq.txt
+Outgoing Sequence File=C:\OrderManager\ILinkGlobex\OutgoingSeq.txt
+Password=niscr
+#DEV
+#Password=PNA
+Firm Name=Ronin Capital
+Session ID=DFJ
+Firm ID=425
+#DEV
+#Session ID=J46
+#Firm ID=516
+FTI=N
+#These are unknown
+SenderSubId=K04
+SenderLocationID=5115
+
+TargetId=CME
+TargetSubId=G
+
+# Sequence Recycle settings
+# Sunday 	= 1
+# Monday 	= 2
+# Tuesday 	= 3
+# Wednesday 	= 4
+# Thursday 	= 5
+# Friday 	= 6
+# Saturday 	= 7
+
+# Zero is false
+DailySequenceRecycle=0
+SequenceRecycleDay=2
+# Send 141 tag = (1 = Y, 0 = N)
+ForceSequenceRecycle=0
+
+[Clearing Information]
+Allowed FirmID=414,425
+Default Clearing Code=0551
+CustomerTypeCode=2
+FeeBilling=H
+CustomerOrFirm=1
+
+[Log File Information]
+Path=C:\OrderManager\ILinkGlobex\
+Map File Path=C:\OrderManager\ILinkGlobex\
+
+[Database Information]
+User=rom_user
+Password=resu_mor
+Database=rom
+Server=RON_SYB_PROD
+
+
+[Runtime Information]
+Start Time=700
+End Time=1800
+Last Run Date=20060301
+
+
+#[ILinkGlobex-P Connection Test]
+#Exchange=ILinkGlobex
+#Host=10.1.56.52
+#Port=7020
+#Exchange=ILinkGlobex
+
+#[ILinkGlobex-S Connection Test]
+#Host=10.1.56.53
+#Port=7020
+
+
+[SupportedOrderTIFs]
+# 1=supported
+# 0=not supported
+DAY=1
+GTC=0
+OPG=0
+IC=0
+FOK=0
+GTX=0
+GTD=0
+Extended Day=0
+#ED=0
+AON=1
+VWAP=0
+GVWAP=0
+
+[SupportedOrderTypes]
+FYIType=0
+Market=1
+Limit=1
+Stop=1
+StopLimit=1
+MarketOnClose=0
+WithOrWithOut=0
+LimitOrBetter=0
+LimitWithOrWihtout=0
+OnBasis=0
+OnClose=0
+LimitOnClose=0
+MarketAtOpen=0
+MarketLimit=1
+
+[MemoryMapSettings]
+ForceReload=1

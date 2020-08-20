@@ -1,0 +1,250 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: MERRILL - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Release/MERRILL.res" /d "NDEBUG" /d "_AFXDLL" "Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILL.rc"" 
+Creating temporary file "C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP813.tmp" with contents
+[
+/nologo /MD /W3 /GX /I "..\common" /I "..\..\..\Common" /I "..\..\..\Common\ordermanagerbasecan" /I "..\..\..\Common\Fixmsg42" /I "..\..\..\Common\MemoryMapInitializer" /I "..\..\..\Common\Dbo" /I "..\..\..\Common\DatabaseSettings" /I "..\..\..\Common\OrderIdGenerator" /I "..\..\..\Common\OrderTypeValidator" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /Fp"Release/MERRILL.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Common\ExchangeApp.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Common\ExchangeStatus.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILL.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILLDoc.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILLFixSession.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILLHandler.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILLView.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\COMMON\OptionMemTagSet.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Common\SeqDlg.cpp"
+]
+Creating command line "xicl6.exe @C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP813.tmp" 
+Creating temporary file "C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP814.tmp" with contents
+[
+/nologo /MD /W3 /GX /I "..\common" /I "..\..\..\Common" /I "..\..\..\Common\ordermanagerbasecan" /I "..\..\..\Common\Fixmsg42" /I "..\..\..\Common\MemoryMapInitializer" /I "..\..\..\Common\Dbo" /I "..\..\..\Common\DatabaseSettings" /I "..\..\..\Common\OrderIdGenerator" /I "..\..\..\Common\OrderTypeValidator" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /Fp"Release/MERRILL.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\MERRILL\StdAfx.cpp"
+]
+Creating command line "xicl6.exe @C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP814.tmp" 
+Creating temporary file "C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP815.tmp" with contents
+[
+FixMsg42-r.lib ombase-dynamic-r-can.lib DBOLib.lib libct.lib libcs.lib version.lib threadpool.lib OrderTypeValidator.lib DatabaseSettings.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/MERRILL.pdb" /machine:I386 /out:"..\..\..\Bin\MERRILL.exe" /libpath:"..\..\..\Lib" 
+.\Release\ExchangeApp.obj
+.\Release\ExchangeStatus.obj
+.\Release\MERRILL.obj
+.\Release\MERRILLDoc.obj
+.\Release\MERRILLFixSession.obj
+.\Release\MERRILLHandler.obj
+.\Release\MERRILLView.obj
+.\Release\OptionMemTagSet.obj
+.\Release\SeqDlg.obj
+.\Release\StdAfx.obj
+.\Release\MERRILL.res
+]
+Creating command line "xilink6.exe @C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP815.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+ExchangeApp.cpp
+ExchangeStatus.cpp
+MERRILL.cpp
+MERRILLDoc.cpp
+MERRILLFixSession.cpp
+MERRILLHandler.cpp
+MERRILLView.cpp
+OptionMemTagSet.cpp
+SeqDlg.cpp
+Generating Code...
+Linking...
+xilink6: executing 'C:\PROGRA~1\MICROS~3\VC98\Bin\link.exe'
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "public: __thiscall std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::~basic_string<char,struct std::char_traits<char>,class std::allocator<char> >(void)" (??1?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAE@XZ) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "public: __thiscall std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >(char const *,class std::allocator<char> const &)" (??0?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAE@PBDABV?$allocator@D@1@@Z) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "public: void __thiscall std::basic_ostringstream<char,struct std::char_traits<char>,class std::allocator<char> >::`vbase destructor'(void)" (??_D?$basic_ostringstream@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAEXXZ) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "public: char const * __thiscall std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::c_str(void)const " (?c_str@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QBEPBDXZ) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall std::basic_ostringstream<char,struct std::char_traits<char>,class std::allocator<char> >::str(void)const " (?str@?$basic_ostringstream@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@XZ) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "public: class std::basic_ostream<char,struct std::char_traits<char> > & __thiscall std::basic_ostream<char,struct std::char_traits<char> >::operator<<(long)" (??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QAEAAV01@J@Z) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "public: class std::basic_ostream<char,struct std::char_traits<char> > & __thiscall std::basic_ostream<char,struct std::char_traits<char> >::operator<<(int)" (??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QAEAAV01@H@Z) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl std::operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,char const *)" (??6std@@YAAAV?$basic_ostream@DU?$char_traits@D@std@@@0@AAV10@PBD@Z) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "private: void __thiscall std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::_Copy(unsigned int)" (?_Copy@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAEXI@Z) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "private: void __thiscall std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::_Tidy(bool)" (?_Tidy@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAEX_N@Z) already defined in FixMsg42-r.lib(FixSession.obj)
+msvcprt.lib(MSVCP60.dll) : error LNK2005: "private: bool __thiscall std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::_Grow(unsigned int,bool)" (?_Grow@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAE_NI_N@Z) already defined in FixMsg42-r.lib(FixSession.obj)
+nafxcw.lib(strcore.obj) : error LNK2005: "class CString const & __stdcall AfxGetEmptyString(void)" (?AfxGetEmptyString@@YGABVCString@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: __thiscall CString::CString(class CString const &)" (??0CString@@QAE@ABV0@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: __thiscall CString::~CString(void)" (??1CString@@QAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: __thiscall CString::CString(char const *)" (??0CString@@QAE@PBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: class CString const & __thiscall CString::operator=(class CString const &)" (??4CString@@QAEABV0@ABV0@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: class CString const & __thiscall CString::operator=(char const *)" (??4CString@@QAEABV0@PBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "class CString __stdcall operator+(class CString const &,class CString const &)" (??H@YG?AVCString@@ABV0@0@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "class CString __stdcall operator+(class CString const &,char const *)" (??H@YG?AVCString@@ABV0@PBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "class CString __stdcall operator+(char const *,class CString const &)" (??H@YG?AVCString@@PBDABV0@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: class CString const & __thiscall CString::operator+=(char const *)" (??YCString@@QAEABV0@PBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: class CString const & __thiscall CString::operator+=(char)" (??YCString@@QAEABV0@D@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: class CString const & __thiscall CString::operator+=(class CString const &)" (??YCString@@QAEABV0@ABV0@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: char * __thiscall CString::GetBuffer(int)" (?GetBuffer@CString@@QAEPADH@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: void __thiscall CString::ReleaseBuffer(int)" (?ReleaseBuffer@CString@@QAEXH@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: int __thiscall CString::Find(char)const " (?Find@CString@@QBEHD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(strcore.obj) : error LNK2005: "public: int __thiscall CString::Find(char,int)const " (?Find@CString@@QBEHDH@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(except.obj) : error LNK2005: "public: __thiscall CException::CException(void)" (??0CException@@QAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(except.obj) : error LNK2005: "public: virtual int __thiscall CException::GetErrorMessage(char *,unsigned int,unsigned int *)" (?GetErrorMessage@CException@@UAEHPADIPAI@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(except.obj) : error LNK2005: "public: virtual int __thiscall CException::ReportError(unsigned int,unsigned int)" (?ReportError@CException@@UAEHII@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(except.obj) : error LNK2005: "public: virtual struct CRuntimeClass * __thiscall CException::GetRuntimeClass(void)const " (?GetRuntimeClass@CException@@UBEPAUCRuntimeClass@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(afxstate.obj) : error LNK2005: "class AFX_MODULE_STATE * __stdcall AfxGetModuleState(void)" (?AfxGetModuleState@@YGPAVAFX_MODULE_STATE@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "class CWinThread * __stdcall AfxGetThread(void)" (?AfxGetThread@@YGPAVCWinThread@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "class CWinThread * __stdcall AfxBeginThread(struct CRuntimeClass *,int,unsigned int,unsigned long,struct _SECURITY_ATTRIBUTES *)" (?AfxBeginThread@@YGPAVCWinThread@@PAUCRuntimeClass@@HIKPAU_SECURITY_ATTRIBUTES@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: __thiscall CWinThread::CWinThread(void)" (??0CWinThread@@QAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: virtual __thiscall CWinThread::~CWinThread(void)" (??1CWinThread@@UAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: virtual void __thiscall CWinThread::Delete(void)" (?Delete@CWinThread@@UAEXXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: virtual int __thiscall CWinThread::IsIdleMessage(struct tagMSG *)" (?IsIdleMessage@CWinThread@@UAEHPAUtagMSG@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: virtual int __thiscall CWinThread::OnIdle(long)" (?OnIdle@CWinThread@@UAEHJ@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: virtual int __thiscall CWinThread::PreTranslateMessage(struct tagMSG *)" (?PreTranslateMessage@CWinThread@@UAEHPAUtagMSG@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: virtual long __thiscall CWinThread::ProcessWndProcException(class CException *,struct tagMSG const *)" (?ProcessWndProcException@CWinThread@@UAEJPAVCException@@PBUtagMSG@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: virtual int __thiscall CWinThread::ProcessMessageFilter(int,struct tagMSG *)" (?ProcessMessageFilter@CWinThread@@UAEHHPAUtagMSG@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: virtual class CWnd * __thiscall CWinThread::GetMainWnd(void)" (?GetMainWnd@CWinThread@@UAEPAVCWnd@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(thrdcore.obj) : error LNK2005: "public: virtual int __thiscall CWinThread::PumpMessage(void)" (?PumpMessage@CWinThread@@UAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(objcore.obj) : error LNK2005: "public: virtual struct CRuntimeClass * __thiscall CObject::GetRuntimeClass(void)const " (?GetRuntimeClass@CObject@@UBEPAUCRuntimeClass@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(objcore.obj) : error LNK2005: "public: int __thiscall CObject::IsKindOf(struct CRuntimeClass const *)const " (?IsKindOf@CObject@@QBEHPBUCRuntimeClass@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(map_pp.obj) : error LNK2005: "public: __thiscall CMapPtrToPtr::CMapPtrToPtr(int)" (??0CMapPtrToPtr@@QAE@H@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(map_pp.obj) : error LNK2005: "public: void __thiscall CMapPtrToPtr::RemoveAll(void)" (?RemoveAll@CMapPtrToPtr@@QAEXXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(map_pp.obj) : error LNK2005: "public: virtual __thiscall CMapPtrToPtr::~CMapPtrToPtr(void)" (??1CMapPtrToPtr@@UAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(map_pp.obj) : error LNK2005: "public: int __thiscall CMapPtrToPtr::Lookup(void *,void * &)const " (?Lookup@CMapPtrToPtr@@QBEHPAXAAPAX@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(map_pp.obj) : error LNK2005: "public: void * & __thiscall CMapPtrToPtr::operator[](void *)" (??ACMapPtrToPtr@@QAEAAPAXPAX@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(map_pp.obj) : error LNK2005: "public: int __thiscall CMapPtrToPtr::RemoveKey(void *)" (?RemoveKey@CMapPtrToPtr@@QAEHPAX@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(afxmem.obj) : error LNK2005: "void * __cdecl operator new(unsigned int)" (??2@YAPAXI@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(afxmem.obj) : error LNK2005: "void __cdecl operator delete(void *)" (??3@YAXPAX@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "public: virtual int __thiscall CCmdTarget::OnCmdMsg(unsigned int,int,void *,struct AFX_CMDHANDLERINFO *)" (?OnCmdMsg@CCmdTarget@@UAEHIHPAXPAUAFX_CMDHANDLERINFO@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "public: virtual int __thiscall CCmdTarget::IsInvokeAllowed(long)" (?IsInvokeAllowed@CCmdTarget@@UAEHJ@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "public: virtual int __thiscall CCmdTarget::GetDispatchIID(struct _GUID *)" (?GetDispatchIID@CCmdTarget@@UAEHPAU_GUID@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "public: virtual unsigned int __thiscall CCmdTarget::GetTypeInfoCount(void)" (?GetTypeInfoCount@CCmdTarget@@UAEIXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "public: virtual class CTypeLibCache * __thiscall CCmdTarget::GetTypeLibCache(void)" (?GetTypeLibCache@CCmdTarget@@UAEPAVCTypeLibCache@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "public: virtual long __thiscall CCmdTarget::GetTypeLib(unsigned long,struct ITypeLib * *)" (?GetTypeLib@CCmdTarget@@UAEJKPAPAUITypeLib@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "protected: virtual struct AFX_DISPMAP const * __thiscall CCmdTarget::GetDispatchMap(void)const " (?GetDispatchMap@CCmdTarget@@MBEPBUAFX_DISPMAP@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "protected: virtual struct AFX_EVENTSINKMAP const * __thiscall CCmdTarget::GetEventSinkMap(void)const " (?GetEventSinkMap@CCmdTarget@@MBEPBUAFX_EVENTSINKMAP@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "protected: virtual struct AFX_INTERFACEMAP const * __thiscall CCmdTarget::GetInterfaceMap(void)const " (?GetInterfaceMap@CCmdTarget@@MBEPBUAFX_INTERFACEMAP@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "public: virtual void __thiscall CCmdTarget::OnFinalRelease(void)" (?OnFinalRelease@CCmdTarget@@UAEXXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "public: virtual int __thiscall CCmdTarget::OnCreateAggregates(void)" (?OnCreateAggregates@CCmdTarget@@UAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "public: virtual struct IUnknown * __thiscall CCmdTarget::GetInterfaceHook(void const *)" (?GetInterfaceHook@CCmdTarget@@UAEPAUIUnknown@@PBX@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "protected: virtual struct AFX_CONNECTIONMAP const * __thiscall CCmdTarget::GetConnectionMap(void)const " (?GetConnectionMap@CCmdTarget@@MBEPBUAFX_CONNECTIONMAP@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "protected: virtual struct IConnectionPoint * __thiscall CCmdTarget::GetConnectionHook(struct _GUID const &)" (?GetConnectionHook@CCmdTarget@@MAEPAUIConnectionPoint@@ABU_GUID@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "protected: virtual int __thiscall CCmdTarget::GetExtraConnectionPoints(class CPtrArray *)" (?GetExtraConnectionPoints@CCmdTarget@@MAEHPAVCPtrArray@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(cmdtarg.obj) : error LNK2005: "protected: virtual struct AFX_OLECMDMAP const * __thiscall CCmdTarget::GetCommandMap(void)const " (?GetCommandMap@CCmdTarget@@MBEPBUAFX_OLECMDMAP@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: __thiscall CWnd::CWnd(void)" (??0CWnd@@QAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: long __thiscall CWnd::Default(void)" (?Default@CWnd@@IAEJXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: static class CWnd * __stdcall CWnd::FromHandle(struct HWND__ *)" (?FromHandle@CWnd@@SGPAV1@PAUHWND__@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual void __thiscall CWnd::PreSubclassWindow(void)" (?PreSubclassWindow@CWnd@@UAEXXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "long (__stdcall*__stdcall AfxGetAfxWndProc(void))(struct HWND__ *,unsigned int,unsigned int,long)" (?AfxGetAfxWndProc@@YGP6GJPAUHWND__@@IIJ@ZXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: int __thiscall CWnd::CreateEx(unsigned long,char const *,char const *,unsigned long,struct tagRECT const &,class CWnd *,unsigned int,void *)" (?CreateEx@CWnd@@QAEHKPBD0KABUtagRECT@@PAV1@IPAX@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual int __thiscall CWnd::PreCreateWindow(struct tagCREATESTRUCTA &)" (?PreCreateWindow@CWnd@@UAEHAAUtagCREATESTRUCTA@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual int __thiscall CWnd::Create(char const *,char const *,unsigned long,struct tagRECT const &,class CWnd *,unsigned int,struct CCreateContext *)" (?Create@CWnd@@UAEHPBD0KABUtagRECT@@PAV1@IPAUCCreateContext@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual __thiscall CWnd::~CWnd(void)" (??1CWnd@@UAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual void __thiscall CWnd::PostNcDestroy(void)" (?PostNcDestroy@CWnd@@MAEXXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual void __thiscall CWnd::OnFinalRelease(void)" (?OnFinalRelease@CWnd@@UAEXXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual int __thiscall CWnd::DestroyWindow(void)" (?DestroyWindow@CWnd@@UAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual long __thiscall CWnd::DefWindowProcA(unsigned int,unsigned int,long)" (?DefWindowProcA@CWnd@@MAEJIIJ@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual long (__stdcall** __thiscall CWnd::GetSuperWndProcAddr(void))(struct HWND__ *,unsigned int,unsigned int,long)" (?GetSuperWndProcAddr@CWnd@@MAEPAP6GJPAUHWND__@@IIJ@ZXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual int __thiscall CWnd::PreTranslateMessage(struct tagMSG *)" (?PreTranslateMessage@CWnd@@UAEHPAUtagMSG@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual int __thiscall CWnd::OnToolHitTest(class CPoint,struct tagTOOLINFOA *)const " (?OnToolHitTest@CWnd@@UBEHVCPoint@@PAUtagTOOLINFOA@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: int __thiscall CWnd::GetWindowPlacement(struct tagWINDOWPLACEMENT *)const " (?GetWindowPlacement@CWnd@@QBEHPAUtagWINDOWPLACEMENT@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: int __thiscall CWnd::SetWindowPlacement(struct tagWINDOWPLACEMENT const *)" (?SetWindowPlacement@CWnd@@QAEHPBUtagWINDOWPLACEMENT@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "int __stdcall AfxRegisterClass(struct tagWNDCLASSA *)" (?AfxRegisterClass@@YGHPAUtagWNDCLASSA@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual void __thiscall CWnd::WinHelpA(unsigned long,unsigned int)" (?WinHelpA@CWnd@@UAEXKI@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual struct AFX_MSGMAP const * __thiscall CWnd::GetMessageMap(void)const " (?GetMessageMap@CWnd@@MBEPBUAFX_MSGMAP@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual long __thiscall CWnd::WindowProc(unsigned int,unsigned int,long)" (?WindowProc@CWnd@@MAEJIIJ@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual int __thiscall CWnd::OnWndMsg(unsigned int,unsigned int,long,long *)" (?OnWndMsg@CWnd@@MAEHIIJPAJ@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual int __thiscall CWnd::OnCommand(unsigned int,long)" (?OnCommand@CWnd@@MAEHIJ@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual int __thiscall CWnd::OnNotify(unsigned int,long,long *)" (?OnNotify@CWnd@@MAEHIJPAJ@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual class CScrollBar * __thiscall CWnd::GetScrollBarCtrl(int)const " (?GetScrollBarCtrl@CWnd@@UBEPAVCScrollBar@@H@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual void __thiscall CWnd::CalcWindowRect(struct tagRECT *,unsigned int)" (?CalcWindowRect@CWnd@@UAEXPAUtagRECT@@I@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual int __thiscall CWnd::OnChildNotify(unsigned int,unsigned int,long,long *)" (?OnChildNotify@CWnd@@MAEHIIJPAJ@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual int __thiscall CWnd::CheckAutoCenter(void)" (?CheckAutoCenter@CWnd@@UAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual int __thiscall CWnd::ContinueModal(void)" (?ContinueModal@CWnd@@UAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual void __thiscall CWnd::EndModalLoop(int)" (?EndModalLoop@CWnd@@UAEXH@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "protected: virtual int __thiscall CWnd::SetOccDialogInfo(struct _AFX_OCC_DIALOG_INFO *)" (?SetOccDialogInfo@CWnd@@MAEHPAU_AFX_OCC_DIALOG_INFO@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual int __thiscall CWnd::IsFrameWnd(void)const " (?IsFrameWnd@CWnd@@UBEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wincore.obj) : error LNK2005: "public: virtual int __thiscall CFrameWnd::IsFrameWnd(void)const " (?IsFrameWnd@CFrameWnd@@UBEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(app3d.obj) : error LNK2005: "protected: int __thiscall CWinApp::Enable3dControls(void)" (?Enable3dControls@CWinApp@@IAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(winocc.obj) : error LNK2005: "public: virtual int __thiscall CWnd::OnAmbientProperty(class COleControlSite *,long,struct tagVARIANT *)" (?OnAmbientProperty@CWnd@@UAEHPAVCOleControlSite@@JPAUtagVARIANT@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(winocc.obj) : error LNK2005: "public: int __thiscall CWnd::ModifyStyle(unsigned long,unsigned long,unsigned int)" (?ModifyStyle@CWnd@@QAEHKKI@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(winocc.obj) : error LNK2005: "public: void __thiscall CWnd::SetWindowTextA(char const *)" (?SetWindowTextA@CWnd@@QAEXPBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(winocc.obj) : error LNK2005: "public: void __thiscall CWnd::MoveWindow(int,int,int,int,int)" (?MoveWindow@CWnd@@QAEXHHHHH@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(winocc.obj) : error LNK2005: "public: int __thiscall CWnd::ShowWindow(int)" (?ShowWindow@CWnd@@QAEHH@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appui1.obj) : error LNK2005: "public: virtual int __thiscall CWinApp::DoMessageBox(char const *,unsigned int,unsigned int)" (?DoMessageBox@CWinApp@@UAEHPBDII@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appui1.obj) : error LNK2005: "int __stdcall AfxMessageBox(char const *,unsigned int,unsigned int)" (?AfxMessageBox@@YGHPBDII@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appui1.obj) : error LNK2005: "int __stdcall AfxMessageBox(unsigned int,unsigned int,unsigned int)" (?AfxMessageBox@@YGHIII@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "protected: virtual struct AFX_MSGMAP const * __thiscall CWinApp::GetMessageMap(void)const " (?GetMessageMap@CWinApp@@MBEPBUAFX_MSGMAP@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: __thiscall CWinApp::CWinApp(char const *)" (??0CWinApp@@QAE@PBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: virtual int __thiscall CWinApp::InitApplication(void)" (?InitApplication@CWinApp@@UAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "protected: void __thiscall CWinApp::LoadStdProfileSettings(unsigned int)" (?LoadStdProfileSettings@CWinApp@@IAEXI@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: void __thiscall CWinApp::ParseCommandLine(class CCommandLineInfo &)" (?ParseCommandLine@CWinApp@@QAEXAAVCCommandLineInfo@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: __thiscall CCommandLineInfo::CCommandLineInfo(void)" (??0CCommandLineInfo@@QAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: virtual __thiscall CCommandLineInfo::~CCommandLineInfo(void)" (??1CCommandLineInfo@@UAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: virtual __thiscall CWinApp::~CWinApp(void)" (??1CWinApp@@UAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: virtual int __thiscall CWinApp::ExitInstance(void)" (?ExitInstance@CWinApp@@UAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: virtual int __thiscall CWinApp::Run(void)" (?Run@CWinApp@@UAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: virtual void __thiscall CWinApp::WinHelpA(unsigned long,unsigned int)" (?WinHelpA@CWinApp@@UAEXKI@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: virtual long __thiscall CWinApp::ProcessWndProcException(class CException *,struct tagMSG const *)" (?ProcessWndProcException@CWinApp@@UAEJPAVCException@@PBUtagMSG@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: virtual int __thiscall CWinApp::OnIdle(long)" (?OnIdle@CWinApp@@UAEHJ@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appcore.obj) : error LNK2005: "public: virtual struct CRuntimeClass * __thiscall CWinApp::GetRuntimeClass(void)const " (?GetRuntimeClass@CWinApp@@UBEPAUCRuntimeClass@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wingdi.obj) : error LNK2005: "public: __thiscall CDC::CDC(void)" (??0CDC@@QAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wingdi.obj) : error LNK2005: "public: int __thiscall CDC::Attach(struct HDC__ *)" (?Attach@CDC@@QAEHPAUHDC__@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wingdi.obj) : error LNK2005: "public: struct HDC__ * __thiscall CDC::Detach(void)" (?Detach@CDC@@QAEPAUHDC__@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wingdi.obj) : error LNK2005: "public: virtual __thiscall CDC::~CDC(void)" (??1CDC@@UAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wingdi.obj) : error LNK2005: "public: virtual unsigned long __thiscall CDC::SetBkColor(unsigned long)" (?SetBkColor@CDC@@UAEKK@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wingdi.obj) : error LNK2005: "public: virtual unsigned long __thiscall CDC::SetTextColor(unsigned long)" (?SetTextColor@CDC@@UAEKK@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(wingdi.obj) : error LNK2005: "public: void __thiscall CWnd::ScreenToClient(struct tagRECT *)const " (?ScreenToClient@CWnd@@QBEXPAUtagRECT@@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appui.obj) : error LNK2005: "public: virtual void __thiscall CWinApp::DoWaitCursor(int)" (?DoWaitCursor@CWinApp@@UAEXH@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appui.obj) : error LNK2005: "public: virtual int __thiscall CWinApp::SaveAllModified(void)" (?SaveAllModified@CWinApp@@UAEHXZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appui.obj) : error LNK2005: "public: virtual void __thiscall CWinApp::AddToRecentFileList(char const *)" (?AddToRecentFileList@CWinApp@@UAEXPBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appui.obj) : error LNK2005: "public: virtual class CDocument * __thiscall CWinApp::OpenDocumentFile(char const *)" (?OpenDocumentFile@CWinApp@@UAEPAVCDocument@@PBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(appui.obj) : error LNK2005: "public: virtual int __thiscall CWinApp::OnDDECommand(char *)" (?OnDDECommand@CWinApp@@UAEHPAD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(filelist.obj) : error LNK2005: "public: __thiscall CString::CString(void)" (??0CString@@QAE@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(filex.obj) : error LNK2005: "public: virtual int __thiscall CFileException::GetErrorMessage(char *,unsigned int,unsigned int *)" (?GetErrorMessage@CFileException@@UAEHPADIPAI@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(filex.obj) : error LNK2005: "public: virtual struct CRuntimeClass * __thiscall CFileException::GetRuntimeClass(void)const " (?GetRuntimeClass@CFileException@@UBEPAUCRuntimeClass@@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(timecore.obj) : error LNK2005: "public: __thiscall CTime::CTime(int,int,int,int,int,int,int)" (??0CTime@@QAE@HHHHHHH@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(timecore.obj) : error LNK2005: "public: static class CTime __stdcall CTime::GetTickCount(void)" (?GetTickCount@CTime@@SG?AV1@XZ) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(timecore.obj) : error LNK2005: "public: struct tm * __thiscall CTime::GetLocalTm(struct tm *)const " (?GetLocalTm@CTime@@QBEPAUtm@@PAU2@@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(timecore.obj) : error LNK2005: "public: class CString __thiscall CTime::Format(char const *)const " (?Format@CTime@@QBE?AVCString@@PBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(timecore.obj) : error LNK2005: "public: class CString __thiscall CTime::FormatGmt(char const *)const " (?FormatGmt@CTime@@QBE?AVCString@@PBD@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(arccore.obj) : error LNK2005: "public: unsigned int __thiscall CArchive::Read(void *,unsigned int)" (?Read@CArchive@@QAEIPAXI@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(arccore.obj) : error LNK2005: "public: void __thiscall CArchive::Write(void const *,unsigned int)" (?Write@CArchive@@QAEXPBXI@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(arccore.obj) : error LNK2005: "public: void __thiscall CArchive::WriteCount(unsigned long)" (?WriteCount@CArchive@@QAEXK@Z) already defined in mfc42.lib(MFC42.DLL)
+nafxcw.lib(arccore.obj) : error LNK2005: "public: unsigned long __thiscall CArchive::ReadCount(void)" (?ReadCount@CArchive@@QAEKXZ) already defined in mfc42.lib(MFC42.DLL)
+libcmt.lib(crt0dat.obj) : error LNK2005: _exit already defined in msvcrt.lib(MSVCRT.dll)
+libcmt.lib(crt0dat.obj) : error LNK2005: __exit already defined in msvcrt.lib(MSVCRT.dll)
+libcmt.lib(dosmap.obj) : error LNK2005: __errno already defined in msvcrt.lib(MSVCRT.dll)
+libcmt.lib(crt0init.obj) : error LNK2005: ___xc_z already defined in msvcrt.lib(cinitexe.obj)
+libcmt.lib(crt0init.obj) : error LNK2005: ___xc_a already defined in msvcrt.lib(cinitexe.obj)
+libcmt.lib(crt0init.obj) : error LNK2005: ___xi_z already defined in msvcrt.lib(cinitexe.obj)
+libcmt.lib(crt0init.obj) : error LNK2005: ___xi_a already defined in msvcrt.lib(cinitexe.obj)
+libcmt.lib(winxfltr.obj) : error LNK2005: __XcptFilter already defined in msvcrt.lib(MSVCRT.dll)
+libcmt.lib(getenv.obj) : error LNK2005: _getenv already defined in msvcrt.lib(MSVCRT.dll)
+libcmt.lib(strcat.obj) : error LNK2005: _strcpy already defined in msvcrt.lib(MSVCRT.dll)
+libcmt.lib(lconv.obj) : error LNK2005: _localeconv already defined in msvcrt.lib(MSVCRT.dll)
+libcpmt.lib(ios.obj) : error LNK2005: "public: void __thiscall std::ios_base::clear(int,bool)" (?clear@ios_base@std@@QAEXH_N@Z) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(ios.obj) : error LNK2005: "public: virtual __thiscall std::ios_base::~ios_base(void)" (??1ios_base@std@@UAE@XZ) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(ios.obj) : error LNK2005: "protected: void __thiscall std::ios_base::_Addstd(void)" (?_Addstd@ios_base@std@@IAEXXZ) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(ios.obj) : error LNK2005: "protected: void __thiscall std::ios_base::_Init(void)" (?_Init@ios_base@std@@IAEXXZ) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(locale0.obj) : error LNK2005: "public: class std::locale::facet const * __thiscall std::locale::_Getfacet(unsigned int,bool)const " (?_Getfacet@locale@std@@QBEPBVfacet@12@I_N@Z) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(locale0.obj) : error LNK2005: "public: bool __thiscall std::locale::_Iscloc(void)const " (?_Iscloc@locale@std@@QBE_NXZ) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(locale0.obj) : error LNK2005: "private: static class std::locale::_Locimp * __cdecl std::locale::_Init(void)" (?_Init@locale@std@@CAPAV_Locimp@12@XZ) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(locale.obj) : error LNK2005: "public: class std::locale & __thiscall std::locale::_Addfac(class std::locale::facet *,unsigned int,unsigned int)" (?_Addfac@locale@std@@QAEAAV12@PAVfacet@12@II@Z) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(locale.obj) : error LNK2005: "public: __thiscall std::_Locinfo::_Locinfo(char const *)" (??0_Locinfo@std@@QAE@PBD@Z) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(locale.obj) : error LNK2005: "public: __thiscall std::_Locinfo::~_Locinfo(void)" (??1_Locinfo@std@@QAE@XZ) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(xlocale.obj) : error LNK2005: "public: void __thiscall std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::resize(unsigned int)" (?resize@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAEXI@Z) already defined in msvcprt.lib(MSVCP60.dll)
+libcpmt.lib(xwctomb.obj) : error LNK2005: __Getcvt already defined in msvcprt.lib(MSVCP60.dll)
+LINK : warning LNK4098: defaultlib "msvcrt.lib" conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib "nafxcw.lib" conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib "libcmt.lib" conflicts with use of other libs; use /NODEFAULTLIB:library
+libcmt.lib(crt0.obj) : error LNK2001: unresolved external symbol _main
+..\..\..\Bin\MERRILL.exe : fatal error LNK1120: 1 unresolved externals
+Error executing xilink6.exe.
+
+
+
+<h3>Results</h3>
+MERRILL.exe - 176 error(s), 3 warning(s)
+</pre>
+</body>
+</html>

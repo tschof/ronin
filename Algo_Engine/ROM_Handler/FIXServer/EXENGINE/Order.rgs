@@ -1,0 +1,26 @@
+HKCR
+{
+	ExEngine.Order.1 = s 'Order Class'
+	{
+		CLSID = s '{B480D0B5-F2B8-4F6D-B5D9-B22992E30024}'
+	}
+	ExEngine.Order = s 'Order Class'
+	{
+		CLSID = s '{B480D0B5-F2B8-4F6D-B5D9-B22992E30024}'
+		CurVer = s 'ExEngine.Order.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {B480D0B5-F2B8-4F6D-B5D9-B22992E30024} = s 'Order Class'
+		{
+			ProgID = s 'ExEngine.Order.1'
+			VersionIndependentProgID = s 'ExEngine.Order'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{B1706891-D239-4105-8A07-14A81679558A}'
+		}
+	}
+}

@@ -1,0 +1,99 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: OatsNew - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Release/oats.res" /d "NDEBUG" /d "_AFXDLL" "C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\oats.rc"" 
+Creating temporary file "C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP2582.tmp" with contents
+[
+/nologo /MD /W3 /GX /Zi /I "..\..\..\Common\ordermanagerbasecan" /I "..\..\..\Common\ThreadPool" /I "..\..\..\Common\dbo" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Release/OatsNew.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\AdminServer.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\AdminSession.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\DataStore.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\DBConnection.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\Logger.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\mdump.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\OATS.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\OatsCallback.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\OatsDlg.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\OatsServer.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\OMRequest.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\OmSession.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\OrderMsg.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\RequestFactory.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\SessionBase.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\StatusMsg.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\TestDB.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\VDateTimeEdit.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\ZLog.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP2582.tmp" 
+Creating temporary file "C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP2583.tmp" with contents
+[
+/nologo /MD /W3 /GX /Zi /I "..\..\..\Common\ordermanagerbasecan" /I "..\..\..\Common\ThreadPool" /I "..\..\..\Common\dbo" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Release/OatsNew.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\OATSNEW\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP2583.tmp" 
+Creating temporary file "C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP2584.tmp" with contents
+[
+ThreadPool.lib ombase-dynamic-r-can.lib libcs.lib libct.lib libsybdb.lib libblk.lib dbolib.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/OatsNew.pdb" /debug /machine:I386 /out:"../../../bin/OatsNew.exe" /libpath:"..\..\..\Lib" 
+.\Release\AdminServer.obj
+.\Release\AdminSession.obj
+.\Release\DataStore.obj
+.\Release\DBConnection.obj
+.\Release\Logger.obj
+.\Release\mdump.obj
+.\Release\OATS.obj
+.\Release\OatsCallback.obj
+.\Release\OatsDlg.obj
+.\Release\OatsServer.obj
+.\Release\OMRequest.obj
+.\Release\OmSession.obj
+.\Release\OrderMsg.obj
+.\Release\RequestFactory.obj
+.\Release\SessionBase.obj
+.\Release\StatusMsg.obj
+.\Release\StdAfx.obj
+.\Release\TestDB.obj
+.\Release\VDateTimeEdit.obj
+.\Release\ZLog.obj
+.\Release\oats.res
+]
+Creating command line "link.exe @C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP2584.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+AdminServer.cpp
+AdminSession.cpp
+DataStore.cpp
+DBConnection.cpp
+Logger.cpp
+mdump.cpp
+OATS.cpp
+OatsCallback.cpp
+OatsDlg.cpp
+OatsServer.cpp
+OMRequest.cpp
+OmSession.cpp
+OrderMsg.cpp
+RequestFactory.cpp
+SessionBase.cpp
+StatusMsg.cpp
+TestDB.cpp
+VDateTimeEdit.cpp
+ZLog.cpp
+Generating Code...
+Linking...
+
+
+
+<h3>Results</h3>
+OatsNew.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

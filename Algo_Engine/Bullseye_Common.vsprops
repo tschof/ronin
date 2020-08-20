@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Bullseye_Common"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(ACE_ROOT)&quot;;&quot;$(BOOST_ROOT)&quot;;&quot;$(DART_ROOT)&quot;;&quot;$(SolutionDir)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories="&quot;$(ACE_ROOT)/lib&quot;;&quot;$(BOOST_ROOT)/lib&quot;"
+	/>
+</VisualStudioPropertySheet>

@@ -1,0 +1,60 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Actor - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\TEMP\RSP1B2.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "C:\Sangoma X.25\Win32" /I "c:\ordermanager\ordermanagerbase" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /FR"Debug/" /Fp"Debug/Actor.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /c 
+"C:\actor\ActorConnection.cpp"
+]
+Creating command line "cl.exe @C:\TEMP\RSP1B2.tmp" 
+Creating temporary file "C:\TEMP\RSP1B3.tmp" with contents
+[
+ombase-dynamic-d.lib librvcpp.lib rvwin.lib libtib.lib rv.lib Xapi32mc.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/Actor.pdb" /debug /machine:I386 /nodefaultlib:"msvcrt.lib" /nodefaultlib:"libcmt.lib" /out:"Debug/Actor.exe" /pdbtype:sept /libpath:"c:\ordermanager\ordermanagerbase" /libpath:"C:\Sangoma X.25\Win32" 
+.\Debug\Act.obj
+.\Debug\ActSession.obj
+.\Debug\TerraNovaDoc.obj
+.\Debug\TerraNovaView.obj
+.\Debug\ActDialog.obj
+.\Debug\Actor.obj
+.\Debug\ActorConnection.obj
+.\Debug\ActSeqSet.obj
+.\Debug\Msg.obj
+.\Debug\Price.obj
+.\Debug\StdAfx.obj
+.\Debug\Actor.res
+]
+Creating command line "link.exe @C:\TEMP\RSP1B3.tmp"
+<h3>Output Window</h3>
+Compiling...
+ActorConnection.cpp
+Linking...
+Creating temporary file "C:\TEMP\RSP1B4.tmp" with contents
+[
+/nologo /o"Debug/Actor.bsc" 
+.\Debug\StdAfx.sbr
+.\Debug\Act.sbr
+.\Debug\ActSession.sbr
+.\Debug\TerraNovaDoc.sbr
+.\Debug\TerraNovaView.sbr
+.\Debug\ActDialog.sbr
+.\Debug\Actor.sbr
+.\Debug\ActorConnection.sbr
+.\Debug\ActSeqSet.sbr
+.\Debug\Msg.sbr
+.\Debug\Price.sbr]
+Creating command line "bscmake.exe @C:\TEMP\RSP1B4.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+Actor.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

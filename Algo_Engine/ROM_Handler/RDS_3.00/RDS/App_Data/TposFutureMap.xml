@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TposFuture>
+  <TposFutureMap>
+    <ROC>ZQ</ROC>
+    <TPOS>FF</TPOS>
+    </TposFutureMap>
+  <TposFutureMap>
+    <ROC>ZB</ROC>
+    <TPOS>US</TPOS>
+  </TposFutureMap>
+  <TposFutureMap>
+      <ROC>ZN</ROC>
+      <TPOS>TY</TPOS>
+    </TposFutureMap>
+  <TposFutureMap>
+    <ROC>ZF</ROC>
+    <TPOS>FV</TPOS>
+  </TposFutureMap>
+  <TposFutureMap>
+    <ROC>ZT</ROC>
+    <TPOS>TU</TPOS>
+  </TposFutureMap>
+  <TposFutureMap>
+    <ROC>ER2</ROC>
+    <TPOS>ER</TPOS>
+  </TposFutureMap>
+
+  <TposFutureMap>
+    <ROC>6A</ROC>
+    <TPOS>AD</TPOS>
+  </TposFutureMap>
+  <TposFutureMap>
+    <ROC>6B</ROC>
+    <TPOS>BP</TPOS>
+  </TposFutureMap>
+  <TposFutureMap>
+    <ROC>6C</ROC>
+    <TPOS>CD</TPOS>
+  </TposFutureMap>
+  <TposFutureMap>
+    <ROC>6E</ROC>
+    <TPOS>EC</TPOS>
+  </TposFutureMap>
+  <TposFutureMap>
+    <ROC>6J</ROC>
+    <TPOS>JY</TPOS>
+  </TposFutureMap>
+  <TposFutureMap>
+    <ROC>6S</ROC>
+    <TPOS>SF</TPOS>
+  </TposFutureMap>
+  <TposFutureMap>
+    <ROC>NKD</ROC>
+    <TPOS>NK</TPOS>
+  </TposFutureMap>
+</TposFuture>

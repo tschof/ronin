@@ -1,0 +1,26 @@
+HKCR
+{
+	ExEngine.TradeEngine.1 = s 'TradeEngine Class'
+	{
+		CLSID = s '{A5E302A7-3D1F-4C72-B613-047956EEADE0}'
+	}
+	ExEngine.TradeEngine = s 'TradeEngine Class'
+	{
+		CLSID = s '{A5E302A7-3D1F-4C72-B613-047956EEADE0}'
+		CurVer = s 'ExEngine.TradeEngine.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {A5E302A7-3D1F-4C72-B613-047956EEADE0} = s 'TradeEngine Class'
+		{
+			ProgID = s 'ExEngine.TradeEngine.1'
+			VersionIndependentProgID = s 'ExEngine.TradeEngine'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{B1706891-D239-4105-8A07-14A81679558A}'
+		}
+	}
+}

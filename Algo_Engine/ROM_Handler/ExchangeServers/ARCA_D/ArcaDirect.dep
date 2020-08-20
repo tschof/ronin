@@ -1,0 +1,45 @@
+# Microsoft Developer Studio Generated Dependency File, included by ArcaDirect.mak
+
+.\ArcaDirect.cpp : \
+	".\ArcaDirect.h"\
+	".\ArcaDirectDoc.h"\
+	".\ArcaDirectView.h"\
+	".\ChildFrm.h"\
+	".\MainFrm.h"\
+	".\StdAfx.h"\
+	
+
+.\ArcaDirect.rc : \
+	".\res\ArcaDirect.ico"\
+	".\res\ArcaDirect.rc2"\
+	".\res\ArcaDirectDoc.ico"\
+	
+
+.\ArcaDirectDoc.cpp : \
+	".\ArcaDirect.h"\
+	".\ArcaDirectDoc.h"\
+	".\StdAfx.h"\
+	
+
+.\ArcaDirectView.cpp : \
+	".\ArcaDirect.h"\
+	".\ArcaDirectDoc.h"\
+	".\ArcaDirectView.h"\
+	".\StdAfx.h"\
+	
+
+.\ChildFrm.cpp : \
+	".\ArcaDirect.h"\
+	".\ChildFrm.h"\
+	".\StdAfx.h"\
+	
+
+.\MainFrm.cpp : \
+	".\ArcaDirect.h"\
+	".\MainFrm.h"\
+	".\StdAfx.h"\
+	
+
+.\StdAfx.cpp : \
+	".\StdAfx.h"\
+	

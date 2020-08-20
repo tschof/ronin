@@ -1,0 +1,152 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Web"
+        ProductVersion = "7.0.9466"
+        SchemaVersion = "1.0"
+        ProjectGuid = "{3A7C7260-A7A1-40C1-988B-67CFDB1AA1B4}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "TestWebService"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                RootNamespace = "TestWebService"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "true"
+                    Optimize = "false"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    Optimize = "true"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "..\..\..\WINNT\Microsoft.NET\Framework\v1.0.3705\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "..\..\..\WINNT\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.Web"
+                    AssemblyName = "System.Web"
+                    HintPath = "..\..\..\WINNT\Microsoft.NET\Framework\v1.0.3705\System.Web.dll"
+                />
+                <Reference
+                    Name = "System.Web.Services"
+                    AssemblyName = "System.Web.Services"
+                    HintPath = "..\..\..\WINNT\Microsoft.NET\Framework\v1.0.3705\System.Web.Services.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "..\..\..\WINNT\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
+                />
+                <Reference
+                    Name = "Domain"
+                    Project = "{494ACFEC-03B8-4ED8-A8CE-D0EA06AAB6A9}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Transport"
+                    Project = "{B2490487-F973-4056-8EB5-F3801AB099A3}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ClientSocket.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Global.asax"
+                    SubType = "Component"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Global.asax.cs"
+                    DependentUpon = "Global.asax"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Global.asax.resx"
+                    DependentUpon = "Global.asax.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "OptionService.asmx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "OptionService.asmx.cs"
+                    DependentUpon = "OptionService.asmx"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OptionService.asmx.resx"
+                    DependentUpon = "OptionService.asmx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "TestWebService.vsdisco"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Web.config"
+                    BuildAction = "Content"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

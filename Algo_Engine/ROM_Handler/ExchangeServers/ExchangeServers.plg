@@ -1,0 +1,68 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Actor - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\wxu\LOCALS~1\Temp\RSPE87.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\..\Common\ordermanagerbase" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /FR"Debug/" /Fp"Debug/Actor.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /c 
+"Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\Act\Act.cpp"
+"Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\Act\ActSession.cpp"
+"Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\Act\TerraNovaDoc.cpp"
+"Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\Act\TerraNovaView.cpp"
+"Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\Act\ActDialog.cpp"
+"Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\Act\ActHost.cpp"
+"Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\Act\Actor.cpp"
+"Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\Act\ActorConnection.cpp"
+"Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\Act\Msg.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\wxu\LOCALS~1\Temp\RSPE87.tmp" 
+Creating temporary file "C:\DOCUME~1\wxu\LOCALS~1\Temp\RSPE88.tmp" with contents
+[
+ombase-dynamic-d.lib librvcpp.lib rvwin.lib libtib.lib rv.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/Actor.pdb" /debug /machine:I386 /nodefaultlib:"msvcrt.lib" /nodefaultlib:"libcmt.lib" /out:"../../../Bin/Actor.exe" /pdbtype:sept /libpath:"..\..\..\Bin" 
+.\Debug\Act.obj
+.\Debug\ActSession.obj
+.\Debug\TerraNovaDoc.obj
+.\Debug\TerraNovaView.obj
+.\Debug\ActDialog.obj
+.\Debug\ActHost.obj
+.\Debug\Actor.obj
+.\Debug\ActorConnection.obj
+.\Debug\Msg.obj
+.\Debug\StdAfx.obj
+.\Debug\Actor.res
+]
+Creating command line "link.exe @C:\DOCUME~1\wxu\LOCALS~1\Temp\RSPE88.tmp"
+<h3>Output Window</h3>
+Compiling...
+Act.cpp
+y:\dev\rom\orderexecution\servers\exchangeservers\act\act.cpp(5) : fatal error C1853: 'Debug/Actor.pch' is not a precompiled header file created with this compiler
+ActSession.cpp
+y:\dev\rom\orderexecution\servers\exchangeservers\act\actsession.cpp(5) : fatal error C1853: 'Debug/Actor.pch' is not a precompiled header file created with this compiler
+TerraNovaDoc.cpp
+y:\dev\rom\orderexecution\servers\exchangeservers\act\terranovadoc.cpp(4) : fatal error C1853: 'Debug/Actor.pch' is not a precompiled header file created with this compiler
+TerraNovaView.cpp
+y:\dev\rom\orderexecution\servers\exchangeservers\act\terranovaview.cpp(4) : fatal error C1853: 'Debug/Actor.pch' is not a precompiled header file created with this compiler
+ActDialog.cpp
+y:\dev\rom\orderexecution\servers\exchangeservers\act\actdialog.cpp(4) : fatal error C1853: 'Debug/Actor.pch' is not a precompiled header file created with this compiler
+ActHost.cpp
+y:\dev\rom\orderexecution\servers\exchangeservers\act\acthost.cpp(5) : fatal error C1853: 'Debug/Actor.pch' is not a precompiled header file created with this compiler
+Actor.cpp
+y:\dev\rom\orderexecution\servers\exchangeservers\act\actor.cpp(4) : fatal error C1853: 'Debug/Actor.pch' is not a precompiled header file created with this compiler
+ActorConnection.cpp
+y:\dev\rom\orderexecution\servers\exchangeservers\act\actorconnection.cpp(4) : fatal error C1853: 'Debug/Actor.pch' is not a precompiled header file created with this compiler
+Msg.cpp
+y:\dev\rom\orderexecution\servers\exchangeservers\act\msg.cpp(5) : fatal error C1853: 'Debug/Actor.pch' is not a precompiled header file created with this compiler
+Generating Code...
+Error executing cl.exe.
+
+
+
+<h3>Results</h3>
+ExchangeServers - 9 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

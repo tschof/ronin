@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Bullseye"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(ACE_ROOT)&quot;;&quot;$(SolutionDir)&quot;;&quot;C:\Program Files\boost\boost_1_39&quot;"
+		WarningLevel="4"
+		DisableSpecificWarnings="4996"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="ACEd.lib"
+		AdditionalLibraryDirectories="&quot;$(ACE_ROOT)/lib&quot;;&quot;C:\Program Files\boost\boost_1_39\lib&quot;"
+	/>
+</VisualStudioPropertySheet>

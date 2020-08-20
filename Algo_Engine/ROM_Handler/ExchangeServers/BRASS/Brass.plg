@@ -1,0 +1,84 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Brass - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Debug/Brass.res" /d "_DEBUG" /d "_AFXDLL" "C:\ExecutionSystems\Servers\ExchangeServers\Brass\Brass.rc"" 
+Creating temporary file "C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP122.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\..\Common\ordermanagerbase" /I "..\..\..\Common\FixSession" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Debug/Brass.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\Brass.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\BRASSData.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\BrassDoc.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\BrassFixSession.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\BrassHandler.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\BRASSInterface.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\BrassMemTagSet.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\BRASSRecord.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\brassreject.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\brassreplace.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\BrassStatus.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\BrassView.cpp"
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\SeqDlg.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP122.tmp" 
+Creating temporary file "C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP123.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\..\Common\ordermanagerbase" /I "..\..\..\Common\FixSession" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Debug/Brass.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\ExecutionSystems\Servers\ExchangeServers\Brass\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP123.tmp" 
+Creating temporary file "C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP124.tmp" with contents
+[
+ombase-dynamic-d.lib fixsession-dynamic-d.lib librvcpp.lib rvwin.lib rv.lib libtibd.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/Brass.pdb" /debug /machine:I386 /force /out:"..\..\..\Bin\Brass.exe" /pdbtype:sept /libpath:"..\..\..\Bin" 
+.\Debug\Brass.obj
+.\Debug\BRASSData.obj
+.\Debug\BrassDoc.obj
+.\Debug\BrassFixSession.obj
+.\Debug\BrassHandler.obj
+.\Debug\BRASSInterface.obj
+.\Debug\BrassMemTagSet.obj
+.\Debug\BRASSRecord.obj
+.\Debug\brassreject.obj
+.\Debug\brassreplace.obj
+.\Debug\BrassStatus.obj
+.\Debug\BrassView.obj
+.\Debug\SeqDlg.obj
+.\Debug\StdAfx.obj
+.\Debug\Brass.res
+]
+Creating command line "link.exe @C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP124.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+Brass.cpp
+BRASSData.cpp
+BrassDoc.cpp
+BrassFixSession.cpp
+BrassHandler.cpp
+BRASSInterface.cpp
+BrassMemTagSet.cpp
+BRASSRecord.cpp
+brassreject.cpp
+brassreplace.cpp
+BrassStatus.cpp
+BrassView.cpp
+SeqDlg.cpp
+Generating Code...
+Linking...
+LINK : warning LNK4075: ignoring /INCREMENTAL due to /FORCE specification
+LINK : warning LNK4098: defaultlib "LIBCMT" conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib "MSVCRT" conflicts with use of other libs; use /NODEFAULTLIB:library
+
+
+
+<h3>Results</h3>
+Brass.exe - 0 error(s), 3 warning(s)
+</pre>
+</body>
+</html>

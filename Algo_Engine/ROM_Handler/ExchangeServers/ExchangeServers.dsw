@@ -1,0 +1,607 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "ABNAMRO"=.\ABNAMRO\ABNAMRO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "AMEX"=.\AMEX\AMEX.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name CMSSession
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ARCADropCopy"=.\ARCADropCopy\ARCADropCopy.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ATD"=.\ATD\ATD.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Actor"=.\Act\Actor.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ArcaDirect"=.\Arca_D\ArcaDirect.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/OrderExecution/SERVERS/ExchangeServers/ARCA_D", HGZBAAAA
+    .\arca_d
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "BOX"=.\BOX\BOX.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "BRUT"=.\BRUT\BRUT.DSP - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Bloomberg"=.\Bloomberg\Bloomberg.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Brass"=.\Brass\Brass.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "CBOE"=.\CBOE\CBOE.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "CHX"=.\CHX\CHX.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "CMSSession"=.\Common\CMSSession\CMSSession.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "DVG"=.\DVG\DVG.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ExchangeServers"=.\ExchangeServers.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Actor
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ARCADropCopy
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Bloomberg
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Brass
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name BRUT
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name CHX
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Globex
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Instinet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ISI
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Island
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ITG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ITGDropCopy
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name JEFF
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name JeffDropCopy
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name NITE
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name TerraNova
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tlw
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name XCAL
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name CBOE
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DVG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ISE
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name AMEX
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name PCX
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name PHLX
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name oats
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iLinkGlobex
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name NYFIX
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Globex"=.\Globex2\Globex.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ISE"=.\ISE\ISE.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ISI"=.\ISI\ISI.DSP - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ISIFix"=.\ISIFix\ISIFix.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ITG"=.\ITG\ITG.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ITGDropCopy"=.\ITGDropCopy\ITGDropCopy.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Instinet"=.\Instinet\Instinet.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Island"=.\Island\Island.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "JEFF"=.\JEFF\Jeff.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "JeffDropCopy"=.\JEFFDropCopy\JeffDropCopy.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "KNIGHT"=.\KNIGHT\KNIGHT.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "LEKDropCopy"=.\LEKDropCopy\LEKDropCopy.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MERRILL"=.\MERRILL\MERRILL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MEX"=.\MEX\MEX.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "NITE"=.\NITE\NITE.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "NYFIX"=.\NYFIX\NYFIX.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "OneChicago"=.\OneChicago\OneChicago.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/OrderExecution/SERVERS/ExchangeServers/OneChicago", SRZBAAAA
+    .\onechicago
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "PCX"=.\PCX\PCX.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name CMSSession
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "PHLX"=.\PHLX\PHLX.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name CMSSession
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Rosenblatt"=.\Rosenblatt\Rosenblatt.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TSX"=.\TSX\TSX.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TerraNova"=.\TerraNova\TerraNova.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "XCAL"=.\XCAL\XCAL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "iLinkGlobex"=.\iLinkGlobex\iLinkGlobex.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "oats"=.\OATS\OATS.DSP - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "tlw"=.\TLW\TLW.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

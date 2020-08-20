@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" Content="Microsoft Visual Studio 8.0">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+    <h2>
+        <span style="font-family: Verdana">ROM_Handler Implementation Notes</span></h2>
+    <p>
+        <span style="font-family: Verdana">The current implementation of the ROM_Session is
+            quite crude and does not account for checking sequence numbers.&nbsp; There is currently
+            a preprocessor definition that needs to be added to get some checking on session-level
+            sequence numbers; that definition is <span style="font-family: Times New Roman">SUPPORTS_CSV_SEQ_NUMS<span
+                style="font-family: Verdana">.</span></span></span></p>
+    <p>
+        <span style="font-family: Verdana"><span style="font-family: Times New Roman"><span
+            style="font-family: Verdana">An additional question is to what extent these messages
+            will be persisted.&nbsp; We can either fulfill resends simply from what's in-memory,
+            which is fine if the process is not restarted or doesn't crash intraday.&nbsp; Or
+            we could implement some sort of file-backed store to store the messages for later
+            consumption.&nbsp; This has the advantage of being able to offload the storage of
+            old and dead transactions to disk instead of storing it all in memory in the off-chance
+            the client reconnects and wants a resend.</span></span></span></p>
+    <h3>
+        <span style="font-family: Verdana"><span style="font-family: Times New Roman"><span
+            style="font-family: Verdana">Configuration</span></span></span></h3>
+    <p>
+        <span style="font-family: Verdana">The ROM_Handler will need a configuration source,
+            ideally one that is somewhat common with other components in the process and therefore
+            common across many processes in the system, if this is to be reused.&nbsp; The ACE
+            framework has a configuration system, will need to explore that.&nbsp; For now,
+            an INI file will probably do.</span></p>
+    <p>
+        &nbsp;</p>
+    <p>
+        <span style="font-family: Verdana"></span>&nbsp;</p>
+
+
+
+</BODY>
+</HTML>

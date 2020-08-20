@@ -1,0 +1,152 @@
+// ExEngine.idl : IDL source for ExEngine.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ExEngine.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+	enum OrderType { eMarket, eLimit };
+	enum TimeInForce { eDay, eMOC, eGTC, eGTD };
+	enum SecType { eEquity, eOption, eFuture };
+	enum OrderState { eNew, eOpen, eClose };
+	enum OrderModifier { ePending, eAcknowledged, ePartialFilled, eFilled, eCancelPending, eCancelReject, eCancelled, eStopped, eSuspended, eExpired, eReplacePending, eCalculated, eRejected, eReplaced };
+	enum OrderSide { eBuy, eSell, eShort };
+	enum OpenClose { eOpenClose_Open, eOpenClose_Close };
+	enum CallPut { eCallPut_Call, eCallPut_Put };
+	enum ExecInst { eExecInst_AON, eExecInst_None };
+	enum Capacity { eCapacity_Agent = 'A', eCapacity_Principal = 'P', eCapacity_BrokerDealer = 'R', eCapacity_MarketMaker = 'S', eCapacity_PrimaryMM = 'T', eCapacity_Linkage = 'U', eCapacity_Customer = 'C', eCapacity_MarketMakerFirm = 'M', eCapacity_BrokerDealerFirm = 'B', eCapacity_FirmFirm = 'F' };
+
+
+	[
+		object,
+		uuid(A026997E-B143-4963-8513-B54A837A84AA),
+		dual,
+		helpstring("IOrder Interface"),
+		pointer_default(unique)
+	]
+	interface IOrder : IDispatch
+	{
+		[propget, id(1), helpstring("property ClientOrderID")] HRESULT ClientOrderID([out, retval] BSTR *pVal);
+		[propput, id(1), helpstring("property ClientOrderID")] HRESULT ClientOrderID([in] BSTR newVal);
+		[propget, id(2), helpstring("property Symbol")] HRESULT Symbol([out, retval] BSTR *pVal);
+		[propput, id(2), helpstring("property Symbol")] HRESULT Symbol([in] BSTR newVal);
+		[propget, id(3), helpstring("property OrgQty")] HRESULT OrgQty([out, retval] long *pVal);
+		[propput, id(3), helpstring("property OrgQty")] HRESULT OrgQty([in] long newVal);
+		[propget, id(4), helpstring("property LeaveQty")] HRESULT LeaveQty([out, retval] long *pVal);
+		[propput, id(4), helpstring("property LeaveQty")] HRESULT LeaveQty([in] long newVal);
+		[propget, id(5), helpstring("property CumQty")] HRESULT CumQty([out, retval] long *pVal);
+		[propput, id(5), helpstring("property CumQty")] HRESULT CumQty([in] long newVal);
+		[propget, id(6), helpstring("property Price")] HRESULT Price([out, retval] double *pVal);
+		[propput, id(6), helpstring("property Price")] HRESULT Price([in] double newVal);
+		[propget, id(7), helpstring("property AvgPrice")] HRESULT AvgPrice([out, retval] double *pVal);
+		[propput, id(7), helpstring("property AvgPrice")] HRESULT AvgPrice([in] double newVal);
+		[propget, id(8), helpstring("property SecType")] HRESULT SecType([out, retval] enum SecType *pVal);
+		[propput, id(8), helpstring("property SecType")] HRESULT SecType([in] enum SecType newVal);
+		[propget, id(9), helpstring("property OrderState")] HRESULT OrderState([out, retval] enum OrderState *pVal);
+		[propput, id(9), helpstring("property OrderState")] HRESULT OrderState([in] enum OrderState newVal);
+		[propget, id(10), helpstring("property TimeInForce")] HRESULT TimeInForce([out, retval] enum TimeInForce *pVal);
+		[propput, id(10), helpstring("property TimeInForce")] HRESULT TimeInForce([in] enum TimeInForce newVal);
+		[propget, id(11), helpstring("property OrderModifier")] HRESULT OrderModifier([out, retval] enum OrderModifier *pVal);
+		[propput, id(11), helpstring("property OrderModifier")] HRESULT OrderModifier([in] enum OrderModifier newVal);
+		[propget, id(12), helpstring("property OrderType")] HRESULT OrderType([out, retval] enum OrderType *pVal);
+		[propput, id(12), helpstring("property OrderType")] HRESULT OrderType([in] enum OrderType newVal);
+		[propget, id(13), helpstring("property OrderSide")] HRESULT OrderSide([out, retval] enum OrderSide *pVal);
+		[propput, id(13), helpstring("property OrderSide")] HRESULT OrderSide([in] enum OrderSide newVal);
+		[propget, id(14), helpstring("property Account")] HRESULT Account([out, retval] BSTR *pVal);
+		[propput, id(14), helpstring("property Account")] HRESULT Account([in] BSTR newVal);
+		[propget, id(15), helpstring("property Destination")] HRESULT Destination([out, retval] long *pVal);
+		[propput, id(15), helpstring("property Destination")] HRESULT Destination([in] long newVal);
+		[propget, id(16), helpstring("property LastShares")] HRESULT LastShares([out, retval] long *pVal);
+		[propput, id(16), helpstring("property LastShares")] HRESULT LastShares([in] long newVal);
+		[propget, id(17), helpstring("property ExecPrice")] HRESULT ExecPrice([out, retval] double *pVal);
+		[propput, id(17), helpstring("property ExecPrice")] HRESULT ExecPrice([in] double newVal);
+		[propget, id(18), helpstring("property Strike")] HRESULT Strike([out, retval] double *pVal);
+		[propput, id(18), helpstring("property Strike")] HRESULT Strike([in] double newVal);
+		[propget, id(19), helpstring("property Expiration")] HRESULT Expiration([out, retval] BSTR *pVal);
+		[propput, id(19), helpstring("property Expiration")] HRESULT Expiration([in] BSTR newVal);
+		[propget, id(20), helpstring("property CallPut")] HRESULT CallPut([out, retval] enum CallPut *pVal);
+		[propput, id(20), helpstring("property CallPut")] HRESULT CallPut([in] enum CallPut newVal);
+		[propget, id(21), helpstring("property OpenClose")] HRESULT OpenClose([out, retval] enum OpenClose *pVal);
+		[propput, id(21), helpstring("property OpenClose")] HRESULT OpenClose([in] enum OpenClose newVal);
+		[propget, id(22), helpstring("property Text")] HRESULT Text([out, retval] BSTR *pVal);
+		[propput, id(22), helpstring("property Text")] HRESULT Text([in] BSTR newVal);
+		[propget, id(23), helpstring("property ExecID")] HRESULT ExecID([out, retval] BSTR *pVal);
+		[propput, id(23), helpstring("property ExecID")] HRESULT ExecID([in] BSTR newVal);
+		[propget, id(24), helpstring("property CMTA")] HRESULT CMTA([out, retval] BSTR *pVal);
+		[propput, id(24), helpstring("property CMTA")] HRESULT CMTA([in] BSTR newVal);
+		[propget, id(25), helpstring("property GiveUp")] HRESULT GiveUp([out, retval] BSTR *pVal);
+		[propput, id(25), helpstring("property GiveUp")] HRESULT GiveUp([in] BSTR newVal);
+		[propget, id(26), helpstring("property ShortLender")] HRESULT ShortLender([out, retval] BSTR *pVal);
+		[propput, id(26), helpstring("property ShortLender")] HRESULT ShortLender([in] BSTR newVal);
+		[propget, id(27), helpstring("property ExecInst")] HRESULT ExecInst([out, retval] enum ExecInst *pVal);
+		[propput, id(27), helpstring("property ExecInst")] HRESULT ExecInst([in] enum ExecInst newVal);
+		[propget, id(28), helpstring("property Capacity")] HRESULT Capacity([out, retval] enum Capacity *pVal);
+		[propput, id(28), helpstring("property Capacity")] HRESULT Capacity([in] enum Capacity newVal);
+		[propget, id(29), helpstring("property MMAccount")] HRESULT MMAccount([out, retval] BSTR *pVal);
+		[propput, id(29), helpstring("property MMAccount")] HRESULT MMAccount([in] BSTR newVal);
+		[propget, id(30), helpstring("property HomeExchange")] HRESULT HomeExchange([out, retval] BSTR *pVal);
+		[propput, id(30), helpstring("property HomeExchange")] HRESULT HomeExchange([in] BSTR newVal);
+	};
+
+	[
+		object,
+		uuid(46E010E4-B292-402F-9D3D-C53353D7072E),
+		dual,
+		helpstring("IStatusHandler Interface"),
+		pointer_default(unique)
+	]
+	interface IStatusHandler : IDispatch
+	{
+		[id(1), helpstring("method OnOrderStatus")] HRESULT OnOrderStatus([in] IOrder * pOrder);
+		[id(2), helpstring("method OnSystemStatus")] HRESULT OnSystemStatus([in] BSTR szMsg);
+	};
+
+	[
+		object,
+		uuid(A9EBA757-1FD3-4BB5-86B0-ADA2870A6898),
+		dual,
+		helpstring("ITradeEngine Interface"),
+		pointer_default(unique)
+	]
+	interface ITradeEngine : IDispatch
+	{
+		[id(1), helpstring("method CreateNewOrder")] HRESULT CreateNewOrder([out] IOrder ** ppOrder);
+		[id(2), helpstring("method SubmitOrder")] HRESULT SubmitOrder([in] IOrder * pOrder);
+		[id(3), helpstring("method CancelOrder")] HRESULT CancelOrder([in] IOrder * pOrder);
+		[id(4), helpstring("method ReplaceOrder")] HRESULT ReplaceOrder([in] IOrder * pOrder, [in] BSTR szNewClientID, [in] long nNewQty, [in] double nNewPrice);
+		[id(5), helpstring("method Init")] HRESULT Init([in] BSTR szPath, [in] IStatusHandler * pHandler );
+		[id(6), helpstring("method Shutdown")] HRESULT Shutdown();
+	};
+
+
+[
+	uuid(B1706891-D239-4105-8A07-14A81679558A),
+	version(1.0),
+	helpstring("ExEngine 1.0 Type Library")
+]
+library EXENGINELib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	[
+		uuid(A5E302A7-3D1F-4C72-B613-047956EEADE0),
+		helpstring("TradeEngine Class")
+	]
+	coclass TradeEngine
+	{
+		[default] interface ITradeEngine;
+	};
+	[
+		uuid(B480D0B5-F2B8-4F6D-B5D9-B22992E30024),
+		helpstring("Order Class")
+	]
+	coclass Order
+	{
+		[default] interface IOrder;
+	};
+
+};

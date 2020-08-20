@@ -1,0 +1,85 @@
+[OneChicago Connection]
+Exchange=ONECHI
+Port=22502
+Host=170.137.230.127
+#209.65.16.80
+
+[Runtime Information]
+Start Time=600
+End Time=1700
+Last Run Date=20060109
+
+[OneChicago Server]
+Port=8971
+Exchange Destination Id=78
+
+[Fix Information]
+SenderId=RNS
+TargetId=AFIX202
+TargetSubId=TEST
+BeginString=FIX.4.2
+Heartbeat=80
+Encryption=0
+Initiate Logon=1
+ExecBroker=CBOE:551
+# ExecBroker=ONE_MAIN:551
+UserNamePassword=RNS:RNS
+Incoming Sequence File=C:\OrderManager\OneChicago\IncomingSeq.txt
+Outgoing Sequence File=C:\OrderManager\OneChicago\OutgoingSeq.txt
+
+[Email Recipients]
+Mail Server=sron-chi-mail01.ronin.roncap.com
+Business Group=wenpeng.xu@ronin-capital.com
+Developer Group=wenpeng.xu@ronin-capital.com
+# Business Group=ROMBusAlerts@ronin-capital.com
+# Developer Group=ROMTechAlerts@ronin-capital.com
+
+[Clearing Information]
+Default Clearing Code=0551
+
+[Log File Information]
+Map File Path=C:\OrderManager\
+
+[Order Database Information]
+User=rom_user
+Password=resu_mor
+Database=rom
+Server=RON_SYB_DEV1
+
+[SupportedOrderTIFs]
+# 1 = supported
+# 0 = not supported 
+DAY=1
+GTC=0
+OPG=0
+IC=1
+FOK=0
+GTX=0
+GTD=0
+Extended Day=0
+AON=1
+VWAP=0
+GVWAP=0
+
+[SupportedOrderTypes]
+# 1 = supported
+# 0 = not supported 
+FYIType=0
+Market=1
+Limit=1
+Stop=1
+StopLimit=1
+MarketOnClose=1
+WithOrWithout=0
+LimitOrBetter=0
+LimitWithOrWithout=0
+OnBasis=0
+OnClose=0
+LimitOnClose=0
+MarketAtOpen=0
+
+[MemoryMapSettings]
+ForceReload=0
+
+[Special ID]
+BranchID=RNS

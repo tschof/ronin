@@ -1,0 +1,2097 @@
+ 08:23:38.292000 (P:3600|T:2224) -INFO- Bullseye v0.0.0.2 starting up
+ 08:23:38.292000 (P:3600|T:2224) -INFO- Command line: c:\dev\OrderExecution\SERVERS\Algo_Engine\debug\Bullseye.exe -f C:\dev\OrderExecution\SERVERS\Algo_Engine\Bullseye.ini
+ 08:23:47.073000 (P:3600|T:2224) -DEBUG- Connection_Manager::destination: Adding destination 10.106.160.21:8008
+ 08:23:47.073000 (P:3600|T:2224) -DEBUG- (2224) dart::Connection::Connection
+ 08:23:47.136000 (P:3600|T:2224) -DEBUG- Spawning 4 threads
+ 08:23:47.167000 (P:3600|T:2324) -DEBUG- Running reactor event loop
+ 08:23:47.167000 (P:3600|T:2164) -DEBUG- Running reactor event loop
+ 08:23:47.167000 (P:3600|T:1792) -DEBUG- Running reactor event loop
+ 08:23:47.167000 (P:3600|T:1864) -DEBUG- Running reactor event loop
+ 08:23:47.214000 (P:3600|T:2324) -DEBUG- Client_Session_Control_Strategy::on_connect: Moving from DISCONNECTED to CONNECTED
+ 08:23:47.214000 (P:3600|T:1864) -DEBUG- Sent 96 bytes: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=142347
+	LoginName(2)=MM8B
+	Password(7)=MM8B
+
+ 08:23:47.214000 (P:3600|T:2164) -INFO- Received message: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=142347
+	LoginName(2)=MM8B
+	NextExpectedSeqNo(72)=1
+
+ 08:23:47.214000 (P:3600|T:2164) -DEBUG- Client_Session_Control_Strategy::on_message: Moving from CONNECTED to LOGGED_ON
+ 08:23:47.214000 (P:3600|T:2324) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=142347
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12632410730
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	LimitPrice(7)=594.910000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA_D(72)
+	Status(14)=Open(13)
+	Instructions(15)=1110312114
+	StaffordTag(17)=MM8B-180100111-64497868067
+	MinQty(18)=0
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	Owner(27)=MM8B
+	Multiplier(28)=0
+	34=0
+	SecurityType(35)=1
+	MarketMakerExchange(37)=0
+	OrderDest(41)=0
+	43=10000
+	CumShares(48)=0
+	LeaveShares(49)=10000
+	AvgPrice(51)=0.000000
+	OMTime(52)=20100113-14:23:47.030
+	57=-
+	64=0.000000
+	CPLXOrderType(66)=0
+	AlgoType(73)=0
+
+ 08:23:47.214000 (P:3600|T:2324) -INFO- Received message: 
+	LOGIN_RESEND_FINISHED 
+	Command(0)=Q
+	Time(1)=142347
+
+ 08:23:47.214000 (P:3600|T:1792) Unexpected message type: Q
+ 08:23:50.058000 (P:3600|T:1864) -DEBUG- (1864) dart::Connection::Connection
+ 08:23:50.073000 (P:3600|T:1792) -DEBUG- Server_Session_Control_Strategy::on_connect: Moving from DISCONNECTED to CONNECTED
+ 08:23:50.073000 (P:3600|T:1792) -INFO- Received message: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=142350
+	LoginName(2)=ROM9
+	NextExpectedSeqNo(72)=1
+
+ 08:23:50.073000 (P:3600|T:2164) -DEBUG- Sent 110 bytes: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=142350
+	LoginName(2)=ALGO_ENGINE
+	Password(7)=ALGO_ENGINE
+
+ 08:23:50.073000 (P:3600|T:1792) -DEBUG- Server_Session_Control_Strategy::on_message: Moving from CONNECTED to LOGGED_ON
+ 08:23:50.073000 (P:3600|T:2324) -DEBUG- Sent 88 bytes: 
+	LOGIN_RESEND_FINISHED 
+	Command(0)=Q
+	Time(1)=142350
+
+ 08:23:53.730000 (P:3600|T:2164) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=142353
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130823531
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=501
+	ClearingAccount(12)=7YKS1209
+	Exchange(13)=ARCA(0)
+	StaffordTag(17)=DAVIDC-90100113-8000000
+	Discretionary(20)=N
+	Solicited(21)=N
+	LocalAccount(22)=DART
+	Firm(23)=GSEC
+	TradeFor(24)=DAVIDC
+	Owner(27)=DAVIDC
+	Multiplier(28)=DAVIDC-90100113-8000000-0
+	SecurityType(35)=E
+	OrderDest(41)=180
+	55=GOOG
+	71=1
+	AlgoType(73)=1
+
+ 08:23:53.761000 (P:3600|T:1864) -DEBUG- Using NYMarketStart=9:30
+ 08:23:53.761000 (P:3600|T:1864) -DEBUG- Using NYMarketStart=18:0
+ 08:23:53.792000 (P:3600|T:1864) -DEBUG- dart::TWAP_Decision_Engine::TWAP_Decision_Engine: START 8:30:0.0  STOP 17:0:0.0
+ 08:23:53.792000 (P:3600|T:1864) -DEBUG- TWAP Strategy: trade 100 every 306 seconds 0 microseconds
+ 08:23:53.808000 (P:3600|T:2164) -DEBUG- Sent 218 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=142353
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130823531
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Open(13)
+	StaffordTag(17)=DAVIDC-90100113-8000000
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000000-0
+	SecurityType(35)=E
+	41=180
+	55=GOOG
+	71=1
+	73=1
+
+ 08:24:19.168000 (P:3600|T:1792) -INFO- Received message: 
+	0=C
+	1=142419
+	2=DAVIDC
+	3=DAVIDC01130823531
+	4=2
+	5=GOOG
+	6=10000
+	7=0
+	17=DAVIDC-90100113-8000000
+	27=DAVIDC
+	28=1
+	71=1
+
+ 08:24:19.168000 (P:3600|T:1792) -DEBUG- Sent 217 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=142419
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130823531
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Canceled(4)
+	StaffordTag(17)=DAVIDC-90100113-8000000
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000000-0
+	SecurityType(35)=E
+	41=180
+	55=GOOG
+	71=1
+	73=1
+
+ 09:14:32.030000 (P:1188|T:3608) -INFO- Bullseye v0.0.0.2 starting up
+ 09:14:32.030000 (P:1188|T:3608) -INFO- Command line: c:\dev\OrderExecution\SERVERS\Algo_Engine\debug\Bullseye.exe -f C:\dev\OrderExecution\SERVERS\Algo_Engine\Bullseye.ini
+ 09:14:34.249000 (P:1188|T:3608) -DEBUG- Connection_Manager::destination: Adding destination 10.106.160.21:8008
+ 09:14:34.249000 (P:1188|T:3608) -DEBUG- (3608) dart::Connection::Connection
+ 09:14:34.265000 (P:1188|T:3608) -DEBUG- Spawning 4 threads
+ 09:14:34.265000 (P:1188|T:2628) -DEBUG- Running reactor event loop
+ 09:14:34.265000 (P:1188|T:3012) -DEBUG- Running reactor event loop
+ 09:14:34.265000 (P:1188|T:1536) -DEBUG- Running reactor event loop
+ 09:14:34.265000 (P:1188|T:2628) -DEBUG- Client_Session_Control_Strategy::on_connect: Moving from DISCONNECTED to CONNECTED
+ 09:14:34.265000 (P:1188|T:3012) -DEBUG- Sent 96 bytes: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151434
+	LoginName(2)=MM8B
+	Password(7)=MM8B
+
+ 09:14:34.265000 (P:1188|T:3904) -DEBUG- Running reactor event loop
+ 09:14:34.265000 (P:1188|T:1536) -INFO- Received message: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151434
+	LoginName(2)=MM8B
+	NextExpectedSeqNo(72)=1
+
+ 09:14:34.265000 (P:1188|T:1536) -DEBUG- Client_Session_Control_Strategy::on_message: Moving from CONNECTED to LOGGED_ON
+ 09:14:34.265000 (P:1188|T:1536) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=151434
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12632410730
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	LimitPrice(7)=594.910000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA_D(72)
+	Status(14)=Open(13)
+	Instructions(15)=1110312114
+	StaffordTag(17)=MM8B-180100111-64497868067
+	MinQty(18)=0
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	Owner(27)=MM8B
+	Multiplier(28)=0
+	34=0
+	SecurityType(35)=1
+	MarketMakerExchange(37)=0
+	OrderDest(41)=0
+	43=10000
+	CumShares(48)=0
+	LeaveShares(49)=10000
+	AvgPrice(51)=0.000000
+	OMTime(52)=20100113-15:14:34.152
+	57=-
+	64=0.000000
+	CPLXOrderType(66)=0
+	AlgoType(73)=0
+
+ 09:14:34.265000 (P:1188|T:1536) -INFO- Received message: 
+	LOGIN_RESEND_FINISHED 
+	Command(0)=Q
+	Time(1)=151434
+
+ 09:14:34.265000 (P:1188|T:3012) Unexpected message type: Q
+ 09:14:40.155000 (P:1188|T:1536) -DEBUG- (1536) dart::Connection::Connection
+ 09:14:40.155000 (P:1188|T:3012) -DEBUG- Server_Session_Control_Strategy::on_connect: Moving from DISCONNECTED to CONNECTED
+ 09:14:40.155000 (P:1188|T:3012) -INFO- Received message: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151440
+	LoginName(2)=ROM9
+	NextExpectedSeqNo(72)=1
+
+ 09:14:40.155000 (P:1188|T:3904) -DEBUG- Sent 110 bytes: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151440
+	LoginName(2)=ALGO_ENGINE
+	Password(7)=ALGO_ENGINE
+
+ 09:14:40.155000 (P:1188|T:3012) -DEBUG- Server_Session_Control_Strategy::on_message: Moving from CONNECTED to LOGGED_ON
+ 09:14:40.155000 (P:1188|T:3904) -DEBUG- Sent 88 bytes: 
+	LOGIN_RESEND_FINISHED 
+	Command(0)=Q
+	Time(1)=151440
+
+ 09:14:45.249000 (P:1188|T:2628) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=151445
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130914452
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=501
+	ClearingAccount(12)=7YKS1209
+	Exchange(13)=ARCA(0)
+	StaffordTag(17)=DAVIDC-90100113-8000002
+	Discretionary(20)=N
+	Solicited(21)=N
+	LocalAccount(22)=DART
+	Firm(23)=GSEC
+	TradeFor(24)=DAVIDC
+	Owner(27)=DAVIDC
+	Multiplier(28)=DAVIDC-90100113-8000002-0
+	SecurityType(35)=E
+	OrderDest(41)=180
+	55=ZVZZT
+	71=1
+	AlgoType(73)=1
+	EndTime(77)=20100113-16:14:14
+
+ 09:14:45.249000 (P:1188|T:1536) -DEBUG- Using NYMarketStart=9:30
+ 09:14:45.249000 (P:1188|T:1536) -DEBUG- Using NYMarketStart=18:0
+ 09:14:45.249000 (P:1188|T:1536) -DEBUG- dart::TWAP_Decision_Engine::TWAP_Decision_Engine: START 9:14:45.249856  STOP 10:14:14.0
+ 09:14:45.249000 (P:1188|T:1536) -DEBUG- TWAP Strategy: trade 100 every 35 seconds 0 microseconds
+ 09:14:45.265000 (P:1188|T:3012) dart::TWAP_Decision_Engine::handle_timeout
+ 09:14:45.265000 (P:1188|T:2628) -DEBUG- Sent 237 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=151445
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130914452
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Open(13)
+	StaffordTag(17)=DAVIDC-90100113-8000002
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000002-0
+	SecurityType(35)=E
+	41=180
+	55=ZVZZT
+	71=1
+	73=1
+	77=20100113-16:14:14
+
+ 09:14:45.265000 (P:1188|T:3012) -DEBUG- dart::TWAP_Time_Slice_Manager::TWAP_Time_Slice_Manager: Start=9:14:45:265482, Stop=9:15:20:265482
+ 09:14:45.265000 (P:1188|T:1536) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:14:45.265000 (P:1188|T:1536) -WARNING- Market data for (null) is unavailable
+ 09:14:46.265000 (P:1188|T:3012) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:14:46.265000 (P:1188|T:3012) -WARNING- Market data for (null) is unavailable
+ 09:14:47.265000 (P:1188|T:3904) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:14:47.265000 (P:1188|T:3904) -WARNING- Market data for (null) is unavailable
+ 09:14:48.265000 (P:1188|T:2628) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:14:48.265000 (P:1188|T:2628) -WARNING- Market data for (null) is unavailable
+ 09:14:49.265000 (P:1188|T:1536) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:14:49.265000 (P:1188|T:1536) -WARNING- Market data for (null) is unavailable
+ 09:14:50.265000 (P:1188|T:3012) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:14:50.265000 (P:1188|T:3012) -WARNING- Market data for (null) is unavailable
+ 09:15:12.391000 (P:3356|T:3112) -INFO- Bullseye v0.0.0.2 starting up
+ 09:15:12.391000 (P:3356|T:3112) -INFO- Command line: c:\dev\OrderExecution\SERVERS\Algo_Engine\debug\Bullseye.exe -f C:\dev\OrderExecution\SERVERS\Algo_Engine\Bullseye.ini
+ 09:15:13.750000 (P:3356|T:3112) -DEBUG- Connection_Manager::destination: Adding destination 10.106.160.21:8008
+ 09:15:13.750000 (P:3356|T:3112) -DEBUG- (3112) dart::Connection::Connection
+ 09:15:13.750000 (P:3356|T:3112) -DEBUG- Spawning 4 threads
+ 09:15:13.750000 (P:3356|T:1384) -DEBUG- Running reactor event loop
+ 09:15:13.750000 (P:3356|T:3132) -DEBUG- Running reactor event loop
+ 09:15:13.750000 (P:3356|T:2200) -DEBUG- Running reactor event loop
+ 09:15:13.750000 (P:3356|T:1384) -DEBUG- Client_Session_Control_Strategy::on_connect: Moving from DISCONNECTED to CONNECTED
+ 09:15:13.750000 (P:3356|T:3132) -DEBUG- Sent 96 bytes: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151513
+	LoginName(2)=MM8B
+	Password(7)=MM8B
+
+ 09:15:13.766000 (P:3356|T:2388) -DEBUG- Running reactor event loop
+ 09:15:13.766000 (P:3356|T:2200) -INFO- Received message: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151513
+	LoginName(2)=MM8B
+	NextExpectedSeqNo(72)=1
+
+ 09:15:13.766000 (P:3356|T:2200) -DEBUG- Client_Session_Control_Strategy::on_message: Moving from CONNECTED to LOGGED_ON
+ 09:15:13.766000 (P:3356|T:3132) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=151513
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12632410730
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	LimitPrice(7)=594.910000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA_D(72)
+	Status(14)=Open(13)
+	Instructions(15)=1110312114
+	StaffordTag(17)=MM8B-180100111-64497868067
+	MinQty(18)=0
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	Owner(27)=MM8B
+	Multiplier(28)=0
+	34=0
+	SecurityType(35)=1
+	MarketMakerExchange(37)=0
+	OrderDest(41)=0
+	43=10000
+	CumShares(48)=0
+	LeaveShares(49)=10000
+	AvgPrice(51)=0.000000
+	OMTime(52)=20100113-15:15:13.650
+	57=-
+	64=0.000000
+	CPLXOrderType(66)=0
+	AlgoType(73)=0
+
+ 09:15:13.766000 (P:3356|T:3132) -INFO- Received message: 
+	LOGIN_RESEND_FINISHED 
+	Command(0)=Q
+	Time(1)=151513
+
+ 09:15:13.766000 (P:3356|T:1384) Unexpected message type: Q
+ 09:15:21.719000 (P:3356|T:2200) -DEBUG- (2200) dart::Connection::Connection
+ 09:15:21.735000 (P:3356|T:2388) -INFO- Event loop shutdown
+ 09:15:21.735000 (P:3356|T:1384) -INFO- Event loop shutdown
+ 09:15:21.735000 (P:3356|T:3132) -INFO- Event loop shutdown
+ 09:15:21.735000 (P:3356|T:2200) -INFO- Event loop shutdown
+ 09:15:21.751000 (P:3356|T:3112) -DEBUG- dart::Connection::~Connection
+ 09:15:21.751000 (P:3356|T:3112) -DEBUG- Client_Session_Control_Strategy::on_disconnect: Moving from LOGGED_ON to DISCONNECTED
+ 09:15:21.751000 (P:3356|T:3112) -DEBUG- dart::Connection::~Connection
+ 09:15:28.704000 (P:2324|T:904) -INFO- Bullseye v0.0.0.2 starting up
+ 09:15:28.704000 (P:2324|T:904) -INFO- Command line: c:\dev\OrderExecution\SERVERS\Algo_Engine\debug\Bullseye.exe -f C:\dev\OrderExecution\SERVERS\Algo_Engine\Bullseye.ini
+ 09:15:30.048000 (P:2324|T:904) -DEBUG- Connection_Manager::destination: Adding destination 10.106.160.21:8008
+ 09:15:30.048000 (P:2324|T:904) -DEBUG- (904) dart::Connection::Connection
+ 09:15:30.048000 (P:2324|T:904) -DEBUG- Spawning 4 threads
+ 09:15:30.048000 (P:2324|T:3332) -DEBUG- Running reactor event loop
+ 09:15:30.048000 (P:2324|T:2424) -DEBUG- Running reactor event loop
+ 09:15:30.048000 (P:2324|T:1284) -DEBUG- Running reactor event loop
+ 09:15:30.048000 (P:2324|T:3332) -DEBUG- Client_Session_Control_Strategy::on_connect: Moving from DISCONNECTED to CONNECTED
+ 09:15:30.048000 (P:2324|T:2424) -DEBUG- Sent 96 bytes: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151530
+	LoginName(2)=MM8B
+	Password(7)=MM8B
+
+ 09:15:30.048000 (P:2324|T:952) -DEBUG- Running reactor event loop
+ 09:15:30.048000 (P:2324|T:1284) -INFO- Received message: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151529
+	LoginName(2)=MM8B
+	NextExpectedSeqNo(72)=1
+
+ 09:15:30.048000 (P:2324|T:1284) -DEBUG- Client_Session_Control_Strategy::on_message: Moving from CONNECTED to LOGGED_ON
+ 09:15:30.048000 (P:2324|T:2424) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=151529
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12632410730
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	LimitPrice(7)=594.910000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA_D(72)
+	Status(14)=Open(13)
+	Instructions(15)=1110312114
+	StaffordTag(17)=MM8B-180100111-64497868067
+	MinQty(18)=0
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	Owner(27)=MM8B
+	Multiplier(28)=0
+	34=0
+	SecurityType(35)=1
+	MarketMakerExchange(37)=0
+	OrderDest(41)=0
+	43=10000
+	CumShares(48)=0
+	LeaveShares(49)=10000
+	AvgPrice(51)=0.000000
+	OMTime(52)=20100113-15:15:29.946
+	57=-
+	64=0.000000
+	CPLXOrderType(66)=0
+	AlgoType(73)=0
+
+ 09:15:30.048000 (P:2324|T:2424) -INFO- Received message: 
+	LOGIN_RESEND_FINISHED 
+	Command(0)=Q
+	Time(1)=151529
+
+ 09:15:30.048000 (P:2324|T:3332) Unexpected message type: Q
+ 09:15:30.157000 (P:2324|T:2424) -DEBUG- (2424) dart::Connection::Connection
+ 09:15:30.157000 (P:2324|T:3332) -DEBUG- Server_Session_Control_Strategy::on_connect: Moving from DISCONNECTED to CONNECTED
+ 09:15:30.157000 (P:2324|T:3332) -INFO- Received message: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151530
+	LoginName(2)=ROM9
+	NextExpectedSeqNo(72)=1
+
+ 09:15:30.157000 (P:2324|T:3332) -DEBUG- Server_Session_Control_Strategy::on_message: Moving from CONNECTED to LOGGED_ON
+ 09:15:30.157000 (P:2324|T:952) -DEBUG- Sent 88 bytes: 
+	LOGIN_RESEND_FINISHED 
+	Command(0)=Q
+	Time(1)=151530
+
+ 09:15:30.157000 (P:2324|T:1284) -DEBUG- Sent 110 bytes: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=151530
+	LoginName(2)=ALGO_ENGINE
+	Password(7)=ALGO_ENGINE
+
+ 09:15:32.048000 (P:2324|T:2424) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=151532
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130915323
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=501
+	ClearingAccount(12)=7YKS1209
+	Exchange(13)=ARCA(0)
+	StaffordTag(17)=DAVIDC-90100113-8000003
+	Discretionary(20)=N
+	Solicited(21)=N
+	LocalAccount(22)=DART
+	Firm(23)=GSEC
+	TradeFor(24)=DAVIDC
+	Owner(27)=DAVIDC
+	Multiplier(28)=DAVIDC-90100113-8000003-0
+	SecurityType(35)=E
+	OrderDest(41)=180
+	55=ZVZZT
+	71=1
+	AlgoType(73)=1
+	EndTime(77)=20100113-16:14:14
+
+ 09:15:32.048000 (P:2324|T:3332) -DEBUG- Using NYMarketStart=9:30
+ 09:15:32.048000 (P:2324|T:3332) -DEBUG- Using NYMarketStart=18:0
+ 09:15:32.048000 (P:2324|T:3332) -DEBUG- dart::TWAP_Decision_Engine::TWAP_Decision_Engine: START 9:15:32.48229  STOP 10:14:14.0
+ 09:15:32.048000 (P:2324|T:3332) -DEBUG- TWAP Strategy: trade 100 every 35 seconds 0 microseconds
+ 09:15:32.063000 (P:2324|T:952) dart::TWAP_Decision_Engine::handle_timeout
+ 09:15:32.063000 (P:2324|T:2424) -DEBUG- Sent 237 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=151532
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130915323
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Open(13)
+	StaffordTag(17)=DAVIDC-90100113-8000003
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000003-0
+	SecurityType(35)=E
+	41=180
+	55=ZVZZT
+	71=1
+	73=1
+	77=20100113-16:14:14
+
+ 09:15:32.063000 (P:2324|T:952) -DEBUG- dart::TWAP_Time_Slice_Manager::TWAP_Time_Slice_Manager: Start=9:15:32:63854, Stop=9:16:7:63854
+ 09:15:32.063000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:15:32.063000 (P:2324|T:3332) -WARNING- Market data for (null) is unavailable
+ 09:15:33.063000 (P:2324|T:952) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:15:33.095000 (P:2324|T:952) TWAP Decision: ZVZZT Bid   200 @ 1074.60 ( ISE) | Ask   100 @ 1077.65 ( NAS)
+ 09:15:33.095000 (P:2324|T:2424) -DEBUG- Sent 149 bytes: 
+	ORDER 
+	Command(0)=E
+	Time(1)=151533
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633957330
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=100
+	LimitPrice(7)=1074.60
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA(0)
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	SecurityType(35)=1
+	38=1
+
+ 09:15:33.126000 (P:2324|T:3332) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=151533
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633957330
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=100
+	LimitPrice(7)=1074.6
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Open(13)
+	15=20100113351
+	16=281487861644424
+	StaffordTag(17)=MM8B-180100113-49959813014
+	Text(26)=New order
+	28=MM8B-180100113-49959813014-1
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:15:33
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861612599
+	61=0
+	67=8
+	71=1
+	75=0
+
+ 09:15:33.126000 (P:2324|T:2424) Order 12633957330 OPEN
+ 09:15:50.095000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=1
+ 09:15:50.095000 (P:2324|T:3332) TWAP Decision: ZVZZT Bid   200 @ 1074.60 ( ISE) | Ask   100 @ 1077.65 ( NAS)
+ 09:15:50.095000 (P:2324|T:1284) -DEBUG- Sent 149 bytes: 
+	0=R
+	1=151550
+	2=MM8B
+	3=12633957330
+	4=2
+	5=ZVZZT
+	6=100
+	7=1074.59
+	8=Limit(2)
+	9=Day(0)
+	10=Agent(A)
+	11=0551
+	12=RONIN
+	13=ARCA(0)
+	22=USER0001
+	23=WAG
+	24=MM8B
+	35=1
+	38=1
+
+ 09:15:50.126000 (P:2324|T:2424) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=151550
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633957330
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=100
+	LimitPrice(7)=1074.590000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	13=ARCA(0)
+	Status(14)=Replaced(5)
+	15=20100113352
+	16=281487861644427
+	StaffordTag(17)=MM8B-180100113-49959813014
+	Text(26)=Replaced
+	28=MM8B-180100113-49959813014-5
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:15:50
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861612601
+	60=12633957330
+	61=5
+	67=8
+	71=2
+	75=0
+
+ 09:15:58.580000 (P:2324|T:2424) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=2
+ 09:15:58.580000 (P:2324|T:2424) TWAP Decision: ZVZZT Bid   200 @ 1074.60 ( ISE) | Ask   100 @ 1077.65 ( NAS)
+ 09:15:58.580000 (P:2324|T:3332) -DEBUG- Sent 149 bytes: 
+	0=R
+	1=151558
+	2=MM8B
+	3=12633957330
+	4=2
+	5=ZVZZT
+	6=100
+	7=1074.58
+	8=Limit(2)
+	9=Day(0)
+	10=Agent(A)
+	11=0551
+	12=RONIN
+	13=ARCA(0)
+	22=USER0001
+	23=WAG
+	24=MM8B
+	35=1
+	38=1
+
+ 09:15:58.611000 (P:2324|T:1284) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=151558
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633957330
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=100
+	LimitPrice(7)=1074.580000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	13=ARCA(0)
+	Status(14)=Replaced(5)
+	15=20100113353
+	16=281487861644429
+	StaffordTag(17)=MM8B-180100113-49959813014
+	Text(26)=Replaced
+	28=MM8B-180100113-49959813014-9
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:15:58
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861612603
+	60=12633957330
+	61=5
+	67=8
+	71=3
+	75=0
+
+ 09:16:02.830000 (P:2324|T:2424) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=3
+ 09:16:02.830000 (P:2324|T:2424) TWAP Decision: ZVZZT Bid   200 @ 1074.60 ( ISE) | Ask   100 @ 1077.65 ( NAS)
+ 09:16:02.830000 (P:2324|T:952) -DEBUG- Sent 142 bytes: 
+	0=R
+	1=151602
+	2=MM8B
+	3=12633957330
+	4=2
+	5=ZVZZT
+	6=100
+	8=Market(1)
+	9=Day(0)
+	10=Agent(A)
+	11=0551
+	12=RONIN
+	13=ARCA(0)
+	22=USER0001
+	23=WAG
+	24=MM8B
+	35=1
+	38=1
+
+ 09:16:02.846000 (P:2324|T:3332) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=151602
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633957330
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=100
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=ReplaceRejected(20)
+	15=20100113353
+	16=281487861644429
+	StaffordTag(17)=MM8B-180100113-49959813014
+	Text(26)=No market for Market order
+	28=MM8B-180100113-49959813014-12
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	CumShares(48)=0
+	LeaveShares(49)=100
+	AvgPrice(51)=0.000000
+	60=12633957330
+	63=2
+	67=9
+	71=4
+
+ 09:16:02.861000 (P:2324|T:952) Replace rejected!
+ 09:16:02.861000 (P:2324|T:952) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:16:02.861000 (P:2324|T:952) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:16:02.861000 (P:2324|T:1284) -DEBUG- Sent 99 bytes: 
+	0=C
+	1=151602
+	3=12633957330
+
+ 09:16:02.877000 (P:2324|T:3332) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=151602
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633957330
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=100
+	LimitPrice(7)=1074.58
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Canceled(4)
+	15=20100113355
+	16=281487861644429
+	StaffordTag(17)=MM8B-180100113-49959813014
+	Text(26)=Cancelled by User
+	28=MM8B-180100113-49959813014-15
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=0
+	ExecTime(50)=20100113-15:16:02
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861612605
+	61=4
+	67=8
+	71=5
+	75=0
+
+ 09:16:02.877000 (P:2324|T:1284) Canceled
+ 09:16:02.877000 (P:2324|T:1284) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:16:02.877000 (P:2324|T:3332) -DEBUG- Sent 236 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=151602
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130915323
+	Side(4)=2
+	Symbol(5)=ZVZZT
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Canceled(4)
+	StaffordTag(17)=DAVIDC-90100113-8000003
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000003-0
+	SecurityType(35)=E
+	41=180
+	55=ZVZZT
+	71=1
+	73=1
+	77=20100113-16:14:14
+
+ 09:16:32.862000 (P:2324|T:2424) dart::TWAP_Decision_Engine::handle_timeout
+ 09:16:32.862000 (P:2324|T:2424) -DEBUG- dart::TWAP_Decision_Engine::handle_timeout: Nothing to do, state is PENDING_CANCEL
+ 09:21:01.636000 (P:2324|T:952) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=152101
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130921011
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=501
+	ClearingAccount(12)=7YKS1209
+	Exchange(13)=ARCA(0)
+	StaffordTag(17)=DAVIDC-90100113-8000004
+	Discretionary(20)=N
+	Solicited(21)=N
+	LocalAccount(22)=DART
+	Firm(23)=GSEC
+	TradeFor(24)=DAVIDC
+	Owner(27)=DAVIDC
+	Multiplier(28)=DAVIDC-90100113-8000004-0
+	SecurityType(35)=E
+	OrderDest(41)=180
+	55=GOOG
+	71=1
+	AlgoType(73)=1
+
+ 09:21:01.636000 (P:2324|T:1284) -DEBUG- Using NYMarketStart=9:30
+ 09:21:01.636000 (P:2324|T:1284) -DEBUG- Using NYMarketStart=18:0
+ 09:21:01.636000 (P:2324|T:1284) -DEBUG- dart::TWAP_Decision_Engine::TWAP_Decision_Engine: START 9:21:1.636900  STOP 17:0:0.0
+ 09:21:01.636000 (P:2324|T:1284) -DEBUG- TWAP Strategy: trade 100 every 275 seconds 0 microseconds
+ 09:21:01.636000 (P:2324|T:3332) dart::TWAP_Decision_Engine::handle_timeout
+ 09:21:01.636000 (P:2324|T:3332) -DEBUG- dart::TWAP_Time_Slice_Manager::TWAP_Time_Slice_Manager: Start=9:21:1:636900, Stop=9:25:36:636900
+ 09:21:01.636000 (P:2324|T:952) -DEBUG- Sent 218 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152101
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130921011
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Open(13)
+	StaffordTag(17)=DAVIDC-90100113-8000004
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000004-0
+	SecurityType(35)=E
+	41=180
+	55=GOOG
+	71=1
+	73=1
+
+ 09:21:01.636000 (P:2324|T:2424) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:21:01.636000 (P:2324|T:2424) -WARNING- Market data for (null) is unavailable
+ 09:21:02.636000 (P:2324|T:1284) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:21:02.636000 (P:2324|T:1284) -WARNING- Market data for (null) is unavailable
+ 09:21:03.636000 (P:2324|T:952) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:21:03.636000 (P:2324|T:952) -WARNING- Market data for (null) is unavailable
+ 09:21:04.636000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:21:04.636000 (P:2324|T:3332) -WARNING- Market data for (null) is unavailable
+ 09:21:05.637000 (P:2324|T:2424) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:21:05.637000 (P:2324|T:2424) -WARNING- Market data for (null) is unavailable
+ 09:21:06.637000 (P:2324|T:1284) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:21:06.637000 (P:2324|T:1284) TWAP Decision: GOOG Bid   300 @ 579.50 ( NAS) | Ask   100 @ 579.69 (ARCA)
+ 09:21:06.637000 (P:2324|T:3332) -DEBUG- Sent 147 bytes: 
+	ORDER 
+	Command(0)=E
+	Time(1)=152106
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633960660
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=579.50
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA(0)
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	SecurityType(35)=1
+	38=1
+
+ 09:21:06.668000 (P:2324|T:2424) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152106
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633960660
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=579.5
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Open(13)
+	15=20100113366
+	16=281487861644487
+	StaffordTag(17)=MM8B-180100113-49959813016
+	Text(26)=New order
+	28=MM8B-180100113-49959813016-1
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:21:06
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861614319
+	61=0
+	67=8
+	71=6
+	75=0
+
+ 09:21:06.668000 (P:2324|T:3332) Order 12633960660 OPEN
+ 09:21:06.668000 (P:2324|T:2424) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152106
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633960660
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=579.5
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Filled(2)
+	15=20100113366
+	16=281487861644487
+	StaffordTag(17)=MM8B-180100113-49959813016
+	Text(26)=Fill
+	28=MM8B-180100113-49959813016-2
+	SecurityType(35)=1
+	LastShares(42)=100
+	ExecPrice(44)=583.63
+	45=MM8B RONIN WAG USER0001
+	CumShares(48)=100
+	LeaveShares(49)=0
+	ExecTime(50)=20100113-15:21:06
+	AvgPrice(51)=583.630000
+	ExchangeTag(54)=281487861614320
+	61=2
+	67=8
+	71=7
+	75=0
+
+ 09:21:06.668000 (P:2324|T:3332) Order filled
+ 09:21:06.668000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:21:06.668000 (P:2324|T:1284) 100 filled (100/100)
+ 09:21:06.668000 (P:2324|T:952) -DEBUG- Sent 139 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152106
+	Status(14)=PartiallyFilled(1)
+	StaffordTag(17)=DAVIDC-90100113-8000004
+	LastShares(42)=100
+	ExecPrice(44)=583.63
+	ExecTime(50)=20100113-15:21:06
+	73=1
+
+ 09:21:31.622000 (P:2324|T:2424) -WARNING- Connection closed
+ 09:21:31.622000 (P:2324|T:2424) -DEBUG- Client_Session_Control_Strategy::on_disconnect: Moving from LOGGED_ON to DISCONNECTED
+ 09:21:31.622000 (P:2324|T:2424) -DEBUG- dart::Connection::~Connection
+ 09:22:01.623000 (P:2324|T:1284) -DEBUG- (1284) dart::Connection::Connection
+ 09:22:01.638000 (P:2324|T:3332) -DEBUG- Client_Session_Control_Strategy::on_connect: Moving from DISCONNECTED to CONNECTED
+ 09:22:01.638000 (P:2324|T:1284) -DEBUG- Sent 96 bytes: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=152201
+	LoginName(2)=MM8B
+	Password(7)=MM8B
+
+ 09:22:01.638000 (P:2324|T:2424) -INFO- Received message: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=152201
+	LoginName(2)=MM8B
+	NextExpectedSeqNo(72)=1
+
+ 09:22:01.638000 (P:2324|T:2424) -DEBUG- Client_Session_Control_Strategy::on_message: Moving from CONNECTED to LOGGED_ON
+ 09:22:01.638000 (P:2324|T:3332) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=152201
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12632410730
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	LimitPrice(7)=594.910000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA_D(72)
+	Status(14)=Open(13)
+	Instructions(15)=1110312114
+	StaffordTag(17)=MM8B-180100111-64497868067
+	MinQty(18)=0
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	Owner(27)=MM8B
+	Multiplier(28)=0
+	34=0
+	SecurityType(35)=1
+	MarketMakerExchange(37)=0
+	OrderDest(41)=0
+	43=10000
+	CumShares(48)=0
+	LeaveShares(49)=10000
+	AvgPrice(51)=0.000000
+	OMTime(52)=20100113-15:22:01.535
+	57=-
+	64=0.000000
+	CPLXOrderType(66)=0
+	AlgoType(73)=0
+
+ 09:22:01.638000 (P:2324|T:3332) -INFO- Received message: 
+	LOGIN_RESEND_FINISHED 
+	Command(0)=Q
+	Time(1)=152201
+
+ 09:22:01.638000 (P:2324|T:952) Unexpected message type: Q
+ 09:23:54.204000 (P:2324|T:1284) -WARNING- Connection closed
+ 09:23:54.204000 (P:2324|T:1284) -DEBUG- Client_Session_Control_Strategy::on_disconnect: Moving from LOGGED_ON to DISCONNECTED
+ 09:23:54.204000 (P:2324|T:1284) -DEBUG- dart::Connection::~Connection
+ 09:24:24.205000 (P:2324|T:2424) -DEBUG- (2424) dart::Connection::Connection
+ 09:24:24.205000 (P:2324|T:3332) -DEBUG- Client_Session_Control_Strategy::on_connect: Moving from DISCONNECTED to CONNECTED
+ 09:24:24.205000 (P:2324|T:2424) -DEBUG- Sent 96 bytes: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=152424
+	LoginName(2)=MM8B
+	Password(7)=MM8B
+
+ 09:24:24.205000 (P:2324|T:1284) -INFO- Received message: 
+	LOGIN 
+	Command(0)=L
+	Time(1)=152424
+	LoginName(2)=MM8B
+	NextExpectedSeqNo(72)=1
+
+ 09:24:24.205000 (P:2324|T:1284) -DEBUG- Client_Session_Control_Strategy::on_message: Moving from CONNECTED to LOGGED_ON
+ 09:24:24.205000 (P:2324|T:3332) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=152424
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12632410730
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	LimitPrice(7)=594.910000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA_D(72)
+	Status(14)=Open(13)
+	Instructions(15)=1110312114
+	StaffordTag(17)=MM8B-180100111-64497868067
+	MinQty(18)=0
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	Owner(27)=MM8B
+	Multiplier(28)=0
+	34=0
+	SecurityType(35)=1
+	MarketMakerExchange(37)=0
+	OrderDest(41)=0
+	43=10000
+	CumShares(48)=0
+	LeaveShares(49)=10000
+	AvgPrice(51)=0.000000
+	OMTime(52)=20100113-15:24:24.106
+	57=-
+	64=0.000000
+	CPLXOrderType(66)=0
+	AlgoType(73)=0
+
+ 09:24:24.205000 (P:2324|T:3332) -INFO- Received message: 
+	LOGIN_RESEND_FINISHED 
+	Command(0)=Q
+	Time(1)=152424
+
+ 09:24:24.205000 (P:2324|T:952) Unexpected message type: Q
+ 09:25:36.645000 (P:2324|T:1284) dart::TWAP_Decision_Engine::handle_timeout
+ 09:25:36.645000 (P:2324|T:1284) -DEBUG- dart::TWAP_Time_Slice_Manager::TWAP_Time_Slice_Manager: Start=9:25:36:645700, Stop=9:30:11:645700
+ 09:25:36.645000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:25:36.645000 (P:2324|T:3332) TWAP Decision: GOOG Bid   200 @ 581.56 (ARCA) | Ask   100 @ 581.84 (ARCA)
+ 09:25:36.645000 (P:2324|T:952) -DEBUG- Sent 147 bytes: 
+	ORDER 
+	Command(0)=E
+	Time(1)=152536
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633963360
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=581.56
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA(0)
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	SecurityType(35)=1
+	38=1
+
+ 09:25:36.676000 (P:2324|T:2424) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152536
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633963360
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=581.56
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Open(13)
+	15=20100113375
+	16=281487861644531
+	StaffordTag(17)=MM8B-180100113-55536556000
+	Text(26)=New order
+	28=MM8B-180100113-55536556000-1
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:25:36
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861614442
+	61=0
+	67=8
+	71=8
+	75=0
+
+ 09:25:36.676000 (P:2324|T:3332) Order 12633963360 OPEN
+ 09:27:54.150000 (P:2324|T:1284) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=1
+ 09:27:54.150000 (P:2324|T:1284) TWAP Decision: GOOG Bid   400 @ 581.74 (ARCA) | Ask   300 @ 582.15 (ARCA)
+ 09:27:54.150000 (P:2324|T:2424) -DEBUG- Sent 147 bytes: 
+	0=R
+	1=152754
+	2=MM8B
+	3=12633963360
+	4=2
+	5=GOOG
+	6=100
+	7=581.73
+	8=Limit(2)
+	9=Day(0)
+	10=Agent(A)
+	11=0551
+	12=RONIN
+	13=ARCA(0)
+	22=USER0001
+	23=WAG
+	24=MM8B
+	35=1
+	38=1
+
+ 09:27:54.181000 (P:2324|T:3332) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152754
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633963360
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=581.730000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	13=ARCA(0)
+	Status(14)=Replaced(5)
+	15=20100113380
+	16=281487861644625
+	StaffordTag(17)=MM8B-180100113-55536556000
+	Text(26)=Replaced
+	28=MM8B-180100113-55536556000-5
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:27:54
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861614569
+	60=12633963360
+	61=5
+	67=8
+	71=9
+	75=0
+
+ 09:29:02.902000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=2
+ 09:29:02.902000 (P:2324|T:3332) TWAP Decision: GOOG Bid   100 @ 582.00 ( ISE) | Ask   100 @ 582.18 (ARCA)
+ 09:29:02.902000 (P:2324|T:1284) -DEBUG- Sent 147 bytes: 
+	0=R
+	1=152902
+	2=MM8B
+	3=12633963360
+	4=2
+	5=GOOG
+	6=100
+	7=581.98
+	8=Limit(2)
+	9=Day(0)
+	10=Agent(A)
+	11=0551
+	12=RONIN
+	13=ARCA(0)
+	22=USER0001
+	23=WAG
+	24=MM8B
+	35=1
+	38=1
+
+ 09:29:02.933000 (P:2324|T:952) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152902
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633963360
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=581.980000
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	13=ARCA(0)
+	Status(14)=Replaced(5)
+	15=20100113383
+	16=281487861644660
+	StaffordTag(17)=MM8B-180100113-55536556000
+	Text(26)=Replaced
+	28=MM8B-180100113-55536556000-9
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:29:02
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861614615
+	60=12633963360
+	61=5
+	67=8
+	71=10
+	75=0
+
+ 09:29:37.278000 (P:2324|T:952) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=3
+ 09:29:37.278000 (P:2324|T:952) TWAP Decision: GOOG Bid   100 @ 581.68 (ARCA) | Ask   100 @ 581.88 ( NAS)
+ 09:29:37.278000 (P:2324|T:3332) -DEBUG- Sent 141 bytes: 
+	0=R
+	1=152937
+	2=MM8B
+	3=12633963360
+	4=2
+	5=GOOG
+	6=100
+	8=Market(1)
+	9=Day(0)
+	10=Agent(A)
+	11=0551
+	12=RONIN
+	13=ARCA(0)
+	22=USER0001
+	23=WAG
+	24=MM8B
+	35=1
+	38=1
+
+ 09:29:40.106000 (P:2324|T:2424) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152939
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633963360
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=ReplaceRejected(20)
+	15=20100113383
+	16=281487861644660
+	StaffordTag(17)=MM8B-180100113-55536556000
+	Text(26)=No market for Market order
+	28=MM8B-180100113-55536556000-12
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	CumShares(48)=0
+	LeaveShares(49)=100
+	AvgPrice(51)=0.000000
+	60=12633963360
+	63=2
+	67=9
+	71=11
+
+ 09:29:40.106000 (P:2324|T:3332) Replace rejected!
+ 09:29:40.106000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:29:40.106000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:29:40.106000 (P:2324|T:1284) -DEBUG- Sent 99 bytes: 
+	0=C
+	1=152940
+	3=12633963360
+
+ 09:29:40.106000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:29:40.137000 (P:2324|T:1284) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152940
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633963360
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=581.98
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Canceled(4)
+	15=20100113386
+	16=281487861644660
+	StaffordTag(17)=MM8B-180100113-55536556000
+	Text(26)=Cancelled by User
+	28=MM8B-180100113-55536556000-15
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=0
+	ExecTime(50)=20100113-15:29:40
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861614639
+	61=4
+	67=8
+	71=12
+	75=0
+
+ 09:29:40.137000 (P:2324|T:3332) Canceled
+ 09:29:40.137000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:29:40.137000 (P:2324|T:2424) -DEBUG- Sent 217 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=152940
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130921011
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=10000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Canceled(4)
+	StaffordTag(17)=DAVIDC-90100113-8000004
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000004-0
+	SecurityType(35)=E
+	41=180
+	55=GOOG
+	71=1
+	73=1
+
+ 09:30:10.107000 (P:2324|T:952) dart::TWAP_Decision_Engine::handle_timeout
+ 09:30:10.107000 (P:2324|T:952) -DEBUG- dart::TWAP_Decision_Engine::handle_timeout: Nothing to do, state is PENDING_CANCEL
+ 09:35:07.507000 (P:2324|T:1284) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=153507
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130935072
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=1000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=501
+	ClearingAccount(12)=7YKS1209
+	Exchange(13)=ARCA(0)
+	StaffordTag(17)=DAVIDC-90100113-8000005
+	Discretionary(20)=N
+	Solicited(21)=N
+	LocalAccount(22)=DART
+	Firm(23)=GSEC
+	TradeFor(24)=DAVIDC
+	Owner(27)=DAVIDC
+	Multiplier(28)=DAVIDC-90100113-8000005-0
+	SecurityType(35)=E
+	OrderDest(41)=180
+	55=GOOG
+	71=1
+	AlgoType(73)=1
+
+ 09:35:07.523000 (P:2324|T:3332) -DEBUG- Using NYMarketStart=9:30
+ 09:35:07.523000 (P:2324|T:3332) -DEBUG- Using NYMarketStart=18:0
+ 09:35:07.523000 (P:2324|T:3332) -DEBUG- dart::TWAP_Decision_Engine::TWAP_Decision_Engine: START 9:35:7.507717  STOP 17:0:0.0
+ 09:35:07.523000 (P:2324|T:3332) -DEBUG- TWAP Strategy: trade 100 every 2669 seconds 0 microseconds
+ 09:35:07.523000 (P:2324|T:2424) dart::TWAP_Decision_Engine::handle_timeout
+ 09:35:07.523000 (P:2324|T:1284) -DEBUG- Sent 217 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=153507
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130935072
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=1000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Open(13)
+	StaffordTag(17)=DAVIDC-90100113-8000005
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000005-0
+	SecurityType(35)=E
+	41=180
+	55=GOOG
+	71=1
+	73=1
+
+ 09:35:07.538000 (P:2324|T:2424) -DEBUG- dart::TWAP_Time_Slice_Manager::TWAP_Time_Slice_Manager: Start=9:35:7:523343, Stop=10:19:36:523343
+ 09:35:07.538000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:35:07.538000 (P:2324|T:3332) TWAP Decision: GOOG Bid   100 @ 582.19 (Unknown) | Ask   200 @ 582.37 (Unknown)
+ 09:35:07.538000 (P:2324|T:952) -DEBUG- Sent 147 bytes: 
+	ORDER 
+	Command(0)=E
+	Time(1)=153507
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633969070
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=582.37
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA(0)
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	SecurityType(35)=1
+	38=1
+
+ 09:35:07.570000 (P:2324|T:1284) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=153507
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633969070
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=582.37
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Open(13)
+	15=20100113397
+	16=281487861644969
+	StaffordTag(17)=MM8B-180100113-55536556001
+	Text(26)=New order
+	28=MM8B-180100113-55536556001-1
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:35:07
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861615170
+	61=0
+	67=8
+	71=13
+	75=0
+
+ 09:35:07.570000 (P:2324|T:952) Order 12633969070 OPEN
+ 09:35:17.133000 (P:2324|T:3332) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=153517
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130935173
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=501
+	ClearingAccount(12)=7YKS1209
+	Exchange(13)=ARCA(0)
+	StaffordTag(17)=DAVIDC-90100113-8000006
+	Discretionary(20)=N
+	Solicited(21)=N
+	LocalAccount(22)=DART
+	Firm(23)=GSEC
+	TradeFor(24)=DAVIDC
+	Owner(27)=DAVIDC
+	Multiplier(28)=DAVIDC-90100113-8000006-0
+	SecurityType(35)=E
+	OrderDest(41)=180
+	55=GOOG
+	71=1
+	AlgoType(73)=1
+
+ 09:35:17.133000 (P:2324|T:1284) -DEBUG- Using NYMarketStart=9:30
+ 09:35:17.133000 (P:2324|T:1284) -DEBUG- Using NYMarketStart=18:0
+ 09:35:17.133000 (P:2324|T:1284) -DEBUG- dart::TWAP_Decision_Engine::TWAP_Decision_Engine: START 9:35:17.133025  STOP 17:0:0.0
+ 09:35:17.133000 (P:2324|T:1284) -DEBUG- TWAP Strategy: trade 100 every 26682 seconds 0 microseconds
+ 09:35:17.133000 (P:2324|T:2424) dart::TWAP_Decision_Engine::handle_timeout
+ 09:35:17.133000 (P:2324|T:2424) -DEBUG- dart::TWAP_Time_Slice_Manager::TWAP_Time_Slice_Manager: Start=9:35:17:133025, Stop=16:59:59:133025
+ 09:35:17.133000 (P:2324|T:3332) -DEBUG- Sent 216 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=153517
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130935173
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Open(13)
+	StaffordTag(17)=DAVIDC-90100113-8000006
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000006-0
+	SecurityType(35)=E
+	41=180
+	55=GOOG
+	71=1
+	73=1
+
+ 09:35:17.148000 (P:2324|T:1284) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:35:17.148000 (P:2324|T:1284) TWAP Decision: GOOG Bid   600 @ 582.40 ( NAS) | Ask   400 @ 582.63 ( ISE)
+ 09:35:17.148000 (P:2324|T:952) -DEBUG- Sent 147 bytes: 
+	ORDER 
+	Command(0)=E
+	Time(1)=153517
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633969170
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=582.40
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA(0)
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	SecurityType(35)=1
+	38=1
+
+ 09:35:17.164000 (P:2324|T:2424) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=153517
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633969170
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=582.4
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Open(13)
+	15=20100113398
+	16=281487861644976
+	StaffordTag(17)=MM8B-180100113-55536556002
+	Text(26)=New order
+	28=MM8B-180100113-55536556002-1
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:35:17
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861615189
+	61=0
+	67=8
+	71=14
+	75=0
+
+ 09:35:17.164000 (P:2324|T:3332) Order 12633969170 OPEN
+ 09:35:31.133000 (P:2324|T:1284) -INFO- Received message: 
+	0=C
+	1=153531
+	2=DAVIDC
+	3=DAVIDC01130935072
+	4=1
+	5=GOOG
+	6=1000
+	7=0
+	17=DAVIDC-90100113-8000005
+	27=DAVIDC
+	28=1
+	71=1
+
+ 09:35:31.133000 (P:2324|T:952) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:35:31.133000 (P:2324|T:3332) -DEBUG- Sent 99 bytes: 
+	0=C
+	1=153531
+	3=12633969070
+
+ 09:35:31.149000 (P:2324|T:1284) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=153531
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633969070
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=582.37
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Canceled(4)
+	15=20100113399
+	16=281487861644969
+	StaffordTag(17)=MM8B-180100113-55536556001
+	Text(26)=Cancelled by User
+	28=MM8B-180100113-55536556001-4
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=0
+	ExecTime(50)=20100113-15:35:31
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861615237
+	61=4
+	67=8
+	71=15
+	75=0
+
+ 09:35:31.149000 (P:2324|T:3332) Canceled
+ 09:35:31.149000 (P:2324|T:3332) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:35:31.164000 (P:2324|T:1284) -DEBUG- Sent 216 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=153531
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130935072
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=1000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Canceled(4)
+	StaffordTag(17)=DAVIDC-90100113-8000005
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000005-0
+	SecurityType(35)=E
+	41=180
+	55=GOOG
+	71=1
+	73=1
+
+ 09:35:32.899000 (P:2324|T:2424) -INFO- Received message: 
+	0=C
+	1=153532
+	2=DAVIDC
+	3=DAVIDC01130935173
+	4=2
+	5=GOOG
+	6=100
+	7=0
+	17=DAVIDC-90100113-8000006
+	27=DAVIDC
+	28=1
+	71=1
+
+ 09:35:32.899000 (P:2324|T:1284) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:35:32.899000 (P:2324|T:2424) -DEBUG- Sent 99 bytes: 
+	0=C
+	1=153532
+	3=12633969170
+
+ 09:35:32.930000 (P:2324|T:2424) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=153532
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633969170
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=582.4
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Canceled(4)
+	15=20100113400
+	16=281487861644976
+	StaffordTag(17)=MM8B-180100113-55536556002
+	Text(26)=Cancelled by User
+	28=MM8B-180100113-55536556002-4
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=0
+	ExecTime(50)=20100113-15:35:32
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861615239
+	61=4
+	67=8
+	71=16
+	75=0
+
+ 09:35:32.930000 (P:2324|T:1284) Canceled
+ 09:35:32.930000 (P:2324|T:1284) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:35:32.930000 (P:2324|T:2424) -DEBUG- Sent 215 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=153532
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130935173
+	Side(4)=2
+	Symbol(5)=GOOG
+	Shares(6)=100
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Canceled(4)
+	StaffordTag(17)=DAVIDC-90100113-8000006
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000006-0
+	SecurityType(35)=E
+	41=180
+	55=GOOG
+	71=1
+	73=1
+
+ 09:36:01.134000 (P:2324|T:952) dart::TWAP_Decision_Engine::handle_timeout
+ 09:36:01.134000 (P:2324|T:952) -DEBUG- dart::TWAP_Decision_Engine::handle_timeout: Nothing to do, state is PENDING_CANCEL
+ 09:36:02.900000 (P:2324|T:3332) dart::TWAP_Decision_Engine::handle_timeout
+ 09:36:02.900000 (P:2324|T:3332) -DEBUG- dart::TWAP_Decision_Engine::handle_timeout: Nothing to do, state is PENDING_CANCEL
+ 09:50:32.485000 (P:2324|T:1284) -INFO- Received message: 
+	ORDER 
+	Command(0)=E
+	Time(1)=155032
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130950321
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=1000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=501
+	ClearingAccount(12)=7YKS1209
+	Exchange(13)=ARCA(0)
+	StaffordTag(17)=DAVIDC-90100113-8000007
+	Discretionary(20)=N
+	Solicited(21)=N
+	LocalAccount(22)=DART
+	Firm(23)=GSEC
+	TradeFor(24)=DAVIDC
+	Owner(27)=DAVIDC
+	Multiplier(28)=DAVIDC-90100113-8000007-0
+	SecurityType(35)=E
+	OrderDest(41)=180
+	55=GOOG
+	71=1
+	AlgoType(73)=1
+	EndTime(77)=20100113-16:00:22
+
+ 09:50:32.485000 (P:2324|T:2424) -DEBUG- Using NYMarketStart=9:30
+ 09:50:32.485000 (P:2324|T:2424) -DEBUG- Using NYMarketStart=18:0
+ 09:50:32.485000 (P:2324|T:2424) -DEBUG- dart::TWAP_Decision_Engine::TWAP_Decision_Engine: START 9:50:32.485934  STOP 10:0:22.0
+ 09:50:32.485000 (P:2324|T:2424) -DEBUG- TWAP Strategy: trade 100 every 58 seconds 0 microseconds
+ 09:50:32.485000 (P:2324|T:1284) dart::TWAP_Decision_Engine::handle_timeout
+ 09:50:32.501000 (P:2324|T:952) -DEBUG- Sent 234 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=155032
+	Trader(2)=DAVIDC
+	ClientOrderTag(3)=DAVIDC01130950321
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=1000
+	OrderType(8)=Market(1)
+	TimeInForce(9)=Day(0)
+	Exchange(10)=Agent(A)
+	11=501
+	12=7YKS1209
+	13=ARCA(0)
+	Status(14)=Open(13)
+	StaffordTag(17)=DAVIDC-90100113-8000007
+	20=N
+	21=N
+	22=DART
+	Contra(23)=GSEC
+	TradeFor(24)=DAVIDC
+	27=DAVIDC
+	28=DAVIDC-90100113-8000007-0
+	SecurityType(35)=E
+	41=180
+	55=GOOG
+	71=1
+	73=1
+	77=20100113-16:00:22
+
+ 09:50:32.501000 (P:2324|T:1284) -DEBUG- dart::TWAP_Time_Slice_Manager::TWAP_Time_Slice_Manager: Start=9:50:32:485934, Stop=9:51:30:485934
+ 09:50:32.501000 (P:2324|T:2424) dart::TWAP_Time_Slice_Manager::handle_timeout: arg=0
+ 09:50:32.501000 (P:2324|T:2424) TWAP Decision: GOOG Bid   100 @ 585.51 (Unknown) | Ask   100 @ 585.73 (Unknown)
+ 09:50:32.501000 (P:2324|T:3332) -DEBUG- Sent 147 bytes: 
+	ORDER 
+	Command(0)=E
+	Time(1)=155032
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633978320
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=585.73
+	OrderType(8)=Limit(2)
+	TimeInForce(9)=Day(0)
+	Capacity(10)=Agent(A)
+	ClearingID(11)=0551
+	ClearingAccount(12)=RONIN
+	Exchange(13)=ARCA(0)
+	LocalAccount(22)=USER0001
+	Firm(23)=WAG
+	TradeFor(24)=MM8B
+	SecurityType(35)=1
+	38=1
+
+ 09:50:32.517000 (P:2324|T:952) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=155032
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633978320
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=585.73
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Open(13)
+	15=20100113435
+	16=281487861645845
+	StaffordTag(17)=MM8B-180100113-55536556010
+	Text(26)=New order
+	28=MM8B-180100113-55536556010-1
+	SecurityType(35)=1
+	LastShares(42)=0
+	ExecPrice(44)=0
+	45=RONIN
+	CumShares(48)=0
+	LeaveShares(49)=100
+	ExecTime(50)=20100113-15:50:32
+	AvgPrice(51)=0.000000
+	ExchangeTag(54)=281487861617519
+	61=0
+	67=8
+	71=17
+	75=0
+
+ 09:50:32.517000 (P:2324|T:2424) Order 12633978320 OPEN
+ 09:50:32.517000 (P:2324|T:1284) -INFO- Received message: 
+	STATUS 
+	Command(0)=S
+	Time(1)=155032
+	Trader(2)=MM8B
+	ClientOrderTag(3)=12633978320
+	Side(4)=1
+	Symbol(5)=GOOG
+	Shares(6)=100
+	LimitPrice(7)=585.73
+	OrderType(8)=Limit(2)
+	13=ARCA(0)
+	Status(14)=Filled(2)
+	15=20100113435
+	16=281487861645845
+	StaffordTag(17)=MM8B-180100113-55536556010
+	Text(26)=Fill
+	28=MM8B-180100113-55536556010-2
+	SecurityType(35)=1
+	LastShares(42)=100
+	ExecPrice(44)=585.63
+	45=MM8B RONIN WAG USER0001
+	CumShares(48)=100
+	LeaveShares(49)=0
+	ExecTime(50)=20100113-15:50:32
+	AvgPrice(51)=585.630000
+	ExchangeTag(54)=281487861617520
+	61=2
+	67=8
+	71=18
+	75=0
+
+ 09:50:32.517000 (P:2324|T:2424) Order filled
+ 09:50:32.517000 (P:2324|T:2424) dart::TWAP_Time_Slice_Manager::cancel_timers: Cancelling all timers
+ 09:50:32.517000 (P:2324|T:3332) 100 filled (100/100)
+ 09:50:32.517000 (P:2324|T:1284) -DEBUG- Sent 139 bytes: 
+	STATUS 
+	Command(0)=S
+	Time(1)=155032
+	Status(14)=PartiallyFilled(1)
+	StaffordTag(17)=DAVIDC-90100113-8000007
+	LastShares(42)=100
+	ExecPrice(44)=585.63
+	ExecTime(50)=20100113-15:50:32
+	73=1
+

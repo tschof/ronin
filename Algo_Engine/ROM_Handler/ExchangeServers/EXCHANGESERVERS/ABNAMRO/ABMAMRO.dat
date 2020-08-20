@@ -1,0 +1,71 @@
+[ABNAMRO Connection]
+Exchange=ABNAMRO
+Port=2711
+Host=205.172.177.63
+
+[Runtime Information]
+Last Run Date=20030822
+Start Time=700
+End Time=2100
+
+[ABNAMRO Server]
+Port=8916
+Exchange Destination Id=45
+
+[Fix Information]
+SenderId=TD_PRO
+TargetId=SAGE_FIX_SERVER
+SenderSubID=p2700
+#TargetSubId=INET
+BeginString=FIX.4.1
+Heartbeat=30
+Encryption=0
+Initiate Logon=1
+Incoming Sequence File=C:\OrderManager\ABNAMRO\IncomingSeq.txt
+Outgoing Sequence File=C:\OrderManager\ABNAMRO\OutgoingSeq.txt
+
+[MemoryMapSettings]
+ForceReload=0
+
+[Log File Information]
+Log File Path=c:\ordermanager\ABNAMRO\
+
+[Order Database Information]
+User=orderusr
+Password=order000
+Server=CHI_MAIN_DEV_SQL
+
+[SupportedOrderTIFs]
+# 1 = supported
+# 0 = not supported 
+DAY=1
+GTC=1
+OPG=1
+IC=1
+FOK=0
+GTX=0
+GTD=0
+#Extended Day
+ED=0
+AON=0
+
+[SupportedOrderTypes]
+# 1 = supported
+# 0 = not supported 
+FYIType=0
+Market=1
+Limit=1
+Stop=0
+StopLimit=0
+MarketOnClose=0
+WithOrWithout=0
+LimitOrBetter=1
+LimitWithOrWithout=0
+OnBasis=0
+OnClose=0
+LimitOnClose=0
+
+[Email Recipients]
+Mail Server=chi-mail1.win.xcaliber.com
+Business Group=sami.khan@tdsecurities.com
+Developer Group=sami.khan@tdsecurities.com

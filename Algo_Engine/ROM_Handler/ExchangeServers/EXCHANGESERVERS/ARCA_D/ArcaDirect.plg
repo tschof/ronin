@@ -1,0 +1,67 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: ArcaDirect - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Release/ArcaDirect.res" /d "NDEBUG" /d "_AFXDLL" "Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ArcaDirect.rc"" 
+Creating temporary file "C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP8B9.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /I "..\..\..\Common" /I "..\..\..\Common\ordermanagerbasecan" /I "..\..\..\COMMON\MemoryMapInitializer" /I "..\..\..\Common\Dbo" /I "..\..\..\Common\DatabaseSettings" /I "..\..\..\Common\OrderIdGenerator" /I "..\..\..\Common\OrderTypeValidator" /I "..\..\..\Common\ExchangeHandlerBase" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fo"Release/" /Fd"Release/" /FD /c 
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ArcaDirect.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ArcaDirectDoc.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ArcaDirectHandler.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ArcaDirectMessage.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ArcaDirectSequenceSet.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ArcaDirectSession.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ArcaDirectStatus.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ArcaDirectView.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\DirectConnection.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\SeqDlg.cpp"
+"Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP8B9.tmp" 
+Creating temporary file "C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP8BA.tmp" with contents
+[
+ombase-dynamic-r-can.lib DBOLib.lib libcs.lib libct.lib libsybdb.lib libblk.lib dbolib.lib version.lib threadpool.lib OrderTypeValidator.lib DatabaseSettings.lib ExchangeHandlerBase.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/ArcaDirect.pdb" /machine:I386 /out:"Release/ArcaDirect.exe" 
+.\Release\ArcaDirect.obj
+.\Release\ArcaDirectDoc.obj
+.\Release\ArcaDirectHandler.obj
+.\Release\ArcaDirectMessage.obj
+.\Release\ArcaDirectSequenceSet.obj
+.\Release\ArcaDirectSession.obj
+.\Release\ArcaDirectStatus.obj
+.\Release\ArcaDirectView.obj
+.\Release\DirectConnection.obj
+.\Release\SeqDlg.obj
+.\Release\StdAfx.obj
+.\Release\ArcaDirect.res
+]
+Creating command line "link.exe @C:\DOCUME~1\pflynn\LOCALS~1\Temp\RSP8BA.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+ArcaDirect.cpp
+ArcaDirectDoc.cpp
+ArcaDirectHandler.cpp
+ArcaDirectMessage.cpp
+ArcaDirectSequenceSet.cpp
+ArcaDirectSession.cpp
+ArcaDirectStatus.cpp
+ArcaDirectView.cpp
+DirectConnection.cpp
+SeqDlg.cpp
+StdAfx.cpp
+Generating Code...
+Y:\dev_pro\OrderExecution\SERVERS\ExchangeServers\Arca_D\ClientMessages.h(219) : warning C4761: integral size mismatch in argument; conversion supplied
+Linking...
+
+
+
+<h3>Results</h3>
+ArcaDirect.exe - 0 error(s), 1 warning(s)
+</pre>
+</body>
+</html>

@@ -1,0 +1,79 @@
+[LAVA Connection]
+Exchange=LAVA
+Port=14020
+Host=69.64.197.236
+
+[Runtime Information]
+Start Time=600
+End Time=1600
+Last Run Date=20051103
+
+[LAVA Server]
+Port=9810
+Exchange Destination Id=14
+
+[Fix Information]
+SenderId=RONIN
+TargetId=LAVA
+#SenderSubID=RONIN
+#TargetSubId=XXX
+BeginString=FIX.4.2
+Heartbeat=50
+Encryption=0
+Initiate Logon=1
+Incoming Sequence File=C:\OrderManager\Lava\IncomingSeq.txt
+Outgoing Sequence File=C:\OrderManager\Lava\OutgoingSeq.txt
+UserNamePassword=RONIN_USER:ronin_test
+
+[Email Recipients]
+Mail Server=sron-chi-mail01.ronin.roncap.com
+Business Group=ROMBusAlerts@ronin-capital.com
+Developer Group=ROMTechAlerts@ronin-capital.com
+
+[Clearing Information]
+Default Clearing Code=RONIN
+
+[Log File Information]
+Map File Path=C:\OrderManager\
+
+[Order Database Information]
+User=rom_user
+Password=resu_mor
+Database=rom
+Server=RON_SYB_DEV1
+
+[SupportedOrderTIFs]
+# 1 = supported
+# 0 = not supported 
+DAY=1
+GTC=0
+OPG=0
+IC=1
+FOK=0
+GTX=0
+GTD=0
+Extended Day=0
+AON=1
+VWAP=0
+GVWAP=0
+
+[SupportedOrderTypes]
+# 1 = supported
+# 0 = not supported 
+FYIType=0
+Market=1
+Limit=1
+Stop=1
+StopLimit=1
+MarketOnClose=1
+WithOrWithout=0
+LimitOrBetter=0
+LimitWithOrWithout=0
+OnBasis=0
+OnClose=0
+LimitOnClose=0
+MarketAtOpen=0
+
+[MemoryMapSettings]
+ForceReload=0
+

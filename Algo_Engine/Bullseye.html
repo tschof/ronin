@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Bullseye</title>
+</head>
+<body>
+    <h2>
+    Algorithms</h2>
+  <h2>
+    TWAP (Time Weighted Average Price)</h2>
+  <h3>
+    Overview</h3>
+  <p>
+    An order worked according to this algorithm attempts to execute the order volume
+    evenly distributed among equal time slices spanning a specified period of time.</p>
+  <h3>
+    Parameters</h3>
+  <p>
+    <table border="5" style="width: 100%">
+      <tr>
+        <td style="width: 56px">
+          Field Name</td>
+        <td style="width: 52px">
+          DART CSV Field</td>
+        <td style="width: 7px">
+          FIX Field</td>
+        <td style="width: 31px">
+          Values</td>
+        <td style="width: 50%">
+          Description</td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 61px">
+          Symbol</td>
+        <td style="width: 52px; height: 61px">
+          Symbol (5)</td>
+        <td style="width: 7px; height: 61px">
+          Symbol (55)</td>
+        <td style="width: 31px; height: 61px">
+          Any listed US equity symbol
+        </td>
+        <td style="height: 61px">
+          No alternate symbology allowed (ISIN, CUSIP, Bloomberg, Reuters, etc.)</td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 23px">
+          Order Type</td>
+        <td style="width: 52px; height: 23px">
+          Type (8)</td>
+        <td style="width: 7px; height: 23px">
+          OrdType (40)</td>
+        <td style="width: 31px; height: 23px">
+          1=Market<br />
+          2=Limit</td>
+        <td style="height: 23px">
+          Place restrictions similar to normal orders, by specifying an order type of Limit
+          with a corresponding Limit Price the algorithm will assure fills no worse than the
+          specified price.&nbsp; Specifying a Limit Order may negatively impact the algorithm's
+          ability to evenly execute the order over time or to execute the total volume specified
+          within the time span of the order.</td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 23px">
+          Limit Price</td>
+        <td style="width: 52px; height: 23px">
+          Price (7)</td>
+        <td style="width: 7px; height: 23px">
+          Price (44)</td>
+        <td style="width: 31px; height: 23px">
+          Decimal price</td>
+        <td style="height: 23px">
+          Only required/allowed if Order Type of Limit (2) is specified.&nbsp; See notes on
+          Order Type for explanation of effect.</td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 23px">
+          Time In Force</td>
+        <td style="width: 52px; height: 23px">
+          TIF (9)</td>
+        <td style="width: 7px; height: 23px">
+          TimeInForce (59)</td>
+        <td style="width: 31px; height: 23px">
+          Day (0)</td>
+        <td style="height: 23px">
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 23px">
+          Side</td>
+        <td style="width: 52px; height: 23px">
+          Side (4)</td>
+        <td style="width: 7px; height: 23px">
+          Side (54)</td>
+        <td style="width: 31px; height: 23px">
+          1=Buy<br />
+          2=Sell<br />
+          5=Sell Short</td>
+        <td style="height: 23px">
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 23px">
+          Shares</td>
+        <td style="width: 52px; height: 23px">
+          Shares (6)</td>
+        <td style="width: 7px; height: 23px">
+          OrderQty (38)</td>
+        <td style="width: 31px; height: 23px">
+          Whole number</td>
+        <td style="height: 23px">
+          Must be greater than 500</td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 23px">
+          Start Time</td>
+        <td style="width: 52px; height: 23px">
+          Start Time (76)</td>
+        <td style="width: 7px; height: 23px">
+          EffectiveTime (168)</td>
+        <td style="width: 31px; height: 23px">
+          UTC Timestamp</td>
+        <td style="height: 23px">
+          If absent, the order begins working immediately if the market is open (after 9:30am
+          ET) or at US primary market open if the order is entered before that time.&nbsp;
+          Orders entered within 15 minutes of US market close (4pm ET) will be rejected.&nbsp;
+          Times must be in UTC and of the form YYYYMMDD-HH:MM:SS or the order will be rejected.&nbsp;
+          Start times previous to the time received by the DART system will result in a reject.&nbsp;
+          Must be at least 15 minutes before the End Time.</td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 23px">
+          End Time</td>
+        <td style="width: 52px; height: 23px">
+          End Time (77)</td>
+        <td style="width: 7px; height: 23px">
+          ExpireTime (126)</td>
+        <td style="width: 31px; height: 23px">
+          UTCTimestamp</td>
+        <td style="height: 23px">
+          If absent, the order ceases working at US primary market close (4pm ET).&nbsp; Orders
+          entered within 15 minutes of US market close (4pm ET) will be rejected.&nbsp; Times
+          must be in UTC and of the form YYYYMMDD-HH:MM:SS or the order will be rejected.
+          &nbsp;End times before the time received by the DART system will result in a reject.&nbsp;
+          Must be at least 15 minutes before the End Time.</td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 23px">
+          Exchange</td>
+        <td style="width: 52px; height: 23px">
+          Exchange (13)</td>
+        <td style="width: 7px; height: 23px">
+          ExDestination 9100)</td>
+        <td style="width: 31px; height: 23px">
+          DART Exchange routing ID</td>
+        <td style="height: 23px">
+          Initial versions of this algorithm require specific routing instructions as to which
+          exchange the order is to be routed to.&nbsp; All individual orders sent by the algorithm
+          trading program for this order will be sent to this destination.</td>
+      </tr>
+      <tr>
+        <td style="width: 56px; height: 23px">
+          Execution Style</td>
+        <td style="width: 52px; height: 23px">
+          Instructions (15)</td>
+        <td style="width: 7px; height: 23px">
+          TargetStrategyParameters (848)</td>
+        <td style="width: 31px; height: 23px">
+          Space-separated pairs of 'key=value'.</td>
+        <td style="height: 23px">
+          The key is "ExecutionStyle" and the value is "1", "2", or "3".&nbsp; See notes on
+          Execution Style below.</td>
+      </tr>
+    </table>
+  </p>
+  <h3>
+    Algorithm Execution</h3>
+  <h4>
+    Time Slice Calculation</h4>
+  <p>
+    Given the order lifetime and the total volume to be executed, equal length time
+    slices, <em>n</em>, are calculated, during each of which <em>x</em> shares of the
+    stock are to be transacted.&nbsp; The algorithm for determining <em>x</em> and <em>
+      n</em> has minimum requirements for each of these variables.&nbsp; Time slice
+    length is required to be a minimum of 1 minute and the minimum number of shares
+    to be executed during that time slice is 100.&nbsp; The simplest calculation is
+    done first, taking the total time length and dividing by the number of 100 share
+    orders.&nbsp; If this is greater than 1 minute that interval is used, accommodating
+    100 shares for each interval.&nbsp; If the number of shares comes out less than
+    100, multiples of 100 are tried, in ascending order, until the minimum time interval
+    (1 minute) is achieved.</p>
+  <h4>
+    Time Slice Execution Management</h4>
+  <p>
+    One order is entered, per time slice, for a volume determined by the time slice
+    calculation.&nbsp;
+    When the order is entered and how it is modified is controlled by the Execution
+    Style parameter and the presence of a limit price.&nbsp; <em>Note: The relative aggressiveness
+      mentioned in the descriptions below refer to how aggressively to price the order
+      so that it executes quickly; it does not refer to the favorability of the prices.</em></p>
+  <p>
+    In each of the execution styles, a simple scheduling algorithm is used.&nbsp; The
+    initial order is entered at the beginning of the interval.&nbsp; Checks are made
+    again at the halfway point in the interval, the three-quarter point, and, finally,
+    the endpoint.&nbsp; For each execution style, the pricing of the order is discussed
+    at each of these timer markers.&nbsp; In all cases, the order volume is the total
+    number of shares per interval determined by the time slice calculation (see notes
+    above).&nbsp; Additional changes to the order at each time marker are only made
+    if additional unexecuted quantity remains on the order.&nbsp; Once the order is
+    filled, no additional action is taken for the remainder of the interval.&nbsp; The
+    only field changed by the change order is the price.</p>
+  <h5>
+    Aggressive Execution Style (1)</h5>
+  <p>
+    <table>
+      <tr>
+        <td style="width: 135px; height: 21px; text-align: left;">
+          <strong>Time Point</strong></td>
+        <td style="width: 135px; height: 21px; text-align: left;">
+          <strong>Buy Price</strong></td>
+        <td style="width: 135px; height: 21px; text-align: left;">
+          <strong>Sell Price</strong></td>
+      </tr>
+      <tr>
+        <td style="width: 135px">
+          T+0</td>
+        <td style="width: 135px">
+          best offer</td>
+        <td style="width: 135px">
+          best bid</td>
+      </tr>
+      <tr>
+        <td style="width: 135px">
+          T+0.5T</td>
+        <td style="width: 135px">
+          best offer + $0.01</td>
+        <td style="width: 135px">
+          best bid - $0.01</td>
+      </tr>
+      <tr>
+        <td style="width: 135px">
+          T+0.75T</td>
+        <td style="width: 135px">
+          best offer + $0.02</td>
+        <td style="width: 135px">
+          best bid - $0.02</td>
+      </tr>
+      <tr>
+        <td style="width: 135px">
+          2T</td>
+        <td style="width: 135px">
+          Market</td>
+        <td style="width: 135px">
+          Market</td>
+      </tr>
+    </table>
+  </p>
+  <h5>
+    Active Execution Style (2)</h5>
+  <p><table>
+    <tr>
+      <td style="width: 136px; height: 21px; text-align: left;">
+        <strong>Time Point</strong></td>
+      <td style="width: 167px; height: 21px; text-align: left;">
+        <strong>Buy Price</strong></td>
+      <td style="width: 161px; height: 21px; text-align: left;">
+        <strong>Sell Price</strong></td>
+    </tr>
+    <tr>
+      <td style="width: 136px">
+        T+0</td>
+      <td style="width: 167px">
+        bbo midpoint</td>
+      <td style="width: 161px">
+        bbo midpoint</td>
+    </tr>
+    <tr>
+      <td style="width: 136px; height: 21px;">
+        T+0.5T</td>
+      <td style="width: 167px; height: 21px;">
+        bbo midpoint</td>
+      <td style="width: 161px; height: 21px;">
+        bbo midpoint</td>
+    </tr>
+    <tr>
+      <td style="width: 136px">
+        T+0.75T</td>
+      <td style="width: 167px">
+        best offer</td>
+      <td style="width: 161px">
+        best bid</td>
+    </tr>
+    <tr>
+      <td style="width: 136px">
+        2T</td>
+      <td style="width: 167px">
+        Market</td>
+      <td style="width: 161px">
+        Market</td>
+    </tr>
+  </table>
+  </p>
+  <h5>
+    Passive Execution Style (3)</h5>
+  <p><table>
+    <tr>
+      <td style="width: 136px; height: 21px; text-align: left;">
+        <strong>Time Point</strong></td>
+      <td style="width: 167px; height: 21px; text-align: left;">
+        <strong>Buy Price</strong></td>
+      <td style="width: 161px; height: 21px; text-align: left;">
+        <strong>Sell Price</strong></td>
+    </tr>
+    <tr>
+      <td style="width: 136px">
+        T+0</td>
+      <td style="width: 167px">
+        best bid</td>
+      <td style="width: 161px">
+        best offer</td>
+    </tr>
+    <tr>
+      <td style="width: 136px; height: 21px;">
+        T+0.5T</td>
+      <td style="width: 167px; height: 21px;">
+        bbo midpoint</td>
+      <td style="width: 161px; height: 21px;">
+        bbo midpoint</td>
+    </tr>
+    <tr>
+      <td style="width: 136px">
+        T+0.75T</td>
+      <td style="width: 167px">
+        best offer</td>
+      <td style="width: 161px">
+        best bid</td>
+    </tr>
+    <tr>
+      <td style="width: 136px; height: 21px;">
+        2T</td>
+      <td style="width: 167px; height: 21px;">
+        Market</td>
+      <td style="width: 161px; height: 21px;">
+        Market</td>
+    </tr>
+  </table>
+  </p>
+  <h4>
+    Limit Price</h4>
+  <p>
+    The prices detailed under the Execution Style section are reflective of the algorithm
+    for Market TWAP orders.&nbsp; However, Limit TWAP orders apply the limit price restriction
+    as follows.&nbsp; In all cases in which a market order is indicated, Limit TWAP
+    orders send a limit order at the limit price instead.&nbsp; For all other limit
+    orders the limit order is never exceeded, if the limit is less than (for a buy order)
+    or greater than&nbsp; (for a sell order) the price required by the algorithm, the
+    overall TWAP limit price is used on each interval's orders instead of the calculated
+    limit price.&nbsp; If a time interval ends with volume remaining and an overall
+    TWAP limit price in effect, the remaining volume is cancelled.</p>
+  <h2>
+    Application Notes</h2>
+  <h3>
+    Market Data</h3>
+  <p>
+    Initial development was done using Wombat market data via their MamaCache distribution
+    mechanism.&nbsp; Wombat over LBM was the goal for production.&nbsp; As of December
+    2009, though, the company is abandoning Wombat market data in favor of SRLabs market
+    data systems.</p>
+  <p>
+    The current approach to subscribing to market data is to subscribe, for each symbol,
+    to all appropriate data sources.&nbsp; So, for the Bullseye algorithm engine that
+    only deals with US equities, we will subscribe to both the CTA and NASDAQ market
+    data sources for any given symbol.&nbsp; This allows us to be independent of keeping
+    databases of which symbols come from which feeds.&nbsp; For our system this implies
+    an independence from the TPOS system.</p>
+  <h2>
+    Installation Directions</h2>
+  <ol>
+    <li>If it doesn't already exist, create the directory C:\OrderManager\Algo_Engine.</li>
+    <li>Copy Bullseye.exe and Bullseye.pdb to C:\OrderManager\Algo_Engine</li>
+    <li>Copy SRLabs_Market_Data.dll to C:\OrderManager\Algo_Engine</li>
+    <li>Copy ACE.dll to C:\OrderManager\Algo_Engine</li>
+    <li>Create or copy an INI file (usually called Bullseye.ini) to C:\OrderManager\Algo_Engine</li>
+    <li>Copy the smds-windows-VS2005-3.3.7.zip file to the target machine and extract
+      to C:\srlabs\smds-windows-VS2005-3.3.7</li>
+    <li>Copy the SRLabs configuration files to C:\srlabs\config, make sure the delay-mcjoin
+      attribute on each resource is set to true.</li>
+    <li>Set an environment variable called SRROOT that points to the top-level SRLabs
+      directory.&nbsp; This is C:\srlabs\smds-windows-VS2005-3.3.7 from step 6 above.</li>
+  </ol>
+  <h2>
+    Test Cases</h2>
+  <p>
+    Verify the following:</p>
+  <ul>
+    <li>All orders for non-equity instruments will be rejected.</li>
+    <li></li>
+  </ul>
+
+</body>
+</html>

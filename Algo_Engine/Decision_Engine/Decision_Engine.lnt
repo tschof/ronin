@@ -1,0 +1,18 @@
+
+/* Generated from file: Decision_Engine.vcproj */
+/* -dConfiguration= ... none provided  */
+-i"C:\dev\OrderExecution\COMMON\ROMFIXENGINE\FixEngine"
+                               //  44: AdditionalIncludeDirectories = "C:\dev\OrderExecution\COMMON\ROMFIXENGINE\FixEngine;C:\dev\OrderExecution\SERVERS\NewRom" 
+-i"C:\dev\OrderExecution\SERVERS\NewRom"
+                               //  44: AdditionalIncludeDirectories = "" 
+-i"C:\Libraries\ACE-5.7.2\ACE_Wrappers"
+-i"C:\Documents and Settings\dcondon\My Documents\Visual Studio 2005\Projects\Bullseye"
+-DWIN32                        //  45: PreprocessorDefinitions = "WIN32;_DEBUG;_LIB" 
+-D_DEBUG                       //  45: PreprocessorDefinitions = "" 
+-D_LIB                         //  45: PreprocessorDefinitions = "" 
+-D_MT                          //  48: RuntimeLibrary = "3" 
+-D_DEBUG                       //  48: RuntimeLibrary = "" 
+-D_DLL                         //  48: RuntimeLibrary = "" 
+.\Decision_Engine.cpp          // 150: RelativePath = ".\Decision_Engine.cpp" 
+.\Order_Factory.cpp            // 154: RelativePath = ".\Order_Factory.cpp" 
+.\TWAP_Order.cpp               // 158: RelativePath = ".\TWAP_Order.cpp" 

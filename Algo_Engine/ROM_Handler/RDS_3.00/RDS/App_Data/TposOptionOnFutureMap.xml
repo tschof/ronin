@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TposOptionOnFuture>
+  <TposOptionOnFutureMap>
+    <ROC>OZB</ROC>
+    <OPTION>US_OF</OPTION>
+  </TposOptionOnFutureMap>
+  <TposOptionOnFutureMap>
+    <ROC>OZN</ROC>
+    <OPTION>TY_OF</OPTION>
+  </TposOptionOnFutureMap>
+</TposOptionOnFuture>

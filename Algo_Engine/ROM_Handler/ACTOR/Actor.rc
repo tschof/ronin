@@ -1,0 +1,690 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\TerraNova.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#include ""afxdb.rc""          // Database resources\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\icon1.ico"
+IDR_TERRATYPE           ICON    DISCARDABLE     "res\\ico00001.ico"
+IDR_TRAFFICTYPE         ICON    DISCARDABLE     "res\\idr_terr.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Actor...",             ID_APP_ABOUT
+    END
+END
+
+IDR_TERRATYPE MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+    END
+    POPUP "Server"
+    BEGIN
+        MENUITEM "Logout",                      IDM_LOGOUT
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&New Window",                 ID_WINDOW_NEW
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Actor...",             ID_APP_ABOUT
+    END
+END
+
+IDR_TRAFFICTYPE MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&New Window",                 ID_WINDOW_NEW
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Actor...",             ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 217, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Actor"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "Actor Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 1998",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,32,14,WS_GROUP
+END
+
+IDD_TERRANOVA_FORM DIALOG DISCARDABLE  0, 0, 38, 44
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDC_CONNECTION_LIST,1,1,36,42,LBS_OWNERDRAWFIXED | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL
+END
+
+IDD_LISTVIEW DIALOG DISCARDABLE  0, 0, 58, 44
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDC_TRAFFIC_LIST,1,2,55,41,LBS_USETABSTOPS | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_ACTDIALOG DIALOG DISCARDABLE  0, 0, 367, 275
+STYLE WS_POPUP | WS_CAPTION
+FONT 8, "Courier New"
+BEGIN
+    COMBOBOX        IDC_COMBO_FUNCTION,7,15,172,156,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Function",IDC_STATIC,7,7,171,8
+    LTEXT           "As-of",IDC_STATIC,188,7,172,8
+    COMBOBOX        IDC_COMBO_ASOF,188,15,172,156,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Security Class",IDC_STATIC,7,29,170,8
+    COMBOBOX        IDC_COMBO_SECCLS,7,37,172,156,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "B/S/X Indicator",IDC_STATIC,188,29,172,8
+    COMBOBOX        IDC_COMBO_BSX,188,36,172,156,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    EDITTEXT        IDC_EDIT_REFNUM,7,59,172,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Reference Number",IDC_STATIC,7,51,172,8
+    LTEXT           "Volume",IDC_STATIC,188,51,172,8
+    EDITTEXT        IDC_EDIT_VOLUME,188,59,172,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Symbol",IDC_STATIC,7,74,172,8
+    LTEXT           "Price (Dollar, Numerator, Denominator)",IDC_STATIC,188,
+                    74,172,8
+    EDITTEXT        IDC_EDIT_PRICEDOLLAR,186,83,55,13,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_PRICENUM,245,83,54,13,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    COMBOBOX        IDC_COMBO_TRADEMOD,7,106,172,156,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Trade Modifier",IDC_STATIC,7,98,172,8
+    CONTROL         "Price Override",IDC_PRICEOVERIDE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,240,86,13
+    LTEXT           "OEID",IDC_STATIC,7,121,172,8
+    EDITTEXT        IDC_EDIT_OEID,7,129,172,13,ES_UPPERCASE | ES_AUTOHSCROLL
+    LTEXT           "OEGU",IDC_STATIC,188,120,172,8
+    EDITTEXT        IDC_EDIT_OEGU,188,129,172,13,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL
+    LTEXT           "OE Clear Number",IDC_STATIC,7,145,172,8
+    EDITTEXT        IDC_EDIT_OECLEARNUM,7,154,172,13,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "MMID",IDC_STATIC,188,145,172,8
+    EDITTEXT        IDC_EDIT_MMID,188,153,172,13,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL
+    LTEXT           "MMGU",IDC_STATIC,7,169,172,8
+    EDITTEXT        IDC_EDIT_MMGU,7,177,172,13,ES_UPPERCASE | ES_AUTOHSCROLL
+    LTEXT           "MM Clear Number",IDC_STATIC,188,169,172,8
+    EDITTEXT        IDC_EDIT_MMCLEARNUM,188,177,172,13,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "MM/PA",IDC_STATIC,7,193,172,8
+    COMBOBOX        IDC_COMBO_MMPA,7,201,172,156,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Special Trade Indicator",IDC_STATIC,188,193,172,8
+    COMBOBOX        IDC_COMBO_SPECIALINDICATOR,188,201,172,156,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Memo",IDC_STATIC,7,216,172,8
+    EDITTEXT        IDC_EDIT_MEMO,7,224,172,13,ES_UPPERCASE | ES_AUTOHSCROLL
+    LTEXT           "Trade Price Expansion",IDC_STATIC,188,216,172,8
+    EDITTEXT        IDC_EDIT_TRADEPRICEEXP,186,224,86,13,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_DEN,306,83,54,156,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    CONTROL         "Trade Report Flag",IDC_REPORTFLAG,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,
+                    274,240,86,13
+    EDITTEXT        IDC_EDIT_TRADEPRICEEXP2,274,224,86,13,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_CLEARFLAG,188,106,172,156,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Clearing Flag",IDC_STATIC,188,98,172,8
+    PUSHBUTTON      "SEND",IDC_SENDACT,30,254,330,14
+    EDITTEXT        IDC_EDIT_NUMSEND,7,254,23,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SYMBOL_EDIT,7,83,177,14,ES_AUTOHSCROLL
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "TerraNova MFC Application\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "TerraNova\0"
+            VALUE "LegalCopyright", "Copyright (C) 1998\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "TerraNova.EXE\0"
+            VALUE "ProductName", "TerraNova Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_TERRANOVA_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 37
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_LISTVIEW, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 57
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_ACTDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 360
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 268
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_ACTDIALOG DLGINIT
+BEGIN
+    IDC_COMBO_FUNCTION, 0x403, 15, 0
+0x4d4d, 0x5420, 0x6172, 0x6564, 0x4520, 0x746e, 0x7972, "\000" 
+    IDC_COMBO_FUNCTION, 0x403, 12, 0
+0x7245, 0x6f72, 0x2072, 0x6e45, 0x7274, 0x0079, 
+    IDC_COMBO_FUNCTION, 0x403, 13, 0
+0x6143, 0x636e, 0x6c65, 0x4520, 0x746e, 0x7972, "\000" 
+    IDC_COMBO_FUNCTION, 0x403, 13, 0
+0x6f4e, 0x572f, 0x7361, 0x4520, 0x746e, 0x7972, "\000" 
+    IDC_COMBO_FUNCTION, 0x403, 17, 0
+0x6341, 0x6563, 0x7470, 0x6e61, 0x6563, 0x4520, 0x746e, 0x7972, "\000" 
+    IDC_COMBO_FUNCTION, 0x403, 14, 0
+0x6544, 0x6c63, 0x6e69, 0x2065, 0x6e45, 0x7274, 0x0079, 
+    IDC_COMBO_FUNCTION, 0x403, 15, 0
+0x454f, 0x5420, 0x6172, 0x6564, 0x4520, 0x746e, 0x7972, "\000" 
+    IDC_COMBO_FUNCTION, 0x403, 12, 0
+0x7242, 0x6165, 0x206b, 0x7254, 0x6461, 0x0065, 
+    IDC_COMBO_FUNCTION, 0x403, 15, 0
+0x7242, 0x776f, 0x6573, 0x5220, 0x7165, 0x6575, 0x7473, "\000" 
+    IDC_COMBO_ASOF, 0x403, 14, 0
+0x2054, 0x202d, 0x6144, 0x2079, 0x7254, 0x6461, 0x0065, 
+    IDC_COMBO_ASOF, 0x403, 16, 0
+0x7341, 0x6f2d, 0x2066, 0x2b54, 0x2031, 0x7254, 0x6461, 0x0065, 
+    IDC_COMBO_ASOF, 0x403, 23, 0
+0x7341, 0x6f2d, 0x2066, 0x2b54, 0x2032, 0x6f74, 0x5420, 0x6e2b, 0x5420, 
+0x6172, 0x6564, "\000" 
+    IDC_COMBO_ASOF, 0x403, 32, 0
+0x7341, 0x6f2d, 0x2066, 0x2b54, 0x2031, 0x6f74, 0x5420, 0x6e2b, 0x5220, 
+0x7665, 0x7265, 0x6173, 0x206c, 0x7254, 0x6461, 0x0065, 
+    IDC_COMBO_SECCLS, 0x403, 20, 0
+0x5355, 0x203a, 0x614e, 0x6473, 0x7161, 0x5320, 0x616d, 0x6c6c, 0x6143, 
+0x0070, 
+    IDC_COMBO_SECCLS, 0x403, 27, 0
+0x5355, 0x203a, 0x614e, 0x6473, 0x7161, 0x4e20, 0x7461, 0x6f69, 0x616e, 
+0x206c, 0x614d, 0x6b72, 0x7465, "\000" 
+    IDC_COMBO_SECCLS, 0x403, 8, 0
+0x5355, 0x203a, 0x5143, 0x0053, 
+    IDC_COMBO_SECCLS, 0x403, 10, 0
+0x5355, 0x203a, 0x4e4e, 0x544f, 0x0043, 
+    IDC_COMBO_SECCLS, 0x403, 36, 0
+0x5355, 0x203a, 0x4154, 0x5352, 0x4e2f, 0x4353, 0x2043, 0x6552, 0x6f63, 
+0x636e, 0x6c69, 0x6169, 0x6974, 0x6e6f, 0x5320, 0x6d79, 0x6f62, 0x006c, 
+
+    IDC_COMBO_SECCLS, 0x403, 20, 0
+0x5545, 0x203a, 0x614e, 0x6473, 0x7161, 0x5320, 0x616d, 0x6c6c, 0x6143, 
+0x0070, 
+    IDC_COMBO_SECCLS, 0x403, 27, 0
+0x5545, 0x203a, 0x614e, 0x6473, 0x7161, 0x4e20, 0x7461, 0x6f69, 0x616e, 
+0x206c, 0x614d, 0x6b72, 0x7265, "\000" 
+    IDC_COMBO_SECCLS, 0x403, 8, 0
+0x5545, 0x203a, 0x5143, 0x0053, 
+    IDC_COMBO_BSX, 0x403, 22, 0
+0x6552, 0x6f70, 0x7472, 0x6e69, 0x2067, 0x6946, 0x6d72, 0x4220, 0x756f, 
+0x6867, 0x0074, 
+    IDC_COMBO_BSX, 0x403, 20, 0
+0x6552, 0x6f70, 0x7472, 0x6e69, 0x2067, 0x6946, 0x6d72, 0x5320, 0x6c6f, 
+0x0064, 
+    IDC_COMBO_BSX, 0x403, 45, 0
+0x6552, 0x6f70, 0x7472, 0x6e69, 0x2067, 0x6946, 0x6d72, 0x4920, 0x746e, 
+0x7265, 0x616e, 0x696c, 0x657a, 0x2064, 0x724f, 0x4320, 0x6f72, 0x7373, 
+0x6465, 0x5420, 0x6172, 0x6564, "\000" 
+    IDC_COMBO_BSX, 0x403, 11, 0
+0x6f53, 0x646c, 0x532d, 0x6f68, 0x7472, "\000" 
+    IDC_COMBO_BSX, 0x403, 18, 0
+0x6f53, 0x646c, 0x532d, 0x6f68, 0x7472, 0x452d, 0x6578, 0x706d, 0x0074, 
+
+    IDC_COMBO_BSX, 0x403, 28, 0
+0x6553, 0x6c6c, 0x6e69, 0x2067, 0x7563, 0x7473, 0x6d6f, 0x7265, 0x5320, 
+0x6c6f, 0x2d64, 0x6853, 0x726f, 0x0074, 
+    IDC_COMBO_BSX, 0x403, 37, 0
+0x6553, 0x6c6c, 0x732d, 0x6469, 0x2065, 0x7563, 0x7473, 0x6d6f, 0x7265, 
+0x5320, 0x6c6f, 0x2d64, 0x6853, 0x726f, 0x2074, 0x7845, 0x6d65, 0x7470, 
+"\000" 
+    IDC_COMBO_BSX, 0x403, 23, 0
+0x6f43, 0x746e, 0x6172, 0x7320, 0x6469, 0x2065, 0x6f73, 0x646c, 0x7320, 
+0x6f68, 0x7472, "\000" 
+    IDC_COMBO_BSX, 0x403, 30, 0
+0x6f43, 0x746e, 0x6172, 0x7320, 0x6469, 0x2065, 0x6f73, 0x646c, 0x7320, 
+0x6f68, 0x7472, 0x6520, 0x6578, 0x706d, 0x0074, 
+    IDC_COMBO_TRADEMOD, 0x403, 24, 0
+0x754f, 0x2074, 0x666f, 0x5320, 0x7165, 0x6575, 0x636e, 0x2065, 0x726f, 
+0x4c20, 0x7461, 0x0065, 
+    IDC_COMBO_TRADEMOD, 0x403, 14, 0
+0x7542, 0x636e, 0x6568, 0x2064, 0x7254, 0x6461, 0x0065, 
+    IDC_COMBO_TRADEMOD, 0x403, 13, 0
+0x614c, 0x6574, 0x4220, 0x6e75, 0x6863, 0x6465, "\000" 
+    IDC_COMBO_TRADEMOD, 0x403, 14, 0
+0x6553, 0x6c6c, 0x7265, 0x4f20, 0x7470, 0x6f69, 0x006e, 
+    IDC_COMBO_TRADEMOD, 0x403, 12, 0
+0x6143, 0x6873, 0x4f20, 0x7470, 0x6f69, 0x006e, 
+    IDC_COMBO_TRADEMOD, 0x403, 16, 0
+0x654e, 0x7478, 0x4420, 0x7961, 0x4f20, 0x7470, 0x6f69, 0x006e, 
+    IDC_COMBO_TRADEMOD, 0x403, 3, 0
+0x542e, "\000" 
+    IDC_COMBO_TRADEMOD, 0x403, 20, 0
+0x7641, 0x7265, 0x6761, 0x2065, 0x7250, 0x6369, 0x2065, 0x7254, 0x6461, 
+0x0065, 
+    IDC_COMBO_MMPA, 0x403, 10, 0
+0x7250, 0x6e69, 0x6963, 0x6170, 0x006c, 
+    IDC_COMBO_MMPA, 0x403, 19, 0
+0x6952, 0x6b73, 0x656c, 0x7373, 0x5020, 0x6972, 0x636e, 0x7069, 0x6c61, 
+"\000" 
+    IDC_COMBO_MMPA, 0x403, 6, 0
+0x6741, 0x6e65, 0x0074, 
+    IDC_COMBO_SPECIALINDICATOR, 0x403, 5, 0
+0x6f4e, 0x656e, "\000" 
+    IDC_COMBO_SPECIALINDICATOR, 0x403, 8, 0
+0x7053, 0x6365, 0x6169, 0x006c, 
+    IDC_COMBO_SPECIALINDICATOR, 0x403, 9, 0
+0x7453, 0x7065, 0x4f2d, 0x7475, "\000" 
+    IDC_COMBO_SPECIALINDICATOR, 0x403, 21, 0
+0x7053, 0x6365, 0x6169, 0x206c, 0x6e61, 0x2064, 0x7453, 0x7065, 0x4f2d, 
+0x7475, "\000" 
+    IDC_COMBO_DEN, 0x403, 2, 0
+0x0032, 
+    IDC_COMBO_DEN, 0x403, 2, 0
+0x0034, 
+    IDC_COMBO_DEN, 0x403, 2, 0
+0x0038, 
+    IDC_COMBO_DEN, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_COMBO_DEN, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_COMBO_DEN, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_COMBO_DEN, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_COMBO_DEN, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_COMBO_DEN, 0x403, 4, 0
+0x3031, 0x0030, 
+    IDC_COMBO_DEN, 0x403, 12, 0
+0x6953, 0x2078, 0x6544, 0x6963, 0x616d, 0x006c, 
+    IDC_COMBO_DEN, 0x403, 12, 0
+0x7754, 0x206f, 0x6544, 0x6963, 0x616d, 0x006c, 
+    IDC_COMBO_CLEARFLAG, 0x403, 28, 0
+0x7254, 0x6461, 0x2065, 0x614d, 0x6374, 0x6968, 0x676e, 0x4120, 0x646e, 
+0x4320, 0x656c, 0x7261, 0x6e69, 0x0067, 
+    IDC_COMBO_CLEARFLAG, 0x403, 25, 0
+0x7541, 0x6f74, 0x616d, 0x6974, 0x2063, 0x6947, 0x6576, 0x752d, 0x2070, 
+0x6f4c, 0x6b63, 0x6e69, "\000" 
+    IDC_COMBO_CLEARFLAG, 0x403, 30, 0
+0x6f4e, 0x5420, 0x6172, 0x6564, 0x4d20, 0x7461, 0x6863, 0x6e69, 0x2067, 
+0x724f, 0x4320, 0x656c, 0x7261, 0x6e69, 0x0067, 
+    IDC_COMBO_CLEARFLAG, 0x403, 37, 0
+0x6c41, 0x6572, 0x6461, 0x2079, 0x6f4c, 0x6b63, 0x6465, 0x4920, 0x206e, 
+0x7942, 0x4520, 0x7478, 0x7265, 0x616e, 0x206c, 0x7953, 0x7473, 0x6d65, 
+"\000" 
+    IDC_COMBO_CLEARFLAG, 0x403, 37, 0
+0x5351, 0x2052, 0x7254, 0x6461, 0x2065, 0x6957, 0x6c6c, 0x4e20, 0x746f, 
+0x4320, 0x656c, 0x7261, 0x5420, 0x7268, 0x756f, 0x6867, 0x4120, 0x5443, 
+"\000" 
+    IDC_COMBO_CLEARFLAG, 0x403, 33, 0
+0x5351, 0x2052, 0x7254, 0x6461, 0x2065, 0x6957, 0x6c6c, 0x4320, 0x656c, 
+0x7261, 0x5420, 0x7268, 0x756f, 0x6867, 0x4120, 0x5443, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+    IDP_XAPI_INIT_FAILED    "X25 SDLS Card Driver Initialization Failed."
+    IDP_XAPI_CARD_FAILED    "SDLS Driver Could Not Find Any Logical Drives"
+    IDR_TERRATYPE2          "\nTerra\nTerra\n\n\nTerraNova.Document\nTerra Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "Actor"
+    IDR_TERRATYPE           "\nTerra\nTerra\n\n\nTerraNova.Document\nTerra Document"
+    IDR_TRAFFICTYPE         "\nTerra\nTerra\n\n\nTerraNova.Document\nTerra Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "Actor"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\TerraNova.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#include "afxdb.rc"          // Database resources
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

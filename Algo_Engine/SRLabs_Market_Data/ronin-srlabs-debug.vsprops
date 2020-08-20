@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="ronin-srlabs-debug"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(SRROOT)&quot;;&quot;$(SRROOT)\md-3rd\boost-1.37.0&quot;;&quot;$(SRROOT)\md-3rd\pthread-w32-2-8-0\include&quot;;&quot;$(SRROOT)\md-3rd\libxml2-2.7.2.win32\include&quot;;&quot;$(SRROOT)\md-3rd\zlibwin32-1.2.3\include&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="libmd-core-vc8.lib libmd-framework-vc8.lib"
+		AdditionalLibraryDirectories="&quot;$(SRROOT)\libs\debug&quot;"
+	/>
+</VisualStudioPropertySheet>

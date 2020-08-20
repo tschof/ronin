@@ -1,0 +1,319 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\TradeClient.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\TradeClient.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About TradeClient"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "TradeClient Version 1.0",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2003",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_TRADECLIENT_DIALOG DIALOGEX 0, 0, 637, 348
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Trade Client"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Symbol:",IDC_STATIC,16,22,46,8
+    EDITTEXT        IDC_EDIT_SYMBOL,68,22,111,12,ES_AUTOHSCROLL
+    LTEXT           "Quantity:",IDC_STATIC,16,43,46,8
+    EDITTEXT        IDC_EDIT_QTY,68,43,111,12,ES_AUTOHSCROLL
+    LTEXT           "Price:",IDC_STATIC,16,64,46,8
+    LTEXT           "Side:",IDC_STATIC,16,85,46,8
+    LTEXT           "TIF:",IDC_STATIC,16,127,46,8
+    LTEXT           "Type:",IDC_STATIC,16,106,46,8
+    LTEXT           "Account:",IDC_STATIC,16,148,46,8
+    EDITTEXT        IDC_EDIT_PRICE,68,64,111,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_ACCT,68,148,111,12,ES_AUTOHSCROLL
+    LTEXT           "Destination:",IDC_STATIC,16,169,46,8
+    EDITTEXT        IDC_EDIT_DEST,68,169,111,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_SIDE,68,85,111,56,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO_TPYE,68,106,111,56,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO_TIF,68,127,111,56,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "Order Entry:",IDC_STATIC,7,7,177,320
+    GROUPBOX        "Order Manager:",IDC_STATIC,193,7,437,158
+    DEFPUSHBUTTON   "&Submit",IDC_BUTTON_SUBMIT,205,146,50,14
+    PUSHBUTTON      "&Cancel",IDC_BUTTON_CANCEL,266,146,50,14
+    PUSHBUTTON      "Modify",IDC_BUTTON_MODIFY,327,146,50,14
+    CONTROL         "List2",IDC_LIST_ORDER,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,203,20,421,120
+    LTEXT           "Security Type:",IDC_STATIC,16,190,46,8
+    COMBOBOX        IDC_COMBO_SECTYPE,68,190,111,56,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Call/Put:",IDC_STATIC,16,211,46,8
+    COMBOBOX        IDC_COMBO_CALLPUT,68,211,111,56,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Strike Price/Max Shares:",IDC_STATIC,16,232,84,8
+    EDITTEXT        IDC_EDIT_STRIKE,109,232,70,12,ES_AUTOHSCROLL
+    LTEXT           "Expiration/ExDestination:",IDC_STATIC,16,253,84,8
+    EDITTEXT        IDC_EDIT_EXPIRE,109,253,70,12,ES_AUTOHSCROLL
+    LTEXT           "OpenClose:",IDC_STATIC,16,272,46,8
+    COMBOBOX        IDC_COMBO_OPENCLOSE,68,272,111,56,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_STATIC_STATUS,"Static",SS_SIMPLE | WS_BORDER | 
+                    WS_GROUP,7,329,623,12
+    LISTBOX         IDC_LIST_REPORT,193,171,437,154,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "Stop Price:",IDC_STATIC,16,294,46,8
+    EDITTEXT        IDC_EDIT_STOP_PRICE,68,292,111,12,ES_AUTOHSCROLL
+    LTEXT           "Exec Instruction:",IDC_STATIC,16,313,56,8
+    COMBOBOX        IDC_COMBO_EXECINST,87,310,91,56,CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Start",IDC_BUTTON_BURST_ORDER,388,146,50,14
+    EDITTEXT        IDC_EDIT_RATE,584,145,40,14,ES_AUTOHSCROLL
+    LTEXT           "Message/Second:",IDC_STATIC,516,148,62,8
+    PUSHBUTTON      "&Stop",IDC_BUTTON_STOP,449,146,50,14
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "TradeClient MFC Application\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "TradeClient\0"
+            VALUE "LegalCopyright", "Copyright (C) 2003\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "TradeClient.EXE\0"
+            VALUE "ProductName", "TradeClient Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_TRADECLIENT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 630
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 341
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_TRADECLIENT_DIALOG DLGINIT
+BEGIN
+    IDC_COMBO_SIDE, 0x403, 4, 0
+0x7542, 0x0079, 
+    IDC_COMBO_SIDE, 0x403, 5, 0
+0x6553, 0x6c6c, "\000" 
+    IDC_COMBO_SIDE, 0x403, 6, 0
+0x6853, 0x726f, 0x0074, 
+    IDC_COMBO_SIDE, 0x403, 1, 0
+"\000" 
+    IDC_COMBO_TPYE, 0x403, 7, 0
+0x614d, 0x6b72, 0x7465, "\000" 
+    IDC_COMBO_TPYE, 0x403, 6, 0
+0x694c, 0x696d, 0x0074, 
+    IDC_COMBO_TPYE, 0x403, 5, 0
+0x7453, 0x706f, "\000" 
+    IDC_COMBO_TPYE, 0x403, 11, 0
+0x7453, 0x706f, 0x4c20, 0x6d69, 0x7469, "\000" 
+    IDC_COMBO_TIF, 0x403, 4, 0
+0x6144, 0x0079, 
+    IDC_COMBO_TIF, 0x403, 4, 0
+0x5447, 0x0043, 
+    IDC_COMBO_TIF, 0x403, 4, 0
+0x5447, 0x0044, 
+    IDC_COMBO_TIF, 0x403, 1, 0
+"\000" 
+    IDC_COMBO_SECTYPE, 0x403, 7, 0
+0x7145, 0x6975, 0x7974, "\000" 
+    IDC_COMBO_SECTYPE, 0x403, 7, 0
+0x704f, 0x6974, 0x6e6f, "\000" 
+    IDC_COMBO_SECTYPE, 0x403, 7, 0
+0x7546, 0x7574, 0x6572, "\000" 
+    IDC_COMBO_SECTYPE, 0x403, 1, 0
+"\000" 
+    IDC_COMBO_CALLPUT, 0x403, 5, 0
+0x6143, 0x6c6c, "\000" 
+    IDC_COMBO_CALLPUT, 0x403, 4, 0
+0x7550, 0x0074, 
+    IDC_COMBO_CALLPUT, 0x403, 1, 0
+"\000" 
+    IDC_COMBO_OPENCLOSE, 0x403, 5, 0
+0x704f, 0x6e65, "\000" 
+    IDC_COMBO_OPENCLOSE, 0x403, 6, 0
+0x6c43, 0x736f, 0x0065, 
+    IDC_COMBO_OPENCLOSE, 0x403, 1, 0
+"\000" 
+    IDC_COMBO_EXECINST, 0x403, 5, 0
+0x6f4e, 0x656e, "\000" 
+    IDC_COMBO_EXECINST, 0x403, 4, 0
+0x4f41, 0x004e, 
+    IDC_COMBO_EXECINST, 0x403, 1, 0
+"\000" 
+    IDC_COMBO_EXECINST, 0x403, 1, 0
+"\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About TradeClient..."
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\TradeClient.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

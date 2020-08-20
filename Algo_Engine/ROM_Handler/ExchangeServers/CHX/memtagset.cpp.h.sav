@@ -1,0 +1,148 @@
+// MemTagSet.h: interface for the CMemTagSet class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#if !defined(AFX_MEMTAGSET_H__67DE3C93_EEB9_11D3_8CB3_005004DA7701__INCLUDED_)
+#define AFX_MEMTAGSET_H__67DE3C93_EEB9_11D3_8CB3_005004DA7701__INCLUDED_
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#define MAP_STAFFORD_TAG_QUERY	0
+#define MAP_EXCHANGE_TAG_QUERY	1
+#define MAP_CANCEL_TAG_QUERY	2
+#define MAP_ORDER_TAG_QUERY		3
+#define MAP_NEW_MAP				4
+#define MAP_SEQUENCE_TAG_QUERY	5
+#define MAP_REMOVE_MAP			6
+
+struct MemTagStruct
+{
+	bool m_bUsed;
+	char m_CancelTag[36];
+	char m_ExchangeTag[36];
+	char m_OrderTag[36];
+	long m_SequenceTag;
+	char m_StaffordTag[36];
+	char m_Client[36];
+	char m_Date[20];
+};
+
+
+class CMemTagSet  
+{
+public:
+	CMemTagSet();
+	virtual ~CMemTagSet();
+
+protected:
+	virtual int SizeOfStruct() { return sizeof(MemTagStruct); }
+
+private:
+	BOOL UpdateTags(const CString& StaffordTag, const CString& ExchangeTag, const CString& CancelTag, const CString& OrderTag, const long SeqNum, const CString& Client);
+	void AllocateMemoryMap(int iNumRecords, bool bReallocate);
+
+public:
+	BOOL UpdateTags(int QueryType, const CString& QueryTag, const CString& StaffordTag, const CString& ExchangeTag, const CString& CancelTag, const CString& OrderTag, const long SeqNum, const CString& Client);
+	BOOL GetTags(int QueryType, const CString& QueryTag);
+	BOOL RemoveTags(int QueryType, const CString& QueryTag);
+	BOOL RemoveTags();
+	BOOL CreateNewMap(const CString& StaffordTag, const CString& OrderTag, const long SeqNum, const CString& Client)	
+		{ return(UpdateTags(MAP_NEW_MAP, "", StaffordTag, "", "", OrderTag, SeqNum, Client)); }
+	
+	const char* StaffordTag()	{ return m_pCurrent->m_StaffordTag; }
+	const char* CancelTag()		{ return m_pCurrent->m_CancelTag;	}
+	const char* ExchangeTag()	{ return m_pCurrent->m_ExchangeTag; }
+	const char* OrderTag()		{ return m_pCurrent->m_OrderTag;	}
+	const long Sequence()		{ return m_pCurrent->m_SequenceTag; }
+	const char*	Client()		{ return m_pCurrent->m_Client;		}
+	const char* Date()			{ return m_pCurrent->m_Date;		}
+	BOOL SetStaffordTag(const CString& Tag)	
+	{ 
+		if(m_pCurrent) 
+		{
+			m_StaffordTagMap.RemoveKey(Tag);
+			strcpy(m_pCurrent->m_StaffordTag, ((CString&)Tag).GetBuffer(0));
+			m_StaffordTagMap.SetAt(Tag, (void*)m_pCurrent);
+		}
+		return (BOOL)m_pCurrent;
+	}
+	BOOL SetCancelTag(const CString& Tag)
+	{ 
+		if(m_pCurrent) 
+		{
+			m_CancelTagMap.RemoveKey(Tag);
+			strcpy(m_pCurrent->m_CancelTag, ((CString&)Tag).GetBuffer(0));
+			m_CancelTagMap.SetAt(Tag, (void*)m_pCurrent);
+		}
+		return (BOOL)m_pCurrent;
+	}
+	BOOL SetExchangeTag(const CString& Tag)
+	{ 
+		if(m_pCurrent) 
+		{
+			m_ExchangeTagMap.RemoveKey(Tag);
+			strcpy(m_pCurrent->m_ExchangeTag, ((CString&)Tag).GetBuffer(0));
+			m_ExchangeTagMap.SetAt(Tag, (void*)m_pCurrent);
+		}
+		return (BOOL)m_pCurrent;
+	}
+	BOOL SetOrderTag(const CString& Tag)
+	{ 
+		if(m_pCurrent) 
+		{
+			m_OrderTagMap.RemoveKey(Tag);
+			strcpy(m_pCurrent->m_OrderTag, ((CString&)Tag).GetBuffer(0));
+			m_OrderTagMap.SetAt(Tag, (void*)m_pCurrent);
+		}
+		return (BOOL)m_pCurrent;
+	}
+	BOOL SetSequenceTag(const long SeqNum)
+	{ 
+		if(m_pCurrent) 
+		{
+			m_SequenceTagMap.RemoveKey((void*)SeqNum);
+			if(m_pCurrent) m_pCurrent->m_SequenceTag = SeqNum;
+			m_SequenceTagMap.SetAt((void*)SeqNum, (void*)m_pCurrent);
+		}
+		return (BOOL)m_pCurrent;
+	}
+	BOOL SetClient(const CString& Client)
+	{ 
+		if(m_pCurrent) strcpy(m_pCurrent->m_Client, ((CString&)Client).GetBuffer(0));
+		return (BOOL)m_pCurrent;
+	}
+	BOOL SetDate(const CString& Date)
+	{
+		if(m_pCurrent) strcpy(m_pCurrent->m_Date, ((CString&)Date).GetBuffer(0));
+		TRACE("%s\n%s\n\n", m_pCurrent->m_Date, Date);
+		return (BOOL)m_pCurrent;
+	}
+
+protected:
+	MemTagStruct *Current() { return m_pCurrent; }
+	
+private:
+	HANDLE m_hFile;
+	HANDLE m_hFileMap;
+	LPVOID m_pFileView;
+
+	MemTagStruct *m_pMemTags;
+	MemTagStruct *m_pCurrent;
+
+	CPtrList m_FreeList;
+	CPtrList m_UsedList;
+	int m_iNumRecords;
+
+	CMapStringToPtr m_CancelTagMap;
+	CMapStringToPtr m_ExchangeTagMap;
+	CMapStringToPtr m_OrderTagMap;
+	CMapStringToPtr m_StaffordTagMap;
+	CMapPtrToPtr m_SequenceTagMap;
+
+	CString	m_QueryTag;
+	int		m_QueryType;
+};
+
+#endif // !defined(AFX_MEMTAGSET_H__67DE3C93_EEB9_11D3_8CB3_005004DA7701__INCLUDED_)

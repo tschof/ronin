@@ -1,0 +1,69 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: MERRILL - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Release/MERRILL.res" /d "NDEBUG" /d "_AFXDLL" "C:\Projects\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILL.rc"" 
+Creating temporary file "C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP78E.tmp" with contents
+[
+/nologo /MD /W3 /GX /I "..\common" /I "..\..\..\Common" /I "..\..\..\Common\ordermanagerbasecan" /I "..\..\..\Common\Fixmsg42" /I "..\..\..\Common\MemoryMapInitializer" /I "..\..\..\Common\Dbo" /I "..\..\..\Common\DatabaseSettings" /I "..\..\..\Common\OrderIdGenerator" /I "..\..\..\Common\OrderTypeValidator" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /Fp"Release/MERRILL.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\Common\ExchangeApp.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\Common\ExchangeStatus.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILL.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILLDoc.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILLFixSession.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILLHandler.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\MERRILL\MERRILLView.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\Common\OptionMemTagSet.cpp"
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\Common\SeqDlg.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP78E.tmp" 
+Creating temporary file "C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP78F.tmp" with contents
+[
+/nologo /MD /W3 /GX /I "..\common" /I "..\..\..\Common" /I "..\..\..\Common\ordermanagerbasecan" /I "..\..\..\Common\Fixmsg42" /I "..\..\..\Common\MemoryMapInitializer" /I "..\..\..\Common\Dbo" /I "..\..\..\Common\DatabaseSettings" /I "..\..\..\Common\OrderIdGenerator" /I "..\..\..\Common\OrderTypeValidator" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /Fp"Release/MERRILL.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\Projects\OrderExecution\SERVERS\ExchangeServers\MERRILL\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP78F.tmp" 
+Creating temporary file "C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP790.tmp" with contents
+[
+FixMsg42-r.lib ombase-dynamic-r-can.lib DBOLib.lib libct.lib libcs.lib version.lib threadpool.lib OrderTypeValidator.lib DatabaseSettings.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/MERRILL.pdb" /machine:I386 /out:"..\..\..\Bin\MERRILL.exe" /libpath:"..\..\..\Bin" 
+.\Release\ExchangeApp.obj
+.\Release\ExchangeStatus.obj
+.\Release\MERRILL.obj
+.\Release\MERRILLDoc.obj
+.\Release\MERRILLFixSession.obj
+.\Release\MERRILLHandler.obj
+.\Release\MERRILLView.obj
+.\Release\OptionMemTagSet.obj
+.\Release\SeqDlg.obj
+.\Release\StdAfx.obj
+.\Release\MERRILL.res
+]
+Creating command line "link.exe @C:\DOCUME~1\jloesche\LOCALS~1\Temp\RSP790.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+ExchangeApp.cpp
+ExchangeStatus.cpp
+MERRILL.cpp
+MERRILLDoc.cpp
+MERRILLFixSession.cpp
+MERRILLHandler.cpp
+MERRILLView.cpp
+OptionMemTagSet.cpp
+SeqDlg.cpp
+Generating Code...
+Linking...
+
+
+
+<h3>Results</h3>
+MERRILL.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

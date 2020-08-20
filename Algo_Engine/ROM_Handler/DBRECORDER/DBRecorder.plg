@@ -1,0 +1,33 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: DBRecorder - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP276.tmp" with contents
+[
+ombase-dynamic-d.lib librvcpp.lib rvwin.lib libtibd.lib rv.lib librvcst.lib libcs.lib libct.lib libsybdb.lib libblk.lib dbolib.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/DBRecorder.pdb" /debug /machine:I386 /nodefaultlib:"LIBCMT LIBCD" /out:"..\..\Bin\DBRecorder.exe" /pdbtype:sept /libpath:"..\..\Bin" 
+.\Debug\DBRecorder.obj
+.\Debug\RecorderDoc.obj
+.\Debug\RecorderView.obj
+.\Debug\StdAfx.obj
+.\Debug\Trades.obj
+.\Debug\TradeTable.obj
+.\Debug\TradeTableSet.obj
+.\Debug\DBRecorder.res
+]
+Creating command line "link.exe @C:\DOCUME~1\ZACKPA~1.WIN\LOCALS~1\Temp\RSP276.tmp"
+<h3>Output Window</h3>
+Linking...
+LINK : warning LNK4098: defaultlib "LIBCMT" conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib "MSVCRT" conflicts with use of other libs; use /NODEFAULTLIB:library
+
+
+
+<h3>Results</h3>
+DBRecorder.exe - 0 error(s), 2 warning(s)
+</pre>
+</body>
+</html>

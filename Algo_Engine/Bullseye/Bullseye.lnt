@@ -1,0 +1,15 @@
+
+/* Generated from file: Bullseye.vcproj */
+/* -dConfiguration= ... none provided  */
+-wlib(0)
+-D_UNICODE                     //  23: CharacterSet = "1" 
+-DUNICODE                      //  23: CharacterSet = "" 
+ -i"%ACE_ROOT%"                 //  43: AdditionalIncludeDirectories = "%ACE_ROOT%" 
+//-i"C:\Libraries\ACE-5.7.2\ACE_Wrappers\"
+-DWIN32                        //  44: PreprocessorDefinitions = "WIN32;_DEBUG;_CONSOLE" 
+-D_DEBUG                       //  44: PreprocessorDefinitions = "" 
+-D_CONSOLE                     //  44: PreprocessorDefinitions = "" 
+-D_MT                          //  47: RuntimeLibrary = "3" 
+-D_DEBUG                       //  47: RuntimeLibrary = "" 
+-D_DLL                         //  47: RuntimeLibrary = "" 
+.\main.cpp                     // 185: RelativePath = ".\main.cpp" 

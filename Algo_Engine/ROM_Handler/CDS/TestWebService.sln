@@ -1,0 +1,54 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebService", "http://localhost/TestWebService/TestWebService.csproj", "{3A7C7260-A7A1-40C1-988B-67CFDB1AA1B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{494ACFEC-03B8-4ED8-A8CE-D0EA06AAB6A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{FD630B75-E9E2-40C2-A94A-5043D146DA67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessFactory", "DataAccessFactory\DataAccessFactory.csproj", "{D3555195-BE08-4F15-AE18-43FEDA40E610}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{94C753BB-219B-4A0C-BA0B-33DCA4B2A33E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transport", "Transport\Transport.csproj", "{B2490487-F973-4056-8EB5-F3801AB099A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+		{3A7C7260-A7A1-40C1-988B-67CFDB1AA1B4}.0 = {494ACFEC-03B8-4ED8-A8CE-D0EA06AAB6A9}
+		{494ACFEC-03B8-4ED8-A8CE-D0EA06AAB6A9}.0 = {FD630B75-E9E2-40C2-A94A-5043D146DA67}
+		{FD630B75-E9E2-40C2-A94A-5043D146DA67}.0 = {94C753BB-219B-4A0C-BA0B-33DCA4B2A33E}
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{3A7C7260-A7A1-40C1-988B-67CFDB1AA1B4}.Debug.ActiveCfg = Debug|.NET
+		{3A7C7260-A7A1-40C1-988B-67CFDB1AA1B4}.Debug.Build.0 = Debug|.NET
+		{3A7C7260-A7A1-40C1-988B-67CFDB1AA1B4}.Release.ActiveCfg = Release|.NET
+		{3A7C7260-A7A1-40C1-988B-67CFDB1AA1B4}.Release.Build.0 = Release|.NET
+		{494ACFEC-03B8-4ED8-A8CE-D0EA06AAB6A9}.Debug.ActiveCfg = Debug|.NET
+		{494ACFEC-03B8-4ED8-A8CE-D0EA06AAB6A9}.Debug.Build.0 = Debug|.NET
+		{494ACFEC-03B8-4ED8-A8CE-D0EA06AAB6A9}.Release.ActiveCfg = Release|.NET
+		{494ACFEC-03B8-4ED8-A8CE-D0EA06AAB6A9}.Release.Build.0 = Release|.NET
+		{FD630B75-E9E2-40C2-A94A-5043D146DA67}.Debug.ActiveCfg = Debug|.NET
+		{FD630B75-E9E2-40C2-A94A-5043D146DA67}.Debug.Build.0 = Debug|.NET
+		{FD630B75-E9E2-40C2-A94A-5043D146DA67}.Release.ActiveCfg = Release|.NET
+		{FD630B75-E9E2-40C2-A94A-5043D146DA67}.Release.Build.0 = Release|.NET
+		{D3555195-BE08-4F15-AE18-43FEDA40E610}.Debug.ActiveCfg = Debug|.NET
+		{D3555195-BE08-4F15-AE18-43FEDA40E610}.Debug.Build.0 = Debug|.NET
+		{D3555195-BE08-4F15-AE18-43FEDA40E610}.Release.ActiveCfg = Release|.NET
+		{D3555195-BE08-4F15-AE18-43FEDA40E610}.Release.Build.0 = Release|.NET
+		{94C753BB-219B-4A0C-BA0B-33DCA4B2A33E}.Debug.ActiveCfg = Debug|.NET
+		{94C753BB-219B-4A0C-BA0B-33DCA4B2A33E}.Debug.Build.0 = Debug|.NET
+		{94C753BB-219B-4A0C-BA0B-33DCA4B2A33E}.Release.ActiveCfg = Release|.NET
+		{94C753BB-219B-4A0C-BA0B-33DCA4B2A33E}.Release.Build.0 = Release|.NET
+		{B2490487-F973-4056-8EB5-F3801AB099A3}.Debug.ActiveCfg = Debug|.NET
+		{B2490487-F973-4056-8EB5-F3801AB099A3}.Debug.Build.0 = Debug|.NET
+		{B2490487-F973-4056-8EB5-F3801AB099A3}.Release.ActiveCfg = Release|.NET
+		{B2490487-F973-4056-8EB5-F3801AB099A3}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,86 @@
+€€€€ €€€ÿÿ€€ÿÿ€€€€€€€€€€€€€€€€€€C€€€$€€€H€W€B€€€ÿÿ€€€€€€€	€€€€€€€€€x€€Y:\Dev\ROM\OrderExecution\SERVERS\ExchangeServers\LAVA\LAVA.rc€€€€€4€€€T€E€X€T€I€N€C€L€U€D€E€€€ÿÿ€€€€€0	€€€€€€€€resource.h€€€€€4€€€T€E€X€T€I€N€C€L€U€D€E€€€ÿÿ€€€€€0	€€€€€€€€#include "afxres.h"
+€€€»€€4€€€T€E€X€T€I€N€C€L€U€D€E€€€ÿÿ€€€€€0	€€€€€€€€#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\LAVA.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#include "afxdb.rc"          // Database resources
+#endif€€è€€ €€€ÿÿ€ÿÿ€€€€€0	€€€€€€€€(€€€ €€€@€€€€€€€€€€€€€€€€€€€€€€€€€€€€
+€€€€€€€€€€€€€€€€€€€€€€€€€€€€ÀÀÀ€€€€€€€ÿ€€ÿ€€€ÿÿ€ÿ€€€ÿ€ÿ€ÿÿ€€ÿÿÿ€ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿwÿÿtÿÿˆÿHÿÿÿÿÿ„Oÿ„Hÿ÷DOÿ
+DÿÿÿÿtGÿøDøDÿDÿÿÿÿôHÿÿtHtDÿ„OÿÿÿÿøDÿÿ÷„DHÿÿtGÿÿÿÿ÷DÿÿøDGÿÿôHÿÿÿÿÿDÿÿ÷DHÿÿ
+øDÿÿÿÿÿ„Oÿÿ÷DDÿ÷DDDDÿtGÿÿøDxDÿDDDDGÿôHÿÿtDÿ„Gÿ„DDDGÿøDÿÿtDÿôDÿtGÿÿÿÿÿwÿÿ÷„ÿ÷ˆ
+ÿôHÿÿÿÿÿÿÿÿÿÿÿÿÿÿøDÿÿÿÿÿÿÿÿÿÿÿÿÿ÷DDDDHÿøÿÿÿÿÿÿÿÿDDDDDôHÿÿÿÿÿÿÿÿx„DHwÿ÷ˆÿÿÿÿÿÿ
+ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
+ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€
+€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ €€€ÿÿ€ÿÿ€€
+€€€€0	€€€€€€€€€€€€  €€€è€€€è€€ €€€ÿÿ€ÿÿ€€€€€0	€€€€€€€€(€€€ €€€@€€€
+€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ÀÀÀ€€€€€€€ÿ€€ÿ€€€ÿÿ€ÿ€€€
+ÿ€ÿ€ÿÿ€€ÿÿÿ€ÿÿÿÿÿÿù™Ÿÿÿÿÿÿÿÿÿÿÿÿÿÿù™Ÿÿÿÿÿÿÿÿÿÿÿÿÿÿù™Ÿÿÿÿÿÿÿÿÿÿÿÿÿÿù™Ÿÿÿÿÿÿÿÿÿÿÿÿ
+ÿÿù™Ÿÿÿÿÿÿÿÿÿÿÿÿÿÿù™Ÿÿÿÿÿÿÿÿÿÿÿÿÿÿù™™ÿÿÿÿÿÿÿÿÿÿÿÿÿù™™™ÿÿÿÿÿÿÿÿÿÿÿÿù™™™™ÿÿÿÿÿÿÿÿÿ
+ÿÿÿ™™™™™ÿÿÿÿÿÿÿÿÿÿÿÿ™™™™™ÿÿÿÿÿÿÿÿÿÿÿÿ™™™™™ÿÿÿÿÿÿÿÿÿÿÿÿ™™™™™ÿÿÿÿÿÿÿÿÿÿÿÿ™™™™™ÿ™™™
+™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™Ÿù™™™™™™™™™™™™™™ÿÿ™™™™Ÿÿÿÿÿÿÿÿÿÿÿÿÿ™™
+™™ÿÿÿÿÿÿÿÿÿÿÿÿù™™™™ÿÿÿÿÿÿÿÿÿÿÿÿù™™™™ÿÿÿÿÿÿÿÿÿÿÿÿù™™™Ÿÿÿÿÿÿÿÿÿÿÿÿÿ™™™Ÿÿÿÿÿÿÿÿÿÿÿÿ
+ÿÿ™™™ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ™™ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ™™ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ™™ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ™™ÿÿÿÿÿÿÿÿÿÿÿ
+ÿÿÿ™™ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ™™ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ™™ÿÿÿÿÿÿÿ€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€
+€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€
+€€€€€€€€€€€€€€€ €€€ÿÿ€ÿÿ€€€€€0	€€€€€€€€€€€€  €€€è€€€è€€ €€€ÿÿ€ÿÿ€
+€€€€0	€€€€€€€€(€€€ €€€@€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€
+€€€€ÀÀÀ€€€€€€€ÿ€€ÿ€€€ÿÿ€ÿ€€€ÿ€ÿ€ÿÿ€€ÿÿÿ€ÿÿÿÿ÷DDDDÿÿÿÿÿÿÿÿÿÿtDDDDDÿÿÿÿÿÿÿÿÿDDDD
+DDGÿÿÿÿÿÿÿÿÿDDDDDDGÿÿÿÿÿÿÿÿÿDDDO÷DÿÿÿÿÿÿÿÿÿDDDOÿwÿÿÿÿÿÿÿÿÿÿ„DDGÿÿÿÿÿÿÿÿÿÿÿÿtDDG
+ÿÿÿÿÿÿÿÿÿÿÿÿtDDHÿÿÿÿÿÿÿÿÿÿÿÿøDDDÿÿÿÿÿÿÿÿÿÿÿÿ÷DDDÿÿÿÿÿÿÿÿÿÿÿ÷DDDÿÿÿÿÿÿÿÿÿÿÿÿDDD
+ÿÿÿÿÿÿÿÿÿÿÿÿ„DDOÿÿÿÿÿÿÿÿÿÿÿÿtDDGÿÿÿÿÿÿÿÿÿÿÿÿôDDGÿÿÿÿÿÿÿÿÿÿ„DDDDHÿÿÿÿÿÿÿÿÿÿtDDDD
+DÿÿÿÿÿÿÿÿÿÿtDDDDDÿÿÿÿÿÿÿÿÿôDDDDDÿÿÿÿÿÿÿÿÿôDDDDDÿÿÿÿÿÿÿÿÿÿÿw„DDOÿÿÿÿÿÿÿÿÿÿÿÿÿ÷
+„Gÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ„‡ÿÿÿÿÿÿÿÿÿÿÿÿÿtDDÿÿÿÿÿÿÿÿÿÿÿÿ„DDGÿÿÿÿÿÿÿÿÿÿÿÿDD
+DHÿÿÿÿÿÿÿÿÿÿÿÿ„DDDÿÿÿÿÿÿÿÿÿÿÿÿtDDHÿÿÿÿÿÿÿÿÿÿÿÿøDDGÿÿÿÿÿÿÿÿÿÿÿÿÿxHÿÿÿÿÿÿ€€€€€€€€
+€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€
+€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ €€€ÿÿ€ÿÿƒ€€€€€0	€€€€€€€€€€€€  
+€€€è€€€˜€€€ €€€ÿÿ€ÿÿ€€€€€€p	€€€€€€€€€€€€€&€F€i€l€e€€€€€€á&€N€e€w€	€C€t€
+r€l€+€N€€€€€á&€O€p€e€n€.€.€.€	€C€t€r€l€+€O€€€€€€€€€€€AáE€&€x€i€t€€€€&€H€e€l€p€
+€€€€@á&€A€b€o€u€t€ €B€R€U€T€.€.€.€€€œ€€ €€€ÿÿ€ÿÿ€€€€€p	€€€€€€€€€€€€€&€F€i€
+l€e€€€€€€á&€N€e€w€	€C€t€r€l€+€N€€€€€á&€O€p€e€n€.€.€.€	€C€t€r€l€+€O€€€€€á&€C€l€
+o€s€e€€€€€á&€S€a€v€e€	€C€t€r€l€+€S€€€€€áS€a€v€e€ €&€A€s€.€.€.€€€€€€€€€€€AáE€&€
+x€i€t€€€€&€E€d€i€t€€€€€+á&€U€n€d€o€	€C€t€r€l€+€Z€€€€€€€€€€€#áC€u€&€t€	€C€t€r€l€
++€X€€€€€"á&€C€o€p€y€	€C€t€r€l€+€C€€€€€%á&€P€a€s€t€e€	€C€t€r€l€+€V€€€€S€e€r€v€e€
+r€€€€€€L€o€g€o€u€t€€€€€€€€€€€€R€e€s€e€t€ €I€n€c€o€m€i€n€g€€€€€€R€e€s€e€t€ €O€
+u€t€g€o€i€n€g€€€€€€€€€€€€C€l€e€a€r€ €I€n€c€o€m€i€n€g€€€€€€C€l€e€a€r€ €O€u€t€g€
+o€i€n€g€€€€&€W€i€n€d€o€w€€€€€0á&€N€e€w€ €W€i€n€d€o€w€€€€€2á&€C€a€s€c€a€d€e€€€€€
+3á&€T€i€l€e€€€€€1á&€A€r€r€a€n€g€e€ €I€c€o€n€s€€€€&€H€e€l€p€€€€€@á&€A€b€o€u€t€ €
+B€R€U€T€.€.€.€€€œ€€ €€€ÿÿ€ÿÿƒ€€€€€p	€€€€€€€€€€€€€&€F€i€l€e€€€€€€á&€N€e€w€	€C€t€r€l€+€N€€€€€á&€O€p€e€n€.€.€.€	€C€t€r€l€+€O€€€€€á&€C€l€o€s€e€€€€€á&€S€a€v€e€	€C€t€r€l€+€S€€€€€áS€a€v€e€ €&€A€s€.€.€.€€€€€€€€€€€AáE€&€x€i€t€€€€&€E€d€i€t€€€€€+á&€U€n€d€o€	€C€t€r€l€+€Z€€€€€€€€€€€#áC€u€&€t€	€C€t€r€l€+€X€€€€€"á&€C€o€p€y€	€C€t€r€l€+€C€€€€€%á&€P€a€s€t€e€	€C€t€r€l€+€V€€€€S€e€r€v€e€r€€€€€€L€o€g€o€u€t€€€€€€€€€€€€R€e€s€e€t€ €I€n€c€o€m€i€n€g€€€€€€R€e€s€e€t€ €O€u€t€g€o€i€n€g€€€€€€€€€€€€C€l€e€a€r€ €I€n€c€o€m€i€n€g€€€€€€C€l€e€a€r€ €O€u€t€g€o€i€n€g€€€€&€W€i€n€d€o€w€€€€€0á&€N€e€w€ €W€i€n€d€o€w€€€€€2á&€C€a€s€c€a€d€e€€€€€3á&€T€i€l€e€€€€€1á&€A€r€r€a€n€g€e€ €I€c€o€n€s€€€€&€H€e€l€p€€€€€@á&€A€b€o€u€t€ €B€R€U€T€.€.€.€€€h€€€ €€€ÿÿ	€ÿÿ€€€€€€p€	€€€€€€€€	€N€€á€€	€O€á€€	€S€á€€	€Z€+á€€	€X€#á€€	€C€"á€€	€V€%á€€€€+á€€€.€#á€€	€-€"á€€€-€%á€€€u€Pá€€…€u€Qá€€¾€€€ €€€ÿÿ€ÿÿd€€€€€0	€€€€€€€€À€È€€€€€€€€€€Ù€7€€€€€A€b€o€u€t€ €B€R€U€T€€€€M€S€ €S€a€n€s€ €S€e€r€i€f€€€€€€€P€€€€€€€€ÿÿÿÿ‚€ÿÿ€€€€€P€€€€±€€ €€€ÿÿ€€O€K€€€€€€€€P€€€€'€
+€|€€ëÿÿ€€€€€€€€P€€€€'€€y€	€ìÿÿ€€€€€€€R€€€ €€€ÿÿ€ÿÿe€€€€€0	€€€€€€€€@€€@€€€€€€€€€&€,€€€€€€€€M€S€ €S€a€n€s€ €S€e€r€i€f€€€€€ P€€€€€€$€*€èÿÿƒ€€€€€€€R€€€ €€€ÿÿ€ÿÿf€€€€€0	€€€€€€€€@€€@€€€€€€€€€:€,€€€€€€€€M€S€ €S€a€n€s€ €S€e€r€i€f€€€€€¡P€€€€€€7€)€éÿÿƒ€€€€€€€š€€€ €€€ÿÿ€ÿÿ…€€€€€0	€€€€€€€€À€€€€€€€€€€€€w€,€€€€€€€€M€S€ €S€a€n€s€ €S€e€r€i€f€€€€€€P€€€€€€2€€€ÿÿ€€O€K€€€€€€€€€P€€€€>€€2€€€ÿÿ€€C€a€n€c€e€l€€€€€€€€€P€€€€€€i€€êÿÿ€€€€€€€€€D€€€D€E€S€I€G€N€I€N€F€O€€€G€U€I€D€E€L€I€N€E€S€€€€€€€0	€€€€€€€€€€€ÿÿ€ÿÿd€	€€T€€€0€€€ÿÿ€ÿÿe€	€€„€€€$€€€ÿÿ€ÿÿf€	€€¨€€€0€€€ÿÿ€ÿÿ…€	€€Ø€€€0€€€E€€€€€€€€€€G€€€Ò€€€€€€€€€€€€€€€€€€0€€€€€€€E€€€€€€€€€€G€€€%€€€€€€€€€+€€€€€€€E€€€€€€€€€€G€€€9€€€€€€€€€€€€€€€€€€+€€€€€€€E€€€€€€€€€€G€€€p€€€€€€€€€€€€€€€€€€%€€€€€€€l€€€ €€€ÿÿ€ÿÿ€€€€€0	€€€€€€€€€€€€€€€€€€€€€€€€&€W€i€n€d€o€w€s€ €s€o€c€k€e€t€s€ €i€n€i€t€i€a€l€i€z€a€t€i€o€n€ €f€a€i€l€e€d€.€€€€€€€€€€€€€€€Ð€€€ €€€ÿÿ€ÿÿ	€€€€€p	€€€€€€€€€B€R€U€T€(€
+€B€R€U€T€
+€B€R€U€T€
+€
+€
+€B€R€U€T€.€D€o€c€u€m€e€n€t€
+€B€R€U€T€ €D€o€c€u€m€e€n€t€€€,€
+€B€R€U€T€
+€B€R€U€T€
+€
+€
+€B€R€U€T€N€o€v€a€.€D€o€c€u€m€e€n€t€
+€B€R€U€T€ €D€o€c€u€m€e€n€t€€€€€€€€€€€€€€€€€€€€€€€€€2€€€ €€€ÿÿ€ÿÿ€€€€p	€€€€€€€€€B€R€U€T€€R€e€a€d€y€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€F€€€ €€€ÿÿ€ÿÿq€€€€0	€€€€€€€€€E€X€T€€C€A€P€€N€U€M€€S€C€R€L€€O€V€R€€R€E€C€€€€€€€€€€€€€€€€€€€€€€€f€€ €€€ÿÿ€ÿÿ€€€€0	€€€€€€€€€C€r€e€a€t€e€ €a€ €n€e€w€ €d€o€c€u€m€e€n€t€
+€N€e€w€€O€p€e€n€ €a€n€ €e€x€i€s€t€i€n€g€ €d€o€c€u€m€e€n€t€
+€O€p€e€n€€C€l€o€s€e€ €t€h€e€ €a€c€t€i€v€e€ €d€o€c€u€m€e€n€t€
+€C€l€o€s€e€€S€a€v€e€ €t€h€e€ €a€c€t€i€v€e€ €d€o€c€u€m€e€n€t€
+€S€a€v€e€0€S€a€v€e€ €t€h€e€ €a€c€t€i€v€e€ €d€o€c€u€m€e€n€t€ €w€i€t€h€ €a€ €n€e€w€ €n€a€m€e€
+€S€a€v€e€ €A€s€€€€€€€€€€€€€€€€€€€€€€€€€€€ €€€ÿÿ€ÿÿ€€€€0	€€€€€€€€?€D€i€s€p€l€a€y€ €p€r€o€g€r€a€m€ €i€n€f€o€r€m€a€t€i€o€n€,€ €v€e€r€s€i€o€n€ €n€u€m€b€e€r€ €a€n€d€ €c€o€p€y€r€i€g€h€t€
+€A€b€o€u€t€4€Q€u€i€t€ €t€h€e€ €a€p€p€l€i€c€a€t€i€o€n€;€ €p€r€o€m€p€t€s€ €t€o€ €s€a€v€e€ €d€o€c€u€m€e€n€t€s€
+€E€x€i€t€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€`€€ €€€ÿÿ€ÿÿ€€€€0	€€€€€€€€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€€O€p€e€n€ €t€h€i€s€ €d€o€c€u€m€e€n€t€Ú€€€ €€€ÿÿ€ÿÿ€€€€0	€€€€€€€€(€S€w€i€t€c€h€ €t€o€ €t€h€e€ €n€e€x€t€ €w€i€n€d€o€w€ €p€a€n€e€
+€N€e€x€t€ €P€a€n€e€5€S€w€i€t€c€h€ €b€a€c€k€ €t€o€ €t€h€e€ €p€r€e€v€i€o€u€s€ €w€i€n€d€o€w€ €p€a€n€e€
+€P€r€e€v€i€o€u€s€ €P€a€n€e€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€|€€ €€€ÿÿ€ÿÿ€€€€0	€€€€€€€€6€O€p€e€n€ €a€n€o€t€h€e€r€ €w€i€n€d€o€w€ €f€o€r€ €t€h€e€ €a€c€t€i€v€e€ €d€o€c€u€m€e€n€t€
+€N€e€w€ €W€i€n€d€o€w€7€A€r€r€a€n€g€e€ €i€c€o€n€s€ €a€t€ €t€h€e€ €b€o€t€t€o€m€ €o€f€ €t€h€e€ €w€i€n€d€o€w€
+€A€r€r€a€n€g€e€ €I€c€o€n€s€/€A€r€r€a€n€g€e€ €w€i€n€d€o€w€s€ €s€o€ €t€h€e€y€ €o€v€e€r€l€a€p€
+€C€a€s€c€a€d€e€ €W€i€n€d€o€w€s€5€A€r€r€a€n€g€e€ €w€i€n€d€o€w€s€ €a€s€ €n€o€n€-€o€v€e€r€l€a€p€p€i€n€g€ €t€i€l€e€s€
+€T€i€l€e€ €W€i€n€d€o€w€s€5€A€r€r€a€n€g€e€ €w€i€n€d€o€w€s€ €a€s€ €n€o€n€-€o€v€e€r€l€a€p€p€i€n€g€ €t€i€l€e€s€
+€T€i€l€e€ €W€i€n€d€o€w€s€(€S€p€l€i€t€ €t€h€e€ €a€c€t€i€v€e€ €w€i€n€d€o€w€ €i€n€t€o€ €p€a€n€e€s€
+€S€p€l€i€t€€€€€€€€€€€€€€€€€€€€€(€€ €€€ÿÿ€ÿÿ€€€€0	€€€€€€€€€E€r€a€s€e€ €t€h€e€ €s€e€l€e€c€t€i€o€n€
+€E€r€a€s€e€

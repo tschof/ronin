@@ -1,0 +1,137 @@
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" Content="Microsoft Visual Studio 8.0">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+  <h2>
+    Bullseye Release Notes</h2>
+  <h3>
+    v0.0.0.1 2010-01-05</h3>
+  <ul>
+    <li>Initial release installed on ddart-ltc-rom2.</li>
+  </ul>
+  <h3>
+    v0.0.0.2 2010-01-06</h3>
+  <ul>
+    <li>Added invalid parameter handler.</li>
+    <li>Allow canceling of sub-orders in the following states: REPLACED, REPLACEDPENDING,
+      REPLACEREJECTED.&nbsp; This is in addition to the previously supported states of
+      NEW, OPEN, and PARTIALLYFILLED.</li>
+  </ul>
+    <h3>
+      v0.0.0.3 2010-01-06</h3>
+  <ul>
+    <li>Fixed locking on Connection_Manager objects</li>
+    <li>Cleaned up message logging</li>
+    <li>Added shutdown function to market data DLL and trigger to shutdown in wrapper
+      class destructor</li>
+  </ul>
+  <h3>
+    v0.0.0.4 2010-01-07</h3>
+  <ul>
+    <li>Added CRITICAL DART logging level indicating an extremely dire, most likely fatal,
+      issue has been encountered.</li>
+    <li>Check are now made to ensure there is only one algo engine process running on
+      a server at one time.&nbsp; Multiple algo engines on a single server are not currently
+      supported.</li>
+    <li>ROM destination is now configured from the INI file using the OutboundHost and
+      OutboundPort keys in the Bullseye section.</li>
+  </ul>
+  <h3>
+    v0.0.0.5 2010-01-08</h3>
+  <ul>
+    <li><span style="text-decoration: underline"><em>BUG FIX</em></span>: In quote lookups, only CTA was working.&nbsp; Subscriptions were fine,
+      but the new code for doing quote lookups only did CTA symbols and skipped NASDAQ.</li>
+    <li><em><span style="text-decoration: underline">BUG WORKAROUND:</span></em> Server
+      session state does not seem to be working properly in transition from the LOGGED_ON
+      state to DISCONNECTED and then to CONNECTED.&nbsp; A ROM logon message is received
+      while the server session state seems to be in DISCONNECTED state completely missing
+      the DISCONNECTED-&gt;CONNECTED state transition.&nbsp; Adding better logging and
+      automatic state transition from DISCONNECTED-&gt;CONNECTED when receiving a message
+      in the DISCONNECTED state.&nbsp; This doesn't solve the underlying state transition
+      problem but will work for now and allow additional troubleshooting.</li>
+    <li><em><span style="text-decoration: underline">ENHANCEMENT:</span></em> Detection
+      of missing market data is now controlled by two INI settings, [Bullseye]MdNoDataPollIntervalMs
+      and [Bullseye]MdNoDataMaxPollCount.&nbsp; The first configures the number of milliseconds
+      to wait before re-polling the market data system for a price block for the given
+      symbol.&nbsp; This only kicks in after the initial query.&nbsp; The second controls
+      the number of times to retry before determining market data to be unavailable and
+      rejecting the order.</li>
+    <li><em><span style="text-decoration: underline">ENHANCEMENT:</span></em> The trader
+      used on all outbound orders to the exchange can now be configured via the [Bullseye]ClientUsername
+      key in the INI file.</li>
+    <li><em><span style="text-decoration: underline">BUG FIX:</span></em> Null character
+      sent after the newline terminator on query commands, this was causing issues when
+      ultimately passed to ROC.</li>
+  </ul>
+  <h3>
+    v0.0.0.6 2010-01-12</h3>
+  <ul>
+    <li><em><span style="text-decoration: underline">ENHANCEMENT:</span></em> Switched
+      internal time keeping from time_t (CRT) to ACE_Time_Value to allow for enhanced
+      (sub-second) time calculations.&nbsp; ACE_Time_Value should be just as portable.&nbsp;
+      This required a fairly significant reworking of all the time calculation code but
+      should allow somewhat more accurate time slice partitioning for small time periods
+      and better overall fitting with very large time slices.</li>
+    <li><em><span style="text-decoration: underline">BUG FIX:</span></em> CSV_EXEC_TIME
+      was not being sent on customer order executions.&nbsp; The net effect was that opening
+      a ROC trades window after the fills came in had the fills incorrectly marked with
+      the time the window was opened.&nbsp; Sending CSV_EXEC_TIME causes ROC to always
+      use this time when displaying the trades no matter when the Trades window is opened.</li>
+    <li><em><span style="text-decoration: underline">BUG FIX:</span></em> Instead of sending
+      market orders in some instances a limit order with no price would be sent; all market
+      orders are now sent as such and limit orders should always have a limit price.</li>
+    <li><em><span style="text-decoration: underline">BUG FIX:</span></em> Enhanced decision
+      engine locking is needed with the new thread-pool Reactor-based event scheme.</li>
+  </ul>
+  <h3>
+    v0.0.0.7 2010-01-12</h3>
+  <ul>
+    <li><em><span style="text-decoration: underline">ENHANCEMENT:</span></em> Added INI
+      settings to configure market start/stop times (convenient for testing).&nbsp; Both
+      are in the "Bullseye" section and are "NYMarketStart" and "NYMarketEnd".&nbsp; Both
+      should be strings of the form HH:MM (note that this is on a 24-hour clock) and are
+      in New York local time.</li>
+  </ul>
+  <h3>
+    v0.0.0.8 2010-01-13</h3>
+  <ul>
+    <li><em><span style="text-decoration: underline">BUG FIX:</span></em> If a cancel-replace
+      was rejected the TWAP order would report the TWAP order as canceled but would continue
+      working it.&nbsp; Now it properly stops working the order.</li>
+  </ul>
+  <h3>
+    v0.0.0.9 2010-01-29</h3>
+  <ul>
+    <li><em><span style="text-decoration: underline">BUG FIX:</span></em> Bad use of varargs
+      in DART_WARNING (passed STL strign as char*).&nbsp; Causes crash sometimes when
+      requesting market data.</li>
+    <li><em><span style="text-decoration: underline">BUG FIX:</span></em> Misuse of ACE_Time_Value,
+      comparing against default values. Causes time functions to fail initialization.</li>
+    <li><em><span style="text-decoration: underline">FEATURE:</span></em> Utilize ExDest
+      from original order for routing (setting the Exchange field) for all sub-orders
+      created by the algo engine while working the original algo order.</li>
+    <li><em><span style="text-decoration: underline">BUG FIX</span></em>: Null pointer
+      check to prevent access violation on shutdown; only happens when market data DLL
+      could not be loaded.</li>
+    <li><em><span style="text-decoration: underline">Enhancement:</span></em> No longer
+      setting ExDest on any orders created by the algo-engine.</li>
+  </ul>
+  <h3>
+    v0.0.1.0 2010-02-26</h3>
+  <ul>
+    <li><em><span style="text-decoration: underline">Enhancement:</span></em> Add CSV_PARENT
+      tag on all sub-orders generated while working a customer order.</li>
+    <li><em><span style="text-decoration: underline">Enhancement:</span></em> Add Customer
+      Directed Order functionality in which the customer specifies the order type (market/limit),
+      limit price, and exchange destination to be used on each suborder sent on behalf
+      of the client.&nbsp; The only thing the TWAP algorithm does is to determine the
+      order volume and timing used to send the orders.&nbsp; Since no changes to the order
+      price are made in response to market conditions, market data is not needed.</li>
+  </ul>
+
+
+
+</BODY>
+</HTML>

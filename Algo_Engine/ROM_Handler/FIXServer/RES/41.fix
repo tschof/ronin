@@ -1,0 +1,2229 @@
+<M>Standard Header
+Each administrative or application message, is preceded by a standard header.  The header identifies the message type, length, destination, sequence number, origination point and time.  
+Two fields helps with resending messages.  The PossDupFlag is set to Y when resending a message as the result of a session level event (i.e. the retransmission of a message reusing a sequence number).  The PossResend is set to Y when reissuing a message with a new sequence number (e.g. resending an order).  The receiving application should process these messages as follows:  
+PossDupFlag - if a message with this sequence number has been previously received, ignore message, if not, process normally.
+PossResend - forward message to application and determine if previously received  (i.e. verify order id and parameters).
+<T>
+8<>BeginString<>Y<>FIX.4.1 (Always unencrypted, must be first field in message)
+9<>BodyLength<>Y<>(Always unencrypted, must be second field in message)
+35<>MsgType<>Y<>(Always unencrypted, must be third field in message)
+49<>SenderCompID<>Y<>(Always unencrypted)
+56<>TargetCompID<>Y<>(Always unencrypted)
+115<>OnBehalfOfCompID<>N<>Trading partner company ID used when sending messages via a third party (Can be embedded within encrypted data section.)
+128<>DeliverToCompID<>N<>Trading partner company ID used when sending messages via a third party (Can be embedded within encrypted data section.)
+90<>SecureDataLen<>N<>Required to identify length of encrypted section of message. (Always unencrypted)  
+91<>SecureData<>N<>Required when message body is encrypted.  Always immediately follows SecureDataLen field.
+34<>MsgSeqNum<>Y<>(Can be embedded within encrypted data section.)
+50<>SenderSubID<>N<>(Can be embedded within encrypted data section.)
+142<>SenderLocationID<>N<>Trading partner LocationID (i.e. geographic location and/or desk) (Can be embedded within encrypted data section.)
+57<>TargetSubID<>N<>"ADMIN" reserved for administrative messages not intended for a specific user. (Can be embedded within encrypted data section.)
+143<>TargetLocationID<>N<>Trading partner LocationID (i.e. geographic location and/or desk) (Can be embedded within encrypted data section.)
+116<>OnBehalfOfSubID<>N<>Trading partner SubID used when delivering messages via a third party. (Can be embedded within encrypted data section.)
+144<>OnBehalfOfLocationID<>N<>Trading partner LocationID (i.e. geographic location and/or desk) used when delivering messages via a third party. (Can be embedded within encrypted data section.)
+129<>DeliverToSubID<>N<>Trading partner SubID used when delivering messages via a third party. (Can be embedded within encrypted data section.)
+145<>DeliverToLocationID<>N<>Trading partner LocationID (i.e. geographic location and/or desk) used when delivering messages via a third party. (Can be embedded within encrypted data section.)
+43<>PossDupFlag<>N<>Always required for retransmitted messages, whether prompted by the sending system or as the result of a resend request. (Can be embedded within encrypted data section.)
+97<>PossResend<>N<>Required when message may be duplicate of another message sent under a different sequence number. (Can be embedded within encrypted data section.)
+52<>SendingTime<>Y<>(Can be embedded within encrypted data section.)
+122<>OrigSendingTime<>N<>Required for message resends.  If data is not available set to same value as SendingTime  (Can be embedded within encrypted data section.)
+<Me>
+<M>Standard Trailer
+Each message, administrative or application, is terminated by a standard trailer.  The trailer is used to segregate messages and contains the three digit character representation of the Checksum value.  
+<T>
+93<>SignatureLength<>N<>Required when trailer contains signature.  Note:  Not to be included within SecureData field 
+89<>Signature<>N<>Note:  Not to be included within SecureData field
+10<>CheckSum<>Y<>(Always unencrypted, always last field in message)
+<Me>
+<M>Heartbeat (MsgType 0)
+The Heartbeat monitors the status of the communication link and identifies when the last of a string of messages was not received.
+When either end of a FIX connection has not sent any data for [HeartBtInt] seconds, it will transmit a Heartbeat message.  When either end of the connection has not received any data for (HeartBtInt + "some reasonable transmission time") seconds, it will transmit a Test Request message.  If there is still no Heartbeat message received after (HeartBtInt + "some reasonable transmission time") seconds then the connection should be considered lost and corrective action be initiated.  If HeartBtInt is set to zero then no regular heartbeat messages will be generated.  Note that a test request message can still be sent independent of the value of the HeartBtInt which will force a Heartbeat message.
+Heartbeats issued as the result of Test Request must contain the TestReqID transmitted in the Test Request message.  This is useful to verify that the Heartbeat is the result of the Test Request and not as the result of a regular timeout.   
+<T>
+112<>TestReqID<>N<>Required when the heartbeat is the result of a Test Request message.
+<Me>
+<M>Logon (MsgType A)
+The logon message authenticates a user establishing a connection to a remote system.  The logon message must be the first message sent by the application requesting to initiate a FIX session.
+The HeartBtInt (108) field is used to declare the timeout interval for generating heartbeats.
+Upon receipt of a Logon message, the session acceptor will authenticate the party requesting connection and issue a Logon message as acknowledgment that the connection request has been accepted.  The acknowledgment Logon can also be used by the initiator to validate that the connection was established with the correct party.  
+The session acceptor must be prepared to immediately begin processing messages after receipt of the Logon.  The session initiator can choose to begin transmission of FIX messages before receipt of the confirmation Logon, however it is recommended that normal message delivery wait until after the return Logon is received to accommodate encryption key negotiation.  
+The confirmation Logon can be used for encryption key negotiation.  If a session key is deemed to be weak, a stronger session key can be suggested by returning a Logon message with a new key.  This is only valid for encryption protocols that allow for key negotiation.  (See the FIX Web Site's Application notes for more information on a method for encryption and key passing.)
+<T>
+98<>EncryptMethod<>Y<>(Always unencrypted)
+108<>HeartBtInt<>Y
+95<>RawDataLength<>N<>Required for some authentication methods
+96<>RawData<>N<>Required for some authentication methods
+141<>ResetSeqNumFlag<>N<>Indicates both sides of a FIX session should reset sequence numbers
+<Me>
+<M>Test Request (MsgType 1)
+The test request message forces a heartbeat from the opposing application.  The test request message checks sequence numbers or verifies communication line status.  The opposite application responds to the Test Request with a Heartbeat containing the TestReqID.
+The TestReqID verifies that the opposite application is generating the heartbeat as the result of Test Request and not a normal timeout.  The opposite application includes the TestReqID in the resulting Heartbeat.  Any string can be used as the TestReqID (one suggestion is to use a timestamp string).
+<T>
+112<>TestReqID<>Y
+<Me>
+<M>Resend Request (MsgType 2)
+The resend request is sent by the receiving application to initiate the retransmission of messages.  This function is utilized if a sequence number gap is detected, if the receiving application lost a message, or as a function of the initialization process. 
+The resend request can be used to request a single message, a range of messages or all messages subsequent to a particular message.
+Note:  the sending application may wish to consider the message type when resending messages;  e.g. if a new order is in the resend series and a significant time period has elapsed since its original inception, the sender may not wish to retransmit the order given the potential for changed market conditions.  (The  Sequence Reset-GapFill message is used to skip messages that a sender does not wish to resend.)
+Note:  it is imperative that the receiving application process messages in sequence order, e.g.  if message number 7 is missed and 8-9 received, the application should ignore 8 and 9 and ask for a resend of 7-9.
+*  To request a single message:  BeginSeqNo = EndSeqNo  
+*  To request a range of messages:  BeginSeqNo = first message of range, EndSeqNo = last message of range
+*  To request all messages subsequent to a particular message:  BeginSeqNo = first message of range, EndSeqNo = 999999
+<T>
+7<>BeginSeqNo<>Y
+16<>EndSeqNo<>Y
+<Me>
+<M>Reject (MsgType 3)
+The reject message should be issued when a message is received but cannot be passed through to the application level.  An example of when a reject may be appropriate would be the receipt of a message with invalid basic data (e.g. MsgType=&) which successfully passes de-encryption, CheckSum and BodyLength checks.  As a rule, messages should be forwarded to the trading application for business level rejections whenever possible. 
+Rejected messages should be logged and the incoming sequence number incremented.
+Note:  The receiving application should disregard any message that is garbled, cannot be parsed or fails a data integrity check. Processing of the next valid FIX message will cause detection of a sequence gap and a Resend Request will be generated.  Logic should be included in the FIX engine to recognize the possible infinite resend loop which may be encountered in this situation.
+Generation and receipt of a Reject message indicates a serious error that may be the result of faulty logic in either the sending or receiving application.  
+If the sending application chooses to retransmit the rejected message, it should be assigned a new sequence number.  
+Whenever possible, it is strongly recommended that the cause of the failure be described in the Text field (e.g. INVALID DATA - FIELD 35).
+<T>
+45<>RefSeqNo<>Y<>MsgSeqNum of rejected message
+58<>Text<>N<>Where possible, message to explain reason for rejection
+<Me>
+<M>Sequence Reset - Gap Fill (MsgType 4)
+The sequence reset message is used by the sending application to reset the incoming sequence number on the opposing side.  The sequence reset message can be used in the following situations:
+*  During normal resend processing, the sending application may choose not to send a message (e.g. an aged order).  The Sequence Reset can be used to mark the place of that message.  
+*  During normal resend processing, a number of administrative messages are not resent, the  Sequence Reset message is used to fill the sequence gap created. 
+*  In the event of an application failure, it may be necessary to force synchronization of sequence numbers on the sending and receiving sides 
+The sending application will initiate the sequence reset.  The message in all situations specifies NewSeqNo to reset as the value of the next sequence number to be transmitted.    
+If the GapFill field is not present (or set to N), it can be assumed that the purpose of the sequence reset message is to recover from an out-of-sequence condition.   The MsgSeqNum in the header should be ignored (i.e. the receipt of a sequence reset message with an out of sequence MsgSeqNum should not generate resend requests).
+If the Gap Fill field is present (and equal to Y), the MsgSeqNum should conform to standard message sequencing rules (i.e. the MsgSeqNum of the SequenceReset-GapFill message should represent the beginning MsgSeqNum in the GapFill range because the remote side is expecting that next message).
+
+The sequence reset can only increase the sequence number.  If a sequence reset is received attempting to decrease the next expected sequence number the message should be rejected and treated as a serious error. It is possible to have multiple ResendRequests issued in a row (i.e. 5 to 10 followed by 5 to 11).  If sequence number 8, 10, and 11 represent application messages while the 5-7 and 9 represent administrative messages, the series of messages as result of the Resend Request may appear as SeqReset-GapFill with NewSeqNo of 8, message 8, SeqReset-GapFill with NewSeqNo of 10, and message 10.  This could then followed by SeqReset-GapFill with NewSeqNo of 8, message 8, SeqReset-GapFill with NewSeqNo of 10, message 10, and message 11.  One must be careful to ignore the duplicate SeqReset-GapFill which is attempting to lower the next expected sequence number.  This can be detected by checking to see if its MsgSeqNum is less than expected.  If so, the SeqReset-GapFill is a duplicate and should be discarded.
+<T>
+123<>GapFillFlag<>N
+36<>NewSeqNo<>Y
+<Me>
+<M>Logout (MsgType 5)
+The logout message initiates or confirms the termination of a FIX session.  Disconnection without the exchange of logout messages should be interpreted as an abnormal condition.  
+Before actually closing the session, the logout initiator should wait for the opposite side to respond with a confirming logout message.  This gives the remote end a chance to perform any Gap Fill operations that may be necessary.  The session may be terminated if the remote side does not respond in an appropriate timeframe.
+The logout initiator should not send any messages after the logout.
+<T>
+58<>Text<>N
+<Me>
+<M>Advertisement (MsgType 7)
+Advertisement messages are used to announce completed transactions.  The advertisement message can be transmitted in various transaction types; NEW, CANCEL and REPLACE.  All message types other than NEW modify the state of a previously transmitted advertisement identified in AdvRefID.
+<T>
+2<>AdvId<>Y
+5<>AdvTransType<>Y
+3<>AdvRefID<>N<>Required for Cancel and Replace AdvTransType messages
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+4<>AdvSide<>Y
+53<>Shares<>Y
+44<>Price<>N
+15<>Currency<>N<>Indication without currency field is interpreted as US dollars.
+75<>TradeDate<>N
+60<>TransactTime<>N
+58<>Text<>N
+149<>URLLink<>N<>A URL (Uniform Resource Locator) link to additional information (i.e. http://www.XYZ.com/research.html)
+30<>LastMkt<>N
+<Me>
+<M>Indications of Interest (MsgType 6)
+Indication of interest messages market merchandise which the broker is buying or selling in either a proprietary or agency capacity.  The indications can be time bound with a specific expiration value.  Indications are distributed with the understanding that other firms may react to the message first and that the merchandise may no longer be available due to prior trade.
+Indication messages can be transmitted in various transaction types; NEW, CANCEL, and REPLACE.  All message types other than NEW modify the state of the message identified in IOIRefID.  
+<T>
+23<>IOIid<>Y
+28<>IOITransType<>Y
+26<>IOIRefID<>N<>Required for Cancel and Replace IOITransType messages
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+54<>Side<>Y<>Side of Indication. Valid values: 1 = Buy, 2 = Sell
+27<>IOIShares<>Y
+44<>Price<>N
+15<>Currency<>N<>Indication without currency field is interpreted as US dollars.
+62<>ValidUntilTime<>N
+25<>IOIQltyInd<>N
+24<>IOIOthSvc<>N<>Applicable only if advertised on public IOI service. 
+130<>IOINaturalFlag<>N
+199<>NoIOIQualifiers<>N<>Required if any IOIQualifiers are specified.  Indicates the number of repeating IOIQualifiers.
+104<>IOIQualifier<>N<>Required if NoIOIQualifiers is greater than 0
+58<>Text<>N
+60<>TransactTime<>N
+149<>URLLink<>N<>A URL (Uniform Resource Locator) link to additional information (i.e. http://www.XYZ.com/research.html)
+<Me>
+<M>News (MsgType B)
+The news message is a general free format message between the broker and institution.  The message contains flags to identify the news item's urgency and to allow sorting by subject company (symbol).  The News record can be originated at either the broker or institution side.
+<T>
+42<>OrigTime<>N
+61<>Urgency<>N
+148<>Headline<>Y<>Specifies the headline text
+146<>NoRelatedSym<>Y<>Specifies the number of repeating symbols specified
+46<>RelatdSym<>N<>Can be repeated multiple times if message is related to multiple symbols.
+65<>SymbolSfx<>N<>Can be repeated multiple times if message is related to multiple symbols.
+48<>SecurityID<>N<>Can be repeated multiple times if message is related to multiple symbols.
+22<>IDSource<>N<>Can be repeated multiple times if message is related to multiple symbols.
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: RelatedSym, SecurityType, and MaturityMonthYear are required.  If an Option: RelatedSym, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonth Year<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>Security Exchange<>N<>Can be used to identify the security.
+106<>Issuer<>N<>Can be repeated multiple times if message is related to multiple symbols.
+107<>SecurityDesc<>N<>Can be repeated multiple times if message is related to multiple symbols.
+33<>LinesOfText<>Y<>Specifies the number of repeating lines of text specified
+58<>Text<>Y<>Repeating field, number of instances defined in LinesOfText
+149<>URLLink<>N<>A URL (Uniform Resource Locator) link to additional information (i.e. http://www.XYZ.com/research.html)
+95<>RawDataLength<>N
+96<>RawData<>N
+<Me>
+<M>Email (MsgType C)
+The email message is similar to the format and purpose of to the News message, however, it is intended for private use between two parties.
+<T>
+164<>EmailThreadID<>Y<>Unique identifier for the email message thread
+94<>EmailType<>Y
+42<>OrigTime<>N
+147<>Subject<>Y<>Specifies the Subject text
+146<>NoRelatedSym<>Y<>Specifies the number of repeating symbols specified
+46<>RelatdSym<>N<>Can be repeated multiple times if message is related to multiple symbols.
+65<>SymbolSfx<>N<>Can be repeated multiple times if message is related to multiple symbols.
+48<>SecurityID<>N<>Can be repeated multiple times if message is related to multiple symbols.
+22<>IDSource<>N<>Can be repeated multiple times if message is related to multiple symbols.
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: RelatedSym, SecurityType, and MaturityMonthYear are required.  If an Option: RelatedSym, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonth Year<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>Security Exchange<>N<>Can be used to identify the security.
+106<>Issuer<>N<>Can be repeated multiple times if message is related to multiple symbols.
+107<>SecurityDesc<>N<>Can be repeated multiple times if message is related to multiple symbols.
+37<>OrderID<>N
+11<>ClOrdID<>N
+33<>LinesOfText<>Y<>Specifies the number of repeating lines of text specified
+58<>Text<>Y<>Repeating field, number of instances defined in LinesOfText
+95<>RawDataLength<>N
+96<>RawData<>N
+<Me>
+<M>Quote Request (MsgType R)
+In some markets it is the practice to request quotes from brokers prior to placement of an order.  The quote request message is used for this purpose.
+Quotes can be requested on specific securities or forex rates.  
+Securities quotes can be requested as either market quotes or for a specific quantity and side.  If OrderQty and Side are absent, a market-style quote (bid x offer, size x size) will be returned.
+The symbol used for forex quotes is, in ISO codes, "currency1.currency2" (e.g. GBP.USD) and the quote will be returned as a rate expressed as currency1/currency2.
+Forex quotes can be requested as indicative or at a specific quantity level.  If an indicative quote is requested (OrderQty and Side are absent), the broker has discretion to quote at either a specific trade level and side or to provide an indicative quote at the mid-point of the spread.  The broker can also choose to respond to an indicative quote by sending multiple quote messages specifying various levels and sides.  Forex quote requests can also specify the desired value date (FutSettDate and/or FuttSettDate2) for F/X spot, forward, or swap quotes.
+<T>
+131<>QuoteReqID<>Y
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+140<>PrevClosePx<>N<>Useful for verifying security identification
+54<>Side<>N<>If OrdType = "Forex - Swap", should be the side of the future portion of a F/X swap
+38<>OrderQty<>N
+64<>FutSettDate<>N<>Can be used with forex quotes to specify the desired "value date"
+40<>OrdType<>N<>Can be used to specify the type of order the quote request is for
+193<>FutSettDate2<>N<>Can be used with OrdType = "Forex - Swap" to specify the "value date" for the future portion of a F/X swap.
+192<>OrderQty2<>N<>Can be used with OrdType = "Forex - Swap" to specify the order quantity  for the future portion of a F/X swap.
+<Me>
+<M>Quote (MsgType S)
+The quote message is used as the response to a Quote Request message and can be used to publish unsolicited quotes.
+Quotes supplied as the result of a Quote Request message are tagged with the appropriate QuoteReqID, unsolicited quotes can be identified by the absence of a  QuoteReqID.
+The symbol used for forex quotes is, in ISO codes, "currency1.currency2" (e.g. GBP.USD) and the quote will be returned as a rate expressed as currency1/currency2.  BidPx indicates the rate at which the broker is willing to buy currency1 and deliver currency2, OfferPx indicates the rate at which the broker is willing to sell currency1 and receive currency2.  Indicative rates are quoted in the BidPx field and may contain a level in the BidSize field.
+Orders can be generated based on Quotes.  Quoted orders include the QuoteID and are OrdType=Previously Quoted or Forex - Previously Quoted.  
+<T>
+131<>QuoteReqID<>N<>Required when quote is in response to a Quote Request message
+117<>QuoteID<>Y
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+132<>BidPx<>N<>If F/X quote, should be the "all-in" rate (spot rate adjusted for forward points).  Note that either BidPx, OfferPx or both must be specified.
+133<>OfferPx<>N<>If F/X quote, should be the "all-in" rate (spot rate adjusted for forward points).  Note that either BidPx, OfferPx or both must be specified.
+134<>BidSize<>N
+135<>OfferSize<>N
+62<>ValidUntilTime<>N
+188<>BidSpotRate<>N<>May be applicable for F/X quotes
+190<>OfferSpotRate<>N<>May be applicable for F/X quotes
+189<>BidForwardPoints<>N<>May be applicable for F/X quotes
+191<>OfferForwardPoints<>N<>May be applicable for F/X quotes
+60<>TransactTime<>N
+64<>FutSettDate<>N<>Can be used with forex quotes to specify a specific "value date"
+40<>OrdType<>N<>Can be used to specify the type of order the quote is for
+193<>FutSettDate2<>N<>Can be used with OrdType = "Forex - Swap" to specify the "value date" for the future portion of a F/X swap.
+192<>OrderQty2<>N<>Can be used with OrdType = "Forex - Swap" to specify the order quantity  for the future portion of a F/X swap.
+<Me>
+<M>New Order - Single (MsgType D)
+The new order message type is used by institutions wishing to electronically submit securities and forex orders to a broker for execution.
+Orders can be submitted with special handling instructions and execution instructions.  Handling instructions refer to how the broker should handle the order on its trading floor (see HandlInst field).  Execution instructions contain explicit directions as to how the order should be executed (see ExecInst field).
+New Order messages received with the PossResend flag set in the header should be validated by ClOrdID and order  parameters (side, symbol, quantity, etc.) to determine if the order had been previously submitted.  PossResends previously received should be acknowledged back to the client via an Execution - Status message.  PossResends not previously received should be processed as a new order and acknowledged via an Execution - New message.
+To support forex accommodation trades, two fields, ForexReq and SettlCurrency,  are included in the message.  To request a broker to execute a forex trade in conjunction with the securities trade, the institution would set the ForexReq = Y and SettlCurrency = "intended settlement currency".  The broker would then execute a forex trade from the execution currency to the settlement currency and report the results via the execution message in the SettlCurrAmt and SettlCurrency fields.
+The order message can also be used to request a straight forex trade.  Conventions for identifying a forex transaction are as follows:  
+*  The forex symbol is defined, in ISO codes, as "held-currency.new-currency" (e.g.  "USD.GBP" indicates a desire to convert a held amount of USD to GPB)
+*  Side is defined in terms of whether the OrderQty is currency required or currency held (e.g.  a forex order can be expressed as either "S 3,200,000 USD for GPB" or "B  2,000,000 GBP for USD", at a rate of 1.6 USD/GBP, these trades are equivalent in that the broker is receiving 3,200,000 USD and delivering 2,000,000 GBP).  In the case of a Forex - Swap (buying (or selling) a currency at one value date and selling (or buying) the same currency at a different value date), Side should represent the side of the FutSettDate2 transaction. OrdType = Forex - Market, Forex - Limit, Forex- Swap, or Forex - Previously Quoted
+*  Netting can be specified via the ExecInst field.
+
+To "take" an IOI (or Quote) from an ECN or exchange and not display the order on the book, the New Order message should contain the TimeInForce field with ImmediateOrCancel and an OrdType field with Previously Indicated ( or Previously Quoted).
+<T>
+11<>ClOrdID<>Y<>Unique identifier of the order as assigned by institution.
+109<>ClientID<>N<>Used for firm identification in third-party transactions.
+76<>ExecBroker<>N<>Used for firm identification in third-party transactions.
+1<>Account<>N
+63<>SettlmntTyp<>N<>Absence of this field is interpreted as Regular.
+64<>FutSettDate<>N<>Required when SettlmntTyp = 6 (Future) or SettlmntTyp = 8 (Sellers Option)
+21<>HandlInst<>Y
+18<>ExecInst<>N<>Can contain multiple instructions, space delimited.
+110<>MinQty<>N
+111<>MaxFloor<>N
+100<>ExDestination<>N
+81<>ProcessCode<>N<>Used to identify soft trades at order entry.
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+140<>PrevClosePx<>N<>Useful for verifying security identification
+54<>Side<>Y
+114<>LocateReqd<>N<>Required for short sell orders
+38<>OrderQty<>N<>Either CashOrderQty or OrderQty is required.
+152<>CashOrderQty<>N<>Either CashOrderQty or OrderQty is required.  Specifies the approximate "dollar quantity" for the order.  Broker is responsible for converting and calculating OrderQty in shares for subsequent messages.
+40<>OrdType<>Y
+44<>Price<>N<>Required for limit OrdTypes. For F/X orders, should be the "all-in" rate (spot rate adjusted for forward points).  Can be used to specify a limit price for a pegged order, previously indicated, etc.
+99<>StopPx<>N<>Required for OrdType = "Stop" or OrdType = "Stop limit".
+15<>Currency<>N<>Message without currency field is interpreted as US dollars
+23<>IOIid<>N<>Required for Previously Indicated Orders (OrdType=E)
+117<>QuoteID<>N<>Required for Previously Quoted Orders (OrdType=D)
+59<>TimeInForce<>N<>Absence of this field indicates Day order
+126<>ExpireTime<>N<>Required if TimeInForce = GTD
+12<>Commission<>N
+13<>CommType<>N
+47<>Rule80A<>N
+121<>ForexReq<>N<>Indicates that broker is requested to execute a Forex accommodation trade in conjunction with the security trade.  
+120<>SettlCurrency<>N<>Required if ForexReq = Y.
+58<>Text<>N
+193<>FutSettDate2<>N<>Can be used with OrdType = "Forex - Swap" to specify the "value date" for the future portion of a F/X swap.
+192<>OrderQty2<>N<>Can be used with OrdType = "Forex - Swap" to specify the order quantity  for the future portion of a F/X swap.
+77<>OpenClose<>N<>For options
+203<>CoveredOrUncovered<>N<>For options
+204<>CustomerOrFirm<>N<>For options when delivering the order to execution system/exchange.
+210<>MaxShow<>N
+211<>PegDifference<>N
+<Me>
+<M>Execution Report (MsgType 8)
+The execution report message is used to:
+1.  confirm the receipt of an order 
+2.  confirm changes to an existing order (i.e. accept cancel and replace requests)
+3.  relay order status information
+4.  relay fill information on working orders 
+5.  reject orders
+6.  report post-trade fees calculations associated with a trade
+NOTE:  Execution reports do not replace the end-of-day confirm.  Execution reports are to be regarded only as replacements for the existing fill messages currently communicated via telephone.
+Each execution message will contain information that will describe the current state of the order and execution status as understood by the broker.  State changes should be sent as separate messages and should not be used to also convey new partial fill details (i.e. do not report a partial fill or filled in a Done for the Day, Reject, etc.)
+
+Execution report messages can be transmitted as transaction types (ExecTransType)  NEW, CANCEL, CORRECT or STATUS.  Transaction types CANCEL and CORRECT modify the state of the message identified in field ExecRefID.  Transaction type STATUS indicates that the execution message contains no new information, only summary information regarding order status.
+*  The NEW transaction type indicates that this message represents a new order, a change in status of the order, or a new fill against an existing order.  The combination of the ExecTransType and OrdStatus fields will indicate how the message is to be applied to an order.
+*  The CANCEL transaction type applies at the execution level.  The Cancel transaction  will be used to cancel an execution which has been reported in error.  The canceled execution will be identified in the ExecRefID field.
+*  The CORRECT transaction type applies at the execution level and is used to modify an incorrectly reported fill.  The incorrect execution will be identified in the ExecRefID field.  If a single execution is corrected more than once, ExecRefID should refer to the ExecID of the last corrected ExecutionRpt (same convention as ClOrdID and OrigClOrdID).  Note:  Data reported in the CumQty, LeavesQty, and AvgPx fields represent the status of the order as of the time of the correction, not as of the time of the originally reported execution.
+
+The ExecType field describes the specific ExecutionRpt while OrdStatus will always identify the current order status.
+An  Order State Change Matrix appears in the appendix.
+To transmit a change in OrdStatus for an order, the broker (sell side) should send an Execution Report with the new OrdStatus value in ExecType AND OrdStatus to signify this message is changing the state of the order. The only exception to this rule is when sending a CancelReject in response to a Cancel or Replace request, the CancelReject message is used. Furthermore, partial/complete fill information should be sent in a separate Execution Report than order accept (New), cancel accept (Canceled), cancel/replace accept (Replaced) or Done For Day reports.
+
+The OrdStatus field is used to identify the status of the current order. If an order simultaneously exists in more than one order state, the value with highest precedence is the value that is reported in the OrdStatus field.  The order statuses are as follows: 
+(number in the left indicate precedence)
+1  Pending Cancel/Replace - Order with cancel request pending, used to confirm receipt of cancel or replace request.  DOES NOT INDICATE THAT THE ORDER HAS BEEN CANCELED OR REPLACED.
+2  Done for Day - Order not, or partially, filled;  no further executions forthcoming
+3  Calculated - Order has been completed for the day (either filled or done for day).  Commission or currency settlement details have been calculated and reported in this execution message
+4  Filled - Order completely filled, no remaining quantity
+5  Stopped - Order has been stopped at the exchange
+6  Suspended - Order has been placed in suspended state at the request of the client.
+7  Canceled - Canceled order with or without executions
+7  Expired - Order has been canceled in broker's system due to time in force instructions.  
+8  Partially Filled - Outstanding order with executions and remaining quantity
+9  Replaced - Replaced order with or without executions
+10  New - Outstanding order with no executions 
+10  Rejected - Order has been rejected by broker.  NOTE:  An order can be rejected subsequent to order acknowledgment, i.e. an order can pass from New to Rejected status.
+10  Pending New - Order has been received by brokers system but not yet accepted for execution.  An execution message with this status will only be sent in response to a Status Request message.  
+NOTE:  The canceled and replaced order status is set in response to accepted cancel and replace requests.  These requests are only acted upon when there is an outstanding order quantity.  Requests to replace OrderQty to a level less than the CumQty will be rejected.  Requests to change price on a filled order will be rejected (see Order Cancel Reject message type).  
+The OrderQty, CumQty, LeavesQty, and AvgPx fields should be calculated to reflect the cumulative result of all versions of an order.  For example, if partially filled order A were replaced by order B, the OrderQty, CumQty, LeavesQty, and AvgPx on order B's fills should represent the cumulative result of order A plus those on order B. 
+
+The general rule is:   OrderQty = CumQty + LeavesQty.
+There can be exceptions to this rule when ExecType and/or OrdStatus are Canceled, DoneForTheDay, Expired, Calculated, or Rejected in which case the order is no longer active and LeavesQty could be 0.
+
+The field ClOrdID is provided for institutions to affix an identification number to an order to coincide with internal systems.  The OrderID field is populated with the broker-generated order number. Unlike ClOrdID/OrigClOrdID which requires a chaining through Cancel/Replaces and Cancels, OrderID and SecondaryOrderID are not required to change through changes to an order.
+<T>
+37<>OrderID<>Y<>OrderID is required to be unique for each chain of orders.
+198<>SecondaryOrderID<>N<>Can be used to provide order id used by exchange or executing system.
+11<>ClOrdID<>N<>Required for executions against electronically submitted orders which were assigned an ID by the institution.  Not required for orders manually entered by the broker.
+41<>OrigClOrdID<>N<>Conditionally required for PendingCancel, Replaced, Canceled OrdStatus values. ClOrdID of the previous order (NOT the initial order of the day) when canceling or replacing an order.
+109<>ClientID<>N<>Used for firm identification in third-party transactions.
+76<>ExecBroker<>N<>Used for firm identification in third-party transactions.
+66<>ListID<>N<>Required for executions against orders which were submitted as part of a list.
+17<>ExecID<>Y
+20<>ExecTransType<>Y
+19<>ExecRefID<>N<>Required for Cancel and Correct ExecTransType messages
+150<>ExecType<>Y<>Describes the type of execution report. Same possible values as OrdStatus.
+39<>OrdStatus<>Y<>Describes the current state of a CHAIN of orders, same scope as OrderQty, CumQty, LeavesQty, and AvgPx
+103<>OrdRejReason<>N<>For optional use with ExecType = 8 (Rejected)
+1<>Account<>N<>Required for executions against electronically submitted orders which were assigned an account by the institution
+63<>SettlmntTyp<>N<>Absence of this field is interpreted as Regular.
+64<>FutSettDate<>N<>Required when SettlmntTyp = 6 (Future)  or SettlmntTyp = 8 (Sellers Option)
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+54<>Side<>Y
+38<>OrderQty<>Y
+40<>OrdType<>N
+44<>Price<>N<>Required if specified on the order
+99<>StopPx<>N<>Required if specified on the order
+211<>PegDifference<>N<>Required  if specified on the order
+15<>Currency<>N<>Message without currency field is interpreted as US dollars
+59<>TimeInForce<>N<>Absence of this field indicates Day order
+126<>ExpireTime<>N<>Required if TimeInForce = GTD
+18<>ExecInst<>N<>Can contain multiple instructions, space delimited.
+47<>Rule80A<>N
+32<>LastShares<>Y<>Not required ExecTransType = 3 (Status)
+31<>LastPx<>Y<>Not required for ExecTransType = 3 (Status), Should represent the "all-in" (LastSpotRate + LastForwardPoints) rate for F/X orders.
+194<>LastSpotRate<>N<>Applicable for F/X orders
+195<>LastForwardPoints<>N<>Applicable for F/X orders
+30<>LastMkt<>N
+29<>LastCapacity<>N
+151<>LeavesQty<>Y<>Amount of shares open for further execution. If the OrdStatus is Canceled, DoneForTheDay, Expired, Calculated, or Rejected (in which case the order is no longer active) then LeavesQty could be 0, otherwise LeavesQty = OrderQty - CumQty.
+14<>CumQty<>Y<>Currently executed shares for chain of orders.
+6<>AvgPx<>Y
+75<>TradeDate<>N<>Used when reporting other than current day trades.
+60<>TransactTime<>N
+113<>ReportToExch<>N
+12<>Commission<>N
+13<>CommType<>N
+119<>SettlCurrAmt<>N<>Used to report results of forex accommodation trade
+120<>SettlCurrency<>N<>Used to report results of forex accommodation trade
+155<>SettlCurrFxRate<>N<>Foreign exchange rate used to compute SettlCurrAmount from Currency to SettlCurrency
+156<>SettlCurrFxRateCalc<>N<>Specifies whether the SettlCurrFxRate should be multiplied or divided
+58<>Text<>N
+<Me>
+<M>Don't Know Trade - DK (MsgType Q)
+The Don't Know Trade (DK) message notifies a trading partner that an electronically received execution has been rejected.  This message can be thought of as an execution reject message.
+This message has special utility when dealing with one-way execution reporting.  If the initial Order Acknowledgment message (LastShares=0 and OrdStatus=New) does not match an existing order this message can be used to notify the broker of a potential problem order.
+Note that the decision to DK an execution lies with the institution.  Some of the mismatches listed in the DKReason field may be acceptable and will not require a DK messages to be generated.
+<T>
+37<>OrderID<>N<>Broker Order ID as identified on problem execution
+17<>ExecID<>N<>Execution ID of problem execution
+127<>DKReason<>Y
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+54<>Side<>Y
+38<>OrderQty<>N<>Either CashOrderQty or OrderQty is required.
+152<>CashOrderQty<>N<>Either CashOrderQty or OrderQty is required.  Specifies the approximate "dollar quantity" for the order.  Broker is responsible for converting and calculating OrderQty in shares for subsequent messages.
+32<>LastShares<>N<>Required if specified on the ExecutionRpt
+31<>LastPx<>N<>Required if specified on the ExecutionRpt
+58<>Text<>N
+<Me>
+<M>Order Cancel/Replace Request (MsgType G)
+The order cancel/replace request is used to change the parameters of an existing order.  
+Do not use this message to cancel the remaining quantity of an outstanding order, use the Cancel Request message for this purpose.  
+Cancel/Replace will be used to change any valid attribute of an open order (i.e. reduce/increase quantity, change limit price, change instructions, etc.)  It can be used to re-open a filled order by increasing OrderQty.   
+The Cancel/Replace request will only be accepted if the order can successfully be pulled back from the exchange floor without executing.  Requests which cannot be processed will be rejected using the Cancel Reject message.  The Cancel Reject message should provide the ClOrdID and OrigClOrdID values which were specified on the Cancel/Replace Request message for identification..
+Note that while it is necessary for the ClOrdID to change and be unique, the broker's OrderID field does not necessarily have to change as a result of the Cancel/Replace request.
+Only a limited number of fields can be changed via the cancel/replace request message.  All other fields should be retransmitted as sent in the original order. The fields which can be changed via this message are:
+*  ExecInst
+*  OrderQty
+*  OrdType
+*  Price
+*  HandlInst
+*  TimeInForce
+*  ExpireTime
+*  MinQty
+*  MaxFloor
+*  StopPx
+*  PegDifference
+*  CashOrderQty
+*  OrderQty2
+*  OpenClose
+*  CoveredOrUncovered
+*  Side (i.e. sell to sell plus)
+*  MaxShow
+*  LocateReqd
+
+When modifying ExecInst fields in a replacement order, it is necessary to re-declare all ExecInst in the replacement order.  ExecInst's will not be carried forward from the original order to the replacement unless re-declared.
+<T>
+37<>OrderID<>N<>Unique identifier of most recent order as assigned by broker.
+109<>ClientID<>N<>Used for firm identification in third-party transactions.
+76<>ExecBroker<>N<>Used for firm identification in third-party transactions.
+41<>OrigClOrdID<>Y<>ClOrdID of the previous order (NOT the initial order of the day) when canceling or replacing an order.
+11<>ClOrdID<>Y<>Unique identifier of replacement order as assigned by institution.  Note that this identifier will be used in ClOrdID field of the Cancel Reject Message if the replacement request is rejected.
+66<>ListID<>N<>Required for List Orders
+1<>Account<>N
+63<>SettlmntTyp<>N<>Absence of this field is interpreted as Regular.
+64<>FutSettDate<>N<>Required when SettlmntTyp = 6 (Future) or SettlmntTyp = 8 (Sellers Option)
+21<>HandlInst<>Y
+18<>ExecInst<>N<>Can contain multiple instructions, space delimited.  Replacement order must be created with new parameters  (i.e. original order values will not be brought forward to replacement order unless redefined within this message).
+110<>MinQty<>N
+111<>MaxFloor<>N
+100<>ExDestination<>N
+55<>Symbol<>Y<>Must match original order
+65<>SymbolSfx<>N
+48<>SecurityID<>N<>Must match original order
+22<>IDSource<>N<>Must match original order
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+54<>Side<>Y<>Must match original side, however, Buy and Buy Minus can be interchanged as well as Sell and Sell Plus
+38<>OrderQty<>N<>Either CashOrderQty or OrderQty is required.  Should be the "Total Intended Order Quantity" (including the amount already executed for this chain of orders)
+152<>CashOrderQty<>N<>Either CashOrderQty or OrderQty is required.  Specifies the approximate "dollar quantity" for the order.  Broker is responsible for converting and calculating OrderQty in shares for subsequent messages.
+40<>OrdType<>Y
+44<>Price<>N<>Required for limit OrdTypes. For F/X orders, should be the "all-in" rate (spot rate adjusted for forward points). Can be used to specify a limit price for a pegged order, previously indicated, etc.
+99<>StopPx<>N<>Required for OrdType = "Stop" or OrdType = "Stop limit".
+211<>PegDifference<>N
+15<>Currency<>N<>Message without currency field is interpreted as US dollars.  Must match original order.
+59<>TimeInForce<>N<>Absence of this field indicates Day order
+126<>ExpireTime<>N<>Required if TimeInForce = GTD
+12<>Commission<>N
+13<>CommType<>N
+47<>Rule80A<>N<>Must match original order
+121<>ForexReq<>N<>Indicates that broker is requested to execute a Forex accommodation trade in conjunction with the security trade.  
+120<>SettlCurrency<>N<>Required if ForexReq = Y.
+58<>Text<>N
+193<>FutSettDate2<>N<>Can be used with OrdType = "Forex - Swap" to specify the "value date" for the future portion of a F/X swap.
+192<>OrderQty2<>N<>Can be used with OrdType = "Forex - Swap" to specify the order quantity  for the future portion of a F/X swap.
+77<>OpenClose<>N<>For options
+203<>CoveredOrUncovered<>N<>For options
+204<>CustomerOrFirm<>N<>For options when delivering the order to execution system/exchange.
+210<>MaxShow<>N
+114<>LocateReqd<>N
+<Me>
+<M>Order Cancel Request (MsgType F)
+The order cancel request message requests the cancellation of all of the remaining quantity of an existing order.  Note that the Order Cancel/Replace Request should be used to partially cancel (reduce) an order.
+The request will only be accepted if the order can successfully be pulled back from the exchange floor without executing.
+A cancel request is assigned a ClOrdID and is treated as a separate entity.  If rejected, the ClOrdID of the cancel request will be sent in the Cancel Reject message, as well as the ClOrdID of the actual order in the OrigClOrdID field.  The ClOrdID assigned to the cancel request must be unique amongst the ClOrdID assigned to regular orders and replacement orders.
+<T>
+41<>OrigClOrdID<>Y<>ClOrdID of the previous order (NOT the initial order of the day) when canceling or replacing an order.
+37<>OrderID<>N<>Unique identifier of most recent order as assigned by broker.
+11<>ClOrdID<>Y<>Unique ID of cancel request as assigned by the institution.
+66<>ListID<>N<>Required for List Orders
+109<>ClientID<>N<>Used for firm identification in third-party transactions.
+76<>ExecBroker<>N<>Used for firm identification in third-party transactions.
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+54<>Side<>Y
+38<>OrderQty<>N<>Either CashOrderQty or OrderQty is required.    OrderQty = CumQty + LeavesQty (see exceptions above)
+152<>CashOrderQty<>N<>Either CashOrderQty or OrderQty is required.  Specifies the approximate "dollar quantity" for the order.  Broker is responsible for converting and calculating OrderQty in shares for subsequent messages.
+58<>Text<>N
+<Me>
+<M>Order Cancel Reject (MsgType 9)
+The order cancel reject message is issued by the broker upon receipt of a cancel request or cancel/replace request message which cannot be honored.  Requests to change price or decrease quantity are executed only when an outstanding quantity exists.  Filled orders cannot be changed (i.e quantity reduced or price change. However, the broker/sellside may support increasing the order quantity on a currently filled order).
+When rejecting a Cancel/Replace Request, the Cancel Reject message should provide the ClOrdID and OrigClOrdID values which were specified on the Cancel/Replace Request message for identification
+The execution message responds to accepted cancel request and cancel/replace request messages.
+<T>
+37<>OrderID<>Y
+198<>SecondaryOrderID<>N<>Can be used to provide order id used by exchange or executing system.
+11<>ClOrdID<>Y<>Unique order id assigned by institution to the cancel request or to the replacement order.
+41<>OrigClOrdID<>Y<>ClOrdID which could not be canceled/replaced. ClOrdID of the previous order (NOT the initial order of the day) when canceling or replacing an order.
+39<>OrdStatus<>Y<>OrdStatus value after this cancel reject is applied.
+109<>ClientID<>N<>Used for firm identification in third-party transactions.
+76<>ExecBroker<>N<>Used for firm identification in third-party transactions.
+66<>ListID<>N<>Required for rejects against orders which were submitted as part of a list.
+102<>CxlRejReason<>N
+58<>Text<>N
+<Me>
+<M>Order Status Request (MsgType H)
+The order status request message is used by the institution to generate an order status message back from the broker.
+<T>
+37<>OrderID<>N
+11<>ClOrdID<>Y
+109<>ClientID<>N<>Used for firm identification in third-party transactions.
+76<>ExecBroker<>N<>Used for firm identification in third-party transactions.
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+54<>Side<>Y
+<Me>
+<M>Allocation (Msg Type J)
+The allocation record instructs a broker on how to allocate executed shares to sub-accounts.  The allocation record can also be used as a confirmation message through which third parties can communicate execution and settlement details between trading partners. In addition, the allocation record can be sent by the broker to communicate fees and other details which can only be computed once the sub-account breakdowns are known.
+An allocation message can be submitted as preliminary, calculated, new, cancel or replace.  The AllocTransType field indicates the purpose of the message.  When submitting calculated, replace, or cancel AllocTransType messages the RefAllocID field is required.  Replacement allocation messages must contain all data for the replacement allocation. Calculated allocations should have a unique AllocID and use RefAllocID to specify the AllocID from the preliminary.
+The allocation record contains repeating fields for each order, sub-account and individual execution.  The field's relative position in the record is important.  For example, each instance of allocation must be in the order shown below.  
+*  The total shares allocated must equal the Shares value which must equal the total executed quantity of the original order.  If present, the total shares in the execution section must also be equal to this value.
+*  The number of sub-account instances is indicated in NoAllocs.
+*  Multiple orders can be combined for allocation by identifying the number of orders in the NoOrders field and each individual order in the OrderID fields.  Combined orders must have the same ticker, trade date, settlement date and side.
+
+The typical flow for US domestic trading (without MiscFees) is as follows:
+("-->" means from Institution to Broker; "<--" means from Broker to Institution)
+  
+--> Allocation
+(AllocTransTyp=New)
+        
+<-- AllocationACK
+(AllocStatus=Received Not Yet Processed)
+
+<-- AllocationACK
+(AllocStatus=Accepted or Rejected)
+
+--> Settlement Instructions (optional*)
+(SettlInstSource=Institution's)
+
+<-- Settlement Instructions (optional*)
+(SettlInstSource=Broker's)
+
+
+The typical flow for international trading (with MiscFees) is as follows:
+("-->" means from Institution to Broker; "<--" means from Broker to Institution)
+
+--> Allocation
+(AllocTransTyp=Preliminary,
+AllocAccounts provided without MiscFees or NetMoney)
+
+
+<-- AllocationACK
+(AllocStatus=Received Not Yet Processed)
+
+<-- Allocation
+(AllocTransTyp=Calculated,
+MiscFees and NetMoney provided by AllocAccount)
+
+--> AllocationACK
+(AllocStatus=Received Not Yet Processed)
+
+--> AllocationACK
+(AllocStatus=Accepted or Rejected)
+
+--> Settlement Instructions (optional*)
+(SettlInstSource=Institution's)
+
+<-- Settlement Instructions (optional*)
+(SettlInstSource=Broker's)
+
+*Settlement Instructions may occur anywhere in the flow and may represent standing instructions.
+<T>
+70<>AllocID<>Y
+71<>AllocTransType<>Y
+72<>RefAllocID<>N<>Required for AllocTransType = Calculated, Replace, or Cancel
+196<>AllocLinkID<>N<>Can be used to link two different Allocation messages (each with unique AllocID) together, i.e. for F/X "Netting" or "Swaps"
+197<>AllocLinkType<>N<>Can be used to link two different Allocation messages and identifies the type of link.  Required if AllocLinkID is specified.
+73<>NoOrders<>Y<>Indicates number of orders to be combined for allocation.  If order(s) were manually delivered set to 1 (one).  Not required for AllocTransTyp=Cancel
+11<>ClOrdID<>Y<>Order ID assigned by client if order(s) were electronically delivered and executed.  If order(s) were manually delivered this field should contain string "MANUAL".  Not required for AllocTransTyp=Cancel
+37<>OrderID<>N
+198<>SecondaryOrder ID<>N<>Can be used to provide order id used by exchange or executing system.
+66<>ListID<>N<>Required for List Orders.  
+105<>WaveNo<>N
+124<>NoExecs<>N<>Indicates number of individual execution record groups to follow.  Absence of this field indicates that no individual execution records are included. Primarily used to support step-outs.
+17<>ExecID<>N
+32<>LastShares<>N<>Number of shares in individual execution.  Required if NoExecs is greater than 0
+31<>LastPx<>N<>Price of individual execution.  Required if NoExecs is greater than 0
+29<>LastCapacity<>N<>Can be specified by broker for AllocTransTyp=Calculated
+54<>Side<>Y
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+53<>Shares<>Y<>Total number of shares allocated to all accounts
+30<>LastMkt<>N<>Market of the executions. 
+6<>AvgPx<>Y<>For F/X orders, should be the "all-in" rate (spot rate adjusted for forward points).
+15<>Currency<>N<>Currency of AvgPx, absence of this field indicates US dollars.  Should be the currency of the local market or exchange where the trade was conducted.
+74<>AvgPrxPrecision<>N<>Absence of this field indicates that default precision arranged by the broker/institution is to be used
+75<>TradeDate<>Y
+60<>TransactTime<>N<>Date/time when allocation is generated
+63<>SettlmntTyp<>N<>Absence of this field is interpreted as Regular
+64<>FutSettDate<>N<>Required with SettlmntTyp other than regular
+118<>NetMoney<>N<>Expressed in same currency as AvgPx. Sum of AllocNetMoney.
+77<>OpenClose<>N
+58<>Text<>N
+157<>NumDaysInterest<>N<>Applicable for Convertible Bonds and fixed income
+158<>AccruedInterestRate<>N<>Applicable for Convertible Bonds and fixed income
+78<>NoAllocs<>Y<>Indicates number of allocation groups to follow.  Not required for AllocTransTyp=Cancel
+79<>AllocAccount<>Y<>May be the same value as BrokerOfCredit if ProcessCode is step-out or soft-dollar step-out and Institution does not wish to disclose individual account breakdowns to the ExecBroker.  Not required for AllocTransTyp=Cancel
+80<>AllocShares<>Y
+81<>ProcessCode<>N
+92<>BrokerOfCredit<>N<>Required if ProcessCode is step-out or soft-dollar step-out
+208<>NotifyBrokerOfCredit<>N
+209<>AllocHandlInst<>N
+161<>AllocText<>N<>Free format text field related to this AllocAccount
+76<>ExecBroker<>N<>Required for step-in and step-out trades
+109<>ClientID<>N<>Used for firm identification in third-party transactions.
+12<>Commission<>N
+13<>CommType<>N
+153<>AllocAvgPx<>N<>AvgPx for this AllocAccount. For F/X orders, should be the "all-in" rate (spot rate adjusted for forward points) for this allocation.
+154<>AllocNetMoney<>N<>NetMoney for this AllocAccount ((AllocShares * AllocAvgPx) - Commission - sum of MiscFeeAmt - AccruedInterestAmt) if a Sell ((AllocShares * AllocAvgPx) + Commission + sum of MiscFeeAmt + AccruedInterestAmt) if a Buy
+119<>SettlCurrAmount<>N<>AllocNetMoney in SettlCurrency for this AllocAccount if SettlCurrency is different from "overall" Currency
+120<>SettlCurrency<>N<>SettlCurrency for this AllocAccount if different from "overall" Currency.  Required if SettlCurrAmount is specified.
+155<>SettlCurrFxRate<>N<>Foreign exchange rate used to compute SettlCurrAmount from Currency to SettlCurrency
+156<>SettlCurrFxRateCalc<>N<>Specifies whether the SettlCurrFxRate should be multiplied or divided
+159<>AccruedInterestAmt<>N<>Applicable for Convertible Bonds and fixed income
+160<>SettlInstMode<>N<>Type of Settlement Instructions which will be provided via Settlement Instructions message (1=Standing Instructions, 2=Specific Allocation Account Overriding, 3=Specific Allocation Account Standing)
+136<>NoMiscFees<>N<>Required if any miscellaneous fees are reported. Indicates number of repeating entries. Repeating group within Alloc repeating group.
+137<>MiscFeeAmt<>N<>Required if NoMiscFees is greater than 0
+138<>MiscFeeCurr<>N<>Required if NoMiscFees is greater than 0
+139<>MiscFeeType<>N<>Required if NoMiscFees is greater than 0
+<Me>
+<M>Allocation ACK (MsgType P)
+The allocation ACK record is used by the broker to acknowledge the receipt and status of an allocation record received from the institution.
+It is possible that multiple Allocation ACK messages can be generated for a single allocation to detail the receipt and then the acceptance or rejection of the allocation.
+<T>
+109<>ClientID<>N<>Used for firm identification in third-party transactions.
+76<>ExecBroker<>N<>Used for firm identification in third-party transactions.
+70<>AllocID<>Y
+75<>TradeDate<>Y
+60<>TransactTime<>N<>Date/Time AllocationACK generated
+87<>AllocStatus<>Y
+88<>AllocRejCode<>N<>Required for AllocStatus = 1 (rejected)
+58<>Text<>N<>Can include explanation for AllocRejCode = 7 (other)
+<Me>
+<M>Settlement Instructions (MsgType T)
+The Settlement Instructions message provides either the broker's or the institution's instructions for trade settlement.  The SettlInstSource field indicates if the settlement instructions are the broker's or the institution's.  This message has been designed so that it can be sent from the broker to the institution, from the institution to the broker, or from either to an independent "standing instructions" database or matching system.
+
+The Settlement Instructions message can be used in one of two modes (SettlInstMode):
+1)  To provide "standing instructions" for the settlement of trades occurring in the future, messages should include some combination of.
+*  AllocAccount
+*  LastMkt
+*  Side
+*  SecurityType
+*  SettlLocation
+*  SettlDeliveryType
+*  EffectiveTime
+2)  To provide settlement instructions for a specific Allocation Account either as overriding or standing instructions to support matching.  The following key should be used to tie the settlement instructions to the corresponding Allocation message.
+(TradeDate + AllocID + AllocAccount)
+
+The Settlement Instruction detail can be either explicitly specified (via SecuritySettl* and CashSettl* fields) or can exist on within an independent standing instructions database and can be referenced via the StandInstDbType, StandInstDbName, and StandInstDbID fields. 
+<T>
+162<>SettlInstID<>Y<>Unique message ID regardless of SettlInstMode
+163<>SettlInstTransType<>Y<>New, Replace, or Cancel
+160<>SettlInstMode<>Y<>1=Standing Instructions, 2=Specific Allocation Account Overriding, 3=Specific Allocation Account Standing
+165<>SettlInstSource<>Y<>1=Broker's Settlement Instructions, 2=Institution's Settlement Instructions
+79<>AllocAccount<>Y<>Required for SettlInstMode=1, 2, or 3
+166<>SettlLocation<>N<>Required for SettlInstMode=2 or 3, may be required for SettlInstMode=1 (i.e. may not be required if StandInstDbType and StandInstDbID are used)
+75<>TradeDate<>N<>Required for SettlInstMode=2 or 3
+70<>AllocID<>N<>Required for SettlInstMode=2 or 3
+30<>LastMkt<>N<>Required for SettlInstMode=2 or 3, May be required for SettlInstMode=1
+54<>Side<>N<>Required for SettlInstMode=2 or 3, May be required for SettlInstMode=1
+167<>SecurityType<>N<>May be required for SettlInstMode=1
+168<>EffectiveTime<>N<>May be required for SettlInstMode=1 (timestamp when it goes in to effect)
+60<>TransactTime<>Y<>Date/Time Settlement Instructions were generated
+109<>ClientID<>N<>Used for firm identification in third-party transactions.
+76<>ExecBroker<>N<>Used for firm identification in third-party transactions.
+169<>StandInstDbType<>N<>1=DTC SID, 2=Thomson ALERT, 3=Global Custodian's, etc.
+170<>StandInstDbName<>N<>Name of StandInstDbType (i.e. DTC, Global Custodian's name)
+171<>StandInstDbID<>N<>Identifier used within the StandInstDbType
+172<>SettlDeliveryType<>N
+173<>SettlDepositoryCode<>N<>Applicable when SettlLocation is a depository
+174<>SettlBrkrCode<>N
+175<>SettlInstCode<>N
+176<>SecuritySettlAgentName<>N<>Applicable when settlement is being performed at a country vs. a depository
+177<>SecuritySettlAgentCode<>N<>Applicable when settlement is being performed at a country vs. a depository
+178<>SecuritySettlAgentAcctNum<>N<>Applicable when settlement is being performed at a country vs. a depository
+179<>SecuritySettlAgentAcctName<>N<>Applicable when settlement is being performed at a country vs. a depository
+180<>SecuritySettlAgentContactName<>N<>Applicable when settlement is being performed at a country vs. a depository
+181<>SecuritySettlAgentContactPhone<>N<>Applicable when settlement is being performed at a country vs. a depository
+182<>CashSettlAgentName<>N<>Applicable when SettlDeliveryType=Free
+183<>CashSettlAgentCode<>N<>Applicable when SettlDeliveryType=Free
+184<>CashSettlAgentAcctNum<>N<>Applicable when SettlDeliveryType=Free
+185<>CashSettlAgentAcctName<>N<>Applicable when SettlDeliveryType=Free
+186<>CashSettlAgentContactName<>N<>Applicable when SettlDeliveryType=Free
+187<>CashSettlAgentContactPhone<>N<>Applicable when SettlDeliveryType=Free
+<Me>
+<M>New Order List (MsgType E) 
+The new order list message type is used by institutions wishing to electronically submit lists of related orders to a broker for execution.  
+The New Order List is intended for use in staging lists to be executed by the broker.  If the institution wishes to work a list using the broker's execution services, the orders should be submitted as individual New Order - Single's.
+After staging, the list can be operated on in the following ways:
+Execute:  The broker can be instructed to release the list for execution by sending the List Execute message.
+Cancel :  After the list has been staged with the broker, it can be canceled via the submission of the List Cancel message.  If the list has not yet been submitted for execution, the List Cancel message will instruct the broker not to execute it, if the list is being executed, the List Cancel message should trigger the broker's system to generate cancel requests for the remaining quantities of each order within the list.  Individual orders within the list can be canceled via the Order Cancel Request message.
+Status :  A status of the list can be requested via the submission of the List Status Request message.  The broker will respond with one or more List Status messages which will report executed quantity, canceled quantity and average price for each order in the list.
+Replace:  Individual orders within the list can be replaced via Order Cancel/Replace Request messages. 
+Executions against orders within the list will not normally be reported as they occur.  (If this feature is desired the institution and broker should arrange for this reporting as a custom feature using the Execution message.)  Executions against the list will be reported within the List Status message. 
+<T>
+66<>ListID<>Y<>Must be unique, by customer, for the day
+105<>WaveNo<>N
+67<>ListSeqNo<>Y
+68<>ListNoOrds<>Y
+69<>ListExecInst<>N<>Include only in ListSeqNo = 1 message
+11<>ClOrdID<>Y<>Unique identifier of the order as assigned by institution.
+109<>ClientID<>N<>Used for third-party transactions
+76<>ExecBroker<>N<>Used for third-party transactions
+1<>Account<>N
+63<>SettlmntTyp<>N<>Absence of this field is interpreted as Regular.
+64<>FutSettDate<>N<>Required when SettlmntTyp = 6 (Future) or SettlmntTyp = 8 (Sellers Option)
+21<>HandlInst<>Y
+18<>ExecInst<>N<>Can contain multiple instructions, space delimited.
+110<>MinQty<>N
+111<>MaxFloor<>N
+100<>ExDestination<>N
+81<>ProcessCode<>N
+55<>Symbol<>Y
+65<>SymbolSfx<>N
+48<>SecurityID<>N
+22<>IDSource<>N
+167<>SecurityType<>N<>Must be specified if a Future or Option.  If a Future: Symbol, SecurityType, and MaturityMonthYear are required.  If an Option: Symbol, SecurityType, MaturityMonthYear, PutOrCall, and StrikePrice are required.
+200<>MaturityMonthYear<>N<>For Options or Futures to specify the month and year of maturity.
+205<>MaturityDay<>N<>For Options or Futures and can be used in conjunction with MaturityMonthYear to specify a particular maturity date.
+201<>PutOrCall<>N<>For Options.
+202<>StrikePrice<>N<>For Options.
+206<>OptAttribute<>N<>For Options.
+207<>SecurityExchange<>N<>Can be used to identify the security.
+106<>Issuer<>N
+107<>SecurityDesc<>N
+140<>PrevClosePx<>N<>Useful for verifying security identification
+54<>Side<>Y
+114<>LocateReqd<>N<>Required for short sell orders
+38<>OrderQty<>Y
+40<>OrdType<>Y
+44<>Price<>N<>Required for limit OrdTypes. For F/X orders, should be the "all-in" rate (spot rate adjusted for forward points). Can be used to specify a limit price for a pegged order, previously indicated, etc.
+99<>StopPx<>N<>Required for OrdType = "Stop" or OrdType = "Stop limit".
+211<>PegDifference<>N
+15<>Currency<>N<>Message without currency field is interpreted as US dollars
+59<>TimeInForce<>N<>Absence of this field indicates Day order
+126<>ExpireTime<>N<>Required in TimeInForce = GTD
+12<>Commission<>N
+13<>CommType<>N
+47<>Rule80A<>N
+121<>ForexReq<>N<>Indicates that broker is requested to execute a Forex accommodation trade in conjunction with the security trade.
+120<>SettlCurrency<>N<>Required if ForexReq = Y.
+58<>Text<>N
+193<>FutSettDate2<>N<>Can be used with OrdType = "Forex - Swap" to specify the "value date" for the future portion of a F/X swap.
+192<>OrderQty2<>N<>Can be used with OrdType = "Forex - Swap" to specify the order quantity  for the future portion of a F/X swap.
+77<>OpenClose<>N<>For options
+203<>CoveredOrUncovered<>N<>For options
+204<>CustomerOrFirm<>N<>For options when delivering the order to execution system/exchange.
+210<>MaxShow<>N
+<Me>
+<M>List Status (MsgType N)
+The list status message is issued as the response to a List Status Request message and indicates the current state of the orders within the list as they exists at the broker's site.
+Orders within the list are statused at the summary level.  Individual executions are not reported, rather, the current state of the order is reported.  
+The message contains repeating fields for each order.  The relative position of the repeating fields is important in this record,  i.e. each instance of ClOrdID, CumQty, LeavesQty, CxlQty and AvgPx must be in the order shown below.  
+Each list status message will report on only a maximum of 50 orders; if the list contains more than 50 orders multiple status messages will be required.
+<T>
+66<>ListID<>Y
+105<>WaveNo<>N
+82<>NoRpts<>Y<>Total number of messages required to status complete list.
+83<>RptSeq<>Y<>Sequence number of this report message.
+73<>NoOrders<>Y<>Number of orders statused in this message, i.e. number of repeating groups to follow.
+11<>ClOrdID<>Y
+14<>CumQty<>Y
+151<>LeavesQty<>Y<>Amount of shares open for further execution. LeavesQty = OrderQty - CumQty.
+84<>CxlQty<>Y
+6<>AvgPx<>Y
+<Me>
+<M>List Execute (MsgType L)
+The list execute message type is used by institutions to instruct the broker to begin execution of a previously submitted list.  
+<T>
+66<>ListID<>Y<>Must be unique, by customer, for the day
+105<>WaveNo<>N
+58<>Text<>N
+<Me>
+<M>List Cancel Request (MsgType K)
+The list cancel request message type is used by institutions wishing to cancel previously submitted lists either before or during execution.  
+After the list has been staged with the broker, it can be canceled via the submission of the List Cancel message.  If the list has not yet been submitted for execution, the List Cancel message will instruct the broker not to execute it, if the list is being executed, the List Cancel message should trigger the broker's system to generate cancel requests for the remaining quantities of each order within the list.  Individual orders within the list can be canceled via the Order Cancel Request message.
+<T>
+66<>ListID<>Y
+105<>WaveNo<>N
+58<>Text<>N
+<Me>
+<M>List Status Request (MsgType M)
+The list status request message type is used by institutions to instruct the broker to generate status messages for a list.  
+<T>
+66<>ListID<>Y
+105<>WaveNo<>N
+58<>Text<>N
+<Me>
+<FT>
+1<>Account<>char
+<F>
+Account mnemonic as agreed between broker and institution.
+<Fe>
+2<>AdvId<>char
+<F>
+Unique identifier of advertisement message.  
+(Prior to FIX 4.1 this field was of type int)
+<Fe>
+3<>AdvRefID<>char
+<F>
+Reference identifier used with CANCEL and REPLACE transaction types.
+(Prior to FIX 4.1 this field was of type int)
+<Fe>
+4<>AdvSide<>char
+<F>
+Broker's side of advertised trade
+Valid values: 
+B = Buy 
+S = Sell
+X = Cross
+T = Trade
+<Fe>
+5<>AdvTransType<>char
+<F>
+Identifies advertisement message transaction type
+Valid values:  
+N = New
+C = Cancel
+R = Replace 
+<Fe>
+6<>AvgPx<>float
+<F>
+Calculated average price of all fills on this order. 
+Valid values:  
+0 - 99999999.9999
+<Fe>
+7<>BeginSeqNo<>int
+<F>
+Message sequence number of first record in range to be resent
+<Fe>
+8<>BeginString<>char
+<F>
+Identifies beginning of new message and protocol version.  ALWAYS THE FIRST FIELD IN MESSAGE. (Always unencrypted)
+Valid values:
+  FIX.4.1
+<Fe>
+9<>BodyLength<>int
+<F>
+Message length, in bytes, forward to the CheckSum field.  ALWAYS THE SECOND FIELD IN MESSAGE. (Always unencrypted)
+Valid values:   
+0 - 9999
+<Fe>
+10<>CheckSum<>char
+<F>
+Three byte, simple checksum  (see Appendix B for description).  ALWAYS THE LAST FIELD IN RECORD; i.e. serves, with the trailing <SOH>, as the end-of-record delimiter.  Always defined as three characters. (Always unencrypted)
+<Fe>
+11<>ClOrdID<>char
+<F>
+Unique identifier for Order as assigned by institution.  Uniqueness must be guaranteed within a single trading day.  Firms which electronically submit multi-day orders should consider embedding a date within the ClOrdID field to assure uniqueness across days.
+<Fe>
+12<>Commission<>float
+<F>
+Commission.  Note if CommType is percentage, Commission of 5% should be represented as .05.
+<Fe>
+13<>CommType<>char
+<F>
+Commission type
+Valid values:
+1 = per share
+2 = percentage
+3 = absolute
+<Fe>
+14<>CumQty<>int
+<F>
+Total number of shares filled.
+Valid values:
+(0 - 1000000000)
+<Fe>
+15<>Currency<>char
+<F>
+Identifies currency used for price,  Absence of this field in a message is interpreted as US dollars.  See Appendix A for information on obtaining valid values. 
+<Fe>
+16<>EndSeqNo<>int
+<F>
+Message sequence number of last record in range to be resent.  If request is for a single record BeginSeqNo = EndSeqNo.  If request is for all messages subsequent to a particular message, EndSeqNo = "999999"
+<Fe>
+17<>ExecID<>char
+<F>
+Unique identifier of execution message as assigned by broker (will be 0 (zero) for ExecTransType=3 (Status)).  
+Uniqueness must be guaranteed within a single trading day or the life of a multi-day order.  Firms which accept multi-day orders should consider embedding a date within the ExecID field to assure uniqueness across days.
+(Prior to FIX 4.1 this field was of type int)
+<Fe>
+18<>ExecInst<>char
+<F>
+Instructions for order handling on exchange trading floor.  If more than one instruction is applicable to an order, this field can contain multiple instructions separated by space.
+Valid values:
+1 = Not held
+2 = Work
+3 = Go along
+4 = Over the day
+5 = Held
+6 = Participate don't initiate
+7 = Strict scale
+8 = Try to scale
+9 = Stay on bidside
+0 = Stay on offerside
+A = No cross
+B = OK to cross
+C = Call first
+D = Percent of volume
+E = Do not increase - DNI
+F = Do not reduce - DNR
+G = All or none - AON
+I = Institutions only
+L = Last peg (last sale)
+M = Mid-price peg (midprice of inside quote)
+N = Non-negotiable
+O = Opening peg
+P = Market peg
+R = Primary peg (primary market - buy at bid/sell at offer)
+S = Suspend
+U = Customer Display Instruction (Rule11Ac1-1/4)
+V = Netting (for Forex)
+<Fe>
+19<>ExecRefID<>char
+<F>
+Reference identifier used with Cancel and Correct transaction types.
+(Prior to FIX 4.1 this field was of type int)
+<Fe>
+20<>ExecTransType<>char
+<F>
+Identifies transaction type
+Valid values:  
+0 = New 
+1 = Cancel
+2 = Correct
+3 = Status
+<Fe>
+21<>HandlInst<>char
+<F>
+Instructions for order handling on Broker trading floor
+Valid values:
+1 = Automated execution order, private, no Broker intervention
+2 = Automated execution order, public, Broker intervention OK
+3 = Manual order, best execution
+<Fe>
+22<>IDSource<>char
+<F>
+Identifies class of alternative SecurityID
+Valid values:
+1 = CUSIP
+2 = SEDOL
+3 = QUIK
+4 = ISIN number
+5 = RIC code
+6 = ISO Currency Code
+7 = ISO Country Code
+100+ are reserved for private security identifications
+<Fe>
+23<>IOIid<>char
+<F>
+Unique identifier of IOI message.
+(Prior to FIX 4.1 this field was of type int)
+<Fe>
+24<>IOIOthSvc<>char
+<F>
+Indicates if, and on which other services, the indication has been advertised.  Each character represents an additional service (e.g. if on Bridge and Autex, field = BA, if only on Autex, field = A)
+Valid values:
+A = Autex
+B = Bridge
+<Fe>
+25<>IOIQltyInd<>char
+<F>
+Relative quality of indication
+Valid values:
+L = Low
+M = Medium
+H = High
+<Fe>
+26<>IOIRefID<>char
+<F>
+Reference identifier used with CANCEL and REPLACE, transaction types.
+(Prior to FIX 4.1 this field was of type int)
+<Fe>
+27<>IOIShares<>char
+<F>
+Number of shares in numeric or relative size.
+Valid values:
+0 - 1000000000
+S = Small
+M = Medium
+L = Large
+<Fe>
+28<>IOITransType<>char
+<F>
+Identifies IOI message transaction type
+Valid values:  
+N = New
+C = Cancel
+R = Replace 
+<Fe>
+29<>LastCapacity<>char
+<F>
+Broker capacity in order execution
+Valid values:  
+1 = Agent
+2 = Cross as agent
+3 = Cross as principal
+4 = Principal
+<Fe>
+30<>LastMkt<>char
+<F>
+Market of execution for last fill  
+Valid values:  
+See Appendix C
+<Fe>
+31<>LastPx<>float
+<F>
+Price of last fill.  Field not required for ExecTransType = 3 (Status)
+Valid values:  
+0 - 99999999.9999
+<Fe>
+32<>LastShares<>int
+<F>
+Quantity of shares bought/sold on this fill. Field not required for ExecTransType = 3 (Status)
+Valid values:
+(0 - 1000000000)
+<Fe>
+33<>LinesOfText<>int
+<F>
+Identifies number of lines of text body
+<Fe>
+34<>MsgSeqNum<>int
+<F>
+Integer message sequence number.   
+Valid values:  
+0 - 999999
+<Fe>
+35<>MsgType<>char
+<F>
+Defines message type.    ALWAYS THE THIRD FIELD IN MESSAGE. (Always unencrypted)
+Note: A "U" as the first character in the MsgType field (i.e. U1, U2, etc) indicates that the  message format is privately defined between the sender and receiver.
+Valid values:
+0 = Heartbeat
+1 = Test Request
+2 = Resend Request
+3 = Reject
+4 = Sequence Reset
+5 = Logout
+6 = Indication of Interest
+7 = Advertisement
+8 = Execution Report
+9 = Order Cancel Reject
+A = Logon
+B = News
+C = Email
+D = Order - Single
+E = Order - List
+F = Order Cancel Request
+G = Order Cancel/Replace Request
+H = Order Status Request
+J = Allocation
+K = List Cancel Request
+L = List Execute
+M = List Status Request
+N = List Status
+P = Allocation ACK
+Q = Don't Know Trade (DK)
+R = Quote Request
+S = Quote
+T = Settlement Instructions
+<Fe>
+36<>NewSeqNo<>int
+<F>
+New sequence number
+Valid values:  
+0 - 999999
+<Fe>
+37<>OrderID<>char
+<F>
+Unique identifier for Order as assigned by broker.  Uniqueness must be guaranteed within a single trading day.  Firms which accept multi-day orders should consider embedding a date within the OrderID field to assure uniqueness across days.
+<Fe>
+38<>OrderQty<>int
+<F>
+Number of shares ordered  
+Valid values: 
+(0 - 1000000000)
+<Fe>
+39<>OrdStatus<>char
+<F>
+Identifies current status of order.  
+Valid values: 
+0 = New
+1 = Partially filled
+2 = Filled
+3 = Done for day
+4 = Canceled
+5 = Replaced
+6 = Pending Cancel/Replace
+7 = Stopped
+8 = Rejected
+9 = Suspended
+A = Pending New
+B = Calculated
+C = Expired
+<Fe>
+40<>OrdType<>char
+<F>
+Order type.
+Valid values:  
+1 = Market
+2 = Limit
+3 = Stop
+4 = Stop limit
+5 = Market on close
+6 = With or without
+7 = Limit or better
+8 = Limit with or without
+9 = On basis
+A = On close
+B = Limit on close
+C = Forex - Market
+D = Previously quoted
+E = Previously indicated
+F = Forex - Limit
+G = Forex - Swap
+H = Forex - Previously Quoted
+P = Pegged (requires ExecInst = L, R, M, P or O)
+<Fe>
+41<>OrigClOrdID<>char
+<F>
+ClOrdID of the previous order (NOT the initial order of the day) as assigned by the institution, used to identify the previous order in cancel and cancel/replace requests.
+<Fe>
+42<>OrigTime<>time
+<F>
+Time of message origination (always expressed in GMT)
+<Fe>
+43<>PossDupFlag<>char
+<F>
+Indicates possible retransmission of message with this sequence number
+Valid values:
+Y = Possible duplicate
+N = Original transmission
+<Fe>
+44<>Price<>float
+<F>
+Price per share
+Valid values:  
+0 - 99999999.9999
+<Fe>
+45<>RefSeqNo<>int
+<F>
+Reference message sequence number 
+Valid values: 
+0 - 999999
+<Fe>
+46<>RelatdSym<>char
+<F>
+Symbol of issue related to story.  Can be repeated within message to identify multiple companies.
+<Fe>
+47<>Rule80A<>char
+<F>
+Indicates order type upon which exchange Rule 80A is applied.
+Valid values:
+A = Agency single order
+C = Program Order, non-index arb, for Member firm/org
+D = Program Order, index arb, for Member firm/org
+E = Registered Equity Market Maker trades
+I = Individual Investor, single order
+J = Program Order, index arb, for individual customer
+K = Program Order, non-index arb, for individual customer
+M = Program Order, index arb, for other member
+N = Program Order, non-index arb, for other member
+O = Competing dealer trades
+P = Principal
+R = Competing dealer trades
+S = Specialist trades
+T = Competing dealer trades
+U = Program Order, index arb, for other agency
+W = All other orders as agent for other member
+Y = Program Order, non-index arb, for other agency
+<Fe>
+48<>SecurityID<>char
+<F>
+CUSIP or other alternate security identifier
+<Fe>
+49<>SenderCompID<>char
+<F>
+Assigned value used to identify firm sending message.
+<Fe>
+50<>SenderSubID<>char
+<F>
+Assigned value used to identify specific message originator (desk, trader, etc.)
+<Fe>
+51<>SendingDate<>date
+<F>
+No longer used.  Included here for reference to prior versions.
+<Fe>
+52<>SendingTime<>time
+<F>
+Time of message transmission (always expressed in GMT)
+<Fe>
+53<>Shares<>int
+<F>
+Number of shares 
+Valid values:
+0 - 1000000000
+<Fe>
+54<>Side<>char
+<F>
+Side of order
+Valid values:
+1 = Buy
+2 = Sell
+3 = Buy minus
+4 = Sell plus
+5 = Sell short
+6 = Sell short exempt
+7 = Undisclosed (for IOIs)
+8 = Cross (orders where counterparty is an exchange)
+<Fe>
+55<>Symbol<>char
+<F>
+Ticker symbol  
+<Fe>
+56<>TargetCompID<>char
+<F>
+Assigned value used to identify receiving firm.
+<Fe>
+57<>TargetSubID<>char
+<F>
+Assigned value used to identify specific individual or unit intended to receive message.  "ADMIN" reserved for administrative messages not intended for a specific user.
+<Fe>
+58<>Text<>char
+<F>
+Free format text string
+(Note: this field does not have a specified maximum length)
+<Fe>
+59<>TimeInForce<>char
+<F>
+Specifies how long the order remains in effect.  Absence of this field is interpreted as DAY.
+Valid values:  
+0 = Day
+1 = Good Till Cancel  (GTC)
+2 = At the Opening  (OPG)
+3 = Immediate or Cancel  (OC)
+4 = Fill or Kill  (FOK)
+5 = Good Till Crossing  (GTX)
+6 = Good Till Date 
+<Fe>
+60<>TransactTime<>time
+<F>
+Time of execution/order creation (expressed in GMT)
+<Fe>   
+61<>Urgency<>char
+<F>
+Urgency flag
+Valid values:  
+0 = Normal
+1 = Flash
+2 = Background
+<Fe>
+62<>ValidUntilTime<>time
+<F>
+Indicates expiration time of indication message (always expressed in GMT)
+<Fe>
+63<>SettlmntTyp<>char
+<F>
+Indicates order settlement period.  Absence of this field is interpreted as Regular.  Regular is defined as the default settlement period for the particular security on the exchange of execution.
+Valid values:
+0 = Regular
+1 = Cash
+2 = Next Day
+3 = T+2
+4 = T+3
+5 = T+4
+6 = Future
+7 = When Issued
+8 = Sellers Option
+9 = T+5
+<Fe>
+64<>FutSettDate<>date
+<F>
+Specific date of trade settlement in YYYYMMDD format.  Required when SettlmntTyp = 6 (Future) or SettlmntTyp = 8 (Sellers Option).  (expressed in local time at place of settlement)
+<Fe>
+65<>SymbolSfx<>char
+<F>
+Additional information about the security (e.g. preferred, warrants, etc.).  Absence of this field indicates common.
+Valid values:
+  As defined in the NYSE Stock and bond Symbol Directory and in the AMEX Fitch Directory
+<Fe>
+66<>ListID<>char
+<F>
+Unique identifier for list as assigned by institution, used to associate multiple individual orders.  Uniqueness must be guaranteed within a single trading day.  Firms which generate multi-day orders should consider embedding a date within the ListID field to assure uniqueness across days.
+<Fe>
+67<>ListSeqNo<>int
+<F>
+Sequence of individual order within list (i.e. ListSeqNo of ListNoOrds, 2 of 25, 3 of 25,   . . . )
+<Fe>
+68<>ListNoOrds<>int
+<F>
+Total number of orders within list  (i.e. ListSeqNo of ListNoOrds, e.g.  2 of 25, 3 of 25,   . . . )
+<Fe>
+69<>ListExecInst<>char
+<F>
+Free format text message containing list handling and execution instructions.
+<Fe>
+70<>AllocID<>char
+<F>
+Unique identifier for allocation record.
+(Prior to FIX 4.1 this field was of type int)
+<Fe>
+71<>AllocTransType<>char
+<F>
+Identifies allocation transaction type
+Valid values:
+0 = New
+1 = Replace
+2 = Cancel
+3 = Preliminary (without MiscFees and NetMoney)
+4 = Calculated (includes MiscFees and NetMoney)
+<Fe>
+72<>RefAllocID<>char
+<F>
+Reference identifier to be used with Replace and Cancel AllocTransType records.
+(Prior to FIX 4.1 this field was of type int)
+<Fe>
+73<>NoOrders<>int
+<F>
+Indicates number of orders to be combined for average pricing and allocation.
+<Fe>
+74<>AvgPrxPrecision<>int
+<F>
+Indicates number of decimal places to be used for average pricing.  Absence of this field indicates that default precision arranged by the broker/institution is to be used.
+<Fe>
+75<>TradeDate<>date
+<F>
+Indicates date of trade referenced in this record in YYYYMMDD format.  Absence of this field indicates current day (expressed in local time at place of trade).
+<Fe>
+76<>ExecBroker<>char
+<F>
+Identifies executing/give-up broker.  Standard NASD market-maker mnemonic is preferred.
+<Fe>
+77<>OpenClose<>char
+<F>
+For options only.
+<Fe>
+78<>NoAllocs<>int
+<F>
+Number of AllocAccount/AllocShares/ProcessCode instances included in allocation record.
+<Fe>
+79<>AllocAccount<>char
+<F>
+Sub-account mnemonic
+<Fe>
+80<>AllocShares<>int
+<F>
+Number of shares to be allocated to specific sub-account 
+Valid values:
+(0 - 1000000000)
+<Fe>
+81<>ProcessCode<>char
+<F>
+Processing code for sub-account.  Absence of this field in AllocAccount / AllocShares / ProcessCode instance indicates regular trade.
+Valid values:
+0 = regular
+1 = soft dollar
+2 = step-in
+3 = step-out
+4 = soft-dollar step-in
+5 = soft-dollar step-out
+6 = plan sponsor 
+<Fe>
+82<>NoRpts<>int
+<F>
+Total number of reports within series.
+<Fe>
+83<>RptSeq<>int
+<F>
+Sequence number of message within report series.
+<Fe>
+84<>CxlQty<>int
+<F>
+Total number of shares canceled for this order. 
+Valid values:
+(0 - 1000000000)
+<Fe>
+85<>NoDlvyInst<>int
+<F>
+Number of delivery instruction fields to follow
+No longer used.  Included here for reference to prior versions.
+<Fe>
+86<>DlvyInst<>char
+<F>
+Free format text field to indicate delivery instructions
+No longer used.  Included here for reference to prior versions.
+<Fe>
+87<>AllocStatus<>int
+<F>
+Identifies status of allocation.
+Valid values:
+0 = accepted (successfully processed)
+1 = rejected
+2 = partial accept
+3 = received (received, not yet processed)
+<Fe>
+88<>AllocRejCode<>int
+<F>
+Identifies reason for rejection.
+Valid values:
+0 = unknown account(s)
+1 = incorrect quantity
+2 = incorrect average price
+3 = unknown executing broker mnemonic
+4 = commission difference
+5 = unknown OrderID
+6 = unknown ListID
+7 = other
+<Fe>
+89<>Signature<>data
+<F>
+Electronic signature
+<Fe>
+90<>SecureDataLen<>int
+<F>
+Length of encrypted message
+<Fe>
+91<>SecureData<>data
+<F>
+Actual encrypted data stream
+<Fe>
+92<>BrokerOfCredit<>char
+<F>
+Broker to receive trade credit 
+<Fe>
+93<>SignatureLength<>int
+<F>
+Number of bytes in signature field.
+<Fe>
+94<>EmailType<>char
+<F>
+Email message type.
+Valid values:
+0 = New
+1 = Reply
+2 = Admin Reply
+<Fe>
+95<>RawDataLength<>int
+<F>
+Number of bytes in raw data field.
+<Fe>
+96<>RawData<>data
+<F>
+Unformatted raw data, can include bitmaps, word processor documents, etc.
+<Fe>
+97<>PossResend<>char
+<F>
+Indicates that message may contain information that has been sent under another sequence number.
+<Fe>
+98<>EncryptMethod<>int
+<F>
+Method of encryption.
+Valid values:
+0 = None / other
+1 = PKCS (proprietary)
+2 = DES (ECB mode)
+3 = PKCS/DES (proprietary)
+4 = PGP/DES (defunct)
+5 = PGP/DES-MD5  (see app note on FIX web site)
+6 = PEM/DES-MD5  (see app note on FIX web site)
+<Fe>
+99<>StopPx<>float
+<F>
+Price per share
+Valid values:  
+0 - 99999999.9999
+<Fe>
+100<>ExDestination<>char
+<F>
+Execution destination as defined by institution when order is entered.
+Valid values:
+See Appendix C
+<Fe>
+102<>CxlRejReason<>int
+<F>
+Code to identify reason for cancel rejection.
+Valid values:
+0 = Too late to cancel
+1 = Unknown order
+<Fe>  
+103<>OrdRejReason<>int
+<F>
+Code to identify reason for order rejection.
+Valid values:
+0 = Broker option
+1 = Unknown symbol
+2 = Exchange closed
+3 = Order exceeds limit
+4 = Too late to enter
+5 = Unknown Order
+6 = Duplicate Order
+<Fe>
+104<>IOIQualifier<>char
+<F>
+Code to qualify IOI use.
+Valid values:
+X = Crossing opportunity
+O = At the open
+M = More behind
+P = Taking a position
+V = Versus
+Q = At the Market (previously called Current Quote)
+C = At the close
+S = Portfolio show-n
+I = In touch with
+W = Indication - Working away
+A = All or none
+L = Limit
+T = Through the day
+Y = At the Midpoint
+Z = Pre-open
+<Fe>
+105<>WaveNo<>char
+<F>
+Identifier to aid in the management of multiple lists derived from a single, master list.
+<Fe>
+106<>Issuer<>char
+<F>
+Company name of security issuer (e.g. International Business Machines) 
+<Fe>
+107<>SecurityDesc<>char
+<F>
+Security description. 
+<Fe>
+108<>HeartBtInt<>int
+<F>
+Heartbeat interval (seconds) 
+<Fe>
+109<>ClientID<>char
+<F>
+Firm identifier used in third party-transactions. 
+<Fe>
+110<>MinQty<>int
+<F>
+Minimum quantity of an order to be executed. 
+Valid values:
+(0 - 1000000000)
+<Fe>
+111<>MaxFloor<>int
+<F>
+Maximum number of shares within an order to be shown on the exchange floor at any given time. 
+<Fe>
+112<>TestReqID<>char
+<F>
+Identifier included in Test Request message to be returned in resulting Heartbeat
+<Fe>
+113<>ReportToExch<>char
+<F>
+Identifies party of trade responsible for exchange reporting.
+Valid values:
+Y = Indicates that party receiving message must report trade
+N = Indicates that party sending message will report trade
+<Fe>
+114<>LocateReqd<>char
+<F>
+Indicates whether the broker is to locate the stock in conjunction with a short sell order.
+Valid values:
+Y = Indicates the broker is responsible for locating the stock
+N = Indicates the broker is not required to locate
+<Fe>
+115<>OnBehalfOfCompID<>char
+<F>
+Assigned value used to identify firm originating message  
+if the message was delivered by a third party  i.e.   the third party firm identifier would be delivered in the SenderCompID field and the firm originating the message in this field.
+<Fe>
+116<>OnBehalfOfSubID<>char
+<F>
+Assigned value used to identify specific message originator (i.e. trader) if the message was delivered by a third party
+<Fe>
+117<>QuoteID<>char
+<F>
+Unique identifier for quote
+<Fe>
+118<>NetMoney<>float
+<F>
+Total amount due as the result of the transaction (e.g. for Buy order - principal + commission + fees) reported in currency of execution.
+<Fe>
+119<>SettlCurrAmt<>float
+<F>
+Total amount due expressed in settlement currency (includes the effect of the forex transaction)
+<Fe>
+120<>SettlCurrency<>char
+<F>
+Currency code of settlement denomination. 
+<Fe>
+121<>ForexReq<>char
+<F>
+Indicates request for forex accommodation trade to be executed along with security transaction.
+Valid values:
+Y = Execute Forex after security trade
+N = Do not execute Forex after security trade
+<Fe>
+122<>OrigSendingTime<>time
+<F>
+Original time of message transmission (always expressed in GMT) when transmitting orders as the result of a resend request.
+<Fe>
+123<>GapFillFlag<>char
+<F>
+Indicates that the Sequence Reset message is replacing administrative or application messages which will not be resent.
+Valid values:
+Y = Gap Fill message, MsgSeqNum field valid
+N = Sequence Reset, ignore MsgSeqNum
+<Fe>
+124<>NoExecs<>int
+<F>
+No of execution record groups to follow.
+<Fe>
+125<>CxlType<>char
+<F>
+No longer used.  Included here for reference to prior versions.
+<Fe>
+126<>ExpireTime<>time
+<F>
+Time/Date of order expiration (always expressed in GMT) 
+<Fe>
+127<>DKReason<>char
+<F>
+Reason for execution rejection.
+Valid values:
+A = Unknown symbol
+B = Wrong side
+C = Quantity exceeds order
+D = No matching order
+E = Price exceeds limit
+Z = Other
+<Fe>
+128<>DeliverToCompID<>char
+<F>
+Assigned value used to identify the firm targeted to receive the message if the message is delivered by a third party   i.e.  the third party firm identifier would be delivered in the TargetCompID field and the ultimate receiver firm ID in this field.
+<Fe>
+129<>DeliverToSubID<>char
+<F>
+Assigned value used to identify specific message recipient (i.e. trader) if the message is delivered by a third party
+<Fe>
+130<>IOINaturalFlag<>char
+<F>
+Indicates that IOI is the result of an existing agency order or a facilitation position resulting from an agency order, not from principal trading or order solicitation activity.
+Valid values:
+Y = Natural
+N = Not natural
+<Fe>
+131<>QuoteReqID<>char
+<F>
+Unique identifier for quote request
+<Fe>
+132<>BidPx<>float
+<F>
+Bid price/rate
+Valid values:  
+0 - 99999999.9999
+<Fe>
+133<>OfferPx<>float
+<F>
+Offer price/rate
+Valid values:  
+0 - 99999999.9999
+<Fe>
+134<>BidSize<>int
+<F>
+Quantity of bid
+Valid values:
+(0 - 1000000000)
+<Fe>
+135<>OfferSize<>int
+<F>
+Quantity of offer
+Valid values:
+(0 - 1000000000)
+<Fe>
+136<>NoMiscFees<>int
+<F>
+Number of repeating groups of miscellaneous fees
+<Fe>
+137<>MiscFeeAmt<>float
+<F>
+Miscellaneous fee value
+<Fe>
+138<>MiscFeeCurr<>char
+<F>
+Currency of miscellaneous fee
+<Fe>
+139<>MiscFeeType<>char
+<F>
+Indicates type of miscellaneous fee.
+Valid values:
+1 = Regulatory (e.g. SEC)
+2 = Tax
+3 = Local Commission
+4 = Exchange Fees
+5 = Stamp
+6 = Levy
+7 = Other
+8 = Markup
+<Fe>
+140<>PrevClosePx<>float
+<F>
+Previous closing price of security.
+Valid values:  
+0 - 99999999.9999
+<Fe>
+141<>ResetSeqNumFlag<>char
+<F>
+Indicates that the both sides of the FIX session should reset sequence numbers.
+Valid values:
+Y = Yes, reset sequence numbers
+N = No
+<Fe>
+142<>SenderLocationID<>char
+<F>
+Assigned value used to identify specific message originator's location (i.e. geographic location and/or desk, trader)
+<Fe>
+143<>TargetLocationID<>char
+<F>
+Assigned value used to identify specific message originator's location (i.e. geographic location and/or desk, trader)
+<Fe>
+144<>OnBehalfOfLocationID<>char
+<F>
+Assigned value used to identify specific message originator's location (i.e. geographic location and/or desk, trader) if the message was delivered by a third party
+<Fe>
+145<>DeliverToLocationID<>char
+<F>
+Assigned value used to identify specific message originator's location (i.e. geographic location and/or desk, trader) if the message was delivered by a third party
+<Fe>
+146<>NoRelatedSym<>int
+<F>
+Specifies the number of repeating symbols specified.
+<Fe>
+147<>Subject<>char
+<F>
+The subject of an Email message
+<Fe>
+148<>Headline<>char
+<F>
+The headline of a News message
+<Fe>
+149<>URLLink<>char
+<F>
+A URL (Uniform Resource Locator) link to additional information (i.e. http://www.XYZ.com/research.html)
+<Fe>
+150<>ExecType<>char
+<F>
+Describes the specific ExecutionRpt (i.e. Pending Cancel) while OrdStatus will always identify the current order status (i.e. Partially Filled)
+<Fe>
+151<>LeavesQty<>int
+<F>
+Amount of shares open for further execution. If the OrdStatus is Canceled, DoneForTheDay, Expired, Calculated, or Rejected (in which case the order is no longer active) then LeavesQty could be 0, otherwise LeavesQty = OrderQty - CumQty.
+Valid values:
+(0 - 1000000000)
+<Fe>
+152<>CashOrderQty<>float
+<F>
+Specifies the approximate  order quantity desired in total monetary units vs. as a number of shares.  The broker would be responsible for converting and calculating a share quantity (OrderQty) based upon this amount to be used for the actual order and subsequent messages.
+Valid values:  
+0 - 99999999.9999
+<Fe>
+153<>AllocAvgPx<>float
+<F>
+AvgPx for a specific AllocAccount
+Valid values:  
+0 - 99999999.9999
+<Fe>
+154<>AllocNetMoney<>float
+<F>
+NetMoney for a specific AllocAccount
+<Fe>
+155<>SettlCurrFxRate<>float
+<F>
+Foreign exchange rate used to compute SettlCurrAmount from Currency to SettlCurrency
+<Fe>
+156<>SettlCurrFxRateCalc<>char
+<F>
+Specifies whether or not SettlCurrFxRate should be multiplied or divided.
+M = Multiply
+D = Divide
+<Fe>
+157<>NumDaysInterest<>int
+<F>
+Number of Days of Interest for convertible bonds and fixed income
+<Fe>
+158<>AccruedInterestRate<>float
+<F>
+Accrued Interest Rate for convertible bonds and fixed income
+<Fe>
+159<>AccruedInterestAmt<>float
+<F>
+Amount of Accrued Interest for convertible bonds and fixed income
+<Fe>
+160<>SettlInstMode<>char
+<F>
+Indicates mode used for Settlement Instructions
+Valid values:  
+0 = Default
+1 = Standing Instructions Provided
+2 = Specific Allocation Account Overriding
+3 = Specific Allocation Account Standing
+<Fe>
+161<>AllocText<>char
+<F>
+Free format text related to a specific AllocAccount.
+<Fe>
+162<>SettlInstID<>char
+<F>
+Unique identifier for Settlement Instructions record.
+<Fe>
+163<>SettlInstTransType<>char
+<F>
+Settlement Instructions message transaction type
+Valid values:  
+N = New
+C = Cancel
+R = Replace 
+<Fe>
+164<>EmailThreadID<>char
+<F>
+Unique identifier for an email thread (new and chain of replies)
+<Fe>
+165<>SettlInstSource<>char
+<F>
+Indicates source of Settlement Instructions
+Valid values:  
+1 = Broker's Instructions
+2 = Institution's Instructions
+<Fe>
+166<>SettlLocation<>char
+<F>
+Identifies Settlement Depository or Country Code (ISITC spec)
+Valid values: 
+CED = CEDEL
+DTC = Depository Trust Company
+EUR = Euroclear
+FED = Federal Book Entry
+PNY= Physical
+PTC = Participant Trust Company
+ISO Country Code = Local Market Settle Location
+<Fe>
+167<>SecurityType<>char
+<F>
+Indicates type of security (ISITC spec)
+Valid values:  
+BA = Bankers Acceptance
+CD = Certificate Of Deposit
+CMO = Collateralize Mortgage Obligation
+CORP = Corporate Bond
+CP = Commercial Paper
+CPP = Corporate Private Placement
+CS = Common Stock
+FHA = Federal Housing Authority
+FHL = Federal Home Loan
+FN = Federal National Mortgage Association
+FOR = Foreign Exchange Contract
+FUT = Future
+GN = Government National Mortgage Association
+GOVT = Treasuries + Agency Debenture
+IET Mortgage IOETTE
+MF = Mutual Fund
+MIO = Mortgage Interest Only
+MPO = Mortgage Principle Only
+MPP = Mortgage Private Placement
+MPT = Miscellaneous Pass-Thru
+MUNI = Municipal Bond
+NONE = No ISITC Security Type
+OPT = Option
+PS = Preferred Stock
+RP = Repurchase Agreement
+RVRP = Reverse Repurchase Agreement
+SL = Student Loan Marketing Association
+TD = Time Deposit
+USTB = US Treasury Bill
+WAR = Warrant
+ZOO = Cats, Tigers & Lions (a real code: US Treasury Receipts) 
+<Fe>
+168<>EffectiveTime<>time
+<F>
+Time the details within the message should take effect (always expressed in GMT)
+<Fe>
+169<>StandInstDbType<>int
+<F>
+Identifies the Standing Instruction database used
+Valid values:  
+0 = Other
+1 = DTC SID
+2 = Thomson ALERT
+3 = A Global Custodian (StandInstDbName must be provided)
+<Fe>
+170<>StandInstDbName<>char
+<F>
+Name of the Standing Instruction database represented with StandInstDbType (i.e. the Global Custodian's name).
+<Fe>
+171<>StandInstDbID<>char
+<F>
+Unique identifier used on the Standing Instructions database for the Standing Instructions to be referenced.
+<Fe>
+172<>SettlDeliveryType<>int
+<F>
+Identifies type of settlement
+0 = "Versus. Payment": Deliver (if  Sell) or Receive (if Buy) vs. (Against) Payment 
+1 = "Free": Deliver (if Sell) or Receive (if Buy) Free
+<Fe>
+173<>SettlDepositoryCode<>char
+<F>
+Broker's account code at the depository (i.e. CEDEL ID  for CEDEL, FINS for DTC, or Euroclear ID for Euroclear) if SettlLocation is a depository
+<Fe>
+174<>SettlBrkrCode<>char
+<F>
+BIC (Bank Identification Code-Swift managed) code of  the broker involved (i.e. for multi-company brokerage firms)
+<Fe>
+175<>SettlInstCode<>char
+<F>
+BIC (Bank Identification Code-Swift managed) code of  the institution involved (i.e. for multi-company institution firms)
+<Fe>
+176<>SecuritySettlAgentName<>char
+<F>
+Name of broker's local agent bank if SettlLocation is  not a depository
+<Fe>
+177<>SecuritySettlAgentCode<>char
+<F>
+BIC (Bank Identification Code--Swift managed) code of  the broker's local agent bank if SettlLocation  is not a depository
+<Fe>
+178<>SecuritySettlAgentAcctNum<>char
+<F>
+Broker's account number at local agent bank if  SettlLocation is not a depository
+<Fe>
+179<>SecuritySettlAgentAcctName<>char
+<F>
+Name of broker's account at local agent bank if  SettlLocation is not a depository
+<Fe>
+180<>SecuritySettlAgentContactName<>char
+<F>
+Name of contact at local agent bank for broker's account if SettlLocation is not a depository
+<Fe>
+181<>SecuritySettlAgentContactPhone<>char
+<F>
+Phone number for contact at local agent bank if  SettlLocation is not a depository
+<Fe>
+182<>CashSettlAgentName<>char
+<F>
+Name of broker's local agent bank if SettlDeliveryType=Free
+<Fe>
+183<>CashSettlAgentCode<>char
+<F>
+BIC (Bank Identification Code--Swift managed) code of  the broker's local agent bank if SettlDeliveryType=Free
+<Fe>
+184<>CashSettlAgentAcctNum<>char
+<F>
+Broker's account number at local agent bank if SettlDeliveryType=Free
+<Fe>
+185<>CashSettlAgentAcctName<>char
+<F>
+Name of broker's account at local agent bank if SettlDeliveryType=Free
+<Fe>
+186<>CashSettlAgentContactName<>char
+<F>
+Name of contact at local agent bank for broker's account  if SettlDeliveryType=Free
+<Fe>
+187<>CashSettlAgentContactPhone<>char
+<F>
+Phone number for contact at local agent bank for broker's account  if SettlDeliveryType=Free
+<Fe>
+188<>BidSpotRate<>float
+<F>
+Bid F/X spot rate.
+Valid values:  
+0 - 99999999.9999
+<Fe>
+189<>BidForwardPoints<>float
+<F>
+Bid F/X forward points added to spot rate. May be a negative value.
+<Fe>
+190<>OfferSpotRate<>float
+<F>
+Offer F/X spot rate.
+Valid values:  
+0 - 99999999.9999
+<Fe>
+191<>OfferForwardPoints<>float
+<F>
+Offer F/X forward points added to spot rate. May be a negative value.
+<Fe>
+192<>OrderQty2<>float
+<F>
+OrderQty of the future part of a F/X swap order.
+Valid values: 
+      0 - 1000000000
+<Fe>
+193<>FutSettDate2<>date
+<F>
+FutSettDate of the future part of a F/X swap order.
+<Fe>
+194<>LastSpotRate<>float
+<F>
+F/X spot rate.
+Valid values:  
+0 - 99999999.9999
+<Fe>
+195<>LastForwardPoints<>float
+<F>
+F/X forward points added to LastSpotRate.  May be a negative value.
+<Fe>
+196<>AllocLinkID<>char
+<F>
+Can be used to link two different Allocation messages (each with unique AllocID) together, i.e. for F/X "Netting" or "Swaps".  Should be unique.
+<Fe>
+197<>AllocLinkType<>int
+<F>
+Identifies the type of Allocation linkage when AllocLinkID is used.
+Valid values:  
+0 = F/X Netting
+1 = F/X Swap
+<Fe>
+198<>SecondaryOrderID<>char
+<F>
+Assigned by the party which accepts the order.  Can be used to provide the OrderID used by an exchange or executing system.
+<Fe>
+199<>NoIOIQualifiers<>int
+<F>
+Number of repeating groups of IOIQualifiers.
+<Fe>
+200<>MaturityMonthYear<>month-year
+<F>
+Month and Year of the maturity for SecurityType=FUT or SecurityType=OPT.
+Format:  YYYYMM (i.e. 199903)
+<Fe>
+201<>PutOrCall<>int
+<F>
+Indicates whether an Option is for a put or call.
+Valid values:  
+0 = Put
+1 = Call
+<Fe>
+202<>StrikePrice<>float
+<F>
+Strike Price for an Option.
+Valid values:  
+0 - 99999999.9999
+<Fe>
+203<>CoveredOrUncovered<>int
+<F>
+Used for options
+Valid values:  
+0 = Covered
+1 = Uncovered
+<Fe>
+204<>CustomerOrFirm<>int
+<F>
+Used for options when delivering the order to an execution system/exchange to specify if the order is for a customer or the firm placing the order itself.
+Valid values:  
+0 = Customer
+1 = Firm
+<Fe>
+205<>MaturityDay<>day-of-month
+<F>
+Day of month used in conjunction with MaturityMonthYear to specify the maturity date for SecurityType=FUT or SecurityType=OPT.
+Valid values:  
+    1-31
+<Fe>
+206<>OptAttribute<>char
+<F>
+Can be used for SecurityType=OPT to identify a particular security.
+Valid values vary by SecurityExchange:  
+    For Exchange: MONEP (Paris)
+       L = Long (a.k.a. "American")
+       S = Short (a.k.a. "European")
+    For Exchanges: DTB (Frankfurt), HKSE (Hong Kong), and SOFFEX (Zurich)
+       0-9 = single digit "version" number assigned by exchange following capital adjustments (0=current, 1=prior, 2=prior to 1, etc).
+<Fe>
+207<>SecurityExchange<>char
+<F>
+Market used to help identify a security.
+Valid values:  
+    See Appendix C
+<Fe>
+208<>NotifyBrokerOfCredit<>char
+<F>
+Indicates whether or not details should be communicated to BrokerOfCredit (i.e. step-in broker).
+Valid values:  
+    Y = Details should be communicated
+    N = Details should not be communicated
+<Fe>
+209<>AllocHandlInst<>int
+<F>
+Indicates how the receiver (i.e. third party) of Allocation message should handle/process the account details.
+Valid values:  
+    1 = Match
+    2 = Forward
+    3 = Forward and Match
+<Fe>
+210<>MaxShow<>int
+<F>
+Maximum number of shares within an order to be shown  to other customers (i.e. sent via an IOI).
+<Fe>
+211<>PegDifference<>float
+<F>
+Price difference for a pegged order.
+<Fe>
+<FTe>

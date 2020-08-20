@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RomDBCommands>
+  <SQL key="CheckAuthorization" 
+       cmd="SELECT TOP 1 * FROM OMuser WHERE username = '@user' and password = '@pass' 
+	          Update OMuser Set lastLogin = getdate() where username = '@user'">
+  </SQL>
+  <SQL key="UserAccounts"
+       cmd="OMGetOMUserAccounts '@user'">
+  </SQL>
+  <SQL key="AccountDestinations"
+       cmd="OMGetAccountDestinations @interfaceID">
+  </SQL>
+  <SQL key="UserOrders"
+       cmd="RDS_selUsrOrders '@user'">
+  </SQL>
+  <SQL key="UserExecutions"
+       cmd="RDS_selUsrExecutions '@user'">
+  </SQL>
+</RomDBCommands>

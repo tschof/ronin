@@ -1,0 +1,58 @@
+[ISE Connection]
+Exchange=ISE
+Port=21620
+Host=209.140.121.172
+
+[Runtime Information]
+Last Run Date=20020829
+Start Time=700
+End Time=1715
+
+[Recorder Connection]
+Exchange=Recorder
+Port=8012
+Host=localhost
+Retry=1
+
+[ISE Server]
+Port=8900
+
+[Fix Information]
+SenderId=ROMBO
+TargetId=ISE
+#TargetSubId=INET
+BeginString=FIX.4.1
+Heartbeat=30
+Encryption=0
+Initiate Logon=1
+Incoming Sequence File=C:\OrderManager\ISE\IncomingSeq.txt
+Outgoing Sequence File=C:\OrderManager\ISE\OutgoingSeq.txt
+
+
+[Clearing Information]
+Default Clearing Code=0551
+
+[Log File Information]
+Log File Path=c:\ordermanager\ISE\
+
+[Database Information]
+User=ordermgr
+Password=order2k
+Database=OM
+DataSource=SQL_ANYWHERE
+Server=sebastian
+
+[External Database Information]
+User=ordermgr
+Password=order2k
+DataSource=SYBASE
+#DataSource=CHI_MAIN_PROD_SQL
+
+[Rv Information]
+Server=tcp:carbomb:7500
+Port=7501
+
+[Email Recipients]
+Mail Server=chi-mail1.win.xcaliber.com
+Business Group=dliu@xcaliber.com
+Developer Group=dliu@xcaliber.com
