@@ -1,2 +1,0 @@
-parser_func.o: parser_func.c /usr/include/stdc-predef.h parser_func.h
-parser_func.c /usr/include/stdc-predef.h parser_func.h :
