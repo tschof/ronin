@@ -290,6 +290,17 @@ int on_instinet_enter_order(con_interface * ci, dart_order_obj * doj,
         set_rom_field(doj, ROM_COPY_INSTR,
                 getpval(doj, ROM_INSTR), getplen(doj, ROM_INSTR));
     }
+    int clr_len = 0;
+    char* flipper = get_mpid_for_clr_acct(ci->sbm,
+            getpval(doj, ROM_CLR_ACC),
+            getplen(doj, ROM_CLR_ACC),
+            &clr_len);
+    if(clr_len > 0) {
+        set_fix_val(t, fix_obj, 115, flipper, clr_len);
+    } else {
+		set_fix_val(t, fix_obj, 115, "DART", 4);
+    }
+	set_fix_val(t, fix_obj, 116, getpval(doj,ROM_CLR_ACC), getplen(doj,ROM_CLR_ACC));
     /*Begin*/
     char clordid[32];
     memset(clordid, '\0', 32);
@@ -382,6 +393,17 @@ int on_instinet_cancel_order(con_interface * ci, dart_order_obj * doj)
     trans_t* t = (trans_t*)ci->parser;
     ofp* fix_obj = get_fixy_message(t,0x46);
     check_and_resize(doj, 12);
+    int clr_len = 0;
+    char* flipper = get_mpid_for_clr_acct(ci->sbm,
+            getpval(doj, ROM_CLR_ACC),
+            getplen(doj, ROM_CLR_ACC),
+            &clr_len);
+    if(clr_len > 0) {
+        set_fix_val(t, fix_obj, 115, flipper, clr_len);
+    } else {
+		set_fix_val(t, fix_obj, 115, "DART", 4);
+    }
+	set_fix_val(t, fix_obj, 116, getpval(doj,ROM_CLR_ACC), getplen(doj,ROM_CLR_ACC));
     /*Begin*/
     char clordid[32];
     memset(clordid, '\0', 32);
@@ -441,6 +463,17 @@ void on_instinet_replace_order(con_interface * ci, dart_order_obj * doj)
     ofp* fix_obj = 0;
     fix_obj = get_fixy_message(t,0x47);
     check_and_resize(doj, 12);
+    int clr_len = 0;
+    char* flipper = get_mpid_for_clr_acct(ci->sbm,
+            getpval(doj, ROM_CLR_ACC),
+            getplen(doj, ROM_CLR_ACC),
+            &clr_len);
+    if(clr_len > 0) {
+        set_fix_val(t, fix_obj, 115, flipper, clr_len);
+    } else {
+		set_fix_val(t, fix_obj, 115, "DART", 4);
+    }
+	set_fix_val(t, fix_obj, 116, getpval(doj,ROM_CLR_ACC), getplen(doj,ROM_CLR_ACC));
     /*Begin*/
     char clordid[32];
     memset(clordid, '\0', 32);
@@ -681,6 +714,13 @@ void create_connection(con_interface * con, char *filename, int name_len,
     con->parser = t;
     con->tg = token_creation_func(con->dest_id, con->dest_len);
     build_children(con);
+    char* flipper = get_val_for_tag(ex->dc, "FIX SERVER", 10,
+            "MPID.map", 9, &ret_len);
+    if(ret_len <=0 ) {
+        con->sbm = create_service_bureau_matcher("MPID.map");
+    } else {
+        con->sbm = create_service_bureau_matcher(flipper);
+    }
 }
 static void set_time(dart_order_obj* orig, dart_order_obj* doj)
 {
