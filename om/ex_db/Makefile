@@ -14,7 +14,7 @@ SYB_LIBS=-L../server_objects -lserver_obj -lpthread -L$(PSQLDIR)/lib -lpq
 else
 SYB_LIBS=-L../server_objects -lserver_obj -lpthread -L$(PSQLDIR)/lib -lpq
 endif
-INCLUDES=-I../server_objects -I$(PSQLDIR)/include -I$(PSQLDIR)/include/server
+INCLUDES=-I../server_objects -I$(PSQLDIR)/include -I$(PSQLDIR)/include/server 
 
 SRC = generic_db.c
 

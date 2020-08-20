@@ -15,7 +15,7 @@
 #include "libpq-fe.h"
 #include "postgres_fe.h"
 #include "server/catalog/pg_type.h"
-#include "cstypes.h"
+/////#include "cstypes.h"
 #include "generic_db.h"
 #include "hashmap.h"
 void gendb_destroy(gendb_v* g)
