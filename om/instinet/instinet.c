@@ -40,14 +40,17 @@ static void trans_instinet_cap(trans_t* t, ofp* fix_obj, char* cap,
 {
     switch(cap[0]) {
         case 'B':
-            set_fix_val(t, fix_obj, 47, "2", 1);
+            set_fix_val(t, fix_obj, 204, "7", 1);
             break;
         case 'X':
-            set_fix_val(t, fix_obj, 47, "0", 1);
+            set_fix_val(t, fix_obj, 204, "8", 1);
             break;
         case 'S':
-            set_fix_val(t, fix_obj, 47, "3", 1);
+            set_fix_val(t, fix_obj, 204, "5", 1);
             break;
+	case 'A':
+            set_fix_val(t, fix_obj, 47, "A", 1);
+	    break;
     }
 }
 
@@ -285,7 +288,11 @@ int on_instinet_enter_order(con_interface * ci, dart_order_obj * doj,
 {
     trans_t* t = (trans_t*)ci->parser;
     ofp* fix_obj = 0;
-    fix_obj = get_fixy_message(t,0x44);
+    if(doj->childs == 0) {
+        fix_obj = get_fixy_message(t,0x44);
+    } else {
+        fix_obj = get_fixy_message(t,0x4241);
+    }
     if(getplen(doj, ROM_INSTR) > 0) {
         set_rom_field(doj, ROM_COPY_INSTR,
                 getpval(doj, ROM_INSTR), getplen(doj, ROM_INSTR));
@@ -320,7 +327,10 @@ int on_instinet_enter_order(con_interface * ci, dart_order_obj * doj,
 
     set_ex_dest(t, fix_obj, getpval(doj,ROM_COPY_INSTR),
             getplen(doj, ROM_COPY_INSTR));
-    if(doj->childs == 0) {
+    char* sectype = getpval(doj, ROM_SEC_TYPE);
+    if(getplen(doj, ROM_SEC_TYPE) > 0 && sectype[0] == 'E') {
+        set_fix_val(t, fix_obj, 167, "CS", 2);
+    } else if(doj->childs == 0) {
         set_rom_field(doj, ROM_EXEC_SEC_TYPE, "OPT", 3);
         set_fix_val(t, fix_obj, 167, "OPT", 3);
         if(getplen(doj, ROM_EXPIRE_DATE) > 0) {
@@ -352,6 +362,9 @@ int on_instinet_enter_order(con_interface * ci, dart_order_obj * doj,
     if(getplen(doj, ROM_MAX_FLOOR) > 0) {
         set_fix_val(t, fix_obj, 111, getpval(doj,ROM_MAX_FLOOR), getplen(doj,ROM_MAX_FLOOR));
     }
+    if(getplen(doj, ROM_MIN_QTY) > 0) {
+        set_fix_val(t, fix_obj, 110, getpval(doj,ROM_MIN_QTY), getplen(doj,ROM_MIN_QTY));
+    }
     set_fix_val(t, fix_obj, 40, getpval(doj,ROM_TYPE), getplen(doj,ROM_TYPE));
     if(getplen(doj, ROM_PRICE) > 0) {
         set_fix_val(t, fix_obj, 44, getpval(doj,ROM_PRICE), getplen(doj,ROM_PRICE));
@@ -381,6 +394,9 @@ int on_instinet_enter_order(con_interface * ci, dart_order_obj * doj,
     if(getplen(doj, ROM_EXEC_INST) >= 1) {
         set_fix_val(t, fix_obj, 18, getpval(doj,ROM_EXEC_INST), getplen(doj,ROM_EXEC_INST));
     } 
+    if(getplen(doj, ROM_SHORT_LEND) > 0&& sectype[0] == 'E') {
+        set_fix_val(t, fix_obj, 114, "N", 1);
+    }
     if(doj->childs != 0) {
         add_spread_legs(t, doj, fix_obj, ci, 1);
     }
@@ -417,7 +433,13 @@ int on_instinet_cancel_order(con_interface * ci, dart_order_obj * doj)
     /*End*/
     set_fix_val(t, fix_obj, 41, getpval(doj, ROM_CLORDID), getplen(doj, ROM_CLORDID));
     set_fix_val(t, fix_obj, 38, getpval(doj, ROM_SHARES), getplen(doj, ROM_SHARES));
-    if(doj->childs == 0) {
+	char* sectype = getpval(doj, ROM_SEC_TYPE);
+    if(getplen(doj, ROM_SEC_TYPE) > 0 && sectype[0] == 'E') {
+        set_fix_val(t, fix_obj, 167, "CS", 2);
+        if(getplen(doj, ROM_SYM) > 0) {
+            set_fix_val(t, fix_obj, 55, getpval(doj, ROM_SYM), getplen(doj, ROM_SYM));
+        }
+    } else if(doj->childs == 0) {
         if(getplen(doj, ROM_SYM) > 0) {
             set_fix_val(t, fix_obj, 55, getpval(doj, ROM_SYM), getplen(doj, ROM_SYM));
         }
@@ -449,6 +471,9 @@ int on_instinet_cancel_order(con_interface * ci, dart_order_obj * doj)
     } else {
         set_fix_val(t, fix_obj, 54, getpval(doj, ROM_SIDE), getplen(doj, ROM_SIDE));
     }
+    if(getplen(doj, ROM_SHORT_LEND) > 0&& sectype[0] == 'E') {
+        set_fix_val(t, fix_obj, 114, "N", 1);
+    }
     set_exec_time(t, fix_obj);
     if(doj->childs != 0) {
         add_spread_legs(t, doj, fix_obj, ci, 0);
@@ -461,7 +486,11 @@ void on_instinet_replace_order(con_interface * ci, dart_order_obj * doj)
 {
     trans_t* t = (trans_t*)ci->parser;
     ofp* fix_obj = 0;
-    fix_obj = get_fixy_message(t,0x47);
+    if(doj->childs == 0) {
+        fix_obj = get_fixy_message(t,0x47);
+    } else { 
+        fix_obj = get_fixy_message(t,0x4341);
+    } 
     check_and_resize(doj, 12);
     int clr_len = 0;
     char* flipper = get_mpid_for_clr_acct(ci->sbm,
@@ -494,7 +523,10 @@ void on_instinet_replace_order(con_interface * ci, dart_order_obj * doj)
         int mmlen = getplen(doj, ROM_MM_HOME);
         trans_instinet_cap(t, fix_obj, getpval(doj, ROM_CAP), mmhome, mmlen);
     }
-    if(doj->childs == 0) {
+	char* sectype = getpval(doj, ROM_SEC_TYPE);
+    if(getplen(doj, ROM_SEC_TYPE) > 0 && sectype[0] == 'E') {
+        set_fix_val(t, fix_obj, 167, "CS", 2);
+    } else if(doj->childs == 0) {
         if(getplen(doj, ROM_EXPIRE_DATE) > 0) {
             set_fix_val(t, fix_obj, 200, getpval(doj,ROM_EXPIRE_DATE), getplen(doj,ROM_EXPIRE_DATE));
         }
@@ -533,6 +565,9 @@ void on_instinet_replace_order(con_interface * ci, dart_order_obj * doj)
     }
     if(getplen(rph, ROM_MAX_FLOOR) > 0) {
         set_fix_val(t, fix_obj, 111, getpval(rph,ROM_MAX_FLOOR), getplen(rph,ROM_MAX_FLOOR));
+    }
+    if(getplen(doj, ROM_MIN_QTY) > 0) {
+        set_fix_val(t, fix_obj, 110, getpval(doj,ROM_MIN_QTY), getplen(doj,ROM_MIN_QTY));
     }
     if(getplen(rph, ROM_TYPE) > 0) {
         set_fix_val(t, fix_obj, 40, getpval(rph,ROM_TYPE), getplen(rph,ROM_TYPE));
@@ -575,6 +610,9 @@ void on_instinet_replace_order(con_interface * ci, dart_order_obj * doj)
     }
     if(getplen(doj, ROM_EXEC_INST) >= 1) {
         set_fix_val(t, fix_obj, 18, getpval(doj,ROM_EXEC_INST), getplen(doj,ROM_EXEC_INST));
+    }
+    if(getplen(doj, ROM_SHORT_LEND) > 0&& sectype[0] == 'E') {
+        set_fix_val(t, fix_obj, 114, "N", 1);
     }
     if(doj->childs != 0) {
         add_spread_legs(t, doj, fix_obj, ci, 0);
