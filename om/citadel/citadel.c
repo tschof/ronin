@@ -133,16 +133,19 @@ int on_citadel_enter_order(con_interface * ci, dart_order_obj * doj,
         set_rom_field(doj, ROM_COPY_INSTR,
                 getpval(doj, ROM_INSTR), getplen(doj, ROM_INSTR));
     }
+    char* dest = getpval(doj, ROM_DESTID);
+    if(getplen(doj, ROM_DESTID) == 3 &&
+		    strncmp("569", dest, 3) == 0) {
+	    set_fix_val(t, fix_obj, 115, "SUM9", 4);
+    } else {
+	    set_fix_val(t, fix_obj, 115, "SUMX", 4);
+    }
     char clorid_db[32];
     memset(clorid_db, '\0', 32);
     int cur_size = create_multiday_in_place_ord_token(ci->tg, 
             clorid_db, 12);
     set_rom_field(doj, ROM_CLORDID, clorid_db,
                     cur_size);
-    //int cur_size = create_multiday_in_place_ord_token(ci->tg,
-     //                                           doj->current->data->wr_ptr, 12);
-    //reset_rom_field(doj, ROM_CLORDID, doj->current->data->wr_ptr,
-     //               cur_size);
     pthread_spin_lock(&ci->mutex);
     no_copy_insert(ci->cl_ord_id_map, doj->positions[ROM_CLORDID].iov_base, 
                    doj->positions[ROM_CLORDID].iov_len,
@@ -150,8 +153,6 @@ int on_citadel_enter_order(con_interface * ci, dart_order_obj * doj,
     pthread_spin_unlock(&ci->mutex);
     set_fix_val(t, fix_obj, 11, doj->positions[ROM_CLORDID].iov_base, 
 		    doj->positions[ROM_CLORDID].iov_len);
-   // set_fix_val(t, fix_obj, 11, doj->current->data->wr_ptr, cur_size);
-   // doj->current->data->wr_ptr += cur_size;
     if(getplen(doj, ROM_SYM) > 0) {
         set_sym(t, fix_obj, doj);
     }
@@ -190,8 +191,10 @@ int on_citadel_enter_order(con_interface * ci, dart_order_obj * doj,
             &clr_len);
     if(clr_len > 0) {
         set_fix_val(t, fix_obj, 1, flipper, clr_len);
+//	    set_fix_val(t, fix_obj, 115, "SUM9", 4);
     } else {
         set_fix_val(t, fix_obj, 1, getpval(doj,ROM_CLR_ACC), getplen(doj,ROM_CLR_ACC));
+    //set_fix_val(t, fix_obj, 115, "SUMX", 4);
     }
     if(getplen(doj, ROM_EXPIRE_TIME) > 0) {
         set_fix_val(t, fix_obj, 432, getpval(doj, ROM_EXPIRE_TIME), getplen(doj,ROM_EXPIRE_TIME));
@@ -208,8 +211,11 @@ int on_citadel_enter_order(con_interface * ci, dart_order_obj * doj,
                 set_fix_val(t, fix_obj, 18, exinst, 1);
                 break;
             default:
+                set_fix_val(t, fix_obj, 18, "5", 1);
                 break;
         }
+    } else {
+	set_fix_val(t, fix_obj, 18, "5", 1);
     }
     if(getplen(doj, ROM_BEG_TIME) > 0) {
         set_fix_val(t, fix_obj, 5101, getpval(doj, ROM_BEG_TIME),
@@ -240,13 +246,13 @@ int on_citadel_cancel_order(con_interface * ci, dart_order_obj * doj)
     trans_t* t = (trans_t*)ci->parser;
     ofp* fix_obj = get_fixy_message(t,0x46);
     check_and_resize(doj, 12);
-      /*  int cur_size = create_multiday_in_place_ord_token(ci->tg,
-                doj->current->data->wr_ptr, 12);
-
-    reset_rom_field(doj, ROM_PENDING_ID, doj->current->data->wr_ptr,
-                    cur_size);
-    set_fix_val(t, fix_obj, 11, doj->current->data->wr_ptr, cur_size);
-    doj->current->data->wr_ptr += cur_size;*/
+    char* dest = getpval(doj, ROM_DESTID);
+    if(getplen(doj, ROM_DESTID) == 3 &&
+		    strncmp("569", dest, 3) == 0) {
+	    set_fix_val(t, fix_obj, 115, "SUM9", 4);
+    } else {
+	    set_fix_val(t, fix_obj, 115, "SUMX", 4);
+    }
 
     char clorid_db[32];
     memset(clorid_db, '\0', 32);
@@ -268,8 +274,10 @@ int on_citadel_cancel_order(con_interface * ci, dart_order_obj * doj)
             &clr_len);
     if(clr_len > 0) {
         set_fix_val(t, fix_obj, 1, flipper, clr_len);
+	    //set_fix_val(t, fix_obj, 115, "SUM9", 4);
     } else {
         set_fix_val(t, fix_obj, 1, getpval(doj,ROM_CLR_ACC), getplen(doj,ROM_CLR_ACC));
+	    //set_fix_val(t, fix_obj, 115, "SUMX", 4);
     }
     dart_send_fix_message(fix_obj, ci);
     destroy_fixy_message(t, fix_obj);
@@ -282,15 +290,13 @@ void on_citadel_replace_order(con_interface * ci, dart_order_obj * doj)
     ofp* fix_obj = 0;
     fix_obj = get_fixy_message(t,0x47);
     check_and_resize(doj, 12);
-    /*int  cur_size = create_multiday_in_place_ord_token(ci->tg,
-                doj->current->data->wr_ptr, 12);
-
-    reset_rom_field(doj, ROM_PENDING_ID, doj->current->data->wr_ptr,
-                    cur_size);
-    no_copy_insert(ci->cl_ord_id_map, doj->current->data->wr_ptr, cur_size,
-                   doj);
-    set_fix_val(t, fix_obj, 11, doj->current->data->wr_ptr, cur_size);
-    doj->current->data->wr_ptr += cur_size;*/
+    char* dest = getpval(doj, ROM_DESTID);
+    if(getplen(doj, ROM_DESTID) == 3 &&
+		    strncmp("569", dest, 3) == 0) {
+	    set_fix_val(t, fix_obj, 115, "SUM9", 4);
+    } else {
+	    set_fix_val(t, fix_obj, 115, "SUMX", 4);
+    }
     char clorid_db[32];
     memset(clorid_db, '\0', 32);
     int cur_size = create_multiday_in_place_ord_token(ci->tg,
@@ -311,8 +317,10 @@ void on_citadel_replace_order(con_interface * ci, dart_order_obj * doj)
             &clr_len);
     if(clr_len > 0) {
         set_fix_val(t, fix_obj, 1, flipper, clr_len);
+	    //set_fix_val(t, fix_obj, 115, "SUM9", 4);
     } else {
         set_fix_val(t, fix_obj, 1, getpval(doj,ROM_CLR_ACC), getplen(doj,ROM_CLR_ACC));
+	    //set_fix_val(t, fix_obj, 115, "SUMX", 4);
     }
     set_exec_time(t, fix_obj);
     dart_order_obj *rph = (dart_order_obj *) doj->rep;
@@ -370,7 +378,10 @@ void on_citadel_replace_order(con_interface * ci, dart_order_obj * doj)
             default:
                 break;
         }
+    } else {
+	set_fix_val(t, fix_obj, 18, "5", 1);
     }
+
     if(getplen(rph, ROM_INSTR) > 0) {
         set_rom_field(rph, ROM_COPY_INSTR,
                 getpval(rph, ROM_INSTR), getplen(rph, ROM_INSTR));

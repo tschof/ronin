@@ -27,6 +27,7 @@
 #include "connection_interface.h"
 #include "mailer.h"
 #include "debug_logger.h"
+#include "rom_handler.h"
 #include "rom_fix_trans_funcs.h"
 #include "connection_interface.h"
 #include "master_config.h"
@@ -34,8 +35,7 @@
 #include "lifecycle_master.h"
 
 
-static int record_num = 0;
-
+static con_interface *client_con = 0;
 static int *set_cpus(char *cfg_cpu, int cfg_cpu_len, int *ncpus)
 {
 	int i = 1;
@@ -89,6 +89,39 @@ void glob_on_connect(async_parse_args* ap, int is_connected,
 	int name_len = ap->in_args->name_len;
 	send_debug_message("Connection: %s, is connected: %d ?\n", name,
 			is_connected);
+    if (ap->ds_book == NULL && is_connected == 2) {
+        int found =
+            get_obj_by_client_id(ap->gk, name, name_len, (void **) &client_con);
+        if (found <= 0) {
+            client_con = init_client_con(name, name_len,
+                                          1, ap->gk,
+                                          ap->ass, ap->sock,
+                                          ap, 16384);
+	    ap->ds_book = client_con;
+            set_obj_by_client_id(ap->gk, name, name_len, ap->ds_book);
+            ((con_interface *) ap->ds_book)->can_send_orders = 1;
+            ((con_interface *) ap->ds_book)->ass = ap->ass;
+            ((con_interface *) ap->ds_book)->do_oats_balance =
+                ap->in_args->do_balance;
+            client_con->can_send_orders = 1;
+        } else {
+            client_con->ap = ap;
+            ap->ds_book = client_con;
+            client_con->sock = ap->sock;
+            client_con->ass = ap->ass;
+            client_con->can_send_orders = 1;
+        }
+    } else if (ap->ds_book != NULL) {
+        con_interface *ci = (con_interface *) ap->ds_book;
+        if (ci->ap == NULL) {
+            ci->ap = ap;
+        }
+        if (contains_obj(ap->gk, name, name_len)) {
+            // Do nothing
+        } else {
+            set_obj_by_client_id(ap->gk, name, name_len, ap->ds_book);
+        }
+    }
 	con_interface *ci = (con_interface *) ap->ds_book;
 	if (ci) {
 		if (ci->ap == NULL) {
@@ -308,59 +341,58 @@ static void log_values(char* message, int mlen, con_interface* ci)
 
 static void handle_ex_report(dart_order_obj* doj, con_interface* ci)
 {
+	/*
     int clr_len = 0;
     char* flipper = get_mpid_for_clr_acct(ci->sbm,
-            getpval(doj, 24),
-            getplen(doj, 24),
+            getpval(doj, 38),
+            getplen(doj, 38),
             &clr_len);
-    if(clr_len > 0) {
-	    databuf_t* message = databuf_alloc(512);
-	    ++record_num;
-	    databuf_write(message, "%d,SUMO,", record_num);
-	    databuf_memcpy(message, getpval(doj, 24), getplen(doj, 24));
-	    databuf_write(message, ",US,");
-	    databuf_memcpy(message, getpval(doj, 26), getplen(doj, 26));
-	    databuf_memcpy(message, ",", 1);
-	    databuf_memcpy(message, getpval(doj, 10), getplen(doj, 10));
-	    databuf_memcpy(message, ",", 1);
-	    databuf_memcpy(message, ",", 1);
-	    if(getplen(doj, 62) > 0) {
-		    char* pc = getpval(doj, 62);
-		    if(pc[0] == '0') {
-			    databuf_memcpy(message, "P", 1);
-		    } else {
-			    databuf_memcpy(message, "C", 1);
-		    }
-	    }
-	    databuf_memcpy(message, ",", 1);
-	    char* side = getpval(doj, 8);
-	    if(side[0] == '5') {
-	    databuf_memcpy(message, "2", 1);
-	    } else {
-	    databuf_memcpy(message, getpval(doj, 8), getplen(doj, 8));
-	    }
-	    databuf_memcpy(message, ",", 1);
-	    databuf_memcpy(message, getpval(doj, 84), getplen(doj, 84));
-	    databuf_memcpy(message, ",", 1);
-	    if(getplen(doj, 60) > 0) {
-		    databuf_memcpy(message, getpval(doj, 60), getplen(doj, 60));
-	    }
-	    databuf_memcpy(message, ",", 1);
-	    if(getplen(doj, 64) > 0) {
-		    databuf_memcpy(message, getpval(doj, 64), getplen(doj, 64));
-	    }
-	    databuf_memcpy(message, ",", 1);
-	    if(getplen(doj, 60) > 0 && getplen(doj, 122) > 0) {
-		    databuf_memcpy(message, getpval(doj, 60), getplen(doj, 60));
-		    databuf_memcpy(message, getpval(doj, 122), getplen(doj, 122));
-	    }
-	    databuf_memcpy(message, ",", 1);
-	    databuf_memcpy(message, getpval(doj, 88), getplen(doj, 88));
-	    databuf_write(message, ",USD,,,\n");
-		log_values(message->rd_ptr, databuf_unread(message), ci);
-		databuf_destroy(message);
-
+    if(flipper) {
+	    send_debug_message("Account is good: %s \n", flipper);
     }
+    */
+   // if(clr_len > 0) {
+            char* legger = getpval(doj, 106);
+	    int legLen = getplen(doj, 106);
+	    if(legLen > 0 && legger[0] == '3') {
+		    return;
+	    }
+
+	    char* sectype = getpval(doj, 50);
+	    int slen = getplen(doj, 50);
+	    if(slen == 2 && sectype[0] == 'C' && sectype[1] == 'S') {
+		    char* under = getpval(doj, 112);
+		    int ulen = getplen(doj, 112);
+		    if(ulen > 0) {
+			    fill_in_rom_field(doj, 44, under, ulen);
+		    }
+	    } else {
+		    char* lmkt = getpval(doj, 84);
+		    int mlen = getplen(doj, 84);
+		    char* dropper = getpval(doj,12 );
+		    int dlen = getplen(doj,12 );
+		    if(mlen == 4 && (strncmp(lmkt, "XPHO", 4) == 0) &&
+				   dlen == 17 && strncmp("INCADROP.GSDROP42", dropper, dlen) == 0) {
+			   return;
+			} 
+	    }
+	    if(client_con) {
+		    send_debug_message("Found the client!!!!\n");
+		    set_rom_field(doj, 0, "S",1);
+		client_con->ci_iovec_sender(doj->positions,
+                                                         DART_SEND_LEN,
+							 client_con->module_name,
+							 client_con->module_name_len,
+                                                          client_con,client_con->sock);
+
+	    }
+	    set_rom_field(doj, 0, "S",1);
+	    set_rom_field(doj, ROM_SENDER, "SUMDROP",7);
+	    databuf_t* cur_off = databuf_alloc(2048);
+            copy_iovecs_to_buff(doj->positions, DART_SEND_LEN, cur_off, 0);
+		record_raw_message("SUMDROP", 7, cur_off->rd_ptr, databuf_unread(cur_off), '1');
+
+   // }
 }
 static void handle_email_req(dart_order_obj* doj, con_interface* con)
 {
@@ -397,6 +429,70 @@ void from_gset(dart_order_obj * doj, void *a)
 	}
 }
 
+static unsigned long gen_build_off(char *data, unsigned long size,
+        unsigned long byte_offset,
+        unsigned long *seq_num, void* book)
+{
+    return size;
+}
+
+static char *gen_resend_pad(unsigned long seq, char *rom, size_t * len)
+{
+    return NULL;
+}
+
+static void reset_seq(struct init_args *in_args)
+{
+    sequence_req *sr =
+        create_sequence_request(in_args->name, in_args->name_len,
+                in_args,
+                gen_build_off,
+                gen_resend_pad, in_args);
+    clean_seq(sr);
+}
+static void set_reset_time(struct init_args *in, master_config * mc)
+{
+    in->reset_time->reset_hour = mc->reset_hour;
+    in->reset_time->reset_min = mc->reset_min;
+    in->reset_time->create_new = mc->create_new;
+    in->reset_time->new_incoming = 0;
+    in->reset_time->new_outgoing = 0;
+    in->reset_time->reset_day = 7;
+    in->reset_time->last_logon = 0;
+    send_debug_message("Do we CreateNew? %d \n", mc->create_new);
+}
+void switchboard(dart_order_obj * doj, void *a)
+{
+    async_parse_args *ap = (async_parse_args *) a;
+    if (doj && ap) {
+        doj->sender = ap->ds_book;
+        char *rtype = doj->positions[0].iov_base;
+        switch (rtype[0]) {
+        case 'E':
+            break;
+        case 'C':
+            break;
+        case 'c':
+            break;
+        case 'R':
+            break;
+        case 'H':
+            break;
+        case 'P':
+            {
+                send_debug_message("P message received\n");
+                break;
+            }
+        default:
+            {
+                long addr = (long)doj;
+                send_debug_message("Unknown order Address: %d\n", addr);
+                destroy_gk_obj(ap->gk, doj);
+            }
+            break;
+        }
+    }
+}
 int main(int argc, char** argv) 
 {
 	rec_args* ra = init_recorder(64, 32, "./",2);
@@ -418,12 +514,48 @@ int main(int argc, char** argv)
 				ncpus, 0,cpus, 64);
 	cycle_master* cm = create_lifecycle_master(async_server, gk, main_cfg);
 	sleep(5);
-	/**/
-	con_interface *con = create_empty_interface();
+	queue_t users = create_sized_queue(256);
+	
+        struct init_args *in = calloc(1, sizeof(struct init_args));
+	in->name = calloc(1, 10);
+	memcpy(in->name, "SUMDROP", 7);
+        in->name_len = 7;
+	in->username = calloc(1, 10);
+	memcpy(in->username, "SUMDROP", 7);
+	in->un_len = 7;
+	in->password = calloc(1, 10);
+	memcpy(in->password, "SUMDROP", 7);
+        in->p_len = 7;
+        in->do_balance = 0;
+	in->reset_time = calloc(1, sizeof(struct seq_reset_time));
+	set_reset_time(in, main_cfg);
         time_t now;
         time(&now);
 	int create_new = ll_before_reset_time(fix_args, now);
 	send_debug_message("Did we want to create New? %d \n", create_new);
+	if(create_new) {
+		in->reset_time->create_new = create_new;
+		reset_seq(in);
+	}
+        enqueue(users, in);
+
+        add_async_listener(async_server, gk, main_cfg, main_cfg->mod_name,
+                           main_cfg->mod_name_len,
+                           main_cfg->server_port,
+                           users,
+                           main_cfg->server_ip,
+                           main_cfg->server_ip_len,
+                           main_cfg->end_hour,
+                           main_cfg->end_min,
+                           main_cfg->end_day,
+                           0,
+                           glob_on_connect,
+                           ph_parse_rom_message,
+                           0,
+                           ci_async_write_callback,
+                           ph_build_non_fix_rom_pos, switchboard);
+	/**/
+	con_interface *con = create_empty_interface();
 	if(create_new) {
 	    sequence_req* sr = create_sequence_request(fix_args->name,//sender_comp,
                                  fix_args->name_len,//sc_len,
