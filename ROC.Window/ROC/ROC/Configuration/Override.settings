@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ROC.Configuration" GeneratedClassName="Override">
+  <Profiles />
+  <Settings>
+    <Setting Name="ByPassROM" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ByPassRDS" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="OverrideNBBO" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OPRANBBOTEST</Value>
+    </Setting>
+    <Setting Name="UseOverridNBBO" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

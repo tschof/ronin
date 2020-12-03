@@ -1,0 +1,133 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{581D858B-C494-4ACC-9002-69439816B8ED}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>APISRLabMDS</RootNamespace>
+    <AssemblyName>APISRLabMDS</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\EMail.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>EMail.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\SRLab.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>SRLab.settings</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GLOBAL.cs" />
+    <Compile Include="HelperEMail.cs" />
+    <Compile Include="HelperMDS.cs" />
+    <Compile Include="HelperSRLab.cs" />
+    <Compile Include="HelperStatusBase.cs" />
+    <Compile Include="Configuration\MDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>MDS.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmMain.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Configuration\EMail.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>EMail.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Configuration\SRLab.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>SRLab.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Configuration\MDS.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>MDS.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\APISRLabEx\APISRLabEx.csproj">
+      <Project>{05DEC0AE-F3E1-45C4-918A-BCC78BF6B449}</Project>
+      <Name>APISRLabEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BenchMarkEx\BenchMarkEx.csproj">
+      <Project>{9487B4C3-3188-4B84-AAEB-CE8321EEA38A}</Project>
+      <Name>BenchMarkEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DateTimeEx\DateTimeEx.csproj">
+      <Project>{68A29031-2B21-4D3F-9AEE-5F8226F60A44}</Project>
+      <Name>DateTimeEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EMailEx\EMailEx.csproj">
+      <Project>{39C413B7-9B53-420C-A879-E4A4A54F2068}</Project>
+      <Name>EMailEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoggerEx\LoggerEx.csproj">
+      <Project>{650FA26A-3A41-449D-BBC0-877175514B35}</Project>
+      <Name>LoggerEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

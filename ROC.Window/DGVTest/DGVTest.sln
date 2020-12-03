@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DGVTest", "DGVTest\DGVTest.csproj", "{426EEF73-6EE2-493B-8BA1-1C64E1C64AD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridEx", "GridEx\GridEx.csproj", "{53197508-3080-4DF6-9C95-C001203D0955}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BindingListEx", "BindingListEx\BindingListEx.csproj", "{FAE23F10-FE79-4CDD-8C3F-AC5F408BFE72}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{426EEF73-6EE2-493B-8BA1-1C64E1C64AD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{426EEF73-6EE2-493B-8BA1-1C64E1C64AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{426EEF73-6EE2-493B-8BA1-1C64E1C64AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{426EEF73-6EE2-493B-8BA1-1C64E1C64AD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53197508-3080-4DF6-9C95-C001203D0955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53197508-3080-4DF6-9C95-C001203D0955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53197508-3080-4DF6-9C95-C001203D0955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53197508-3080-4DF6-9C95-C001203D0955}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAE23F10-FE79-4CDD-8C3F-AC5F408BFE72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAE23F10-FE79-4CDD-8C3F-AC5F408BFE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAE23F10-FE79-4CDD-8C3F-AC5F408BFE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAE23F10-FE79-4CDD-8C3F-AC5F408BFE72}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

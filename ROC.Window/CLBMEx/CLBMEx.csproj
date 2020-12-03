@@ -1,0 +1,78 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FBB3714C-1231-4B23-A9F9-93EE11932478}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CLBMEx</RootNamespace>
+    <AssemblyName>CLBMEx</AssemblyName>
+    <SccProjectName>"%24/OrderExecution/ADMINTOOLS/FrontEnd/ROC.300", EKUCAAAA</SccProjectName>
+    <SccLocalPath>..</SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MAMA, Version=1.0.3458.38056, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>4.0.17t\MAMA.dll</HintPath>
+    </Reference>
+    <Reference Include="MAMDA, Version=1.0.3458.38149, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>4.0.17t\MAMDA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="WMW.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DateTimeEx\DateTimeEx.csproj">
+      <Project>{68A29031-2B21-4D3F-9AEE-5F8226F60A44}</Project>
+      <Name>DateTimeEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DictionaryEx\DictionaryEx.csproj">
+      <Project>{4075C74D-02B0-48F4-8488-1A6FA79D1DC7}</Project>
+      <Name>DictionaryEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LBMEx\LBMEx.csproj">
+      <Project>{330F5B58-8A45-4341-8DCB-B5641B4D413C}</Project>
+      <Name>LBMEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarketDataEx\MarketDataEx.csproj">
+      <Project>{3B927E75-C8D6-4FA0-8F65-48DB2740BD88}</Project>
+      <Name>MarketDataEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

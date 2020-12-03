@@ -1,0 +1,135 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="APISRLabMDS.Configuration" GeneratedClassName="SRLab">
+  <Profiles />
+  <Settings>
+    <Setting Name="Configlocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://srlabs/RTP/Config/SRLabs/Chicago/Prod</Value>
+    </Setting>
+    <Setting Name="ConfigFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ronin-mc-client-allfeeds.xml</Value>
+    </Setting>
+    <Setting Name="Depth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="LocalIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10.103.102.29</Value>
+    </Setting>
+    <Setting Name="FireLevel1Only" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LastValue" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DelayMCJoin" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LogLevel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">WARN</Value>
+    </Setting>
+    <Setting Name="MaxLogSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="SMType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MDRCClientSessionMgr</Value>
+    </Setting>
+    <Setting Name="SMNames" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CTA,NASDAQ,CME,CME-CBOT,CME-MGEX,CME-NYMEX,ICE,OPRANBBO</Value>
+    </Setting>
+    <Setting Name="EnableSRLabLog" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SubscriptionTimeGap" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="ChangeNotificationRate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="UseChangeNotificationRate" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SubscriptionUseWaitForSymbol" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SubscribeWithSource" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LineTimeHourOffset" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="LineTimeMinOffset" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="LineTimeSecOffset" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="CMEExchangeList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CME,CME-CBOT,CME-MGEX,CME-NYMEX</Value>
+    </Setting>
+    <Setting Name="SubscriptionSourceRange" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CTA,NASDAQ,CME,CME-CBOT,CME-MGEX,CME-NYMEX,ICE,OPRA,OPRANBBO</Value>
+    </Setting>
+    <Setting Name="SubscriptionSymbolRange" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ALL</Value>
+    </Setting>
+    <Setting Name="StockSources" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CTA,NASDAQ</Value>
+    </Setting>
+    <Setting Name="FutureSources" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CME,CME-CBOT,CME-MGEX,CME-NYMEX,ICE</Value>
+    </Setting>
+    <Setting Name="OptionSources" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OPRA,OPRANBBO</Value>
+    </Setting>
+    <Setting Name="CTAPrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">N</Value>
+    </Setting>
+    <Setting Name="NASDAQPrimay" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Q</Value>
+    </Setting>
+    <Setting Name="ConvertOPRA" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EnableSRLabPerformanceLog" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="BusyWait" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DumpXML" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\temp</Value>
+    </Setting>
+    <Setting Name="Logs" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\temp</Value>
+    </Setting>
+    <Setting Name="IgnoreNASDAQ" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IgnoreCTA" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IgnoreCME" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IgnoreCME_CBOT" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IgnoreCME_NYMEX" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IgnoreCME_MGEX" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IgnoreICE" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IgnoreOPRANBBO" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IgnoreARCA" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="IgnoreINET" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

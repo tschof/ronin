@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MDS.Configuration" GeneratedClassName="Path">
+  <Profiles />
+  <Settings>
+    <Setting Name="LogPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Logs\</Value>
+    </Setting>
+    <Setting Name="WmwPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Wmw\</Value>
+    </Setting>
+    <Setting Name="LbmPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Lbm\</Value>
+    </Setting>
+    <Setting Name="CachePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\SubscriptionCache\</Value>
+    </Setting>
+    <Setting Name="SchedulePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Schedule\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

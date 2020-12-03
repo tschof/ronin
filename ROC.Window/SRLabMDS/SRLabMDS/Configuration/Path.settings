@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SRLabMDS.Configuration" GeneratedClassName="Path">
+  <Profiles />
+  <Settings>
+    <Setting Name="LogPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Logs\</Value>
+    </Setting>
+    <Setting Name="CachePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\SubscriptionCache\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

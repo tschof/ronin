@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MDS.Configuration" GeneratedClassName="EMail">
+  <Profiles />
+  <Settings>
+    <Setting Name="MailFrom" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MailTo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">zhen.cha@ronin-capital.com</Value>
+    </Setting>
+    <Setting Name="MailSubject" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MDS Event</Value>
+    </Setting>
+    <Setting Name="MailBody" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SMTPServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">relay.ronin.roncap.com</Value>
+    </Setting>
+    <Setting Name="SMTPUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SMTPPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

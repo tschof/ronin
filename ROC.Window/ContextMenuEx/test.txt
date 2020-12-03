@@ -1,0 +1,122 @@
+//#region - Local Variable -
+
+		//private Control _userControl;
+		//private ToolStripControlHost _host;
+
+		//#endregion
+
+		//#region - Constructor -
+
+		//public PropertyContainer(Control userControl)
+		//{
+		//    if (userControl == null)
+		//    {
+		//        return;
+		//    }
+
+		//    _userControl = userControl;
+
+		//    _host = new ToolStripControlHost(userControl);
+		//    _host.AutoSize = false;
+
+		//    Padding = Margin = _host.Padding = _host.Margin = Padding.Empty;
+
+		//    userControl.Location = Point.Empty;
+
+		//    Items.Add(_host);
+
+		//    userControl.Disposed += delegate(object sender, EventArgs e)
+		//    {
+		//        userControl = null;
+		//        Dispose(true);
+		//    };
+		//}
+
+		//#endregion
+
+		//#region - Control Override -
+
+		//protected override bool ProcessDialogKey(Keys keyData)
+		//{
+		//    //prevent alt from closing it and allow alt+menumonic to work
+		//    if ((keyData & Keys.Alt) == Keys.Alt)
+		//    {
+		//        return false;
+		//    }
+		//    else
+		//    {
+		//        return base.ProcessDialogKey(keyData);
+		//    }
+		//}
+
+		//protected override void SetVisibleCore(bool visible)
+		//{
+		//    if (visible)
+		//    {
+		//        base.SetVisibleCore(visible);
+		//    }
+		//}
+
+		//protected override void OnOpening(System.ComponentModel.CancelEventArgs e)
+		//{
+		//    if (_userControl.IsDisposed || _userControl.Disposing)
+		//    {
+		//        e.Cancel = true;
+		//        return;
+		//    }
+
+		//    base.OnOpening(e);
+		//}
+
+		//protected override void OnOpened(EventArgs e)
+		//{
+		//    _userControl.Focus();
+
+		//    base.OnOpened(e);
+		//}
+
+		//#endregion
+
+		//#region - Show Methods -
+
+		//public void Show(Control control)
+		//{
+		//    if (control == null)
+		//    {
+		//        return;
+		//    }
+
+		//    Show(control, control.ClientRectangle);
+		//}
+
+		//public void Show(Form form, Point point)
+		//{
+		//    Show(form, new Rectangle(point, new Size(0, 0)));
+		//}
+
+		//private void Show(Control control, Rectangle area)
+		//{
+		//    if (control == null)
+		//    {
+		//        return;
+		//    }
+
+		//    Point location = control.PointToScreen(new Point(area.Left, area.Top + area.Height));
+		//    Rectangle screen = Screen.FromControl(control).WorkingArea;
+
+		//    if (location.X + Size.Width > (screen.Left + screen.Width))
+		//    {
+		//        location.X = (screen.Left + screen.Width) - Size.Width;
+		//    }
+
+		//    if (location.Y + Size.Height > (screen.Top + screen.Height))
+		//    {
+		//        location.Y -= Size.Height + area.Height;
+		//    }
+
+		//    location = control.PointToClient(location);
+
+		//    Show(control, location, ToolStripDropDownDirection.BelowRight);
+		//}
+
+		//#endregion

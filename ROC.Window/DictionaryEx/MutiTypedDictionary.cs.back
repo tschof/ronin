@@ -1,0 +1,459 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+
+namespace DictionaryEx
+{
+	[Serializable]
+	public abstract class MutiTypedDictionary
+	{
+		private object _syncObj = new object();
+
+		private Dictionary<int, long> _longs;
+		public Dictionary<int, long> Longs
+		{
+			get
+			{
+				return _longs;
+			}
+		}
+
+		private Dictionary<int, double> _doubles;
+		public Dictionary<int, double> Doubles
+		{
+			get
+			{
+				return _doubles;
+			}
+		}
+
+		private Dictionary<int, string> _strings;
+		public Dictionary<int, string> Strings
+		{
+			get
+			{
+				return _strings;
+			}
+		}
+
+		private Dictionary<int, DateTime> _dateTimes;
+		public Dictionary<int, DateTime> DateTimes
+		{
+			get
+			{
+				return _dateTimes;
+			}
+		}
+
+		private Dictionary<int, bool> _bools;
+		public Dictionary<int, bool> Bools
+		{
+			get
+			{
+				return _bools;
+			}
+		}
+
+		private Dictionary<int, Color> _colors;
+		public Dictionary<int, Color> Colors
+		{
+			get
+			{
+				return _colors;
+			}
+		}
+
+		private Dictionary<int, Font> _fonts;
+		public Dictionary<int, Font> Fonts
+		{
+			get
+			{
+				return _fonts;
+			}
+		}
+
+		#region - Constructor -
+
+		public MutiTypedDictionary()
+		{
+			Initialize();
+		}
+
+		public MutiTypedDictionary(int key, string val)
+		{
+			Initialize();
+			Modify(key, val);
+		}
+		public MutiTypedDictionary(int key, double val)
+		{
+			Initialize();
+			Modify(key, val);
+		}
+		public MutiTypedDictionary(int key, long val)
+		{
+			Initialize();
+			Modify(key, val);
+		}
+		public MutiTypedDictionary(int key, DateTime val)
+		{
+			Initialize();
+			Modify(key, val);
+		}
+		public MutiTypedDictionary(int key, bool val)
+		{
+			Initialize();
+			Modify(key, val);
+		}
+		public MutiTypedDictionary(int key, Font val)
+		{
+			Initialize();
+			Modify(key, val);
+		}
+		public MutiTypedDictionary(int key, Color val)
+		{
+			Initialize();
+			Modify(key, val);
+		}
+
+		#endregion
+
+		public void Add(int key, string val)
+		{
+			Modify(key, val);
+		}
+		public void Add(int key, double val)
+		{
+			Modify(key, val);
+		}
+		public void Add(int key, long val)
+		{
+			Modify(key, val);
+		}
+		public void Add(int key, DateTime val)
+		{
+			Modify(key, val);
+		}
+		public void Add(int key, bool val)
+		{
+			Modify(key, val);
+		}
+		public void Add(int key, Font val)
+		{
+			Modify(key, val);
+		}
+		public void Add(int key, Color val)
+		{
+			Modify(key, val);
+		}
+
+		public void Remove(int key)
+		{
+			lock (_syncObj)
+			{
+				if (_strings.ContainsKey(key))
+				{
+					_strings.Remove(key);
+				}
+
+				if (_doubles.ContainsKey(key))
+				{
+					_doubles.Remove(key);
+				}
+
+				if (_longs.ContainsKey(key))
+				{
+					_longs.Remove(key);
+				}
+
+				if (_dateTimes.ContainsKey(key))
+				{
+					_dateTimes.Remove(key);
+				}
+
+				if (_bools.ContainsKey(key))
+				{
+					_bools.Remove(key);
+				}
+
+				if (_fonts.ContainsKey(key))
+				{
+					_fonts.Remove(key);
+				}
+
+				if (_colors.ContainsKey(key))
+				{
+					_colors.Remove(key);
+				}
+			}
+		}
+
+		public void Update(MutiTypedDictionary c)
+		{
+			if (c.Strings != null)
+			{
+				foreach (int key in c.Strings.Keys)
+				{
+					Update(key, c.Strings[key]);
+				}
+			}
+
+			if (c.Doubles != null)
+			{
+				foreach (int key in c.Doubles.Keys)
+				{
+					Update(key, c.Doubles[key]);
+				}
+			}
+
+			if (c.Longs != null)
+			{
+				foreach (int key in c.Longs.Keys)
+				{
+					Update(key, c.Longs[key]);
+				}
+			}
+
+			if (c.DateTimes != null)
+			{
+				foreach (int key in c.DateTimes.Keys)
+				{
+					Update(key, c.DateTimes[key]);
+				}
+			}
+
+			if (c.Bools != null)
+			{
+				foreach (int key in c.Bools.Keys)
+				{
+					Update(key, c.Bools[key]);
+				}
+			}
+
+			if (c.Fonts != null)
+			{
+				foreach (int key in c.Fonts.Keys)
+				{
+					Update(key, c.Fonts[key]);
+				}
+			}
+
+			if (c.Colors != null)
+			{
+				foreach (int key in c.Colors.Keys)
+				{
+					Update(key, c.Colors[key]);
+				}
+			}
+		}
+
+		public void Update(int key, string val)
+		{
+			Modify(key, val, true);
+		}
+		public void Update(int key, double val)
+		{
+			Modify(key, val, true);
+		}
+		public void Update(int key, long val)
+		{
+			Modify(key, val, true);
+		}
+		public void Update(int key, DateTime val)
+		{
+			Modify(key, val, true);
+		}
+		public void Update(int key, bool val)
+		{
+			Modify(key, val, true);
+		}
+		public void Update(int key, Font val)
+		{
+			Modify(key, val, true);
+		}
+		public void Update(int key, Color val)
+		{
+			Modify(key, val, true);
+		}
+
+		public void Clear()
+		{
+			Initialize();
+		}
+
+		public long Count
+		{
+			get
+			{
+				return Longs.Count + Doubles.Count + Strings.Count + DateTimes.Count + Bools.Count + Fonts.Count + Colors.Count;
+			}
+		}
+
+		private void Initialize()
+		{
+			lock (_syncObj)
+			{
+				_strings = new Dictionary<int, string>();
+				_doubles = new Dictionary<int, double>();
+				_longs = new Dictionary<int, long>();
+				_dateTimes = new Dictionary<int, DateTime>();
+				_bools = new Dictionary<int, bool>();
+				_fonts = new Dictionary<int, Font>();
+				_colors = new Dictionary<int, Color>();
+			}
+		}
+
+		private void Modify(int key, string val)
+		{
+			Modify(key, val, false);
+		}
+		private void Modify(int key, string val, bool update)
+		{
+			lock (_syncObj)
+			{
+				if (_strings.ContainsKey(key))
+				{
+					if (update)
+					{
+						_strings[key] = val;
+					}
+				}
+				else
+				{
+					_strings.Add(key, val);
+				}
+			}
+		}
+
+		private void Modify(int key, double val)
+		{
+			Modify(key, val, false);
+		}
+		private void Modify(int key, double val, bool update)
+		{
+			lock (_syncObj)
+			{
+				if (_doubles.ContainsKey(key))
+				{
+					if (update)
+					{
+						_doubles[key] = val;
+					}
+				}
+				else
+				{
+					_doubles.Add(key, val);
+				}
+			}
+		}
+
+		private void Modify(int key, long val)
+		{
+			Modify(key, val, false);
+		}
+		private void Modify(int key, long val, bool update)
+		{
+			lock (_syncObj)
+			{
+				if (_longs.ContainsKey(key))
+				{
+					if (update)
+					{
+						_longs[key] = val;
+					}
+				}
+				else
+				{
+					_longs.Add(key, val);
+				}
+			}
+		}
+
+		private void Modify(int key, DateTime val)
+		{
+			Modify(key, val, false);
+		}
+		private void Modify(int key, DateTime val, bool update)
+		{
+			lock (_syncObj)
+			{
+				if (_dateTimes.ContainsKey(key))
+				{
+					if (update)
+					{
+						_dateTimes[key] = val;
+					}
+				}
+				else
+				{
+					_dateTimes.Add(key, val);
+				}
+			}
+		}
+
+		private void Modify(int key, bool val)
+		{
+			Modify(key, val, false);
+		}
+		private void Modify(int key, bool val, bool update)
+		{
+			lock (_syncObj)
+			{
+				if (_bools.ContainsKey(key))
+				{
+					if (update)
+					{
+						_bools[key] = val;
+					}
+				}
+				else
+				{
+					_bools.Add(key, val);
+				}
+			}
+		}
+
+		private void Modify(int key, Font val)
+		{
+			Modify(key, val, false);
+		}
+		private void Modify(int key, Font val, bool update)
+		{
+			lock (_syncObj)
+			{
+				if (_fonts.ContainsKey(key))
+				{
+					if (update)
+					{
+						_fonts[key] = val;
+					}
+				}
+				else
+				{
+					_fonts.Add(key, val);
+				}
+			}
+		}
+
+		private void Modify(int key, Color val)
+		{
+			Modify(key, val, false);
+		}
+		private void Modify(int key, Color val, bool update)
+		{
+			lock (_syncObj)
+			{
+				if (_colors.ContainsKey(key))
+				{
+					if (update)
+					{
+						_colors[key] = val;
+					}
+				}
+				else
+				{
+					_colors.Add(key, val);
+				}
+			}
+		}
+	}
+}

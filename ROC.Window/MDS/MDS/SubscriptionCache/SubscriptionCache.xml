@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SubscirptionCache>
+  <Subscription>
+    <MsgType>S</MsgType>
+    <Symbol>INTC</Symbol>
+    <Source>NASDAQ</Source>
+    <SubscriptionType>
+    </SubscriptionType>
+    <SecType>
+    </SecType>
+    <Reload>
+    </Reload>
+  </Subscription>
+  <Subscription>
+    <MsgType>S</MsgType>
+    <Symbol>ESZ9</Symbol>
+    <Source>CME</Source>
+    <SubscriptionType>
+    </SubscriptionType>
+    <SecType>F</SecType>
+    <Reload>
+    </Reload>
+  </Subscription>
+  <Subscription>
+    <MsgType>S</MsgType>
+    <Symbol>bESZ9</Symbol>
+    <Source>CME</Source>
+    <SubscriptionType>BOOK</SubscriptionType>
+    <SecType>F</SecType>
+    <Reload>
+    </Reload>
+  </Subscription>
+  <Subscription>
+    <MsgType>S</MsgType>
+    <Symbol>IBM</Symbol>
+    <Source>CTA</Source>
+    <SubscriptionType>
+    </SubscriptionType>
+    <SecType>
+    </SecType>
+    <Reload>
+    </Reload>
+  </Subscription>
+</SubscirptionCache>

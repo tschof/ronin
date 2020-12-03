@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Test.Configuration" GeneratedClassName="SRLab">
+  <Profiles />
+  <Settings>
+    <Setting Name="Configlocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Smds\config</Value>
+    </Setting>
+    <Setting Name="ConfigFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ronin-mc-client-allfeeds.xml</Value>
+    </Setting>
+    <Setting Name="Depth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="SMType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MDRCClientSessionMgr</Value>
+    </Setting>
+    <Setting Name="SMNames" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CTA,NASDAQ,CME,CME-CBOT,CME-MGEX,CME-NYMEX,ICE,OPRA</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

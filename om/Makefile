@@ -1,7 +1,7 @@
 #MAKEFILE
 DEBUG=0
 
-SUBDIRS = server_objects ex_db utpdirect arca_opt dom_con jigglypuff oats glob ouch ice globex boe phaser nfx box ise 2sigma instinet phlx mldma drop citadel inet pillfix gset gsetopt fidessa test
+SUBDIRS = server_objects ex_db utpdirect arca_opt dom_con jigglypuff oats glob ouch ice globex boe phaser nfx box ise 2sigma instinet dash phlx mldma drop citadel inet pillfix gset gsetopt fidessa test
 
 .PHONY: subdirs $(SUBDIRS)
 

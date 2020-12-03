@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SRLabMDS.Configuration" GeneratedClassName="User">
+  <Profiles />
+  <Settings>
+    <Setting Name="UIUpdateRate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="LogRetensionDays" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="UseLogRetensionLimit" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="StopTime" Type="System.String" Scope="User">
+      <Value Profile="(Default)">23:55:00</Value>
+    </Setting>
+    <Setting Name="InstanceName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MDS DEV</Value>
+    </Setting>
+    <Setting Name="LogPerformance" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LogFileSizeLimit" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="NotificationDuration" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="UseStopTime" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

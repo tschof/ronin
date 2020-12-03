@@ -1,0 +1,194 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{67E42249-F8AD-43FE-A9ED-840C4FC97C59}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SRLabMDS</RootNamespace>
+    <AssemblyName>SRLabMDS</AssemblyName>
+    <ApplicationIcon>Resources\MDS.ico</ApplicationIcon>
+    <SccProjectName>"%24/OrderExecution/ADMINTOOLS/FrontEnd/ROC.300", EKUCAAAA</SccProjectName>
+    <SccLocalPath>..\..</SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BindingListEx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BindingListEx\bin\Debug\BindingListEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\EMail.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>EMail.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\MDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>MDS.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\Path.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Path.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\User.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>User.settings</DependentUpon>
+    </Compile>
+    <Compile Include="GLOBAL.cs" />
+    <Compile Include="HelperAbout.cs" />
+    <Compile Include="HelperEMail.cs" />
+    <Compile Include="HelperMDS.cs" />
+    <Compile Include="HelperSRLab.cs" />
+    <Compile Include="HelperStatusBase.cs" />
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperSubscriptionCache.cs" />
+    <Compile Include="HelperSymbolList.cs" />
+    <Compile Include="HelperUserList.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmMain.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Configuration\EMail.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>EMail.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Configuration\MDS.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>MDS.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Configuration\Path.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Path.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Configuration\User.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>User.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Configuration\SRLab.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>SRLab.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Configuration\SRLab.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>SRLab.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BenchMarkEx\BenchMarkEx.csproj">
+      <Project>{9487B4C3-3188-4B84-AAEB-CE8321EEA38A}</Project>
+      <Name>BenchMarkEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CSVEx\CSVEx.csproj">
+      <Project>{35C6744A-3DA9-4E4D-BDDB-C3A9E9474A86}</Project>
+      <Name>CSVEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataGridViewEx\DataGridViewEx.csproj">
+      <Project>{B297081D-71ED-4309-9788-25CA8571F6FA}</Project>
+      <Name>DataGridViewEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DateTimeEx\DateTimeEx.csproj">
+      <Project>{68A29031-2B21-4D3F-9AEE-5F8226F60A44}</Project>
+      <Name>DateTimeEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DictionaryEx\DictionaryEx.csproj">
+      <Project>{4075C74D-02B0-48F4-8488-1A6FA79D1DC7}</Project>
+      <Name>DictionaryEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EMailEx\EMailEx.csproj">
+      <Project>{39C413B7-9B53-420C-A879-E4A4A54F2068}</Project>
+      <Name>EMailEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoggerEx\LoggerEx.csproj">
+      <Project>{650FA26A-3A41-449D-BBC0-877175514B35}</Project>
+      <Name>LoggerEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MarketDataEx\MarketDataEx.csproj">
+      <Project>{3B927E75-C8D6-4FA0-8F65-48DB2740BD88}</Project>
+      <Name>MarketDataEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SerializationEx\SerializationEx.csproj">
+      <Project>{BA0B3DF9-6888-42EA-98A7-2CBAB413CB10}</Project>
+      <Name>SerializationEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SocketEx\SocketEx.csproj">
+      <Project>{557D48C3-C9CB-4648-920F-5CF64B03CF30}</Project>
+      <Name>SocketEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SRLabEx\SRLabEx.csproj">
+      <Project>{BFB2E903-56C5-4F62-B40D-EA642CE51986}</Project>
+      <Name>SRLabEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\MDS.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

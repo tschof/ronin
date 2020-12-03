@@ -1,0 +1,78 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MDS.Configuration" GeneratedClassName="LBM">
+  <Profiles />
+  <Settings>
+    <Setting Name="Middleware" Type="System.String" Scope="User">
+      <Value Profile="(Default)">wmw</Value>
+    </Setting>
+    <Setting Name="MamaLogPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\LBMLogs\</Value>
+    </Setting>
+    <Setting Name="TransportName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ronin</Value>
+    </Setting>
+    <Setting Name="DictionarySourceSymbolNamespace" Type="System.String" Scope="User">
+      <Value Profile="(Default)">WOMBAT</Value>
+    </Setting>
+    <Setting Name="EnableMamaLog" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IdelTimeBetweenRetries" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">30000</Value>
+    </Setting>
+    <Setting Name="MaxRetries" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="ThrottleDefault" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">150</Value>
+    </Setting>
+    <Setting Name="ThrottleInitial" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">150</Value>
+    </Setting>
+    <Setting Name="ThrottleRecap" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="UseChangeNotificationRate" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ChangeNotificationRate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="EnableLBMLog" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SubscriptionUseWaitForSymbol" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MamaMsgQueueLimitPerSymbol" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="SubscriptionSourceRange" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CTA,NASDAQ,TDDS,GIDS,CME,CME-CBOT,CME-KCBOT,CME-NYMEX,CME-COMEX-CME-MGEX,ICE,ACTIV,ONEC,CFE,OPRA,OPRANBBO,REUTERS,MDI</Value>
+    </Setting>
+    <Setting Name="SubscriptionSymbolRange" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ALL</Value>
+    </Setting>
+    <Setting Name="SubscriptionTimeGap" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">25</Value>
+    </Setting>
+    <Setting Name="BookDepthLimit" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="StockSources" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CTA,NASDAQ,TDDS,GIDS</Value>
+    </Setting>
+    <Setting Name="FutureSources" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ICE,CME,CME-CBOT,CME-KCBOT,CME-NYMEX,CME-COMEX-CME-MGEX</Value>
+    </Setting>
+    <Setting Name="OptionSources" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OPRA,OPRANBBO</Value>
+    </Setting>
+    <Setting Name="SetRecoverGaps" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="WombatPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\WombatPath\E</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

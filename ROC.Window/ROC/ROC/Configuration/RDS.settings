@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ROC.Configuration" GeneratedClassName="RDS">
+  <Profiles />
+  <Settings>
+    <Setting Name="WebServiceLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://romrds/RDS_DEV/RDS.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

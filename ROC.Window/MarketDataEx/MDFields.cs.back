@@ -1,0 +1,1160 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace MarketDataEx
+{
+	public class MDFields : INotifyPropertyChanged
+	{
+		#region - INotifyPropertyChanged Members -
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void onPropertyChanged(PropertyChangedEventArgs e)
+		{
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, e);
+			}
+		}
+
+		#endregion
+
+		private Dictionary<int, double> _doubles = new Dictionary<int, double>();
+		private Dictionary<int, long> _longs = new Dictionary<int, long>();
+		private Dictionary<int, string> _strings = new Dictionary<int, string>();
+		private Dictionary<int, DateTime> _dateTimes = new Dictionary<int, DateTime>();
+		
+		private Dictionary<string, MDFields> _participents = new Dictionary<string, MDFields>();
+
+		public MDFields(MDChanges c)
+		{
+			Set(c, true);
+		}
+
+		public void Set(MDChanges c)
+		{
+			Set(c, true);
+		}
+		private void Set(MDChanges c, bool withParticipent)
+		{
+			if (c.Strings != null)
+			{
+				foreach (int key in c.Strings.Keys)
+				{
+					Set(key, c.Strings[key]);
+				}
+			}
+
+			if (c.Doubles != null)
+			{
+				foreach (int key in c.Doubles.Keys)
+				{
+					Set(key, c.Doubles[key]);
+				}
+			}
+
+			if (c.Longs != null)
+			{
+				foreach (int key in c.Longs.Keys)
+				{
+					Set(key, c.Longs[key]);
+				}
+			}
+
+			if (c.DateTimes != null)
+			{
+				foreach (int key in c.DateTimes.Keys)
+				{
+					Set(key, c.DateTimes[key]);
+				}
+			}
+
+			// Set Participents
+			if (withParticipent)
+			{
+				string _participentSymbol = c.Strings[WombatFieldIDs.uParticipentSymbol];
+				if (_participentSymbol != "")
+				{
+					if (_participents.ContainsKey(_participentSymbol))
+					{
+						_participents[_participentSymbol].Set(c, false);
+					}
+					else
+					{
+						MDFields f = new MDFields(c);
+						_participents.Add(_participentSymbol, f);
+					}
+				}
+			}
+		}
+
+		private void DecodeIssueSymbol(ref string symbol, ref string participent)
+		{
+			// valid data
+			int div = symbol.IndexOf(".");
+
+			if (div > 0)
+			{
+				participent = symbol.Substring(div + 1);
+				symbol = symbol.Substring(0, div);
+			}
+		}
+
+		public void Set(int id, string val)
+		{
+			if (_strings.ContainsKey(id))
+			{
+				if (_strings[id] != val)
+				{
+					_strings[id] = val;
+					onPropertyChanged(new PropertyChangedEventArgs(MDFieldIDs.FNames[id]));
+				}
+			}
+			else
+			{
+				_strings.Add(id, val);
+				onPropertyChanged(new PropertyChangedEventArgs(MDFieldIDs.FNames[id]));
+			}
+		}
+
+		public void Set(int id, double val)
+		{
+			if (_doubles.ContainsKey(id))
+			{
+				if (_doubles[id] != val)
+				{
+					_doubles[id] = val;
+					onPropertyChanged(new PropertyChangedEventArgs(MDFieldIDs.FNames[id]));
+				}
+			}
+			else
+			{
+				_doubles.Add(id, val);
+				onPropertyChanged(new PropertyChangedEventArgs(MDFieldIDs.FNames[id]));
+			}
+		}
+
+		public void Set(int id, long val)
+		{
+			if (_longs.ContainsKey(id))
+			{
+				if (_longs[id] != val)
+				{
+					_longs[id] = val;
+					onPropertyChanged(new PropertyChangedEventArgs(MDFieldIDs.FNames[id]));
+				}
+			}
+			else
+			{
+				_longs.Add(id, val);
+				onPropertyChanged(new PropertyChangedEventArgs(MDFieldIDs.FNames[id]));
+			}
+		}
+
+		public void Set(int id, DateTime val)
+		{
+			if (_dateTimes.ContainsKey(id))
+			{
+				if (_dateTimes[id] != val)
+				{
+					_dateTimes[id] = val;
+					onPropertyChanged(new PropertyChangedEventArgs(MDFieldIDs.FNames[id]));
+				}
+			}
+			else
+			{
+				_dateTimes.Add(id, val);
+				onPropertyChanged(new PropertyChangedEventArgs(MDFieldIDs.FNames[id]));
+			}
+		}
+
+		public MDChanges ToChanges()
+		{
+			MDChanges c = new MDChanges();
+
+			foreach (int key in _strings.Keys)
+			{
+				c.Strings.Add(key, _strings[key]);
+			}
+
+			foreach (int key in _longs.Keys)
+			{
+				c.Longs.Add(key, _longs[key]);
+			}
+
+			foreach (int key in _doubles.Keys)
+			{
+				c.Doubles.Add(key, _doubles[key]);
+			}
+
+			foreach (int key in _dateTimes.Keys)
+			{
+				c.DateTimes.Add(key, _dateTimes[key]);
+			}
+
+			return c;
+		}
+
+		#region - Named Fields -
+
+		public string IssueSymbol
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.IssueSymbol];
+			}
+		}
+		public string uSymbol
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.uSymbol];
+			}
+		}
+		public string uParticipentSymbol
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.uParticipentSymbol];
+			}
+		}
+		public string uParticipentName
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.uParticipentName];
+			}
+		}
+		public string Symbol
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.uSymbol];
+			}
+		}
+		public string ParticipentSymbol
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.uParticipentSymbol];
+			}
+		}
+		public string ParticipentName
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.uParticipentName];
+			}
+		}
+		public string InstrumentType
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.InstrumentType];
+			}
+		}
+		public string LineTime
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.LineTime];
+			}
+		}
+
+		public DateTime uOnMsgTime
+		{
+			get
+			{
+				return _dateTimes[WombatFieldIDs.uOnMsgTime];
+			}
+		}
+		public DateTime uDecodedTime
+		{
+			get
+			{
+				return _dateTimes[WombatFieldIDs.uDecodedTime];
+			}
+		}
+		public DateTime uServerSentTime
+		{
+			get
+			{
+				return _dateTimes[WombatFieldIDs.uServerSentTime];
+			}
+		}
+		public DateTime uClientRecivedTime
+		{
+			get
+			{
+				return _dateTimes[WombatFieldIDs.uClientRecivedTime];
+			}
+		}
+		public DateTime uDisplayTime
+		{
+			get
+			{
+				return _dateTimes[WombatFieldIDs.uDisplayTime];
+			}
+		}
+
+		public double NetChange
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.NetChange];
+			}
+		}
+		public double PctChange
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.PctChange];
+			}
+		}
+		public long TotalVolume
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.TotalVolume];
+			}
+		}
+		public double HighPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.HighPrice];
+			}
+		}
+		public double LowPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.LowPrice];
+			}
+		}
+		public double OpenPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.OpenPrice];
+			}
+		}
+		public double ClosePrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.ClosePrice];
+			}
+		}
+		public double PrevClosePrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.PrevClosePrice];
+			}
+		}
+		public string PrevCloseDate
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.PrevCloseDate];
+			}
+		}
+		public double TotalValue
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.TotalValue];
+			}
+		}
+		public double Vwap
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Vwap];
+			}
+		}
+
+		public double BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.BidPrice];
+			}
+		}
+		public long BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.BidSize];
+			}
+		}
+		public double BidLow
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.BidLow];
+			}
+		}
+		public double BidHigh
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.BidHigh];
+			}
+		}
+		public string BidPartId
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.BidPartId];
+			}
+		}
+
+		public double AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.AskPrice];
+			}
+		}
+		public long AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.AskSize];
+			}
+		}
+		public double AskLow
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.AskLow];
+			}
+		}
+		public double AskHigh
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.AskHigh];
+			}
+		}
+		public string AskPartId
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.AskPartId];
+			}
+		}
+
+		public string QuoteDate
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.QuoteDate];
+			}
+		}
+		public string QuoteTime
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.QuoteTime];
+			}
+		}
+		public long QuoteCount
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.QuoteCount];
+			}
+		}
+
+		public double TradePrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.TradePrice];
+			}
+		}
+		public string TradeDate
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.TradeDate];
+			}
+		}
+		public string TradeTime
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.TradeTime];
+			}
+		}
+		public string TradeTick
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.TradeTick];
+			}
+		}
+
+		public long TradeVolume
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.TradeVolume];
+			}
+		}
+		public string TradePartId
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.TradePartId];
+			}
+		}
+		public long TradeCount
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.TradeCount];
+			}
+		}
+
+		// Stock L1
+		public string PrimExch
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.PrimExch];
+			}
+		}
+
+		// Future L1
+		public string ProductInd
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.ProductInd];
+			}
+		}
+		public double DisplayConversionFactor
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.DisplayConversionFactor];
+			}
+		}
+		public long OrderMinQty
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.OrderMinQty];
+			}
+		}
+		public long OrderMaxQty
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.OrderMaxQty];
+			}
+		}
+		public string MaxPriceVariation
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.MaxPriceVariation];
+			}
+		}
+		public string Maturity
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.Maturity];
+			}
+		}
+		public long BookDepth
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.BookDepth];
+			}
+		}
+		public double TicketIncrement
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.TicketIncrement];
+			}
+		}
+		public string MainFraction
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.MainFraction];
+			}
+		}
+		public double HightLimit
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.HightLimit];
+			}
+		}
+		public double LowLimit
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.LowLimit];
+			}
+		}
+		public double SettlePrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.SettlePrice];
+			}
+		}
+		public string SettleDate
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.SettleDate];
+			}
+		}
+		public double LastBestAskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.LastBestAskPrice];
+			}
+		}
+		public double LastBestBidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.LastBestBidPrice];
+			}
+		}
+		public long ExchTotalVol
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.ExchTotalVol];
+			}
+		}
+
+		// Option L1
+		public string PutCall
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.PutCall];
+			}
+		}
+		public string ExpirationDate
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.ExpirationDate];
+			}
+		}
+		public double StrikePrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.StrikePrice];
+			}
+		}
+		public long Openlongerest
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Openlongerest];
+			}
+		}
+		public double PrevBidClose
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.PrevBidClose];
+			}
+		}
+		public string PrevBidCloseDate
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.PrevBidCloseDate];
+			}
+		}
+		public double BidClose
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.BidClose];
+			}
+		}
+		public string BidCloseDate
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.BidCloseDate];
+			}
+		}
+		public double PrevAskClose
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.PrevAskClose];
+			}
+		}
+		public string PrevAskCloseDate
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.PrevAskCloseDate];
+			}
+		}
+		public double AskClose
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.AskClose];
+			}
+		}
+		public string AskClosedate
+		{
+			get
+			{
+				return _strings[WombatFieldIDs.AskClosedate];
+			}
+		}
+
+		// Future Books
+		public long Book1BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize];
+			}
+		}
+		public long Book2BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 1];
+			}
+		}
+		public long Book3BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 2];
+			}
+		}
+		public long Book4BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 3];
+			}
+		}
+		public long Book5BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 4];
+			}
+		}
+		public long Book6BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 5];
+			}
+		}
+		public long Book7BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 6];
+			}
+		}
+		public long Book8BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 7];
+			}
+		}
+		public long Book9BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 8];
+			}
+		}
+		public long Book10BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 9];
+			}
+		}
+		public long Book11BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 10];
+			}
+		}
+		public long Book12BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 11];
+			}
+		}
+		public long Book13BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 12];
+			}
+		}
+		public long Book14BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 13];
+			}
+		}
+		public long Book15BidSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1BidSize - 14];
+			}
+		}
+
+		public double Book1BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice];
+			}
+		}
+		public double Book2BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 1];
+			}
+		}
+		public double Book3BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 2];
+			}
+		}
+		public double Book4BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 3];
+			}
+		}
+		public double Book5BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 4];
+			}
+		}
+		public double Book6BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 5];
+			}
+		}
+		public double Book7BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 6];
+			}
+		}
+		public double Book8BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 7];
+			}
+		}
+		public double Book9BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 8];
+			}
+		}
+		public double Book10BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 9];
+			}
+		}
+		public double Book11BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 10];
+			}
+		}
+		public double Book12BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 11];
+			}
+		}
+		public double Book13BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 12];
+			}
+		}
+		public double Book14BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 13];
+			}
+		}
+		public double Book15BidPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1BidPrice - 14];
+			}
+		}
+
+		public long Book1AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize];
+			}
+		}
+		public long Book2AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 1];
+			}
+		}
+		public long Book3AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 2];
+			}
+		}
+		public long Book4AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 3];
+			}
+		}
+		public long Book5AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 4];
+			}
+		}
+		public long Book6AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 5];
+			}
+		}
+		public long Book7AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 6];
+			}
+		}
+		public long Book8AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 7];
+			}
+		}
+		public long Book9AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 8];
+			}
+		}
+		public long Book10AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 9];
+			}
+		}
+		public long Book11AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 10];
+			}
+		}
+		public long Book12AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 11];
+			}
+		}
+		public long Book13AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 12];
+			}
+		}
+		public long Book14AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 13];
+			}
+		}
+		public long Book15AskSize
+		{
+			get
+			{
+				return _longs[WombatFieldIDs.Book1AskSize - 14];
+			}
+		}
+
+		public double Book1AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice];
+			}
+		}
+		public double Book2AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 1];
+			}
+		}
+		public double Book3AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 2];
+			}
+		}
+		public double Book4AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 3];
+			}
+		}
+		public double Book5AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 4];
+			}
+		}
+		public double Book6AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 5];
+			}
+		}
+		public double Book7AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 6];
+			}
+		}
+		public double Book8AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 7];
+			}
+		}
+		public double Book9AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 8];
+			}
+		}
+		public double Book10AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 9];
+			}
+		}
+		public double Book11AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 10];
+			}
+		}
+		public double Book12AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 11];
+			}
+		}
+		public double Book13AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 12];
+			}
+		}
+		public double Book14AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 13];
+			}
+		}
+		public double Book15AskPrice
+		{
+			get
+			{
+				return _doubles[WombatFieldIDs.Book1AskPrice - 14];
+			}
+		}
+
+		#endregion
+	}
+}
