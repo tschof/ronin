@@ -1,0 +1,146 @@
+[EMAIL]
+Mail Recipients=zhengkui.xie@ronin-capital.com
+Mail Biz Group=zhengkui.xie@ronin-capital.com
+Mail Server=relay.ronin.roncap.com
+BOZO=PUGY
+
+[Database Information]
+User=rom_user
+Password=resu_mor
+Database=rom
+Datasource=DEV_DS_1
+
+[Server]
+Port=8008
+Instance ID=21
+Last Run Day=20104699
+End Time=2300
+Dodo Gone Day=Dis is da dodo
+
+[ARCA Connection]
+Host=10.103.160.21
+Port=8010
+Dodo Gone Day=Dis is da dodo
+
+[SIMULATOR Connection]
+Host=10.106.96.90
+Port=8760
+
+[NYSE Connection]
+Host=10.106.96.90
+Port=6091
+
+[Oats Connection]
+Host=10.106.160.20
+Port=4400
+
+[CXOUCH Connection]
+Host=10.106.96.90
+Port=8416
+
+[ARCA_D Connection]
+Host=10.106.96.90
+Port=8987
+
+[BX Connection]
+Host=10.106.160.21
+Port=9251
+
+[BATS Connection]
+Host=10.106.160.21
+Port=8885
+
+[BATSOPT Connection]
+Host=10.103.103.176
+Port=9250
+
+[ARCA Connection]
+Host=10.105.96.32
+Port=8010
+
+[INET Connection]
+#Host=10.106.160.21
+Host=10.106.96.90
+Port=8960
+
+[LX Connection]
+Host=10.106.160.21
+Port=9049
+
+[PSX Connection]
+Host=10.103.102.178
+Port=9251
+
+[PHLX Connection]
+Host=10.106.96.90
+Port=8883
+
+[ICE Connection]
+Host=10.106.160.21
+Port=8691
+
+[ISE Connection]
+Host=10.106.96.90
+Port=8920
+
+[CBOE Connection]
+Host=10.106.160.20
+Port=8899
+
+[C2 Connection]
+Host=10.106.160.20
+Port=8877
+
+[BOX Connection]
+Host=10.106.160.21
+Port=8888
+
+[PCX Connection]
+Host=10.106.96.90
+Port=8961
+
+[EDGA Connection]
+Host=10.106.160.21
+Port=8951
+
+[EBS Connection]
+Host=10.106.160.21
+Port=9815
+
+[CurrenEx Connection]
+Host=10.106.160.21
+Port=9812
+
+[HOTSPOT Connection]
+Host=10.106.160.21
+Port=9810
+
+[GLOBEX Connection]
+Host=10.106.160.21
+Port=8090
+
+[SIM_O Connection]
+Host=10.105.96.52
+Port=8961
+
+[SIMULATOR_F Connection]
+Host=10.105.96.52
+Port=8999
+
+
+
+[Option Information]
+Orders Allocation Step=3000
+Load Orders From DB=0
+[Special Option Dests]
+0=79
+1=47
+2=38
+3=8
+4=91
+5=93
+6=95
+
+222=789
+11=567
+

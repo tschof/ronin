@@ -1,0 +1,2010 @@
+--------------------------------------------------------------------------------
+Command:            ./mock_tmlight cme.dat
+Massif arguments:   (none)
+ms_print arguments: massif.out.6172
+--------------------------------------------------------------------------------
+
+
+    KB
+193.9^#                                                                       
+     |#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+     |#                                                                      :
+   0 +----------------------------------------------------------------------->Gi
+     0                                                                   5.340
+
+Number of snapshots: 91
+ Detailed snapshots: [3, 14, 16, 25, 28, 29, 32, 35, 40, 45, 56, 65, 75, 78, 79, 80, 81, 82, 83, 86, 88 (peak)]
+
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+  0              0                0                0             0            0
+  1        265,036               24                8            16            0
+  2        301,345            1,608            1,462           146            0
+  3        357,367            2,272            1,913           359            0
+84.20% (1,913B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->33.80% (768B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->22.54% (512B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->22.54% (512B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |   ->22.54% (512B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |     ->22.54% (512B) 0x402581: main (mock_tmlight.c:352)
+| |       
+| ->11.27% (256B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+|   ->11.27% (256B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+|     ->11.27% (256B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|       ->11.27% (256B) 0x4C26FDF: get_mconfig (master_config.c:35)
+|         ->11.27% (256B) 0x4C26F57: init_mconfig (master_config.c:16)
+|           ->11.27% (256B) 0x402581: main (mock_tmlight.c:352)
+|             
+->17.39% (395B) 0x4C1B72F: get_file_contents (config_loader.c:43)
+| ->17.39% (395B) 0x4C1B9F4: build_map_from_file (config_loader.c:114)
+|   ->17.39% (395B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|     ->17.39% (395B) 0x4C26FDF: get_mconfig (master_config.c:35)
+|       ->17.39% (395B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->17.39% (395B) 0x402581: main (mock_tmlight.c:352)
+|           
+->10.56% (240B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->05.28% (120B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->03.52% (80B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->03.52% (80B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->03.52% (80B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->03.52% (80B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | |       ->03.52% (80B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |         ->03.52% (80B) 0x402581: main (mock_tmlight.c:352)
+| | |           
+| | ->01.76% (40B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| |   ->01.76% (40B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |     ->01.76% (40B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |       ->01.76% (40B) 0x402581: main (mock_tmlight.c:352)
+| |         
+| ->05.28% (120B) 0x4C10C52: create_map (hashmap.c:104)
+|   ->03.52% (80B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+|   | ->03.52% (80B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+|   |   ->03.52% (80B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|   |     ->03.52% (80B) 0x4C26FDF: get_mconfig (master_config.c:35)
+|   |       ->03.52% (80B) 0x4C26F57: init_mconfig (master_config.c:16)
+|   |         ->03.52% (80B) 0x402581: main (mock_tmlight.c:352)
+|   |           
+|   ->01.76% (40B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+|     ->01.76% (40B) 0x4C26FDF: get_mconfig (master_config.c:35)
+|       ->01.76% (40B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->01.76% (40B) 0x402581: main (mock_tmlight.c:352)
+|           
+->07.04% (160B) 0x4C26F8E: get_mconfig (master_config.c:22)
+| ->07.04% (160B) 0x4C26F57: init_mconfig (master_config.c:16)
+|   ->07.04% (160B) 0x402581: main (mock_tmlight.c:352)
+|     
+->04.23% (96B) 0x4C10B22: create_map (hashmap.c:92)
+| ->02.82% (64B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->02.82% (64B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->02.82% (64B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->02.82% (64B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |       ->02.82% (64B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |         ->02.82% (64B) 0x402581: main (mock_tmlight.c:352)
+| |           
+| ->01.41% (32B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+|   ->01.41% (32B) 0x4C26FDF: get_mconfig (master_config.c:35)
+|     ->01.41% (32B) 0x4C26F57: init_mconfig (master_config.c:16)
+|       ->01.41% (32B) 0x402581: main (mock_tmlight.c:352)
+|         
+->04.23% (96B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->02.11% (48B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->01.41% (32B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->01.41% (32B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->01.41% (32B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->01.41% (32B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | |       ->01.41% (32B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |         ->01.41% (32B) 0x402581: main (mock_tmlight.c:352)
+| | |           
+| | ->00.70% (16B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->02.11% (48B) 0x4C10C52: create_map (hashmap.c:104)
+|   ->01.41% (32B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+|   | ->01.41% (32B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+|   |   ->01.41% (32B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|   |     ->01.41% (32B) 0x4C26FDF: get_mconfig (master_config.c:35)
+|   |       ->01.41% (32B) 0x4C26F57: init_mconfig (master_config.c:16)
+|   |         ->01.41% (32B) 0x402581: main (mock_tmlight.c:352)
+|   |           
+|   ->00.70% (16B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->04.23% (96B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->04.23% (96B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->04.23% (96B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|     ->02.11% (48B) 0x4C10C39: create_map (hashmap.c:103)
+|     | ->01.41% (32B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+|     | | ->01.41% (32B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+|     | |   ->01.41% (32B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|     | |     ->01.41% (32B) 0x4C26FDF: get_mconfig (master_config.c:35)
+|     | |       ->01.41% (32B) 0x4C26F57: init_mconfig (master_config.c:16)
+|     | |         ->01.41% (32B) 0x402581: main (mock_tmlight.c:352)
+|     | |           
+|     | ->00.70% (16B) in 1+ places, all below ms_print's threshold (01.00%)
+|     | 
+|     ->02.11% (48B) 0x4C10C52: create_map (hashmap.c:104)
+|       ->01.41% (32B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+|       | ->01.41% (32B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+|       |   ->01.41% (32B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|       |     ->01.41% (32B) 0x4C26FDF: get_mconfig (master_config.c:35)
+|       |       ->01.41% (32B) 0x4C26F57: init_mconfig (master_config.c:16)
+|       |         ->01.41% (32B) 0x402581: main (mock_tmlight.c:352)
+|       |           
+|       ->00.70% (16B) in 1+ places, all below ms_print's threshold (01.00%)
+|       
+->01.67% (38B) in 7 places, all below massif's threshold (01.00%)
+| 
+->01.06% (24B) 0x4C1BCF4: initialize_config (config_loader.c:195)
+  ->01.06% (24B) 0x4C26FDF: get_mconfig (master_config.c:35)
+    ->01.06% (24B) 0x4C26F57: init_mconfig (master_config.c:16)
+      ->01.06% (24B) 0x402581: main (mock_tmlight.c:352)
+        
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+  4        397,993            3,144            2,501           643            0
+  5        451,121            3,768            2,936           832            0
+  6        508,528            6,936            5,636         1,300            0
+  7        557,894            7,136            5,772         1,364            0
+  8        603,459            8,928            7,356         1,572            0
+  9        634,164            9,328            7,660         1,668            0
+ 10        687,649           12,128           10,204         1,924            0
+ 11        735,283           13,056           10,918         2,138            0
+ 12        804,708           13,808           11,305         2,503            0
+ 13        868,376           15,864           12,934         2,930            0
+ 14        928,799           16,872           13,630         3,242            0
+80.78% (13,630B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->17.64% (2,976B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->09.10% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->03.03% (512B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | | ->03.03% (512B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |   ->03.03% (512B) 0x402581: main (mock_tmlight.c:352)
+| | |     
+| | ->03.03% (512B) 0x4C29D1F: get_config (ex_config_helper.c:207)
+| | | ->03.03% (512B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+| | |   ->03.03% (512B) 0x401AF1: set_interface (mock_tmlight.c:172)
+| | |     ->03.03% (512B) 0x402638: main (mock_tmlight.c:359)
+| | |       
+| | ->03.03% (512B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+| |   ->03.03% (512B) 0x401B09: set_interface (mock_tmlight.c:173)
+| |     ->03.03% (512B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->08.35% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->08.35% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->08.35% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->03.79% (640B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |     | ->03.79% (640B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |     |   ->03.79% (640B) 0x402581: main (mock_tmlight.c:352)
+| |     |     
+| |     ->02.28% (384B) 0x4C29D1F: get_config (ex_config_helper.c:207)
+| |     | ->02.28% (384B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+| |     |   ->02.28% (384B) 0x401AF1: set_interface (mock_tmlight.c:172)
+| |     |     ->02.28% (384B) 0x402638: main (mock_tmlight.c:359)
+| |     |       
+| |     ->02.28% (384B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+| |       ->02.28% (384B) 0x401B09: set_interface (mock_tmlight.c:173)
+| |         ->02.28% (384B) 0x402638: main (mock_tmlight.c:359)
+| |           
+| ->00.19% (32B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->13.46% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->13.46% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->13.46% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->13.46% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->13.46% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->13.46% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->12.14% (2,048B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->06.07% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->06.07% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->06.07% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->06.07% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->06.07% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+|   ->06.07% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+|     ->06.07% (1,024B) 0x402638: main (mock_tmlight.c:359)
+|       
+->09.01% (1,520B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->03.56% (600B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->02.61% (440B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->02.61% (440B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->02.61% (440B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->01.42% (240B) in 2 places, all below massif's threshold (01.00%)
+| | |     | 
+| | |     ->01.19% (200B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | |       ->01.19% (200B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |         ->01.19% (200B) 0x402581: main (mock_tmlight.c:352)
+| | |           
+| | ->00.95% (160B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->03.56% (600B) 0x4C10C52: create_map (hashmap.c:104)
+| | ->02.61% (440B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->02.61% (440B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->02.61% (440B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->01.42% (240B) in 2 places, all below massif's threshold (01.00%)
+| | |     | 
+| | |     ->01.19% (200B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | |       ->01.19% (200B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |         ->01.19% (200B) 0x402581: main (mock_tmlight.c:352)
+| | |           
+| | ->00.95% (160B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->01.90% (320B) in 5 places, all below massif's threshold (01.00%)
+|   
+->08.16% (1,376B) in 27 places, all below massif's threshold (01.00%)
+| 
+->03.60% (608B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->01.42% (240B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->01.04% (176B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->01.04% (176B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->01.04% (176B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->01.04% (176B) in 3 places, all below massif's threshold (01.00%)
+| | |       
+| | ->00.38% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->01.42% (240B) 0x4C10C52: create_map (hashmap.c:104)
+| | ->01.04% (176B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->01.04% (176B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->01.04% (176B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->01.04% (176B) in 3 places, all below massif's threshold (01.00%)
+| | |       
+| | ->00.38% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.76% (128B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->03.60% (608B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->03.60% (608B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->03.60% (608B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|     ->01.42% (240B) 0x4C10C39: create_map (hashmap.c:103)
+|     | ->01.04% (176B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+|     | | ->01.04% (176B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+|     | |   ->01.04% (176B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|     | |     ->01.04% (176B) in 3 places, all below massif's threshold (01.00%)
+|     | |       
+|     | ->00.38% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+|     | 
+|     ->01.42% (240B) 0x4C10C52: create_map (hashmap.c:104)
+|     | ->01.04% (176B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+|     | | ->01.04% (176B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+|     | |   ->01.04% (176B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|     | |     ->01.04% (176B) in 3 places, all below massif's threshold (01.00%)
+|     | |       
+|     | ->00.38% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+|     | 
+|     ->00.76% (128B) in 1+ places, all below ms_print's threshold (01.00%)
+|     
+->02.84% (480B) 0x4C10B22: create_map (hashmap.c:92)
+| ->02.09% (352B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->02.09% (352B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->02.09% (352B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->02.09% (352B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.76% (128B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->02.74% (463B) 0x4C1100C: insert_map (hashmap.c:194)
+| ->02.74% (463B) 0x4C1B8BD: add_to_map (config_loader.c:80)
+|   ->02.74% (463B) 0x4C1BAFD: build_map_from_file (config_loader.c:136)
+|     ->02.74% (463B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|       ->01.67% (281B) in 2 places, all below massif's threshold (01.00%)
+|       | 
+|       ->01.08% (182B) 0x4C26FDF: get_mconfig (master_config.c:35)
+|         ->01.08% (182B) 0x4C26F57: init_mconfig (master_config.c:16)
+|           ->01.08% (182B) 0x402581: main (mock_tmlight.c:352)
+|             
+->02.23% (376B) 0x4C27D22: create_empty_interface (connection_interface.c:121)
+| ->02.23% (376B) 0x401AD9: set_interface (mock_tmlight.c:171)
+|   ->02.23% (376B) 0x402638: main (mock_tmlight.c:359)
+|     
+->02.15% (362B) 0x4C1B72F: get_file_contents (config_loader.c:43)
+| ->02.15% (362B) 0x4C1B9F4: build_map_from_file (config_loader.c:114)
+|   ->02.15% (362B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|     ->02.15% (362B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+|     | ->02.15% (362B) 0x401B09: set_interface (mock_tmlight.c:173)
+|     |   ->02.15% (362B) 0x402638: main (mock_tmlight.c:359)
+|     |     
+|     ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+|     
+->01.17% (198B) 0x4C1BE26: get_val_for_tag (config_loader.c:223)
+| ->01.17% (198B) in 27 places, all below massif's threshold (01.00%)
+|   
+->01.04% (176B) 0x4C29D0A: get_config (ex_config_helper.c:206)
+| ->01.04% (176B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+|   ->01.04% (176B) 0x401AF1: set_interface (mock_tmlight.c:172)
+|     ->01.04% (176B) 0x402638: main (mock_tmlight.c:359)
+|       
+->01.00% (168B) in 1+ places, all below ms_print's threshold (01.00%)
+
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 15        974,239           17,328           13,951         3,377            0
+ 16      1,050,035           20,480           16,516         3,964            0
+80.64% (16,516B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->16.14% (3,306B) in 57 places, all below massif's threshold (01.00%)
+| 
+->14.69% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->07.50% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->02.50% (512B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | | ->02.50% (512B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |   ->02.50% (512B) 0x402581: main (mock_tmlight.c:352)
+| | |     
+| | ->02.50% (512B) 0x4C29D1F: get_config (ex_config_helper.c:207)
+| | | ->02.50% (512B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+| | |   ->02.50% (512B) 0x401AF1: set_interface (mock_tmlight.c:172)
+| | |     ->02.50% (512B) 0x402638: main (mock_tmlight.c:359)
+| | |       
+| | ->02.50% (512B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+| |   ->02.50% (512B) 0x401B09: set_interface (mock_tmlight.c:173)
+| |     ->02.50% (512B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->06.88% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->06.88% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->06.88% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->03.12% (640B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |     | ->03.12% (640B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |     |   ->03.12% (640B) 0x402581: main (mock_tmlight.c:352)
+| |     |     
+| |     ->01.88% (384B) 0x4C29D1F: get_config (ex_config_helper.c:207)
+| |     | ->01.88% (384B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+| |     |   ->01.88% (384B) 0x401AF1: set_interface (mock_tmlight.c:172)
+| |     |     ->01.88% (384B) 0x402638: main (mock_tmlight.c:359)
+| |     |       
+| |     ->01.88% (384B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+| |       ->01.88% (384B) 0x401B09: set_interface (mock_tmlight.c:173)
+| |         ->01.88% (384B) 0x402638: main (mock_tmlight.c:359)
+| |           
+| ->00.31% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->11.09% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->11.09% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->11.09% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->11.09% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->11.09% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->11.09% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->10.31% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->05.00% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->05.00% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->05.00% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->05.00% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->05.00% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->05.00% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->05.00% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.31% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->08.40% (1,720B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->03.12% (640B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->02.15% (440B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->02.15% (440B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->02.15% (440B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->02.15% (440B) in 3 places, all below massif's threshold (01.00%)
+| | |       
+| | ->00.98% (200B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->03.12% (640B) 0x4C10C52: create_map (hashmap.c:104)
+| | ->02.15% (440B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->02.15% (440B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->02.15% (440B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->02.15% (440B) in 3 places, all below massif's threshold (01.00%)
+| | |       
+| | ->00.98% (200B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->02.15% (440B) in 5 places, all below massif's threshold (01.00%)
+|   
+->03.36% (688B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->03.36% (688B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->03.36% (688B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|     ->01.25% (256B) 0x4C10C39: create_map (hashmap.c:103)
+|     | ->01.25% (256B) in 4 places, all below massif's threshold (01.00%)
+|     |   
+|     ->01.25% (256B) 0x4C10C52: create_map (hashmap.c:104)
+|     | ->01.25% (256B) in 4 places, all below massif's threshold (01.00%)
+|     |   
+|     ->00.86% (176B) in 1+ places, all below ms_print's threshold (01.00%)
+|     
+->03.36% (688B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->01.25% (256B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->01.25% (256B) in 4 places, all below massif's threshold (01.00%)
+| |   
+| ->01.25% (256B) 0x4C10C52: create_map (hashmap.c:104)
+| | ->01.25% (256B) in 4 places, all below massif's threshold (01.00%)
+| |   
+| ->00.86% (176B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->02.77% (568B) 0x3426465D09: __fopen_internal (in /lib64/libc-2.11.2.so)
+| ->02.77% (568B) 0x4C1A374: get_file_contents (fix_trans.c:118)
+| | ->02.77% (568B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+| |   ->02.77% (568B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+| |     ->02.77% (568B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+| |       ->02.77% (568B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |         ->02.77% (568B) 0x402638: main (mock_tmlight.c:359)
+| |           
+| ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->02.50% (512B) 0x4C10B22: create_map (hashmap.c:92)
+| ->01.72% (352B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.72% (352B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.72% (352B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.72% (352B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.78% (160B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->02.38% (488B) 0x4C1100C: insert_map (hashmap.c:194)
+| ->02.38% (488B) 0x4C1B8BD: add_to_map (config_loader.c:80)
+|   ->02.38% (488B) 0x4C1BAFD: build_map_from_file (config_loader.c:136)
+|     ->02.38% (488B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|       ->02.38% (488B) in 3 places, all below massif's threshold (01.00%)
+|         
+->01.84% (376B) 0x4C27D22: create_empty_interface (connection_interface.c:121)
+| ->01.84% (376B) 0x401AD9: set_interface (mock_tmlight.c:171)
+|   ->01.84% (376B) 0x402638: main (mock_tmlight.c:359)
+|     
+->01.30% (267B) 0x4C1BE26: get_val_for_tag (config_loader.c:223)
+| ->01.30% (267B) in 36 places, all below massif's threshold (01.00%)
+|   
+->01.25% (256B) 0x4C1F150: create_rb_tree (rb_tree.c:45)
+| ->01.25% (256B) in 4 places, all below massif's threshold (01.00%)
+|   
+->01.25% (256B) 0x4013EC: create_ice_ff_out_array (mock_tmlight.c:83)
+  ->01.25% (256B) 0x401CF0: set_interface (mock_tmlight.c:203)
+    ->01.25% (256B) 0x402638: main (mock_tmlight.c:359)
+      
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 17      1,108,918           22,344           16,954         5,390            0
+ 18      1,150,203           23,880           17,210         6,670            0
+ 19      1,199,023           25,272           17,466         7,806            0
+ 20      1,240,077           27,088           18,584         8,504            0
+ 21      1,297,108           29,200           18,936        10,264            0
+ 22      1,361,580           31,120           19,280        11,840            0
+ 23      1,414,609           33,384           20,458        12,926            0
+ 24      1,449,871           34,728           20,682        14,046            0
+ 25      1,508,250           36,504           21,002        15,502            0
+57.53% (21,002B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->11.48% (4,191B) in 62 places, all below massif's threshold (01.00%)
+| 
+->08.24% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->04.21% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.40% (512B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | | ->01.40% (512B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |   ->01.40% (512B) 0x402581: main (mock_tmlight.c:352)
+| | |     
+| | ->01.40% (512B) 0x4C29D1F: get_config (ex_config_helper.c:207)
+| | | ->01.40% (512B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+| | |   ->01.40% (512B) 0x401AF1: set_interface (mock_tmlight.c:172)
+| | |     ->01.40% (512B) 0x402638: main (mock_tmlight.c:359)
+| | |       
+| | ->01.40% (512B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+| |   ->01.40% (512B) 0x401B09: set_interface (mock_tmlight.c:173)
+| |     ->01.40% (512B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->03.86% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->03.86% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->03.86% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.75% (640B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |     | ->01.75% (640B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |     |   ->01.75% (640B) 0x402581: main (mock_tmlight.c:352)
+| |     |     
+| |     ->01.05% (384B) 0x4C29D1F: get_config (ex_config_helper.c:207)
+| |     | ->01.05% (384B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+| |     |   ->01.05% (384B) 0x401AF1: set_interface (mock_tmlight.c:172)
+| |     |     ->01.05% (384B) 0x402638: main (mock_tmlight.c:359)
+| |     |       
+| |     ->01.05% (384B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+| |       ->01.05% (384B) 0x401B09: set_interface (mock_tmlight.c:173)
+| |         ->01.05% (384B) 0x402638: main (mock_tmlight.c:359)
+| |           
+| ->00.18% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->06.22% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->06.22% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->06.22% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->06.22% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->06.22% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->06.22% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->05.79% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->02.81% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->02.81% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->02.81% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->02.81% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->02.81% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->02.81% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->02.81% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.18% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->05.59% (2,040B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.08% (760B) in 5 places, all below massif's threshold (01.00%)
+| | 
+| ->01.75% (640B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->01.21% (440B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->01.21% (440B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->01.21% (440B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->01.21% (440B) in 3 places, all below massif's threshold (01.00%)
+| | |       
+| | ->00.55% (200B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->01.75% (640B) 0x4C10C52: create_map (hashmap.c:104)
+|   ->01.21% (440B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+|   | ->01.21% (440B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+|   |   ->01.21% (440B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|   |     ->01.21% (440B) in 3 places, all below massif's threshold (01.00%)
+|   |       
+|   ->00.55% (200B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->04.73% (1,728B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->04.73% (1,728B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->04.73% (1,728B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->04.73% (1,728B) 0x402638: main (mock_tmlight.c:359)
+|       
+->03.04% (1,108B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->03.04% (1,108B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.04% (1,108B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.04% (1,108B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.04% (1,108B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.04% (1,108B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.02% (1,104B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->03.02% (1,104B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.02% (1,104B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.02% (1,104B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.02% (1,104B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.02% (1,104B) 0x402638: main (mock_tmlight.c:359)
+|           
+->02.37% (864B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->02.37% (864B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->02.24% (816B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->02.24% (816B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.13% (48B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->02.24% (816B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->02.24% (816B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.40% (512B) 0x4C10B22: create_map (hashmap.c:92)
+| ->01.40% (512B) in 4 places, all below massif's threshold (01.00%)
+|   
+->01.34% (488B) 0x4C1100C: insert_map (hashmap.c:194)
+| ->01.34% (488B) 0x4C1B8BD: add_to_map (config_loader.c:80)
+|   ->01.34% (488B) 0x4C1BAFD: build_map_from_file (config_loader.c:136)
+|     ->01.34% (488B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|       ->01.34% (488B) in 3 places, all below massif's threshold (01.00%)
+|         
+->01.05% (384B) 0x4C1F150: create_rb_tree (rb_tree.c:45)
+| ->01.05% (384B) in 4 places, all below massif's threshold (01.00%)
+|   
+->01.03% (376B) 0x4C27D22: create_empty_interface (connection_interface.c:121)
+  ->01.03% (376B) 0x401AD9: set_interface (mock_tmlight.c:171)
+    ->01.03% (376B) 0x402638: main (mock_tmlight.c:359)
+      
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 26      1,572,943           39,264           22,295        16,969            0
+ 27      1,620,396           41,136           22,607        18,529            0
+ 28      1,663,642           42,384           22,839        19,545            0
+53.89% (22,839B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->11.13% (4,716B) in 63 places, all below massif's threshold (01.00%)
+| 
+->07.10% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->03.62% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.21% (512B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | | ->01.21% (512B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |   ->01.21% (512B) 0x402581: main (mock_tmlight.c:352)
+| | |     
+| | ->01.21% (512B) 0x4C29D1F: get_config (ex_config_helper.c:207)
+| | | ->01.21% (512B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+| | |   ->01.21% (512B) 0x401AF1: set_interface (mock_tmlight.c:172)
+| | |     ->01.21% (512B) 0x402638: main (mock_tmlight.c:359)
+| | |       
+| | ->01.21% (512B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+| |   ->01.21% (512B) 0x401B09: set_interface (mock_tmlight.c:173)
+| |     ->01.21% (512B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->03.32% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->03.32% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->03.32% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.81% (768B) in 2 places, all below massif's threshold (01.00%)
+| |     | 
+| |     ->01.51% (640B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |       ->01.51% (640B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |         ->01.51% (640B) 0x402581: main (mock_tmlight.c:352)
+| |           
+| ->00.15% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->05.55% (2,352B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->05.55% (2,352B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->05.55% (2,352B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->05.55% (2,352B) 0x402638: main (mock_tmlight.c:359)
+|       
+->05.36% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->05.36% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->05.36% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->05.36% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->05.36% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->05.36% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->05.10% (2,160B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.08% (880B) in 5 places, all below massif's threshold (01.00%)
+| | 
+| ->01.51% (640B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->01.04% (440B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | | ->01.04% (440B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| | |   ->01.04% (440B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| | |     ->01.04% (440B) in 3 places, all below massif's threshold (01.00%)
+| | |       
+| | ->00.47% (200B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->01.51% (640B) 0x4C10C52: create_map (hashmap.c:104)
+|   ->01.04% (440B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+|   | ->01.04% (440B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+|   |   ->01.04% (440B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|   |     ->01.04% (440B) in 3 places, all below massif's threshold (01.00%)
+|   |       
+|   ->00.47% (200B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->04.98% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->02.42% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->02.42% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->02.42% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->02.42% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->02.42% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->02.42% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->02.42% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.15% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->03.52% (1,492B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->03.52% (1,492B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.52% (1,492B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.52% (1,492B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.52% (1,492B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.52% (1,492B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.51% (1,488B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->03.51% (1,488B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.51% (1,488B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.51% (1,488B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.51% (1,488B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.51% (1,488B) 0x402638: main (mock_tmlight.c:359)
+|           
+->02.19% (928B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->02.19% (928B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->02.04% (864B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->02.04% (864B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.15% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->02.04% (864B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->02.04% (864B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.21% (512B) 0x4C10B22: create_map (hashmap.c:92)
+| ->01.21% (512B) in 4 places, all below massif's threshold (01.00%)
+|   
+->01.15% (488B) 0x4C1100C: insert_map (hashmap.c:194)
+| ->01.15% (488B) 0x4C1B8BD: add_to_map (config_loader.c:80)
+|   ->01.15% (488B) 0x4C1BAFD: build_map_from_file (config_loader.c:136)
+|     ->01.15% (488B) 0x4C1BD75: initialize_config (config_loader.c:200)
+|       ->01.15% (488B) in 3 places, all below massif's threshold (01.00%)
+|         
+->01.06% (448B) 0x4C1F150: create_rb_tree (rb_tree.c:45)
+  ->01.06% (448B) in 4 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 29      1,703,261           44,240           23,821        20,419            0
+53.84% (23,821B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->10.94% (4,838B) in 62 places, all below massif's threshold (01.00%)
+| 
+->06.80% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->03.47% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.16% (512B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | | ->01.16% (512B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |   ->01.16% (512B) 0x402581: main (mock_tmlight.c:352)
+| | |     
+| | ->01.16% (512B) 0x4C29D1F: get_config (ex_config_helper.c:207)
+| | | ->01.16% (512B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+| | |   ->01.16% (512B) 0x401AF1: set_interface (mock_tmlight.c:172)
+| | |     ->01.16% (512B) 0x402638: main (mock_tmlight.c:359)
+| | |       
+| | ->01.16% (512B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+| |   ->01.16% (512B) 0x401B09: set_interface (mock_tmlight.c:173)
+| |     ->01.16% (512B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->03.18% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->03.18% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->03.18% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.74% (768B) in 2 places, all below massif's threshold (01.00%)
+| |     | 
+| |     ->01.45% (640B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |       ->01.45% (640B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |         ->01.45% (640B) 0x402581: main (mock_tmlight.c:352)
+| |           
+| ->00.14% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->05.32% (2,352B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->05.32% (2,352B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->05.32% (2,352B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->05.32% (2,352B) 0x402638: main (mock_tmlight.c:359)
+|       
+->05.13% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->05.13% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->05.13% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->05.13% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->05.13% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->05.13% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->04.97% (2,200B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.08% (920B) in 5 places, all below massif's threshold (01.00%)
+| | 
+| ->01.45% (640B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->01.45% (640B) in 4 places, all below massif's threshold (01.00%)
+| |   
+| ->01.45% (640B) 0x4C10C52: create_map (hashmap.c:104)
+|   ->01.45% (640B) in 4 places, all below massif's threshold (01.00%)
+|     
+->04.77% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->02.31% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->02.31% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->02.31% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->02.31% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->02.31% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->02.31% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->02.31% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.14% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->03.54% (1,568B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->03.54% (1,568B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.54% (1,568B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.54% (1,568B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.54% (1,568B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.54% (1,568B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.54% (1,568B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->03.54% (1,568B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.54% (1,568B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.54% (1,568B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.54% (1,568B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.54% (1,568B) 0x402638: main (mock_tmlight.c:359)
+|           
+->02.13% (944B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->02.13% (944B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.99% (880B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.99% (880B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.14% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.99% (880B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->01.99% (880B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.28% (568B) 0x3426465D09: __fopen_internal (in /lib64/libc-2.11.2.so)
+| ->01.28% (568B) 0x4C1A374: get_file_contents (fix_trans.c:118)
+| | ->01.28% (568B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+| |   ->01.28% (568B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+| |     ->01.28% (568B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+| |       ->01.28% (568B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |         ->01.28% (568B) 0x402638: main (mock_tmlight.c:359)
+| |           
+| ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.16% (512B) 0x4C10B22: create_map (hashmap.c:92)
+| ->01.16% (512B) in 4 places, all below massif's threshold (01.00%)
+|   
+->01.16% (512B) 0x4C1F150: create_rb_tree (rb_tree.c:45)
+| ->01.16% (512B) in 4 places, all below massif's threshold (01.00%)
+|   
+->01.10% (488B) 0x4C1100C: insert_map (hashmap.c:194)
+  ->01.10% (488B) 0x4C1B8BD: add_to_map (config_loader.c:80)
+    ->01.10% (488B) 0x4C1BAFD: build_map_from_file (config_loader.c:136)
+      ->01.10% (488B) 0x4C1BD75: initialize_config (config_loader.c:200)
+        ->01.10% (488B) in 3 places, all below massif's threshold (01.00%)
+          
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 30      1,773,553           46,936           24,435        22,501            0
+ 31      1,813,630           48,424           24,683        23,741            0
+ 32      1,870,276           50,520           25,731        24,789            0
+50.93% (25,731B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->10.86% (5,484B) in 63 places, all below massif's threshold (01.00%)
+| 
+->05.95% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->03.04% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.01% (512B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| | | ->01.01% (512B) 0x4C26F57: init_mconfig (master_config.c:16)
+| | |   ->01.01% (512B) 0x402581: main (mock_tmlight.c:352)
+| | |     
+| | ->01.01% (512B) 0x4C29D1F: get_config (ex_config_helper.c:207)
+| | | ->01.01% (512B) 0x4C29AE1: init_config (ex_config_helper.c:146)
+| | |   ->01.01% (512B) 0x401AF1: set_interface (mock_tmlight.c:172)
+| | |     ->01.01% (512B) 0x402638: main (mock_tmlight.c:359)
+| | |       
+| | ->01.01% (512B) 0x4C2A7BF: load_fix_config (ex_config_helper.c:433)
+| |   ->01.01% (512B) 0x401B09: set_interface (mock_tmlight.c:173)
+| |     ->01.01% (512B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->02.79% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->02.79% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->02.79% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.52% (768B) in 2 places, all below massif's threshold (01.00%)
+| |     | 
+| |     ->01.27% (640B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |       ->01.27% (640B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |         ->01.27% (640B) 0x402581: main (mock_tmlight.c:352)
+| |           
+| ->00.13% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->05.89% (2,976B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->05.89% (2,976B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->05.89% (2,976B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->05.89% (2,976B) 0x402638: main (mock_tmlight.c:359)
+|       
+->04.59% (2,320B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.06% (1,040B) in 5 places, all below massif's threshold (01.00%)
+| | 
+| ->01.27% (640B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->01.27% (640B) in 4 places, all below massif's threshold (01.00%)
+| |   
+| ->01.27% (640B) 0x4C10C52: create_map (hashmap.c:104)
+|   ->01.27% (640B) in 4 places, all below massif's threshold (01.00%)
+|     
+->04.50% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->04.50% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->04.50% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->04.50% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->04.50% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->04.50% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->04.18% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->02.03% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->02.03% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->02.03% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->02.03% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->02.03% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->02.03% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->02.03% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.13% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->03.93% (1,984B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->03.93% (1,984B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.93% (1,984B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.93% (1,984B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.93% (1,984B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.93% (1,984B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.93% (1,984B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->03.93% (1,984B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.93% (1,984B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.93% (1,984B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.93% (1,984B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.93% (1,984B) 0x402638: main (mock_tmlight.c:359)
+|           
+->02.00% (1,008B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->02.00% (1,008B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.84% (928B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.84% (928B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.16% (80B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.84% (928B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->01.84% (928B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.14% (576B) 0x4C1F150: create_rb_tree (rb_tree.c:45)
+| ->01.14% (576B) in 4 places, all below massif's threshold (01.00%)
+|   
+->01.12% (568B) 0x3426465D09: __fopen_internal (in /lib64/libc-2.11.2.so)
+| ->01.12% (568B) 0x4C1A374: get_file_contents (fix_trans.c:118)
+| | ->01.12% (568B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+| |   ->01.12% (568B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+| |     ->01.12% (568B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+| |       ->01.12% (568B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |         ->01.12% (568B) 0x402638: main (mock_tmlight.c:359)
+| |           
+| ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.01% (512B) 0x4C10B22: create_map (hashmap.c:92)
+  ->01.01% (512B) in 4 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 33      1,909,087           51,968           26,137        25,831            0
+ 34      1,967,318           54,176           26,505        27,671            0
+ 35      2,038,879           56,864           27,705        29,159            0
+48.72% (27,705B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->09.79% (5,569B) in 63 places, all below massif's threshold (01.00%)
+| 
+->06.33% (3,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->06.33% (3,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->06.33% (3,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->06.33% (3,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->05.29% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->02.70% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->02.70% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->02.48% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->02.48% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->02.48% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.35% (768B) in 2 places, all below massif's threshold (01.00%)
+| |     | 
+| |     ->01.13% (640B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |       ->01.13% (640B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |         ->01.13% (640B) 0x402581: main (mock_tmlight.c:352)
+| |           
+| ->00.11% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->04.29% (2,440B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.04% (1,160B) in 5 places, all below massif's threshold (01.00%)
+| | 
+| ->01.13% (640B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->01.13% (640B) in 4 places, all below massif's threshold (01.00%)
+| |   
+| ->01.13% (640B) 0x4C10C52: create_map (hashmap.c:104)
+|   ->01.13% (640B) in 4 places, all below massif's threshold (01.00%)
+|     
+->04.22% (2,400B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->04.22% (2,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->04.22% (2,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->04.22% (2,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->04.22% (2,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->04.22% (2,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->04.22% (2,400B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->04.22% (2,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->04.22% (2,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->04.22% (2,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->04.22% (2,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->04.22% (2,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.99% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->03.99% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->03.99% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->03.99% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->03.99% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->03.99% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->03.71% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.80% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->01.80% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->01.80% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->01.80% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->01.80% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->01.80% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->01.80% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.11% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.89% (1,072B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.89% (1,072B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.72% (976B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.72% (976B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.17% (96B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.72% (976B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->01.72% (976B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.14% (649B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.14% (649B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+|   ->01.14% (649B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+|     ->01.14% (649B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->01.14% (649B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->01.14% (649B) 0x402638: main (mock_tmlight.c:359)
+|           
+->01.13% (640B) 0x4C1F150: create_rb_tree (rb_tree.c:45)
+| ->01.13% (640B) in 4 places, all below massif's threshold (01.00%)
+|   
+->01.00% (568B) in 1+ places, all below ms_print's threshold (01.00%)
+
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 36      2,078,815           58,600           28,439        30,161            0
+ 37      2,117,251           60,088           28,687        31,401            0
+ 38      2,156,559           61,480           28,919        32,561            0
+ 39      2,195,858           62,536           29,119        33,417            0
+ 40      2,234,193           63,784           29,327        34,457            0
+45.98% (29,327B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->08.78% (5,603B) in 64 places, all below massif's threshold (01.00%)
+| 
+->07.15% (4,560B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->07.15% (4,560B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->07.15% (4,560B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->07.15% (4,560B) 0x402638: main (mock_tmlight.c:359)
+|       
+->04.72% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->02.41% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->02.41% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->02.21% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->02.21% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->02.21% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.20% (768B) in 2 places, all below massif's threshold (01.00%)
+| |     | 
+| |     ->01.00% (640B) 0x4C26FDF: get_mconfig (master_config.c:35)
+| |       ->01.00% (640B) 0x4C26F57: init_mconfig (master_config.c:16)
+| |         ->01.00% (640B) 0x402581: main (mock_tmlight.c:352)
+| |           
+| ->00.10% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->04.58% (2,920B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->04.58% (2,920B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->04.58% (2,920B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->04.58% (2,920B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->04.58% (2,920B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->04.58% (2,920B) 0x402638: main (mock_tmlight.c:359)
+|           
+->04.57% (2,916B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->04.57% (2,916B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->04.57% (2,916B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->04.57% (2,916B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->04.57% (2,916B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->04.57% (2,916B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.95% (2,520B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->01.94% (1,240B) in 5 places, all below massif's threshold (01.00%)
+| | 
+| ->01.00% (640B) 0x4C10C39: create_map (hashmap.c:103)
+| | ->01.00% (640B) in 4 places, all below massif's threshold (01.00%)
+| |   
+| ->01.00% (640B) 0x4C10C52: create_map (hashmap.c:104)
+|   ->01.00% (640B) in 4 places, all below massif's threshold (01.00%)
+|     
+->03.56% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->03.56% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->03.56% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->03.56% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->03.56% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->03.56% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->03.31% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.61% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->01.61% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->01.61% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->01.61% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->01.61% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->01.61% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->01.61% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.10% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.76% (1,120B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.76% (1,120B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.58% (1,008B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.58% (1,008B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.18% (112B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.58% (1,008B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->01.58% (1,008B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.02% (649B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.02% (649B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+|   ->01.02% (649B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+|     ->01.02% (649B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->01.02% (649B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->01.02% (649B) 0x402638: main (mock_tmlight.c:359)
+|           
+->01.00% (640B) 0x4C1F150: create_rb_tree (rb_tree.c:45)
+  ->01.00% (640B) in 4 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 41      2,274,314           65,128           29,551        35,577            0
+ 42      2,311,796           66,848           30,679        36,169            0
+ 43      2,351,132           68,384           30,935        37,449            0
+ 44      2,408,998           70,520           31,291        39,229            0
+ 45      2,462,382           72,576           32,436        40,140            0
+44.69% (32,436B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->08.66% (6,285B) in 64 places, all below massif's threshold (01.00%)
+| 
+->07.14% (5,184B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->07.14% (5,184B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->07.14% (5,184B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->07.14% (5,184B) 0x402638: main (mock_tmlight.c:359)
+|       
+->04.76% (3,456B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->04.76% (3,456B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->04.76% (3,456B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->04.76% (3,456B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->04.76% (3,456B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->04.76% (3,456B) 0x402638: main (mock_tmlight.c:359)
+|           
+->04.76% (3,456B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->04.76% (3,456B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->04.76% (3,456B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->04.76% (3,456B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->04.76% (3,456B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->04.76% (3,456B) 0x402638: main (mock_tmlight.c:359)
+|           
+->04.14% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->02.12% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->02.12% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.94% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.94% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.94% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.94% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.09% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->03.69% (2,680B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->03.69% (2,680B) in 7 places, all below massif's threshold (01.00%)
+|   
+->03.13% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->03.13% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->03.13% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->03.13% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->03.13% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->03.13% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->02.91% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.41% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->01.41% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->01.41% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->01.41% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->01.41% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->01.41% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->01.41% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.09% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.65% (1,200B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.65% (1,200B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.48% (1,072B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.48% (1,072B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.18% (128B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.48% (1,072B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->01.48% (1,072B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.30% (944B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.30% (944B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+|   ->01.30% (944B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+|     ->01.30% (944B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->01.30% (944B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->01.30% (944B) 0x402638: main (mock_tmlight.c:359)
+|           
+->01.06% (768B) 0x4C1F150: create_rb_tree (rb_tree.c:45)
+  ->01.06% (768B) in 4 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 46      2,500,899           75,176           33,994        41,182            0
+ 47      2,558,762           77,528           34,386        43,142            0
+ 48      2,625,058           79,688           34,770        44,918            0
+ 49      2,683,794           81,848           35,130        46,718            0
+ 50      2,715,010           82,712           35,298        47,414            0
+ 51      2,746,508           83,816           35,482        48,334            0
+ 52      2,777,445           84,920           35,666        49,254            0
+ 53      2,808,505           86,072           35,858        50,214            0
+ 54      2,839,371           86,792           36,002        50,790            0
+ 55      2,871,347           87,944           36,194        51,750            0
+ 56      2,899,409           89,368           37,143        52,225            0
+41.56% (37,143B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->08.08% (7,223B) in 65 places, all below massif's threshold (01.00%)
+| 
+->07.79% (6,960B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->07.79% (6,960B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->07.79% (6,960B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->07.79% (6,960B) 0x402638: main (mock_tmlight.c:359)
+|       
+->05.19% (4,640B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->05.19% (4,640B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.19% (4,640B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.19% (4,640B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.19% (4,640B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.19% (4,640B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.19% (4,640B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->05.19% (4,640B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.19% (4,640B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.19% (4,640B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.19% (4,640B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.19% (4,640B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.37% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->01.72% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.72% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.58% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.58% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.58% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.58% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.07% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->03.13% (2,800B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->03.13% (2,800B) in 7 places, all below massif's threshold (01.00%)
+|   
+->02.54% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->02.54% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->02.54% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->02.54% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->02.54% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->02.54% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->02.36% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.15% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->01.15% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->01.15% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->01.15% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->01.15% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->01.15% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->01.15% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.07% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.45% (1,296B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.45% (1,296B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.25% (1,120B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.25% (1,120B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.20% (176B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.25% (1,120B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+| ->01.25% (1,120B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.20% (1,073B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+  ->01.20% (1,073B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+    ->01.20% (1,073B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+      ->01.20% (1,073B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+        ->01.20% (1,073B) 0x401D26: set_interface (mock_tmlight.c:205)
+          ->01.20% (1,073B) 0x402638: main (mock_tmlight.c:359)
+            
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 57      2,930,369           90,960           37,933        53,027            0
+ 58      2,961,906           92,256           38,149        54,107            0
+ 59      2,993,194           93,504           38,357        55,147            0
+ 60      3,024,428           94,320           38,517        55,803            0
+ 61      3,055,220           95,472           38,709        56,763            0
+ 62      3,086,877           96,624           38,901        57,723            0
+ 63      3,118,727           97,776           39,093        58,683            0
+ 64      3,149,978           98,544           39,245        59,299            0
+ 65      3,167,925           99,680           40,196        59,484            0
+40.33% (40,196B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->08.04% (8,016B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->08.04% (8,016B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->08.04% (8,016B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->08.04% (8,016B) 0x402638: main (mock_tmlight.c:359)
+|       
+->07.40% (7,377B) in 65 places, all below massif's threshold (01.00%)
+| 
+->05.36% (5,344B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->05.36% (5,344B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.36% (5,344B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.36% (5,344B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.36% (5,344B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.36% (5,344B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.36% (5,344B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->05.36% (5,344B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.36% (5,344B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.36% (5,344B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.36% (5,344B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.36% (5,344B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.02% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->01.54% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.54% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.41% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.41% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.41% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.41% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.06% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->02.93% (2,920B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.93% (2,920B) in 7 places, all below massif's threshold (01.00%)
+|   
+->02.28% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->02.28% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->02.28% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->02.28% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->02.28% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->02.28% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->02.12% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.03% (1,024B) 0x4C205AF: create_gk_databuffs (gatekeeper.c:73)
+| | ->01.03% (1,024B) 0x4C25509: create_dart_obj_fact (dart_obj_factory.c:41)
+| |   ->01.03% (1,024B) 0x4C20A12: create_empty_gatekeeper (gatekeeper.c:203)
+| |     ->01.03% (1,024B) 0x4025B8: main (mock_tmlight.c:354)
+| |       
+| ->01.03% (1,024B) 0x4C27E09: create_empty_interface (connection_interface.c:139)
+| | ->01.03% (1,024B) 0x401AD9: set_interface (mock_tmlight.c:171)
+| |   ->01.03% (1,024B) 0x402638: main (mock_tmlight.c:359)
+| |     
+| ->00.06% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.38% (1,376B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.38% (1,376B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.17% (1,168B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.17% (1,168B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.21% (208B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.26% (1,260B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.26% (1,260B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+|   ->01.26% (1,260B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+|     ->01.26% (1,260B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->01.26% (1,260B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->01.26% (1,260B) 0x402638: main (mock_tmlight.c:359)
+|           
+->01.17% (1,168B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+  ->01.17% (1,168B) in 7 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 66      3,199,423          101,800           41,514        60,286            0
+ 67      3,230,158          103,024           41,718        61,306            0
+ 68      3,261,388          104,296           41,930        62,366            0
+ 69      3,292,754          105,160           42,098        63,062            0
+ 70      3,323,670          106,312           42,290        64,022            0
+ 71      3,354,610          107,464           42,482        64,982            0
+ 72      3,385,952          108,664           42,682        65,982            0
+ 73      3,417,883          109,432           42,834        66,598            0
+ 74      3,449,826          110,584           43,026        67,558            0
+ 75      3,480,653          111,736           43,218        68,518            0
+38.68% (43,218B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->08.59% (9,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->08.59% (9,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->08.59% (9,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->08.59% (9,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->06.14% (6,859B) in 65 places, all below massif's threshold (01.00%)
+| 
+->05.58% (6,236B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->05.58% (6,236B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.58% (6,236B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.58% (6,236B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.58% (6,236B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.58% (6,236B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.58% (6,232B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->05.58% (6,232B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.58% (6,232B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.58% (6,232B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.58% (6,232B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.58% (6,232B) 0x402638: main (mock_tmlight.c:359)
+|           
+->02.69% (3,008B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->01.37% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.37% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.26% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.26% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.26% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.26% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.06% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->02.68% (3,000B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.68% (3,000B) in 7 places, all below massif's threshold (01.00%)
+|   
+->02.03% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->02.03% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->02.03% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->02.03% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->02.03% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->02.03% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->01.89% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.89% (2,112B) in 3 places, all below massif's threshold (01.00%)
+|   
+->01.29% (1,440B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.29% (1,440B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.07% (1,200B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.07% (1,200B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.21% (240B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.13% (1,260B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.13% (1,260B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+|   ->01.13% (1,260B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+|     ->01.13% (1,260B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->01.13% (1,260B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->01.13% (1,260B) 0x402638: main (mock_tmlight.c:359)
+|           
+->01.07% (1,200B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+  ->01.07% (1,200B) in 7 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 76      3,511,721          112,792           43,394        69,398            0
+ 77      3,543,614          113,608           43,554        70,054            0
+ 78      3,570,929          115,664           45,364        70,300            0
+39.22% (45,364B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->08.30% (9,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->08.30% (9,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->08.30% (9,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->08.30% (9,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->06.46% (7,475B) in 65 places, all below massif's threshold (01.00%)
+| 
+->05.53% (6,400B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->05.53% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.53% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.53% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.53% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.53% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.53% (6,400B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->05.53% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.53% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.53% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.53% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.53% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.49% (4,032B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->01.33% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.33% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.22% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.22% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.22% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.22% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.94% (1,088B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->02.66% (3,080B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.66% (3,080B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.96% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->01.96% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->01.96% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->01.96% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->01.96% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->01.96% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->01.83% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.83% (2,112B) in 3 places, all below massif's threshold (01.00%)
+|   
+->01.29% (1,488B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.29% (1,488B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.07% (1,232B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.07% (1,232B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.22% (256B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.10% (1,274B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.09% (1,260B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+| | ->01.09% (1,260B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+| |   ->01.09% (1,260B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+| |     ->01.09% (1,260B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |       ->01.09% (1,260B) 0x402638: main (mock_tmlight.c:359)
+| |         
+| ->00.01% (14B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.07% (1,232B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+  ->01.07% (1,232B) in 7 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 79      3,592,849          117,088           46,639        70,449            0
+39.83% (46,639B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->08.20% (9,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->08.20% (9,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->08.20% (9,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->08.20% (9,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->06.42% (7,519B) in 66 places, all below massif's threshold (01.00%)
+| 
+->05.47% (6,400B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->05.47% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.47% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.47% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.47% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.47% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.47% (6,400B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->05.47% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.47% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.47% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.47% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.47% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->04.32% (5,056B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->01.75% (2,048B) 0x4C1ABAB: create_fix_incoming_trans (fix_trans.c:296)
+| | ->01.75% (2,048B) 0x4C1AD2F: create_translator (fix_trans.c:320)
+| |   ->01.75% (2,048B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |     ->01.75% (2,048B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->01.31% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.31% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.20% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.20% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.20% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.20% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.05% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->02.70% (3,160B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.70% (3,160B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.94% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->01.94% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->01.94% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->01.94% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->01.94% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->01.94% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->01.80% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.80% (2,112B) in 3 places, all below massif's threshold (01.00%)
+|   
+->01.30% (1,520B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.30% (1,520B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.08% (1,264B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.08% (1,264B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.22% (256B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.14% (1,337B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.08% (1,260B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+| | ->01.08% (1,260B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+| |   ->01.08% (1,260B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+| |     ->01.08% (1,260B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |       ->01.08% (1,260B) 0x402638: main (mock_tmlight.c:359)
+| |         
+| ->00.07% (77B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.08% (1,264B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+  ->01.08% (1,264B) in 7 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 80      3,620,227          118,712           47,914        70,798            0
+40.36% (47,914B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->08.09% (9,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->08.09% (9,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->08.09% (9,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->08.09% (9,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->06.41% (7,608B) in 66 places, all below massif's threshold (01.00%)
+| 
+->05.39% (6,400B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->05.39% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.39% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.39% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.39% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.39% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.39% (6,400B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->05.39% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.39% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.39% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.39% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.39% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.12% (6,080B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->02.59% (3,072B) 0x4C1ABAB: create_fix_incoming_trans (fix_trans.c:296)
+| | ->02.59% (3,072B) 0x4C1AD2F: create_translator (fix_trans.c:320)
+| |   ->02.59% (3,072B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |     ->02.59% (3,072B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->01.29% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.29% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.19% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.19% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.19% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.19% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.05% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->02.73% (3,240B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.73% (3,240B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.91% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->01.91% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->01.91% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->01.91% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->01.91% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->01.91% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->01.78% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.78% (2,112B) in 3 places, all below massif's threshold (01.00%)
+|   
+->01.31% (1,552B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.31% (1,552B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.09% (1,296B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.09% (1,296B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.22% (256B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.14% (1,355B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.06% (1,260B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+| | ->01.06% (1,260B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+| |   ->01.06% (1,260B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+| |     ->01.06% (1,260B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |       ->01.06% (1,260B) 0x402638: main (mock_tmlight.c:359)
+| |         
+| ->00.08% (95B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.09% (1,296B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+  ->01.09% (1,296B) in 7 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 81      3,642,779          120,192           49,227        70,965            0
+40.96% (49,227B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->07.99% (9,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->07.99% (9,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->07.99% (9,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->07.99% (9,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->06.37% (7,657B) in 66 places, all below massif's threshold (01.00%)
+| 
+->05.91% (7,104B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->03.41% (4,096B) 0x4C1ABAB: create_fix_incoming_trans (fix_trans.c:296)
+| | ->03.41% (4,096B) 0x4C1AD2F: create_translator (fix_trans.c:320)
+| |   ->03.41% (4,096B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |     ->03.41% (4,096B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->01.28% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.28% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.17% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.17% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.17% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.17% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.05% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->05.32% (6,400B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->05.32% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.32% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.32% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.32% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.32% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.32% (6,400B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->05.32% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.32% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.32% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.32% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.32% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->02.76% (3,320B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.76% (3,320B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.89% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->01.89% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->01.89% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->01.89% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->01.89% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->01.89% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->01.76% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.76% (2,112B) in 3 places, all below massif's threshold (01.00%)
+|   
+->01.32% (1,584B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.32% (1,584B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.10% (1,328B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.10% (1,328B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.21% (256B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.21% (1,451B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.05% (1,260B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+| | ->01.05% (1,260B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+| |   ->01.05% (1,260B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+| |     ->01.05% (1,260B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |       ->01.05% (1,260B) 0x402638: main (mock_tmlight.c:359)
+| |         
+| ->00.16% (191B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.10% (1,328B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+  ->01.10% (1,328B) in 7 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 82      3,673,459          121,936           50,554        71,382            0
+41.46% (50,554B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->07.87% (9,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->07.87% (9,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->07.87% (9,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->07.87% (9,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->06.67% (8,128B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->04.20% (5,120B) 0x4C1ABAB: create_fix_incoming_trans (fix_trans.c:296)
+| | ->04.20% (5,120B) 0x4C1AD2F: create_translator (fix_trans.c:320)
+| |   ->04.20% (5,120B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |     ->04.20% (5,120B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->01.26% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.26% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.15% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.15% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.15% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.15% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.05% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->06.37% (7,771B) in 66 places, all below massif's threshold (01.00%)
+| 
+->05.25% (6,400B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->05.25% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.25% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.25% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.25% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.25% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.25% (6,400B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->05.25% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.25% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.25% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.25% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.25% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->02.79% (3,400B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.79% (3,400B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.86% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->01.86% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->01.86% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->01.86% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->01.86% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->01.86% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->01.73% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.73% (2,112B) in 3 places, all below massif's threshold (01.00%)
+|   
+->01.33% (1,616B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.33% (1,616B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.12% (1,360B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.12% (1,360B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.21% (256B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.23% (1,496B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.03% (1,260B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+| | ->01.03% (1,260B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+| |   ->01.03% (1,260B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+| |     ->01.03% (1,260B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |       ->01.03% (1,260B) 0x402638: main (mock_tmlight.c:359)
+| |         
+| ->00.19% (236B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.12% (1,360B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+  ->01.12% (1,360B) in 7 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 83      3,699,192          123,632           51,975        71,657            0
+42.04% (51,975B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->07.76% (9,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->07.76% (9,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->07.76% (9,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->07.76% (9,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->07.40% (9,152B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->04.97% (6,144B) 0x4C1ABAB: create_fix_incoming_trans (fix_trans.c:296)
+| | ->04.97% (6,144B) 0x4C1AD2F: create_translator (fix_trans.c:320)
+| |   ->04.97% (6,144B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |     ->04.97% (6,144B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->01.24% (1,536B) 0x4C1BD3F: initialize_config (config_loader.c:198)
+| | ->01.24% (1,536B) in 3 places, all below massif's threshold (01.00%)
+| |   
+| ->01.14% (1,408B) 0x4C1B913: create_map_for_header (config_loader.c:95)
+| | ->01.14% (1,408B) 0x4C1BAD9: build_map_from_file (config_loader.c:134)
+| |   ->01.14% (1,408B) 0x4C1BD75: initialize_config (config_loader.c:200)
+| |     ->01.14% (1,408B) in 3 places, all below massif's threshold (01.00%)
+| |       
+| ->00.05% (64B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->06.35% (7,845B) in 66 places, all below massif's threshold (01.00%)
+| 
+->05.18% (6,400B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->05.18% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.18% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.18% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.18% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.18% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->05.18% (6,400B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->05.18% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->05.18% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->05.18% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->05.18% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->05.18% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->02.81% (3,480B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->02.81% (3,480B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.84% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->01.84% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->01.84% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->01.84% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->01.84% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->01.84% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->01.71% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.71% (2,112B) in 3 places, all below massif's threshold (01.00%)
+|   
+->01.35% (1,675B) 0x4C1A3D7: get_file_contents (fix_trans.c:123)
+| ->01.02% (1,260B) 0x4C1AA0D: read_n_set_outgoing (fix_trans.c:266)
+| | ->01.02% (1,260B) 0x4C1AADA: create_fix_outgoing_trans (fix_trans.c:286)
+| |   ->01.02% (1,260B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+| |     ->01.02% (1,260B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |       ->01.02% (1,260B) 0x402638: main (mock_tmlight.c:359)
+| |         
+| ->00.34% (415B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->01.33% (1,648B) 0x4C105FC: create_keys (dart_allocator.c:92)
+| ->01.33% (1,648B) 0x4C106B6: set_ready_list (dart_allocator.c:111)
+|   ->01.13% (1,392B) 0x4C107F1: create_mem_glob (dart_allocator.c:144)
+|   | ->01.13% (1,392B) in 7 places, all below massif's threshold (01.00%)
+|   |   
+|   ->00.21% (256B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.13% (1,392B) 0x4C107AC: create_mem_glob (dart_allocator.c:140)
+  ->01.13% (1,392B) in 7 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 84      3,730,122          123,928           51,690        72,238            0
+ 85      3,762,799          124,272           51,970        72,302            0
+ 86      3,791,312          190,264          117,819        72,445            0
+61.92% (117,819B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->34.45% (65,537B) 0x4C2C32D: create_sock_recv_manager (sock_recv_manager.c:24)
+| ->34.45% (65,537B) 0x4C2246F: create_parse_args (async_server.c:487)
+|   ->34.45% (65,537B) 0x4C23B1A: async_connection (async_server.c:969)
+|     ->34.45% (65,537B) 0x4022AB: connect_me (mock_tmlight.c:256)
+|       ->34.45% (65,537B) 0x40265C: main (mock_tmlight.c:366)
+|         
+->06.74% (12,827B) in 78 places, all below massif's threshold (01.00%)
+| 
+->05.05% (9,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->05.05% (9,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->05.05% (9,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->05.05% (9,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->04.81% (9,152B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->03.23% (6,144B) 0x4C1ABAB: create_fix_incoming_trans (fix_trans.c:296)
+| | ->03.23% (6,144B) 0x4C1AD2F: create_translator (fix_trans.c:320)
+| |   ->03.23% (6,144B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |     ->03.23% (6,144B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->01.58% (3,008B) in 4 places, all below massif's threshold (01.00%)
+|   
+->03.36% (6,400B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->03.36% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.36% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.36% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.36% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.36% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.36% (6,400B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->03.36% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.36% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.36% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.36% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.36% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->01.85% (3,520B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->01.85% (3,520B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.19% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->01.19% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->01.19% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->01.19% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->01.19% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->01.19% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->01.11% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+  ->01.11% (2,112B) in 3 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 87      3,831,248          190,080          117,651        72,429            0
+ 88      3,848,598          198,512          125,947        72,565            0
+63.45% (125,947B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->33.01% (65,537B) 0x4C2C32D: create_sock_recv_manager (sock_recv_manager.c:24)
+| ->33.01% (65,537B) 0x4C2246F: create_parse_args (async_server.c:487)
+|   ->33.01% (65,537B) 0x4C23B1A: async_connection (async_server.c:969)
+|     ->33.01% (65,537B) 0x4022AB: connect_me (mock_tmlight.c:256)
+|       ->33.01% (65,537B) 0x40265C: main (mock_tmlight.c:366)
+|         
+->06.45% (12,811B) in 83 places, all below massif's threshold (01.00%)
+| 
+->04.84% (9,600B) 0x4C1AAF8: create_fix_outgoing_trans (fix_trans.c:287)
+| ->04.84% (9,600B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|   ->04.84% (9,600B) 0x401D26: set_interface (mock_tmlight.c:205)
+|     ->04.84% (9,600B) 0x402638: main (mock_tmlight.c:359)
+|       
+->04.61% (9,152B) 0x4C10BAA: create_map (hashmap.c:97)
+| ->03.10% (6,144B) 0x4C1ABAB: create_fix_incoming_trans (fix_trans.c:296)
+| | ->03.10% (6,144B) 0x4C1AD2F: create_translator (fix_trans.c:320)
+| |   ->03.10% (6,144B) 0x401D26: set_interface (mock_tmlight.c:205)
+| |     ->03.10% (6,144B) 0x402638: main (mock_tmlight.c:359)
+| |       
+| ->01.52% (3,008B) in 4 places, all below massif's threshold (01.00%)
+|   
+->03.22% (6,400B) 0x4C1A619: build_fix_pos_array (fix_trans.c:174)
+| ->03.22% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.22% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.22% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.22% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.22% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.22% (6,400B) 0x4C1A627: build_fix_pos_array (fix_trans.c:175)
+| ->03.22% (6,400B) 0x4C1A97D: build_order_obj (fix_trans.c:254)
+|   ->03.22% (6,400B) 0x4C1AB63: create_fix_outgoing_trans (fix_trans.c:290)
+|     ->03.22% (6,400B) 0x4C1ACF2: create_translator (fix_trans.c:316)
+|       ->03.22% (6,400B) 0x401D26: set_interface (mock_tmlight.c:205)
+|         ->03.22% (6,400B) 0x402638: main (mock_tmlight.c:359)
+|           
+->03.10% (6,144B) 0x4022EF: run_thread (mock_tmlight.c:285)
+| ->03.10% (6,144B) 0x40266F: main (mock_tmlight.c:368)
+|   
+->01.77% (3,520B) 0x4C10786: create_mem_glob (dart_allocator.c:137)
+| ->01.77% (3,520B) in 7 places, all below massif's threshold (01.00%)
+|   
+->01.14% (2,271B) 0x34264979C8: __tzfile_read (in /lib64/libc-2.11.2.so)
+| ->01.14% (2,271B) 0x3426496B80: tzset_internal (in /lib64/libc-2.11.2.so)
+|   ->01.14% (2,271B) 0x3426496D17: __tz_convert (in /lib64/libc-2.11.2.so)
+|     ->01.14% (2,271B) 0x4C27650: get_mconfig (master_config.c:141)
+|       ->01.14% (2,271B) 0x4C26F57: init_mconfig (master_config.c:16)
+|         ->01.14% (2,271B) 0x402581: main (mock_tmlight.c:352)
+|           
+->01.06% (2,112B) 0x4C1EA11: databuf_alloc (databuf.c:16)
+| ->01.06% (2,112B) in 3 places, all below massif's threshold (01.00%)
+|   
+->01.01% (2,000B) 0x4C25097: send_debug_message (debug_logger.c:48)
+  ->01.01% (2,000B) in 2 places, all below massif's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 89      3,899,580          198,368          125,847        72,521            0
+ 90  5,733,638,409          198,208          125,727        72,481            0

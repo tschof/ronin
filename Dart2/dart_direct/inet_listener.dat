@@ -1,0 +1,18 @@
+[SERVER]
+Username=MM8
+Password=MM8
+Port=54207
+Reset Incoming=0
+Reset Outgoing=0
+directory=/home/fparnell/git_repo/Dart2/fix_server/inet_cfg/
+Mod Name=MM8UTP
+Dest ID=2
+Trader=MM8
+CLR ID=695
+
+[TIMES]
+End Hour=21
+End Min=20
+Reset Hour=6
+Reset Min=21
+Last Run Day=20160629160914

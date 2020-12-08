@@ -1,0 +1,18 @@
+[SERVER]
+Sender Comp ID=SIM
+Target Comp ID=SIM
+Username=ROM12
+Password=ROM12
+Fix Port=8760
+Fix IP=10.106.96.90
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=7
+Mod Name=SIM
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20141020135415

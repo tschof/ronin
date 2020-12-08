@@ -1,0 +1,1 @@
+actionType (string),errorROEID (string option),firmROEID (string),type (string),CATReporterIMID (string option),tradeKeyDate (string),tradeID (string),symbol (string),eventTimestamp (string),buyDetails (string option),sellDetails (string option),

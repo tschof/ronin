@@ -1,0 +1,26 @@
+[SERVER]
+username=CITIUAT
+password=RONINUAT
+Sender Comp ID=RONINUAT
+Target Comp ID=CITIUAT
+Fix Port=9400
+Fix IP=199.67.139.10
+Reset Incoming=0
+Reset Outgoing=0
+directory=/home/romserver/test/phaser/phaser_config/
+Dest ID=601
+Mod Name=Phaser
+
+[ROM SERVER]
+
+[TIMES]
+End Hour=17
+End Min=10
+Reset Hour=19
+Reset Min=30
+Last Run Day=20200622163456
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

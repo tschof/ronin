@@ -1,0 +1,18 @@
+[SERVER]
+Sender Comp ID=DARTQA
+Target Comp ID=SOHOQA
+Fix Port=31921
+Fix IP=10.157.116.11
+Reset Incoming=0
+Reset Outgoing=0
+directory=/home/fparnell/git_repo/Dart2/om/2sigma/2sigma_config/
+Dest ID=9
+Mod Name=TWOSIGS
+
+[TIMES]
+End Hour=17
+End Min=10
+Reset Hour=6
+Reset Min=30
+Last Run Day=20151127130945
+

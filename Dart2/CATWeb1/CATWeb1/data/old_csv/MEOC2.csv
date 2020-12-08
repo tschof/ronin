@@ -1,0 +1,1 @@
+actionType (string),errorROEID (string option),firmROEID (string),type (string),CATReporterIMID (string option),orderKeyDate (string),orderID (string),symbol (string),originatingIMID (string option),eventTimestamp (string),manualFlag (string),electronicTimestamp (string option),cancelQty (string),leavesQty (string),initiator (string),seqNum (string option),

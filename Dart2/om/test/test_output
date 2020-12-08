@@ -1,0 +1,162 @@
+(0) test_utp_order_ack            	0 failures
+(1) test_utp_time                 	0 failures
+(2) test_utp_price_trans          	0 failures
+(3) test_trans_rom_symbol         	0 failures
+(4) Unknown test                  	0 failures
+(5) testdatabuf_realloc           	0 failures
+(6) test_pop_queue                	0 failures
+(7) test_config_loader            	0 failures
+Mod time: 379 Shift time: 340 OAT time: 203 
+(8) test_modulus                  	0 failures
+(9) test_month_codes              	0 failures
+(10) test_symbol_mod               	0 failures
+Failed validation: 110 6 11 1 0 0 
+:Failed validation: 120 6 11 1 0 0 
+:Failed validation: 119 -1 11 1 0 0 
+:Failed validation: 119 12 11 1 0 0 
+:Failed validation: 119 2 0 1 0 0 
+:Failed validation: 119 2 32 1 0 0 
+:Failed validation: 119 2 15 -1 0 0 
+:Failed validation: 119 2 15 24 0 0 
+:Failed validation: 119 2 15 23 -1 0 
+:Failed validation: 119 2 15 23 60 0 
+:Failed validation: 119 2 15 23 59 -1 
+:Failed validation: 119 2 15 23 59 60 
+:(11) test_tm_to_str                	0 failures
+(12) test_create_fix_header        	0 failures
+(13) Unknown test                  	0 failures
+(14) testdatabuf                   	0 failures
+(15) testfixdatabuf                	0 failures
+(16) test_hash                     	0 failures
+(17) test_comma_remove             	0 failures
+(18) test_db                       	0 failures
+Got this many columns: 23
+(19) test_db2                      	0 failures
+OUT: {55=ES}
+OUT: {55=ES}
+OUT: {55=VIA65=P}
+OUT: {55=VIA65=PA}
+(20) test_tpos_sym_trans           	0 failures
+(21) test_spread_parse             	0 failures
+(22) test_full_spread_parse        	0 failures
+(23) test_full_spread_cancel       	0 failures
+(24) test_spread_fr_open_mess      	0 failures
+(25) test_ftr_trans_new            	0 failures
+(26) test_ftr_trans_replace        	0 failures
+(27) test_ftr_trans_cnl            	0 failures
+(28) test_rtf_trans_fill           	0 failures
+(29) test_rtf_trans_open           	0 failures
+(30) test_rtf_trans_out            	0 failures
+(31) test_rtf_trans_rpl            	0 failures
+(32) test_rtf_trans_rep_rej        	0 failures
+(33) test_rtf_trans_cnl_rej        	0 failures
+(34) test_small_bucket             	0 failures
+(35) test_contains_key             	0 failures
+(36) test_r2f_spread_parse         	0 failures
+(37) test_r2f_spread_cancel        	0 failures
+reset_calculator.c:84: error: std_time_str_to_int("20110125-25:30", &tmp) == 0
+Wed Jan 26 01:30:00 2011
+
+Sun Jan 30 17:30:00 2011
+
+(38) test_reset_calculator         	1 failures
+(39) test_r2f_reg_option           	0 failures
+(40) test_r2f_reg_opt_cancel       	0 failures
+(41) test_r2f_spread_life_cycle    	0 failures
+mess:{E,,FIXWANG,090507_0_0,2,KRE,100,23.04,2,0,A,501,7YTC1209,146,,INET-O,,,,,,,WANGJ,GSEC,WANGJ,,,,,,,,,,,E,,,,,,,,,,,,,,,20101201-15:05:07.783,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+} 
+(42) test_option_life_cycle        	0 failures
+
+Info= VAL ONE #1  Key= 1  l->key = NULL r->key= 2 p->key= ROOT_NULL red=0
+
+Info= VAL TWO #2  Key= 2  l->key = NULL r->key= NULL p->key= 1 red=1
+(43) test_rb_insert                	0 failures
+
+Info= VAL ONE 1  Key= 1  l->key = NULL r->key= NULL p->key= 2 red=0
+
+Info= VAL TWO 2  Key= 2  l->key = 1 r->key= 4 p->key= ROOT_NULL red=0
+
+Info= VAL THR 3  Key= 3  l->key = NULL r->key= NULL p->key= 4 red=0
+
+Info= VAL FOR 4  Key= 4  l->key = 3 r->key= 5 p->key= 2 red=1
+
+Info= VAL FIV 5  Key= 5  l->key = NULL r->key= 6 p->key= 4 red=0
+
+Info= VAL SIX 6  Key= 6  l->key = NULL r->key= NULL p->key= 5 red=1
+(44) test_rb_multi_orders          	0 failures
+Unknown order type:   
+(45) test_cx_frame                 	0 failures
+(46) test_ntohll_htonll            	0 failures
+(47) test_amount_trans             	0 failures
+(48) test_price_trans              	0 failures
+
+Info= VAL ONE #1  Key= 1  l->key = NULL r->key= 2 p->key= ROOT_NULL red=0
+
+Info= VAL TWO #2  Key= 2  l->key = NULL r->key= NULL p->key= 1 red=1
+(49) test_rb_remove                	0 failures
+(50) test_cx_trade                 	0 failures
+*********************************************STARTING TRANSACTION RECORDER*******************************************************
+(51) test_cx_ii_reply              	0 failures
+(52) test_cx_order_ack             	0 failures
+(53) test_cx_order_ack_rej         	0 failures
+(54) test_cancel_rej               	0 failures
+(55) test_cx_order_replaced        	0 failures
+(56) test_cx_order_replace_rej     	0 failures
+(57) test_cx_order_replace_cnl     	0 failures
+(58) test_cx_order_canclled        	0 failures
+(59) test_date_roll_check          	0 failures
+(60) test_date_roll_check2         	0 failures
+(61) test_date_roll_check3         	0 failures
+(62) test_date_roll_check4         	0 failures
+(63) test_rb_tree_crush            	0 failures
+(64) test_rb_masher                	0 failures
+(65) test_cx_cross_hash            	0 failures
+Opening this file: DO 
+Added file: 140410466865232, name: DO
+ (66) test_mult_thread_access       	0 failures
+(67) test_rom_pad_one              	0 failures
+(68) test_rom_pad_twenty_five      	0 failures
+Response From Mailer: {220 psys-sltc-exhc1.ronin.roncap.com Microsoft ESMTP MAIL Service ready at Wed, 18 Apr 2012 11:54:21 -0500
+} 
+Response From Mailer: {250 psys-sltc-exhc1.ronin.roncap.com Hello [10.105.96.33]
+} 
+Response From Mailer: {250 2.1.0 Sender OK
+} 
+Response From Mailer: {250 2.1.5 Recipient OK
+} 
+Response From Mailer: {354 Start mail input; end with <CRLF>.<CRLF>
+} 
+Response From Mailer: {250 2.6.0 <572c810a-3731-484b-93b4-0de6a38a0e3d@psys-sltc-exhc1.ronin.roncap.com> Queued mail for delivery
+} 
+Response From Mailer: {221 2.0.0 Service closing transmission channel
+} 
+Response From Mailer: {220 psys-sltc-exhc2.ronin.roncap.com Microsoft ESMTP MAIL Service ready at Wed, 18 Apr 2012 11:54:21 -0500
+} 
+Response From Mailer: {250 psys-sltc-exhc2.ronin.roncap.com Hello [10.105.96.33]
+} 
+Response From Mailer: {250 2.1.0 Sender OK
+} 
+Response From Mailer: {250 2.1.5 Recipient OK
+} 
+Response From Mailer: {354 Start mail input; end with <CRLF>.<CRLF>
+} 
+Response From Mailer: {250 2.6.0 <0658ec61-2c93-4fd8-8b30-dc53f65ea372@psys-sltc-exhc2.ronin.roncap.com> Queued mail for delivery
+} 
+Response From Mailer: {221 2.0.0 Service closing transmission channel
+} 
+(69) Unknown test                  	0 failures
+No rows returned.
+No rows returned.
+No rows returned.
+list empty, alloc, 40 
+list empty, alloc, 80 
+PARNELL-7720120418-16534201 27 
+(70) test_options_db               	0 failures
+(71) test_queue                    	0 failures
+Opening this file: TJAM 
+Added file: 140410466867488, name: TJAM
+ (72) Unknown test                  	0 failures
+(73) test_build_rom_pos            	0 failures
+(74) test_fixmsg_addstr            	0 failures
+(75) test_fixmsg_attach            	0 failures
+(76) test_next_pow_two             	0 failures

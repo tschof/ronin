@@ -1,0 +1,69 @@
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   ../Makefile
+	modified:   ../boeopt/rom_to_boe.c
+	modified:   ../dartlib/mailer.c
+	modified:   ../dartlib/mds_client.c
+	modified:   ../oats/oats.c
+	modified:   Makefile
+	modified:   citadel/citadel.c
+	modified:   glob/switchboard_master.c
+	modified:   gset/gset.c
+	modified:   gsetopt/gsopt.c
+	modified:   jigglypuff/jigglypuff.c
+	modified:   jigglypuff/mds_client.c
+	modified:   server_objects/dart_seq_request.c
+	modified:   server_objects/fix_trans.c
+	modified:   server_objects/mailer.c
+	modified:   server_objects/rom_fix_trans_funcs.c
+	modified:   ../otto/otto.c
+	modified:   ../pillar/pillar.c
+	modified:   ../pilllib/pilllib.c
+	modified:   ../rex/parser_func.c
+	modified:   ../rex/polling_server.c
+	modified:   ../test/hashtest.c
+	modified:   ../test/phaser.dat
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	../Servers/DartBase/baselib/libdartbase.a
+	../Servers/DartBase/googletest/make/gtest_main.a
+	../Servers/DartBase/googletest/make/sample1_unittest
+	../Servers/DartBase/src/Oats
+	../Servers/DartBase/test/gtest_main.a
+	../Servers/DartBase/test/oats_test
+	../Servers/common/db/libdb.a
+	../Servers/common/libcommon.a
+	../boelib/
+	../dart_direct/dartdirect
+	../dartlib/map
+	../mds
+	../nbtest/nbtest
+	drop/
+	gset/gset.dat
+	gsetopt/gsetopt.dat
+	s
+	server_objects.tgz
+	test/reflectors/utp/ptester
+	thr_diffs
+	../pdriver/ptest
+	../perf/
+	../pilltester/WORKIN_Makefile
+	../pilltester/ptest
+	../reflectors/pillar/pillreflector
+	../rex/u64hash.c
+	../rex/u64hash.h
+	../tags
+	../test/outputter
+	../test/test
+	../test/test_fight
+	../test/uthash.h
+
+no changes added to commit (use "git add" and/or "git commit -a")

@@ -1,0 +1,154 @@
+18c18,19
+< #include "dart_thr_pool.h"
+---
+> #include "rex_thr_pool.h"
+> #include "rex_allocator.h"
+20,22c21
+< #include "transaction_recorder.h"
+< #include "debug_logger.h"
+< #include "dart_allocator.h"
+---
+> #include "log_mnger.h"
+30c29
+<     void *(*job_func) (void *);
+---
+>     void (*job_func) (void *);
+53a53
+>     otl* o;
+56c56
+< static int dart_thr_pool_lock()
+---
+> static int rex_thr_pool_lock()
+62c62
+< static int dart_thr_pool_unlock()
+---
+> static int rex_thr_pool_unlock()
+70c70
+<     void *(*func) (void *);
+---
+>     void (*func) (void *);
+117c117
+<                     ("Invalid mem addr: %d Thread: %d, cpu: %d.", s,
+---
+>                     (pool->o, "Invalid mem addr: %d Thread: %d, cpu: %d.\n", s,
+121c121
+<                     ("Bad processor or cpu: %d Thread: %d, cpu: %d.", s,
+---
+>                     (pool->o, "Bad processor or cpu: %d Thread: %d, cpu: %d.\n", s,
+124c124
+<                 send_debug_message("Bad Thread: %d Thread: %d, cpu: %d.",
+---
+>                 send_debug_message(pool->o, "Bad Thread: %d Thread: %d, cpu: %d.\n",
+128c128
+<                     ("Unknown error: %d Thread: %d, cpu: %d.", s,
+---
+>                     (pool->o, "Unknown error: %d Thread: %d, cpu: %d.\n", s,
+132c132
+<             send_debug_message("Thread number: %d, cpu affinity: %d.",
+---
+>             send_debug_message(pool->o, "Do one Job Thread number: %d, cpu affinity: %d.\n",
+136c136
+<         send_debug_message("CPUS value was null.");
+---
+>         send_debug_message(pool->o, "CPUS value was null.\n");
+142c142
+< int create_thr(thr_pool_t* pool,  void *(*func) (void *), void *arg)
+---
+> int create_thr(thr_pool_t* pool,  void (*func) (void *), void *arg)
+145c145
+<     dart_thr_pool_lock();
+---
+>     rex_thr_pool_lock();
+155c155
+<     dart_thr_pool_unlock();
+---
+>     rex_thr_pool_unlock();
+164c164
+<     void *(*func) (void *);
+---
+>     void (*func) (void *);
+184c184
+<                     ("Invalid mem addr: %d Thread: %d, cpu: %d.", s,
+---
+>                     (pool->o, "Invalid mem addr: %d Thread: %d, cpu: %d.\n", s,
+188c188
+<                     ("Bad processor or cpu: %d Thread: %d, cpu: %d.", s,
+---
+>                     (pool->o, "Bad processor or cpu: %d Thread: %d, cpu: %d.\n", s,
+191c191
+<                 send_debug_message("Bad Thread: %d Thread: %d, cpu: %d.",
+---
+>                 send_debug_message(pool->o, "Bad Thread: %d Thread: %d, cpu: %d.\n",
+195c195
+<                     ("Unknown error: %d Thread: %d, cpu: %d.", s,
+---
+>                     (pool->o, "Unknown error: %d Thread: %d, cpu: %d.\n", s,
+199c199
+<             send_debug_message("Thread number: %d, cpu affinity: %d.",
+---
+>             send_debug_message(pool->o, "Thread number: %d, cpu affinity: %d.\n",
+203c203
+<         send_debug_message("CPUS value was null.");
+---
+>         send_debug_message(pool->o, "CPUS value was null.\n");
+206c206
+<         dart_thr_pool_lock();
+---
+>         rex_thr_pool_lock();
+214c214
+<             dart_thr_pool_unlock();
+---
+>             rex_thr_pool_unlock();
+217c217
+<             dart_thr_pool_unlock();
+---
+>             rex_thr_pool_unlock();
+230c230
+<     dart_thr_pool_lock();
+---
+>     rex_thr_pool_lock();
+234c234
+<         void *(*func) (void *);
+---
+>         void (*func) (void *);
+239c239
+<         dart_thr_pool_unlock();
+---
+>         rex_thr_pool_unlock();
+242c242
+<         dart_thr_pool_unlock();
+---
+>         rex_thr_pool_unlock();
+277c277
+< thr_pool_t *thr_pool_create(int min_threads, int max_threads, int linger,
+---
+> thr_pool_t *thr_pool_create(otl* o, int min_threads, int max_threads, int linger,
+307c307
+<     dart_thr_pool_lock();
+---
+>     rex_thr_pool_lock();
+318c318,319
+<     dart_thr_pool_unlock();
+---
+>     pool->o = o;
+>     rex_thr_pool_unlock();
+322c323
+< int thr_pool_queue(thr_pool_t * pool, void *(*func) (void *), void *arg)
+---
+> int thr_pool_queue(thr_pool_t * pool, void (*func) (void *), void *arg)
+324c325
+<     dart_thr_pool_lock();
+---
+>     rex_thr_pool_lock();
+339c340
+<     dart_thr_pool_unlock();
+---
+>     rex_thr_pool_unlock();
+360c361
+<     dart_thr_pool_lock();
+---
+>     rex_thr_pool_lock();
+375c376
+<     dart_thr_pool_unlock();
+---
+>     rex_thr_pool_unlock();

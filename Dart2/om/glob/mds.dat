@@ -1,0 +1,8 @@
+[FIX SERVER]
+Mod Name=70
+Username=ROM70
+Fix Port=3466
+Fix IP=10.105.96.92
+Order Allocation=32
+cpu=3
+

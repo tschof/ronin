@@ -1,0 +1,38 @@
+[SERVER]
+Mod Name=48
+directory=/home/romserver/test/direct_test/test_logs/
+##directory=/home/romserver/scrubdodohead/
+oats=2001
+Dest ID=48
+Username=NYDCHFBN01
+Password=pillargw
+interface=eth2
+MIC=XNYS
+MPID=DCHF
+Trader=MM8A
+CLR ID=695
+FIRM=MM8A
+interface=eth2
+spin count=2048
+Order Allocation=64
+Dests=38,79,601,247,153,12,72,1003,140
+CPU=1,2
+
+[TIMES]
+End Hour=14
+End Min=30
+Reset Hour=6
+Reset Min=21
+Last Run Day=20191118131946
+
+[DB INFO]
+User=rom_user
+Password=resu_mor
+Server=ddrt-orl-ldev1
+Instance=rom
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=parnell.flynn@dartexecutions.com
+biz group=parnell.flynn@dartexecutions.com
+

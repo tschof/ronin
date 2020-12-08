@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>RivalPantherCatCore</PackageId>
+    <Authors>Panthers</Authors>
+    <Company>RivalCatCore</Company>
+    <Product>RivalCatCore</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="catconfig.json" />
+    <Content Include="lastruntime.json" />
+    <None Include="metadata.csv" />
+    <Compile Include="Library.fs" />
+  </ItemGroup>
+
+  <ItemGroup />
+
+  <ItemGroup />
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="3.3.3" />
+    <PackageReference Include="SharpZipLib" Version="1.2.0" />
+  </ItemGroup>
+
+</Project>

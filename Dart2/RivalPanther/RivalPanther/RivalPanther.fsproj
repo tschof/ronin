@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <AWSProjectType>Lambda</AWSProjectType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.5.0" />
+    <PackageReference Include="Amazon.Lambda.S3Events" Version="1.1.0" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.102.15" />
+    <PackageReference Include="FSharp.Data" Version="3.3.3" />
+    <PackageReference Include="SharpZipLib" Version="1.2.0" />
+    <PackageReference Include="SSH.NET" Version="2016.1.0" />
+    <PackageReference Include="TimeZoneConverter" Version="3.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lastruntime.json" />
+    <Compile Include="ConfigBuilder.fs" />
+    <Content Include="IM-2.2.1.json" />
+    <None Include="metadata.csv" />
+    <Compile Include="MetaFilePackager.fs" />
+    <Compile Include="ConvertRoProCsv.fs" />
+    <Content Include="catconfig.json" />
+    <Compile Include="Function.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="aws-lambda-tools-defaults.json" />
+    <None Include="Readme.md" />
+  </ItemGroup>
+</Project>

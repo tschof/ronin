@@ -1,0 +1,23 @@
+[FIX SERVER]
+Sender Comp ID=CME
+Target Comp ID=CME
+Fix Port=22503
+Fix IP=10.106.96.90
+#Fix IP=10.106.171.103
+Reset Incoming=0
+Reset Outgoing=0
+directory=/home/fparnell/git_repo/Dart2/om/exchanges/mock_tmlight/
+Dest ID=6
+Mod Name=KOOLKEITH
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20140804093541
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

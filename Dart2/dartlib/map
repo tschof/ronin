@@ -1,0 +1,42 @@
+balance_checker.c:        get_map_entry(jpc->trd_fut_limits,rc->owner,
+balance_checker.c:        found = get_map_entry(trd_lims, prod, prod_len, (void**)&jp);
+balance_checker.c:    int found = get_map_entry(jp->equity_sym, rc->sym, rc->slen, (void**)&mds);
+balance_checker.c:    int found = get_map_entry(jp->equity_sym, rc->sym, rc->slen, (void**)&mds);
+balance_checker.c:    int found = get_map_entry(jc->grouplimits, key, len, (void **) &jpti);
+balance_checker.c:    get_map_entry(jpc->traders, trader, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jpc->traders, trader, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jpc->equity_sym, sym, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jpc->traders, trader, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jc->traders, trader, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jc->trd_fut_limits, trader, len, (void **) &futs);
+balance_checker.c:        found = get_map_entry(futs, sym, slen, (void**)&jfp);
+balance_checker.c:    int found = get_map_entry(jc->traders, trader, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jc->grouplimits, key, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jc->grouplimits, key, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jc->grouplimits, key, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jc->grouplimits, key, len, (void **) &jpti);
+balance_checker.c:    int found = get_map_entry(jc->traders, trader, len, (void **) &jpti);
+balance_checker.c:        get_map_entry(jpc->traders, trader,
+balance_checker.c:        get_map_entry(jpc->traders, rc->owner,
+balance_checker.c:        get_map_entry(jpc->traders, rc->owner,
+balance_checker.c:        get_map_entry(jpc->traders, rc->owner, 
+balance_checker.c:        get_map_entry(jpc->traders, rc->owner,
+balance_checker.c:        get_map_entry(jpc->traders,rc->owner,
+balance_checker.c:                                get_map_entry(jc->trd_fut_limits, flimits->name, flimits->nlen,
+balance_checker.c:                            res = get_map_entry(jc->trd_fut_limits, flimits->name, flimits->nlen,
+balance_checker.c:                                res = get_map_entry(lulimits,flimits->product, flimits->plen,(void**)&chk_lims);
+balance_checker.c:                                get_map_entry(jc->traders, ((val->g_un).un_array), len,
+balance_checker.c:                                res = get_map_entry(jc->allowed_logons, jpti->name,
+dart_router.c:    int ret_val = get_map_entry(gk->route_to_dest, destid, dest_id_len,
+dart_router.c:    int len = get_map_entry(gk->logical_dests, destid, dest_len,
+dart_router.c:    ret_val = get_map_entry(gk->id_to_dest, dest, dest_len, &muck);
+dart_router.c:        get_map_entry(gk->id_to_dest, dest_route, dest_route_len,
+dart_router.c:            get_map_entry(gk->unused_routes, dest_route, dest_route_len,
+dart_router.c:    int dest_ret = get_map_entry(gk->id_to_dest, destid, dest_id_len, dipper);
+dart_router.c:        int len = get_map_entry(gk->logical_dests, destid, dest_id_len,
+dart_router.c:            dest_ret = get_map_entry(gk->id_to_dest, real_route, len, dipper);
+dart_router.c:    return get_map_entry(gk->name_to_con, clientid, client_id_len,
+direct_router.c:        val =  get_map_entry(gk->clients, clientid, client_id_len,
+gatekeeper.c:    int ret = get_map_entry(gk->init_con_orders, dest, dest_len,
+gatekeeper.c:    int ret = get_map_entry(gk->init_con_orders, dest, dest_len,
+rom_fix_trans_funcs.c:    ret = get_map_entry(ob->cl_ord_id_map, clordid, len, (void **) obj);

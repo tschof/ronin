@@ -1,0 +1,19 @@
+[SERVER]
+Sender Comp ID=ROM41
+Target Comp ID=OATS
+Username=ROM41
+Password=ROM41
+IP=10.105.96.90
+Port=4400
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=9999
+Mod Name=OATS
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=6
+Reset Min=21
+Last Run Day=20160719101734
+

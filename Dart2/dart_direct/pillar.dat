@@ -1,0 +1,21 @@
+[SERVER]
+Username=UDART1
+Password=pillargw
+Port=40439
+IP=162.68.191.139
+MIC=ARCX
+MPID=DART
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=247
+Mod Name=NYSE5_6
+CLR ID=695
+FIRM=ABN
+
+
+[TIMES]
+End Hour=19
+End Min=30
+Reset Hour=6
+Reset Min=21
+Last Run Day=20170731144501

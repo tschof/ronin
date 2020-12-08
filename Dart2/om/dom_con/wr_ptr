@@ -1,0 +1,9 @@
+    int l_len = dart_itoa(leaves, orig->current->data->wr_ptr, 10);
+    reset_rom_field(orig, ROM_LEAVES, orig->current->data->wr_ptr, l_len);
+    orig->current->data->wr_ptr += l_len;
+    l_len = dart_itoa(cum, orig->current->data->wr_ptr, 10);
+    reset_rom_field(orig, ROM_CUM, orig->current->data->wr_ptr, l_len);
+    orig->current->data->wr_ptr += l_len;
+    int l_len = dart_itoa(leaves, ute->current->data->wr_ptr, 10);
+    reset_rom_field(ute, ROM_LEAVES, ute->current->data->wr_ptr, l_len);
+    ute->current->data->wr_ptr += l_len;

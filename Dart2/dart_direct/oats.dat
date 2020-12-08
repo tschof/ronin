@@ -1,0 +1,19 @@
+[SERVER]
+Sender Comp ID=ROM52
+Target Comp ID=OATS
+Username=ROM52
+Password=ROM52
+IP=10.105.96.90
+Port=4400
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=9999
+Mod Name=OATS
+
+[TIMES]
+End Hour=11
+End Min=30
+Reset Hour=6
+Reset Min=21
+Last Run Day=20180515145603
+

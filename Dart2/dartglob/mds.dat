@@ -1,0 +1,8 @@
+[SERVER]
+Mod Name=70
+Username=ROM70
+Port=3466
+IP=10.105.96.92
+Order Allocation=32
+cpu=3
+

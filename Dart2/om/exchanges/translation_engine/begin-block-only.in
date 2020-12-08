@@ -1,0 +1,7 @@
+
+
+BEGIN {
+      var foo = "bar";
+      var mymap = ["foo" : "bar", "biz" : "baz"];
+      var anothermap = load_map_from_file("mapfile1.in");
+}

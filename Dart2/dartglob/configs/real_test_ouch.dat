@@ -1,0 +1,17 @@
+[SERVER]
+account_name=DEGS04
+password=testonly
+Fix IP=10.157.114.14
+Fix Port=26471
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=OUCH
+heartbeat_interval=30
+Dest ID=1003
+
+[TIMES]
+Reset Hour=9
+Reset Min=30
+Last Run Day=20120521000000
+End Hour=18
+End Min=00

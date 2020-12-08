@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CATAWSServerless1", "CATAWSServerless1\CATAWSServerless1.fsproj", "{B13C2994-8C88-4CE3-9A9F-ED8F3EFFD617}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CATAWSServerless1.Tests", "CATAWSServerless1.Tests\CATAWSServerless1.Tests.fsproj", "{233AFC38-7D19-418E-9E17-B9741F2FDF52}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B13C2994-8C88-4CE3-9A9F-ED8F3EFFD617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13C2994-8C88-4CE3-9A9F-ED8F3EFFD617}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13C2994-8C88-4CE3-9A9F-ED8F3EFFD617}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13C2994-8C88-4CE3-9A9F-ED8F3EFFD617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{233AFC38-7D19-418E-9E17-B9741F2FDF52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{233AFC38-7D19-418E-9E17-B9741F2FDF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{233AFC38-7D19-418E-9E17-B9741F2FDF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{233AFC38-7D19-418E-9E17-B9741F2FDF52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {08362155-3FCD-4786-B960-6BC5E1E2754A}
+	EndGlobalSection
+EndGlobal

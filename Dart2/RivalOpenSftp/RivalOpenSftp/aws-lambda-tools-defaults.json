@@ -1,0 +1,23 @@
+
+{
+    "Information" : [
+        "This file provides default values for the deployment wizard inside Visual Studio and the AWS Lambda commands added to the .NET Core CLI.",
+        "To learn more about the Lambda commands with the .NET Core CLI execute the following command at the command line in the project root directory.",
+        "dotnet lambda help",
+        "All the command line options for the Lambda command can be specified in this file."
+    ],
+    "profile"     : "default",
+    "region"      : "us-east-1",
+    "configuration" : "Debug",
+    "framework"     : "netcoreapp2.1",
+    "function-runtime" : "dotnetcore2.1",
+    "function-memory-size" : 2048,
+    "function-timeout"     : 100,
+    "function-handler"     : "RivalOpenSftp::RivalOpenSftp.Function::FunctionHandler",
+    "function-name"        : "roprosftp",
+    "function-role"        : "arn:aws:iam::285433708469:role/test-ropro-cat",
+    "tracing-mode"         : "PassThrough",
+    "environment-variables" : "",
+    "function-subnets"      : "subnet-95a761bb,subnet-741ecb5a,subnet-2c0cd902,subnet-02dbc2203d4f1d6a1,subnet-0f5b3435a9b53ba88",
+    "function-security-groups" : "sg-03bf3c2775f766477,sg-0516ecd5797e2a276,sg-0aaadf25b39a64062,sg-15898c5d,sg-b485e1fc"
+}

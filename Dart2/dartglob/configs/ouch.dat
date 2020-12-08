@@ -1,0 +1,19 @@
+[SERVER]
+Sender Comp ID=DEGS01
+Target Comp ID=DEGS01
+Username=DEGS01
+Password=RPSBLJKO
+Fix IP=10.157.114.44
+Fix Port=8000
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=OUCH
+heartbeat_interval=30
+Dest ID=1003
+
+[TIMES]
+Reset Hour=6
+Reset Min=30
+Last Run Day=20151111141318
+End Hour=18
+End Min=00

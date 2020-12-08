@@ -1,0 +1,12 @@
+﻿
+
+/**
+ * 
+ * @type
+ *
+ * 
+ */
+
+function getTextInput() {
+
+}

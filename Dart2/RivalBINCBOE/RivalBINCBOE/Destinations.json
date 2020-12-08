@@ -1,0 +1,955 @@
+﻿{
+  "Destinations": [
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "BLY",
+      "ExchangeID": "NYSE",
+      "destid": 279,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DAR",
+      "ExchangeID": "NYSE",
+      "destid": 317,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DAW",
+      "ExchangeID": "NYSE",
+      "destid": 440,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "AMER",
+      "destid": 4,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "ARCA",
+      "destid": 210,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "ARCA",
+      "destid": 516,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "ARCA",
+      "destid": 503,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "ARCA",
+      "destid": 504,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "ARCA",
+      "destid": 287,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "ARCA",
+      "destid": 140,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "BX",
+      "destid": 276,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "BYX",
+      "destid": 219,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "BZX",
+      "destid": 211,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "BZX",
+      "destid": 270,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "BZX",
+      "destid": 601,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "EDGA",
+      "destid": 215,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "EDGA",
+      "destid": 603,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "EDGX",
+      "destid": 216,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "EDGX",
+      "destid": 604,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "EDGX",
+      "destid": 615,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NSDQ",
+      "destid": 213,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NSDQ",
+      "destid": 602,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NSDQ",
+      "destid": 616,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 212,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 506,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 507,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 508,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 509,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 510,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 511,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 512,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 513,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NYSE",
+      "destid": 514,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 515,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 525,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 246,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 247,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 248,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 249,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 251,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 252,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 253,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 254,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "PSX",
+      "destid": 196,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "ARCA",
+      "destid": 517,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "BX",
+      "destid": 620,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "BYX",
+      "destid": 197,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "BZX",
+      "destid": 145,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "BZX",
+      "destid": 611,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "BZX",
+      "destid": 10,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "EDGA",
+      "destid": 156,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "EDGA",
+      "destid": 613,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "EDGX",
+      "destid": 157,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "EDGX",
+      "destid": 614,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NSDQ",
+      "destid": 146,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NYSE",
+      "destid": 190,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "PSX",
+      "destid": 621,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEM",
+      "ExchangeID": "NYSE",
+      "destid": 126,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DRS",
+      "ExchangeID": "NYSE",
+      "destid": 390,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DRTG",
+      "ExchangeID": "BX",
+      "destid": 282,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DRTG",
+      "ExchangeID": "NSDQ",
+      "destid": 360,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DRTG",
+      "ExchangeID": "PSX",
+      "destid": 361,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DRTL",
+      "ExchangeID": "BX",
+      "destid": 202,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DRTL",
+      "ExchangeID": "NSDQ",
+      "destid": 482,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DRTL",
+      "ExchangeID": "PHLX",
+      "destid": 184,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DRTL",
+      "ExchangeID": "PSX",
+      "destid": 481,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DTH",
+      "ExchangeID": "NYSE",
+      "destid": 271,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DTR",
+      "ExchangeID": "NYSE",
+      "destid": 273,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DVG",
+      "ExchangeID": "NYSE",
+      "destid": 233,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "PSD",
+      "ExchangeID": "NYSE",
+      "destid": 479,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "RVU",
+      "ExchangeID": "NYSE",
+      "destid": 272,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "TAD",
+      "ExchangeID": "NYSE",
+      "destid": 277,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "WEY",
+      "ExchangeID": "NYSE",
+      "destid": 478,
+      "destType": "E",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "SILK",
+      "destid": 56,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "INCA",
+      "destid": 88,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "INCA",
+      "destid": 89,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NITE",
+      "destid": 158,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "VALR",
+      "destid": 209,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NITE",
+      "destid": 214,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NITE",
+      "destid": 217,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NITE",
+      "destid": 218,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "SOHO",
+      "destid": 269,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DRTL",
+      "ExchangeID": "NITE",
+      "destid": 275,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "NITE",
+      "destid": 278,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "SOHO",
+      "destid": 283,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "INCA",
+      "destid": 284,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "CDRG",
+      "destid": 369,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "VALR",
+      "destid": 378,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "INCA",
+      "destid": 446,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "INCA",
+      "destid": 447,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "CDRG",
+      "destid": 469,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DCHF",
+      "ExchangeID": "GSCO",
+      "destid": 480,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "GSCS",
+      "destid": 485,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "NITE",
+      "destid": 578,
+      "destType": "F",
+      "secType": "E"
+    },
+    {
+      "crd": 140802,
+      "finraMember": true,
+      "firmName": "RONIN PROFESSIONAL LLC",
+      "IMID": "DEGS",
+      "ExchangeID": "VALR",
+      "destid": 678,
+      "destType": "F",
+      "secType": "E"
+    }
+  ]
+}
+

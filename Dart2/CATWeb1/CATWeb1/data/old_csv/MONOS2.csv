@@ -1,0 +1,1 @@
+actionType (string),errorROEID (string option),firmROEID (string),type (string),CATReporterIMID (string option),orderKeyDate (string),orderID (string),optionID (string),originatingIMID (string option),eventTimestamp (string),aggregatedOrders (string option),priorUnlinked (string option),nextUnlinked (string option),firmDesignatedID (string option),

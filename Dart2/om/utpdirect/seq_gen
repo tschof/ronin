@@ -1,0 +1,86 @@
+struct tm {
+	int                        tm_sec;               /*     0     4 */
+	int                        tm_min;               /*     4     4 */
+	int                        tm_hour;              /*     8     4 */
+	int                        tm_mday;              /*    12     4 */
+	int                        tm_mon;               /*    16     4 */
+	int                        tm_year;              /*    20     4 */
+	int                        tm_wday;              /*    24     4 */
+	int                        tm_yday;              /*    28     4 */
+	int                        tm_isdst;             /*    32     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	long int                   tm_gmtoff;            /*    40     8 */
+	const char  *              tm_zone;              /*    48     8 */
+
+	/* size: 56, cachelines: 1, members: 11 */
+	/* sum members: 52, holes: 1, sum holes: 4 */
+	/* last cacheline: 56 bytes */
+};
+struct _IO_FILE {
+	int                        _flags;               /*     0     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	char *                     _IO_read_ptr;         /*     8     8 */
+	char *                     _IO_read_end;         /*    16     8 */
+	char *                     _IO_read_base;        /*    24     8 */
+	char *                     _IO_write_base;       /*    32     8 */
+	char *                     _IO_write_ptr;        /*    40     8 */
+	char *                     _IO_write_end;        /*    48     8 */
+	char *                     _IO_buf_base;         /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	char *                     _IO_buf_end;          /*    64     8 */
+	char *                     _IO_save_base;        /*    72     8 */
+	char *                     _IO_backup_base;      /*    80     8 */
+	char *                     _IO_save_end;         /*    88     8 */
+	struct _IO_marker *        _markers;             /*    96     8 */
+	struct _IO_FILE *          _chain;               /*   104     8 */
+	int                        _fileno;              /*   112     4 */
+	int                        _flags2;              /*   116     4 */
+	__off_t                    _old_offset;          /*   120     8 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	short unsigned int         _cur_column;          /*   128     2 */
+	signed char                _vtable_offset;       /*   130     1 */
+	char                       _shortbuf[1];         /*   131     1 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	_IO_lock_t *               _lock;                /*   136     8 */
+	__off64_t                  _offset;              /*   144     8 */
+	void *                     __pad1;               /*   152     8 */
+	void *                     __pad2;               /*   160     8 */
+	void *                     __pad3;               /*   168     8 */
+	void *                     __pad4;               /*   176     8 */
+	size_t                     __pad5;               /*   184     8 */
+	/* --- cacheline 3 boundary (192 bytes) --- */
+	int                        _mode;                /*   192     4 */
+	char                       _unused2[20];         /*   196    20 */
+
+	/* size: 216, cachelines: 4, members: 29 */
+	/* sum members: 208, holes: 2, sum holes: 8 */
+	/* last cacheline: 24 bytes */
+};
+struct _IO_marker {
+	struct _IO_marker *        _next;                /*     0     8 */
+	struct _IO_FILE *          _sbuf;                /*     8     8 */
+	int                        _pos;                 /*    16     4 */
+
+	/* size: 24, cachelines: 1, members: 3 */
+	/* padding: 4 */
+	/* last cacheline: 24 bytes */
+};
+struct nyse_sequence_struct {
+	hashmap_t                  reserved_id_map;      /*     0     8 */
+	char                       time_str[16];         /*     8    16 */
+	char                       seq_str[12];          /*    24    12 */
+	char                       branch_code[4];       /*    36     4 */
+	int                        sequence;             /*    40     4 */
+	int                        branch_code_seq;      /*    44     4 */
+	int                        cur_len;              /*    48     4 */
+
+	/* size: 56, cachelines: 1, members: 7 */
+	/* padding: 4 */
+	/* last cacheline: 56 bytes */
+};

@@ -1,0 +1,26 @@
+[FIX SERVER]
+Sender Comp ID=RONINEUUAT
+Target Comp ID=BAMLEUUAT
+Fix Port=44262
+#Fix IP=10.157.116.11
+Fix IP=199.43.13.51
+Reset Incoming=0
+Reset Outgoing=0
+#directory=/home/romserver/test/mldma/mldma_config/
+directory=/home/fparnell/git_repo/Dart2/om/mldma/mldma_config/
+Dest ID=270
+Mod Name=MLDMA
+
+[ROM SERVER]
+
+[TIMES]
+End Hour=17
+End Min=10
+Reset Hour=1
+Reset Min=30
+Last Run Day=20161205090932
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

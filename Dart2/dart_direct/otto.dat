@@ -1,0 +1,22 @@
+[SERVER]
+Username=IOTDRT
+Password=TESTONLY
+Port=7114
+IP=10.157.131.238
+#IP=10.105.96.90
+REALIP=206.200.20.238
+Firm ID=DARA
+mpid=DART
+PCODE LOC=OUCH_INST_CODES.log
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=430
+Mod Name=OTTO
+
+
+[TIMES]
+End Hour=19
+End Min=30
+Reset Hour=6
+Reset Min=21
+Last Run Day=20170803162415

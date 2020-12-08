@@ -1,0 +1,6 @@
+# BATS Order Routing 
+
+fix "D" {
+     9303 <- 15 { default "B" }    # Routing Instructions
+     9479 { map(15, [A:V, I:I]) }  # Visibility
+}

@@ -1,0 +1,21 @@
+[FIX SERVER]
+Target Comp ID=BOX1
+Sender Comp ID=SF94601
+Fix Version=FIX.4.2
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=BOX
+Fix IP=10.157.109.10
+Fix Port=10500
+Heartbeat Int=30
+Dest ID=44
+
+[ROM SERVER]
+Rom Port=9181
+
+[TIMES]
+Reset Hour=8
+Reset Min=15
+Last Run Day=20131107
+End Hour=17
+End Min=05

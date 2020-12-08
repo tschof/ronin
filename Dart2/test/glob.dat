@@ -1,0 +1,23 @@
+[ROM SERVER]
+Rom Port=8008
+Rom Host=local
+
+[GLOB]
+Mod Name=69
+Order Allocation=30000
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+<<<<<<< HEAD
+Last Run Day=20150812
+=======
+Last Run Day=20150709
+>>>>>>> master
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

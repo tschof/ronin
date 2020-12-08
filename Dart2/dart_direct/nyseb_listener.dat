@@ -1,0 +1,19 @@
+[SERVER]
+Username=DART-01
+Password=DART-01
+Port=54207
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=nyseb3
+Dest ID=247
+CLR ID=695
+FIRM=ABN
+FIRM_2=ABN
+
+
+[TIMES]
+End Hour=10
+End Min=30
+Reset Hour=6
+Reset Min=21
+Last Run Day=20170117104049
