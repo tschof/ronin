@@ -1,0 +1,29 @@
+[FIX SERVER]
+Sender Comp ID=ROM70
+Target Comp ID=OATS69
+Username=ROM70
+Password=ROM70
+Fix IP=10.106.96.90
+Fix Port=4400
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=9999
+Mod Name=OATS
+
+#[ROM SERVER]
+#Rom User Name=ROM3
+#Rom Connection Name=ROM3
+#Rom Port=8091
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20150803072218
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1
+

@@ -1,0 +1,24 @@
+[SERVER]
+Username=MM8D
+Port=54207
+IP=10.105.171.102
+#IP=10.105.96.90
+REALIP=162.68.216.65
+OnBehalfOfCompId=DVG
+Branch Code=7300
+Reserved Branch Codes=HMQ,YYY,RRR,ZZZ,TTT,QQQ,ZYY,ZYZ,ZYX
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=247
+Mod Name=NYSE5_6
+CLR ID=695
+FIRM=ABN
+FIRM_2=ABN
+
+
+[TIMES]
+End Hour=11
+End Min=30
+Reset Hour=6
+Reset Min=21
+Last Run Day=20170117104049

@@ -1,0 +1,17 @@
+[SERVER]
+Username=95200553
+Port=19508
+IP=10.105.96.90
+REAL IP=193.29.89.65
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=247
+Mod Name=NYSE5_6
+
+[TIMES]
+End Hour=15
+End Min=50
+Reset Hour=8
+Reset Min=21
+Last Run Day=20160719101734
+

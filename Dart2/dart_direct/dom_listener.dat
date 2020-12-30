@@ -1,0 +1,14 @@
+[SERVER]
+Username=ROM12
+Password=ROM12
+Port=8261
+Reset Incoming=0
+Reset Outgoing=0
+Mod Name=SIM
+
+[TIMES]
+End Hour=15
+End Min=50
+Reset Hour=6
+Reset Min=21
+Last Run Day=20180515092717

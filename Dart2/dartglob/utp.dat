@@ -1,0 +1,32 @@
+[FIX SERVER]
+Sender Comp ID=DVG
+Target Comp ID=DART-01
+Username=DART-01
+#Fix Port=54208
+Fix Port=54207
+Fix IP=10.105.96.90
+REALFix IP=162.68.216.65
+OnBehalfOfCompId=DVG
+Branch Code=7300
+Reserved Branch Codes=HMQ,YYY,RRR,ZZZ,TTT,QQQ,ZYY,ZYZ,ZYX
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=247
+Mod Name=NYSE5_6
+
+[ROM SERVER]
+Rom User Name=ROM3
+Rom Connection Name=ROM3
+Rom Port=8091
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20151109090400
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1

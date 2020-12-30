@@ -1,0 +1,21 @@
+[SERVER]
+Sender Comp ID=NFRTL
+Target Comp ID=NFX_TEST
+Username=NFX_TEST
+Port=17305
+#IP=10.106.106.12
+IP=10.106.106.11
+Version=FIXT.1.1
+Reset Incoming=0
+Reset Outgoing=0
+directory=/home/fparnell/git_repo/Dart2/nfx/nfx_config/
+Dest ID=100
+Mod Name=NFX
+
+[TIMES]
+End Hour=17
+End Min=10
+Reset Hour=7
+Reset Min=30
+Last Run Day=20160620073747
+

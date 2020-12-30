@@ -1,0 +1,308 @@
+Binary file ./CATWeb1/packages/WebSharper.FSharp.4.5.19.349/WebSharper.FSharp.4.5.19.349.nupkg matches
+./om/jigglypuff/mds_client.P:mds_client.o: mds_client.c /usr/include/stdc-predef.h \
+./om/jigglypuff/mds_client.P: /usr/include/x86_64-linux-gnu/sys/un.h mds_client.h \
+./om/jigglypuff/mds_client.P:mds_client.c /usr/include/stdc-predef.h :
+./om/jigglypuff/mds_client.P: /usr/include/x86_64-linux-gnu/sys/un.h mds_client.h :
+Binary file ./om/jigglypuff/libjiggley.so matches
+Binary file ./om/jigglypuff/mds_client.o matches
+./om/jigglypuff/Makefile_intel:SRC = jigglypuff.c mds_client.c
+./om/jigglypuff/mds_client.c:#include "mds_client.h"
+./om/jigglypuff/mds_client.c:struct mds_client_con {
+./om/jigglypuff/mds_client.c:static int mds_send_wrapper(int sock, char* data, int len, int* disconnect)
+./om/jigglypuff/mds_client.c:static int send_mdc_logon(mdsclient* mdc)
+./om/jigglypuff/mds_client.c:    return mds_send_wrapper(mdc->sock, b, len + 4, &dis);
+./om/jigglypuff/mds_client.c:static int send_mdc_hb(mdsclient* mdc)
+./om/jigglypuff/mds_client.c:    mds_send_wrapper(mdc->sock, b, len + 4, &dis);
+./om/jigglypuff/mds_client.c:static int create_mds_con(mdsclient* p, int port, const char* host, int * err)
+./om/jigglypuff/mds_client.c:static void get_cpu(mdsclient* mdc)
+./om/jigglypuff/mds_client.c:static void connect_mds(mdsclient* mdc)
+./om/jigglypuff/mds_client.c:    mdc->sock = create_mds_con(mdc, mdc->ex->fix_port, mdc->ex->fix_ip, &s);
+./om/jigglypuff/mds_client.c:        mdc->sock = create_mds_con(mdc, mdc->ex->fix_port, mdc->ex->fix_ip, &s);
+./om/jigglypuff/mds_client.c:static int parse_mds_message(mdsclient* mdc, char* d, int dlen)
+./om/jigglypuff/mds_client.c:static void recv_loop(mdsclient* mdc)
+./om/jigglypuff/mds_client.c:                int used = parse_mds_message(mdc, rd_ptr, wr_ptr - rd_ptr);
+./om/jigglypuff/mds_client.c:static void* run_mds(void* s)
+./om/jigglypuff/mds_client.c:    mdsclient* mdc = (mdsclient*)s;
+./om/jigglypuff/mds_client.c:        connect_mds(mdc); 
+./om/jigglypuff/mds_client.c:mdsclient* create_mds_client(char* config_file_name, int clen, void* cbo, 
+./om/jigglypuff/mds_client.c:                             void (*mds_update)(void* cbo, char* sym, int slen, long bid, long offer),
+./om/jigglypuff/mds_client.c:    mdsclient* mdc = 0;
+./om/jigglypuff/mds_client.c:    DART_ALLOC(mdc, 8, sizeof(struct mds_client_con), ret);
+./om/jigglypuff/mds_client.c:    mdc->update = mds_update;
+./om/jigglypuff/mds_client.c:    int error = pthread_create(&mdc->thread, NULL, run_mds, mdc);
+./om/jigglypuff/mds_client.c:void close_mds_client(mdsclient* mdc)
+./om/jigglypuff/jigglypuff.c:#include "mds_client.h"
+./om/jigglypuff/jigglypuff.c:    mdsclient* mdc;
+./om/jigglypuff/jigglypuff.c:void balance_mds_update(void* cbo, char* sym, int slen, long bid, long offer)
+./om/jigglypuff/jigglypuff.c:    mdupdate* mds = 0;
+./om/jigglypuff/jigglypuff.c:    int found = get_map_entry(jp->equity_sym, sym, slen, (void**)&mds);
+./om/jigglypuff/jigglypuff.c:    if(found && !mds->exempt) {
+./om/jigglypuff/jigglypuff.c:            allowed = price < mds->offer;
+./om/jigglypuff/jigglypuff.c:            allowed = price > mds->bid;
+./om/jigglypuff/jigglypuff.c:        close_mds_client(jplc->mdc);
+./om/jigglypuff/jigglypuff.c:        jplc->mdc  = create_mds_client(filename, flen, jplc, 
+./om/jigglypuff/jigglypuff.c:                                       balance_mds_update,update_equity_sym_chart);
+Binary file ./om/jigglypuff/jigglypuff.o matches
+./om/jigglypuff/mds_client.h:typedef struct mds_client_con mdsclient;
+./om/jigglypuff/mds_client.h:mdsclient* create_mds_client(char* config_file_name, int clen, void* cbo, 
+./om/jigglypuff/mds_client.h:                             void (*mds_update)(void* cbo, char* sym, int slen, long bid, long offer),
+./om/jigglypuff/mds_client.h:void close_mds_client(mdsclient* mdc);
+./om/jigglypuff/Makefile:SRC = jigglypuff.c mds_client.c
+./om/jigglypuff/jigglypuff.P: ../server_objects/debug_logger.h mds_client.h
+./om/jigglypuff/jigglypuff.P: ../server_objects/debug_logger.h mds_client.h :
+./om/glob/startup.c:        char* mdsfile = argv[5];
+./om/glob/startup.c:        jlc = create_jp_limits_checker(main_cfg, mdsfile, strlen(mdsfile));
+Binary file ./om/glob/startup.o matches
+Binary file ./om/glob/dartglob matches
+./om/tags:MDS_BUFFER_SIZE	jigglypuff/mds_client.c	31;"	d	file:
+./om/tags:MDS_NANO_MULT	jigglypuff/mds_client.c	37;"	d	file:
+./om/tags:SRC	jigglypuff/Makefile	/^SRC = jigglypuff.c mds_client.c$/;"	m
+./om/tags:_GNU_SOURCE	jigglypuff/mds_client.c	7;"	d	file:
+./om/tags:_MDS_CLIENT_H__	jigglypuff/mds_client.h	7;"	d
+./om/tags:balance_mds_update	jigglypuff/jigglypuff.c	/^void balance_mds_update(void* cbo, char* sym, int slen, long bid, long offer)$/;"	f
+./om/tags:close_mds_client	jigglypuff/mds_client.c	/^void close_mds_client(mdsclient* mdc)$/;"	f
+./om/tags:con_update	jigglypuff/mds_client.c	/^    void(*con_update)(void* cbo, int is_connected);$/;"	m	struct:mds_client_con	file:
+./om/tags:connect_mds	jigglypuff/mds_client.c	/^static void connect_mds(mdsclient* mdc)$/;"	f	file:
+./om/tags:cpu	jigglypuff/mds_client.c	/^    int cpu;$/;"	m	struct:mds_client_con	file:
+./om/tags:create_mds_client	jigglypuff/mds_client.c	/^mdsclient* create_mds_client(char* config_file_name, int clen, void* cbo, $/;"	f
+./om/tags:create_mds_con	jigglypuff/mds_client.c	/^static int create_mds_con(mdsclient* p, int port, const char* host, int * err)$/;"	f	file:
+./om/tags:ex	jigglypuff/mds_client.c	/^    ex_config* ex;$/;"	m	struct:mds_client_con	file:
+./om/tags:get_cpu	jigglypuff/mds_client.c	/^static void get_cpu(mdsclient* mdc)$/;"	f	file:
+./om/tags:mdc	jigglypuff/jigglypuff.c	/^    mdsclient* mdc;$/;"	m	struct:jp_limits_checker	file:
+./om/tags:mds_client_con	jigglypuff/mds_client.c	/^struct mds_client_con {$/;"	s	file:
+./om/tags:mds_send_wrapper	jigglypuff/mds_client.c	/^static int mds_send_wrapper(int sock, char* data, int len, int* disconnect)$/;"	f	file:
+./om/tags:mdsclient	jigglypuff/mds_client.h	/^typedef struct mds_client_con mdsclient;$/;"	t	typeref:struct:mds_client_con
+./om/tags:parse_mds_message	jigglypuff/mds_client.c	/^static int parse_mds_message(mdsclient* mdc, char* d, int dlen)$/;"	f	file:
+./om/tags:pass_back	jigglypuff/mds_client.c	/^    void* pass_back;$/;"	m	struct:mds_client_con	file:
+./om/tags:recv_loop	jigglypuff/mds_client.c	/^static void recv_loop(mdsclient* mdc)$/;"	f	file:
+./om/tags:run	jigglypuff/mds_client.c	/^    int run;$/;"	m	struct:mds_client_con	file:
+./om/tags:run_mds	jigglypuff/mds_client.c	/^static void* run_mds(void* s)$/;"	f	file:
+./om/tags:send_mdc_hb	jigglypuff/mds_client.c	/^static int send_mdc_hb(mdsclient* mdc)$/;"	f	file:
+./om/tags:send_mdc_logon	jigglypuff/mds_client.c	/^static int send_mdc_logon(mdsclient* mdc)$/;"	f	file:
+./om/tags:sock	jigglypuff/mds_client.c	/^    int sock;$/;"	m	struct:mds_client_con	file:
+./om/tags:thread	jigglypuff/mds_client.c	/^    pthread_t thread;$/;"	m	struct:mds_client_con	file:
+./om/tags:update	jigglypuff/mds_client.c	/^    void(*update)(void* cbo, char* sym, int slen, long bid, long offer);$/;"	m	struct:mds_client_con	file:
+./dartlib/mds_client.P:mds_client.o: mds_client.c /usr/include/stdc-predef.h \
+./dartlib/mds_client.P: /usr/include/x86_64-linux-gnu/sys/un.h mds_client.h \
+./dartlib/mds_client.P:mds_client.c /usr/include/stdc-predef.h :
+./dartlib/mds_client.P: /usr/include/x86_64-linux-gnu/sys/un.h mds_client.h :
+Binary file ./dartlib/mds_client.o matches
+./dartlib/map:balance_checker.c:    int found = get_map_entry(jp->equity_sym, rc->sym, rc->slen, (void**)&mds);
+./dartlib/map:balance_checker.c:    int found = get_map_entry(jp->equity_sym, rc->sym, rc->slen, (void**)&mds);
+./dartlib/balance_checker.h:        void (*mds_update)(void* cbo, char* sym, int slen, long bid, long offer),
+Binary file ./dartlib/libdartlib.so matches
+./dartlib/mds_client.c:#include "mds_client.h"
+./dartlib/mds_client.c:struct mds_client_con {
+./dartlib/mds_client.c:static int mds_send_wrapper(int sock, char* data, int len, int* disconnect, otl* o)
+./dartlib/mds_client.c:static int send_mdc_logon(mdsclient* mdc)
+./dartlib/mds_client.c:    return mds_send_wrapper(mdc->sock, b, len + 4, &dis, mdc->o);
+./dartlib/mds_client.c:static int send_mdc_hb(mdsclient* mdc)
+./dartlib/mds_client.c:    mds_send_wrapper(mdc->sock, b, len + 4, &dis, mdc->o);
+./dartlib/mds_client.c:static int create_mds_con(mdsclient* p, int port, const char* host, int * err)
+./dartlib/mds_client.c:static void get_cpu(mdsclient* mdc)
+./dartlib/mds_client.c:static void connect_mds(mdsclient* mdc)
+./dartlib/mds_client.c:    mdc->sock = create_mds_con(mdc, mdc->ex->port, mdc->ex->ip, &s);
+./dartlib/mds_client.c:        mdc->sock = create_mds_con(mdc, mdc->ex->port, mdc->ex->ip, &s);
+./dartlib/mds_client.c:static int parse_mds_message(mdsclient* mdc, char* d, int dlen)
+./dartlib/mds_client.c:static void recv_loop(mdsclient* mdc)
+./dartlib/mds_client.c:                int used = parse_mds_message(mdc, rd_ptr, wr_ptr - rd_ptr);
+./dartlib/mds_client.c:static void* run_mds(void* s)
+./dartlib/mds_client.c:    mdsclient* mdc = (mdsclient*)s;
+./dartlib/mds_client.c:        connect_mds(mdc); 
+./dartlib/mds_client.c:mdsclient* create_mds_client(ex_config* ex, otl* o,void* cbo, 
+./dartlib/mds_client.c:                             void (*mds_update)(void* cbo, char* sym, int slen, long bid, long offer),
+./dartlib/mds_client.c:    mdsclient* mdc = 0;
+./dartlib/mds_client.c:    REX_ALLOC(mdc, 8, sizeof(struct mds_client_con), ret);
+./dartlib/mds_client.c:    mdc->update = mds_update;
+./dartlib/mds_client.c:    int error = pthread_create(&mdc->thread, NULL, run_mds, mdc);
+./dartlib/mds_client.c:void close_mds_client(mdsclient* mdc)
+./dartlib/balance_checker.P: ../rex/polling_server.h mds_client.h
+./dartlib/balance_checker.P: ../rex/polling_server.h mds_client.h :
+./dartlib/mds_client.h:typedef struct mds_client_con mdsclient;
+./dartlib/mds_client.h:mdsclient* create_mds_client(ex_config* ex, otl* o,void* cbo, 
+./dartlib/mds_client.h:                             void (*mds_update)(void* cbo, char* sym, int slen, long bid, long offer),
+./dartlib/mds_client.h:void close_mds_client(mdsclient* mdc);
+./dartlib/Makefile:SRC = dart_router.c gatekeeper.c connection_interface.c mailer.c generic_db.c balance_checker.c rom_fix_trans_funcs.c mds_client.c direct_router.c boe_master.c 
+Binary file ./dartlib/balance_checker.o matches
+./dartlib/balance_checker.c:#include "mds_client.h"
+./dartlib/balance_checker.c:    mdsclient* mdc;
+./dartlib/balance_checker.c:void balance_mds_update(void* cbo, char* sym, int slen, long bid, long offer)
+./dartlib/balance_checker.c:    mdupdate* mds = 0;
+./dartlib/balance_checker.c:    int found = get_map_entry(jp->equity_sym, rc->sym, rc->slen, (void**)&mds);
+./dartlib/balance_checker.c:    if(found && !mds->exempt) {
+./dartlib/balance_checker.c:            allowed = rc->price < mds->offer;
+./dartlib/balance_checker.c:            allowed = rc->price > mds->bid;
+./dartlib/balance_checker.c:    mdupdate* mds = 0;
+./dartlib/balance_checker.c:    int found = get_map_entry(jp->equity_sym, rc->sym, rc->slen, (void**)&mds);
+./dartlib/balance_checker.c:    if(found && !mds->exempt) {
+./dartlib/balance_checker.c:            allowed = price < mds->offer;
+./dartlib/balance_checker.c:            allowed = price > mds->bid;
+./dartlib/balance_checker.c:    close_mds_client(jplc->mdc);
+./dartlib/balance_checker.c:    return create_limits_checker(ex, o, mod_name, mlen,balance_mds_update,
+./dartlib/balance_checker.c:        void (*mds_update)(void* cbo, char* sym, int slen, long bid, long offer),
+./dartlib/balance_checker.c:        ex_config* mdsconfig = create_config_from_db(jplc, mod_name, mlen, "3466");
+./dartlib/balance_checker.c:        if(mdsconfig && mdsconfig->ip_len > 0) {
+./dartlib/balance_checker.c:            mdsconfig->username = mod_name;
+./dartlib/balance_checker.c:            mdsconfig->ulen = mlen;
+./dartlib/balance_checker.c:            send_debug_message(jplc->o, "Starting MDS IP: %s, user: %s \n", mdsconfig->ip, mdsconfig->username);
+./dartlib/balance_checker.c:            jplc->mdc  = create_mds_client(mdsconfig, o,jplc, 
+./dartlib/balance_checker.c:                    balance_mds_update,update_equity_sym_chart);
+Binary file ./BinSharper/packages/WebSharper.FSharp.4.5.19.349/WebSharper.FSharp.4.5.19.349.nupkg matches
+Binary file ./fiberblaze/nbcon.o matches
+Binary file ./fiberblaze/libnbfiber.so matches
+./fiberblaze/nbcon.c:    char* mdsdat = get_config_val(dbc->cntr->mc, "SERVER", 6,
+./fiberblaze/nbcon.c:            "mds", 3, &md_len);
+./fiberblaze/nbcon.c:            mdsdat, md_len);
+./RoProSftper/RoProSftper/node_modules/aws-sdk/lib/metadata_service.js:    if (process.env[AWS.util.imdsDisabledEnv]) {
+./RoProSftper/RoProSftper/node_modules/aws-sdk/lib/util.js:  imdsDisabledEnv: 'AWS_EC2_METADATA_DISABLED'
+./RoProSftper/RoProSftper/node_modules/aws-sdk/dist/aws-sdk-core-react-native.js:	  imdsDisabledEnv: 'AWS_EC2_METADATA_DISABLED'
+./RoProSftper/RoProSftper/node_modules/aws-sdk/dist/aws-sdk-react-native.js:		  imdsDisabledEnv: 'AWS_EC2_METADATA_DISABLED'
+./RoProSftper/RoProSftper/node_modules/aws-sdk/dist/aws-sdk-react-native.js:	  imdsDisabledEnv: 'AWS_EC2_METADATA_DISABLED'
+./RoProSftper/RoProSftper/node_modules/aws-sdk/dist/aws-sdk.min.js:"function"!=typeof t&&(r=!0),Array.isArray(e)||(e=[e]);for(var i=0;i<e.length;i++){var s=e[i];r?s.deletePromisesFromClass&&s.deletePromisesFromClass():s.addPromisesToClass&&s.addPromisesToClass(t)}},promisifyMethod:function(e,t){return function(){var r=this,i=Array.prototype.slice.call(arguments);return new t(function(t,a){i.push(function(e,r){e?a(e):t(r)}),r[e].apply(r,i)})}},isDualstackAvailable:function(t){if(!t)return!1;var r=e("../apis/metadata.json");return"string"!=typeof t&&(t=t.serviceIdentifier),!("string"!=typeof t||!r.hasOwnProperty(t))&&!!r[t].dualstackAvailable},calculateRetryDelay:function(e,t,r){t||(t={});var i=t.customBackoff||null;if("function"==typeof i)return i(e,r);var a="number"==typeof t.base?t.base:100;return Math.random()*(Math.pow(2,e)*a)},handleRequestWithRetries:function(e,t,r){t||(t={});var i=a.HttpClient.getInstance(),o=t.httpOptions||{},n=0,u=function(e){var i=t.maxRetries||0;e&&"TimeoutError"===e.code&&(e.retryable=!0);var a=s.calculateRetryDelay(n,t.retryDelayOptions,e);e&&e.retryable&&n<i&&a>=0?(n++,setTimeout(p,a+(e.retryAfter||0))):r(e)},p=function(){var t="";i.handleRequest(e,o,function(e){e.on("data",function(e){t+=e.toString()}),e.on("end",function(){var i=e.statusCode;if(i<300)r(null,t);else{var a=1e3*parseInt(e.headers["retry-after"],10)||0,o=s.error(new Error,{statusCode:i,retryable:i>=500||429===i});a&&o.retryable&&(o.retryAfter=a),u(o)}})},u)};a.util.defer(p)},uuid:{v4:function(){return e("uuid").v4()}},convertPayloadToString:function(e){var t=e.request,r=t.operation,i=t.service.api.operations[r].output||{};i.payload&&e.data[i.payload]&&(e.data[i.payload]=e.data[i.payload].toString())},defer:function(e){"object"==typeof r&&"function"==typeof r.nextTick?r.nextTick(e):"function"==typeof i?i(e):setTimeout(e,0)},getRequestPayloadShape:function(e){var t=e.service.api.operations;if(t){var r=(t||{})[e.operation];if(r&&r.input&&r.input.payload)return r.input.members[r.input.payload]}},getProfilesFromSharedConfig:function(e,t){var i={},a={};if(r.env[s.configOptInEnv])var a=e.loadFrom({isConfig:!0,filename:r.env[s.sharedConfigFileEnv]});for(var o=e.loadFrom({filename:t||r.env[s.configOptInEnv]&&r.env[s.sharedCredentialsFileEnv]}),n=0,u=Object.keys(a);n<u.length;n++)i[u[n]]=a[u[n]];for(var n=0,u=Object.keys(o);n<u.length;n++)i[u[n]]=o[u[n]];return i},ARN:{validate:function(e){return e&&0===e.indexOf("arn:")&&e.split(":").length>=6},parse:function(e){var t=e.split(":");return{partition:t[1],service:t[2],region:t[3],accountId:t[4],resource:t.slice(5).join(":")}},build:function(e){if(void 0===e.service||void 0===e.region||void 0===e.accountId||void 0===e.resource)throw s.error(new Error("Input ARN object is invalid"));return"arn:"+(e.partition||"aws")+":"+e.service+":"+e.region+":"+e.accountId+":"+e.resource}},defaultProfile:"default",configOptInEnv:"AWS_SDK_LOAD_CONFIG",sharedCredentialsFileEnv:"AWS_SHARED_CREDENTIALS_FILE",sharedConfigFileEnv:"AWS_CONFIG_FILE",imdsDisabledEnv:"AWS_EC2_METADATA_DISABLED"};t.exports=s}).call(this,e("_process"),e("timers").setImmediate)},{"../apis/metadata.json":151,"./core":323,_process:411,fs:405,timers:419,uuid:424}],398:[function(e,t,r){function i(){}function a(e,t){for(var r=e.getElementsByTagName(t),i=0,a=r.length;i<a;i++)if(r[i].parentNode===e)return r[i]}function s(e,t){switch(t||(t={}),t.type){case"structure":return o(e,t);case"map":return n(e,t);case"list":return u(e,t);case void 0:case null:return m(e);default:return p(e,t)}}function o(e,t){var r={};return null===e?r:(c.each(t.members,function(i,o){if(o.isXmlAttribute){if(Object.prototype.hasOwnProperty.call(e.attributes,o.name)){var n=e.attributes[o.name].value;r[i]=s({textContent:n},o)}}else{var u=o.flattened?e:a(e,o.name);u?r[i]=s(u,o):o.flattened||"list"!==o.type||t.api.xmlNoDefaultLists||(r[i]=o.defaultValue)}}),r)}function n(e,t){for(var r={},i=t.key.name||"key",o=t.value.name||"value",n=t.flattened?t.name:"entry",u=e.firstElementChild;u;){if(u.nodeName===n){var p=a(u,i).textContent,m=a(u,o);r[p]=s(m,t.value)}u=u.nextElementSibling}return r}function u(e,t){for(var r=[],i=t.flattened?t.name:t.member.name||"member",a=e.firstElementChild;a;)a.nodeName===i&&r.push(s(a,t.member)),a=a.nextElementSibling;return r}function p(e,t){if(e.getAttribute){var r=e.getAttribute("encoding");"base64"===r&&(t=new l.create({type:r}))}var i=e.textContent;return""===i&&(i=null),"function"==typeof t.toType?t.toType(i):i}function m(e){if(void 0===e||null===e)return"";if(!e.firstElementChild)return null===e.parentNode.parentNode?{}:0===e.childNodes.length?"":e.textContent;for(var t={type:"structure",members:{}},r=e.firstElementChild;r;){var i=r.nodeName;Object.prototype.hasOwnProperty.call(t.members,i)?t.members[i].type="list":t.members[i]={name:i},r=r.nextElementSibling}return o(e,t)}var c=e("../util"),l=e("../model/shape");i.prototype.parse=function(e,t){if(""===e.replace(/^\s+/,""))return{};var r,i;try{if(window.DOMParser){try{r=(new DOMParser).parseFromString(e,"text/xml")}catch(e){throw c.error(new Error("Parse error in document"),{originalError:e,code:"XMLParserError",retryable:!0})}if(null===r.documentElement)throw c.error(new Error("Cannot parse empty document."),{code:"XMLParserError",retryable:!0});var o=r.getElementsByTagName("parsererror")[0];if(o&&(o.parentNode===r||"body"===o.parentNode.nodeName||o.parentNode.parentNode===r||"body"===o.parentNode.parentNode.nodeName)){var n=o.getElementsByTagName("div")[0]||o;throw c.error(new Error(n.textContent||"Parser error in document"),{code:"XMLParserError",retryable:!0})}}else{if(!window.ActiveXObject)throw new Error("Cannot load XML parser");if(r=new window.ActiveXObject("Microsoft.XMLDOM"),r.async=!1,!r.loadXML(e))throw c.error(new Error("Parse error in document"),{code:"XMLParserError",retryable:!0})}}catch(e){i=e}if(r&&r.documentElement&&!i){var u=s(r.documentElement,t),p=a(r.documentElement,"ResponseMetadata");return p&&(u.ResponseMetadata=s(p,{})),u}if(i)throw c.error(i||new Error,{code:"XMLParserError",retryable:!0});return{}},t.exports=i},{"../model/shape":354,"../util":397}],399:[function(e,t,r){function i(){}function a(e,t,r){switch(r.type){case"structure":return s(e,t,r);case"map":return o(e,t,r);case"list":return n(e,t,r);default:return u(e,t,r)}}function s(e,t,r){m.arrayEach(r.memberNames,function(i){var s=r.members[i];if("body"===s.location){var o=t[i],n=s.name;if(void 0!==o&&null!==o)if(s.isXmlAttribute)e.addAttribute(n,o);else if(s.flattened)a(e,o,s);else{var u=new c(n);e.addChildNode(u),p(u,s),a(u,o,s)}}})}function o(e,t,r){var i=r.key.name||"key",s=r.value.name||"value";m.each(t,function(t,o){var n=new c(r.flattened?r.name:"entry");e.addChildNode(n);var u=new c(i),p=new c(s);n.addChildNode(u),n.addChildNode(p),a(u,t,r.key),a(p,o,r.value)})}function n(e,t,r){r.flattened?m.arrayEach(t,function(t){var i=r.member.name||r.name,s=new c(i);e.addChildNode(s),a(s,t,r.member)}):m.arrayEach(t,function(t){var i=r.member.name||"member",s=new c(i);e.addChildNode(s),a(s,t,r.member)})}function u(e,t,r){e.addChildNode(new l(r.toWireFormat(t)))}function p(e,t,r){var i,a="xmlns";t.xmlNamespaceUri?(i=t.xmlNamespaceUri,t.xmlNamespacePrefix&&(a+=":"+t.xmlNamespacePrefix)):r&&t.api.xmlNamespaceUri&&(i=t.api.xmlNamespaceUri),i&&e.addAttribute(a,i)}var m=e("../util"),c=e("./xml-node").XmlNode,l=e("./xml-text").XmlText;i.prototype.toXML=function(e,t,r,i){var s=new c(r);return p(s,t,!0),a(s,e,t),s.children.length>0||i?s.toString():""},t.exports=i},{"../util":397,"./xml-node":402,"./xml-text":403}],400:[function(e,t,r){function i(e){return e.replace(/&/g,"&amp;").replace(/'/g,"&apos;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}t.exports={escapeAttribute:i}},{}],401:[function(e,t,r){function i(e){return e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}t.exports={escapeElement:i}},{}],402:[function(e,t,r){function i(e,t){void 0===t&&(t=[]),this.name=e,this.children=t,this.attributes={}}var a=e("./escape-attribute").escapeAttribute;i.prototype.addAttribute=function(e,t){return this.attributes[e]=t,this},i.prototype.addChildNode=function(e){return this.children.push(e),this},i.prototype.removeAttribute=function(e){return delete this.attributes[e],this},i.prototype.toString=function(){for(var e=Boolean(this.children.length),t="<"+this.name,r=this.attributes,i=0,s=Object.keys(r);i<s.length;i++){var o=s[i],n=r[o];void 0!==n&&null!==n&&(t+=" "+o+'="'+a(""+n)+'"')}return t+=e?">"+this.children.map(function(e){return e.toString()}).join("")+"</"+this.name+">":"/>"},t.exports={XmlNode:i}},{"./escape-attribute":400}],403:[function(e,t,r){function i(e){this.value=e}var a=e("./escape-element").escapeElement;i.prototype.toString=function(){return a(""+this.value)},t.exports={XmlText:i}},{"./escape-element":401}],404:[function(e,t,r){"use strict";function i(e){var t=e.length;if(t%4>0)throw new Error("Invalid string. Length must be a multiple of 4");var r=e.indexOf("=");return-1===r&&(r=t),[r,r===t?0:4-r%4]}function a(e){var t=i(e),r=t[0],a=t[1];return 3*(r+a)/4-a}function s(e,t,r){return 3*(t+r)/4-r}function o(e){var t,r,a=i(e),o=a[0],n=a[1],u=new l(s(e,o,n)),p=0,m=n>0?o-4:o;for(r=0;r<m;r+=4)t=c[e.charCodeAt(r)]<<18|c[e.charCodeAt(r+1)]<<12|c[e.charCodeAt(r+2)]<<6|c[e.charCodeAt(r+3)],u[p++]=t>>16&255,u[p++]=t>>8&255,u[p++]=255&t;return 2===n&&(t=c[e.charCodeAt(r)]<<2|c[e.charCodeAt(r+1)]>>4,u[p++]=255&t),1===n&&(t=c[e.charCodeAt(r)]<<10|c[e.charCodeAt(r+1)]<<4|c[e.charCodeAt(r+2)]>>2,u[p++]=t>>8&255,u[p++]=255&t),u}function n(e){return m[e>>18&63]+m[e>>12&63]+m[e>>6&63]+m[63&e]}function u(e,t,r){for(var i,a=[],s=t;s<r;s+=3)i=(e[s]<<16&16711680)+(e[s+1]<<8&65280)+(255&e[s+2]),a.push(n(i));return a.join("")}function p(e){for(var t,r=e.length,i=r%3,a=[],s=0,o=r-i;s<o;s+=16383)a.push(u(e,s,s+16383>o?o:s+16383));return 1===i?(t=e[r-1],a.push(m[t>>2]+m[t<<4&63]+"==")):2===i&&(t=(e[r-2]<<8)+e[r-1],a.push(m[t>>10]+m[t>>4&63]+m[t<<2&63]+"=")),a.join("")}r.byteLength=a,r.toByteArray=o,r.fromByteArray=p;for(var m=[],c=[],l="undefined"!=typeof Uint8Array?Uint8Array:Array,d="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",y=0,b=d.length;y<b;++y)m[y]=d[y],c[d.charCodeAt(y)]=y;c["-".charCodeAt(0)]=62,c["_".charCodeAt(0)]=63},{}],405:[function(e,t,r){},{}],406:[function(e,t,r){(function(t,i){"use strict";function a(){return i.TYPED_ARRAY_SUPPORT?2147483647:1073741823}function s(e,t){if(a()<t)throw new RangeError("Invalid typed array length");return i.TYPED_ARRAY_SUPPORT?(e=new Uint8Array(t),e.__proto__=i.prototype):(null===e&&(e=new i(t)),e.length=t),e}function i(e,t,r){if(!(i.TYPED_ARRAY_SUPPORT||this instanceof i))return new i(e,t,r);if("number"==typeof e){if("string"==typeof t)throw new Error("If encoding is specified then the first argument must be a string");return p(this,e)}return o(this,e,t,r)}function o(e,t,r,i){if("number"==typeof t)throw new TypeError('"value" argument must not be a number');return"undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer?l(e,t,r,i):"string"==typeof t?m(e,t,r):d(e,t)}function n(e){if("number"!=typeof e)throw new TypeError('"size" argument must be a number');if(e<0)throw new RangeError('"size" argument must not be negative')}function u(e,t,r,i){return n(t),t<=0?s(e,t):void 0!==r?"string"==typeof i?s(e,t).fill(r,i):s(e,t).fill(r):s(e,t)}function p(e,t){if(n(t),e=s(e,t<0?0:0|y(t)),!i.TYPED_ARRAY_SUPPORT)for(var r=0;r<t;++r)e[r]=0;return e}function m(e,t,r){if("string"==typeof r&&""!==r||(r="utf8"),!i.isEncoding(r))throw new TypeError('"encoding" must be a valid string encoding');var a=0|S(t,r);e=s(e,a);var o=e.write(t,r);return o!==a&&(e=e.slice(0,o)),e}function c(e,t){var r=t.length<0?0:0|y(t.length);e=s(e,r);for(var i=0;i<r;i+=1)e[i]=255&t[i];return e}function l(e,t,r,a){if(t.byteLength,r<0||t.byteLength<r)throw new RangeError("'offset' is out of bounds");if(t.byteLength<r+(a||0))throw new RangeError("'length' is out of bounds");return t=void 0===r&&void 0===a?new Uint8Array(t):void 0===a?new Uint8Array(t,r):new Uint8Array(t,r,a),i.TYPED_ARRAY_SUPPORT?(e=t,e.__proto__=i.prototype):e=c(e,t),e}function d(e,t){if(i.isBuffer(t)){var r=0|y(t.length);return e=s(e,r),0===e.length?e:(t.copy(e,0,0,r),e)}if(t){if("undefined"!=typeof ArrayBuffer&&t.buffer instanceof ArrayBuffer||"length"in t)return"number"!=typeof t.length||J(t.length)?s(e,0):c(e,t);if("Buffer"===t.type&&Y(t.data))return c(e,t.data)}throw new TypeError("First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.")}function y(e){if(e>=a())throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x"+a().toString(16)+" bytes");return 0|e}function b(e){return+e!=e&&(e=0),i.alloc(+e)}function S(e,t){if(i.isBuffer(e))return e.length;if("undefined"!=typeof ArrayBuffer&&"function"==typeof ArrayBuffer.isView&&(ArrayBuffer.isView(e)||e instanceof ArrayBuffer))return e.byteLength;"string"!=typeof e&&(e=""+e);var r=e.length;if(0===r)return 0;for(var a=!1;;)switch(t){case"ascii":case"latin1":case"binary":return r;case"utf8":case"utf-8":case void 0:return j(e).length;case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return 2*r;case"hex":return r>>>1;case"base64":return H(e).length;default:if(a)return j(e).length;t=(""+t).toLowerCase(),a=!0}}function h(e,t,r){var i=!1;if((void 0===t||t<0)&&(t=0),t>this.length)return"";if((void 0===r||r>this.length)&&(r=this.length),r<=0)return"";if(r>>>=0,t>>>=0,r<=t)return"";for(e||(e="utf8");;)switch(e){case"hex":return E(this,t,r);case"utf8":case"utf-8":return A(this,t,r);case"ascii":return q(this,t,r);case"latin1":case"binary":return x(this,t,r);case"base64":return R(this,t,r);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return M(this,t,r);default:if(i)throw new TypeError("Unknown encoding: "+e);e=(e+"").toLowerCase(),i=!0}}function g(e,t,r){var i=e[t];e[t]=e[r],e[r]=i}function N(e,t,r,a,s){if(0===e.length)return-1;if("string"==typeof r?(a=r,r=0):r>2147483647?r=2147483647:r<-2147483648&&(r=-2147483648),r=+r,isNaN(r)&&(r=s?0:e.length-1),r<0&&(r=e.length+r),r>=e.length){if(s)return-1;r=e.length-1}else if(r<0){if(!s)return-1;r=0}if("string"==typeof t&&(t=i.from(t,a)),i.isBuffer(t))return 0===t.length?-1:I(e,t,r,a,s);if("number"==typeof t)return t&=255,i.TYPED_ARRAY_SUPPORT&&"function"==typeof Uint8Array.prototype.indexOf?s?Uint8Array.prototype.indexOf.call(e,t,r):Uint8Array.prototype.lastIndexOf.call(e,t,r):I(e,[t],r,a,s);throw new TypeError("val must be string, number or Buffer")}function I(e,t,r,i,a){function s(e,t){return 1===o?e[t]:e.readUInt16BE(t*o)}var o=1,n=e.length,u=t.length;if(void 0!==i&&("ucs2"===(i=String(i).toLowerCase())||"ucs-2"===i||"utf16le"===i||"utf-16le"===i)){if(e.length<2||t.length<2)return-1;o=2,n/=2,u/=2,r/=2}var p;if(a){var m=-1;for(p=r;p<n;p++)if(s(e,p)===s(t,-1===m?0:p-m)){if(-1===m&&(m=p),p-m+1===u)return m*o}else-1!==m&&(p-=p-m),m=-1}else for(r+u>n&&(r=n-u),p=r;p>=0;p--){for(var c=!0,l=0;l<u;l++)if(s(e,p+l)!==s(t,l)){c=!1;break}if(c)return p}return-1}function f(e,t,r,i){r=Number(r)||0;var a=e.length-r;i?(i=Number(i))>a&&(i=a):i=a;var s=t.length;if(s%2!=0)throw new TypeError("Invalid hex string");i>s/2&&(i=s/2);for(var o=0;o<i;++o){var n=parseInt(t.substr(2*o,2),16);if(isNaN(n))return o;e[r+o]=n}return o}function T(e,t,r,i){return Q(j(t,e.length-r),e,r,i)}function C(e,t,r,i){return Q(K(t),e,r,i)}function k(e,t,r,i){return C(e,t,r,i)}function v(e,t,r,i){return Q(H(t),e,r,i)}function D(e,t,r,i){return Q(W(t,e.length-r),e,r,i)}function R(e,t,r){return 0===t&&r===e.length?Z.fromByteArray(e):Z.fromByteArray(e.slice(t,r))}function A(e,t,r){r=Math.min(e.length,r);for(var i=[],a=t;a<r;){var s=e[a],o=null,n=s>239?4:s>223?3:s>191?2:1;if(a+n<=r){var u,p,m,c;switch(n){case 1:s<128&&(o=s);break;case 2:u=e[a+1],128==(192&u)&&(c=(31&s)<<6|63&u)>127&&(o=c);break;case 3:u=e[a+1],p=e[a+2],128==(192&u)&&128==(192&p)&&(c=(15&s)<<12|(63&u)<<6|63&p)>2047&&(c<55296||c>57343)&&(o=c);break;case 4:u=e[a+1],p=e[a+2],m=e[a+3],128==(192&u)&&128==(192&p)&&128==(192&m)&&(c=(15&s)<<18|(63&u)<<12|(63&p)<<6|63&m)>65535&&c<1114112&&(o=c)}}null===o?(o=65533,n=1):o>65535&&(o-=65536,i.push(o>>>10&1023|55296),o=56320|1023&o),i.push(o),a+=n}return P(i)}function P(e){var t=e.length;if(t<=$)return String.fromCharCode.apply(String,e);for(var r="",i=0;i<t;)r+=String.fromCharCode.apply(String,e.slice(i,i+=$));return r}function q(e,t,r){var i="";r=Math.min(e.length,r);for(var a=t;a<r;++a)i+=String.fromCharCode(127&e[a]);return i}function x(e,t,r){var i="";r=Math.min(e.length,r);for(var a=t;a<r;++a)i+=String.fromCharCode(e[a]);return i}function E(e,t,r){var i=e.length;(!t||t<0)&&(t=0),(!r||r<0||r>i)&&(r=i);for(var a="",s=t;s<r;++s)a+=z(e[s]);return a}function M(e,t,r){for(var i=e.slice(t,r),a="",s=0;s<i.length;s+=2)a+=String.fromCharCode(i[s]+256*i[s+1]);return a}function L(e,t,r){if(e%1!=0||e<0)throw new RangeError("offset is not uint");if(e+t>r)throw new RangeError("Trying to access beyond buffer length")}function G(e,t,r,a,s,o){if(!i.isBuffer(e))throw new TypeError('"buffer" argument must be a Buffer instance');if(t>s||t<o)throw new RangeError('"value" argument is out of bounds');if(r+a>e.length)throw new RangeError("Index out of range")}function B(e,t,r,i){t<0&&(t=65535+t+1);for(var a=0,s=Math.min(e.length-r,2);a<s;++a)e[r+a]=(t&255<<8*(i?a:1-a))>>>8*(i?a:1-a)}function w(e,t,r,i){t<0&&(t=4294967295+t+1);for(var a=0,s=Math.min(e.length-r,4);a<s;++a)e[r+a]=t>>>8*(i?a:3-a)&255}function U(e,t,r,i,a,s){if(r+i>e.length)throw new RangeError("Index out of range");if(r<0)throw new RangeError("Index out of range")}function _(e,t,r,i,a){return a||U(e,t,r,4,3.4028234663852886e38,-3.4028234663852886e38),X.write(e,t,r,i,23,4),r+4}function F(e,t,r,i,a){return a||U(e,t,r,8,1.7976931348623157e308,-1.7976931348623157e308),X.write(e,t,r,i,52,8),r+8}function V(e){if(e=O(e).replace(ee,""),e.length<2)return"";for(;e.length%4!=0;)e+="=";return e}function O(e){return e.trim?e.trim():e.replace(/^\s+|\s+$/g,"")}function z(e){return e<16?"0"+e.toString(16):e.toString(16)}function j(e,t){t=t||1/0;for(var r,i=e.length,a=null,s=[],o=0;o<i;++o){if((r=e.charCodeAt(o))>55295&&r<57344){if(!a){if(r>56319){(t-=3)>-1&&s.push(239,191,189);continue}if(o+1===i){(t-=3)>-1&&s.push(239,191,189);continue}a=r;continue}if(r<56320){(t-=3)>-1&&s.push(239,191,189),a=r;continue}r=65536+(a-55296<<10|r-56320)}else a&&(t-=3)>-1&&s.push(239,191,189);if(a=null,r<128){if((t-=1)<0)break;s.push(r)}else if(r<2048){if((t-=2)<0)break;s.push(r>>6|192,63&r|128)}else if(r<65536){if((t-=3)<0)break;s.push(r>>12|224,r>>6&63|128,63&r|128)}else{if(!(r<1114112))throw new Error("Invalid code point");if((t-=4)<0)break;s.push(r>>18|240,r>>12&63|128,r>>6&63|128,63&r|128)}}return s}function K(e){for(var t=[],r=0;r<e.length;++r)t.push(255&e.charCodeAt(r));return t}function W(e,t){for(var r,i,a,s=[],o=0;o<e.length&&!((t-=2)<0);++o)r=e.charCodeAt(o),i=r>>8,a=r%256,s.push(a),s.push(i);return s}function H(e){return Z.toByteArray(V(e))}function Q(e,t,r,i){for(var a=0;a<i&&!(a+r>=t.length||a>=e.length);++a)t[a+r]=e[a];return a}function J(e){return e!==e}var Z=e("base64-js"),X=e("ieee754"),Y=e("isarray");r.Buffer=i,r.SlowBuffer=b,r.INSPECT_MAX_BYTES=50,i.TYPED_ARRAY_SUPPORT=void 0!==t.TYPED_ARRAY_SUPPORT?t.TYPED_ARRAY_SUPPORT:function(){try{var e=new Uint8Array(1);return e.__proto__={__proto__:Uint8Array.prototype,foo:function(){return 42}},42===e.foo()&&"function"==typeof e.subarray&&0===e.subarray(1,1).byteLength}catch(e){return!1}}(),r.kMaxLength=a(),i.poolSize=8192,i._augment=function(e){return e.__proto__=i.prototype,e},i.from=function(e,t,r){return o(null,e,t,r)},i.TYPED_ARRAY_SUPPORT&&(i.prototype.__proto__=Uint8Array.prototype,i.__proto__=Uint8Array,"undefined"!=typeof Symbol&&Symbol.species&&i[Symbol.species]===i&&Object.defineProperty(i,Symbol.species,{value:null,configurable:!0})),i.alloc=function(e,t,r){return u(null,e,t,r)},i.allocUnsafe=function(e){return p(null,e)},i.allocUnsafeSlow=function(e){return p(null,e)},i.isBuffer=function(e){return!(null==e||!e._isBuffer)},i.compare=function(e,t){if(!i.isBuffer(e)||!i.isBuffer(t))throw new TypeError("Arguments must be Buffers");if(e===t)return 0;for(var r=e.length,a=t.length,s=0,o=Math.min(r,a);s<o;++s)if(e[s]!==t[s]){r=e[s],a=t[s];break}return r<a?-1:a<r?1:0},i.isEncoding=function(e){switch(String(e).toLowerCase()){case"hex":case"utf8":case"utf-8":case"ascii":case"latin1":case"binary":case"base64":case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return!0;default:return!1}},i.concat=function(e,t){if(!Y(e))throw new TypeError('"list" argument must be an Array of Buffers');if(0===e.length)return i.alloc(0);var r;if(void 0===t)for(t=0,r=0;r<e.length;++r)t+=e[r].length;var a=i.allocUnsafe(t),s=0;for(r=0;r<e.length;++r){var o=e[r];if(!i.isBuffer(o))throw new TypeError('"list" argument must be an Array of Buffers');o.copy(a,s),s+=o.length}return a},i.byteLength=S,i.prototype._isBuffer=!0,i.prototype.swap16=function(){var e=this.length;if(e%2!=0)throw new RangeError("Buffer size must be a multiple of 16-bits");for(var t=0;t<e;t+=2)g(this,t,t+1);return this},i.prototype.swap32=function(){var e=this.length;if(e%4!=0)throw new RangeError("Buffer size must be a multiple of 32-bits");for(var t=0;t<e;t+=4)g(this,t,t+3),g(this,t+1,t+2);return this},i.prototype.swap64=function(){var e=this.length;if(e%8!=0)throw new RangeError("Buffer size must be a multiple of 64-bits");for(var t=0;t<e;t+=8)g(this,t,t+7),g(this,t+1,t+6),g(this,t+2,t+5),g(this,t+3,t+4);return this},i.prototype.toString=function(){var e=0|this.length;return 0===e?"":0===arguments.length?A(this,0,e):h.apply(this,arguments)},i.prototype.equals=function(e){if(!i.isBuffer(e))throw new TypeError("Argument must be a Buffer");return this===e||0===i.compare(this,e)},i.prototype.inspect=function(){var e="",t=r.INSPECT_MAX_BYTES;return this.length>0&&(e=this.toString("hex",0,t).match(/.{2}/g).join(" "),this.length>t&&(e+=" ... ")),"<Buffer "+e+">"},i.prototype.compare=function(e,t,r,a,s){if(!i.isBuffer(e))throw new TypeError("Argument must be a Buffer");if(void 0===t&&(t=0),void 0===r&&(r=e?e.length:0),void 0===a&&(a=0),void 0===s&&(s=this.length),t<0||r>e.length||a<0||s>this.length)throw new RangeError("out of range index");if(a>=s&&t>=r)return 0;if(a>=s)return-1;if(t>=r)return 1;if(t>>>=0,r>>>=0,a>>>=0,s>>>=0,this===e)return 0;for(var o=s-a,n=r-t,u=Math.min(o,n),p=this.slice(a,s),m=e.slice(t,r),c=0;c<u;++c)if(p[c]!==m[c]){o=p[c],n=m[c];break}return o<n?-1:n<o?1:0},i.prototype.includes=function(e,t,r){return-1!==this.indexOf(e,t,r)},i.prototype.indexOf=function(e,t,r){return N(this,e,t,r,!0)},i.prototype.lastIndexOf=function(e,t,r){return N(this,e,t,r,!1)},i.prototype.write=function(e,t,r,i){if(void 0===t)i="utf8",r=this.length,t=0;else if(void 0===r&&"string"==typeof t)i=t,r=this.length,t=0;else{if(!isFinite(t))throw new Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");t|=0,isFinite(r)?(r|=0,void 0===i&&(i="utf8")):(i=r,r=void 0)}var a=this.length-t;if((void 0===r||r>a)&&(r=a),e.length>0&&(r<0||t<0)||t>this.length)throw new RangeError("Attempt to write outside buffer bounds");i||(i="utf8");for(var s=!1;;)switch(i){case"hex":return f(this,e,t,r);case"utf8":case"utf-8":return T(this,e,t,r);case"ascii":return C(this,e,t,r);case"latin1":case"binary":return k(this,e,t,r);case"base64":return v(this,e,t,r);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return D(this,e,t,r);default:if(s)throw new TypeError("Unknown encoding: "+i);i=(""+i).toLowerCase(),s=!0}},i.prototype.toJSON=function(){return{type:"Buffer",data:Array.prototype.slice.call(this._arr||this,0)}};var $=4096;i.prototype.slice=function(e,t){var r=this.length;e=~~e,t=void 0===t?r:~~t,e<0?(e+=r)<0&&(e=0):e>r&&(e=r),t<0?(t+=r)<0&&(t=0):t>r&&(t=r),t<e&&(t=e);var a;if(i.TYPED_ARRAY_SUPPORT)a=this.subarray(e,t),a.__proto__=i.prototype;else{var s=t-e;a=new i(s,void 0);for(var o=0;o<s;++o)a[o]=this[o+e]}return a},i.prototype.readUIntLE=function(e,t,r){e|=0,t|=0,r||L(e,t,this.length);for(var i=this[e],a=1,s=0;++s<t&&(a*=256);)i+=this[e+s]*a;return i},i.prototype.readUIntBE=function(e,t,r){e|=0,t|=0,r||L(e,t,this.length);for(var i=this[e+--t],a=1;t>0&&(a*=256);)i+=this[e+--t]*a;return i},i.prototype.readUInt8=function(e,t){return t||L(e,1,this.length),this[e]},i.prototype.readUInt16LE=function(e,t){return t||L(e,2,this.length),this[e]|this[e+1]<<8},i.prototype.readUInt16BE=function(e,t){return t||L(e,2,this.length),this[e]<<8|this[e+1]},i.prototype.readUInt32LE=function(e,t){return t||L(e,4,this.length),(this[e]|this[e+1]<<8|this[e+2]<<16)+16777216*this[e+3]},i.prototype.readUInt32BE=function(e,t){return t||L(e,4,this.length),16777216*this[e]+(this[e+1]<<16|this[e+2]<<8|this[e+3])},i.prototype.readIntLE=function(e,t,r){e|=0,t|=0,r||L(e,t,this.length);for(var i=this[e],a=1,s=0;++s<t&&(a*=256);)i+=this[e+s]*a;return a*=128,i>=a&&(i-=Math.pow(2,8*t)),i},i.prototype.readIntBE=function(e,t,r){e|=0,t|=0,r||L(e,t,this.length);for(var i=t,a=1,s=this[e+--i];i>0&&(a*=256);)s+=this[e+--i]*a;return a*=128,s>=a&&(s-=Math.pow(2,8*t)),s},i.prototype.readInt8=function(e,t){return t||L(e,1,this.length),128&this[e]?-1*(255-this[e]+1):this[e]},i.prototype.readInt16LE=function(e,t){t||L(e,2,this.length);var r=this[e]|this[e+1]<<8;return 32768&r?4294901760|r:r},i.prototype.readInt16BE=function(e,t){t||L(e,2,this.length);var r=this[e+1]|this[e]<<8;return 32768&r?4294901760|r:r},i.prototype.readInt32LE=function(e,t){return t||L(e,4,this.length),this[e]|this[e+1]<<8|this[e+2]<<16|this[e+3]<<24},i.prototype.readInt32BE=function(e,t){return t||L(e,4,this.length),this[e]<<24|this[e+1]<<16|this[e+2]<<8|this[e+3]},i.prototype.readFloatLE=function(e,t){return t||L(e,4,this.length),X.read(this,e,!0,23,4)},i.prototype.readFloatBE=function(e,t){return t||L(e,4,this.length),X.read(this,e,!1,23,4)},i.prototype.readDoubleLE=function(e,t){return t||L(e,8,this.length),X.read(this,e,!0,52,8)},i.prototype.readDoubleBE=function(e,t){return t||L(e,8,this.length),X.read(this,e,!1,52,8)},i.prototype.writeUIntLE=function(e,t,r,i){if(e=+e,t|=0,r|=0,!i){G(this,e,t,r,Math.pow(2,8*r)-1,0)}var a=1,s=0;for(this[t]=255&e;++s<r&&(a*=256);)this[t+s]=e/a&255;return t+r},i.prototype.writeUIntBE=function(e,t,r,i){if(e=+e,t|=0,r|=0,!i){G(this,e,t,r,Math.pow(2,8*r)-1,0)}var a=r-1,s=1;for(this[t+a]=255&e;--a>=0&&(s*=256);)this[t+a]=e/s&255;return t+r},i.prototype.writeUInt8=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,1,255,0),i.TYPED_ARRAY_SUPPORT||(e=Math.floor(e)),this[t]=255&e,t+1},i.prototype.writeUInt16LE=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,2,65535,0),i.TYPED_ARRAY_SUPPORT?(this[t]=255&e,this[t+1]=e>>>8):B(this,e,t,!0),t+2},i.prototype.writeUInt16BE=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,2,65535,0),i.TYPED_ARRAY_SUPPORT?(this[t]=e>>>8,this[t+1]=255&e):B(this,e,t,!1),t+2},i.prototype.writeUInt32LE=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,4,4294967295,0),i.TYPED_ARRAY_SUPPORT?(this[t+3]=e>>>24,this[t+2]=e>>>16,this[t+1]=e>>>8,this[t]=255&e):w(this,e,t,!0),t+4},i.prototype.writeUInt32BE=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,4,4294967295,0),i.TYPED_ARRAY_SUPPORT?(this[t]=e>>>24,this[t+1]=e>>>16,this[t+2]=e>>>8,this[t+3]=255&e):w(this,e,t,!1),t+4},i.prototype.writeIntLE=function(e,t,r,i){if(e=+e,t|=0,!i){var a=Math.pow(2,8*r-1);G(this,e,t,r,a-1,-a)}var s=0,o=1,n=0;for(this[t]=255&e;++s<r&&(o*=256);)e<0&&0===n&&0!==this[t+s-1]&&(n=1),this[t+s]=(e/o>>0)-n&255;return t+r},i.prototype.writeIntBE=function(e,t,r,i){if(e=+e,t|=0,!i){var a=Math.pow(2,8*r-1);G(this,e,t,r,a-1,-a)}var s=r-1,o=1,n=0;for(this[t+s]=255&e;--s>=0&&(o*=256);)e<0&&0===n&&0!==this[t+s+1]&&(n=1),this[t+s]=(e/o>>0)-n&255;return t+r},i.prototype.writeInt8=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,1,127,-128),i.TYPED_ARRAY_SUPPORT||(e=Math.floor(e)),e<0&&(e=255+e+1),this[t]=255&e,t+1},i.prototype.writeInt16LE=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,2,32767,-32768),i.TYPED_ARRAY_SUPPORT?(this[t]=255&e,this[t+1]=e>>>8):B(this,e,t,!0),t+2},i.prototype.writeInt16BE=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,2,32767,-32768),i.TYPED_ARRAY_SUPPORT?(this[t]=e>>>8,this[t+1]=255&e):B(this,e,t,!1),t+2},i.prototype.writeInt32LE=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,4,2147483647,-2147483648),i.TYPED_ARRAY_SUPPORT?(this[t]=255&e,this[t+1]=e>>>8,this[t+2]=e>>>16,this[t+3]=e>>>24):w(this,e,t,!0),t+4},i.prototype.writeInt32BE=function(e,t,r){return e=+e,t|=0,r||G(this,e,t,4,2147483647,-2147483648),e<0&&(e=4294967295+e+1),i.TYPED_ARRAY_SUPPORT?(this[t]=e>>>24,this[t+1]=e>>>16,this[t+2]=e>>>8,this[t+3]=255&e):w(this,e,t,!1),t+4},i.prototype.writeFloatLE=function(e,t,r){return _(this,e,t,!0,r)},i.prototype.writeFloatBE=function(e,t,r){return _(this,e,t,!1,r)},i.prototype.writeDoubleLE=function(e,t,r){return F(this,e,t,!0,r)},i.prototype.writeDoubleBE=function(e,t,r){return F(this,e,t,!1,r)},i.prototype.copy=function(e,t,r,a){if(r||(r=0),a||0===a||(a=this.length),t>=e.length&&(t=e.length),t||(t=0),a>0&&a<r&&(a=r),a===r)return 0;if(0===e.length||0===this.length)return 0;if(t<0)throw new RangeError("targetStart out of bounds");if(r<0||r>=this.length)throw new RangeError("sourceStart out of bounds");if(a<0)throw new RangeError("sourceEnd out of bounds");a>this.length&&(a=this.length),e.length-t<a-r&&(a=e.length-t+r);var s,o=a-r;if(this===e&&r<t&&t<a)for(s=o-1;s>=0;--s)e[s+t]=this[s+r];else if(o<1e3||!i.TYPED_ARRAY_SUPPORT)for(s=0;s<o;++s)e[s+t]=this[s+r];else Uint8Array.prototype.set.call(e,this.subarray(r,r+o),t);return o},i.prototype.fill=function(e,t,r,a){if("string"==typeof e){if("string"==typeof t?(a=t,t=0,r=this.length):"string"==typeof r&&(a=r,r=this.length),1===e.length){var s=e.charCodeAt(0);s<256&&(e=s)}if(void 0!==a&&"string"!=typeof a)throw new TypeError("encoding must be a string");if("string"==typeof a&&!i.isEncoding(a))throw new TypeError("Unknown encoding: "+a)}else"number"==typeof e&&(e&=255);if(t<0||this.length<t||this.length<r)throw new RangeError("Out of range index");if(r<=t)return this;t>>>=0,r=void 0===r?this.length:r>>>0,e||(e=0);var o;if("number"==typeof e)for(o=t;o<r;++o)this[o]=e;else{var n=i.isBuffer(e)?e:j(new i(e,a).toString()),u=n.length;for(o=0;o<r-t;++o)this[o+t]=n[o%u]}return this};var ee=/[^+\/0-9A-Za-z-_]/g}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{},e("buffer").Buffer)},{"base64-js":404,buffer:406,ieee754:408,isarray:409}],407:[function(e,t,r){function i(){this._events=this._events||{},this._maxListeners=this._maxListeners||void 0}function a(e){return"function"==typeof e}function s(e){return"number"==typeof e}function o(e){return"object"==typeof e&&null!==e}function n(e){return void 0===e}t.exports=i,i.EventEmitter=i,i.prototype._events=void 0,i.prototype._maxListeners=void 0,i.defaultMaxListeners=10,i.prototype.setMaxListeners=function(e){if(!s(e)||e<0||isNaN(e))throw TypeError("n must be a positive number");return this._maxListeners=e,this},i.prototype.emit=function(e){var t,r,i,s,u,p;if(this._events||(this._events={}),"error"===e&&(!this._events.error||o(this._events.error)&&!this._events.error.length)){if((t=arguments[1])instanceof Error)throw t;var m=new Error('Uncaught, unspecified "error" event. ('+t+")");throw m.context=t,m}if(r=this._events[e],n(r))return!1;if(a(r))switch(arguments.length){case 1:r.call(this);break;case 2:r.call(this,arguments[1]);break;case 3:r.call(this,arguments[1],arguments[2]);break;default:s=Array.prototype.slice.call(arguments,1),r.apply(this,s)}else if(o(r))for(s=Array.prototype.slice.call(arguments,1),p=r.slice(),i=p.length,u=0;u<i;u++)p[u].apply(this,s);return!0},i.prototype.addListener=function(e,t){var r;if(!a(t))throw TypeError("listener must be a function");return this._events||(this._events={}),this._events.newListener&&this.emit("newListener",e,a(t.listener)?t.listener:t),this._events[e]?o(this._events[e])?this._events[e].push(t):this._events[e]=[this._events[e],t]:this._events[e]=t,o(this._events[e])&&!this._events[e].warned&&(r=n(this._maxListeners)?i.defaultMaxListeners:this._maxListeners)&&r>0&&this._events[e].length>r&&(this._events[e].warned=!0,
+./RoProSftper/RoProSftper/node_modules/aws-sdk/dist/aws-sdk.js:  imdsDisabledEnv: 'AWS_EC2_METADATA_DISABLED'
+Binary file ./pilllib/pilllib.o matches
+./pilllib/pilllib.P: ../dartlib/mds_client.h ../rex/rex_seq_request.h ../rex/polling_server.h \
+./pilllib/pilllib.P: ../dartlib/mds_client.h ../rex/rex_seq_request.h ../rex/polling_server.h :
+Binary file ./pilllib/libpillbsd.so matches
+./pilllib/pilllib.c:#include "mds_client.h"
+./pilllib/pilllib.c:    pthread_spinlock_t mds_mutex;
+./pilllib/pilllib.c:    mdsclient* mdc;
+./pilllib/pilllib.c:        pthread_spin_lock(&dnbp->mds_mutex);
+./pilllib/pilllib.c:        pthread_spin_unlock(&dnbp->mds_mutex);
+./pilllib/pilllib.c:static void process_mds_update(void* cbo, char* sym, int slen, long bid, long offer)
+./pilllib/pilllib.c:        pthread_spin_lock(&pill->mds_mutex);
+./pilllib/pilllib.c:        pthread_spin_unlock(&pill->mds_mutex);
+./pilllib/pilllib.c:static void process_mds_con(void* me, int is_connected)
+./pilllib/pilllib.c:static void connect_to_mds(pillparse* pp)
+./pilllib/pilllib.c:        ex_config* mdsconfig = create_config_from_db(pp->dnbc->cntr->jp, mod_name, mlen, "3466");
+./pilllib/pilllib.c:        if(mdsconfig && mdsconfig->ip_len > 0) {
+./pilllib/pilllib.c:            mdsconfig->username = mod_name;
+./pilllib/pilllib.c:            mdsconfig->ulen = mlen;
+./pilllib/pilllib.c:            send_debug_message(pp->logger, "Starting MDS IP: %s \n", mdsconfig->ip);
+./pilllib/pilllib.c:            pp->dnbc->cntr->mdc  = create_mds_client(mdsconfig, pp->logger,pp, 
+./pilllib/pilllib.c:                    process_mds_update,process_mds_con);
+./pilllib/pilllib.c:    pthread_spin_init(&fp->mds_mutex, PTHREAD_PROCESS_PRIVATE);
+./pilllib/pilllib.c:                                connect_to_mds(pc); 
+./pilldirect/pilldirect.P: ../dartlib/mds_client.h
+./pilldirect/pilldirect.P: ../dartlib/mds_client.h :
+./pilldirect/pilldirect.c:#include "mds_client.h"
+./pilldirect/pilldirect.c:    pthread_spinlock_t mds_mutex;
+./pilldirect/pilldirect.c:    mdsclient* mdc;
+./pilldirect/pilldirect.c:        pthread_spin_lock(&dnbp->mds_mutex);
+./pilldirect/pilldirect.c:        pthread_spin_unlock(&dnbp->mds_mutex);
+./pilldirect/pilldirect.c:    pthread_spin_init(&fp->mds_mutex, PTHREAD_PROCESS_PRIVATE);
+./pilldirect/pilldirect.c:static void process_mds_update(void* cbo, char* sym, int slen, long bid, long offer)
+./pilldirect/pilldirect.c:        pthread_spin_lock(&pill->mds_mutex);
+./pilldirect/pilldirect.c:        pthread_spin_unlock(&pill->mds_mutex);
+./pilldirect/pilldirect.c:static void process_mds_con(void* me, int is_connected)
+./pilldirect/pilldirect.c:static void connect_to_mds(pillparse* pp)
+./pilldirect/pilldirect.c:        ex_config* mdsconfig = create_config_from_db(pp->dnbc->cntr->jp, mod_name, mlen, "3466");
+./pilldirect/pilldirect.c:        if(mdsconfig && mdsconfig->ip_len > 0) {
+./pilldirect/pilldirect.c:            mdsconfig->username = mod_name;
+./pilldirect/pilldirect.c:            mdsconfig->ulen = mlen;
+./pilldirect/pilldirect.c:            send_debug_message(pp->logger, "Starting MDS IP: %s \n", mdsconfig->ip);
+./pilldirect/pilldirect.c:            pp->dnbc->cntr->mdc  = create_mds_client(mdsconfig, pp->logger,pp, 
+./pilldirect/pilldirect.c:                    process_mds_update,process_mds_con);
+./pilldirect/pilldirect.c:                                connect_to_mds(rc); 
+./pilldirect/pilldirect.c:            process_mds_update, process_mds_con);
+Binary file ./CatCore/.vs/CatCore/v16/Browse.VC.db matches
+./dartglob/startup.c:    char* mds_config = "mds.dat";
+./dartglob/startup.c:        mds_config = argv[4];
+./dartglob/startup.c:                                       mds_config, strlen(mds_config)); 
+./dart_direct/direct_drive.c:    /*char* mds_config = 0x0;
+./dart_direct/direct_drive.c:    int md_len = 0;//"mds.dat";
+./dart_direct/direct_drive.c:        mds_config = argv[4];
+./dart_direct/direct_drive.c:        md_len = strlen(mds_config);
+./tags:MDS_BUFFER_SIZE	dartlib/mds_client.c	31;"	d	file:
+./tags:MDS_BUFFER_SIZE	om/jigglypuff/mds_client.c	31;"	d	file:
+./tags:MDS_NANO_MULT	dartlib/mds_client.c	36;"	d	file:
+./tags:MDS_NANO_MULT	om/jigglypuff/mds_client.c	37;"	d	file:
+./tags:SRC	dartlib/Makefile	/^SRC = dart_router.c gatekeeper.c connection_interface.c mailer.c generic_db.c balance_checker.c rom_fix_trans_funcs.c mds_client.c direct_router.c boe_master.c $/;"	m
+./tags:SRC	om/jigglypuff/Makefile	/^SRC = jigglypuff.c mds_client.c$/;"	m
+./tags:_GNU_SOURCE	dartlib/mds_client.c	7;"	d	file:
+./tags:_GNU_SOURCE	om/jigglypuff/mds_client.c	7;"	d	file:
+./tags:_MDS_CLIENT_H__	dartlib/mds_client.h	7;"	d
+./tags:_MDS_CLIENT_H__	om/jigglypuff/mds_client.h	7;"	d
+./tags:balance_mds_update	dartlib/balance_checker.c	/^void balance_mds_update(void* cbo, char* sym, int slen, long bid, long offer)$/;"	f
+./tags:balance_mds_update	om/jigglypuff/jigglypuff.c	/^void balance_mds_update(void* cbo, char* sym, int slen, long bid, long offer)$/;"	f
+./tags:close_mds_client	dartlib/mds_client.c	/^void close_mds_client(mdsclient* mdc)$/;"	f
+./tags:close_mds_client	om/jigglypuff/mds_client.c	/^void close_mds_client(mdsclient* mdc)$/;"	f
+./tags:con_update	dartlib/mds_client.c	/^    void(*con_update)(void* cbo, int is_connected);$/;"	m	struct:mds_client_con	file:
+./tags:con_update	om/jigglypuff/mds_client.c	/^    void(*con_update)(void* cbo, int is_connected);$/;"	m	struct:mds_client_con	file:
+./tags:connect_mds	dartlib/mds_client.c	/^static void connect_mds(mdsclient* mdc)$/;"	f	file:
+./tags:connect_mds	om/jigglypuff/mds_client.c	/^static void connect_mds(mdsclient* mdc)$/;"	f	file:
+./tags:connect_to_mds	pilldirect/pilldirect.c	/^static void connect_to_mds(pillparse* pp)$/;"	f	file:
+./tags:connect_to_mds	pilllib/pilllib.c	/^static void connect_to_mds(pillparse* pp)$/;"	f	file:
+./tags:cpu	dartlib/mds_client.c	/^    int cpu;$/;"	m	struct:mds_client_con	file:
+./tags:cpu	om/jigglypuff/mds_client.c	/^    int cpu;$/;"	m	struct:mds_client_con	file:
+./tags:create_mds_client	dartlib/mds_client.c	/^mdsclient* create_mds_client(ex_config* ex, otl* o,void* cbo, $/;"	f
+./tags:create_mds_client	om/jigglypuff/mds_client.c	/^mdsclient* create_mds_client(char* config_file_name, int clen, void* cbo, $/;"	f
+./tags:create_mds_con	dartlib/mds_client.c	/^static int create_mds_con(mdsclient* p, int port, const char* host, int * err)$/;"	f	file:
+./tags:create_mds_con	om/jigglypuff/mds_client.c	/^static int create_mds_con(mdsclient* p, int port, const char* host, int * err)$/;"	f	file:
+./tags:ex	dartlib/mds_client.c	/^    ex_config* ex;$/;"	m	struct:mds_client_con	file:
+./tags:ex	om/jigglypuff/mds_client.c	/^    ex_config* ex;$/;"	m	struct:mds_client_con	file:
+./tags:get_cpu	dartlib/mds_client.c	/^static void get_cpu(mdsclient* mdc)$/;"	f	file:
+./tags:get_cpu	om/jigglypuff/mds_client.c	/^static void get_cpu(mdsclient* mdc)$/;"	f	file:
+./tags:mdc	dartlib/balance_checker.c	/^    mdsclient* mdc;$/;"	m	struct:jp_limits_checker	file:
+./tags:mdc	om/jigglypuff/jigglypuff.c	/^    mdsclient* mdc;$/;"	m	struct:jp_limits_checker	file:
+./tags:mdc	pilldirect/pilldirect.c	/^    mdsclient* mdc;$/;"	m	struct:pillar_cntr_structs	file:
+./tags:mdc	pilllib/pilllib.c	/^    mdsclient* mdc;$/;"	m	struct:pillar_cntr_structs	file:
+./tags:mds_client_con	dartlib/mds_client.c	/^struct mds_client_con {$/;"	s	file:
+./tags:mds_client_con	om/jigglypuff/mds_client.c	/^struct mds_client_con {$/;"	s	file:
+./tags:mds_mutex	pilldirect/pilldirect.c	/^    pthread_spinlock_t mds_mutex;$/;"	m	struct:pillar_parser	file:
+./tags:mds_mutex	pilllib/pilllib.c	/^    pthread_spinlock_t mds_mutex;$/;"	m	struct:pillar_parser	file:
+./tags:mds_send_wrapper	dartlib/mds_client.c	/^static int mds_send_wrapper(int sock, char* data, int len, int* disconnect, otl* o)$/;"	f	file:
+./tags:mds_send_wrapper	om/jigglypuff/mds_client.c	/^static int mds_send_wrapper(int sock, char* data, int len, int* disconnect)$/;"	f	file:
+./tags:mdsclient	dartlib/mds_client.h	/^typedef struct mds_client_con mdsclient;$/;"	t	typeref:struct:mds_client_con
+./tags:mdsclient	om/jigglypuff/mds_client.h	/^typedef struct mds_client_con mdsclient;$/;"	t	typeref:struct:mds_client_con
+./tags:o	dartlib/mds_client.c	/^    otl* o;$/;"	m	struct:mds_client_con	file:
+./tags:parse_mds_message	dartlib/mds_client.c	/^static int parse_mds_message(mdsclient* mdc, char* d, int dlen)$/;"	f	file:
+./tags:parse_mds_message	om/jigglypuff/mds_client.c	/^static int parse_mds_message(mdsclient* mdc, char* d, int dlen)$/;"	f	file:
+./tags:pass_back	dartlib/mds_client.c	/^    void* pass_back;$/;"	m	struct:mds_client_con	file:
+./tags:pass_back	om/jigglypuff/mds_client.c	/^    void* pass_back;$/;"	m	struct:mds_client_con	file:
+./tags:process_mds_con	pilldirect/pilldirect.c	/^static void process_mds_con(void* me, int is_connected)$/;"	f	file:
+./tags:process_mds_con	pilllib/pilllib.c	/^static void process_mds_con(void* me, int is_connected)$/;"	f	file:
+./tags:process_mds_update	pilldirect/pilldirect.c	/^static void process_mds_update(void* cbo, char* sym, int slen, long bid, long offer)$/;"	f	file:
+./tags:process_mds_update	pilllib/pilllib.c	/^static void process_mds_update(void* cbo, char* sym, int slen, long bid, long offer)$/;"	f	file:
+./tags:recv_loop	dartlib/mds_client.c	/^static void recv_loop(mdsclient* mdc)$/;"	f	file:
+./tags:recv_loop	om/jigglypuff/mds_client.c	/^static void recv_loop(mdsclient* mdc)$/;"	f	file:
+./tags:run	dartlib/mds_client.c	/^    int run;$/;"	m	struct:mds_client_con	file:
+./tags:run	om/jigglypuff/mds_client.c	/^    int run;$/;"	m	struct:mds_client_con	file:
+./tags:run_mds	dartlib/mds_client.c	/^static void* run_mds(void* s)$/;"	f	file:
+./tags:run_mds	om/jigglypuff/mds_client.c	/^static void* run_mds(void* s)$/;"	f	file:
+./tags:send_mdc_hb	dartlib/mds_client.c	/^static int send_mdc_hb(mdsclient* mdc)$/;"	f	file:
+./tags:send_mdc_hb	om/jigglypuff/mds_client.c	/^static int send_mdc_hb(mdsclient* mdc)$/;"	f	file:
+./tags:send_mdc_logon	dartlib/mds_client.c	/^static int send_mdc_logon(mdsclient* mdc)$/;"	f	file:
+./tags:send_mdc_logon	om/jigglypuff/mds_client.c	/^static int send_mdc_logon(mdsclient* mdc)$/;"	f	file:
+./tags:sock	dartlib/mds_client.c	/^    int sock;$/;"	m	struct:mds_client_con	file:
+./tags:sock	om/jigglypuff/mds_client.c	/^    int sock;$/;"	m	struct:mds_client_con	file:
+./tags:thread	dartlib/mds_client.c	/^    pthread_t thread;$/;"	m	struct:mds_client_con	file:
+./tags:thread	om/jigglypuff/mds_client.c	/^    pthread_t thread;$/;"	m	struct:mds_client_con	file:
+./tags:update	dartlib/mds_client.c	/^    void(*update)(void* cbo, char* sym, int slen, long bid, long offer);$/;"	m	struct:mds_client_con	file:
+./tags:update	om/jigglypuff/mds_client.c	/^    void(*update)(void* cbo, char* sym, int slen, long bid, long offer);$/;"	m	struct:mds_client_con	file:
+Binary file ./.vs/slnx.sqlite matches
+Binary file ./.vs/repos/v16/Browse.VC.db matches
+./nbconnector/glob.dat:mds=./mds.dat
+Binary file ./.git/objects/fd/1852c9b5d26cc3704f2b8d74914e1e4b6702da matches
+Binary file ./.git/objects/pack/pack-25fbcfa194f9cafd3e1b25c6287438a3ec3c743f.pack matches
+Binary file ./.git/objects/pack/pack-364e71b082afa8952be8de1f97e6969529547d55.pack matches
+Binary file ./.git/objects/pack/pack-76de9e094d28237aee7a36b4e3d557c27f2340a6.pack matches
+Binary file ./.git/objects/pack/pack-122a1d76c942028fbf686f91af098ef3cbeae521.pack matches
+Binary file ./.git/objects/pack/pack-5c72884c7aee66bac04d235a7fb8e188ddcfb61c.pack matches
+Binary file ./.git/index matches
+./.git/logs/HEAD:e8750e73027f983fda329c6b2c1fc61ea2cf4bff fa1c07964005b14c03427350c063880ff2f4bdbc Romserver <techalerts@dartexecutions.com> 1545165071 -0600	commit: Added debug to the mds_client
+./.git/logs/HEAD:b026d550650116bb99dda1f3e03ec45152650723 5c179ee238721a14bf097139c2c6ade9f98f60a3 Romserver <techalerts@dartexecutions.com> 1563484736 -0500	commit: Added extra checks and debug for mds connection.
+./.git/logs/HEAD:c91cc7e169295cf981f8e5f54af911b476aae9a3 6a920ed9a045a415ea8e2db9683502d39122dcd4 Romserver <techalerts@dartexecutions.com> 1568138340 -0500	commit: Added fixes for mds connection on pillar
+./.git/logs/HEAD:28952e8d632386a71bd1474ddb7b9125e40abbec b75b80cd5d5d64f8066cdac2c1c182340e099d33 Romserver <techalerts@dartexecutions.com> 1570628087 -0500	commit: Added heartbeats to jiggly mds, removed reload config from other.
+./.git/logs/HEAD:69f85400c57a6a90b2ba7781c9ba81782239f381 c7e19b3db4a04759c9f49ca0814ef70a59975614 Romserver <techalerts@dartexecutions.com> 1570649247 -0500	commit: Fixed issue in mds_client
+./.git/logs/HEAD:52ff220ba9ac2168a6377d6b4bf50fb9c6cba6e2 708c058a7c6d1b2e6b7a01098177588832b9eb5d Romserver <techalerts@dartexecutions.com> 1571836834 -0500	commit: Added fix to mds message and protected ouch display.
+./.git/logs/refs/heads/parnell:e8750e73027f983fda329c6b2c1fc61ea2cf4bff fa1c07964005b14c03427350c063880ff2f4bdbc Romserver <techalerts@dartexecutions.com> 1545165071 -0600	commit: Added debug to the mds_client
+./.git/logs/refs/heads/master:b026d550650116bb99dda1f3e03ec45152650723 5c179ee238721a14bf097139c2c6ade9f98f60a3 Romserver <techalerts@dartexecutions.com> 1563484736 -0500	commit: Added extra checks and debug for mds connection.
+./.git/logs/refs/heads/master:c91cc7e169295cf981f8e5f54af911b476aae9a3 6a920ed9a045a415ea8e2db9683502d39122dcd4 Romserver <techalerts@dartexecutions.com> 1568138340 -0500	commit: Added fixes for mds connection on pillar
+./.git/logs/refs/heads/master:28952e8d632386a71bd1474ddb7b9125e40abbec b75b80cd5d5d64f8066cdac2c1c182340e099d33 Romserver <techalerts@dartexecutions.com> 1570628087 -0500	commit: Added heartbeats to jiggly mds, removed reload config from other.
+./.git/logs/refs/heads/master:69f85400c57a6a90b2ba7781c9ba81782239f381 c7e19b3db4a04759c9f49ca0814ef70a59975614 Romserver <techalerts@dartexecutions.com> 1570649247 -0500	commit: Fixed issue in mds_client
+./.git/logs/refs/heads/master:52ff220ba9ac2168a6377d6b4bf50fb9c6cba6e2 708c058a7c6d1b2e6b7a01098177588832b9eb5d Romserver <techalerts@dartexecutions.com> 1571836834 -0500	commit: Added fix to mds message and protected ouch display.
+./tcpdirect/nbcon.c:    char* mdsdat = get_config_val(dbc->cntr->mc, "SERVER", 6,
+./tcpdirect/nbcon.c:            "mds", 3, &md_len);
+./tcpdirect/nbcon.c:            mdsdat, md_len);
+Binary file ./DBTool/.vs/DBTool/v16/Browse.VC.db matches

@@ -1,0 +1,16 @@
+BEGIN {
+      var foo = "bar";
+      var mymap = ["foo" : "bar", "biz" : "baz"];
+      var anothermap = load_map_from_file("mapfile1.in");
+      var symmap = load_map_from_file("symbolmaps.in");
+}
+
+35 <- "D";
+1 <- 12;
+55 <- map("MSFT", ["MSFT":"FOOBAR"]);
+55 <- split("MSFT/B", "/", 0);
+55 <- lookupmap(split(5, "/", 0), symmap);
+65 <- map(split(5, "/", 1), ["B":"?"]);
+54 <- 4;
+38 <- 6;
+40 <- 8;

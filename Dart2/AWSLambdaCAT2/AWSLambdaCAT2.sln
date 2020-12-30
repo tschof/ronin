@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "AWSLambdaCAT2", "AWSLambdaCAT2\AWSLambdaCAT2.fsproj", "{D62C6A62-A753-47A7-BF2D-19C84C885C2E}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "AWSLambdaCAT2.Tests", "AWSLambdaCAT2.Tests\AWSLambdaCAT2.Tests.fsproj", "{908E65E6-9E61-465B-BD9D-89E738122BEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D62C6A62-A753-47A7-BF2D-19C84C885C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D62C6A62-A753-47A7-BF2D-19C84C885C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D62C6A62-A753-47A7-BF2D-19C84C885C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D62C6A62-A753-47A7-BF2D-19C84C885C2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{908E65E6-9E61-465B-BD9D-89E738122BEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{908E65E6-9E61-465B-BD9D-89E738122BEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{908E65E6-9E61-465B-BD9D-89E738122BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{908E65E6-9E61-465B-BD9D-89E738122BEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59F38BB4-BBFA-4FB7-83B0-9FD9B82CCE1E}
+	EndGlobalSection
+EndGlobal

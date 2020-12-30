@@ -1,0 +1,24 @@
+[SERVER]
+Mod Name=52
+directory=./test_logs/
+Order Allocation=32
+Dests=261
+CPU=1,2
+
+[TIMES]
+End Hour=16
+End Min=50
+Reset Hour=6
+Reset Min=21
+Last Run Day=20180515092716
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=parnell.flynn@dartexecutions.com
+biz group=parnell.flynn@dartexecutions.com
+

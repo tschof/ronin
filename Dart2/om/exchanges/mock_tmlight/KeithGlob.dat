@@ -1,0 +1,27 @@
+[ROM SERVER]
+Rom Port=8091
+#Rom Host=local
+
+[GLOB]
+Mod Name=38
+Order Allocation=8192
+Dests=38,79,106,12,72,1003,140
+CPU=1,2
+
+[TIMES]
+End Hour=18
+End Min=45
+Reset Hour=8
+Reset Min=21
+Last Run Day=20140804
+
+[DB INFO]
+User=rom_dba
+Password=abd_mor
+Server=DEV_DS_1
+
+[MAIL SERVER]
+Server=relay.ronin.roncap.com
+tech group=parnell.flynn@dartexecutions.com
+biz group=parnell.flynn@dartexecutions.com
+

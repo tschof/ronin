@@ -1,0 +1,25 @@
+1. All map data structures are hash maps of 1024 buckets.  It's
+possible that Red-Black Trees or a different number of hash buckets
+would be more appropriate.
+
+2. There are memory leaks all over!  Those need to be fixed and the
+biggest culprit is probably the token.data.token fields returned when
+parsing symbols.  There are probably also problems with memory leaking
+when free'ing various objects, but that should be easy to isolate once
+the free method of each object is inspected closely.
+
+3. Add a function to generate a ClOrdID.  Since op_t objects can hold
+their own state, they can be used to generate ClOrdIDs.  There can
+even be multiple functions depending on what is needed.  For instance,
+a function that generates day-unique ClOrdIDs can be separate from a
+basic one and separate still from a branch code one.
+
+4. Add a timestamp function to generate the UTC FIX format timestamp.
+That way 52 and 60 can be done with a rule.
+
+5. I noticed that when parsing stops because of an error past the
+beginning of the file a result is still generated, but only complete
+up to the point in which the error was encountered.  This should be
+fixed so that an error anywhere is reported up and the rules are no
+good.
+

@@ -1,0 +1,16 @@
+(0)         Unknown test	0 failures
+(1)          testdatabuf	0 failures
+(2)       testfixdatabuf	0 failures
+(3)            test_hash	0 failures
+(4)    test_comma_remove	0 failures
+(5)              test_db	0 failures
+Got this many columns: 23
+(6)             test_db2	0 failures
+OUT: {55=VIA65=P}
+OUT: {55=VIA65=PA}
+OUT: {55=VIA65=PWS}
+(7)  test_tpos_sym_trans	0 failures
+complex_ord_tests.c:52: error: strcmp(test_b->buffer, rom_res) == 0
+testbuf: {!#!E,,,L1,2,ANF,1,,,,,,,,,,,,,,,,,,,,,,,,201101,C,43,,,O,,,O,,,,,,,,,,,,,,,,,,,,,,,,22,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,!#!E,,,L2,2,ANF,1,,,,,,,,,,,,,,,,,,,,,,,,201101,P,42,,,O,,,O,,,,,,,,,,,,,,,,,,,,,,,,22,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,!#!}  
+rom_res: {!#!E,,,L1,2,ANF,1,,,,,,,,,,,,,,,,,,,,,,,,201101,C,43,,,O,,,1,,,,,,,,,,,,,,,,,,,,,,,,22,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,!#!E,,,L2,2,ANF,1,,,,,,,,,,,,,,,,,,,,,,,,201101,P,42,,,O,,,1,,,,,,,,,,,,,,,,,,,,,,,,22,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,!#!}  
+(8)    test_spread_parse	1 failures

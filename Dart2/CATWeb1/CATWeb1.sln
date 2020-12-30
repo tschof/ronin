@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CATWeb1", "CATWeb1\CATWeb1.fsproj", "{D4A3E3DB-8DB1-4A68-A2DB-EA554415B005}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "XUnitCat1", "XUnitCat1\XUnitCat1.fsproj", "{532A94FF-A308-46FD-9896-833C045AD579}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D4A3E3DB-8DB1-4A68-A2DB-EA554415B005} = {D4A3E3DB-8DB1-4A68-A2DB-EA554415B005}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4A3E3DB-8DB1-4A68-A2DB-EA554415B005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4A3E3DB-8DB1-4A68-A2DB-EA554415B005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4A3E3DB-8DB1-4A68-A2DB-EA554415B005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4A3E3DB-8DB1-4A68-A2DB-EA554415B005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{532A94FF-A308-46FD-9896-833C045AD579}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532A94FF-A308-46FD-9896-833C045AD579}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{532A94FF-A308-46FD-9896-833C045AD579}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{532A94FF-A308-46FD-9896-833C045AD579}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BCB4CFD8-7036-4F0D-99DC-A3A2457F79F2}
+	EndGlobalSection
+EndGlobal

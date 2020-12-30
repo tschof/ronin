@@ -1,0 +1,1 @@
+actionType,errorROEID,firmROEID,type,CATReporterIMID,orderKeyDate,orderID,symbol,originatingIMID,eventTimestamp,manualFlag,electronicDupFlag,electronicTimestamp,senderIMID,destination,destinationType,routedOrderID,session,side,price,quantity,minQty,orderType,timeInForce,tradingSession,affiliateFlag,isoInd,handlingInstructions,routeRejectedFlag,dupROIDCond,seqNum,

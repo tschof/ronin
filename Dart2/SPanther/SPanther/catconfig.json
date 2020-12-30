@@ -1,0 +1,5725 @@
+{
+  "AccountToIMID": [
+    {
+      "IMIDVal": "SMOO",
+      "BDAccounts": [],
+      "DestIMIDVals": [
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 279,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 317,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 440,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 4,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 210,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 516,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 503,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 504,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 287,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 140,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 276,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 219,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 211,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 270,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 601,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 215,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 603,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 216,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 604,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 615,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 213,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 602,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 616,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 212,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 506,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 507,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 508,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 509,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 510,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 511,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 512,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 513,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 514,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 515,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 525,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 246,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 247,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 248,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 249,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 251,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 252,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 253,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 254,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 196,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 517,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 620,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 197,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 145,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 611,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 10,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 156,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 613,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 157,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 614,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 146,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 190,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 621,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 126,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 390,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 282,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 360,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 361,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 202,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 482,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 184,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 481,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 271,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 273,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 233,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 479,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 272,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 277,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 478,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 56,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 88,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 89,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 158,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 209,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 214,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 217,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 218,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 269,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 275,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 278,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 283,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 284,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 369,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 378,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 446,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 447,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 469,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 480,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 485,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 578,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "SUMO Capital",
+          "IMID": "SMOO",
+          "ExchangeID": "DART",
+          "destid": 678,
+          "destType": "F",
+          "secType": "E"
+        }
+
+      ],
+      "CustomerAccounts": [
+        {
+          "name": "31XJ1209",
+          "FirmID": "31XJ001",
+          "deptType": "O",
+          "holderType": "O",
+          "affiliate": true
+        },
+        {
+          "name": "3CT81209",
+          "FirmID": "3CT9002",
+          "deptType": "O",
+          "holderType": "O",
+          "affiliate": true
+        },
+        {
+          "name": "3FF21209",
+          "FirmID": "3FF2003",
+          "deptType": "O",
+          "holderType": "O",
+          "affiliate": true
+        },
+        {
+          "name": "3FW41209",
+          "FirmID": "3FW4004",
+          "deptType": "O",
+          "holderType": "O",
+          "affiliate": true
+        },
+        {
+          "name": "3JM81209",
+          "FirmID": "3JM8005",
+          "deptType": "O",
+          "holderType": "O",
+          "affiliate": true
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "74X5006",
+          "holderType": "O",
+          "name": "74X51509"
+        }
+      ]
+    },
+    {
+      "IMIDVal": "RNCB",
+      "BDaccounts": [],
+      "DestIMIDVals": [
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 279,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 317,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 440,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 4,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 210,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 516,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 503,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 504,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 287,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 140,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 276,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 219,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 211,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 270,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 601,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 215,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 603,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 216,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 604,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 615,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 213,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 602,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 616,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 212,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 506,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 507,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 508,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 509,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 510,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 511,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 512,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 513,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 514,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 515,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 525,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 246,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 247,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 248,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 249,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 251,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 252,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 253,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 254,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 196,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 517,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 620,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 197,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 145,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 611,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 10,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 156,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 613,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 157,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 614,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 146,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 190,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 621,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 126,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 390,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 282,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 360,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 361,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 202,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 482,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 184,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 481,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 271,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 273,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 233,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 479,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 272,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 277,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 478,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 56,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 88,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 89,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 158,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 209,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 214,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 217,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 218,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 269,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 275,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 278,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 283,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 284,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 369,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 378,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 446,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 447,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 469,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 480,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 485,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 578,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBn Capital",
+          "IMID": "RNCB",
+          "ExchangeID": "DART",
+          "destid": 678,
+          "destType": "F",
+          "secType": "E"
+        }
+
+      ],
+      "CustomerAccounts": [
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "012345678D9",
+          "holderType": "A",
+          "name": "12345678D9"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "134DL1209",
+          "holderType": "A",
+          "name": "34DL1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "235NS1209",
+          "holderType": "A",
+          "name": "35NS1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "335YL1209",
+          "holderType": "A",
+          "name": "35YL1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "435YM1209",
+          "holderType": "A",
+          "name": "35YM1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "537JM1209",
+          "holderType": "A",
+          "name": "37JM1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "6396CEL2",
+          "holderType": "A",
+          "name": "396CEL2"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "73AJ01209",
+          "holderType": "A",
+          "name": "3AJ01209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "83AV91209",
+          "holderType": "A",
+          "name": "3AV91209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "93AW01209",
+          "holderType": "A",
+          "name": "3AW01209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "103AX21209",
+          "holderType": "A",
+          "name": "3AX21209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "113AY61209",
+          "holderType": "A",
+          "name": "3AY61209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "123AY81209",
+          "holderType": "A",
+          "name": "3AY81209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "133CY21209",
+          "holderType": "A",
+          "name": "3CY21209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "143JF11209",
+          "holderType": "A",
+          "name": "3JF11209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "153JF21209",
+          "holderType": "A",
+          "name": "3JF21209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "163JF31209",
+          "holderType": "A",
+          "name": "3JF31209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "173JF71209",
+          "holderType": "A",
+          "name": "3JF71209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "183JH41209",
+          "holderType": "A",
+          "name": "3JH41209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "1943801315D9",
+          "holderType": "A",
+          "name": "43801315D9"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "2048HS1209",
+          "holderType": "A",
+          "name": "48HS1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "2148ZZ1209",
+          "holderType": "A",
+          "name": "48ZZ1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "224ZML1209",
+          "holderType": "A",
+          "name": "4ZML1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "236000",
+          "holderType": "A",
+          "name": "6000"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "246003",
+          "holderType": "A",
+          "name": "6003"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "256004",
+          "holderType": "A",
+          "name": "6004"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "266007",
+          "holderType": "A",
+          "name": "6007"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "276008",
+          "holderType": "A",
+          "name": "6008"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "286009",
+          "holderType": "A",
+          "name": "6009"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "296010",
+          "holderType": "A",
+          "name": "6010"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "306012",
+          "holderType": "A",
+          "name": "6012"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "316013",
+          "holderType": "A",
+          "name": "6013"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "326014",
+          "holderType": "A",
+          "name": "6014"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "336016",
+          "holderType": "A",
+          "name": "6016"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "346019",
+          "holderType": "A",
+          "name": "6019"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "356021",
+          "holderType": "A",
+          "name": "6021"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "366022",
+          "holderType": "A",
+          "name": "6022"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "376023",
+          "holderType": "A",
+          "name": "6023"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "386024",
+          "holderType": "A",
+          "name": "6024"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "396025",
+          "holderType": "A",
+          "name": "6025"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "406026",
+          "holderType": "A",
+          "name": "6026"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "416027",
+          "holderType": "A",
+          "name": "6027"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "426028",
+          "holderType": "A",
+          "name": "6028"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "436032",
+          "holderType": "A",
+          "name": "6032"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "446033",
+          "holderType": "A",
+          "name": "6033"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "456035",
+          "holderType": "A",
+          "name": "6035"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "466037",
+          "holderType": "A",
+          "name": "6037"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "476040",
+          "holderType": "A",
+          "name": "6040"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "486041",
+          "holderType": "A",
+          "name": "6041"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "496042",
+          "holderType": "A",
+          "name": "6042"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "506044",
+          "holderType": "A",
+          "name": "6044"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "516045",
+          "holderType": "A",
+          "name": "6045"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "526046",
+          "holderType": "A",
+          "name": "6046"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "536048",
+          "holderType": "A",
+          "name": "6048"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "546049",
+          "holderType": "A",
+          "name": "6049"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "556050",
+          "holderType": "A",
+          "name": "6050"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "566051",
+          "holderType": "A",
+          "name": "6051"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "576052",
+          "holderType": "A",
+          "name": "6052"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "586053",
+          "holderType": "A",
+          "name": "6053"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "596054",
+          "holderType": "A",
+          "name": "6054"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "606056",
+          "holderType": "A",
+          "name": "6056"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "616057",
+          "holderType": "A",
+          "name": "6057"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "626058",
+          "holderType": "A",
+          "name": "6058"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "636060",
+          "holderType": "A",
+          "name": "6060"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "646061",
+          "holderType": "A",
+          "name": "6061"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "656062",
+          "holderType": "A",
+          "name": "6062"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "666064",
+          "holderType": "A",
+          "name": "6064"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "676067",
+          "holderType": "A",
+          "name": "6067"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "686068",
+          "holderType": "A",
+          "name": "6068"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "696069",
+          "holderType": "A",
+          "name": "6069"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "706070",
+          "holderType": "A",
+          "name": "6070"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "716071",
+          "holderType": "A",
+          "name": "6071"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "726073",
+          "holderType": "A",
+          "name": "6073"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "736074",
+          "holderType": "A",
+          "name": "6074"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "746801",
+          "holderType": "A",
+          "name": "6801"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "756806",
+          "holderType": "A",
+          "name": "6806"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "76695CDART",
+          "holderType": "A",
+          "name": "695CDART"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "77695CG2T",
+          "holderType": "A",
+          "name": "695CG2T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "78695CG3T",
+          "holderType": "A",
+          "name": "695CG3T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "79695CG4T",
+          "holderType": "A",
+          "name": "695CG4T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "80695CG5T",
+          "holderType": "A",
+          "name": "695CG5T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "81695CG6T",
+          "holderType": "A",
+          "name": "695CG6T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "82695CG7T",
+          "holderType": "A",
+          "name": "695CG7T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "837CZ41209",
+          "holderType": "A",
+          "name": "7CZ41209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "847TYK1209",
+          "holderType": "A",
+          "name": "7TYK1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "857VRS1209",
+          "holderType": "A",
+          "name": "7VRS1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "867VRT1209",
+          "holderType": "A",
+          "name": "7VRT1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "877VRV1209",
+          "holderType": "A",
+          "name": "7VRV1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "887VRW1209",
+          "holderType": "A",
+          "name": "7VRW1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "897VSK1209",
+          "holderType": "A",
+          "name": "7VSK1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "907VSV1209",
+          "holderType": "A",
+          "name": "7VSV1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "917VSW1209",
+          "holderType": "A",
+          "name": "7VSW1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "927YKS1209",
+          "holderType": "A",
+          "name": "7YKS1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "937YTC1209",
+          "holderType": "A",
+          "name": "7YTC1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "947YVJ1209",
+          "holderType": "A",
+          "name": "7YVJ1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "957YVK1209",
+          "holderType": "A",
+          "name": "7YVK1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "967YYT1209",
+          "holderType": "A",
+          "name": "7YYT1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "97AAKP1209",
+          "holderType": "A",
+          "name": "AAKP1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "98AAKR1209",
+          "holderType": "A",
+          "name": "AAKR1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "99AC8E1209",
+          "holderType": "A",
+          "name": "AC8E1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "100ACAX1209",
+          "holderType": "A",
+          "name": "ACAX1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "101AE8W1209",
+          "holderType": "A",
+          "name": "AE8W1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "102AEJ01209",
+          "holderType": "A",
+          "name": "AEJ01209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "103AEJX1209",
+          "holderType": "A",
+          "name": "AEJX1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "104AEJY1209",
+          "holderType": "A",
+          "name": "AEJY1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "105AF591209",
+          "holderType": "A",
+          "name": "AF591209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "106AFM21209",
+          "holderType": "A",
+          "name": "AFM21209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "107AHEC1209",
+          "holderType": "A",
+          "name": "AHEC1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "108AHJT1209",
+          "holderType": "A",
+          "name": "AHJT1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "109AHNV1209",
+          "holderType": "A",
+          "name": "AHNV1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "110AJ801209",
+          "holderType": "A",
+          "name": "AJ801209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "111AM011209",
+          "holderType": "A",
+          "name": "AM011209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "112ANTW1209",
+          "holderType": "A",
+          "name": "ANTW1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "113ARR11209",
+          "holderType": "A",
+          "name": "ARR11209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "114ARV81209",
+          "holderType": "A",
+          "name": "ARV81209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "115CAM011209",
+          "holderType": "A",
+          "name": "CAM011209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "116CRN15",
+          "holderType": "A",
+          "name": "CRN15"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "117CRN6",
+          "holderType": "A",
+          "name": "CRN6"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "118CRON005",
+          "holderType": "A",
+          "name": "CRON005"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "119CRON009",
+          "holderType": "A",
+          "name": "CRON009"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "120CRON010",
+          "holderType": "A",
+          "name": "CRON010"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "121CRON011",
+          "holderType": "A",
+          "name": "CRON011"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "122CRON012",
+          "holderType": "A",
+          "name": "CRON012"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "123CRON013",
+          "holderType": "A",
+          "name": "CRON013"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "124CRON014",
+          "holderType": "A",
+          "name": "CRON014"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "125CRON015",
+          "holderType": "A",
+          "name": "CRON015"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "126CRON016",
+          "holderType": "A",
+          "name": "CRON016"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "127CRON017",
+          "holderType": "A",
+          "name": "CRON017"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "128CRON018",
+          "holderType": "A",
+          "name": "CRON018"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "129CRON019",
+          "holderType": "A",
+          "name": "CRON019"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "130CRON020",
+          "holderType": "A",
+          "name": "CRON020"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "131CRON021",
+          "holderType": "A",
+          "name": "CRON021"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "132CRON022",
+          "holderType": "A",
+          "name": "CRON022"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "133CRON023",
+          "holderType": "A",
+          "name": "CRON023"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "134CRON024",
+          "holderType": "A",
+          "name": "CRON024"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "135CRON026",
+          "holderType": "A",
+          "name": "CRON026"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "136CRON028",
+          "holderType": "A",
+          "name": "CRON028"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "137CRON032",
+          "holderType": "A",
+          "name": "CRON032"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "138CRON033",
+          "holderType": "A",
+          "name": "CRON033"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "139CRON035",
+          "holderType": "A",
+          "name": "CRON035"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "140CRON045",
+          "holderType": "A",
+          "name": "CRON045"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "141CRON046",
+          "holderType": "A",
+          "name": "CRON046"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "142CRON048",
+          "holderType": "A",
+          "name": "CRON048"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "143CRON050",
+          "holderType": "A",
+          "name": "CRON050"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "144CRON051",
+          "holderType": "A",
+          "name": "CRON051"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "145CRON053",
+          "holderType": "A",
+          "name": "CRON053"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "146CRON055",
+          "holderType": "A",
+          "name": "CRON055"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "147CRON056",
+          "holderType": "A",
+          "name": "CRON056"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "148CRON057",
+          "holderType": "A",
+          "name": "CRON057"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "149CRON060",
+          "holderType": "A",
+          "name": "CRON060"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "150CRON061",
+          "holderType": "A",
+          "name": "CRON061"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "151CRON062",
+          "holderType": "A",
+          "name": "CRON062"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "152CRON063",
+          "holderType": "A",
+          "name": "CRON063"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "153CRON064",
+          "holderType": "A",
+          "name": "CRON064"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "154CRON065",
+          "holderType": "A",
+          "name": "CRON065"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "155CRON066",
+          "holderType": "A",
+          "name": "CRON066"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "156CRON067",
+          "holderType": "A",
+          "name": "CRON067"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "157CRON068",
+          "holderType": "A",
+          "name": "CRON068"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "158CRON069",
+          "holderType": "A",
+          "name": "CRON069"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "159CRON070",
+          "holderType": "A",
+          "name": "CRON070"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "160CRON072",
+          "holderType": "A",
+          "name": "CRON072"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "161CRON074",
+          "holderType": "A",
+          "name": "CRON074"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "162CRON075",
+          "holderType": "A",
+          "name": "CRON075"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "163CRON076",
+          "holderType": "A",
+          "name": "CRON076"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "164CRON077",
+          "holderType": "A",
+          "name": "CRON077"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "165CRON078",
+          "holderType": "A",
+          "name": "CRON078"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "166CRON080",
+          "holderType": "A",
+          "name": "CRON080"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "167CRON081",
+          "holderType": "A",
+          "name": "CRON081"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "168CRON082",
+          "holderType": "A",
+          "name": "CRON082"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "169CRON083",
+          "holderType": "A",
+          "name": "CRON083"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "170CRON084",
+          "holderType": "A",
+          "name": "CRON084"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "171CRON085",
+          "holderType": "A",
+          "name": "CRON085"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "172CRON086",
+          "holderType": "A",
+          "name": "CRON086"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "173CRON087",
+          "holderType": "A",
+          "name": "CRON087"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "174CRON088",
+          "holderType": "A",
+          "name": "CRON088"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "175CRON090",
+          "holderType": "A",
+          "name": "CRON090"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "176CRONC01",
+          "holderType": "A",
+          "name": "CRONC01"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "177MBHS",
+          "holderType": "A",
+          "name": "MBHS"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "178MBRA",
+          "holderType": "A",
+          "name": "MBRA"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "179MQFA",
+          "holderType": "A",
+          "name": "MQFA"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "180MQFM",
+          "holderType": "A",
+          "name": "MQFM"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "181MQFP",
+          "holderType": "A",
+          "name": "MQFP"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "182MQJW",
+          "holderType": "A",
+          "name": "MQJW"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "183MQNE",
+          "holderType": "A",
+          "name": "MQNE"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "184MQRV",
+          "holderType": "A",
+          "name": "MQRV"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "185MQWW",
+          "holderType": "A",
+          "name": "MQWW"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "186MQWY",
+          "holderType": "A",
+          "name": "MQWY"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "187STS1",
+          "holderType": "A",
+          "name": "STS1"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "188STS2",
+          "holderType": "A",
+          "name": "STS2"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "189TST1",
+          "holderType": "A",
+          "name": "TST1"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "190TST3",
+          "holderType": "A",
+          "name": "TST3"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "191TST4",
+          "holderType": "A",
+          "name": "TST4"
+        }
+      ]
+    },
+    {
+      "BDaccounts": [
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "012345678D9",
+          "holderType": "A",
+          "name": "12345678D9"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "134DL1209",
+          "holderType": "A",
+          "name": "34DL1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "235NS1209",
+          "holderType": "A",
+          "name": "35NS1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "335YL1209",
+          "holderType": "A",
+          "name": "35YL1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "435YM1209",
+          "holderType": "A",
+          "name": "35YM1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "537JM1209",
+          "holderType": "A",
+          "name": "37JM1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "6396CEL2",
+          "holderType": "A",
+          "name": "396CEL2"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "73AJ01209",
+          "holderType": "A",
+          "name": "3AJ01209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "83AV91209",
+          "holderType": "A",
+          "name": "3AV91209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "93AW01209",
+          "holderType": "A",
+          "name": "3AW01209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "103AX21209",
+          "holderType": "A",
+          "name": "3AX21209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "113AY61209",
+          "holderType": "A",
+          "name": "3AY61209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "123AY81209",
+          "holderType": "A",
+          "name": "3AY81209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "133CY21209",
+          "holderType": "A",
+          "name": "3CY21209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "143JF11209",
+          "holderType": "A",
+          "name": "3JF11209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "153JF21209",
+          "holderType": "A",
+          "name": "3JF21209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "163JF31209",
+          "holderType": "A",
+          "name": "3JF31209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "173JF71209",
+          "holderType": "A",
+          "name": "3JF71209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "183JH41209",
+          "holderType": "A",
+          "name": "3JH41209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "1943801315D9",
+          "holderType": "A",
+          "name": "43801315D9"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "2048HS1209",
+          "holderType": "A",
+          "name": "48HS1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "2148ZZ1209",
+          "holderType": "A",
+          "name": "48ZZ1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "224ZML1209",
+          "holderType": "A",
+          "name": "4ZML1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "236000",
+          "holderType": "A",
+          "name": "6000"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "246003",
+          "holderType": "A",
+          "name": "6003"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "256004",
+          "holderType": "A",
+          "name": "6004"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "266007",
+          "holderType": "A",
+          "name": "6007"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "276008",
+          "holderType": "A",
+          "name": "6008"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "286009",
+          "holderType": "A",
+          "name": "6009"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "296010",
+          "holderType": "A",
+          "name": "6010"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "306012",
+          "holderType": "A",
+          "name": "6012"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "316013",
+          "holderType": "A",
+          "name": "6013"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "326014",
+          "holderType": "A",
+          "name": "6014"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "336016",
+          "holderType": "A",
+          "name": "6016"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "346019",
+          "holderType": "A",
+          "name": "6019"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "356021",
+          "holderType": "A",
+          "name": "6021"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "366022",
+          "holderType": "A",
+          "name": "6022"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "376023",
+          "holderType": "A",
+          "name": "6023"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "386024",
+          "holderType": "A",
+          "name": "6024"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "396025",
+          "holderType": "A",
+          "name": "6025"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "406026",
+          "holderType": "A",
+          "name": "6026"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "416027",
+          "holderType": "A",
+          "name": "6027"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "426028",
+          "holderType": "A",
+          "name": "6028"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "436032",
+          "holderType": "A",
+          "name": "6032"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "446033",
+          "holderType": "A",
+          "name": "6033"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "456035",
+          "holderType": "A",
+          "name": "6035"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "466037",
+          "holderType": "A",
+          "name": "6037"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "476040",
+          "holderType": "A",
+          "name": "6040"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "486041",
+          "holderType": "A",
+          "name": "6041"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "496042",
+          "holderType": "A",
+          "name": "6042"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "506044",
+          "holderType": "A",
+          "name": "6044"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "516045",
+          "holderType": "A",
+          "name": "6045"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "526046",
+          "holderType": "A",
+          "name": "6046"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "536048",
+          "holderType": "A",
+          "name": "6048"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "546049",
+          "holderType": "A",
+          "name": "6049"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "556050",
+          "holderType": "A",
+          "name": "6050"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "566051",
+          "holderType": "A",
+          "name": "6051"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "576052",
+          "holderType": "A",
+          "name": "6052"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "586053",
+          "holderType": "A",
+          "name": "6053"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "596054",
+          "holderType": "A",
+          "name": "6054"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "606056",
+          "holderType": "A",
+          "name": "6056"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "616057",
+          "holderType": "A",
+          "name": "6057"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "626058",
+          "holderType": "A",
+          "name": "6058"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "636060",
+          "holderType": "A",
+          "name": "6060"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "646061",
+          "holderType": "A",
+          "name": "6061"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "656062",
+          "holderType": "A",
+          "name": "6062"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "666064",
+          "holderType": "A",
+          "name": "6064"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "676067",
+          "holderType": "A",
+          "name": "6067"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "686068",
+          "holderType": "A",
+          "name": "6068"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "696069",
+          "holderType": "A",
+          "name": "6069"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "706070",
+          "holderType": "A",
+          "name": "6070"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "716071",
+          "holderType": "A",
+          "name": "6071"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "726073",
+          "holderType": "A",
+          "name": "6073"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "736074",
+          "holderType": "A",
+          "name": "6074"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "746801",
+          "holderType": "A",
+          "name": "6801"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "756806",
+          "holderType": "A",
+          "name": "6806"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "76695CDART",
+          "holderType": "A",
+          "name": "695CDART"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "77695CG2T",
+          "holderType": "A",
+          "name": "695CG2T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "78695CG3T",
+          "holderType": "A",
+          "name": "695CG3T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "79695CG4T",
+          "holderType": "A",
+          "name": "695CG4T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "80695CG5T",
+          "holderType": "A",
+          "name": "695CG5T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "81695CG6T",
+          "holderType": "A",
+          "name": "695CG6T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "82695CG7T",
+          "holderType": "A",
+          "name": "695CG7T"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "837CZ41209",
+          "holderType": "A",
+          "name": "7CZ41209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "847TYK1209",
+          "holderType": "A",
+          "name": "7TYK1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "857VRS1209",
+          "holderType": "A",
+          "name": "7VRS1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "867VRT1209",
+          "holderType": "A",
+          "name": "7VRT1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "877VRV1209",
+          "holderType": "A",
+          "name": "7VRV1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "887VRW1209",
+          "holderType": "A",
+          "name": "7VRW1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "897VSK1209",
+          "holderType": "A",
+          "name": "7VSK1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "907VSV1209",
+          "holderType": "A",
+          "name": "7VSV1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "917VSW1209",
+          "holderType": "A",
+          "name": "7VSW1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "927YKS1209",
+          "holderType": "A",
+          "name": "7YKS1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "937YTC1209",
+          "holderType": "A",
+          "name": "7YTC1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "947YVJ1209",
+          "holderType": "A",
+          "name": "7YVJ1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "957YVK1209",
+          "holderType": "A",
+          "name": "7YVK1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "967YYT1209",
+          "holderType": "A",
+          "name": "7YYT1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "97AAKP1209",
+          "holderType": "A",
+          "name": "AAKP1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "98AAKR1209",
+          "holderType": "A",
+          "name": "AAKR1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "99AC8E1209",
+          "holderType": "A",
+          "name": "AC8E1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "100ACAX1209",
+          "holderType": "A",
+          "name": "ACAX1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "101AE8W1209",
+          "holderType": "A",
+          "name": "AE8W1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "102AEJ01209",
+          "holderType": "A",
+          "name": "AEJ01209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "103AEJX1209",
+          "holderType": "A",
+          "name": "AEJX1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "104AEJY1209",
+          "holderType": "A",
+          "name": "AEJY1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "105AF591209",
+          "holderType": "A",
+          "name": "AF591209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "106AFM21209",
+          "holderType": "A",
+          "name": "AFM21209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "107AHEC1209",
+          "holderType": "A",
+          "name": "AHEC1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "108AHJT1209",
+          "holderType": "A",
+          "name": "AHJT1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "109AHNV1209",
+          "holderType": "A",
+          "name": "AHNV1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "110AJ801209",
+          "holderType": "A",
+          "name": "AJ801209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "111AM011209",
+          "holderType": "A",
+          "name": "AM011209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "112ANTW1209",
+          "holderType": "A",
+          "name": "ANTW1209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "113ARR11209",
+          "holderType": "A",
+          "name": "ARR11209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "114ARV81209",
+          "holderType": "A",
+          "name": "ARV81209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "115CAM011209",
+          "holderType": "A",
+          "name": "CAM011209"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "116CRN15",
+          "holderType": "A",
+          "name": "CRN15"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "117CRN6",
+          "holderType": "A",
+          "name": "CRN6"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "118CRON005",
+          "holderType": "A",
+          "name": "CRON005"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "119CRON009",
+          "holderType": "A",
+          "name": "CRON009"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "120CRON010",
+          "holderType": "A",
+          "name": "CRON010"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "121CRON011",
+          "holderType": "A",
+          "name": "CRON011"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "122CRON012",
+          "holderType": "A",
+          "name": "CRON012"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "123CRON013",
+          "holderType": "A",
+          "name": "CRON013"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "124CRON014",
+          "holderType": "A",
+          "name": "CRON014"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "125CRON015",
+          "holderType": "A",
+          "name": "CRON015"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "126CRON016",
+          "holderType": "A",
+          "name": "CRON016"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "127CRON017",
+          "holderType": "A",
+          "name": "CRON017"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "128CRON018",
+          "holderType": "A",
+          "name": "CRON018"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "129CRON019",
+          "holderType": "A",
+          "name": "CRON019"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "130CRON020",
+          "holderType": "A",
+          "name": "CRON020"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "131CRON021",
+          "holderType": "A",
+          "name": "CRON021"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "132CRON022",
+          "holderType": "A",
+          "name": "CRON022"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "133CRON023",
+          "holderType": "A",
+          "name": "CRON023"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "134CRON024",
+          "holderType": "A",
+          "name": "CRON024"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "135CRON026",
+          "holderType": "A",
+          "name": "CRON026"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "136CRON028",
+          "holderType": "A",
+          "name": "CRON028"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "137CRON032",
+          "holderType": "A",
+          "name": "CRON032"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "138CRON033",
+          "holderType": "A",
+          "name": "CRON033"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "139CRON035",
+          "holderType": "A",
+          "name": "CRON035"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "140CRON045",
+          "holderType": "A",
+          "name": "CRON045"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "141CRON046",
+          "holderType": "A",
+          "name": "CRON046"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "142CRON048",
+          "holderType": "A",
+          "name": "CRON048"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "143CRON050",
+          "holderType": "A",
+          "name": "CRON050"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "144CRON051",
+          "holderType": "A",
+          "name": "CRON051"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "145CRON053",
+          "holderType": "A",
+          "name": "CRON053"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "146CRON055",
+          "holderType": "A",
+          "name": "CRON055"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "147CRON056",
+          "holderType": "A",
+          "name": "CRON056"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "148CRON057",
+          "holderType": "A",
+          "name": "CRON057"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "149CRON060",
+          "holderType": "A",
+          "name": "CRON060"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "150CRON061",
+          "holderType": "A",
+          "name": "CRON061"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "151CRON062",
+          "holderType": "A",
+          "name": "CRON062"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "152CRON063",
+          "holderType": "A",
+          "name": "CRON063"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "153CRON064",
+          "holderType": "A",
+          "name": "CRON064"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "154CRON065",
+          "holderType": "A",
+          "name": "CRON065"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "155CRON066",
+          "holderType": "A",
+          "name": "CRON066"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "156CRON067",
+          "holderType": "A",
+          "name": "CRON067"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "157CRON068",
+          "holderType": "A",
+          "name": "CRON068"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "158CRON069",
+          "holderType": "A",
+          "name": "CRON069"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "159CRON070",
+          "holderType": "A",
+          "name": "CRON070"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "160CRON072",
+          "holderType": "A",
+          "name": "CRON072"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "161CRON074",
+          "holderType": "A",
+          "name": "CRON074"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "162CRON075",
+          "holderType": "A",
+          "name": "CRON075"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "163CRON076",
+          "holderType": "A",
+          "name": "CRON076"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "164CRON077",
+          "holderType": "A",
+          "name": "CRON077"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "165CRON078",
+          "holderType": "A",
+          "name": "CRON078"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "166CRON080",
+          "holderType": "A",
+          "name": "CRON080"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "167CRON081",
+          "holderType": "A",
+          "name": "CRON081"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "168CRON082",
+          "holderType": "A",
+          "name": "CRON082"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "169CRON083",
+          "holderType": "A",
+          "name": "CRON083"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "170CRON084",
+          "holderType": "A",
+          "name": "CRON084"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "171CRON085",
+          "holderType": "A",
+          "name": "CRON085"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "172CRON086",
+          "holderType": "A",
+          "name": "CRON086"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "173CRON087",
+          "holderType": "A",
+          "name": "CRON087"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "174CRON088",
+          "holderType": "A",
+          "name": "CRON088"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "175CRON090",
+          "holderType": "A",
+          "name": "CRON090"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "176CRONC01",
+          "holderType": "A",
+          "name": "CRONC01"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "177MBHS",
+          "holderType": "A",
+          "name": "MBHS"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "178MBRA",
+          "holderType": "A",
+          "name": "MBRA"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "179MQFA",
+          "holderType": "A",
+          "name": "MQFA"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "180MQFM",
+          "holderType": "A",
+          "name": "MQFM"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "181MQFP",
+          "holderType": "A",
+          "name": "MQFP"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "182MQJW",
+          "holderType": "A",
+          "name": "MQJW"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "183MQNE",
+          "holderType": "A",
+          "name": "MQNE"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "184MQRV",
+          "holderType": "A",
+          "name": "MQRV"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "185MQWW",
+          "holderType": "A",
+          "name": "MQWW"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "186MQWY",
+          "holderType": "A",
+          "name": "MQWY"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "187STS1",
+          "holderType": "A",
+          "name": "STS1"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "188STS2",
+          "holderType": "A",
+          "name": "STS2"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "189TST1",
+          "holderType": "A",
+          "name": "TST1"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "190TST3",
+          "holderType": "A",
+          "name": "TST3"
+        },
+        {
+          "affiliate": true,
+          "deptType": "O",
+          "FirmID": "191TST4",
+          "holderType": "A",
+          "name": "TST4"
+        }
+      ],
+      "CustomerAccounts": [
+        {
+
+          "name": "CRT014",
+          "FirmID": "1CRT014",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": true
+        },
+        {
+          "name": "CRT015",
+          "FirmID": "2CRT015",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": true
+        },
+        {
+          "name": "CRT016",
+          "FirmID": "3CRT016",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": true
+        },
+        {
+          "name": "CRT018",
+          "FirmID": "4CRT018",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": true
+        },
+        {
+          "name": "CRT019",
+          "FirmID": "5CRT019",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": true
+        },
+        {
+          "name": "CRT020",
+          "FirmID": "8CRT020",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": true
+        },
+        {
+          "name": "CRT022",
+          "FirmID": "9CRT022",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": true
+        },
+        {
+          "name": "CRT024",
+          "FirmID": "10CRT024",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": true
+        },
+        {
+          "name": "PAR02",
+          "FirmID": "11PAR02",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": false
+        },
+        {
+          "name": "PAR01",
+          "FirmID": "12PAR01",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": false
+        },
+        {
+          "name": "PAR03",
+          "FirmID": "13PAR03",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": false
+        },
+        {
+          "name": "PAR04",
+          "FirmID": "14PAR04",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": false
+        },
+        {
+          "name": "PAR05",
+          "FirmID": "15PAR05",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": false
+        },
+        {
+          "name": "PAR06",
+          "FirmID": "16PAR06",
+          "deptType": "O",
+          "holderType": "A",
+          "affiliate": false
+        }
+      ],
+      "DestIMIDVals": [
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "BLY",
+          "ExchangeID": "NYSE",
+          "destid": 279,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DAR",
+          "ExchangeID": "NYSE",
+          "destid": 317,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DAW",
+          "ExchangeID": "NYSE",
+          "destid": 440,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "AMER",
+          "destid": 4,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "ARCA",
+          "destid": 210,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "ARCA",
+          "destid": 516,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "ARCA",
+          "destid": 503,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "ARCA",
+          "destid": 504,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "ARCA",
+          "destid": 287,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "ARCA",
+          "destid": 140,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "BX",
+          "destid": 276,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "BYX",
+          "destid": 219,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "BZX",
+          "destid": 211,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "BZX",
+          "destid": 270,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "BZX",
+          "destid": 601,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "EDGA",
+          "destid": 215,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "EDGA",
+          "destid": 603,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "EDGX",
+          "destid": 216,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "EDGX",
+          "destid": 604,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "EDGX",
+          "destid": 615,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NSDQ",
+          "destid": 213,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NSDQ",
+          "destid": 602,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NSDQ",
+          "destid": 616,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 212,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 506,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 507,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 508,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 509,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 510,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 511,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 512,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 513,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NYSE",
+          "destid": 514,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 515,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 525,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 246,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 247,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 248,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 249,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 251,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 252,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 253,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 254,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "PSX",
+          "destid": 196,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "ARCA",
+          "destid": 517,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "BX",
+          "destid": 620,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "BYX",
+          "destid": 197,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "BZX",
+          "destid": 145,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "BZX",
+          "destid": 611,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "BZX",
+          "destid": 10,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "EDGA",
+          "destid": 156,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "EDGA",
+          "destid": 613,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "EDGX",
+          "destid": 157,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "EDGX",
+          "destid": 614,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NSDQ",
+          "destid": 146,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NYSE",
+          "destid": 190,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "PSX",
+          "destid": 621,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEM",
+          "ExchangeID": "NYSE",
+          "destid": 126,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DRS",
+          "ExchangeID": "NYSE",
+          "destid": 390,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DRTG",
+          "ExchangeID": "BX",
+          "destid": 282,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DRTG",
+          "ExchangeID": "NSDQ",
+          "destid": 360,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DRTG",
+          "ExchangeID": "PSX",
+          "destid": 361,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DRTL",
+          "ExchangeID": "BX",
+          "destid": 202,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DRTL",
+          "ExchangeID": "NSDQ",
+          "destid": 482,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DRTL",
+          "ExchangeID": "PHLX",
+          "destid": 184,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DRTL",
+          "ExchangeID": "PSX",
+          "destid": 481,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DTH",
+          "ExchangeID": "NYSE",
+          "destid": 271,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DTR",
+          "ExchangeID": "NYSE",
+          "destid": 273,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DVG",
+          "ExchangeID": "NYSE",
+          "destid": 233,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "PSD",
+          "ExchangeID": "NYSE",
+          "destid": 479,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "RVU",
+          "ExchangeID": "NYSE",
+          "destid": 272,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "TAD",
+          "ExchangeID": "NYSE",
+          "destid": 277,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "WEY",
+          "ExchangeID": "NYSE",
+          "destid": 478,
+          "destType": "E",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "SILK",
+          "destid": 56,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "INCA",
+          "destid": 88,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "INCA",
+          "destid": 89,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NITE",
+          "destid": 158,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "VALR",
+          "destid": 209,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NITE",
+          "destid": 214,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NITE",
+          "destid": 217,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NITE",
+          "destid": 218,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "SOHO",
+          "destid": 269,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DRTL",
+          "ExchangeID": "NITE",
+          "destid": 275,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "NITE",
+          "destid": 278,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "SOHO",
+          "destid": 283,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "INCA",
+          "destid": 284,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "CDRG",
+          "destid": 369,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "VALR",
+          "destid": 378,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "INCA",
+          "destid": 446,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "INCA",
+          "destid": 447,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "CDRG",
+          "destid": 469,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DCHF",
+          "ExchangeID": "GSCO",
+          "destid": 480,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "GSCS",
+          "destid": 485,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "NITE",
+          "destid": 578,
+          "destType": "F",
+          "secType": "E"
+        },
+        {
+          "crd": 140802,
+          "finraMember": true,
+          "firmName": "RNCBN PROFESSIONAL LLC",
+          "IMID": "DEGS",
+          "ExchangeID": "VALR",
+          "destid": 678,
+          "destType": "F",
+          "secType": "E"
+        }
+
+      ],
+      "IMIDVal": "DART"
+    }
+
+  ],
+  "CATReporterIMID": "DART",
+  "CATSubmitterID": "140802",
+  "DataDir": "C:\\\\Users\\pflynn\\source\\repos\\CATWeb1\\CATWeb1\\data\\",
+  "sftpUser": "cat140802ftp",
+  "sftpPass": "RoninProfessional1!",
+  "Directory": "W:\\\\Dart_Operations\\Operations\\AuditLogData\\",
+  "EquityDestDefs": "C:\\\\Users\\pflynn\\source\\repos\\CATWeb1\\CATWeb1\\data\\roprodestlist.csv",
+  "EquityDir": "EquityTraffic",
+  "MaxLineLength": 8190,
+  "OptionDestDefs": "C:\\\\Users\\pflynn\\source\\repos\\CATWeb1\\CATWeb1\\data\\roproOptionDestList.csv",
+  "OptionsDir": "OptionsTraffic",
+  "OutputDir": "T:\\\\DART\\OATS\\oats_test\\",
+  "SpreadDir": "ComplexTraffic"
+}

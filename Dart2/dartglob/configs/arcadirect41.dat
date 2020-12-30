@@ -1,0 +1,20 @@
+[SERVER]
+Sender Comp ID=ATEST
+Target Comp ID=ATEST
+Username=DART1
+Port=52201
+IP=162.68.216.101
+OnBehalfOfCompId=DART1
+Branch Code=3000
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=240
+Mod Name=ARCADIRECT
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=8
+Reset Min=21
+Last Run Day=20141113161355
+

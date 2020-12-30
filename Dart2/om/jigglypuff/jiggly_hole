@@ -1,0 +1,367 @@
+struct queue_elem {
+	DATA                       d;                    /*     0     8 */
+	struct queue_elem *        next;                 /*     8     8 */
+
+	/* size: 16, cachelines: 1, members: 2 */
+	/* last cacheline: 16 bytes */
+};
+struct gendb_var {
+	int                        type_in_union;        /*     0     4 */
+	int                        arr_len;              /*     4     4 */
+	union {
+		double             un_double;            /*           8 */
+		int                un_int;               /*           4 */
+		char               un_char;              /*           1 */
+		char *             un_array;             /*           8 */
+	} g_un;                                          /*     8     8 */
+
+	/* size: 16, cachelines: 1, members: 3 */
+	/* last cacheline: 16 bytes */
+};
+struct databuf {
+	size_t                     buflen;               /*     0     8 */
+	char *                     buffer;               /*     8     8 */
+	char *                     rd_ptr;               /*    16     8 */
+	char *                     wr_ptr;               /*    24     8 */
+	unsigned int               flags;                /*    32     4 */
+
+	/* size: 40, cachelines: 1, members: 5 */
+	/* padding: 4 */
+	/* last cacheline: 40 bytes */
+};
+struct iovec {
+	void *                     iov_base;             /*     0     8 */
+	size_t                     iov_len;              /*     8     8 */
+
+	/* size: 16, cachelines: 1, members: 2 */
+	/* last cacheline: 16 bytes */
+};
+struct db_node {
+	databuf_t *                data;                 /*     0     8 */
+	db_node_t *                next;                 /*     8     8 */
+	void *                     start_ptr;            /*    16     8 */
+	void *                     end_ptr;              /*    24     8 */
+
+	/* size: 32, cachelines: 1, members: 4 */
+	/* last cacheline: 32 bytes */
+};
+struct dart_order_obj {
+	struct iovec *             positions;            /*     0     8 */
+	short int                  num_pos;              /*     8     2 */
+	short int                  ex_mess;              /*    10     2 */
+	short int                  in_use;               /*    12     2 */
+	short int                  type;                 /*    14     2 */
+	db_node_t *                head;                 /*    16     8 */
+	db_node_t *                current;              /*    24     8 */
+	void *                     rep;                  /*    32     8 */
+	void *                     dest;                 /*    40     8 */
+	void *                     sender;               /*    48     8 */
+	void *                     dalloc;               /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	int                        lock;                 /*    64     4 */
+
+	/* size: 72, cachelines: 2, members: 12 */
+	/* padding: 4 */
+	/* last cacheline: 8 bytes */
+};
+struct seq_reset_time {
+	size_t                     reset_hour;           /*     0     8 */
+	size_t                     reset_min;            /*     8     8 */
+	int                        reset_day;            /*    16     4 */
+	int                        create_new;           /*    20     4 */
+	time_t                     last_logon;           /*    24     8 */
+	long unsigned int          new_incoming;         /*    32     8 */
+	long unsigned int          new_outgoing;         /*    40     8 */
+
+	/* size: 48, cachelines: 1, members: 7 */
+	/* last cacheline: 48 bytes */
+};
+struct init_args {
+	char *                     name;                 /*     0     8 */
+	size_t                     name_len;             /*     8     8 */
+	char *                     sender_comp;          /*    16     8 */
+	size_t                     sc_len;               /*    24     8 */
+	char *                     target_comp;          /*    32     8 */
+	size_t                     tc_len;               /*    40     8 */
+	char *                     target_sub;           /*    48     8 */
+	size_t                     ts_len;               /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	char *                     sender_sub;           /*    64     8 */
+	size_t                     ss_len;               /*    72     8 */
+	char *                     username;             /*    80     8 */
+	size_t                     un_len;               /*    88     8 */
+	char *                     password;             /*    96     8 */
+	size_t                     p_len;                /*   104     8 */
+	char *                     fix_version;          /*   112     8 */
+	size_t                     fv_len;               /*   120     8 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	struct seq_reset_time *    reset_time;           /*   128     8 */
+	dart_config *              dc;                   /*   136     8 */
+	size_t                     (*create_mess_header)(databuf_t *, const char  *, size_t, const char  *, size_t, const char  *, size_t, const char  *, size_t, long unsigned int, time_t *); /*   144     8 */
+	int                        log_outgoing;         /*   152     4 */
+	int                        cancel_only;          /*   156     4 */
+	int                        do_balance;           /*   160     4 */
+
+	/* size: 168, cachelines: 3, members: 22 */
+	/* padding: 4 */
+	/* last cacheline: 40 bytes */
+};
+struct ex_con {
+	const char  *              mail_server;          /*     0     8 */
+	const char  *              tech_group;           /*     8     8 */
+	const char  *              biz_group;            /*    16     8 */
+	const char  *              fix_ip;               /*    24     8 */
+	const char  *              rom_ip;               /*    32     8 */
+	const char  *              dest_id;              /*    40     8 */
+	const char  *              db_user_name;         /*    48     8 */
+	const char  *              db_password;          /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	const char  *              db_server;            /*    64     8 */
+	const char  *              mod_name;             /*    72     8 */
+	char *                     server;               /*    80     8 */
+	dart_config *              dc;                   /*    88     8 */
+	uint16_t                   rom_port;             /*    96     2 */
+	uint16_t                   fix_port;             /*    98     2 */
+	int                        mail_server_len;      /*   100     4 */
+	int                        t_len;                /*   104     4 */
+	int                        b_len;                /*   108     4 */
+	int                        fix_ip_len;           /*   112     4 */
+	int                        rom_ip_len;           /*   116     4 */
+	int                        end_hour;             /*   120     4 */
+	int                        end_min;              /*   124     4 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	int                        end_day;              /*   128     4 */
+	int                        reset_hour;           /*   132     4 */
+	int                        reset_min;            /*   136     4 */
+	int                        dest_id_len;          /*   140     4 */
+	int                        db_user_name_len;     /*   144     4 */
+	int                        db_password_len;      /*   148     4 */
+	int                        db_server_len;        /*   152     4 */
+	int                        heart_beat_int;       /*   156     4 */
+	int                        order_allocation;     /*   160     4 */
+	int                        mod_name_len;         /*   164     4 */
+	int                        server_len;           /*   168     4 */
+
+	/* size: 176, cachelines: 3, members: 32 */
+	/* padding: 4 */
+	/* last cacheline: 48 bytes */
+};
+struct master_config {
+	const char  *              mail_server;          /*     0     8 */
+	const char  *              tech_group;           /*     8     8 */
+	const char  *              biz_group;            /*    16     8 */
+	const char  *              server_ip;            /*    24     8 */
+	const char  *              destinations;         /*    32     8 */
+	const char  *              db_user_name;         /*    40     8 */
+	const char  *              db_password;          /*    48     8 */
+	const char  *              db_server;            /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	const char  *              mod_name;             /*    64     8 */
+	char *                     cpus;                 /*    72     8 */
+	dart_config *              dc;                   /*    80     8 */
+	int                        mail_server_len;      /*    88     4 */
+	int                        t_len;                /*    92     4 */
+	int                        b_len;                /*    96     4 */
+	int                        cpu_len;              /*   100     4 */
+	int                        dest_len;             /*   104     4 */
+	int                        server_ip_len;        /*   108     4 */
+	int                        server_port;          /*   112     4 */
+	int                        end_hour;             /*   116     4 */
+	int                        end_min;              /*   120     4 */
+	int                        end_day;              /*   124     4 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	int                        reset_hour;           /*   128     4 */
+	int                        reset_min;            /*   132     4 */
+	int                        create_new;           /*   136     4 */
+	int                        db_user_name_len;     /*   140     4 */
+	int                        db_password_len;      /*   144     4 */
+	int                        db_server_len;        /*   148     4 */
+	int                        order_allocation;     /*   152     4 */
+	int                        mod_name_len;         /*   156     4 */
+
+	/* size: 160, cachelines: 3, members: 29 */
+	/* last cacheline: 32 bytes */
+};
+struct jp_limits {
+	long unsigned int          bp;                   /*     0     8 */
+	long unsigned int          max_doll;             /*     8     8 */
+	long int                   max_ord;              /*    16     8 */
+	long int                   max_shares_ord;       /*    24     8 */
+	long int                   max_share;            /*    32     8 */
+	long int                   cur_balance;          /*    40     8 */
+	long int                   open_ords;            /*    48     8 */
+	long int                   open_shares;          /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+
+	/* size: 64, cachelines: 1, members: 8 */
+};
+struct jp_limits_checker {
+	char *                     db_user_name;         /*     0     8 */
+	char *                     db_password;          /*     8     8 */
+	char *                     db_server;            /*    16     8 */
+	hashmap_t                  traders;              /*    24     8 */
+	hashmap_t                  clraccnts;            /*    32     8 */
+	queue_t                    allowed_logons;       /*    40     8 */
+	master_config *            mc;                   /*    48     8 */
+	int                        db_user_name_len;     /*    56     4 */
+	int                        db_password_len;      /*    60     4 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	int                        db_server_len;        /*    64     4 */
+
+	/* size: 72, cachelines: 2, members: 10 */
+	/* padding: 4 */
+	/* last cacheline: 8 bytes */
+};
+struct sock_recv_manager {
+	char *                     buffer;               /*     0     8 */
+	char *                     wr_ptr;               /*     8     8 */
+	char *                     rd_ptr;               /*    16     8 */
+	char *                     end;                  /*    24     8 */
+
+	/* size: 32, cachelines: 1, members: 4 */
+	/* last cacheline: 32 bytes */
+};
+struct call_back_wrapper {
+	struct epoll_event *       ee;                   /*     0     8 */
+	int                        efd;                  /*     8     4 */
+	int                        sock;                 /*    12     4 */
+	void *                     stuff;                /*    16     8 */
+	void *                     (*call_back_func)(void *); /*    24     8 */
+	void                       (*clean_up)(void *);  /*    32     8 */
+
+	/* size: 40, cachelines: 1, members: 6 */
+	/* last cacheline: 40 bytes */
+};
+struct async_parse_args {
+	void                       (*parse)(int *, struct async_parse_args *); /*     0     8 */
+	long unsigned int          (*seq_parse)(char *, long unsigned int, long unsigned int, long unsigned int *); /*     8     8 */
+	void *                     write_pass_back;      /*    16     8 */
+	void                       (*write_callback)(const char  *, int, void *); /*    24     8 */
+	void                       (*connection_notice)(struct async_parse_args *, int, char *, int); /*    32     8 */
+	struct init_args *         in_args;              /*    40     8 */
+	queue_t                    in_args_list;         /*    48     8 */
+	con_obj *                  co;                   /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	master_config *            mc;                   /*    64     8 */
+	int                        is_server;            /*    72     4 */
+	int                        is_logged_on;         /*    76     4 */
+	sock_recv_manager *        con;                  /*    80     8 */
+	call_back_wrapper *        read_wrapper;         /*    88     8 */
+	call_back_wrapper *        write_wrapper;        /*    96     8 */
+	char *                     ip;                   /*   104     8 */
+	int                        ip_len;               /*   112     4 */
+	int                        port;                 /*   116     4 */
+	gatekeeper *               gk;                   /*   120     8 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	void *                     ds_book;              /*   128     8 */
+	dart_order_obj *           cur_doj;              /*   136     8 */
+	struct async_server *      ass;                  /*   144     8 */
+	void                       (*low_activity_pulse)(con_obj *); /*   152     8 */
+	void *                     (*async_cb_func)(void *); /*   160     8 */
+	int                        (*init_con)(struct async_parse_args *); /*   168     8 */
+	void                       (*parse_v)(char *, long int, void *); /*   176     8 */
+	void                       (*obj_callback)(dart_order_obj *, void *); /*   184     8 */
+	/* --- cacheline 3 boundary (192 bytes) --- */
+
+	/* size: 192, cachelines: 3, members: 26 */
+};
+struct order_token_generator {
+	int                        (*create_in_place_token)(struct order_token_generator *, char *, int); /*     0     8 */
+	long unsigned int          offset;               /*     8     8 */
+	long unsigned int          counter;              /*    16     8 */
+	char                       datestr[9];           /*    24     9 */
+	char                       key[3];               /*    33     3 */
+
+	/* size: 40, cachelines: 1, members: 5 */
+	/* padding: 4 */
+	/* last cacheline: 40 bytes */
+};
+struct connection_interface {
+	int                        (*connect)(struct async_parse_args *); /*     0     8 */
+	int                        (*build_offset)(struct async_parse_args *); /*     8     8 */
+	void                       (*client_mess_parse)(int *, struct async_parse_args *); /*    16     8 */
+	struct ex_con *            connection_conf;      /*    24     8 */
+	struct init_args *         session_conf;         /*    32     8 */
+	volatile int               mutex;                /*    40     4 */
+	volatile int               send_mutex;           /*    44     4 */
+	int                        connected;            /*    48     4 */
+	int                        should_buffer;        /*    52     4 */
+	hashmap_t                  cl_ord_id_map;        /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	char *                     ip_str;               /*    64     8 */
+	char *                     module_name;          /*    72     8 */
+	size_t                     module_name_len;      /*    80     8 */
+	char *                     fix_con_name;         /*    88     8 */
+	size_t                     fix_con_len;          /*    96     8 */
+	gatekeeper *               gk;                   /*   104     8 */
+	async_parse_args *         ap;                   /*   112     8 */
+	async_server_con_set *     ass;                  /*   120     8 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	cycle_master *             lcm;                  /*   128     8 */
+	databuf_t *                mess_to_send;         /*   136     8 */
+	call_back_wrapper *        time_wrapper;         /*   144     8 */
+	call_back_wrapper *        recon_wrapper;        /*   152     8 */
+	time_t                     stop_time;            /*   160     8 */
+	time_t                     last_sent;            /*   168     8 */
+	char *                     dest_id;              /*   176     8 */
+	time_t                     last_recv;            /*   184     8 */
+	/* --- cacheline 3 boundary (192 bytes) --- */
+	int                        can_send_orders;      /*   192     4 */
+	int                        is_blocked;           /*   196     4 */
+	int                        cancel_on_dis;        /*   200     4 */
+	int                        do_oats_balance;      /*   204     4 */
+	int                        sock;                 /*   208     4 */
+	int                        dest_len;             /*   212     4 */
+	token_gen *                tg;                   /*   216     8 */
+	void *                     parser;               /*   224     8 */
+	void *                     sym_trans;            /*   232     8 */
+	void                       (*ci_iovec_sender)(struct iovec *, int, char *, int, struct connection_interface *, int); /*   240     8 */
+	void                       (*on_reject)(struct connection_interface *, dart_order_obj *); /*   248     8 */
+	/* --- cacheline 4 boundary (256 bytes) --- */
+	void                       (*on_out)(struct connection_interface *, dart_order_obj *); /*   256     8 */
+	void                       (*on_replaced)(struct connection_interface *, dart_order_obj *); /*   264     8 */
+	void                       (*on_fill)(struct connection_interface *, dart_order_obj *); /*   272     8 */
+	int                        (*on_enter_order)(struct connection_interface *, dart_order_obj *, struct async_parse_args *); /*   280     8 */
+	int                        (*on_cancel_order)(struct connection_interface *, dart_order_obj *); /*   288     8 */
+	void                       (*on_cancel_all)(struct connection_interface *, dart_order_obj *); /*   296     8 */
+	void                       (*on_replace_order)(struct connection_interface *, dart_order_obj *); /*   304     8 */
+	void                       (*on_connect)(struct connection_interface *, int); /*   312     8 */
+	/* --- cacheline 5 boundary (320 bytes) --- */
+	void                       (*ci_parse_v)(char *, long int, void *); /*   320     8 */
+	void                       (*ci_obj_callback)(dart_order_obj *, void *); /*   328     8 */
+	void                       (*disconnect)(struct connection_interface *); /*   336     8 */
+	void                       (*reload_ip_port)(struct connection_interface *); /*   344     8 */
+	void                       (*reset_seq)(struct connection_interface *, int, int); /*   352     8 */
+	void                       (*cleansing_rinse)(struct connection_interface *); /*   360     8 */
+	unsigned int               seq;                  /*   368     4 */
+
+	/* size: 376, cachelines: 6, members: 52 */
+	/* padding: 4 */
+	/* last cacheline: 56 bytes */
+};
+struct jp_clraccnts_info {
+	char *                     name;                 /*     0     8 */
+	jp_limits *                eq_limits;            /*     8     8 */
+	jp_limits *                opt_limits;           /*    16     8 */
+	jp_limits *                fut_limits;           /*    24     8 */
+	jp_limits *                fx_limits;            /*    32     8 */
+	long int                   name_len;             /*    40     8 */
+
+	/* size: 48, cachelines: 1, members: 6 */
+	/* last cacheline: 48 bytes */
+};
+struct jp_trader_info {
+	char *                     name;                 /*     0     8 */
+	char *                     password;             /*     8     8 */
+	jp_limits *                eq_limits;            /*    16     8 */
+	jp_limits *                opt_limits;           /*    24     8 */
+	jp_limits *                fut_limits;           /*    32     8 */
+	jp_limits *                fx_limits;            /*    40     8 */
+	int                        blocked;              /*    48     4 */
+	int                        exempt;               /*    52     4 */
+	int                        name_len;             /*    56     4 */
+	int                        pass_len;             /*    60     4 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+
+	/* size: 64, cachelines: 1, members: 10 */
+};

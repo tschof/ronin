@@ -1,0 +1,19 @@
+[SERVER]
+Sender Comp ID=0002
+Target Comp ID=BATS
+Username=DART
+Password=bz1dart
+Port=10558
+IP=10.157.129.13
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=153
+Mod Name=BOE
+
+[TIMES]
+End Hour=18
+End Min=20
+Reset Hour=6
+Reset Min=21
+Last Run Day=20151214101114
+

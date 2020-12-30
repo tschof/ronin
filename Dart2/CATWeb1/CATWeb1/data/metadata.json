@@ -1,0 +1,15 @@
+{
+  "type": "META",
+  "doneForDay": false,
+  "fileGenerationDate": 20200131,
+  "reporter": "MPID",
+  "submitter": "OSOID",
+  "fileVersion": "Version",
+  "files": [
+    {
+      "fileName": "STRING",
+      "recordCount": 0,
+      "compressedHash": "ALPAHNUMERIC"
+    }
+  ]
+} 

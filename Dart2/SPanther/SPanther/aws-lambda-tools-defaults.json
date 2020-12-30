@@ -1,0 +1,24 @@
+
+{
+    "Information" : [
+        "This file provides default values for the deployment wizard inside Visual Studio and the AWS Lambda commands added to the .NET Core CLI.",
+        "To learn more about the Lambda commands with the .NET Core CLI execute the following command at the command line in the project root directory.",
+        "dotnet lambda help",
+        "All the command line options for the Lambda command can be specified in this file."
+    ],
+    "profile"     : "default",
+    "region"      : "us-east-1",
+    "configuration" : "Debug",
+    "framework"     : "netcoreapp2.1",
+    "function-runtime" : "dotnetcore2.1",
+    "function-memory-size" : 3008,
+    "function-timeout"     : 900,
+    "function-handler"     : "SPanther::SPanther.Function::FunctionHandler",
+    "function-name"        : "pantherx",
+    "function-role"        : "arn:aws:iam::285433708469:role/test-ropro-cat",
+    "function-subnets"     : "subnet-0f5b3435a9b53ba88,subnet-06ff12466c1bb4b50",
+    "function-security-groups" : "sg-03bf3c2775f766477,sg-0516ecd5797e2a276,sg-0aaadf25b39a64062,sg-b485e1fc,sg-f6be12bd",
+    "dead-letter-target-arn"   : "arn:aws:sns:us-east-1:285433708469:CAT-PrivateLink-285433708469-CAT-PrivateLink-Client-ccft-Customer-Testing-Ronin_Professional_LLC-ccft",
+    "tracing-mode"             : "PassThrough",
+    "environment-variables"    : ""
+}

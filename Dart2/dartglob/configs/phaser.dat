@@ -1,0 +1,18 @@
+[SERVER]
+User=RONINUAT
+Target Comp ID=CITIUAT
+Fix Port=9400
+Fix IP=199.67.139.10
+Reset Incoming=0
+Reset Outgoing=0
+directory=/home/fparnell/git_repo/Dart2/om/phaser/phaser_config/
+Dest ID=601
+Mod Name=Phaser
+
+[TIMES]
+End Hour=17
+End Min=10
+Reset Hour=7
+Reset Min=30
+Last Run Day=20151106135846
+

@@ -1,0 +1,56 @@
+/**************************************************************************
+ * Copyright (c) 2008 by Ronin Capital, LLC
+ *
+ * All Rights Reserved
+ *************************************************************************/
+#ifndef _REX_SEQ_REQUEST_H__
+#define _REX_SEQ_REQUEST_H__
+#if defined(__cplusplus)
+extern "C" {
+#endif
+#include "polling_server.h"
+
+typedef struct rex_seq_request sequence_req;
+
+sequence_req *create_sequence_request(const char *name, size_t name_len,
+                                      login_info* ex,char* version, 
+                                      unsigned long (*p_messages) (char
+                                                                   *data,
+                                                                   unsigned
+                                                                   long
+                                                                   size,
+                                                                   unsigned
+                                                                   long
+                                                                   bytes_used,
+                                                                   unsigned
+                                                                   long
+                                                                   *seq_num,
+                                                                   void* book),
+                                      char *(*create_pad) (unsigned long
+                                                           seq,
+                                                           char *fix_ver,
+                                                           size_t * len),
+                                      void* p_helper);
+void destroy_sequence_req(sequence_req * sr);
+unsigned long dsr_get_incoming(sequence_req * sr);
+unsigned long dsr_get_outgoing(sequence_req * sr);
+void dsr_set_incoming(sequence_req * sr, unsigned long incoming);
+void dsr_set_outgoing(sequence_req * sr, unsigned long outgoing);
+void dsr_lock_con_mutex(sequence_req * sr);
+void dsr_wait_on_cond(sequence_req * rs);
+void dsr_signal_cond(sequence_req * sr);
+unsigned long dsr_get_new_incoming(sequence_req * sr);
+unsigned long dsr_get_new_outgoing(sequence_req * sr);
+const char *dsr_get_name(sequence_req * sr, size_t * name_len);
+int dsr_get_create_new(sequence_req * sr);
+unsigned long dsr_parse_data(sequence_req * sr, char *data,
+                             unsigned long size, unsigned long bytes_used,
+                             unsigned long *seq_num);
+char *dsr_create_pad(sequence_req * sr, unsigned long seq, size_t * len);
+
+int ll_before_reset_time(short reset_day, short reset_hour,
+                         short reset_min, time_t last_logon, time_t now);
+#if defined(__cplusplus)
+}
+#endif
+#endif

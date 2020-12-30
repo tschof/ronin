@@ -1,0 +1,20 @@
+[FIX SERVER]
+Sender Comp ID=DARTQA
+Target Comp ID=SOHOQA
+Fix Port=31921
+Fix IP=10.157.116.11
+Reset Incoming=0
+Reset Outgoing=0
+directory=/home/romserver/test/2sigma/2sigma_config/
+Dest ID=601
+Mod Name=TWOSIGS
+
+[ROM SERVER]
+
+[TIMES]
+End Hour=17
+End Min=10
+Reset Hour=19
+Reset Min=30
+Last Run Day=20150723193501
+

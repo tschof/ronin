@@ -1,0 +1,21 @@
+[SERVER]
+Username=95200553
+Password=rnv8x*Rbjcqs
+logical ID=3701
+user pass=Dart!23$
+Port=19508
+IP=10.196.101.11
+REAL IP=193.29.89.65
+PCODE LOC=EurexSecurityIDMap_0.dump
+Reset Incoming=0
+Reset Outgoing=0
+Dest ID=288
+Mod Name=EUREX
+
+[TIMES]
+End Hour=15
+End Min=50
+Reset Hour=2
+Reset Min=21
+Last Run Day=20170130124423
+
