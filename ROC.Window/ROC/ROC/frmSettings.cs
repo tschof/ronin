@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+
+using Common;
 using FormEx;
 using CSVEx;
 using ContextMenuEx;
@@ -422,28 +422,13 @@ namespace ROC
 					if (trader.tradeFor.ToUpper() == tradeFor)
 					{
 						foreach (AccountMap acctMap in trader.CSAccounts.Values)
-						{
-							if (!items.ContainsKey(acctMap.account))
-							{
-								items.Add(acctMap.account, acctMap.account);
-							}
-						}
+							items.TryAdd(acctMap.account, acctMap.account);
 
 						foreach (AccountMap acctMap in trader.FUTAccounts.Values)
-						{
-							if (!items.ContainsKey(acctMap.account))
-							{
-								items.Add(acctMap.account, acctMap.account);
-							}
-						}
+							items.TryAdd(acctMap.account, acctMap.account);
 
 						foreach (AccountMap acctMap in trader.OPTAccounts.Values)
-						{
-							if (!items.ContainsKey(acctMap.account))
-							{
-								items.Add(acctMap.account, acctMap.account);
-							}
-						}
+							items.TryAdd(acctMap.account, acctMap.account);
 
 						break;
 					}
@@ -507,12 +492,7 @@ namespace ROC
 							if (acctMap.account.ToUpper() == account)
 							{
 								foreach (DestinationMap destMap in acctMap.Destinations.Values)
-								{
-									if (!items.ContainsKey(destMap.shortName))
-									{
-										items.Add(destMap.shortName, destMap.shortName);
-									}
-								}
+									items.TryAdd(destMap.shortName, destMap.shortName);
 							}
 						}
 
@@ -521,12 +501,7 @@ namespace ROC
 							if (acctMap.account.ToUpper() == account)
 							{
 								foreach (DestinationMap destMap in acctMap.Destinations.Values)
-								{
-									if (!items.ContainsKey(destMap.shortName))
-									{
-										items.Add(destMap.shortName, destMap.shortName);
-									}
-								}
+									items.TryAdd(destMap.shortName, destMap.shortName);
 							}
 						}
 
@@ -535,12 +510,7 @@ namespace ROC
 							if (acctMap.account.ToUpper() == account)
 							{
 								foreach (DestinationMap destMap in acctMap.Destinations.Values)
-								{
-									if (!items.ContainsKey(destMap.shortName))
-									{
-										items.Add(destMap.shortName, destMap.shortName);
-									}
-								}
+									items.TryAdd(destMap.shortName, destMap.shortName);
 							}
 						}
 
@@ -629,8 +599,8 @@ namespace ROC
 		{
 			_stockSymbolsLoaded = true;
 
-			rocSymbolSettingList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecutrityTypes.Equity);
-			rocSymbolSettingList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecutrityTypes.Equity;
+			rocSymbolSettingList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecurityTypes.Equity);
+			rocSymbolSettingList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecurityTypes.Equity;
 
 			rocSymbolSettingList.RocGridTable.Columns["Quantity"].DefaultValue = 100;
 			rocSymbolSettingList.RocGridTable.Columns["QuantityIncrement"].DefaultValue = 100;
@@ -651,8 +621,8 @@ namespace ROC
 		{
 			_futureSymbolsLoaded = true;
 
-			rocSymbolSettingList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecutrityTypes.Future);
-			rocSymbolSettingList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecutrityTypes.Future;
+			rocSymbolSettingList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecurityTypes.Future);
+			rocSymbolSettingList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecurityTypes.Future;
 
 			rocSymbolSettingList.RocGridTable.Columns["Quantity"].DefaultValue = 1;
 			rocSymbolSettingList.RocGridTable.Columns["QuantityIncrement"].DefaultValue = 1;
@@ -674,8 +644,8 @@ namespace ROC
 		{
 			_optionSymbolsLoaded = true;
 
-			rocSymbolSettingList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecutrityTypes.Option);
-			rocSymbolSettingList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecutrityTypes.Option;
+			rocSymbolSettingList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecurityTypes.Option);
+			rocSymbolSettingList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecurityTypes.Option;
 
 			rocSymbolSettingList.RocGridTable.Columns["Quantity"].DefaultValue = 1;
 			rocSymbolSettingList.RocGridTable.Columns["QuantityIncrement"].DefaultValue = 1;
@@ -1019,7 +989,7 @@ namespace ROC
 
 		#region - Quick Button -
 
-		private string _currentQuickButtonSecurityType = CSVFieldIDs.SecutrityTypes.Equity;
+		private string _currentQuickButtonSecurityType = CSVFieldIDs.SecurityTypes.Equity;
 
 		private void cmdStockTicket_Click(object sender, EventArgs e)
 		{
@@ -1027,7 +997,7 @@ namespace ROC
 			cmdFutureTicket.Enabled = true;
 			cmdOptionTicket.Enabled = true;
 
-			_currentQuickButtonSecurityType = CSVFieldIDs.SecutrityTypes.Equity;
+			_currentQuickButtonSecurityType = CSVFieldIDs.SecurityTypes.Equity;
 
 			LoadStockTicketQuickButtonSettings();
 		}
@@ -1038,7 +1008,7 @@ namespace ROC
 			cmdFutureTicket.Enabled = false;
 			cmdOptionTicket.Enabled = true;
 
-			_currentQuickButtonSecurityType = CSVFieldIDs.SecutrityTypes.Future;
+			_currentQuickButtonSecurityType = CSVFieldIDs.SecurityTypes.Future;
 
 			LoadFutureTicketQuickButtonSettings();
 		}
@@ -1049,7 +1019,7 @@ namespace ROC
 			cmdFutureTicket.Enabled = true;
 			cmdOptionTicket.Enabled = false;
 
-			_currentQuickButtonSecurityType = CSVFieldIDs.SecutrityTypes.Option;
+			_currentQuickButtonSecurityType = CSVFieldIDs.SecurityTypes.Option;
 
 			LoadOptionTicketQuickButtonSettings();
 		}
@@ -1058,8 +1028,8 @@ namespace ROC
 		{
 			_stockTicketQuickButtonSettingsLoaded = true;
 
-			rocQuickButtonList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecutrityTypes.Equity);
-			rocQuickButtonList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecutrityTypes.Equity;
+			rocQuickButtonList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecurityTypes.Equity);
+			rocQuickButtonList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecurityTypes.Equity;
 
 			rocQuickButtonList.RocGridTable.Columns["Symbol"].DefaultValue = TicketDefaults.Stock;
 			rocQuickButtonList.RocGridTable.Columns["Quantity"].DefaultValue = 100;
@@ -1076,8 +1046,8 @@ namespace ROC
 		{
 			_futureTicketQuickButtonSettingsLoaded = true;
 
-			rocQuickButtonList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecutrityTypes.Future);
-			rocQuickButtonList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecutrityTypes.Future;
+			rocQuickButtonList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecurityTypes.Future);
+			rocQuickButtonList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecurityTypes.Future;
 
 			rocQuickButtonList.RocGridTable.Columns["Symbol"].DefaultValue = TicketDefaults.Future;
 			rocQuickButtonList.RocGridTable.Columns["Quantity"].DefaultValue = 1;
@@ -1094,8 +1064,8 @@ namespace ROC
 		{
 			_optionTicketQuickButtonSettingsLoaded = true;
 
-			rocQuickButtonList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecutrityTypes.Option);
-			rocQuickButtonList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecutrityTypes.Option;
+			rocQuickButtonList.RocGridTable.DefaultView.RowFilter = string.Format("SecType = '{0}'", CSVFieldIDs.SecurityTypes.Option);
+			rocQuickButtonList.RocGridTable.Columns["SecType"].DefaultValue = CSVFieldIDs.SecurityTypes.Option;
 
 			rocQuickButtonList.RocGridTable.Columns["Symbol"].DefaultValue = TicketDefaults.Option;
 			rocQuickButtonList.RocGridTable.Columns["Quantity"].DefaultValue = 1;
@@ -1167,17 +1137,17 @@ namespace ROC
 
 				switch (_currentQuickButtonSecurityType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						items.Add(QuickButtonSides.Buy, QuickButtonSides.Buy);
 						items.Add(QuickButtonSides.Sell, QuickButtonSides.Sell);
 						break;
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						items.Add(QuickButtonSides.BuyOpen, QuickButtonSides.BuyOpen);
 						items.Add(QuickButtonSides.BuyClose, QuickButtonSides.BuyClose);
 						items.Add(QuickButtonSides.SellOpen, QuickButtonSides.SellOpen);
 						items.Add(QuickButtonSides.SellClose, QuickButtonSides.SellClose);
 						break;
-					case CSVFieldIDs.SecutrityTypes.Equity:
+					case CSVFieldIDs.SecurityTypes.Equity:
 						items.Add(QuickButtonSides.Buy, QuickButtonSides.Buy);
 						items.Add(QuickButtonSides.Sell, QuickButtonSides.Sell);
 						items.Add(QuickButtonSides.Short, QuickButtonSides.Short);

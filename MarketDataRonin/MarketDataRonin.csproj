@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{654B55CF-D7AC-475C-A32D-3D58AF6BC70B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MarketDataRonin</RootNamespace>
+    <AssemblyName>MarketDataRonin</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BookAdapter.cs" />
+    <Compile Include="Heartbeat.cs" />
+    <Compile Include="MDServerToClient.cs" />
+    <Compile Include="MDClientToServer.cs" />
+    <Compile Include="MDFieldIDs.cs" />
+    <Compile Include="ProducerSocket.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="SubscriptionManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Log\Log.csproj">
+      <Project>{203befbd-1f40-421f-8934-8777479ce25b}</Project>
+      <Name>Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ROC.Window\Common\Common\Common.csproj">
+      <Project>{b04cd92b-ee29-45f3-99bc-575fda6377f6}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ROC.Window\CSVEx\CSVEx.csproj">
+      <Project>{35c6744a-3da9-4e4d-bddb-c3a9e9474a86}</Project>
+      <Name>CSVEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ROC.Window\DateTimeEx\DateTimeEx.csproj">
+      <Project>{68a29031-2b21-4d3f-9aee-5f8226f60a44}</Project>
+      <Name>DateTimeEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ROC.Window\DictionaryEx\DictionaryEx.csproj">
+      <Project>{4075c74d-02b0-48f4-8488-1a6fa79d1dc7}</Project>
+      <Name>DictionaryEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ROC.Window\MarketDataEx\MarketData.csproj">
+      <Project>{3b927e75-c8d6-4fa0-8f65-48db2740bd88}</Project>
+      <Name>MarketData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ROC.Window\SerializationEx\SerializationEx.csproj">
+      <Project>{ba0b3df9-6888-42ea-98a7-2cbab413cb10}</Project>
+      <Name>SerializationEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ROC.Window\SocketEx\SocketEx.csproj">
+      <Project>{557d48c3-c9cb-4648-920f-5cf64b03cf30}</Project>
+      <Name>SocketEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

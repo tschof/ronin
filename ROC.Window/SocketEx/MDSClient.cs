@@ -1,3 +1,4 @@
+#if OLD
 using System;
 using System.Net.Sockets;
 using System.Text;
@@ -55,7 +56,7 @@ namespace SocketEx
 					input = ByteArrayOperations.CopyFromByteArray(base.ReceivedBuffer, 0, bytesRecived);
 					lock (base.SyncObj)
 					{
-						base.IncommingData.AddRange(input);
+						base.Incoming.AddRange(input);
 					}
 
 					base.SetupBeginReceiveCallBack(socket);
@@ -97,7 +98,7 @@ namespace SocketEx
 			}
 		}
 
-		public override void ProcessRecived()
+		public override void ProcessReceived()
 		{
 			byte[] locIncommingData = new byte[0];
 			bool hasNewData = false;
@@ -105,12 +106,12 @@ namespace SocketEx
 			{
 				try
 				{
-					if (base.IncommingData.Count > 0)
+					if (base.Incoming.Count > 0)
 					{
 						lock (base.SyncObj)
 						{
-							locIncommingData = ByteArrayOperations.AddByteArrays(locIncommingData, base.IncommingData.ToArray());
-							base.IncommingData.Clear();
+							locIncommingData = ByteArrayOperations.AddByteArrays(locIncommingData, base.Incoming.ToArray());
+							base.Incoming.Clear();
 							hasNewData = true;
 						}
 					}
@@ -225,3 +226,4 @@ namespace SocketEx
 		}
 	}
 }
+#endif // OLD

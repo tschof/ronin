@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -19,6 +19,13 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +38,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <FileAlignment>4096</FileAlignment>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -46,6 +54,7 @@
     <FileAlignment>512</FileAlignment>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DebugSymbols>true</DebugSymbols>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build.Utilities" />
@@ -79,6 +88,10 @@
       <DependentUpon>frmClock.cs</DependentUpon>
     </Compile>
     <Compile Include="HelperAutomationTimer.cs" />
+    <Compile Include="Lists\Utility.cs" />
+    <Compile Include="Tickets\AutoSpread\AutoSpreadItem.cs" />
+    <Compile Include="Tickets\AutoSpread\QuickAutoSpreadSupport.cs" />
+    <Compile Include="Tickets\AutoSpread\TagKeyItems.cs" />
     <Compile Include="Tickets\BookSupport.cs" />
     <Compile Include="Tickets\BookISupport.cs" />
     <Compile Include="Configuration\ROC.Designer.cs">
@@ -639,6 +652,10 @@
     <Compile Include="UIProfile\UIProfileFieldIDs.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Log\Log.csproj">
+      <Project>{203befbd-1f40-421f-8934-8777479ce25b}</Project>
+      <Name>Log</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ArrayEx\ArrayEx.csproj">
       <Project>{DC5D6A82-6E1D-48CF-A572-AB84576B2704}</Project>
       <Name>ArrayEx</Name>
@@ -662,6 +679,10 @@
     <ProjectReference Include="..\..\ColorDialogEx\ColorDialogEx.csproj">
       <Project>{BD417119-892E-4C9C-9BE4-4B49F8D9D118}</Project>
       <Name>ColorDialogEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Common\Common.csproj">
+      <Project>{b04cd92b-ee29-45f3-99bc-575fda6377f6}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ContextMenuEx\ContextMenuEx.csproj">
       <Project>{5EF43825-3EFB-413F-90F2-73B6225CC3BB}</Project>
@@ -699,13 +720,9 @@
       <Project>{C70BDE49-77A9-4263-819F-F50CC56F8E69}</Project>
       <Name>LabelEx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\LoggerEx\LoggerEx.csproj">
-      <Project>{650FA26A-3A41-449D-BBC0-877175514B35}</Project>
-      <Name>LoggerEx</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MarketDataEx\MarketDataEx.csproj">
-      <Project>{3B927E75-C8D6-4FA0-8F65-48DB2740BD88}</Project>
-      <Name>MarketDataEx</Name>
+    <ProjectReference Include="..\..\MarketDataEx\MarketData.csproj">
+      <Project>{3b927e75-c8d6-4fa0-8f65-48db2740bd88}</Project>
+      <Name>MarketData</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NumberEx\NumberEx.csproj">
       <Project>{DE92925F-4049-4581-B5A4-C44799CA61A3}</Project>
@@ -742,6 +759,10 @@
     <ProjectReference Include="..\..\SocketEx\SocketEx.csproj">
       <Project>{557D48C3-C9CB-4648-920F-5CF64B03CF30}</Project>
       <Name>SocketEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarketDataStub\MarketDataStub.csproj">
+      <Project>{02026968-830f-462f-9e12-ea50b350abcc}</Project>
+      <Name>MarketDataStub</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

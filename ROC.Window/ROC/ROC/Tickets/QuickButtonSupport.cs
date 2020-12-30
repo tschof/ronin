@@ -1,20 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 using LabelEx;
 using System.Drawing;
 
 namespace ROC
 {
-	public delegate void QuickButtonClickedEventHandler(object sender, QuickButtonClickedEventArgs e);
+	internal delegate void QuickButtonClickedEventHandler(object sender, QuickButtonClickedEventArgs e);
 
-	public class QuickButtonSupport
+	internal class QuickButtonSupport
 	{
 		#region - Event -
 
-		public event QuickButtonClickedEventHandler QuickButtonClicked;
+		internal event QuickButtonClickedEventHandler QuickButtonClicked;
 		private void OnQuickButtonClicked(QuickButtonClickedEventArgs e)
 		{
 			if (QuickButtonClicked != null)
@@ -61,25 +59,25 @@ namespace ROC
 
 		#region - Constructor -
 
-		public QuickButtonSupport(frmStockTicket stockTicket)
+		internal QuickButtonSupport(frmStockTicket stockTicket)
 		{
 			_stockTicket = stockTicket;
 			_ticketType = TicketTypes.Stock;
 		}
 
-		public QuickButtonSupport(frmFutureTicket futureTicket)
+		internal QuickButtonSupport(frmFutureTicket futureTicket)
 		{
 			_futureTicket = futureTicket;
 			_ticketType = TicketTypes.Future;
 		}
 
-		public QuickButtonSupport(frmQuickTicket quickTicket)
+		internal QuickButtonSupport(frmQuickTicket quickTicket)
 		{
 			_quickTicket = quickTicket;
 			_ticketType = TicketTypes.Quick;
 		}
 
-		public QuickButtonSupport(frmOptionTicket optionTicket)
+		internal QuickButtonSupport(frmOptionTicket optionTicket)
 		{
 			_optionTicket = optionTicket;
 			_ticketType = TicketTypes.Option;
@@ -87,11 +85,11 @@ namespace ROC
 
 		#endregion
 
-		public void UILoadSymbolQuickButtonDefaults(List<QuickButtonSettingData> datas)
+		internal void UILoadSymbolQuickButtonDefaults(List<QuickButtonSettingData> datas)
 		{
 			UILoadSymbolQuickButtonDefaults(datas, true);
 		}
-		public void UILoadSymbolQuickButtonDefaults(List<QuickButtonSettingData> datas, bool reload)
+		internal void UILoadSymbolQuickButtonDefaults(List<QuickButtonSettingData> datas, bool reload)
 		{
 			if (datas.Count > 0)
 			{
@@ -207,15 +205,15 @@ namespace ROC
 		}
 	}
 
-	public class QuickButtonClickedEventArgs : EventArgs
+	internal class QuickButtonClickedEventArgs : EventArgs
 	{
-		public QuickButtonClickedEventArgs(QuickButtonSettingData data)
+		internal QuickButtonClickedEventArgs(QuickButtonSettingData data)
 		{
 			_data = data;
 		}
 		
 		private QuickButtonSettingData _data;
-		public QuickButtonSettingData Data
+		internal QuickButtonSettingData Data
 		{
 			get
 			{

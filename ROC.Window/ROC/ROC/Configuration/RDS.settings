@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="WebServiceLocation" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://romrds/RDS_DEV/RDS.asmx</Value>
+      <Value Profile="(Default)">http://localhost/RDS_DEV/RDS.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

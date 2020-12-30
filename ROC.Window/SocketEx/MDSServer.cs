@@ -1,3 +1,4 @@
+#if OLD
 using System;
 using System.Collections.Generic;
 
@@ -54,11 +55,11 @@ namespace SocketEx
 				byte[] data = Encoding.ASCII.GetBytes(msg.ToCharArray());
 				data = SocketTransmitionControl.AddPrefix(data);
 
-				if (base.Clients.ContainsKey(key))
+				if (base.Clients.TryGetValue(key, out SocketBaseClient target))
 				{
 					try
 					{
-						Send(base.Clients[key], data);
+						Send(target, data);
 					}
 					catch (Exception ex)
 					{
@@ -81,14 +82,13 @@ namespace SocketEx
 				lock (base.SyncObj)
 				{
 					//Send to only specified
-					if (base.Clients.ContainsKey(key))
+					if (base.Clients.TryGetValue(key, out SocketBaseClient target))
 					{
 						foreach (string msg in msgs)
 						{
 							byte[] data = Encoding.ASCII.GetBytes(msg.ToCharArray());
 							data = SocketTransmitionControl.AddPrefix(data);
-
-							Send(base.Clients[key], data);
+							Send(target, data);
 						}
 					}
 				}
@@ -111,11 +111,11 @@ namespace SocketEx
 				//byte[] data = Encoding.ASCII.GetBytes(msg.ToCharArray());
 				byte[] data = SocketTransmitionControl.AddPrefix(msg);
 
-				if (base.Clients.ContainsKey(key))
+				if (base.Clients.TryGetValue(key, out SocketBaseClient target))
 				{
 					try
 					{
-						Send(base.Clients[key], data);
+						Send(target, data);
 					}
 					catch (Exception ex)
 					{
@@ -136,28 +136,25 @@ namespace SocketEx
 			lock (base.SyncObj)
 			{
 				//Send to only specified
-				if (base.Clients.ContainsKey(key))
+				if (base.Clients.TryGetValue(key, out SocketBaseClient target))
 				{
 					foreach (byte[] msg in msgs)
 					{
 						byte[] data = SocketTransmitionControl.AddPrefix(msg);
 
-						if (base.Clients.ContainsKey(key))
+						try
 						{
-							try
+							Send(target, data);
+						}
+						catch (Exception ex)
+						{
+							if (Debugger.IsAttached)
 							{
-								Send(base.Clients[key], data);
+								Debug.Print(ex.Message);
+								Debug.Print(ex.StackTrace);
 							}
-							catch (Exception ex)
-							{
-								if (Debugger.IsAttached)
-								{
-									Debug.Print(ex.Message);
-									Debug.Print(ex.StackTrace);
-								}
 
-								base.OnSocketEvent(new ServerEventArgs(ServerEventTypes.OnError, "Client Already Removed."));
-							}
+							base.OnSocketEvent(new ServerEventArgs(ServerEventTypes.OnError, "Client Already Removed."));
 						}
 					}
 				}
@@ -225,3 +222,4 @@ namespace SocketEx
 		}
 	}
 }
+#endif // OLD

@@ -1,0 +1,15 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\bin\Debug\FontDialogEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\bin\Debug\FontDialogEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\bin\Debug\ButtonEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\bin\Debug\LabelEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\bin\Debug\ShapeEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\bin\Debug\ButtonEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\bin\Debug\LabelEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\bin\Debug\ShapeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\obj\Debug\FontDialogEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\obj\Debug\FontDialogEx.VistaFontDialog.resources
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\obj\Debug\FontDialogEx.csproj.GenerateResource.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\obj\Debug\FontDialogEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\obj\Debug\FontDialogEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\obj\Debug\FontDialogEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\FontDialogEx\obj\Debug\FontDialogEx.pdb

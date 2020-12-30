@@ -1,0 +1,6 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\ArrayEx\bin\Debug\ArrayEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ArrayEx\bin\Debug\ArrayEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ArrayEx\obj\Debug\ArrayEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ArrayEx\obj\Debug\ArrayEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ArrayEx\obj\Debug\ArrayEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ArrayEx\obj\Debug\ArrayEx.csprojAssemblyReference.cache

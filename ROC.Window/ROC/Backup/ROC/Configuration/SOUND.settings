@@ -1,0 +1,54 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ROC.Configuration" GeneratedClassName="SOUND">
+  <Profiles />
+  <Settings>
+    <Setting Name="Open" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Sounds\CLICK.WAV</Value>
+    </Setting>
+    <Setting Name="Filled" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Sounds\CASHREG.WAV</Value>
+    </Setting>
+    <Setting Name="Rejected" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Sounds\EXPLODE.WAV</Value>
+    </Setting>
+    <Setting Name="Canceled" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Sounds\EXPLODE.WAV</Value>
+    </Setting>
+    <Setting Name="FilledAndCanceled" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Sounds\CASHREG.WAV</Value>
+    </Setting>
+    <Setting Name="PartiallyFilled" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Sounds\CASHREG.WAV</Value>
+    </Setting>
+    <Setting Name="Replaced" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Sounds\CLICK.WAV</Value>
+    </Setting>
+    <Setting Name="EnableOpen" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EnableFilled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EnableRejected" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EnableCanceled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EnablePartiallyFilled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EnableReplaced" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EnableFilledAndCanceled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AutoSpreadPartiallyFilled" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Sounds\CASHREG.WAV</Value>
+    </Setting>
+    <Setting Name="EnableAutoSpreadPartiallyFilled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

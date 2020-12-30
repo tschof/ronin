@@ -1,18 +1,13 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-
-using LoggerEx;
 using BenchMarkEx;
 using System.Collections.Generic;
-using System.Data;
 using RDSEx;
-using System.Drawing;
-using System.Runtime.InteropServices;
 
 namespace ROC
 {
-	public enum TicketTypes
+	internal enum TicketTypes
 	{
 		None,
 		Stock,
@@ -23,46 +18,46 @@ namespace ROC
 		FutureMatrix,
 	}
 
-	public sealed class AutomationType
+	internal sealed class AutomationType
 	{
-		public const string AutoCancelStock = "AUTO_CANCEL_STOCK";
-		public const string AutoCancelFuture = "AUTO_CANCEL_FUTURE";
-		public const string AutoCancelOption = "AUTO_CANCEL_OPTION";
-		public const string AutoStop = "AUTO_STOP";
+		internal const string AutoCancelStock = "AUTO_CANCEL_STOCK";
+		internal const string AutoCancelFuture = "AUTO_CANCEL_FUTURE";
+		internal const string AutoCancelOption = "AUTO_CANCEL_OPTION";
+		internal const string AutoStop = "AUTO_STOP";
 	}
 
-	public sealed class TicketDefaults
+	internal sealed class TicketDefaults
 	{
-		public const string Stock = "STK_DEF";
-		public const string Future = "FUT_DEF";
-		public const string Option = "OPT_DEF";
+		internal const string Stock = "STK_DEF";
+		internal const string Future = "FUT_DEF";
+		internal const string Option = "OPT_DEF";
 	}
 
-	public sealed class QuickButtonSides
+	internal sealed class QuickButtonSides
 	{
-		public const string Buy = "BUY";
-		public const string Sell = "SELL";
-		public const string Short = "SHORT";
+		internal const string Buy = "BUY";
+		internal const string Sell = "SELL";
+		internal const string Short = "SHORT";
 
-		public const string BuyOpen = "BUYOPEN";
-		public const string BuyClose = "BUYCLOSE";
-		public const string SellOpen = "SELLOPEN";
-		public const string SellClose = "SELLCLOSE";
+		internal const string BuyOpen = "BUYOPEN";
+		internal const string BuyClose = "BUYCLOSE";
+		internal const string SellOpen = "SELLOPEN";
+		internal const string SellClose = "SELLCLOSE";
 	}
 
-	public sealed class QuickButtonBasePriceSource
+	internal sealed class QuickButtonBasePriceSource
 	{
-		public const string Bid = "BID";
-		public const string Ask = "ASK";
-		public const string Last = "LAST";
-		public const string High = "HIGH";
-		public const string Low = "LOW";
+		internal const string Bid = "BID";
+		internal const string Ask = "ASK";
+		internal const string Last = "LAST";
+		internal const string High = "HIGH";
+		internal const string Low = "LOW";
 	}
 
-	public sealed class AccountTypeToGet
+	internal sealed class AccountTypeToGet
 	{
 		private bool _cs = false;
-		public bool CS
+		internal bool CS
 		{
 			get
 			{
@@ -71,7 +66,7 @@ namespace ROC
 		}
 		
 		private bool _fut = false;
-		public bool FUT
+		internal bool FUT
 		{
 			get
 			{
@@ -80,7 +75,7 @@ namespace ROC
 		}
 
 		private bool _opt = false;
-		public bool OPT
+		internal bool OPT
 		{
 			get
 			{
@@ -88,7 +83,7 @@ namespace ROC
 			}
 		}
 
-		public AccountTypeToGet(bool cs, bool fut, bool opt)
+		internal AccountTypeToGet(bool cs, bool fut, bool opt)
 		{
 			_cs = cs;
 			_fut = fut;
@@ -96,9 +91,9 @@ namespace ROC
 		}
 	}
 
-	public sealed class BaseSecurityInfo
+	internal sealed class BaseSecurityInfo
 	{
-		public BaseSecurityInfo()
+		internal BaseSecurityInfo()
 		{
 			_mdSymbol = "";
 			_tickSize = 0.01;
@@ -112,7 +107,7 @@ namespace ROC
 		}
 
 		private string _mdSymbol = "";
-		public string MDSymbol
+		internal string MDSymbol
 		{
 			get
 			{
@@ -125,7 +120,7 @@ namespace ROC
 		}
 
 		private string _mdSource = "";
-		public string MDSource
+		internal string MDSource
 		{
 			get
 			{
@@ -138,7 +133,7 @@ namespace ROC
 		}
 
 		private double _tickSize = 0.01;
-		public double TickSize
+		internal double TickSize
 		{
 			get
 			{
@@ -150,7 +145,7 @@ namespace ROC
 			}
 		}
 
-		public decimal TickSizeDec
+		internal decimal TickSizeDec
 		{
 			get
 			{
@@ -158,7 +153,7 @@ namespace ROC
 			}
 		}
 
-		public int DecimalPlaces
+		internal int DecimalPlaces
 		{
 			get
 			{
@@ -175,7 +170,7 @@ namespace ROC
 		}
 
 		private double _contractSize = 1;
-		public double ContractSize
+		internal double ContractSize
 		{
 			get
 			{
@@ -188,7 +183,7 @@ namespace ROC
 		}
 
 		private string _secType = "";
-		public string SecType
+		internal string SecType
 		{
 			get
 			{
@@ -201,7 +196,7 @@ namespace ROC
 		}
 
 		private string _underlying = "";
-		public string Underlying
+		internal string Underlying
 		{
 			get
 			{
@@ -214,7 +209,7 @@ namespace ROC
 		}
 
 		private string _longName = "";
-		public string LongName
+		internal string LongName
 		{
 			get
 			{
@@ -227,7 +222,7 @@ namespace ROC
 		}
 
 		private string _expiration = "";
-		public string Expiration
+		internal string Expiration
 		{
 			get
 			{
@@ -239,7 +234,7 @@ namespace ROC
 			}
 		}
 
-		public Nullable<DateTime> ExpirationDT
+		internal Nullable<DateTime> ExpirationDT
 		{
 			get
 			{
@@ -256,7 +251,7 @@ namespace ROC
 		}
 
 		private Dictionary<string, IMSSFutureInfo> _ssfChain;
-		public Dictionary<string, IMSSFutureInfo> SSFChain
+		internal Dictionary<string, IMSSFutureInfo> SSFChain
 		{
 			get
 			{
@@ -273,7 +268,7 @@ namespace ROC
 		}
 
 		private Dictionary<string, IMOptionInfo> _optionChain;
-		public Dictionary<string, IMOptionInfo> OptionChain
+		internal Dictionary<string, IMOptionInfo> OptionChain
 		{
 			get
 			{
@@ -290,18 +285,18 @@ namespace ROC
 		}
 	}
 
-	public static class ROCOrderTypes
+	internal static class ROCOrderTypes
 	{
-		public static string AutoSpread = "[AS]";
+		internal static string AutoSpread = "[AS]";
 	}
 
-	public static class GLOBAL
+	internal static class GLOBAL
 	{
-		public static bool ByPassRomLogin = Configuration.Override.Default.ByPassROM;
-		public static bool ByPassRdsLogin = Configuration.Override.Default.ByPassRDS;
-		public static bool ByPassMdsLogin = false;
+		internal static bool ByPassRomLogin { get; private set; } = Configuration.Override.Default.ByPassROM;
+		internal static bool ByPassRdsLogin { get; private set; } = Configuration.Override.Default.ByPassRDS;
+		internal static bool ByPassMdsLogin { get; private set; } = false;
 
-		public static bool ShownDM
+		internal static bool ShownDM
 		{
 			get
 			{
@@ -309,10 +304,10 @@ namespace ROC
 			}
 		}
 		
-		public static Version ROCVersion = new Version(Application.ProductVersion);
+		internal static Version ROCVersion = new Version(Application.ProductVersion);
 
 		private static string[] _timeFormats = new string[0];
-		public static string[] TimeFormats
+		internal static string[] TimeFormats
 		{
 			get
 			{
@@ -327,7 +322,7 @@ namespace ROC
 		}
 
 		private static Nullable<DateTime> _stopTime = null;
-		public static DateTime StopTime
+		internal static DateTime StopTime
 		{
 			get
 			{
@@ -352,7 +347,7 @@ namespace ROC
 		}
 
 		private static Nullable<DateTime> _stockAutoCancelTime = null;
-		public static DateTime StockAutoCancelTime
+		internal static DateTime StockAutoCancelTime
 		{
 			get
 			{
@@ -381,7 +376,7 @@ namespace ROC
 		}
 
 		private static Nullable<DateTime> _futureAutoCancelTime = null;
-		public static DateTime FutureAutoCancelTime
+		internal static DateTime FutureAutoCancelTime
 		{
 			get
 			{
@@ -410,7 +405,7 @@ namespace ROC
 		}
 
 		private static Nullable<DateTime> _optionAutoCancelTime = null;
-		public static DateTime OptionAutoCancelTime
+		internal static DateTime OptionAutoCancelTime
 		{
 			get
 			{
@@ -438,7 +433,7 @@ namespace ROC
 			}
 		}
 
-		public static bool ROCLoginCompleted
+		internal static bool ROCLoginCompleted
 		{
 			get
 			{
@@ -465,7 +460,7 @@ namespace ROC
 		}
 
 		private static bool _interrupt = false;
-		public static bool Interrupt
+		internal static bool Interrupt
 		{
 			get
 			{
@@ -487,7 +482,7 @@ namespace ROC
 		}
 
 		private static bool _shuttingDown = false;
-		public static bool ShuttingDown
+		internal static bool ShuttingDown
 		{
 			get
 			{
@@ -500,7 +495,7 @@ namespace ROC
 		}
 
 		private static bool _adminMode = false;
-		public static bool AdminMode
+		internal static bool AdminMode
 		{
 			get
 			{
@@ -513,7 +508,7 @@ namespace ROC
 		}
 
 		private static bool _useDelayedUpdate = false;
-		public static bool UseDelayedUpdate
+		internal static bool UseDelayedUpdate
 		{
 			get
 			{
@@ -522,7 +517,7 @@ namespace ROC
 		}
 
 		private static bool _reloadProcessSettings = false;
-		public static bool ReloadProcessSettings
+		internal static bool ReloadProcessSettings
 		{
 			get
 			{
@@ -534,7 +529,7 @@ namespace ROC
 			}
 		}
 
-		public static int AvgPriceResolution
+		internal static int AvgPriceResolution
 		{
 			get
 			{
@@ -545,7 +540,7 @@ namespace ROC
 
 		#region - ROM Login -
 
-		public static void InitializeROM()
+		internal static void InitializeROM()
 		{
 			if (GLOBAL.HROM.Status != HelperROM.StatusTypes.Started)
 			{
@@ -563,7 +558,7 @@ namespace ROC
 		}
 
 		private static frmMain _mainForm;
-		public static frmMain MainForm
+		internal static frmMain MainForm
 		{
 			get
 			{
@@ -581,7 +576,7 @@ namespace ROC
 		}
 
 		private static frmLogin _loginForm;
-		public static frmLogin LoginForm
+		internal static frmLogin LoginForm
 		{
 			get
 			{
@@ -609,10 +604,10 @@ namespace ROC
 
 		#endregion
 
-		public static HelperEMail HMail = new HelperEMail();
+		internal static HelperEMail HMail = new HelperEMail();
 
 		private static bool _useMDSBackup = false;
-		public static bool UseMDSBackup
+		internal static bool UseMDSBackup
 		{
 			get
 			{
@@ -626,7 +621,7 @@ namespace ROC
 
 		private static List<HelperMDS> _hMDSs;
 		private static List<HelperMDS> _hMDSBackups;
-		public static List<HelperMDS> HMDSs
+		internal static List<HelperMDS> HMDSs
 		{
 			get
 			{
@@ -728,26 +723,21 @@ namespace ROC
 			}
 		}
 
-		private static bool _mdssConnected = false;
-		public static bool MDSsConnected
+		internal static bool MDSsConnected
 		{
 			get
 			{
-				_mdssConnected = true;
 				foreach (HelperMDS mds in GLOBAL.HMDSs)
 				{
-					if (mds.Status != HelperMDS.StatusTypes.Started)
-					{
-						_mdssConnected = false;
-						break;
-					}
+					if (!mds.IsConnected)
+						return false;
 				}
 
-				return _mdssConnected;
+				return true;
 			}
 		}
 
-		public static void MDSsDisconnect()
+		internal static void MDSsDisconnect()
 		{
 			foreach (HelperMDS mds in GLOBAL.HMDSs)
 			{
@@ -755,7 +745,7 @@ namespace ROC
 			}
 		}
 
-		public static void MDSsReconnect()
+		internal static void MDSsReconnect()
 		{
 			foreach (HelperMDS mds in GLOBAL.HMDSs)
 			{
@@ -764,7 +754,7 @@ namespace ROC
 		}
 
 		private static HelperROM _hROM;
-		public static HelperROM HROM
+		internal static HelperROM HROM
 		{
 			get
 			{
@@ -781,7 +771,7 @@ namespace ROC
 		}
 
 		private static HelperRDS _hRDS;
-		public static HelperRDS HRDS
+		internal static HelperRDS HRDS
 		{
 			get
 			{
@@ -798,7 +788,7 @@ namespace ROC
 		}
 
 		private static HelperROC _hROC;
-		public static HelperROC HROC
+		internal static HelperROC HROC
 		{
 			get
 			{
@@ -815,7 +805,7 @@ namespace ROC
 		}
 
 		private static HelperProcess _hProcess;
-		public static HelperProcess HProcess
+		internal static HelperProcess HProcess
 		{
 			get
 			{
@@ -832,7 +822,7 @@ namespace ROC
 		}
 
 		private static HelperWindows _hWindows;
-		public static HelperWindows HWindows
+		internal static HelperWindows HWindows
 		{
 			get
 			{
@@ -845,7 +835,7 @@ namespace ROC
 		}
 
 		private static HelperOrdersData _hOrders;
-		public static HelperOrdersData HOrders
+		internal static HelperOrdersData HOrders
 		{
 			get
 			{
@@ -862,7 +852,7 @@ namespace ROC
 		}
 
 		private static HelperExecutionsData _hExecutions;
-		public static HelperExecutionsData HExecutions
+		internal static HelperExecutionsData HExecutions
 		{
 			get
 			{
@@ -879,7 +869,7 @@ namespace ROC
 		}
 
 		private static HelperPositionsData _hPositions;
-		public static HelperPositionsData HPositions
+		internal static HelperPositionsData HPositions
 		{
 			get
 			{
@@ -896,7 +886,7 @@ namespace ROC
 		}
 
 		private static HelperMarketData _hMarketData;
-		public static HelperMarketData HMarketData
+		internal static HelperMarketData HMarketData
 		{
 			get
 			{
@@ -913,7 +903,7 @@ namespace ROC
 		}
 
 		private static HelperSymbolSettingData _hSymbolSettingData;
-		public static HelperSymbolSettingData HSymbolSettingData
+		internal static HelperSymbolSettingData HSymbolSettingData
 		{
 			get
 			{
@@ -931,7 +921,7 @@ namespace ROC
 		}
 
 		private static HelperQuickButtonSettingData _hQuickButtonSettingData;
-		public static HelperQuickButtonSettingData HQuickButtonSettingData
+		internal static HelperQuickButtonSettingData HQuickButtonSettingData
 		{
 			get
 			{
@@ -951,7 +941,7 @@ namespace ROC
 		#region - User UI Profile -
 
 		private static UIProfile _userUIProfile;
-		public static UIProfile UserUIProfile
+		internal static UIProfile UserUIProfile
 		{
 			get
 			{
@@ -972,7 +962,7 @@ namespace ROC
 		#region - Wait Window -
 
 		private static frmWait _waitWindow;
-		public static frmWait WaitWindow
+		internal static frmWait WaitWindow
 		{
 			get
 			{
@@ -1000,30 +990,46 @@ namespace ROC
 
 		#endregion
 
-		#region - Log -
-
-		public static class HLog
+#region - Log -
+#if OLD
+		internal static class HLog
 		{
-			public static Logger ROC;
-			public static Logger USER;			// User Action Log
+			internal static void Create(string logPath, int logRetentionDays, long logFileSizeLimit)
+			{
+				ROC = new Logger(logPath, LogTypes.Log, logRetentionDays, logFileSizeLimit);
+				USER = new Logger(logPath, LogTypes.User, logRetentionDays, logFileSizeLimit);
 
-			public static Logger MDS;			// MDS TCP Log
-			public static Logger RDS;
-			public static Logger ROM;
+				MDS = new Logger(logPath, LogTypes.MDS, logRetentionDays, logFileSizeLimit);
+				RDS = new Logger(logPath, LogTypes.RDS, logRetentionDays, logFileSizeLimit);
+				ROM = new Logger(logPath, LogTypes.ROM, logRetentionDays, logFileSizeLimit);
 
-			public static Logger Orders;		// ROM Order Log
-			public static Logger Positions;		// TPOS Position Log
-			public static Logger Trades;		// TPOS Trade Log
+				Orders = new Logger(logPath, LogTypes.Orders, logRetentionDays, logFileSizeLimit);
+				Positions = new Logger(logPath, LogTypes.Positions, logRetentionDays, logFileSizeLimit);
+				Trades = new Logger(logPath, LogTypes.Trades, logRetentionDays, logFileSizeLimit);
 
-			public static Logger BMK;			// Performance Log
+				BMK = new Logger(logPath, LogTypes.Benchmark, logRetentionDays, logFileSizeLimit);
+			}
+
+			internal static Logger ROC { get; private set; }
+			internal static Logger USER { get; private set; }         // User Action Log
+
+			internal static Logger MDS { get; private set; }          // MDS TCP Log
+			internal static Logger RDS { get; private set; }
+			internal static Logger ROM { get; private set; }
+
+			internal static Logger Orders { get; private set; }       // ROM Order Log
+			internal static Logger Positions { get; private set; }        // TPOS Position Log
+			internal static Logger Trades { get; private set; }       // TPOS Trade Log
+
+			internal static Logger BMK { get; private set; }          // Performance Log
 		}
+#endif // OLD
+#endregion
 
-		#endregion
-
-		#region - Option To Exchange Maps -
+#region - Option To Exchange Maps -
 
 		private static Dictionary<string, List<string>> _optionToExchangeMaps;
-		public static Dictionary<string, List<string>> OptionToExchangeMaps
+		internal static Dictionary<string, List<string>> OptionToExchangeMaps
 		{
 			get
 			{
@@ -1039,12 +1045,12 @@ namespace ROC
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region - Sound -
+#region - Sound -
 
 		private static HelperSound _rocSounds;
-		public static HelperSound ROCSounds
+		internal static HelperSound ROCSounds
 		{
 			get
 			{
@@ -1056,35 +1062,35 @@ namespace ROC
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region - Month Codes -
+#region - Month Codes -
 
-		public static class MonthCodes
+		internal static class MonthCodes
 		{
-			public const string January = "F";
-			public const string February = "G";
-			public const string March = "H";
-			public const string April = "J";
-			public const string May = "K";
-			public const string June = "M";
-			public const string July = "N";
-			public const string August = "Q";
-			public const string September = "U";
-			public const string October = "V";
-			public const string November = "X";
-			public const string December = "Z";
+			internal const string January = "F";
+			internal const string February = "G";
+			internal const string March = "H";
+			internal const string April = "J";
+			internal const string May = "K";
+			internal const string June = "M";
+			internal const string July = "N";
+			internal const string August = "Q";
+			internal const string September = "U";
+			internal const string October = "V";
+			internal const string November = "X";
+			internal const string December = "Z";
 		}
 
-		#endregion
+#endregion
 
-		#region - Micro Bench -
+#region - Micro Bench -
 
-		public static class BENCHAMRK
+		internal static class BENCHAMRK
 		{
-			public static Benchmark Mark;
+			internal static Benchmark Mark;
 		}
 
-		#endregion
+#endregion
 	}
 }

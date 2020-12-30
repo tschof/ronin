@@ -1,168 +1,99 @@
-using System;
 using System.Collections.Generic;
 using DateTimeEx;
 using DataGridViewEx;
+using Log = Common.Log;
 
 namespace ROC
 {
 	public abstract class HelperStatusBase
 	{
-		#region - Property -
-
-		private object _syncObj = new object();
-		public object SyncObj
-		{
-			get
-			{
-				return _syncObj;
-			}
-		}
-
 		private DateTimeHP _dtHP = new DateTimeHP();
 
-		private string _statusDsp = "";
-		public string StatusDsp
-		{
-			get
-			{
-				return _statusDsp;
-			}
-			set
-			{
-				_statusDsp = value;
-			}
-		}
-
+		internal string StatusDsp = "";
 		private List<string> _statusLogs = new List<string>();
-		public List<string> StatusLogs
-		{
-			get
-			{
-				return _statusLogs;
-			}
-			set
-			{
-				_statusLogs = value;
-			}
-		}
+		private List<string> _perfLogs = new List<string>();
 
-		private List<string> _performanceLogs;
-		public List<string> PerformaceLogs
+		public List<AlertListData> AlertList { get; private set; } = new List<AlertListData>();
+
+		public void AddToStatusLogs(params object[] texts)
 		{
-			get
-			{
-				if (_performanceLogs == null)
-				{
-					_performanceLogs = new List<string>();
+			if ((texts != null) && (texts.GetLength(0) > 0)) {
+				string message = _dtHP.Now.ToString("HH:mm:ss.fffffff") + " " + string.Join(" ", texts);
+				lock (this) {
+					_statusLogs.Add(message);
 				}
-				return _performanceLogs;
-			}
-			set
-			{
-				_performanceLogs = value;
-			}
-		}
-		
-		private List<AlertListData> _alertList = new List<AlertListData>();
-		public List<AlertListData> AlertList
-		{
-			get
-			{
-				return _alertList;
-			}
-			set
-			{
-				_alertList = value;
-			}
-		}
-
-		#endregion
-
-		#region - Status Log -
-
-		public void AddToStatusLogs(string statusMsg)
-		{
-			lock (SyncObj)
-			{
-				StatusLogs.Add(String.Concat(new object[] { _dtHP.Now.ToString("HH:mm:ss.fffffff"), " ", statusMsg }));
 			}
 		}
 
 		public void LogStatusMessages()
 		{
-			string[] msgs = new string[0];
-			lock (SyncObj)
+			List<string> copy = null;
+
+			lock (this)
 			{
-				if (StatusLogs.Count > 0)
+				if (_statusLogs.Count > 0)
 				{
-					msgs = StatusLogs.ToArray();
-					StatusLogs.Clear();
+					copy = _statusLogs;
+					_statusLogs = new List<string>();
 				}
 			}
 
-			foreach (string msg in msgs)
-			{
-				GLOBAL.HLog.ROC.Out(msg, false);
+			if ((copy != null) && (copy.Count > 0)) {
+				foreach (string msg in copy)
+					Log.Info(Log.Target.ROC, msg);
 			}
 		}
 
-		#endregion
-
-		#region - Performance Log -
-
-		public void AddToPerformanceLog(string msg)
+		public void AddToPerformanceLog(string text)
 		{
-			lock (SyncObj)
-			{
-				PerformaceLogs.Add(String.Concat(new object[] { _dtHP.Now.ToString("HH:mm:ss.fffffff"), " ", msg }));
+			if (!string.IsNullOrEmpty(text)) {
+				lock (this) {
+					_perfLogs.Add(_dtHP.Now.ToString("HH:mm:ss.fffffff") + " " + text);
+				}
 			}
 		}
 
 		public void LogPerformanceMessages()
 		{
-			string[] msgs = new string[0];
-			lock (SyncObj)
+			List<string> copy = null;
+
+			lock (this)
 			{
-				if (PerformaceLogs.Count > 0)
+				if (_perfLogs.Count > 0)
 				{
-					msgs = PerformaceLogs.ToArray();
-					PerformaceLogs.Clear();
+					copy = _perfLogs;
+					_perfLogs = new List<string>();
 				}
 			}
 
-			foreach (string msg in msgs)
-			{
-				GLOBAL.HLog.BMK.Out(msg, false);
+			if ((copy != null) && (copy.Count > 0)) {
+				foreach (string msg in copy)
+					Log.Info(msg);
 			}
 		}
 
-		#endregion
-
-		#region - Alerts -
-
-		public void AddToAlerts(string alertMsg)
+		public void AddToAlerts(string text)
 		{
-			lock (SyncObj)
-			{
-				AlertList.Add(new AlertListData(_dtHP.Now, alertMsg));
+			if (!string.IsNullOrEmpty(text)) {
+				lock (this) {
+					AlertList.Add(new AlertListData(_dtHP.Now, text));
+				}
 			}
 		}
 
 		public void ShowAlerts()
 		{
-			if (AlertList.Count > 0)
-			{
-				AlertListData[] alerts = new AlertListData[0];
-				lock (SyncObj)
-				{
-					alerts = AlertList.ToArray();
-					AlertList.Clear();
+			List<AlertListData> copy = null;
+
+			lock (this) {
+				if (AlertList.Count > 0) {
+					copy = AlertList;
+					AlertList = new List<AlertListData>();
 				}
-
-				GLOBAL.HWindows.OpenWindow(new frmAlert()).UpdateAlert(alerts);
 			}
-		}
 
-		#endregion
+			if ((copy != null) && (copy.Count > 0))
+				GLOBAL.HWindows.OpenWindow(new frmAlert()).UpdateAlert(copy);
+		}
 	}
 }

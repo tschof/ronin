@@ -1,0 +1,9 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\ContextMenuEx\bin\Debug\ContextMenuEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ContextMenuEx\bin\Debug\ContextMenuEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ContextMenuEx\bin\Debug\ShapeEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ContextMenuEx\bin\Debug\ShapeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ContextMenuEx\obj\Debug\ContextMenuEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ContextMenuEx\obj\Debug\ContextMenuEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ContextMenuEx\obj\Debug\ContextMenuEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\ContextMenuEx\obj\Debug\ContextMenuEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ContextMenuEx\obj\Debug\ContextMenuEx.pdb

@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Data;
 
 namespace ROC
 {
-	public class DropDownShortLenders
+	internal class DropDownShortLenders
 	{
 		#region - Local Variable -
 
@@ -61,25 +58,25 @@ namespace ROC
 
 		#region - Constructor -
 
-		public DropDownShortLenders(frmStockTicket stockTicket)
+		internal DropDownShortLenders(frmStockTicket stockTicket)
 		{
 			_stockTicket = stockTicket;
 			_ticketType = TicketTypes.Stock;
 		}
 
-		public DropDownShortLenders(frmFutureTicket futureTicket)
+		internal DropDownShortLenders(frmFutureTicket futureTicket)
 		{
 			_futureTicket = futureTicket;
 			_ticketType = TicketTypes.Future;
 		}
 
-		public DropDownShortLenders(frmQuickTicket quickTicket)
+		internal DropDownShortLenders(frmQuickTicket quickTicket)
 		{
 			_quickTicket = quickTicket;
 			_ticketType = TicketTypes.Quick;
 		}
 
-		public DropDownShortLenders(frmOptionTicket optionTicket)
+		internal DropDownShortLenders(frmOptionTicket optionTicket)
 		{
 			_optionTicket = optionTicket;
 			_ticketType = TicketTypes.Option;
@@ -92,7 +89,7 @@ namespace ROC
 		// This would reset the combox after every Enter and Delete key stroke
 		private bool _newShortLender = true;
 
-		public string CurrentShortLender
+		internal string CurrentShortLender
 		{
 			get
 			{
@@ -104,7 +101,7 @@ namespace ROC
 			}
 		}
 
-		public void ShortLendersKeyUp(KeyEventArgs e)
+		internal void ShortLendersKeyUp(KeyEventArgs e)
 		{
 			switch (e.KeyCode)
 			{
@@ -121,7 +118,7 @@ namespace ROC
 			}
 		}
 
-		public void AddShortLender(string shortLender)
+		internal void AddShortLender(string shortLender)
 		{
 			if (shortLenders.DefaultView.FindRows(shortLender).Length == 0)
 			{
@@ -135,7 +132,7 @@ namespace ROC
 			CurrentShortLender = shortLender;
 		}
 
-		public void ShortLendersKeyDown(KeyEventArgs e)
+		internal void ShortLendersKeyDown(KeyEventArgs e)
 		{
 			switch (e.KeyCode)
 			{
@@ -152,7 +149,7 @@ namespace ROC
 			}
 		}
 
-		public void DeleteShortLender(string shortLender)
+		internal void DeleteShortLender(string shortLender)
 		{
 			DataRowView[] rows = shortLenders.DefaultView.FindRows(shortLender);
 

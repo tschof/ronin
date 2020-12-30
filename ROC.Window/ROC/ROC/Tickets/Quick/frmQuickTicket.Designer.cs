@@ -1912,12 +1912,12 @@ namespace ROC
 			// 
 			// rocQuickListBook
 			// 
-			this.rocQuickListBook.askBookPrices = ((System.Collections.Generic.List<double>)(resources.GetObject("rocQuickListBook.askBookPrices")));
+			this.rocQuickListBook.askBookPrices = ((System.Collections.Generic.List<Common.Price>)(resources.GetObject("rocQuickListBook.askBookPrices")));
 			this.rocQuickListBook.AskColor = System.Drawing.Color.Red;
 			this.rocQuickListBook.AskPrice = 0;
 			this.rocQuickListBook.AutoCenterOnTraded = false;
 			this.rocQuickListBook.AutoCenterRange = ((long)(3));
-			this.rocQuickListBook.bidBookPrices = ((System.Collections.Generic.List<double>)(resources.GetObject("rocQuickListBook.bidBookPrices")));
+			this.rocQuickListBook.bidBookPrices = ((System.Collections.Generic.List<Common.Price>)(resources.GetObject("rocQuickListBook.bidBookPrices")));
 			this.rocQuickListBook.BidColor = System.Drawing.Color.LimeGreen;
 			this.rocQuickListBook.BidPrice = 0;
 			this.rocQuickListBook.BlueDefault = 228;

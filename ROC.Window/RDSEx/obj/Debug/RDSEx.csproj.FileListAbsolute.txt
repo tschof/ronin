@@ -1,0 +1,16 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\RDSEx.dll.config
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\RDSEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\RDSEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\CSVEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\DictionaryEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\SerializationEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\System.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\CSVEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\DictionaryEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\SerializationEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\System.xml
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\obj\Debug\RDSEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\obj\Debug\RDSEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\obj\Debug\RDSEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\obj\Debug\RDSEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\obj\Debug\RDSEx.pdb

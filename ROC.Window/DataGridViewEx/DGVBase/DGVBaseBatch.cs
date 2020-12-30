@@ -511,8 +511,8 @@ namespace DataGridViewEx
 							{
 								switch (this["SecType", e.RowIndex].Value.ToString())
 								{
-									case CSVEx.CSVFieldIDs.SecutrityTypes.Option:
-									case CSVEx.CSVFieldIDs.SecutrityTypes.OptionFuture:
+									case CSVEx.CSVFieldIDs.SecurityTypes.Option:
+									case CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture:
 										ShowOptionSideMenu = true;
 										return;
 								}

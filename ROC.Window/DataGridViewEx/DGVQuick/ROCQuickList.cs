@@ -5,8 +5,8 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-
-using BindingListEx;
+using MarketData;
+using Price = Common.Price;
 
 namespace DataGridViewEx
 {
@@ -1348,131 +1348,32 @@ namespace DataGridViewEx
 
 		#region - Quick Grid Functions -
 
-		private bool _autoCenterOnTraded = false;
 		[Browsable(false)]
-		public bool AutoCenterOnTraded
-		{
-			get
-			{
-				return _autoCenterOnTraded;
-			}
-			set
-			{
-				_autoCenterOnTraded = value;
-			}
-		}
+		public bool AutoCenterOnTraded = false;
 
-		private long _autoCenterRange = 3;
 		[Browsable(false)]
-		public long AutoCenterRange
-		{
-			get
-			{
-				return _autoCenterRange;
-			}
-			set
-			{
-				_autoCenterRange = value;
-			}
-		}
+		public long AutoCenterRange = 3;
 
-		private double _tradePrice = 0;
 		[Browsable(false)]
-		public double TradePrice
-		{
-			get
-			{
-				return _tradePrice;
-			}
-			set
-			{
-				_tradePrice = value;
-			}
-		}
+		public double TradePrice = 0;
 
-		private string _tradeTick = "";
 		[Browsable(false)]
-		public string TradeTick
-		{
-			get
-			{
-				return _tradeTick;
-			}
-			set
-			{
-				_tradeTick = value;
-			}
-		}
+		public string TradeTick = "";
 
-		private double _highPrice = 0;
 		[Browsable(false)]
-		public double HighPrice
-		{
-			get
-			{
-				return _highPrice;
-			}
-			set
-			{
-				_highPrice = value;
-			}
-		}
+		public double HighPrice = 0;
 
-		private double _lowPrice = 0;
 		[Browsable(false)]
-		public double LowPrice
-		{
-			get
-			{
-				return _lowPrice;
-			}
-			set
-			{
-				_lowPrice = value;
-			}
-		}
+		public double LowPrice = 0;
 
-		private double _askPrice = 0;
 		[Browsable(false)]
-		public double AskPrice
-		{
-			get
-			{
-				return _askPrice;
-			}
-			set
-			{
-				_askPrice = value;
-			}
-		}
+		public double AskPrice = 0;
 
-		private double _bidPrice = 0;
 		[Browsable(false)]
-		public double BidPrice
-		{
-			get
-			{
-				return _bidPrice;
-			}
-			set
-			{
-				_bidPrice = value;
-			}
-		}
+		public double BidPrice = 0;
 
-		private double _tickSize = 0;
 		[Browsable(false)]
-		public double TickSize
-		{
-			get
-			{
-				return _tickSize;
-			}
-			set
-			{
-				_tickSize = value;
-			}
-		}
+		public double TickSize = 0;
 
 		private long _qty = 0;
 		[Browsable(false)]
@@ -1528,14 +1429,14 @@ namespace DataGridViewEx
 			}
 		}
 
-		private List<double> _bidBookPrices;
-		public List<double> bidBookPrices
+		private List<Price> _bidBookPrices;
+		public List<Price> bidBookPrices
 		{
 			get
 			{
 				if (_bidBookPrices == null)
 				{
-					_bidBookPrices = new List<double>();
+					_bidBookPrices = new List<Price>();
 				}
 				return _bidBookPrices;
 			}
@@ -1545,14 +1446,14 @@ namespace DataGridViewEx
 			}
 		}
 
-		private List<double> _askBookPrices;
-		public List<double> askBookPrices
+		private List<Price> _askBookPrices;
+		public List<Price> askBookPrices
 		{
 			get
 			{
 				if (_askBookPrices == null)
 				{
-					_askBookPrices = new List<double>();
+					_askBookPrices = new List<Price>();
 				}
 				return _askBookPrices;
 			}
@@ -1562,12 +1463,12 @@ namespace DataGridViewEx
 			}
 		}
 
-		public void SetupTickTable(double price, int bookDepthLimit)
+		public void SetupTickTable(Price price, int bookDepthLimit)
 		{
-			price = Math.Round(price, 7);
+			price = price.Round(7);
 
-			bidBookPrices = new List<double>();
-			askBookPrices = new List<double>();
+			bidBookPrices = new List<Price>();
+			askBookPrices = new List<Price>();
 
 			_bookDepthLimit = bookDepthLimit;
 
@@ -1588,11 +1489,9 @@ namespace DataGridViewEx
 			}
 		}
 
-		private void FirstPad(double price)
+		private void FirstPad(Price price)
 		{
-			price = Math.Round(price, 7);
-
-			double newPrice = price + TickSize * 500;
+			Price newPrice = price.Round(7) + TickSize * 500;
 
 			//SetFirstRowFilter(price);
 			
@@ -1607,8 +1506,7 @@ namespace DataGridViewEx
 				row["AskQty"] = Qty;
 
 				RocGridTable.Rows.Add(row);
-
-				newPrice = Math.Round(newPrice - TickSize * 1, 7);
+				newPrice -= TickSize;
 			}
 
 			// TODO Fix the visiblity problem when the first column is not visiable
@@ -1633,9 +1531,9 @@ namespace DataGridViewEx
 			}
 		}
 
-		public void Pad(double price, bool high)
+		public void Pad(Price price, bool high)
 		{
-			price = Math.Round(price, 7);
+			price = price.Round(7);
 
 			if (RocGridTable.Rows.Count > 0)
 			{
@@ -1657,9 +1555,9 @@ namespace DataGridViewEx
 						}
 					}
 
-					double newPrice = 0;
-					if ((high && limitPrice < price + (TickSize * 50)) ||
-						(!high && limitPrice > price - (TickSize * 50)))
+					Price newPrice = 0;
+					if ((high && limitPrice < (price + (TickSize * 50))) ||
+						(!high && limitPrice > (price - (TickSize * 50))))
 					{
 						if (limitPrice != 0 && (limitPrice % TickSize) == 0)
 						{
@@ -1670,7 +1568,7 @@ namespace DataGridViewEx
 							newPrice = price;
 						}
 
-						double newLimitPrice = 0;
+						Price newLimitPrice = 0;
 						if (high)
 						{
 							newLimitPrice = price + TickSize * 100;
@@ -1708,11 +1606,11 @@ namespace DataGridViewEx
 
 								if (high)
 								{
-									newPrice = Math.Round(newPrice + TickSize * 1, 7);
+									newPrice += TickSize;
 								}
 								else
 								{
-									newPrice = Math.Round(newPrice - TickSize * 1, 7);
+									newPrice -= TickSize;
 								}
 							}
 						}
@@ -1721,10 +1619,10 @@ namespace DataGridViewEx
 			}
 		}
 
-		public void FlagTradePrice(double oldPrice, double newPrice, string tick)
+		public void FlagTradePrice(Price oldPrice, Price newPrice, string tick)
 		{
-			oldPrice = Math.Round(oldPrice, 7);
-			newPrice = Math.Round(newPrice, 7);
+			oldPrice = oldPrice.Round(7);
+			newPrice = newPrice.Round(7);
 
 			if (tick == null) tick = "";
 
@@ -1750,7 +1648,7 @@ namespace DataGridViewEx
 					}
 				}
 
-				_tradePrice = newPrice;
+				TradePrice = newPrice.Value;
 			}
 		}
 
@@ -1770,7 +1668,7 @@ namespace DataGridViewEx
 					row["PriceHighFlag"] = PriceFlages.high;
 				}
 
-				_highPrice = newPrice;
+				HighPrice = newPrice;
 			}
 		}
 
@@ -1790,14 +1688,14 @@ namespace DataGridViewEx
 					row["PriceLowFlag"] = PriceFlages.low;
 				}
 
-				_lowPrice = newPrice;
+				LowPrice = newPrice;
 			}
 		}
 
-		public void FlagBidPrice(double oldPrice, double newPrice)
+		public void FlagBidPrice(Price oldPrice, Price newPrice)
 		{
-			oldPrice = Math.Round(oldPrice, 7);
-			newPrice = Math.Round(newPrice, 7);
+			oldPrice = oldPrice.Round(7);
+			newPrice = newPrice.Round(7);
 
 			FlagReset(oldPrice, "PriceBidFlag");
 
@@ -1810,14 +1708,14 @@ namespace DataGridViewEx
 					row["PriceBidFlag"] = PriceFlages.bid;
 				}
 
-				_bidPrice = newPrice;
+				BidPrice = newPrice.Value;
 			}
 		}
 
-		public void FlagAskPrice(double oldPrice, double newPrice)
+		public void FlagAskPrice(Price oldPrice, Price newPrice)
 		{
-			oldPrice = Math.Round(oldPrice, 7);
-			newPrice = Math.Round(newPrice, 7);
+			oldPrice = oldPrice.Round(7);
+			newPrice = newPrice.Round(7);
 
 			FlagReset(oldPrice, "PriceAskFlag");
 
@@ -1830,7 +1728,7 @@ namespace DataGridViewEx
 					row["PriceAskFlag"] = PriceFlages.ask;
 				}
 
-				_askPrice = newPrice;
+				AskPrice = newPrice.Value;
 			}
 		}
 
@@ -1858,11 +1756,11 @@ namespace DataGridViewEx
 			Invalidate();
 		}
 
-		private void FlagReset(double price, string colName)
+		private void FlagReset(Price price, string colName)
 		{
 			//price = Math.Round(price, 7);
 
-			DataRowView[] rows = PriceSearchView.FindRows(price);
+			DataRowView[] rows = PriceSearchView.FindRows(price.Value);
 
 			if (rows.Length > 0)
 			{
@@ -1873,13 +1771,14 @@ namespace DataGridViewEx
 			}
 		}
 
-		public void CenterOnPrice(double price)
+		public void CenterOnPrice(Price price)
 		{
 			CenterOnPrice(price, false);
 		}
-		public void CenterOnPrice(double price, bool isAuto)
+
+		public void CenterOnPrice(Price price, bool isAuto)
 		{
-			price = Math.Round(price, 7);
+			price = price.Round(7);
 			
 			if (Rows.Count > 0)
 			{
@@ -1942,16 +1841,16 @@ namespace DataGridViewEx
 			}
 		}
 
-		private int FindPriceRow(double price)
+		private int FindPriceRow(Price price)
 		{
-			price = Math.Round(price, 7);
+			price = price.Round(7);
 
 			if (Rows.Count > 0)
 			{
 				if (PriceSearchView.FindRows(price).Length > 0)
 				{
-					double startPrice = (double)Rows[0].Cells["Price"].Value;
-					return Convert.ToInt32((startPrice - price) / TickSize);
+					Price startPrice = (double)Rows[0].Cells["Price"].Value;
+					return Convert.ToInt32((startPrice - price).Value / TickSize);
 				}
 				
 				//foreach (DataGridViewRow row in Rows)
@@ -1968,121 +1867,79 @@ namespace DataGridViewEx
 			return -1;
 		}
 
-		public void CheckBook(double limitPrice, string side)
+		public void CheckBook(Price limitPrice, string side)
 		{
-			limitPrice = Math.Round(limitPrice, 7);
+			limitPrice = limitPrice.Round(7);
 			int bookcount = 0;
+			List<Price> prices;
+			System.Converter<Price, bool> validate;
 
 			switch (side)
 			{
 				case "Bid":
-					bidBookPrices.Sort();
-					bidBookPrices.Reverse();
-
-					List<double> localBid = new List<double>(bidBookPrices.ToArray());
-
-					foreach (double price in localBid)
-					{
-						if (price > limitPrice || limitPrice == 0)
-						{
-							ResetBookSize(price, side);
-						}
-						else
-						{
-							if (bookcount >= _bookDepthLimit)
-							{
-								ResetBookSize(price, side);
-							}
-							bookcount++;
-						}
-					}
+					Price.Sort(bidBookPrices, Price.SortOrder.Bid);
+					prices = new List<Price>(bidBookPrices);
+					validate = n => n > limitPrice;
 					break;
 				case "Ask":
-					askBookPrices.Sort();
-
-					List<double> localAsk = new List<double>(askBookPrices.ToArray());
-
-					foreach (double price in localAsk)
-					{
-						if (price < limitPrice || limitPrice == 0)
-						{
-							ResetBookSize(price, side);
-						}
-						else
-						{
-							if (bookcount >= _bookDepthLimit)
-							{
-								ResetBookSize(price, side);
-							}
-							bookcount++;
-						}
-					}
+					Price.Sort(askBookPrices, Price.SortOrder.Ask);
+					prices = new List<Price>(askBookPrices);
+					validate = n => n < limitPrice;
 					break;
+				default:
+					return;
+			}
+
+			foreach (Price price in prices) {
+				if (validate(price) || limitPrice.IsZero) {
+					ResetBookSize(price, side);
+				} else {
+					if (bookcount >= _bookDepthLimit) {
+						ResetBookSize(price, side);
+					}
+					bookcount++;
+				}
 			}
 		}
 
-		public void UpdateBook(Dictionary<double, long> book, string side)
+		public void UpdateBook(QuoteCollection quotes, string side)
 		{
-			double[] prices = new double[0];
+			List<Price> prices = null;
+			Price.SortOrder sortOrder = Price.SortOrder.Ask;
 
 			switch (side)
 			{
 				case "Bid":
-					if (bidBookPrices.Count > 0)
-					{
-						bidBookPrices.Sort();
-						bidBookPrices.Reverse();
-
-						prices = bidBookPrices.ToArray();
-						foreach (double price in prices)
-						{
-							if (!book.ContainsKey(price))
-							{
-								// Reset Size
-								ResetBookSize(price, side);
-							}
-						}
-					}
-
-					foreach (double price in book.Keys)
-					{
-						SetBookSize(price, book[price], side);
-					}
+					prices = bidBookPrices;
+					sortOrder = Price.SortOrder.Bid;
 					break;
 				case "Ask":
-					if (askBookPrices.Count > 0)
-					{
-						askBookPrices.Sort();
-
-						prices = askBookPrices.ToArray();
-						foreach (double price in prices)
-						{
-							if (!book.ContainsKey(price))
-							{
-								// Reset Size
-								ResetBookSize(price, side);
-							}
-						}
-					}
-
-					foreach (double price in book.Keys)
-					{
-						SetBookSize(price, book[price], side);
-					}
+					prices = askBookPrices;
+					sortOrder = Price.SortOrder.Ask;
 					break;
 			}
+
+			if ((prices != null) && (prices.Count > 0)) {
+				Price.Sort(prices, sortOrder);
+				foreach (Price price in prices) {
+					if (!quotes.HasLevel(price))
+						ResetBookSize(price, side);
+				}
+			}
+
+			foreach (Quote quote in quotes)
+				SetBookSize(quote.QuotePrice, quote.Size, side);
 		}
 
-		public virtual void SetBookSize(double price, long size, string side)
+		public virtual void SetBookSize(Price price, long size, string side)
 		{
-			price = Math.Round(price, 7);
-			DataRowView[] rows = new DataRowView[0];
+			DataRowView[] rows;
 
 			lock (RocGridTable)
 			{
 				if (RocGridTable.Rows.Count > 0)
 				{
-					rows = PriceSearchView.FindRows(price);
+					rows = PriceSearchView.FindRows(price.Round(7).Value);
 
 					if (rows.Length > 0)
 					{
@@ -2105,24 +1962,20 @@ namespace DataGridViewEx
 				switch (side)
 				{
 					case "Bid":
-						if (!bidBookPrices.Contains(price))
-						{
-							bidBookPrices.Add(price);
-						}
+						if (!bidBookPrices.Exists(n => price.Equals(n)))
+							bidBookPrices.Add(price.Value);
 						break;
 					case "Ask":
-						if (!askBookPrices.Contains(price))
-						{
-							askBookPrices.Add(price);
-						}
+						if (!askBookPrices.Exists(n => price.Equals(n)))
+							askBookPrices.Add(price.Value);
 						break;
 				}
 			}
 		}
 
-		public void ResetBookSize(double price, string side)
+		public void ResetBookSize(Price price, string side)
 		{
-			price = Math.Round(price, 7);
+			price = price.Round(7);
 			DataRowView[] rows = new DataRowView[0];
 			long size = 0;
 
@@ -2152,15 +2005,11 @@ namespace DataGridViewEx
 				{
 					case "Bid":
 						if (bidBookPrices.Contains(price))
-						{
 							bidBookPrices.Remove(price);
-						}
 						break;
 					case "Ask":
 						if (askBookPrices.Contains(price))
-						{
 							askBookPrices.Remove(price);
-						}
 						break;
 				}
 			}

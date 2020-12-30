@@ -2,16 +2,46 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Runtime.Serialization;
 
-using DictionaryEx;
 using System.Diagnostics;
 
 namespace DataGridViewEx
 {
 	[Serializable]
-	public class DGVBaseProfile : MutiTypedUIDictionary, IDisposable
+	public class DGVBaseProfile : IDisposable
 	{
+		private DictionaryEx.MultiTypedUIDictionary _data = new DictionaryEx.MultiTypedUIDictionary();
+
+		protected void Update(int key, Color value)
+		{
+			_data.Set(key, value);
+		}
+
+		protected void Update(int key, Font value)
+		{
+			_data.Set(key, value);
+		}
+
+		protected void Update<T>(int key, T value)
+		{
+			_data.Set(key, value);
+		}
+
+		protected bool TryGet(int key, out long value)
+		{
+			return _data.TryGet(key, out value);
+		}
+
+		protected bool TryGet(int key, out string value)
+		{
+			return _data.TryGet(key, out value);
+		}
+
+		protected bool TryGet(int key, out bool value)
+		{
+			return _data.TryGet(key, out value);
+		}
+
 		private List<string> _symbolDetailList;
 		public List<string> SymbolDetailList
 		{
@@ -113,154 +143,50 @@ namespace DataGridViewEx
 
 		public Color GridForeColor
 		{
-			get
-			{
-				if (Colors.ContainsKey(DGVProfileFieldID.Grid.ForeColor))
-				{
-					return Colors[DGVProfileFieldID.Grid.ForeColor];
-				}
-				else
-				{
-					return Color.White;
-				}
-			}
-			set
-			{
-				Update(DGVProfileFieldID.Grid.ForeColor, value);
-			}
+			get => _data.TryGet(DGVProfileFieldID.Grid.ForeColor, out Color value) ? value : Color.White;
+			set => _data.Set(DGVProfileFieldID.Grid.ForeColor, value);
 		}
 
 		public Color GridSelectedBackColor
 		{
-			get
-			{
-				if (Colors.ContainsKey(DGVProfileFieldID.Grid.SelectedBackColor))
-				{
-					return Colors[DGVProfileFieldID.Grid.SelectedBackColor];
-				}
-				else
-				{
-					return Color.Blue;
-				}
-			}
-			set
-			{
-				Update(DGVProfileFieldID.Grid.SelectedBackColor, value);
-			}
+			get => _data.TryGet(DGVProfileFieldID.Grid.SelectedBackColor, out Color value) ? value : Color.Blue;
+			set => _data.Set(DGVProfileFieldID.Grid.SelectedBackColor, value);
 		}
 
 		public Color GridBackColor
 		{
-			get
-			{
-				if (Colors.ContainsKey(DGVProfileFieldID.Grid.BackColor))
-				{
-					return Colors[DGVProfileFieldID.Grid.BackColor];
-				}
-				else
-				{
-					return Color.Black;
-				}
-			}
-			set
-			{
-				Update(DGVProfileFieldID.Grid.BackColor, value);
-			}
+			get => _data.TryGet(DGVProfileFieldID.Grid.BackColor, out Color value) ? value : Color.White;
+			set => _data.Set(DGVProfileFieldID.Grid.BackColor, value);
 		}
 
 		public Color GridColor
 		{
-			get
-			{
-				if (Colors.ContainsKey(DGVProfileFieldID.Grid.LineColor))
-				{
-					return Colors[DGVProfileFieldID.Grid.LineColor];
-				}
-				else
-				{
-					return Color.Black;
-				}
-			}
-			set
-			{
-				Update(DGVProfileFieldID.Grid.LineColor, value);
-			}
+			get => _data.TryGet(DGVProfileFieldID.Grid.LineColor, out Color value) ? value : Color.Black;
+			set => _data.Set(DGVProfileFieldID.Grid.LineColor, value);
 		}
 
 		public Font GridFont
 		{
-			get
-			{
-				if (Fonts.ContainsKey(DGVProfileFieldID.Grid.Font))
-				{
-					return Fonts[DGVProfileFieldID.Grid.Font];
-				}
-				else
-				{
-					return new Font("Microsoft Sans Serif", 9.00F, System.Drawing.FontStyle.Regular);
-				}
-			}
-			set
-			{
-				Update(DGVProfileFieldID.Grid.Font, value);
-			}
+			get => _data.TryGet(DGVProfileFieldID.Grid.Font, out Font value) ? value : new Font("Microsoft Sans Serif", 9.00F, FontStyle.Regular);
+			set => _data.Set(DGVProfileFieldID.Grid.Font, value);
 		}
 
 		public bool GridAutoCenterOnTraded
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Grid.AutoCenterOnTraded))
-				{
-					return Bools[DGVProfileFieldID.Grid.AutoCenterOnTraded];
-				}
-				else
-				{
-					return false;
-				}
-			}
-			set
-			{
-				Update(DGVProfileFieldID.Grid.AutoCenterOnTraded, value);
-			}
+			get => _data.TryGet(DGVProfileFieldID.Grid.AutoCenterOnTraded, out bool value) ? value : false;
+			set => _data.Set(DGVProfileFieldID.Grid.AutoCenterOnTraded, value);
 		}
 
 		public long GridAutoCenterRange
 		{
-			get
-			{
-				if (Longs.ContainsKey(DGVProfileFieldID.Grid.AutoCenterRange))
-				{
-					return Longs[DGVProfileFieldID.Grid.AutoCenterRange];
-				}
-				else
-				{
-					return 3;
-				}
-			}
-			set
-			{
-				Update(DGVProfileFieldID.Grid.AutoCenterRange, value);
-			}
+			get => _data.TryGet(DGVProfileFieldID.Grid.AutoCenterRange, out long value) ? value : 3;
+			set => _data.Set(DGVProfileFieldID.Grid.AutoCenterRange, value);
 		}
 
 		public Color SelectedStopLimitBackColor
 		{
-			get
-			{
-				if (Colors.ContainsKey(DGVProfileFieldID.Grid.SelectedStopLimitBackColor))
-				{
-					return Colors[DGVProfileFieldID.Grid.SelectedStopLimitBackColor];
-				}
-				else
-				{
-					return Color.FromArgb(34, 34, 34);
-				}
-			}
-			set
-			{
-				Update(DGVProfileFieldID.Grid.SelectedStopLimitBackColor, value);
-			}
+			get => _data.TryGet(DGVProfileFieldID.Grid.SelectedStopLimitBackColor, out Color value) ? value : Color.FromArgb(34, 34, 34);
+			set => _data.Set(DGVProfileFieldID.Grid.SelectedStopLimitBackColor, value);
 		}
 
 		#endregion

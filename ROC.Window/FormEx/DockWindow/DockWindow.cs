@@ -124,10 +124,7 @@ namespace FormEx
 		/// <param name="frmExternal">External window that will was used as reference</param>
 		public static void UnregisterExternalReferenceForm(Form frmExternal)
 		{
-			if (GlobalStickyWindows.ContainsKey(frmExternal.Handle))
-			{
-				GlobalStickyWindows.Remove(frmExternal.Handle);
-			}
+			GlobalStickyWindows.Remove(frmExternal.Handle);
 		}
 
 		#endregion

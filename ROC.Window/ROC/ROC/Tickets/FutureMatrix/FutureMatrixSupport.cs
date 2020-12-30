@@ -11,7 +11,7 @@ namespace ROC
 			get
 			{
 				if (CurrentSecInfo != null &&
-					CurrentSecInfo.SecType == CSVEx.CSVFieldIDs.SecutrityTypes.Future)
+					CurrentSecInfo.SecType == CSVEx.CSVFieldIDs.SecurityTypes.Future)
 				{
 					return true;
 				}

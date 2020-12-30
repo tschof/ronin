@@ -1,13 +1,13 @@
-using System;
+#if OLD
 using System.Collections.Generic;
-using System.Text;
-using MarketDataEx;
+using Book = MarketData.Ronin.Book;
 
 namespace ROC
 {
 	public interface BookISupport
 	{
-		MDServerToClient UpdateMarketData(Dictionary<string, MDServerToClient> deltas);
-		MDServerToClient UpdateMarketData(Dictionary<string, MDServerToClient> deltas, Nullable<double> askPrice, Nullable<double> bidPrice, Nullable<double> highPrice, Nullable<double> lowPrice);
+		Book UpdateMarketData(Market deltas);
+		Book UpdateMarketData(Market deltas, double? askPrice, double? bidPrice, double? highPrice, double? lowPrice);
 	}
 }
+#endif // OLD

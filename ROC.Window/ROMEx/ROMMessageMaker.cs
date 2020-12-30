@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using CSVEx;
-using System.Data;
 
 namespace ROMEx
 {
@@ -191,9 +188,8 @@ namespace ROMEx
 		//private string _baseLoginMsg = "L,{0},{1},0,,,,{2}\n";
 		public string GetLogin(string username, string password, bool cancelOnDisconnect, bool skipGTCandGTD)
 		{
-			CSV csv = new CSV();
+			CSV csv = new CSV(8);
 
-			csv.Fields = new string[8];
 			csv.SetAt(CSVFieldIDs.CMD.L.Command, CSVFieldIDs.CommandTypes.Login);
 			csv.SetAt(CSVFieldIDs.CMD.L.LoginName, username);
 			if (cancelOnDisconnect)
@@ -220,9 +216,8 @@ namespace ROMEx
 
 		public string GetOrder(RomBasicOrder order, ref CSV csv)
 		{
-			csv = new CSV();
+			csv = new CSV(78);
 
-			csv.Fields = new string[78];
 			csv.SetAt(CSVFieldIDs.CMD.E.Command, CSVFieldIDs.CommandTypes.EnterOrder);
 			csv.SetAt(CSVFieldIDs.CMD.E.Trader, order.trader);
 			if (order.orderID == "")
@@ -368,9 +363,8 @@ namespace ROMEx
 
 		public string GetReplace(RomBasicReplace replace)
 		{
-			CSV csv = new CSV();
+			CSV csv = new CSV(65);
 
-			csv.Fields = new string[65];
 			csv.SetAt(CSVFieldIDs.CMD.R.Command, CSVFieldIDs.CommandTypes.Replace);
 			csv.SetAt(CSVFieldIDs.CMD.R.Trader, replace.trader);
 			csv.SetAt(CSVFieldIDs.CMD.R.Tag, replace.orderID);
@@ -391,9 +385,8 @@ namespace ROMEx
 
 		public string GetCancel(string trader, RomBasicCancel cancel)
 		{
-			CSV csv = new CSV();
+			CSV csv = new CSV(8);
 
-			csv.Fields = new string[8];
 			csv.SetAt(CSVFieldIDs.CMD.C.Command, CSVFieldIDs.CommandTypes.CancelSingle);
 			csv.SetAt(CSVFieldIDs.CMD.C.Trader, trader);
 			csv.SetAt(CSVFieldIDs.CMD.C.Tag, cancel.orderID);
@@ -408,9 +401,8 @@ namespace ROMEx
 
 		public string GetCancelAll(string trader, bool dayOrderOnly, string exchange)
 		{
-			CSV csv = new CSV();
+			CSV csv = new CSV(28);
 
-			csv.Fields = new string[28];
 			csv.SetAt(CSVFieldIDs.CMD.c.Command, CSVFieldIDs.CommandTypes.CancelMultiple);
 			csv.SetAt(CSVFieldIDs.CMD.c.Trader, trader);
 			if (dayOrderOnly)

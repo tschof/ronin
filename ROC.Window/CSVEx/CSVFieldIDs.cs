@@ -441,7 +441,7 @@ namespace CSVEx
 			}
 		}
 
-		public sealed class SecutrityTypes
+		public sealed class SecurityTypes
 		{
 			public const string Equity = "E";
 			public const string Future = "F";
@@ -478,7 +478,7 @@ namespace CSVEx
 				}
 			}
 
-			private static string _equityFilter = string.Format("SecType = '{0}'", new object[] { SecutrityTypes.Equity });
+			private static string _equityFilter = string.Format("SecType = '{0}'", new object[] { SecurityTypes.Equity });
 			public static string EquityFilter
 			{
 				get
@@ -487,7 +487,7 @@ namespace CSVEx
 				}
 			}
 
-			private static string _futureFilter = string.Format("SecType = '{0}'", new object[] { SecutrityTypes.Future });
+			private static string _futureFilter = string.Format("SecType = '{0}'", new object[] { SecurityTypes.Future });
 			public static string FutureFilter
 			{
 				get
@@ -496,7 +496,7 @@ namespace CSVEx
 				}
 			}
 
-			private static string _optionFilter = string.Format("SecType = '{0}'", new object[] { SecutrityTypes.Option });
+			private static string _optionFilter = string.Format("SecType = '{0}'", new object[] { SecurityTypes.Option });
 			public static string OptionFilter
 			{
 				get
@@ -584,7 +584,7 @@ namespace CSVEx
 
 		public sealed class CplxOrderTypes
 		{
-			public const int Continer = 5;
+			public const int Container = 5;
 			public const int Leg = 6;
 
 			private static Dictionary<int, string> _descriptions;
@@ -595,7 +595,7 @@ namespace CSVEx
 					if (_descriptions == null)
 					{
 						_descriptions = new Dictionary<int, string>();
-						_descriptions.Add(Continer, "Continer");
+						_descriptions.Add(Container, "Continer");
 						_descriptions.Add(Leg, "Leg");
 					}
 

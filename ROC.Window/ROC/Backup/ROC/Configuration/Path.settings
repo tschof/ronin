@@ -1,0 +1,45 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ROC.Configuration" GeneratedClassName="Path">
+  <Profiles />
+  <Settings>
+    <Setting Name="LogPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Logs\</Value>
+    </Setting>
+    <Setting Name="OrderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Orders\</Value>
+    </Setting>
+    <Setting Name="TradePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Trades\</Value>
+    </Setting>
+    <Setting Name="ProfilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Profiles\</Value>
+    </Setting>
+    <Setting Name="PositionPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Positions\</Value>
+    </Setting>
+    <Setting Name="SymbolSettingPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Profiles\Symbols\</Value>
+    </Setting>
+    <Setting Name="SettingPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Profiles\Settings\</Value>
+    </Setting>
+    <Setting Name="CSVConfigPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\CSVConfig\</Value>
+    </Setting>
+    <Setting Name="OptionConfigPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\OptionConfig\</Value>
+    </Setting>
+    <Setting Name="QuickButtonConfigPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\Profiles\QuickButtonConfig\</Value>
+    </Setting>
+    <Setting Name="FutureConfigPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\FutureConfig\</Value>
+    </Setting>
+    <Setting Name="SubscriptionCachePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\SubscriptionCache\</Value>
+    </Setting>
+    <Setting Name="OrderTypeConfigPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\OrderTypeConfig\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

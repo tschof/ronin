@@ -1,0 +1,2416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ronin.com/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://ronin.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ronin.com/">
+      <s:element name="GetVersion">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVersionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConnectTPOS">
+        <s:complexType />
+      </s:element>
+      <s:element name="ConnectTPOSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConnectTPOSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DisconnectTPOS">
+        <s:complexType />
+      </s:element>
+      <s:element name="DisconnectTPOSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DisconnectTPOSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserProfile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserProfileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserProfileResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ReturnStatus">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="statusCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="statusMessage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="retValues" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TposTrade">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="m_TradeID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_TradeGroup" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_Portfolio" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_TraderAcronym" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ClearingAccount" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_Version" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_SecType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_Ticker" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_Symbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_UndSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_UndSecType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ExpDate" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_Strike" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_PutCall" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_TradeDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_TradeTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_Exchange" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ShortSaleFlag" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ContraBroker" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ContraFirm" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_TradeSource" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ExtTradeID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ExtDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_Note" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ActiveState" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ClearingStatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_SettleDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_LastModDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_LastModTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_LastModReason" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_LastModReasonID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_Qty" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_Price" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_Commission" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TposPosition">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="m_TradeGroup" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_Portfolio" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ClearingAccount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_TraderAcronym" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_InstrumentID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ValidTraderKey" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_TradeDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_AsOfDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_SecType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_Symbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_Ticker" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_UndSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_UndSecType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_ExpDate" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_Strike" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_PutCall" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="m_DisplayFormat" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_Multiplier" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_AvgCost" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_RealizedPnL" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_OpenMark" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_NotionalAmount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_Version" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_OpenQty" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="m_CurQty" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TposTraderAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ValidTraderID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TradingGroup" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Portfolio" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClearingFirm" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClearingAccount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClearingSubAccount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TraderAcronym" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FutureDesc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="fullSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="exchange" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="expirationDate" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="contractSize" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="tickSize" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="curCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="longName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OptionDesc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="stockSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="optionSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="opraSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="exchange" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="strike" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="expirationDate" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="contractSize" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="putCall" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="spcStlFlag" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="tickSize" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="curCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="exerType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="instrumentId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="undInstrumentId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="longName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="genericMDSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="obsoleteDateTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="undExpirationDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="roninSymbol" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SecurityDesc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="securityType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="baseSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ticker" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="exchange" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Strike" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="expirationDate" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="contractSize" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="PutCall" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="tickSize" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="genericMDSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="dataSourceInfo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SpcStlFlag" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CurCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExerType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="InstrumentId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UndInstrumentId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="longName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ObsoleteDateTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UndExpirationDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fullSymbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IssueDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="InrstAccuralDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstCouponDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cusip" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Coupon" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Redemption" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="NotionalAmount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CouponFreq" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="DisplayFormat" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExpYear" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExpMonth" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExpDay" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DecimalPrecision" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Conversion" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Execution">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="omTag" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="omExecTag" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="execTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="execPrice" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="execQty" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Order">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="omTag" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="tag" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="omTime" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="owner" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="trader" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="tradeFor" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="destID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="localAcct" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="firm" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="clearingAccount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="clearingID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="side" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="qty" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="price" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="avgPrice" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="stopPrice" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="secType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="symbol" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="underlying" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="strikePrice" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="expDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="callPut" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="openClose" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ex_short_name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="effectiveTime" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="instructions" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="maxFloor" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="multiplier" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="orderType" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="tif" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="orderExpiresDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="originalShares" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="cumQty" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="leavesQty" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="status" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CachedUsers">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="userAccts" type="tns:ArrayOfAnyType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAnyType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TraderAcr">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="tradeFor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="localAcAcrn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="acctProfiles" type="tns:ArrayOfAnyType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AcctDestination">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="destID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="secType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="shortName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="giveupFirmID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="cmtaFirmID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="algoFlag" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AcctProfile">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="interfaceID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="clearingAcID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="localAcAcrn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="firmAcr" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="omAcctType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="capacity" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="clearingFirmID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="occAcr" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="homeExchange" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="accountDestinations" type="tns:ArrayOfAnyType" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LoadUserProfile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadUserProfileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadUserProfileResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserProfileCached">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetUserProfileCachedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserProfileCachedResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserMarketDataSources">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserMarketDataSourcesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserMarketDataSourcesResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadUserMarketDataSources">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadUserMarketDataSourcesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadUserMarketDataSourcesResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserOrders">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserOrdersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserOrdersResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadUserOrders">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadUserOrdersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadUserOrdersResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserExecutions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserExecutionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserExecutionsResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadUserExecutions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadUserExecutionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadUserExecutionsResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSecurityByTicker">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSecurityByTickerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSecurityByTickerResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadSecurityByTicker">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadSecurityByTickerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadSecurityByTickerResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOptionChain">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOptionChainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOptionChainResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadOptionChain">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadOptionChainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadOptionChainResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFutureChain">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="underlying" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFutureChainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFutureChainResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadFutureChain">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="underlying" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadFutureChainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadFutureChainResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFutureChainByBase">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="baseSymbol" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFutureChainByBaseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFutureChainByBaseResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadFutureChainByBase">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="baseSymbol" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadFutureChainByBaseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadFutureChainByBaseResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSSFutureChain">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="underlying" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSSFutureChainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSSFutureChainResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadSSFutureChain">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="underlying" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadSSFutureChainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadSSFutureChainResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllTposAccounts">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllTposAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllTposAccountsResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadAllTposAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadAllTposAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadAllTposAccountsResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTposAccountsResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadTposAccountsResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposAccountsByLocalAcct">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposAccountsByLocalAcctResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTposAccountsByLocalAcctResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposAccountsByLocalAcct">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposAccountsByLocalAcctResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadTposAccountsByLocalAcctResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposPositionsByTrader">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="trader" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposPositionsByTraderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTposPositionsByTraderResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposPositions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="traders" type="tns:ArrayOfAnyType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposPositionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTposPositionsResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposPositions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposPositionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadTposPositionsResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposPositionsBylocalAcct">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="localAcct" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposPositionsBylocalAcctResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTposPositionsBylocalAcctResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposPositionsBylocalAccts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="localAccts" type="tns:ArrayOfAnyType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTposPositionsBylocalAcctsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTposPositionsBylocalAcctsResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposPositionsByLocalAcct">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposPositionsByLocalAcctResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadTposPositionsByLocalAcctResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RtrvTposTrades">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="traders" type="tns:ArrayOfAnyType" />
+            <s:element minOccurs="1" maxOccurs="1" name="initFlag" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RtrvTposTradesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RtrvTposTradesResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RtrvTposTradesByTrader">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="trader" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="initFlag" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RtrvTposTradesByTraderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RtrvTposTradesByTraderResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposTrades">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="filterUser" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="reload" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadTposTradesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoadTposTradesResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMappedSecurityByTicker">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMappedSecurityByTickerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMappedSecurityByTickerResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMappedSecurityMultByTicker">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMappedSecurityMultByTickerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetMappedSecurityMultByTickerResult" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReloadCMESpreadMap">
+        <s:complexType />
+      </s:element>
+      <s:element name="ReloadCMESpreadMapResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReloadCMESpreadMapResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCMESpreadByTicker">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCMESpreadByTickerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCMESpreadByTickerResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReloadCMEFutureMap">
+        <s:complexType />
+      </s:element>
+      <s:element name="ReloadCMEFutureMapResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReloadCMEFutureMapResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCMEFutureByTicker">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCMEFutureByTickerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCMEFutureByTickerResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReloadICESpreadMap">
+        <s:complexType />
+      </s:element>
+      <s:element name="ReloadICESpreadMapResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReloadICESpreadMapResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetICESpreadByTicker">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetICESpreadByTickerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetICESpreadByTickerResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReloadICEFutureMap">
+        <s:complexType />
+      </s:element>
+      <s:element name="ReloadICEFutureMapResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReloadICEFutureMapResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetICEFutureByTicker">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetICEFutureByTickerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetICEFutureByTickerResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReloadUserSecMap">
+        <s:complexType />
+      </s:element>
+      <s:element name="ReloadUserSecMapResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReloadUserSecMapResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserSecByTicker">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticker" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserSecByTickerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserSecByTickerResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetUserPassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oldpass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newpass" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetUserPasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetUserPasswordResult" type="tns:ReturnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVersion" />
+  </wsdl:message>
+  <wsdl:message name="GetVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConnectTPOSSoapIn">
+    <wsdl:part name="parameters" element="tns:ConnectTPOS" />
+  </wsdl:message>
+  <wsdl:message name="ConnectTPOSSoapOut">
+    <wsdl:part name="parameters" element="tns:ConnectTPOSResponse" />
+  </wsdl:message>
+  <wsdl:message name="DisconnectTPOSSoapIn">
+    <wsdl:part name="parameters" element="tns:DisconnectTPOS" />
+  </wsdl:message>
+  <wsdl:message name="DisconnectTPOSSoapOut">
+    <wsdl:part name="parameters" element="tns:DisconnectTPOSResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserProfileSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserProfile" />
+  </wsdl:message>
+  <wsdl:message name="GetUserProfileSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadUserProfileSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadUserProfile" />
+  </wsdl:message>
+  <wsdl:message name="LoadUserProfileSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadUserProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserProfileCachedSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserProfileCached" />
+  </wsdl:message>
+  <wsdl:message name="GetUserProfileCachedSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserProfileCachedResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserMarketDataSourcesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserMarketDataSources" />
+  </wsdl:message>
+  <wsdl:message name="GetUserMarketDataSourcesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserMarketDataSourcesResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadUserMarketDataSourcesSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadUserMarketDataSources" />
+  </wsdl:message>
+  <wsdl:message name="LoadUserMarketDataSourcesSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadUserMarketDataSourcesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserOrdersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserOrders" />
+  </wsdl:message>
+  <wsdl:message name="GetUserOrdersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserOrdersResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadUserOrdersSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadUserOrders" />
+  </wsdl:message>
+  <wsdl:message name="LoadUserOrdersSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadUserOrdersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserExecutionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserExecutions" />
+  </wsdl:message>
+  <wsdl:message name="GetUserExecutionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserExecutionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadUserExecutionsSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadUserExecutions" />
+  </wsdl:message>
+  <wsdl:message name="LoadUserExecutionsSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadUserExecutionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSecurityByTickerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSecurityByTicker" />
+  </wsdl:message>
+  <wsdl:message name="GetSecurityByTickerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSecurityByTickerResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadSecurityByTickerSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadSecurityByTicker" />
+  </wsdl:message>
+  <wsdl:message name="LoadSecurityByTickerSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadSecurityByTickerResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOptionChainSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOptionChain" />
+  </wsdl:message>
+  <wsdl:message name="GetOptionChainSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOptionChainResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadOptionChainSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadOptionChain" />
+  </wsdl:message>
+  <wsdl:message name="LoadOptionChainSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadOptionChainResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFutureChainSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFutureChain" />
+  </wsdl:message>
+  <wsdl:message name="GetFutureChainSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFutureChainResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadFutureChainSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadFutureChain" />
+  </wsdl:message>
+  <wsdl:message name="LoadFutureChainSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadFutureChainResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFutureChainByBaseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFutureChainByBase" />
+  </wsdl:message>
+  <wsdl:message name="GetFutureChainByBaseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFutureChainByBaseResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadFutureChainByBaseSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadFutureChainByBase" />
+  </wsdl:message>
+  <wsdl:message name="LoadFutureChainByBaseSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadFutureChainByBaseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSSFutureChainSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSSFutureChain" />
+  </wsdl:message>
+  <wsdl:message name="GetSSFutureChainSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSSFutureChainResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadSSFutureChainSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadSSFutureChain" />
+  </wsdl:message>
+  <wsdl:message name="LoadSSFutureChainSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadSSFutureChainResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllTposAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllTposAccounts" />
+  </wsdl:message>
+  <wsdl:message name="GetAllTposAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllTposAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadAllTposAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadAllTposAccounts" />
+  </wsdl:message>
+  <wsdl:message name="LoadAllTposAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadAllTposAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTposAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTposAccounts" />
+  </wsdl:message>
+  <wsdl:message name="GetTposAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTposAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadTposAccounts" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadTposAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTposAccountsByLocalAcctSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTposAccountsByLocalAcct" />
+  </wsdl:message>
+  <wsdl:message name="GetTposAccountsByLocalAcctSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTposAccountsByLocalAcctResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposAccountsByLocalAcctSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadTposAccountsByLocalAcct" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposAccountsByLocalAcctSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadTposAccountsByLocalAcctResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTposPositionsByTraderSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTposPositionsByTrader" />
+  </wsdl:message>
+  <wsdl:message name="GetTposPositionsByTraderSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTposPositionsByTraderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTposPositionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTposPositions" />
+  </wsdl:message>
+  <wsdl:message name="GetTposPositionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTposPositionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposPositionsSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadTposPositions" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposPositionsSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadTposPositionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTposPositionsBylocalAcctSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTposPositionsBylocalAcct" />
+  </wsdl:message>
+  <wsdl:message name="GetTposPositionsBylocalAcctSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTposPositionsBylocalAcctResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTposPositionsBylocalAcctsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTposPositionsBylocalAccts" />
+  </wsdl:message>
+  <wsdl:message name="GetTposPositionsBylocalAcctsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTposPositionsBylocalAcctsResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposPositionsByLocalAcctSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadTposPositionsByLocalAcct" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposPositionsByLocalAcctSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadTposPositionsByLocalAcctResponse" />
+  </wsdl:message>
+  <wsdl:message name="RtrvTposTradesSoapIn">
+    <wsdl:part name="parameters" element="tns:RtrvTposTrades" />
+  </wsdl:message>
+  <wsdl:message name="RtrvTposTradesSoapOut">
+    <wsdl:part name="parameters" element="tns:RtrvTposTradesResponse" />
+  </wsdl:message>
+  <wsdl:message name="RtrvTposTradesByTraderSoapIn">
+    <wsdl:part name="parameters" element="tns:RtrvTposTradesByTrader" />
+  </wsdl:message>
+  <wsdl:message name="RtrvTposTradesByTraderSoapOut">
+    <wsdl:part name="parameters" element="tns:RtrvTposTradesByTraderResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposTradesSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadTposTrades" />
+  </wsdl:message>
+  <wsdl:message name="LoadTposTradesSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadTposTradesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMappedSecurityByTickerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMappedSecurityByTicker" />
+  </wsdl:message>
+  <wsdl:message name="GetMappedSecurityByTickerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMappedSecurityByTickerResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMappedSecurityMultByTickerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMappedSecurityMultByTicker" />
+  </wsdl:message>
+  <wsdl:message name="GetMappedSecurityMultByTickerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMappedSecurityMultByTickerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReloadCMESpreadMapSoapIn">
+    <wsdl:part name="parameters" element="tns:ReloadCMESpreadMap" />
+  </wsdl:message>
+  <wsdl:message name="ReloadCMESpreadMapSoapOut">
+    <wsdl:part name="parameters" element="tns:ReloadCMESpreadMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCMESpreadByTickerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCMESpreadByTicker" />
+  </wsdl:message>
+  <wsdl:message name="GetCMESpreadByTickerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCMESpreadByTickerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReloadCMEFutureMapSoapIn">
+    <wsdl:part name="parameters" element="tns:ReloadCMEFutureMap" />
+  </wsdl:message>
+  <wsdl:message name="ReloadCMEFutureMapSoapOut">
+    <wsdl:part name="parameters" element="tns:ReloadCMEFutureMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCMEFutureByTickerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCMEFutureByTicker" />
+  </wsdl:message>
+  <wsdl:message name="GetCMEFutureByTickerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCMEFutureByTickerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReloadICESpreadMapSoapIn">
+    <wsdl:part name="parameters" element="tns:ReloadICESpreadMap" />
+  </wsdl:message>
+  <wsdl:message name="ReloadICESpreadMapSoapOut">
+    <wsdl:part name="parameters" element="tns:ReloadICESpreadMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetICESpreadByTickerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetICESpreadByTicker" />
+  </wsdl:message>
+  <wsdl:message name="GetICESpreadByTickerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetICESpreadByTickerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReloadICEFutureMapSoapIn">
+    <wsdl:part name="parameters" element="tns:ReloadICEFutureMap" />
+  </wsdl:message>
+  <wsdl:message name="ReloadICEFutureMapSoapOut">
+    <wsdl:part name="parameters" element="tns:ReloadICEFutureMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetICEFutureByTickerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetICEFutureByTicker" />
+  </wsdl:message>
+  <wsdl:message name="GetICEFutureByTickerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetICEFutureByTickerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReloadUserSecMapSoapIn">
+    <wsdl:part name="parameters" element="tns:ReloadUserSecMap" />
+  </wsdl:message>
+  <wsdl:message name="ReloadUserSecMapSoapOut">
+    <wsdl:part name="parameters" element="tns:ReloadUserSecMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserSecByTickerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserSecByTicker" />
+  </wsdl:message>
+  <wsdl:message name="GetUserSecByTickerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserSecByTickerResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetUserPasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:SetUserPassword" />
+  </wsdl:message>
+  <wsdl:message name="SetUserPasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:SetUserPasswordResponse" />
+  </wsdl:message>
+  <wsdl:portType name="RdsServiceSoap">
+    <wsdl:operation name="GetVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get RDS web service version.</wsdl:documentation>
+      <wsdl:input message="tns:GetVersionSoapIn" />
+      <wsdl:output message="tns:GetVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConnectTPOS">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Connect To Tpos</wsdl:documentation>
+      <wsdl:input message="tns:ConnectTPOSSoapIn" />
+      <wsdl:output message="tns:ConnectTPOSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DisconnectTPOS">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Disconnect From Tpos</wsdl:documentation>
+      <wsdl:input message="tns:DisconnectTPOSSoapIn" />
+      <wsdl:output message="tns:DisconnectTPOSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ROC user's profile.</wsdl:documentation>
+      <wsdl:input message="tns:GetUserProfileSoapIn" />
+      <wsdl:output message="tns:GetUserProfileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserProfile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ROC user's profile with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadUserProfileSoapIn" />
+      <wsdl:output message="tns:LoadUserProfileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfileCached">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get All Cached ROC user's profile.</wsdl:documentation>
+      <wsdl:input message="tns:GetUserProfileCachedSoapIn" />
+      <wsdl:output message="tns:GetUserProfileCachedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserMarketDataSources">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ROC user's market data sources.</wsdl:documentation>
+      <wsdl:input message="tns:GetUserMarketDataSourcesSoapIn" />
+      <wsdl:output message="tns:GetUserMarketDataSourcesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserMarketDataSources">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ROC user's market data sources with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadUserMarketDataSourcesSoapIn" />
+      <wsdl:output message="tns:LoadUserMarketDataSourcesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserOrders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ROM orders.</wsdl:documentation>
+      <wsdl:input message="tns:GetUserOrdersSoapIn" />
+      <wsdl:output message="tns:GetUserOrdersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserOrders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ROM orders with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadUserOrdersSoapIn" />
+      <wsdl:output message="tns:LoadUserOrdersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserExecutions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ROM executions.</wsdl:documentation>
+      <wsdl:input message="tns:GetUserExecutionsSoapIn" />
+      <wsdl:output message="tns:GetUserExecutionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserExecutions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ROM executions with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadUserExecutionsSoapIn" />
+      <wsdl:output message="tns:LoadUserExecutionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSecurityByTicker">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get TPOS Security details by ticker.</wsdl:documentation>
+      <wsdl:input message="tns:GetSecurityByTickerSoapIn" />
+      <wsdl:output message="tns:GetSecurityByTickerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadSecurityByTicker">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get TPOS Security details by ticker with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadSecurityByTickerSoapIn" />
+      <wsdl:output message="tns:LoadSecurityByTickerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOptionChain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get option chain by ticker symbol.</wsdl:documentation>
+      <wsdl:input message="tns:GetOptionChainSoapIn" />
+      <wsdl:output message="tns:GetOptionChainSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadOptionChain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get option chain by ticker symbol with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadOptionChainSoapIn" />
+      <wsdl:output message="tns:LoadOptionChainSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFutureChain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Future chain by underlying symbol.</wsdl:documentation>
+      <wsdl:input message="tns:GetFutureChainSoapIn" />
+      <wsdl:output message="tns:GetFutureChainSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadFutureChain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Future chain by underlying symbol with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadFutureChainSoapIn" />
+      <wsdl:output message="tns:LoadFutureChainSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFutureChainByBase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Future chain by base.</wsdl:documentation>
+      <wsdl:input message="tns:GetFutureChainByBaseSoapIn" />
+      <wsdl:output message="tns:GetFutureChainByBaseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadFutureChainByBase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Future chain by base with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadFutureChainByBaseSoapIn" />
+      <wsdl:output message="tns:LoadFutureChainByBaseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSSFutureChain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Single Stock Future chain by ticker.</wsdl:documentation>
+      <wsdl:input message="tns:GetSSFutureChainSoapIn" />
+      <wsdl:output message="tns:GetSSFutureChainSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadSSFutureChain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Single Stock Future chain by ticker with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadSSFutureChainSoapIn" />
+      <wsdl:output message="tns:LoadSSFutureChainSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTposAccounts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get All TPOS Trader Accounts.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllTposAccountsSoapIn" />
+      <wsdl:output message="tns:GetAllTposAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadAllTposAccounts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get All TPOS Trader Accounts with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadAllTposAccountsSoapIn" />
+      <wsdl:output message="tns:LoadAllTposAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTposAccounts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get TPOS Trader Accounts for user using TradeFor.</wsdl:documentation>
+      <wsdl:input message="tns:GetTposAccountsSoapIn" />
+      <wsdl:output message="tns:GetTposAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposAccounts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get TPOS Trader Accounts for user using TradeFor with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadTposAccountsSoapIn" />
+      <wsdl:output message="tns:LoadTposAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTposAccountsByLocalAcct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get TPOS Trader Accounts for user using LocalAcct.</wsdl:documentation>
+      <wsdl:input message="tns:GetTposAccountsByLocalAcctSoapIn" />
+      <wsdl:output message="tns:GetTposAccountsByLocalAcctSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposAccountsByLocalAcct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get TPOS Trader Accounts for user using LocalAcct with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadTposAccountsByLocalAcctSoapIn" />
+      <wsdl:output message="tns:LoadTposAccountsByLocalAcctSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositionsByTrader">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Positions for user using TradeFor acronym.</wsdl:documentation>
+      <wsdl:input message="tns:GetTposPositionsByTraderSoapIn" />
+      <wsdl:output message="tns:GetTposPositionsByTraderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Positions for user using TradeFor acronym.</wsdl:documentation>
+      <wsdl:input message="tns:GetTposPositionsSoapIn" />
+      <wsdl:output message="tns:GetTposPositionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposPositions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Positions for user using TradeFor acronym with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadTposPositionsSoapIn" />
+      <wsdl:output message="tns:LoadTposPositionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositionsBylocalAcct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Positions for user using LocalAcct acronym.</wsdl:documentation>
+      <wsdl:input message="tns:GetTposPositionsBylocalAcctSoapIn" />
+      <wsdl:output message="tns:GetTposPositionsBylocalAcctSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositionsBylocalAccts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Positions for user using LocalAcct acronym.</wsdl:documentation>
+      <wsdl:input message="tns:GetTposPositionsBylocalAcctsSoapIn" />
+      <wsdl:output message="tns:GetTposPositionsBylocalAcctsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposPositionsByLocalAcct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Positions for user using LocalAcct acronym with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadTposPositionsByLocalAcctSoapIn" />
+      <wsdl:output message="tns:LoadTposPositionsByLocalAcctSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RtrvTposTrades">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Trades for user using TradeFor and with userfilter acronym.</wsdl:documentation>
+      <wsdl:input message="tns:RtrvTposTradesSoapIn" />
+      <wsdl:output message="tns:RtrvTposTradesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RtrvTposTradesByTrader">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Trades for user using TradeFor and with userfilter acronym.</wsdl:documentation>
+      <wsdl:input message="tns:RtrvTposTradesByTraderSoapIn" />
+      <wsdl:output message="tns:RtrvTposTradesByTraderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposTrades">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Trades for user using TradeFor acronym with reload option.</wsdl:documentation>
+      <wsdl:input message="tns:LoadTposTradesSoapIn" />
+      <wsdl:output message="tns:LoadTposTradesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMappedSecurityByTicker">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ROC To Tpos Security Map By Ticker.</wsdl:documentation>
+      <wsdl:input message="tns:GetMappedSecurityByTickerSoapIn" />
+      <wsdl:output message="tns:GetMappedSecurityByTickerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMappedSecurityMultByTicker">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Tpos Traded Price Mult By Ticker .</wsdl:documentation>
+      <wsdl:input message="tns:GetMappedSecurityMultByTickerSoapIn" />
+      <wsdl:output message="tns:GetMappedSecurityMultByTickerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReloadCMESpreadMap">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reload CME Spread Map.</wsdl:documentation>
+      <wsdl:input message="tns:ReloadCMESpreadMapSoapIn" />
+      <wsdl:output message="tns:ReloadCMESpreadMapSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCMESpreadByTicker">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get CME Spread details by ticker.</wsdl:documentation>
+      <wsdl:input message="tns:GetCMESpreadByTickerSoapIn" />
+      <wsdl:output message="tns:GetCMESpreadByTickerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReloadCMEFutureMap">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reload CME Future Map.</wsdl:documentation>
+      <wsdl:input message="tns:ReloadCMEFutureMapSoapIn" />
+      <wsdl:output message="tns:ReloadCMEFutureMapSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCMEFutureByTicker">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get CME Future details by ticker.</wsdl:documentation>
+      <wsdl:input message="tns:GetCMEFutureByTickerSoapIn" />
+      <wsdl:output message="tns:GetCMEFutureByTickerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReloadICESpreadMap">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reload ICE Spread Map.</wsdl:documentation>
+      <wsdl:input message="tns:ReloadICESpreadMapSoapIn" />
+      <wsdl:output message="tns:ReloadICESpreadMapSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetICESpreadByTicker">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ICE Spread details by ticker.</wsdl:documentation>
+      <wsdl:input message="tns:GetICESpreadByTickerSoapIn" />
+      <wsdl:output message="tns:GetICESpreadByTickerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReloadICEFutureMap">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reload ICE Future Map.</wsdl:documentation>
+      <wsdl:input message="tns:ReloadICEFutureMapSoapIn" />
+      <wsdl:output message="tns:ReloadICEFutureMapSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetICEFutureByTicker">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ICE Future details by ticker.</wsdl:documentation>
+      <wsdl:input message="tns:GetICEFutureByTickerSoapIn" />
+      <wsdl:output message="tns:GetICEFutureByTickerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReloadUserSecMap">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reload User Defined Map.</wsdl:documentation>
+      <wsdl:input message="tns:ReloadUserSecMapSoapIn" />
+      <wsdl:output message="tns:ReloadUserSecMapSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserSecByTicker">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get User Defined details by ticker.</wsdl:documentation>
+      <wsdl:input message="tns:GetUserSecByTickerSoapIn" />
+      <wsdl:output message="tns:GetUserSecByTickerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUserPassword">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change ROC user's password.</wsdl:documentation>
+      <wsdl:input message="tns:SetUserPasswordSoapIn" />
+      <wsdl:output message="tns:SetUserPasswordSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RdsServiceSoap" type="tns:RdsServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetVersion">
+      <soap:operation soapAction="http://ronin.com/GetVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConnectTPOS">
+      <soap:operation soapAction="http://ronin.com/ConnectTPOS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DisconnectTPOS">
+      <soap:operation soapAction="http://ronin.com/DisconnectTPOS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <soap:operation soapAction="http://ronin.com/GetUserProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserProfile">
+      <soap:operation soapAction="http://ronin.com/LoadUserProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfileCached">
+      <soap:operation soapAction="http://ronin.com/GetUserProfileCached" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserMarketDataSources">
+      <soap:operation soapAction="http://ronin.com/GetUserMarketDataSources" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserMarketDataSources">
+      <soap:operation soapAction="http://ronin.com/LoadUserMarketDataSources" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserOrders">
+      <soap:operation soapAction="http://ronin.com/GetUserOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserOrders">
+      <soap:operation soapAction="http://ronin.com/LoadUserOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserExecutions">
+      <soap:operation soapAction="http://ronin.com/GetUserExecutions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserExecutions">
+      <soap:operation soapAction="http://ronin.com/LoadUserExecutions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSecurityByTicker">
+      <soap:operation soapAction="http://ronin.com/GetSecurityByTicker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadSecurityByTicker">
+      <soap:operation soapAction="http://ronin.com/LoadSecurityByTicker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOptionChain">
+      <soap:operation soapAction="http://ronin.com/GetOptionChain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadOptionChain">
+      <soap:operation soapAction="http://ronin.com/LoadOptionChain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFutureChain">
+      <soap:operation soapAction="http://ronin.com/GetFutureChain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadFutureChain">
+      <soap:operation soapAction="http://ronin.com/LoadFutureChain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFutureChainByBase">
+      <soap:operation soapAction="http://ronin.com/GetFutureChainByBase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadFutureChainByBase">
+      <soap:operation soapAction="http://ronin.com/LoadFutureChainByBase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSSFutureChain">
+      <soap:operation soapAction="http://ronin.com/GetSSFutureChain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadSSFutureChain">
+      <soap:operation soapAction="http://ronin.com/LoadSSFutureChain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTposAccounts">
+      <soap:operation soapAction="http://ronin.com/GetAllTposAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadAllTposAccounts">
+      <soap:operation soapAction="http://ronin.com/LoadAllTposAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposAccounts">
+      <soap:operation soapAction="http://ronin.com/GetTposAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposAccounts">
+      <soap:operation soapAction="http://ronin.com/LoadTposAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposAccountsByLocalAcct">
+      <soap:operation soapAction="http://ronin.com/GetTposAccountsByLocalAcct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposAccountsByLocalAcct">
+      <soap:operation soapAction="http://ronin.com/LoadTposAccountsByLocalAcct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositionsByTrader">
+      <soap:operation soapAction="http://ronin.com/GetTposPositionsByTrader" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositions">
+      <soap:operation soapAction="http://ronin.com/GetTposPositions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposPositions">
+      <soap:operation soapAction="http://ronin.com/LoadTposPositions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositionsBylocalAcct">
+      <soap:operation soapAction="http://ronin.com/GetTposPositionsBylocalAcct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositionsBylocalAccts">
+      <soap:operation soapAction="http://ronin.com/GetTposPositionsBylocalAccts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposPositionsByLocalAcct">
+      <soap:operation soapAction="http://ronin.com/LoadTposPositionsByLocalAcct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RtrvTposTrades">
+      <soap:operation soapAction="http://ronin.com/RtrvTposTrades" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RtrvTposTradesByTrader">
+      <soap:operation soapAction="http://ronin.com/RtrvTposTradesByTrader" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposTrades">
+      <soap:operation soapAction="http://ronin.com/LoadTposTrades" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMappedSecurityByTicker">
+      <soap:operation soapAction="http://ronin.com/GetMappedSecurityByTicker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMappedSecurityMultByTicker">
+      <soap:operation soapAction="http://ronin.com/GetMappedSecurityMultByTicker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadCMESpreadMap">
+      <soap:operation soapAction="http://ronin.com/ReloadCMESpreadMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCMESpreadByTicker">
+      <soap:operation soapAction="http://ronin.com/GetCMESpreadByTicker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadCMEFutureMap">
+      <soap:operation soapAction="http://ronin.com/ReloadCMEFutureMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCMEFutureByTicker">
+      <soap:operation soapAction="http://ronin.com/GetCMEFutureByTicker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadICESpreadMap">
+      <soap:operation soapAction="http://ronin.com/ReloadICESpreadMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetICESpreadByTicker">
+      <soap:operation soapAction="http://ronin.com/GetICESpreadByTicker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadICEFutureMap">
+      <soap:operation soapAction="http://ronin.com/ReloadICEFutureMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetICEFutureByTicker">
+      <soap:operation soapAction="http://ronin.com/GetICEFutureByTicker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadUserSecMap">
+      <soap:operation soapAction="http://ronin.com/ReloadUserSecMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserSecByTicker">
+      <soap:operation soapAction="http://ronin.com/GetUserSecByTicker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUserPassword">
+      <soap:operation soapAction="http://ronin.com/SetUserPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="RdsServiceSoap12" type="tns:RdsServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetVersion">
+      <soap12:operation soapAction="http://ronin.com/GetVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConnectTPOS">
+      <soap12:operation soapAction="http://ronin.com/ConnectTPOS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DisconnectTPOS">
+      <soap12:operation soapAction="http://ronin.com/DisconnectTPOS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <soap12:operation soapAction="http://ronin.com/GetUserProfile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserProfile">
+      <soap12:operation soapAction="http://ronin.com/LoadUserProfile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfileCached">
+      <soap12:operation soapAction="http://ronin.com/GetUserProfileCached" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserMarketDataSources">
+      <soap12:operation soapAction="http://ronin.com/GetUserMarketDataSources" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserMarketDataSources">
+      <soap12:operation soapAction="http://ronin.com/LoadUserMarketDataSources" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserOrders">
+      <soap12:operation soapAction="http://ronin.com/GetUserOrders" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserOrders">
+      <soap12:operation soapAction="http://ronin.com/LoadUserOrders" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserExecutions">
+      <soap12:operation soapAction="http://ronin.com/GetUserExecutions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadUserExecutions">
+      <soap12:operation soapAction="http://ronin.com/LoadUserExecutions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSecurityByTicker">
+      <soap12:operation soapAction="http://ronin.com/GetSecurityByTicker" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadSecurityByTicker">
+      <soap12:operation soapAction="http://ronin.com/LoadSecurityByTicker" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOptionChain">
+      <soap12:operation soapAction="http://ronin.com/GetOptionChain" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadOptionChain">
+      <soap12:operation soapAction="http://ronin.com/LoadOptionChain" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFutureChain">
+      <soap12:operation soapAction="http://ronin.com/GetFutureChain" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadFutureChain">
+      <soap12:operation soapAction="http://ronin.com/LoadFutureChain" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFutureChainByBase">
+      <soap12:operation soapAction="http://ronin.com/GetFutureChainByBase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadFutureChainByBase">
+      <soap12:operation soapAction="http://ronin.com/LoadFutureChainByBase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSSFutureChain">
+      <soap12:operation soapAction="http://ronin.com/GetSSFutureChain" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadSSFutureChain">
+      <soap12:operation soapAction="http://ronin.com/LoadSSFutureChain" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTposAccounts">
+      <soap12:operation soapAction="http://ronin.com/GetAllTposAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadAllTposAccounts">
+      <soap12:operation soapAction="http://ronin.com/LoadAllTposAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposAccounts">
+      <soap12:operation soapAction="http://ronin.com/GetTposAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposAccounts">
+      <soap12:operation soapAction="http://ronin.com/LoadTposAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposAccountsByLocalAcct">
+      <soap12:operation soapAction="http://ronin.com/GetTposAccountsByLocalAcct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposAccountsByLocalAcct">
+      <soap12:operation soapAction="http://ronin.com/LoadTposAccountsByLocalAcct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositionsByTrader">
+      <soap12:operation soapAction="http://ronin.com/GetTposPositionsByTrader" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositions">
+      <soap12:operation soapAction="http://ronin.com/GetTposPositions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposPositions">
+      <soap12:operation soapAction="http://ronin.com/LoadTposPositions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositionsBylocalAcct">
+      <soap12:operation soapAction="http://ronin.com/GetTposPositionsBylocalAcct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTposPositionsBylocalAccts">
+      <soap12:operation soapAction="http://ronin.com/GetTposPositionsBylocalAccts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposPositionsByLocalAcct">
+      <soap12:operation soapAction="http://ronin.com/LoadTposPositionsByLocalAcct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RtrvTposTrades">
+      <soap12:operation soapAction="http://ronin.com/RtrvTposTrades" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RtrvTposTradesByTrader">
+      <soap12:operation soapAction="http://ronin.com/RtrvTposTradesByTrader" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadTposTrades">
+      <soap12:operation soapAction="http://ronin.com/LoadTposTrades" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMappedSecurityByTicker">
+      <soap12:operation soapAction="http://ronin.com/GetMappedSecurityByTicker" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMappedSecurityMultByTicker">
+      <soap12:operation soapAction="http://ronin.com/GetMappedSecurityMultByTicker" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadCMESpreadMap">
+      <soap12:operation soapAction="http://ronin.com/ReloadCMESpreadMap" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCMESpreadByTicker">
+      <soap12:operation soapAction="http://ronin.com/GetCMESpreadByTicker" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadCMEFutureMap">
+      <soap12:operation soapAction="http://ronin.com/ReloadCMEFutureMap" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCMEFutureByTicker">
+      <soap12:operation soapAction="http://ronin.com/GetCMEFutureByTicker" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadICESpreadMap">
+      <soap12:operation soapAction="http://ronin.com/ReloadICESpreadMap" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetICESpreadByTicker">
+      <soap12:operation soapAction="http://ronin.com/GetICESpreadByTicker" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadICEFutureMap">
+      <soap12:operation soapAction="http://ronin.com/ReloadICEFutureMap" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetICEFutureByTicker">
+      <soap12:operation soapAction="http://ronin.com/GetICEFutureByTicker" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadUserSecMap">
+      <soap12:operation soapAction="http://ronin.com/ReloadUserSecMap" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserSecByTicker">
+      <soap12:operation soapAction="http://ronin.com/GetUserSecByTicker" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUserPassword">
+      <soap12:operation soapAction="http://ronin.com/SetUserPassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RdsService">
+    <wsdl:port name="RdsServiceSoap" binding="tns:RdsServiceSoap">
+      <soap:address location="http://romrds2/RDS_Dev/RDS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="RdsServiceSoap12" binding="tns:RdsServiceSoap12">
+      <soap12:address location="http://romrds2/RDS_Dev/RDS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -271,19 +271,15 @@ namespace ROC
 								if (_loginClicked)
 								{
 									_loginClicked = false;
-									GLOBAL.HROM.Connect();
+									if (GLOBAL.ByPassRomLogin)
+										ByPassROMLogin();
+									else
+										GLOBAL.HROM.Connect();
 								}
 								else
 								{
-									if (GLOBAL.ByPassRomLogin)
-									{
-										ByPassROMLogin();
-									}
-									else
-									{
-										GLOBAL.HROM.Disconnect();
-										StopLoginTimer();
-									}
+									GLOBAL.HROM.Disconnect();
+									StopLoginTimer();
 								}
 								break;
 							case HelperROM.StatusTypes.Stopping:
@@ -332,6 +328,7 @@ namespace ROC
 				GLOBAL.HROC.AddToException(ex);
 			}
 		}
+
 		private void ByPassROMLogin()
 		{
 			GLOBAL.HROM.UserName = txtUserName.Text;

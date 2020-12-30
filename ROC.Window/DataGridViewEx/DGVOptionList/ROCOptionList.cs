@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
-using MarketDataEx;
+using MarketData;
 
 namespace DataGridViewEx
 {
@@ -631,41 +630,7 @@ namespace DataGridViewEx
 		}
 
 		[Browsable(false)]
-		public string OptionExchangeName
-		{
-			get
-			{
-				if (OptionExchangeCode.IDs.ContainsKey(OptionExchange))
-				{
-					return OptionExchangeCode.IDs[OptionExchange];
-				}
-				return OptionExchange;
-
-				//switch (OptionExchange)
-				//{
-				//    case OptionExchangeCode.AMEX:
-				//        return "AMEX";
-				//    case OptionExchangeCode.BOX:
-				//        return "BOX";
-				//    case OptionExchangeCode.CBOE:
-				//    case OptionExchangeCode.SRLabs_CBOE:
-				//        return "CBOE";
-				//    case OptionExchangeCode.ISE:
-				//    case OptionExchangeCode.SRLabs_ISE:
-				//        return "ISE";
-				//    case OptionExchangeCode.NSDQ:
-				//        return "NSDQ";
-				//    case OptionExchangeCode.PCX:
-				//        return "PCX";
-				//    case OptionExchangeCode.PHLX:
-				//        return "PHLX";
-				//    case OptionExchangeCode.BATS:
-				//        return "BATS";
-				//    default:
-				//        return OptionExchange;
-				//}
-			}
-		}
+		public string OptionExchangeName => OptionExchangeCode.TryGetName(_optionExchange, out string name) ? name : _optionExchange;
 
 		[Browsable(false)]
 		public ScrollBars OriginalScrollBars

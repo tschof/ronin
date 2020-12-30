@@ -1,0 +1,10 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\bin\Debug\MarketDataSubscribeEx.dll.config
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\bin\Debug\MarketDataSubscribeEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\bin\Debug\MarketDataSubscribeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\bin\Debug\System.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\bin\Debug\System.xml
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\obj\Debug\MarketDataSubscribeEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\obj\Debug\MarketDataSubscribeEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\obj\Debug\MarketDataSubscribeEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\obj\Debug\MarketDataSubscribeEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\MarketDataSubscribeEx\obj\Debug\MarketDataSubscribeEx.pdb

@@ -2084,20 +2084,20 @@ namespace DataGridViewEx
 
 			if (FilterOutStock)
 			{
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.Equity, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Equity, "'" }));
 			}
 
 			if (FilterOutFuture)
 			{
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.Future, "'" }));
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.SingleStockFuture, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Future, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.SingleStockFuture, "'" }));
 			}
 
 			if (FilterOutOption)
 			{
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.Option, "'" }));
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.OptionFuture, "'" }));
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.OptionIndex, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Option, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex, "'" }));
 			}
 
 			//if (FilterOutTPOS)
@@ -2141,16 +2141,16 @@ namespace DataGridViewEx
 			switch (type)
 			{
 				case AggragationFilterTypes.STK:
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecutrityTypes.Equity, "'" }));
+					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.Equity, "'" }));
 					break;
 				case AggragationFilterTypes.FUT:
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecutrityTypes.Future, "'" }));
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecutrityTypes.SingleStockFuture, "'" }), true);
+					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.Future, "'" }));
+					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.SingleStockFuture, "'" }), true);
 					break;
 				case AggragationFilterTypes.OPT:
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecutrityTypes.Option, "'" }));
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecutrityTypes.OptionFuture, "'" }), true);
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecutrityTypes.OptionIndex, "'" }), true);
+					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.Option, "'" }));
+					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture, "'" }), true);
+					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex, "'" }), true);
 					break;
 			}
 			return filter;

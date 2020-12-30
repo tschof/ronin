@@ -1,15 +1,14 @@
 using System;
 using System.IO;
-using System.Reflection;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SerializationEx
 {
-	internal enum ObjType : byte
+	internal enum TypeEnum : byte
 	{
-		nullType,
+		nullType = 0,
 		boolType,
 		byteType,
 		uint16Type,
@@ -30,77 +29,65 @@ namespace SerializationEx
 		otherType
 	}
 
-	public class SerializationWriter : BinaryWriter
+	public class SerializationWriter
 	{
-		private SerializationWriter(Stream s) : base(s) { }
+		private const int STREAM_SIZE = 10240;
 
-		// Static method to initialise the writer with a suitable MemoryStream.
-		public static SerializationWriter GetWriter()
+		private readonly BinaryWriter _writer;
+
+		public SerializationWriter()
 		{
-			MemoryStream ms = new MemoryStream(10240);
-			return new SerializationWriter(ms);
+			_writer = new BinaryWriter(new MemoryStream(STREAM_SIZE));
 		}
 
 		// Writes a string to the buffer.  
 		// Overrides the base implementation so it can cope with nulls
-		public override void Write(string str)
+		public void Write(string str)
 		{
 			if (str == null)
 			{
-				Write((byte)ObjType.nullType);
+				_writer.Write((byte)TypeEnum.nullType);
 			}
 			else
 			{
-				Write((byte)ObjType.stringType);
-				base.Write(str);
+				_writer.Write((byte)TypeEnum.stringType);
+				_writer.Write(str);
 			}
 		}
 
 		// Writes a byte array to the buffer.  
 		// Overrides the base implementation to send the length of the array which is needed when it is retrieved.
-		public override void Write(byte[] b)
+		public void Write(byte[] b)
 		{
-			if (b == null)
-			{
-				Write(-1);
-			}
-			else
-			{
+			if (b == null) {
+				_writer.Write((byte)TypeEnum.nullType);
+			} else {
 				int len = b.Length;
-				Write(len);
-				if (len > 0) base.Write(b);
+				_writer.Write(len);
+				if (len > 0) _writer.Write(b);
 			}
 		}
 
 		// Writes a char array to the buffer.  
 		// Overrides the base implementation to sends the length of the array which is needed when it is read.
-		public override void Write(char[] c)
+		public void Write(char[] c)
 		{
-			if (c == null)
-			{
-				Write(-1);
-			}
-			else
-			{
+			if (c == null) {
+				_writer.Write((byte)TypeEnum.nullType);
+			} else {
 				int len = c.Length;
-				Write(len);
-				if (len > 0) base.Write(c);
+				_writer.Write(len);
+				if (len > 0) _writer.Write(c);
 			}
 		}
-
-		// Writes a DateTime to the buffer. 
-		public void Write(DateTime dt) { Write(dt.Ticks); }
 
 		// Writes a generic ICollection (such as an IList<T>) to the buffer.
 		public void Write<T>(ICollection<T> c)
 		{
-			if (c == null)
-			{
-				Write(-1);
-			}
-			else
-			{
-				Write(c.Count);
+			if (c == null) {
+				_writer.Write(-1);
+			} else {
+				_writer.Write(c.Count);
 				foreach (T item in c) WriteObject(item);
 			}
 		}
@@ -108,15 +95,11 @@ namespace SerializationEx
 		// Writes a generic IDictionary to the buffer.
 		public void Write<T, U>(IDictionary<T, U> d)
 		{
-			if (d == null)
-			{
-				Write(-1);
-			}
-			else
-			{
-				Write(d.Count);
-				foreach (KeyValuePair<T, U> kvp in d)
-				{
+			if (d == null) {
+				_writer.Write(-1);
+			} else {
+				_writer.Write(d.Count);
+				foreach (KeyValuePair<T, U> kvp in d) {
 					WriteObject(kvp.Key);
 					WriteObject(kvp.Value);
 				}
@@ -128,130 +111,83 @@ namespace SerializationEx
 		// This works out the best method to use to write to the buffer.
 		public void WriteObject(object obj)
 		{
-			if (obj == null)
-			{
-				Write((byte)ObjType.nullType);
+			if (obj == null) {
+				_writer.Write((byte)TypeEnum.nullType);
+				return;
 			}
-			else
-			{
 
-				switch (obj.GetType().Name)
-				{
+			switch (obj) {
+				case bool boolval: _writer.Write((byte)TypeEnum.boolType); _writer.Write(boolval); break;
+				case byte byteval: _writer.Write((byte)TypeEnum.byteType); _writer.Write(byteval); break;
+				case UInt16 uint16val: _writer.Write((byte)TypeEnum.uint16Type); _writer.Write(uint16val); break;
+				case UInt32 uint32val: _writer.Write((byte)TypeEnum.uint32Type); _writer.Write(uint32val); break;
+				case UInt64 uint64val: _writer.Write((byte)TypeEnum.uint64Type); _writer.Write(uint64val); break;
+				case SByte sbyteval: _writer.Write((byte)TypeEnum.sbyteType); _writer.Write(sbyteval); break;
+				case Int16 int16val: _writer.Write((byte)TypeEnum.int16Type); _writer.Write(int16val); break;
+				case Int32 int32val: _writer.Write((byte)TypeEnum.int32Type); _writer.Write(int32val); break;
+				case Int64 int64val: _writer.Write((byte)TypeEnum.int64Type); _writer.Write(int64val); break;
+				case char charval: _writer.Write((byte)TypeEnum.charType); _writer.Write(charval); break;
+				case string stringval: _writer.Write((byte)TypeEnum.stringType); _writer.Write(stringval); break;
+				case Single singleval: _writer.Write((byte)TypeEnum.singleType); _writer.Write(singleval); break;
+				case double doubleval: _writer.Write((byte)TypeEnum.doubleType); _writer.Write(doubleval); break;
+				case decimal decimalval: _writer.Write((byte)TypeEnum.decimalType); _writer.Write(decimalval); break;
+				case DateTime dateval: _writer.Write((byte)TypeEnum.dateTimeType); _writer.Write(dateval.Ticks); break;
+				case byte[] bytearray: _writer.Write((byte)TypeEnum.byteArrayType); _writer.Write(bytearray); break;
+				case char[] chararray: _writer.Write((byte)TypeEnum.charArrayType); _writer.Write(chararray); break;
+				default:
+					_writer.Write((byte)TypeEnum.otherType);
+					new BinaryFormatter().Serialize(_writer.BaseStream, obj);
+					break;
+			}
+		}
 
-					case "Boolean": Write((byte)ObjType.boolType);
-						Write((bool)obj);
-						break;
+		public void Write(int ival)
+		{
+			_writer.Write(ival);
+		}
 
-					case "Byte": Write((byte)ObjType.byteType);
-						Write((byte)obj);
-						break;
+		public void Write(double dval)
+		{
+			_writer.Write(dval);
+		}
 
-					case "UInt16": Write((byte)ObjType.uint16Type);
-						Write((ushort)obj);
-						break;
-
-					case "UInt32": Write((byte)ObjType.uint32Type);
-						Write((uint)obj);
-						break;
-
-					case "UInt64": Write((byte)ObjType.uint64Type);
-						Write((ulong)obj);
-						break;
-
-					case "SByte": Write((byte)ObjType.sbyteType);
-						Write((sbyte)obj);
-						break;
-
-					case "Int16": Write((byte)ObjType.int16Type);
-						Write((short)obj);
-						break;
-
-					case "Int32": Write((byte)ObjType.int32Type);
-						Write((int)obj);
-						break;
-
-					case "Int64": Write((byte)ObjType.int64Type);
-						Write((long)obj);
-						break;
-
-					case "Char": Write((byte)ObjType.charType);
-						base.Write((char)obj);
-						break;
-
-					case "String": Write((byte)ObjType.stringType);
-						base.Write((string)obj);
-						break;
-
-					case "Single": Write((byte)ObjType.singleType);
-						Write((float)obj);
-						break;
-
-					case "Double": Write((byte)ObjType.doubleType);
-						Write((double)obj);
-						break;
-
-					case "Decimal": Write((byte)ObjType.decimalType);
-						Write((decimal)obj);
-						break;
-
-					case "DateTime": Write((byte)ObjType.dateTimeType);
-						Write((DateTime)obj);
-						break;
-
-					case "Byte[]": Write((byte)ObjType.byteArrayType);
-						base.Write((byte[])obj);
-						break;
-
-					case "Char[]": Write((byte)ObjType.charArrayType);
-						base.Write((char[])obj);
-						break;
-
-					default: Write((byte)ObjType.otherType);
-						new BinaryFormatter().Serialize(BaseStream, obj);
-						break;
-
-				} // switch
-
-			} // if obj==null
-
+		public void Write(long lval)
+		{
+			_writer.Write(lval);
 		}
 
 		// Adds the SerializationWriter buffer to the SerializationInfo at the end of GetObjectData()
 		public void AddToInfo(SerializationInfo info)
 		{
-			byte[] b = ((MemoryStream)BaseStream).ToArray();
+			byte[] b = ((MemoryStream)_writer.BaseStream).ToArray();
 			info.AddValue("X", b, typeof(byte[]));
 		}
 	}
 
-	public class SerializationReader : BinaryReader
+	public class SerializationReader
 	{
-		private SerializationReader(Stream s) : base(s) { }
+		private BinaryReader _reader;
 
-		// Static method to take a SerializationInfo object 
-		// (an input to an ISerializable constructor)
-		// and produce a SerializationReader from which serialized objects can be read.
-		public static SerializationReader GetReader(SerializationInfo info)
+		public SerializationReader(SerializationInfo info)
 		{
 			byte[] byteArray = (byte[])info.GetValue("X", typeof(byte[]));
-			MemoryStream ms = new MemoryStream(byteArray);
-			return new SerializationReader(ms);
+			_reader = new BinaryReader(new MemoryStream(byteArray));
 		}
 
 		// Reads a string from the buffer.  
 		// Overrides the base implementation so it can cope with nulls.
-		public override string ReadString()
+		public string ReadString()
 		{
-			ObjType t = (ObjType)ReadByte();
-			if (t == ObjType.stringType) return base.ReadString();
+			TypeEnum t = (TypeEnum)_reader.ReadByte();
+			if (t == TypeEnum.stringType) return _reader.ReadString();
 			return null;
 		}
 
 		// Reads a byte array from the buffer, handling nulls and the array length. 
 		public byte[] ReadByteArray()
 		{
-			int len = ReadInt32();
-			if (len > 0) return ReadBytes(len);
+			int len = _reader.ReadInt32();
+			if (len > 0) return _reader.ReadBytes(len);
 			if (len < 0) return null;
 			return new byte[0];
 		}
@@ -259,59 +195,76 @@ namespace SerializationEx
 		// Reads a char array from the buffer, handling nulls and the array length.
 		public char[] ReadCharArray()
 		{
-			int len = ReadInt32();
-			if (len > 0) return ReadChars(len);
+			int len = _reader.ReadInt32();
+			if (len > 0) return _reader.ReadChars(len);
 			if (len < 0) return null;
 			return new char[0];
 		}
 
 		// Reads a DateTime from the buffer.
-		public DateTime ReadDateTime() { return new DateTime(ReadInt64()); }
+		public DateTime ReadDateTime() { 
+			return new DateTime(_reader.ReadInt64()); 
+		}
 
 		// Reads a generic list from the buffer.
 		public IList<T> ReadList<T>()
 		{
-			int count = ReadInt32();
+			int count = _reader.ReadInt32();
 			if (count < 0) return null;
-			IList<T> d = new List<T>();
-			for (int i = 0; i < count; i++) d.Add((T)ReadObject());
-			return d;
+			IList<T> list = new List<T>();
+			for (int i = 0; i < count; i++) list.Add((T)ReadObject());
+			return list;
 		}
 
 		// Reads a generic Dictionary from the buffer. 
 		public IDictionary<T, U> ReadDictionary<T, U>()
 		{
-			int count = ReadInt32();
+			int count = _reader.ReadInt32();
 			if (count < 0) return null;
 			IDictionary<T, U> d = new Dictionary<T, U>();
 			for (int i = 0; i < count; i++) d[(T)ReadObject()] = (U)ReadObject();
 			return d;
 		}
 
-		// Reads an object which was added to the buffer by WriteObject.
-		public object ReadObject()
+		public void Read(out int ival)
 		{
-			ObjType t = (ObjType)ReadByte();
+			ival = _reader.ReadInt32();
+		}
+
+		public void Read(out double dval)
+		{
+			dval = _reader.ReadDouble();
+		}
+
+		public void Read(out long lval)
+		{
+			lval = _reader.ReadInt64();
+		}
+
+		// Reads an object which was added to the buffer by WriteObject.
+		private object ReadObject()
+		{
+			TypeEnum t = (TypeEnum)_reader.ReadByte();
 			switch (t)
 			{
-				case ObjType.boolType: return ReadBoolean();
-				case ObjType.byteType: return ReadByte();
-				case ObjType.uint16Type: return ReadUInt16();
-				case ObjType.uint32Type: return ReadUInt32();
-				case ObjType.uint64Type: return ReadUInt64();
-				case ObjType.sbyteType: return ReadSByte();
-				case ObjType.int16Type: return ReadInt16();
-				case ObjType.int32Type: return ReadInt32();
-				case ObjType.int64Type: return ReadInt64();
-				case ObjType.charType: return ReadChar();
-				case ObjType.stringType: return base.ReadString();
-				case ObjType.singleType: return ReadSingle();
-				case ObjType.doubleType: return ReadDouble();
-				case ObjType.decimalType: return ReadDecimal();
-				case ObjType.dateTimeType: return ReadDateTime();
-				case ObjType.byteArrayType: return ReadByteArray();
-				case ObjType.charArrayType: return ReadCharArray();
-				case ObjType.otherType: return new BinaryFormatter().Deserialize(BaseStream);
+				case TypeEnum.boolType: return _reader.ReadBoolean();
+				case TypeEnum.byteType: return _reader.ReadByte();
+				case TypeEnum.uint16Type: return _reader.ReadUInt16();
+				case TypeEnum.uint32Type: return _reader.ReadUInt32();
+				case TypeEnum.uint64Type: return _reader.ReadUInt64();
+				case TypeEnum.sbyteType: return _reader.ReadSByte();
+				case TypeEnum.int16Type: return _reader.ReadInt16();
+				case TypeEnum.int32Type: return _reader.ReadInt32();
+				case TypeEnum.int64Type: return _reader.ReadInt64();
+				case TypeEnum.charType: return _reader.ReadChar();
+				case TypeEnum.stringType: return _reader.ReadString();
+				case TypeEnum.singleType: return _reader.ReadSingle();
+				case TypeEnum.doubleType: return _reader.ReadDouble();
+				case TypeEnum.decimalType: return _reader.ReadDecimal();
+				case TypeEnum.dateTimeType: return new DateTime(_reader.ReadInt64());
+				case TypeEnum.byteArrayType: return ReadByteArray();
+				case TypeEnum.charArrayType: return ReadCharArray();
+				case TypeEnum.otherType: return new BinaryFormatter().Deserialize(_reader.BaseStream);
 				default: return null;
 			}
 		}

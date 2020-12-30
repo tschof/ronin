@@ -2,21 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
-using FormEx;
 using RDSEx;
 using DataGridViewEx;
 using SerializationEx;
 using ContextMenuEx;
 using ButtonEx;
-using BindingListEx;
 using LabelEx;
 using CSVEx;
-using MarketDataEx;
-using System.Diagnostics;
+using MarketData;
 
 namespace ROC
 {
@@ -286,7 +281,7 @@ namespace ROC
 		private bool _updateIM = false;
 		private List<TPOSPosition> _rocPositions = new List<TPOSPosition>();
 		private List<TPOSPosition> _tposPositions = new List<TPOSPosition>();
-		private Dictionary<string, MDServerToClient> _deltas = new Dictionary<string, MDServerToClient>();
+		private Market _deltas = new Market();
 
 		#endregion
 
@@ -797,8 +792,8 @@ namespace ROC
 
 		#region - Used by Process Thread -
 
-		private delegate void AddUpdatePositionsByProcessDelegate(bool updateIM, List<TPOSPosition> rocPositions, List<TPOSPosition> tposPositions, Dictionary<string, MDServerToClient> deltas);
-		public void AddUpdatePositionsByProcess(bool updateIM, List<TPOSPosition> rocPositions, List<TPOSPosition> tposPositions, Dictionary<string, MDServerToClient> deltas)
+		private delegate void AddUpdatePositionsByProcessDelegate(bool updateIM, List<TPOSPosition> rocPositions, List<TPOSPosition> tposPositions, Market deltas);
+		public void AddUpdatePositionsByProcess(bool updateIM, List<TPOSPosition> rocPositions, List<TPOSPosition> tposPositions, Market deltas)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
@@ -813,20 +808,8 @@ namespace ROC
 					{
 						_tposPositions.AddRange(tposPositions.ToArray());
 					}
-					lock (_deltas)
-					{
-						foreach (string key in deltas.Keys)
-						{
-							if (_deltas.ContainsKey(key))
-							{
-								_deltas[key].Update(deltas[key]);
-							}
-							else
-							{
-								_deltas.Add(key, new MDServerToClient(deltas[key]));
-							}
-						}
-					}
+
+					_deltas.Merge(deltas);
 				}
 				catch (Exception ex)
 				{
@@ -858,11 +841,11 @@ namespace ROC
 							{
 								UpdateSecurityInfo();
 							}
-							if (deltas.Count > 0)
+							if (!deltas.Empty)
 							{
 								UpdateMarketDataDeltas(deltas);
 							}
-							if (rocPositions.Count > 0 || tposPositions.Count > 0 || deltas.Count > 0)
+							if (rocPositions.Count > 0 || tposPositions.Count > 0 || !deltas.Empty)
 							{
 								rocPositionsList.RefreshAggragation = true;
 							}
@@ -921,21 +904,18 @@ namespace ROC
 								UpdateSecurityInfo();
 							}
 
-							Dictionary<string, MDServerToClient> deltas = new Dictionary<string, MDServerToClient>();
+							Market deltas = new Market();
 							lock (_deltas)
 							{
-								if (_deltas.Count > 0)
-								{
-									deltas = new Dictionary<string, MDServerToClient>(_deltas);
-									_deltas.Clear();
-								}
+								if (!deltas.Empty)
+									deltas = Market.Replace(_deltas);
 							}
-							if (deltas.Count > 0)
+							if (!deltas.Empty)
 							{
 								UpdateMarketDataDeltas(deltas);
 							}
 
-							if (rocPositions.Count > 0 || tposPositions.Count > 0 || deltas.Count > 0)
+							if (rocPositions.Count > 0 || tposPositions.Count > 0 || !deltas.Empty)
 							{
 								rocPositionsList.RefreshAggragation = true;
 							}
@@ -987,10 +967,7 @@ namespace ROC
 					{
 						foreach (string symbolDetail in removeList)
 						{
-							if (ImSymbolNeeded.ContainsKey(symbolDetail))
-							{
-								ImSymbolNeeded.Remove(symbolDetail);
-							}
+							ImSymbolNeeded.Remove(symbolDetail);
 						}
 					}
 				}
@@ -1001,7 +978,7 @@ namespace ROC
 		{
 			switch (secInfo.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					HelperSubscriber.SubscribeOptionNBBO(secInfo.MDSymbol, secInfo.MDSource);
 					break;
 				default:
@@ -1031,20 +1008,24 @@ namespace ROC
 			}
 		}
 
-		private void UpdateMarketDataDeltas(Dictionary<string, MDServerToClient> deltas)
+		private void UpdateMarketDataDeltas(Market deltas)
 		{
 			DataRowView[] rows = new DataRowView[0];
 			TPOSPosition position = new TPOSPosition();
 
 			lock (rocPositionsList.RocGridTable)
 			{
-				foreach (MDServerToClient delta in deltas.Values)
+				double price;
+				long size;
+				string text;
+
+				foreach ((string symbol, Book delta) in deltas)
 				{
 					if (IsProcessing) return;
 
-					if (rocPositionsList.Symbols.Contains(delta.IssueSymbol))
+					if (delta.TryGetField(Book.FieldEnum.IssueSymbol, out string issueSymbol) && rocPositionsList.Symbols.Contains(issueSymbol))
 					{
-						rows = SearchView.FindRows(delta.IssueSymbol);
+						rows = SearchView.FindRows(issueSymbol);
 
 						foreach (DataRowView row in rows)
 						{
@@ -1052,80 +1033,58 @@ namespace ROC
 
 							row.BeginEdit();
 
-							if (delta.NetChange != null)
-							{
-								row["NetChange"] = (double)delta.NetChange;
-							}
+							if (delta.TryGetField(Book.FieldEnum.NetChange, out price))
+								row["NetChange"] = price;
 
-							if (delta.PctChange != null)
-							{
-								row["PctChange"] = (double)delta.PctChange;
-							}
+							if (delta.TryGetField(Book.FieldEnum.PctChange, out price))
+								row["PctChange"] = price;
 
-							if (delta.TotalVolume != null)
-							{
-								row["Volume"] = (long)delta.TotalVolume;
-							}
+							if (delta.TryGetField(Book.FieldEnum.TotalVolume, out size))
+								row["Volume"] = size;
 
-							if (delta.BidPrice != null)
-							{
-								row["BidPrice"] = (double)delta.BidPrice;
-							}
+							if (delta.TryGetField(Book.FieldEnum.BidPrice, out price))
+								row["BidPrice"] = price;
 
-							if (delta.BidSize != null)
-							{
-								row["BidSize"] = (long)delta.BidSize;
-							}
+							if (delta.TryGetField(Book.FieldEnum.BidSize, out size))
+								row["BidSize"] = size;
 
-							if (delta.AskPrice != null)
-							{
-								row["AskPrice"] = (double)delta.AskPrice;
-							}
+							if (delta.TryGetField(Book.FieldEnum.AskPrice, out price))
+								row["AskPrice"] = price;
 
-							if (delta.AskSize != null)
-							{
-								row["AskSize"] = (long)delta.AskSize;
-							}
+							if (delta.TryGetField(Book.FieldEnum.AskSize, out size))
+								row["AskSize"] = size;
 
-							if (delta.DisplayConversionFactor != null)
-							{
-								row["DisplayFactor"] = (double)delta.DisplayConversionFactor;
-							}
-							else
-							{
-								if (row["DisplayFactor"] == DBNull.Value)
-								{
-									row["DisplayFactor"] = 1;
+							if (delta.TryGetField(Book.FieldEnum.DisplayConversionFactor, out price))
+								row["DisplayFactor"] = price;
+							else if (row["DisplayFactor"] == DBNull.Value)
+								row["DisplayFactor"] = 1;
+
+							if (delta.TryGetNonZero(Book.FieldEnum.TradePrice, out price))
+								row["LastTraded"] = price;
+
+							if (delta.TryGetField(Book.FieldEnum.SecurityStatus, out text)) {
+								switch (text.ToLower()) {
+									case "none":
+										break;
+									case "normal":
+										row["SecurityStatus"] = DBNull.Value;
+										break;
+									default:
+										row["SecurityStatus"] = text;
+										break;
 								}
-							}
-
-							if (delta.TradePrice != null && delta.TradePrice != 0)
-							{
-								row["LastTraded"] = (double)delta.TradePrice;
-							}
-
-							switch (delta.SecurityStatusINT)
-							{
-								case SecurityStates.None:
-									break;
-								case SecurityStates.Normal:
-									row["SecurityStatus"] = DBNull.Value;
-									break;
-								default:
-									row["SecurityStatus"] = delta.SecurityStatus;
-									break;
 							}
 
 							switch (row["SecType"].ToString())
 							{
 								case "F":
-									if (delta.SettlePrice != null && delta.SettlePrice != 0)
+									if (delta.TryGetNonZero(Book.FieldEnum.SettlePrice, out price))
 									{
-										if (delta.SettleDateDT != null && ((DateTime)delta.SettleDateDT).Day < DateTime.Now.Day)
+										if (delta.TryGetField(Book.FieldEnum.SettleDateDT, out DateTime settleDate) && (settleDate.Day < DateTime.Today.Day))
 										{
 											// Previous Day SettlePrice
-											row["OpenAvg"] = (double)delta.SettlePrice;
-											row["SettlePrice"] = (double)delta.SettlePrice;
+											row["OpenAvg"] = price;
+											row["SettlePrice"] = price;
 										}
 										else
 										{
@@ -1133,36 +1092,33 @@ namespace ROC
 											if ((double)row["OpenAvg"] == 0)
 											{
 												// Todays First Load
-												row["OpenAvg"] = (double)delta.SettlePrice;
+												row["OpenAvg"] = price;
 											}
-											row["SettlePrice"] = (double)delta.SettlePrice;
+											row["SettlePrice"] = price;
 										}
 									}
-									else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
+									else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price))
 									{
-										row["OpenAvg"] = (double)delta.PrevClosePrice;
+										row["OpenAvg"] = price;
 									}
 									break;
 								case "E":
-									if (delta.AdjPrevClosePrice != null && delta.AdjPrevClosePrice != 0)
+									if (delta.TryGetNonZero(Book.FieldEnum.AdjPrevClosePrice, out price))
 									{
-										row["OpenAvg"] = (double)delta.AdjPrevClosePrice;
-										row["SettlePrice"] = (double)delta.AdjPrevClosePrice;
+										row["OpenAvg"] = price;
+										row["SettlePrice"] = price;
 									}
-									else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
-									{
-										row["OpenAvg"] = (double)delta.PrevClosePrice;
+									else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price)) {
+										row["OpenAvg"] = price;
 									}
 									break;
 								default:
-									if (delta.AdjPrevClosePrice != null && delta.AdjPrevClosePrice != 0)
-									{
-										row["OpenAvg"] = (double)delta.AdjPrevClosePrice;
-										row["SettlePrice"] = (double)delta.AdjPrevClosePrice;
+									if (delta.TryGetNonZero(Book.FieldEnum.AdjPrevClosePrice, out price)) {
+										row["OpenAvg"] = price;
+										row["SettlePrice"] = price;
 									}
-									else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
-									{
-										row["OpenAvg"] = (double)delta.PrevClosePrice;
+									else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price)) {
+										row["OpenAvg"] = price;
 									}
 									break;
 							}
@@ -1220,9 +1176,6 @@ namespace ROC
 
 		private TPOSPosition[] ConsolidateExecutions(TPOSPosition[] newExecs, int flag)
 		{
-			double cost = 0;
-			string key = "";
-
 			Dictionary<string, TPOSPosition> consolidatedPositions = new Dictionary<string, TPOSPosition>();
 
 			foreach (TPOSPosition newExec in newExecs)
@@ -1233,29 +1186,29 @@ namespace ROC
 				{
 					locExec.IsTPOS = true;
 				}
-				locExec.Update(newExec);
+				locExec.Merge(newExec);
 
-				key = GetPositionKey(locExec);
+				string key = GetPositionKey(locExec);
 
-				if (consolidatedPositions.ContainsKey(key))
+				if (consolidatedPositions.TryGetValue(key, out TPOSPosition position))
 				{
 					if (locExec.OpenQty != 0)
 					{
-						consolidatedPositions[key].OpenQty = consolidatedPositions[key].OpenQty + locExec.OpenQty;
+						position.OpenQty += locExec.OpenQty;
 					}
 
 					if (locExec.BuyQty > 0 && locExec.BuyAvg > 0)
 					{
-						cost = (consolidatedPositions[key].BuyQty * consolidatedPositions[key].BuyAvg) + (locExec.BuyQty * locExec.BuyAvg);
-						consolidatedPositions[key].BuyQty = consolidatedPositions[key].BuyQty + locExec.BuyQty;
-						consolidatedPositions[key].BuyAvg = cost / consolidatedPositions[key].BuyQty;
+						double cost = (position.BuyQty * position.BuyAvg) + (locExec.BuyQty * locExec.BuyAvg);
+						position.BuyQty += locExec.BuyQty;
+						position.BuyAvg = cost / position.BuyQty;
 					}
 
 					if (locExec.SellQty > 0 && locExec.SellAvg > 0)
 					{
-						cost = (consolidatedPositions[key].SellQty * consolidatedPositions[key].SellAvg) + (locExec.SellQty * locExec.SellAvg);
-						consolidatedPositions[key].SellQty = consolidatedPositions[key].SellQty + locExec.SellQty;
-						consolidatedPositions[key].SellAvg = cost / consolidatedPositions[key].SellQty;
+						double cost = (position.SellQty * position.SellAvg) + (locExec.SellQty * locExec.SellAvg);
+						position.SellQty += locExec.SellQty;
+						position.SellAvg = cost / position.SellQty;
 					}
 				}
 				else
@@ -1338,10 +1291,10 @@ namespace ROC
 
 						switch (position.SecType)
 						{
-							case CSVFieldIDs.SecutrityTypes.Option:
+							case CSVFieldIDs.SecurityTypes.Option:
 								GLOBAL.HRDS.GetOptionChain(position.Underlying);
 								break;
-							case CSVFieldIDs.SecutrityTypes.SingleStockFuture:
+							case CSVFieldIDs.SecurityTypes.SingleStockFuture:
 								GLOBAL.HRDS.GetSSFutureChain(position.Underlying);
 								break;
 							default:
@@ -1374,114 +1327,101 @@ namespace ROC
 		// Update with Play back & onLoad
 		private TPOSPosition UpdatePositionsWithCurrentMarketData(TPOSPosition position)
 		{
-			if (position.SymbolDetail != "")
-			{
-				if (GLOBAL.HMarketData.Current.ContainsKey(position.SymbolDetail))
+			double price;
+			long size;
+
+			if (!string.IsNullOrEmpty(position.SymbolDetail) && GLOBAL.HMarketData.Current.TryGet(position.SymbolDetail, out Book delta)) {
+				if (delta.TryGetField(Book.FieldEnum.NetChange, out price))
 				{
-					MDServerToClient delta = GLOBAL.HMarketData.Current[position.SymbolDetail];
+					position.NetChange = price;
+				}
+				if (delta.TryGetField(Book.FieldEnum.PctChange, out price)) {
+					position.PctChange = price;
+				}
+				if (delta.TryGetField(Book.FieldEnum.TotalVolume, out size))
+				{
+					position.TotalVolume = size;
+				}
+				if (delta.TryGetField(Book.FieldEnum.BidPrice, out price)) {
+					position.BidPrice = price;
+				}
+				if (delta.TryGetField(Book.FieldEnum.BidSize, out size)) {
+					position.BidSize = size;
+				}
+				if (delta.TryGetField(Book.FieldEnum.AskPrice, out price)) {
+					position.AskPrice = price;
+				}
+				if (delta.TryGetField(Book.FieldEnum.AskSize, out size)) {
+					position.AskSize = size;
+				}
 
-					if (delta.NetChange != null)
-					{
-						position.NetChange = (double)delta.NetChange;
-					}
-					if (delta.PctChange != null)
-					{
-						position.PctChange = (double)delta.PctChange;
-					}
-					if (delta.TotalVolume != null)
-					{
-						position.TotalVolume = (long)delta.TotalVolume;
-					}
-					if (delta.BidPrice != null)
-					{
-						position.BidPrice = (double)delta.BidPrice;
-					}
-					if (delta.BidSize != null)
-					{
-						position.BidSize = (long)delta.BidSize;
-					}
-					if (delta.AskPrice != null)
-					{
-						position.AskPrice = (double)delta.AskPrice;
-					}
-					if (delta.AskSize != null)
-					{
-						position.AskSize = (long)delta.AskSize;
-					}
+				if (delta.TryGetNonZero(Book.FieldEnum.TradePrice, out price)) {
+					position.LastTraded = price;
+				}
 
-					if (delta.TradePrice != null && delta.TradePrice != 0)
-					{
-						position.LastTraded = (double)delta.TradePrice;
-					}
-
-					switch (position.SecType)
-					{
-						case "F":
-							if (delta.SettlePrice != null && delta.SettlePrice != 0)
+				switch (position.SecType)
+				{
+					case "F":
+						if (delta.TryGetNonZero(Book.FieldEnum.SettlePrice, out price)) {
+							if (delta.TryGetField(Book.FieldEnum.SettleDateDT, out DateTime when) && (when.Day < DateTime.Today.Day))
 							{
-								if (delta.SettleDateDT != null && ((DateTime)delta.SettleDateDT).Day < DateTime.Now.Day)
-								{
-									// Previous Day SettlePrice
-									position.OpenAvg = (double)delta.SettlePrice;
-									position.SettlePrice = (double)delta.SettlePrice;
-								}
-								else
-								{
-									// Todays SettlePrice
-									if (position.OpenAvg == 0)
-									{
-										// Todays First Load
-										position.OpenAvg = (double)delta.SettlePrice;
-									}
-									position.SettlePrice = (double)delta.SettlePrice;
-								}
+								// Previous Day SettlePrice
+								position.OpenAvg = price;
+								position.SettlePrice = price;
 							}
-							else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
+							else
 							{
-								position.OpenAvg = (double)delta.PrevClosePrice;
+								// Todays SettlePrice
+								if (position.OpenAvg == 0)
+								{
+									// Todays First Load
+									position.OpenAvg = price;
+								}
+								position.SettlePrice = price;
 							}
-							break;
-						case "E":
-							switch (delta.SecurityStatusINT)
+						}
+						else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price)) {
+							position.OpenAvg = price;
+						}
+						break;
+					case "E":
+						if (delta.TryGetField(Book.FieldEnum.SecurityStatus, out string status)) {
+							switch (status.ToLower())
 							{
-								case SecurityStates.None:
+								case "none":
 									break;
-								case SecurityStates.Normal:
+								case "normal":
 									position.SecurityStatus = "";
 									break;
 								default:
-									position.SecurityStatus = delta.SecurityStatus;
+									position.SecurityStatus = status;
 									break;
 							}
+						}
 
-							if (delta.AdjPrevClosePrice != null && delta.AdjPrevClosePrice != 0)
-							{
-								position.OpenAvg = (double)delta.AdjPrevClosePrice;
-								position.SettlePrice = (double)delta.AdjPrevClosePrice;
-							}
-							else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
-							{
-								position.OpenAvg = (double)delta.PrevClosePrice;
-							}
-							break;
-						default:
-							if (delta.AdjPrevClosePrice != null && delta.AdjPrevClosePrice != 0)
-							{
-								position.OpenAvg = (double)delta.AdjPrevClosePrice;
-								position.SettlePrice = (double)delta.AdjPrevClosePrice;
-							}
-							else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
-							{
-								position.OpenAvg = (double)delta.PrevClosePrice;
-							}
-							break;
-					}
+						if (delta.TryGetNonZero(Book.FieldEnum.AdjPrevClosePrice, out price)) {
+							position.OpenAvg = price;
+							position.SettlePrice = price;
+						}
+						else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price)) {
+							position.OpenAvg = price;
+						}
+						break;
+					default:
+						if (delta.TryGetNonZero(Book.FieldEnum.AdjPrevClosePrice, out price)) {
+							position.OpenAvg = price;
+							position.SettlePrice = price;
+						}
+						else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price)) {
+							position.OpenAvg = price;
+						}
+						break;
+				}
 
-					// Need to build PnL
-					if (position.LastTraded == 0)
-					{
-						position.LastTraded = position.OpenAvg;
-					}
+				// Need to build PnL
+				if (position.LastTraded == 0)
+				{
+					position.LastTraded = position.OpenAvg;
 				}
 			}
 
@@ -1504,7 +1444,7 @@ namespace ROC
 
 				switch (position.SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rocPositionsList.UpdateSymbol(position.Symbol);
 						rocPositionsList.UpdateTickSize(position.Symbol, position.TickSize);
 						break;
@@ -1520,14 +1460,7 @@ namespace ROC
 
 			lock (ImSymbolNeeded)
 			{
-				if (!ImSymbolNeeded.ContainsKey(position.SymbolDetail))
-				{
-					ImSymbolNeeded.Add(position.SymbolDetail, position.Symbol);
-				}
-				else
-				{
-					ImSymbolNeeded[position.SymbolDetail] = position.Symbol;
-				}
+				ImSymbolNeeded[position.SymbolDetail] = position.Symbol;
 			}
 
 			return position;
@@ -2592,10 +2525,10 @@ namespace ROC
 
 					switch (secType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.Option:
 							row["ContractSize"] = 100;
 							break;
-						case CSVFieldIDs.SecutrityTypes.Future:
+						case CSVFieldIDs.SecurityTypes.Future:
 							row["ContractSize"] = secInfo.ContractSize;
 							break;
 						default:
@@ -2851,7 +2784,7 @@ namespace ROC
 								AddRowValues(row, "Trader", ref rowValues);
 
 								// If There is match exchange setup
-								LoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(rowValues[0], CSVEx.CSVFieldIDs.SecutrityTypes.Equity), ref rowValues);
+								LoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(rowValues[0], CSVEx.CSVFieldIDs.SecurityTypes.Equity), ref rowValues);
 
 								// Display (7)
 								rowValues.Add("");
@@ -2921,7 +2854,7 @@ namespace ROC
 								AddRowValues(row, "Trader", ref rowValues);
 
 								// If There is match exchange setup
-								LoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(rowValues[0], CSVEx.CSVFieldIDs.SecutrityTypes.Equity), ref rowValues);
+								LoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(rowValues[0], CSVEx.CSVFieldIDs.SecurityTypes.Equity), ref rowValues);
 
 								// Display (7)
 								rowValues.Add("");
@@ -2981,7 +2914,7 @@ namespace ROC
 				{
 					switch (row.Cells["SecType"].Value.ToString())
 					{
-						case CSVEx.CSVFieldIDs.SecutrityTypes.Option:
+						case CSVEx.CSVFieldIDs.SecurityTypes.Option:
 							// don't set the side for options
 							rowValues.Add("");
 							break;
@@ -3043,7 +2976,7 @@ namespace ROC
 				{
 					switch ((string)row["SecType"])
 					{
-						case CSVEx.CSVFieldIDs.SecutrityTypes.Option:
+						case CSVEx.CSVFieldIDs.SecurityTypes.Option:
 							// don't set the side for options
 							rowValues.Add("");
 							break;

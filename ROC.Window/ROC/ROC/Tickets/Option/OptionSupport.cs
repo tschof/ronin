@@ -11,7 +11,7 @@ namespace ROC
 			get
 			{
 				if (CurrentSecInfo != null &&
-					CurrentSecInfo.SecType == CSVEx.CSVFieldIDs.SecutrityTypes.Equity)
+					CurrentSecInfo.SecType == CSVEx.CSVFieldIDs.SecurityTypes.Equity)
 				{
 					return true;
 				}
@@ -27,7 +27,7 @@ namespace ROC
 			get
 			{
 				if (CurrentSecInfo != null &&
-					CurrentSecInfo.SecType == CSVEx.CSVFieldIDs.SecutrityTypes.Future)
+					CurrentSecInfo.SecType == CSVEx.CSVFieldIDs.SecurityTypes.Future)
 				{
 					return true;
 				}
@@ -76,7 +76,7 @@ namespace ROC
 			{
 				switch (CurrentSecInfo.SecType)
 				{
-					case CSVEx.CSVFieldIDs.SecutrityTypes.Future:
+					case CSVEx.CSVFieldIDs.SecurityTypes.Future:
 						if (HelperOption.PlusOne.Contains(CurrentSecInfo.Underlying))
 						{
 							MonthToAdd = 1;
@@ -162,7 +162,7 @@ namespace ROC
 			{
 				switch (CurrentSecInfo.SecType)
 				{
-					case CSVEx.CSVFieldIDs.SecutrityTypes.Future:
+					case CSVEx.CSVFieldIDs.SecurityTypes.Future:
 						string symbol = GLOBAL.HSymbolSettingData.GetBaseSymbol(CurrentSecInfo.Underlying);
 						if (symbol == "")
 						{

@@ -1,34 +1,29 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
 
-using FormEx;
 using RDSEx;
 using DataGridViewEx;
 using SerializationEx;
 using ContextMenuEx;
 using LabelEx;
-using MarketDataEx;
 using ROMEx;
 using CSVEx;
-using ButtonEx;
 using DateTimeEx;
+using MarketData;
 
 namespace ROC
 {
 	[System.ComponentModel.DesignerCategory("Form")]
-	public partial class frmOptionTicket : OptionSupport
+	internal partial class frmOptionTicket : OptionSupport
 	{
 		private sealed class SubscriptionQueue
 		{
 			private string _mdsymbol = "";
-			public string MDSymbol
+			internal string MDSymbol
 			{
 				get
 				{
@@ -37,7 +32,7 @@ namespace ROC
 			}
 
 			private string _mdsource = "";
-			public string MDSource
+			internal string MDSource
 			{
 				get
 				{
@@ -46,7 +41,7 @@ namespace ROC
 			}
 
 			private string _secType = "";
-			public string SecType
+			internal string SecType
 			{
 				get
 				{
@@ -55,7 +50,7 @@ namespace ROC
 			}
 
 			private string _currentSymbolDetail = "";
-			public string CurrentSymbolDetail
+			internal string CurrentSymbolDetail
 			{
 				get
 				{
@@ -63,14 +58,14 @@ namespace ROC
 				}
 			}
 
-			public SubscriptionQueue(string mdsymbol, string mdsource, string secType)
+			internal SubscriptionQueue(string mdsymbol, string mdsource, string secType)
 			{
 				_mdsymbol = mdsymbol;
 				_mdsource = mdsource;
 				_secType = secType;
 			}
 
-			public SubscriptionQueue(string mdsymbol, string currentSymbolDetail)
+			internal SubscriptionQueue(string mdsymbol, string currentSymbolDetail)
 			{
 				_mdsymbol = mdsymbol;
 				_currentSymbolDetail = currentSymbolDetail;
@@ -79,7 +74,7 @@ namespace ROC
 
 		#region - Properties -
 
-		public bool IsProcessing
+		internal bool IsProcessing
 		{
 			get
 			{
@@ -115,7 +110,7 @@ namespace ROC
 			}
 		}
 
-		public string StrikesToShow
+		internal string StrikesToShow
 		{
 			get
 			{
@@ -157,7 +152,7 @@ namespace ROC
 			}
 		}
 
-		public string ExpirationsToShow
+		internal string ExpirationsToShow
 		{
 			get
 			{
@@ -199,7 +194,7 @@ namespace ROC
 			}
 		}
 
-		public bool ShowMonthlyExpirationsOnly
+		internal bool ShowMonthlyExpirationsOnly
 		{
 			get
 			{
@@ -354,7 +349,7 @@ namespace ROC
 
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
-		private Dictionary<string, MDServerToClient> _deltas = new Dictionary<string, MDServerToClient>();
+		private Market _deltas = new Market();
 
 		private Dictionary<string, SubscriptionQueue> _subQueue = new Dictionary<string, SubscriptionQueue>();
 		private Dictionary<string, SubscriptionQueue> _subOptionQueue = new Dictionary<string, SubscriptionQueue>();
@@ -369,14 +364,14 @@ namespace ROC
 
 		#region - Constructor -
 
-		public frmOptionTicket()
+		internal frmOptionTicket()
 		{
 			InitializeComponent();
 
 			Initialize();
 		}
 
-		public frmOptionTicket(string symbolDetail)
+		internal frmOptionTicket(string symbolDetail)
 		{
 			InitializeComponent();
 
@@ -385,7 +380,7 @@ namespace ROC
 			CurrentSymbolDetail = symbolDetail;
 		}
 
-		public void Initialize()
+		internal void Initialize()
 		{
 			DDSymbolDetails = new DropDownSymbolDetails(this);
 			DDAccountDropDown = new DropDownTraderAccount(this);
@@ -638,11 +633,11 @@ namespace ROC
 					//DDAccountDropDown.SelectedTraderFor = "";
 					//DDAccountDropDown.LoadUserAccounts();
 
-					UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(TicketDefaults.Option, CSVEx.CSVFieldIDs.SecutrityTypes.Option));
+					UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(TicketDefaults.Option, CSVEx.CSVFieldIDs.SecurityTypes.Option));
 				}
 				else
 				{
-					UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Option));
+					UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Option));
 				}
 			}
 
@@ -945,11 +940,11 @@ namespace ROC
 						//    symbolList.AddRange(optionSymbols);
 						//    symbolList.Sort();
 						//}
-						//UpdateMarketDataDeltas(CurrentSymbolDetail, new Dictionary<string, MDServerToClient>(GLOBAL.HMarketData.Current), symbolList);
+						//UpdateMarketDataDeltas(CurrentSymbolDetail, new Market(GLOBAL.HMarketData.Current), symbolList);
 						// Update Level 1 only
-						if (GLOBAL.HMarketData.Current.ContainsKey(CurrentSymbolDetail))
+						if (GLOBAL.HMarketData.Current.TryGet(CurrentSymbolDetail, out Book book))
 						{
-							UpdateMarketDataDelta(GLOBAL.HMarketData.Current[CurrentSymbolDetail]);
+							UpdateMarketDataDelta(book);
 						}
 					}
 
@@ -1103,20 +1098,20 @@ namespace ROC
 				{
 					if (rocOptionList.MDPutSymbol == rocOptionList.MDPutSymbolOPRA)
 					{
-						SubscribeToVisiable(rocOptionList.MDPutSymbol, OptionDataSource.OPRANBBO, CSVFieldIDs.SecutrityTypes.Option);
+						SubscribeToVisiable(rocOptionList.MDPutSymbol, Constants.OptionDataSource.OPRANBBO, CSVFieldIDs.SecurityTypes.Option);
 					}
 					else
 					{
-						SubscribeToVisiable(rocOptionList.MDPutSymbolOPRA, OptionDataSource.OPRA, CSVFieldIDs.SecutrityTypes.Option);
+						SubscribeToVisiable(rocOptionList.MDPutSymbolOPRA, Constants.OptionDataSource.OPRA, CSVFieldIDs.SecurityTypes.Option);
 					}
 
 					if (rocOptionList.MDCallSymbol == rocOptionList.MDCallSymbolOPRA)
 					{
-						SubscribeToVisiable(rocOptionList.MDCallSymbol, OptionDataSource.OPRANBBO, CSVFieldIDs.SecutrityTypes.Option);
+						SubscribeToVisiable(rocOptionList.MDCallSymbol, Constants.OptionDataSource.OPRANBBO, CSVFieldIDs.SecurityTypes.Option);
 					}
 					else
 					{
-						SubscribeToVisiable(rocOptionList.MDCallSymbolOPRA, OptionDataSource.OPRA, CSVFieldIDs.SecutrityTypes.Option);
+						SubscribeToVisiable(rocOptionList.MDCallSymbolOPRA, Constants.OptionDataSource.OPRA, CSVFieldIDs.SecurityTypes.Option);
 					}
 				}
 				else
@@ -1464,7 +1459,7 @@ namespace ROC
 				UpdateSecurityInfo(symbolDetail);
 
 				// Load Option Chain Data
-				//UpdateMarketDataDeltas(symbolDetail, new Dictionary<string, MDServerToClient>(GLOBAL.HMarketData.Current));
+				//UpdateMarketDataDeltas(symbolDetail, new Market(GLOBAL.HMarketData.Current));
 			}
 			catch (Exception ex)
 			{
@@ -1476,8 +1471,8 @@ namespace ROC
 
 		#region - Used By Process Thread -
 
-		private delegate void UpdateTicketByProcessDelegate(bool updateIM, List<ROCOrder> orders, Dictionary<string, MDServerToClient> deltas, List<string> symbolList);
-		public void UpdateTicketByProcess(bool updateIM, List<ROCOrder> orders, Dictionary<string, MDServerToClient> deltas, List<string> symbolList)
+		private delegate void UpdateTicketByProcessDelegate(bool updateIM, List<ROCOrder> orders, Market deltas, List<string> symbolList);
+		internal void UpdateTicketByProcess(bool updateIM, List<ROCOrder> orders, Market deltas, List<string> symbolList)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
@@ -1487,20 +1482,7 @@ namespace ROC
 					{
 						_updateIM = updateIM;
 					}
-					lock (_deltas)
-					{
-						foreach (string key in deltas.Keys)
-						{
-							if (_deltas.ContainsKey(key))
-							{
-								_deltas[key].Update(deltas[key]);
-							}
-							else
-							{
-								_deltas.Add(key, new MDServerToClient(deltas[key]));
-							}
-						}
-					}
+					_deltas.Merge(deltas);
 				}
 				catch (Exception ex)
 				{
@@ -1520,7 +1502,7 @@ namespace ROC
 					{
 						UpdateSecurityInfo();
 					}
-					if (deltas.Count > 0 && !IsProcessing)
+					if (!deltas.Empty && !IsProcessing)
 					{
 						UpdateMarketDataDeltas(CurrentSecInfo.MDSymbol, deltas, symbolList);
 					}
@@ -1555,16 +1537,15 @@ namespace ROC
 					}
 					if (rocOptionList.OptionLoaded && !IsProcessing)
 					{
-						Dictionary<string, MDServerToClient> deltas = new Dictionary<string, MDServerToClient>();
+						Market deltas = new Market();
 						lock (_deltas)
 						{
-							if (_deltas.Count > 0)
-							{
-								deltas = new Dictionary<string, MDServerToClient>(_deltas);
-								_deltas.Clear();
+							if (!_deltas.Empty) {
+								deltas = Market.Replace(_deltas);
 							}
 						}
-						if (deltas.Count > 0 && !IsProcessing)
+
+						if (!deltas.Empty && !IsProcessing)
 						{
 							//List<string> symbolList = new List<string>();
 							//symbolList = GetOptionSymbolRange(deltas, symbolList);
@@ -1632,12 +1613,7 @@ namespace ROC
 					lock (ImSymbolNeeded)
 					{
 						foreach (string symbolDetail in removeList)
-						{
-							if (ImSymbolNeeded.ContainsKey(symbolDetail))
-							{
-								ImSymbolNeeded.Remove(symbolDetail);
-							}
-						}
+							ImSymbolNeeded.Remove(symbolDetail);
 					}
 				}
 			}
@@ -1648,10 +1624,10 @@ namespace ROC
 			HelperSubscriber.Subscribe(secInfo.MDSymbol, secInfo.MDSource, secInfo.SecType);
 			switch (secInfo.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Equity:
-				case CSVFieldIDs.SecutrityTypes.Future:
-				case CSVFieldIDs.SecutrityTypes.OptionIndex:
-				case CSVFieldIDs.SecutrityTypes.OptionFuture:
+				case CSVFieldIDs.SecurityTypes.Equity:
+				case CSVFieldIDs.SecurityTypes.Future:
+				case CSVFieldIDs.SecurityTypes.OptionIndex:
+				case CSVFieldIDs.SecurityTypes.OptionFuture:
 					// Only subscribe to visiable options
 					//if (secInfo.OptionChain.Count > 0)
 					//{
@@ -1724,12 +1700,12 @@ namespace ROC
 		}
 
 		// Update with Security Info On Play back & onProcess
-		private void UpdateMarketDataDeltas(string symbolDetail, Dictionary<string, MDServerToClient> deltas, List<string> symbolList)
+		private void UpdateMarketDataDeltas(string symbolDetail, Market deltas, List<string> symbolList)
 		{
 			// Update Level 1
-			if (deltas.ContainsKey(symbolDetail))
+			if (deltas.TryGet(symbolDetail, out Book found))
 			{
-				UpdateMarketDataDelta(deltas[symbolDetail]);
+				UpdateMarketDataDelta(found);
 			}
 
 			// Update Option Deltas
@@ -1755,7 +1731,7 @@ namespace ROC
 		}
 
 		// Update with matching market data Level 1
-		private void UpdateMarketDataDelta(MDServerToClient delta)
+		private void UpdateMarketDataDelta(Book delta)
 		{
 			lock (panelTicker)
 			{
@@ -1765,32 +1741,32 @@ namespace ROC
 				bool newAskPrice = false;
 				bool newTradePrice = false;
 
-				if (delta.BidPrice != null)
-				{
-					dspBidPrice.Value = (double)delta.BidPrice;
+				double price, change;
+				long size;
+
+				if (delta.TryGetField(Book.FieldEnum.BidPrice, out price)) { 
+					dspBidPrice.Value = price;
 					newBidPrice = true;
 				}
 
-				if (delta.BidSize != null)
-				{
-					dspBidSize.Value = (long)delta.BidSize;
+				if (delta.TryGetField(Book.FieldEnum.BidSize, out size)) {
+					dspBidSize.Value = size;
 				}
 
-				if (delta.AskPrice != null)
-				{
-					dspAskPrice.Value = (double)delta.AskPrice;
+				if (delta.TryGetField(Book.FieldEnum.AskPrice, out price)) {
+					dspAskPrice.Value = price;
 					newAskPrice = true;
 				}
 
-				if (delta.AskSize != null)
-				{
-					dspAskSize.Value = (long)delta.AskSize;
+				if (delta.TryGetField(Book.FieldEnum.AskSize, out size)) {
+					dspAskSize.Value = size;
 				}
 
-				if (delta.TradePrice != null && delta.TradePrice != 0)
-				{
-					dspTradedPrice.Value = (double)delta.TradePrice;
-					newTradePrice = true;
+				if (delta.TryGetField(Book.FieldEnum.TradePrice, out price)) {
+					if (!Common.Price.IsZeroValue(price)) {
+						dspTradedPrice.Value = price;
+						newTradePrice = true;
+					}
 				}
 				//else
 				//{
@@ -1822,14 +1798,12 @@ namespace ROC
 					}
 				}
 
-				if (delta.TotalVolume != null)
-				{
-					dspVolume.Value = (long)delta.TotalVolume;
+				if (delta.TryGetField(Book.FieldEnum.TotalVolume, out size)) {
+					dspVolume.Value = size;
 				}
 
-				if (delta.TradeTick != null && delta.TradeTick != "")
-				{
-					switch (delta.TradeTick)
+				if (delta.TryGetField(Book.FieldEnum.TradeTick, out string tradeTick)) {
+					switch (tradeTick)
 					{
 						case "+":
 						case "+0":
@@ -1846,83 +1820,75 @@ namespace ROC
 					}
 				}
 
-				if (delta.TradeVolume != null)
-				{
-					dspTradeVolume.Value = (long)delta.TradeVolume;
+				if (delta.TryGetField(Book.FieldEnum.TradeVolume, out size)) {
+					dspTradeVolume.Value = size;
 				}
 
-				if (delta.NetChange != null)
-				{
-					dspNetChange.Value = (double)delta.NetChange;
+				if (delta.TryGetField(Book.FieldEnum.NetChange, out change)) {
+					dspNetChange.Value = change;
 					dspTradedPrice.ForeColor = dspNetChange.ForeColor;
 				}
 
-				if (delta.PctChange != null)
-				{
-					dspPctChange.Value = (double)delta.PctChange;
+				if (delta.TryGetField(Book.FieldEnum.PctChange, out change)) {
+					dspPctChange.Value = change;
 				}
 
-				if (delta.HighPrice != null)
-				{
-					dspHighPrice.Value = (double)delta.HighPrice;
+				if (delta.TryGetField(Book.FieldEnum.HighPrice, out price)) {
+					dspHighPrice.Value = price;
 				}
 
-				if (delta.LowPrice != null)
-				{
-					dspLowPrice.Value = (double)delta.LowPrice;
+				if (delta.TryGetField(Book.FieldEnum.LowPrice, out price)) {
+					dspLowPrice.Value = price;
 				}
 
-				if (delta.ClosePrice != null && (double)delta.ClosePrice != 0)
-				{
-					dspClosePrice.Value = (double)delta.ClosePrice;
+				if (delta.TryGetField(Book.FieldEnum.ClosePrice, out price)) {
+					dspClosePrice.Value = price;
 				}
 				else
 				{
 					switch (CurrentSecInfo.SecType)
 					{
 						case "F":
-							if (delta.SettlePrice != null && (double)delta.SettlePrice != 0)
-							{
-								dspClosePrice.Value = (double)delta.SettlePrice;
+							if (delta.TryGetNonZero(Book.FieldEnum.SettlePrice, out price)) {
+								dspClosePrice.Value = price;
 							}
-							else if (delta.PrevClosePrice != null && (double)delta.PrevClosePrice != 0)
+							else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price))
 							{
-								dspClosePrice.Value = (double)delta.PrevClosePrice;
+								dspClosePrice.Value = price;
 							}
 							break;
 						default:
-							if (delta.AdjPrevClosePrice != null && (double)delta.AdjPrevClosePrice != 0)
+							if (delta.TryGetNonZero(Book.FieldEnum.AdjPrevClosePrice, out price))
 							{
-								dspClosePrice.Value = (double)delta.AdjPrevClosePrice;
+								dspClosePrice.Value = price;
 							}
-							else if (delta.PrevClosePrice != null && (double)delta.PrevClosePrice != 0)
+							else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price))
 							{
-								dspClosePrice.Value = (double)delta.PrevClosePrice;
+								dspClosePrice.Value = price;
 							}
 							break;
 					}
 				}
 
-				switch (delta.SecurityStatusINT)
-				{
-					case SecurityStates.None:
-						break;
-					case SecurityStates.Normal:
-						if (lblSecurityStatus.Visible)
-						{
-							lblSecurityStatus.Visible = false;
-							lblSecurityStatus.Blink = false;
-							lblSecurityStatus.Text = "STA";
-						}
-						break;
-					default:
-						lblSecurityStatus.Text = delta.SecurityStatus;
-						if (!lblSecurityStatus.Visible)
-						{
-							lblSecurityStatus.Visible = true;
-							lblSecurityStatus.Blink = true;
-						}
-						break;
+				if (delta.TryGetField(Book.FieldEnum.SecurityStatus, out string status)) {
+					switch (status.ToLower()) {
+						case "none":
+							break;
+						case "normal":
+							if (lblSecurityStatus.Visible) {
+								lblSecurityStatus.Visible = false;
+								lblSecurityStatus.Blink = false;
+								lblSecurityStatus.Text = "STA";
+							}
+							break;
+						default:
+							lblSecurityStatus.Text = status;
+							if (!lblSecurityStatus.Visible) {
+								lblSecurityStatus.Visible = true;
+								lblSecurityStatus.Blink = true;
+							}
+							break;
+					}
 				}
 
 				panelTicker.ResumeLayout();
@@ -2142,7 +2108,7 @@ namespace ROC
 
 		#endregion
 
-		private List<string> GetOptionSymbolRange(Dictionary<string, MDServerToClient> deltas, List<string> symbolList)
+		private List<string> GetOptionSymbolRange(Market deltas, List<string> symbolList)
 		{
 			List<string> result = new List<string>();
 
@@ -2150,9 +2116,7 @@ namespace ROC
 			{
 				if (symbolList.Count == 0)
 				{
-					string[] optionSymbols = new string[deltas.Count];
-					deltas.Keys.CopyTo(optionSymbols, 0);
-					symbolList.AddRange(optionSymbols);
+					deltas.CopySymbolsTo(symbolList);
 					symbolList.Sort();
 				}
 
@@ -2230,255 +2194,159 @@ namespace ROC
 			return result;
 		}
 
+		private void updateBookDataOptionDeltas(string symbol, Book bookDelta)
+		{
+			DataRowView[] rows;
+
+			if (bookDelta.TryGetNonEmpty(Book.FieldEnum.uSymbol, out string uSymbol)) {
+				if (!IsFuture) {
+					// NBBO
+					if (rocOptionList.PutKeys.Contains(uSymbol)) {
+						if (rocOptionList.FilterInAll) {
+							rows = rocOptionList.PutSearchView.FindRows(new object[] { uSymbol, "" });
+							UpdateMarketDataOptionDelta(bookDelta, rows, "Put", "", false);
+						}
+
+						if (bookDelta.TryGetNonEmpty(Book.FieldEnum.AskPartId, out string askPartId)) {
+							rows = rocOptionList.PutSearchView.FindRows(new object[] { uSymbol, askPartId });
+							UpdateMarketDataOptionDelta(bookDelta, rows, "Put", askPartId, !rocOptionList.FilterInAll);
+						}
+
+						if (bookDelta.TryGetNonEmpty(Book.FieldEnum.BidPartId, out string bidPartId)) {
+							rows = rocOptionList.PutSearchView.FindRows(new object[] { uSymbol, bidPartId });
+							UpdateMarketDataOptionDelta(bookDelta, rows, "Put", bidPartId, !rocOptionList.FilterInAll);
+						}
+					} else if (rocOptionList.CallKeys.Contains(uSymbol)) {
+						if (rocOptionList.FilterInAll) {
+							rows = rocOptionList.CallSearchView.FindRows(new object[] { uSymbol, "" });
+							UpdateMarketDataOptionDelta(bookDelta, rows, "Call", "", false);
+						}
+
+						if (bookDelta.TryGetNonEmpty(Book.FieldEnum.AskPartId, out string askPartId)) {
+							rows = rocOptionList.CallSearchView.FindRows(new object[] { uSymbol, askPartId });
+							UpdateMarketDataOptionDelta(bookDelta, rows, "Call", askPartId, !rocOptionList.FilterInAll);
+						}
+
+						if (bookDelta.TryGetNonEmpty(Book.FieldEnum.BidPartId, out string bidPartId)) {
+							rows = rocOptionList.CallSearchView.FindRows(new object[] { uSymbol, bidPartId });
+							UpdateMarketDataOptionDelta(bookDelta, rows, "Call", bidPartId, !rocOptionList.FilterInAll);
+						}
+					}
+				} else {
+					// Future
+					if (rocOptionList.PutKeys.Contains(uSymbol)) {
+						rows = rocOptionList.PutSearchView.FindRows(new object[] { uSymbol, "" });
+						UpdateMarketDataOptionDelta(bookDelta, rows, "Put", "", false);
+					} else if (rocOptionList.CallKeys.Contains(uSymbol)) {
+						rows = rocOptionList.CallSearchView.FindRows(new object[] { uSymbol, "" });
+						UpdateMarketDataOptionDelta(bookDelta, rows, "Call", "", false);
+					}
+				}
+			} else if (bookDelta.TryGetNonEmpty(Book.FieldEnum.uParticipantSymbol, out string uParticipantSymbol)) {
+				// Normal
+				if (rocOptionList.PutKeys.Contains(uSymbol)) {
+					rows = rocOptionList.PutSearchView.FindRows(new object[] { uSymbol, uParticipantSymbol });
+					UpdateMarketDataOptionDelta(bookDelta, rows, "Put", uParticipantSymbol, !rocOptionList.FilterInAll);
+				} else if (rocOptionList.CallKeys.Contains(uSymbol)) {
+					rows = rocOptionList.CallSearchView.FindRows(new object[] { uSymbol, uParticipantSymbol });
+					UpdateMarketDataOptionDelta(bookDelta, rows, "Call", uParticipantSymbol, !rocOptionList.FilterInAll);
+				}
+			}
+
+			if (GLOBAL.Interrupt && !IsProcessing) {
+				GLOBAL.Interrupt = false;
+				Application.DoEvents();
+			}
+		}
+
 		// Update with matching market data option chain OPRA and NBBO
-		private void UpdateMarketDataOptionDeltas(Dictionary<string, MDServerToClient> deltas)
+		private void UpdateMarketDataOptionDeltas(Market marketDeltas)
 		{
 			DataRowView[] rows = new DataRowView[0];
 
 			lock (rocOptionList.RocGridTable)
 			{
-				foreach (MDServerToClient delta in deltas.Values)
-				{
-					if (delta.uParticipentSymbol == null || delta.uParticipentSymbol == "")
-					{
-						if (!IsFuture)
-						{
-							// NBBO
-							if (rocOptionList.PutKeys.Contains(delta.uSymbol))
-							{
-								if (rocOptionList.FilterInAll)
-								{
-									rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, "" });
-									UpdateMarketDataOptionDelta(delta, rows, "Put", "", false);
-								}
-
-								if (delta.AskPartId != null && delta.AskPartId != "")
-								{
-									rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, delta.AskPartId });
-									UpdateMarketDataOptionDelta(delta, rows, "Put", delta.AskPartId, !rocOptionList.FilterInAll);
-								}
-
-								if (delta.BidPartId != null && delta.BidPartId != "")
-								{
-									rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, delta.BidPartId });
-									UpdateMarketDataOptionDelta(delta, rows, "Put", delta.BidPartId, !rocOptionList.FilterInAll);
-								}
-							}
-							else if (rocOptionList.CallKeys.Contains(delta.uSymbol))
-							{
-								if (rocOptionList.FilterInAll)
-								{
-									rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, "" });
-									UpdateMarketDataOptionDelta(delta, rows, "Call", "", false);
-								}
-
-								if (delta.AskPartId != null && delta.AskPartId != "")
-								{
-									rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, delta.AskPartId });
-									UpdateMarketDataOptionDelta(delta, rows, "Call", delta.AskPartId, !rocOptionList.FilterInAll);
-								}
-
-								if (delta.BidPartId != null && delta.BidPartId != "")
-								{
-									rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, delta.BidPartId });
-									UpdateMarketDataOptionDelta(delta, rows, "Call", delta.BidPartId, !rocOptionList.FilterInAll);
-								}
-							}
-						}
-						else
-						{
-							// Future
-							if (rocOptionList.PutKeys.Contains(delta.uSymbol))
-							{
-								rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, "" });
-								UpdateMarketDataOptionDelta(delta, rows, "Put", "", false);
-							}
-							else if (rocOptionList.CallKeys.Contains(delta.uSymbol))
-							{
-								rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, "" });
-								UpdateMarketDataOptionDelta(delta, rows, "Call", "", false);
-							}
-						}
-					}
-					else
-					{
-						// Normal
-						if (rocOptionList.PutKeys.Contains(delta.uSymbol))
-						{
-							rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, delta.uParticipentSymbol });
-							UpdateMarketDataOptionDelta(delta, rows, "Put", delta.uParticipentSymbol, !rocOptionList.FilterInAll);
-						}
-						else if (rocOptionList.CallKeys.Contains(delta.uSymbol))
-						{
-							rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, delta.uParticipentSymbol });
-							UpdateMarketDataOptionDelta(delta, rows, "Call", delta.uParticipentSymbol, !rocOptionList.FilterInAll);
-						}
-					}
-
-					if (GLOBAL.Interrupt && !IsProcessing)
-					{
-						GLOBAL.Interrupt = false;
-						Application.DoEvents();
-					}
-				}
+				foreach ((string symbol, Book delta) in marketDeltas)
+					updateBookDataOptionDeltas(symbol, delta);
 			}
 		}
 
 		// Update with matching market data option chain OPRA and NBBO
-		private void UpdateMarketDataOptionDeltas(Dictionary<string, MDServerToClient> deltas, List<string> symbolList)
+		private void UpdateMarketDataOptionDeltas(Market deltas, List<string> symbolList)
 		{
-			DataRowView[] rows = new DataRowView[0];
-
 			lock (rocOptionList.RocGridTable)
 			{
 				foreach (string symbol in symbolList)
 				{
-					if (deltas.ContainsKey(symbol))
-					{
-						MDServerToClient delta = deltas[symbol];
-						if (delta.uParticipentSymbol == null || delta.uParticipentSymbol == "")
-						{
-							if (!IsFuture)
-							{
-								// NBBO
-								if (rocOptionList.PutKeys.Contains(delta.uSymbol))
-								{
-									if (rocOptionList.FilterInAll)
-									{
-										rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, "" });
-										UpdateMarketDataOptionDelta(delta, rows, "Put", "", false);
-									}
-
-									if (delta.AskPartId != null && delta.AskPartId != "")
-									{
-										rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, delta.AskPartId });
-										UpdateMarketDataOptionDelta(delta, rows, "Put", delta.AskPartId, !rocOptionList.FilterInAll);
-									}
-
-									if (delta.BidPartId != null && delta.BidPartId != "")
-									{
-										rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, delta.BidPartId });
-										UpdateMarketDataOptionDelta(delta, rows, "Put", delta.BidPartId, !rocOptionList.FilterInAll);
-									}
-								}
-								else if (rocOptionList.CallKeys.Contains(delta.uSymbol))
-								{
-									if (rocOptionList.FilterInAll)
-									{
-										rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, "" });
-										UpdateMarketDataOptionDelta(delta, rows, "Call", "", false);
-									}
-
-									if (delta.AskPartId != null && delta.AskPartId != "")
-									{
-										rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, delta.AskPartId });
-										UpdateMarketDataOptionDelta(delta, rows, "Call", delta.AskPartId, !rocOptionList.FilterInAll);
-									}
-
-									if (delta.BidPartId != null && delta.BidPartId != "")
-									{
-										rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, delta.BidPartId });
-										UpdateMarketDataOptionDelta(delta, rows, "Call", delta.BidPartId, !rocOptionList.FilterInAll);
-									}
-								}
-							}
-							else
-							{
-								// Future
-								if (rocOptionList.PutKeys.Contains(delta.uSymbol))
-								{
-									rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, "" });
-									UpdateMarketDataOptionDelta(delta, rows, "Put", "", false);
-								}
-								else if (rocOptionList.CallKeys.Contains(delta.uSymbol))
-								{
-									rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, "" });
-									UpdateMarketDataOptionDelta(delta, rows, "Call", "", false);
-								}
-							}
-						}
-						else
-						{
-							// Normal
-							if (rocOptionList.PutKeys.Contains(delta.uSymbol))
-							{
-								rows = rocOptionList.PutSearchView.FindRows(new object[] { delta.uSymbol, delta.uParticipentSymbol });
-								UpdateMarketDataOptionDelta(delta, rows, "Put", delta.uParticipentSymbol, !rocOptionList.FilterInAll);
-							}
-							else if (rocOptionList.CallKeys.Contains(delta.uSymbol))
-							{
-								rows = rocOptionList.CallSearchView.FindRows(new object[] { delta.uSymbol, delta.uParticipentSymbol });
-								UpdateMarketDataOptionDelta(delta, rows, "Call", delta.uParticipentSymbol, !rocOptionList.FilterInAll);
-							}
-						}
-
-						if (GLOBAL.Interrupt && !IsProcessing)
-						{
-							GLOBAL.Interrupt = false;
-							Application.DoEvents();
-						}
-					}
+					if (deltas.TryGet(symbol, out Book delta))
+						updateBookDataOptionDeltas(symbol, delta);
 				}
 			}
 		}
 
-		private void UpdateMarketDataOptionDelta(MDServerToClient delta, DataRowView[] rows, string callPut, string pid, bool makeNBBO)
+		private void UpdateMarketDataOptionDelta(Book delta, DataRowView[] rows, string callPut, string pid, bool makeNBBO)
 		{
 			foreach (DataRowView row in rows)
 			{
 				string rowPartID = row[callPut + "PartID"].ToString();
 
-				if (rowPartID == "" || rowPartID == delta.BidPartId)
-				{
-					if (delta.BidPartId != null && delta.BidPartId != "")
-					{
-						row[callPut + "BidPartID"] = delta.BidPartId;
-					}
+				string bidPartId;
+				if (!delta.TryGetField(Book.FieldEnum.BidPartId, out bidPartId))
+					bidPartId = null;
 
-					if (delta.BidPrice != null && delta.BidSize != null)
-					{
-						row[callPut + "BidPrice"] = (double)delta.BidPrice;
-						row[callPut + "BidSize"] = (long)delta.BidSize;
+				if (string.IsNullOrEmpty(rowPartID) || (rowPartID == bidPartId)) {
+					if (bidPartId != null)
+						row[callPut + "BidPartID"] = bidPartId;
+
+					if (delta.TryGetField(Book.FieldEnum.BidPrice, out double price)) {
+						if (delta.TryGetField(Book.FieldEnum.BidSize, out long bidSize)) {
+							row[callPut + "BidPrice"] = price;
+							row[callPut + "BidSize"] = bidSize;
+						}
 					}
 				}
 
-				if (rowPartID == "" || rowPartID == delta.AskPartId)
-				{
-					if (delta.AskPartId != null && delta.AskPartId != "")
-					{
-						row[callPut + "AskPartID"] = delta.AskPartId;
-					}
+				string askPartId;
+				if (!delta.TryGetField(Book.FieldEnum.AskPartId, out askPartId))
+					askPartId = null;
 
-					if (delta.AskPrice != null && delta.AskSize != null)
-					{
-						row[callPut + "AskPrice"] = (double)delta.AskPrice;
-						row[callPut + "AskSize"] = (long)delta.AskSize;
+				if (string.IsNullOrEmpty(rowPartID) || (rowPartID == askPartId)) {
+					if (askPartId != null)
+						row[callPut + "AskPartID"] = askPartId;
+
+					if (delta.TryGetField(Book.FieldEnum.AskPrice, out double price)) {
+						if (delta.TryGetField(Book.FieldEnum.AskSize, out long askSize)) {
+							row[callPut + "AskPrice"] = price;
+							row[callPut + "AskSize"] = askSize;
+						}
 					}
 				}
 
-				if (rowPartID == "" || rowPartID == delta.TradePartId)
+				string tradePartId;
+				if (!delta.TryGetField(Book.FieldEnum.TradePartId, out tradePartId))
+					tradePartId = null;
+
+				if (string.IsNullOrEmpty(rowPartID) || (rowPartID == tradePartId))
 				{
-					if (delta.TradePartId != null && delta.TradePartId != "")
-					{
-						row[callPut + "LastPartID"] = delta.TradePartId;
-					}
+					double price;
+
+					if (tradePartId != null)
+						row[callPut + "LastPartID"] = tradePartId;
 
 					//bool gotTraded = false;
-					if (delta.TradePrice != null && delta.TradePrice != 0)
-					{
-						row[callPut + "LastTraded"] = (double)delta.TradePrice;
+					if (delta.TryGetNonZero(Book.FieldEnum.TradePrice, out price)) {
+						row[callPut + "LastTraded"] = price;
 						//gotTraded = true;
 					}
-					else if (row[callPut + "LastTraded"] == null || row[callPut + "LastTraded"].ToString() == "")
+					else if ((row[callPut + "LastTraded"] == null) || (row[callPut + "LastTraded"].ToString() == ""))
 					{
-						if (delta.ClosePrice != null && delta.ClosePrice != 0)
-						{
-							row[callPut + "LastTraded"] = (double)delta.ClosePrice;
+						if (delta.TryGetNonZero(Book.FieldEnum.ClosePrice, out price)) {
+							row[callPut + "LastTraded"] = price;
 							//gotTraded = true;
 						}
-						else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
+						else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price))
 						{
-							row[callPut + "LastTraded"] = (double)delta.PrevClosePrice;
+							row[callPut + "LastTraded"] = price;
 							//gotTraded = true;
 						}
 					}
@@ -2489,14 +2357,14 @@ namespace ROC
 					//}
 				}
 
-				if (delta.TotalVolume != null)
+				if (delta.TryGetField(Book.FieldEnum.TotalVolume, out long totalSize))
 				{
-					row[callPut + "Volume"] = (long)delta.TotalVolume;
+					row[callPut + "Volume"] = totalSize;
 				}
 
-				if (delta.PctChange != null)
+				if (delta.TryGetField(Book.FieldEnum.PctChange, out double change))
 				{
-					row[callPut + "PctChanged"] = (double)delta.PctChange;
+					row[callPut + "PctChanged"] = change;
 				}
 
 				//if (makeNBBO && !_showOnlySelectedExchange)
@@ -2646,7 +2514,7 @@ namespace ROC
 
 					switch (CurrentSecInfo.SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Equity:
+						case CSVFieldIDs.SecurityTypes.Equity:
 							dspAskPrice.MaxDecimal = 2;
 							dspBidPrice.MaxDecimal = 2;
 							dspNetChange.MaxDecimal = 2;
@@ -2722,8 +2590,8 @@ namespace ROC
 					//}
 				}
 
-				UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Option));
-				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Option));
+				UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Option));
+				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Option));
 			}
 			catch (Exception ex)
 			{
@@ -2844,93 +2712,70 @@ namespace ROC
 
 						DataRowView[] rows = new DataRowView[0];
 
-						foreach (IMOptionInfo opt in CurrentSecInfo.OptionChain.Values)
-						{
+						foreach (IMOptionInfo opt in CurrentSecInfo.OptionChain.Values) {
 							if (_ticketClosed) break;
-							if (opt.ExpDateDT != null && opt.StrikePriceD != null)
-							{
+							if (opt.ExpDateDT != null && opt.StrikePriceD != null) {
 								expDate = (DateTime)opt.ExpDateDT;
 								stkPrice = (double)opt.StrikePriceD;
 
 								//if (!IsFuture && ShowMonthlyExpirationsOnly)
-								if (ShowMonthlyExpirationsOnly)
-								{
+								if (ShowMonthlyExpirationsOnly) {
 									monthlyExpDate = WeekHelper.GetMonthlyExpirationDay((DateTime)opt.ExpDateDT);
-									if (IsFuture)
-									{
-										if (rocOptionList.Expirations.Contains((DateTime)opt.ExpDateDT) || WeekHelper.IsThridWeek((DateTime)opt.ExpDateDT) || WeekHelper.IsEndOfMonth((DateTime)opt.ExpDateDT))
-										{
+									if (IsFuture) {
+										if (rocOptionList.Expirations.Contains((DateTime)opt.ExpDateDT) || WeekHelper.IsThridWeek((DateTime)opt.ExpDateDT) || WeekHelper.IsEndOfMonth((DateTime)opt.ExpDateDT)) {
 											// Monthly and Quaterly
-										}
-										else
-										{
+										} else {
 											continue;
 										}
-									}
-									else
-									{
-										if (monthlyExpDate != (DateTime)opt.ExpDateDT)
-										{
+									} else {
+										if (monthlyExpDate != (DateTime)opt.ExpDateDT) {
 											continue;
 										}
 									}
 								}
 
-								if (!_resetExpirationOnly)
-								{
-									if (!ExpDateKeys.Contains(expDate))
-									{
+								if (!_resetExpirationOnly) {
+									if (!ExpDateKeys.Contains(expDate)) {
 										ExpDateKeys.Add(expDate);
 										expirationTable.Rows.Add(new object[] { expDate, opt.ExpDate, ConvertToDisplayDate(expDate) });
 									}
 								}
 
-								if (stkPrice < _strikeLow || stkPrice > _strikeHigh || expDate < _expDateLow || expDate > _expDateHigh)
-								{
+								if (stkPrice < _strikeLow || stkPrice > _strikeHigh || expDate < _expDateLow || expDate > _expDateHigh) {
 									continue;
 								}
 
 								//if (!_resetExpirationOnly)
 								//{
-									if (!StrikeKeys.Contains(stkPrice))
-									{
-										StrikeKeys.Add(stkPrice);
-										strikeTable.Rows.Add(new object[] { stkPrice, (stkPrice).ToString(GetStrikFormat(stkPrice)) });
-									}
+								if (!StrikeKeys.Contains(stkPrice)) {
+									StrikeKeys.Add(stkPrice);
+									strikeTable.Rows.Add(new object[] { stkPrice, (stkPrice).ToString(GetStrikFormat(stkPrice)) });
+								}
 								//}
 
-								if (!optionSymbols.Contains(opt.OptionSymbol))
-								{
+								if (!optionSymbols.Contains(opt.OptionSymbol)) {
 									optionSymbols.Add(opt.OptionSymbol);
 								}
 
 								rows = new DataRowView[0];
-								switch (opt.CallPut)
-								{
+								switch (opt.CallPut) {
 									case CSVFieldIDs.OptionTypes.Put:
 										#region - Put -
-										if (!putKeys.Contains(opt.MDSymbol))
-										{
+										if (!putKeys.Contains(opt.MDSymbol)) {
 											putKeys.Add(opt.MDSymbol);
 
 											//try
 											//{
-												rows = searchView.FindRows(new object[] { opt.ExpDateDT, opt.StrikePriceD, opt.OptionSymbol });
-												if (rows.Length == 0)
-												{
-													table.Rows.Add(SetOptionRow(opt, table.NewRow(), "Put"));
-													if (!IsFuture && !_doNotLoadOPRAParticipant)
-													{
-														foreach (string key in OptionExchangeCode.IDs.Keys)
-														{
-															table.Rows.Add(SetOptionRow(opt, table.NewRow(), key, "Put"));
-														}
-													}
+											rows = searchView.FindRows(new object[] { opt.ExpDateDT, opt.StrikePriceD, opt.OptionSymbol });
+											if (rows.Length == 0) {
+												table.Rows.Add(SetOptionRow(opt, table.NewRow(), "Put"));
+												if (!IsFuture && !_doNotLoadOPRAParticipant) {
+													OptionExchangeCode.ForEach((code, name) =>
+														table.Rows.Add(SetOptionRow(opt, table.NewRow(), code, "Put")));
 												}
-												else
-												{
-													SetOptionRow(opt, rows, "Put");
-												}
+											} else {
+												SetOptionRow(opt, rows, "Put");
+											}
 											//}
 											//catch (Exception ex)
 											//{
@@ -2942,34 +2787,20 @@ namespace ROC
 										break;
 									case CSVFieldIDs.OptionTypes.Call:
 										#region - Call -
-										if (!callKeys.Contains(opt.MDSymbol))
-										{
+										if (!callKeys.Contains(opt.MDSymbol)) {
 											callKeys.Add(opt.MDSymbol);
-																						
-											//try
-											//{
-												rows = searchView.FindRows(new object[] { opt.ExpDateDT, opt.StrikePriceD, opt.OptionSymbol });
-												if (rows.Length == 0)
-												{
-													table.Rows.Add(SetOptionRow(opt, table.NewRow(), "Call"));
-													if (!IsFuture && !_doNotLoadOPRAParticipant)
-													{
-														foreach (string key in OptionExchangeCode.IDs.Keys)
-														{
-															table.Rows.Add(SetOptionRow(opt, table.NewRow(), key, "Call"));
-														}
-													}
+
+											rows = searchView.FindRows(new object[] { opt.ExpDateDT, opt.StrikePriceD, opt.OptionSymbol });
+											if (rows.Length == 0) {
+												table.Rows.Add(SetOptionRow(opt, table.NewRow(), "Call"));
+												if (!IsFuture && !_doNotLoadOPRAParticipant) {
+													OptionExchangeCode.ForEach((code, name) => {
+														table.Rows.Add(SetOptionRow(opt, table.NewRow(), code, "Call"));
+													});
 												}
-												else
-												{
-													SetOptionRow(opt, rows, "Call");
-												}
-											//}
-											//catch (Exception ex)
-											//{
-											//    GLOBAL.HROC.AddToStatusLogs("Call: " + ex.Message);
-											//    GLOBAL.HROC.AddToStatusLogs(ex.StackTrace);
-											//}
+											} else {
+												SetOptionRow(opt, rows, "Call");
+											}
 										}
 										#endregion
 										break;
@@ -3367,7 +3198,7 @@ namespace ROC
 			GLOBAL.Interrupt = true;
 			switch (e.Data.secType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					numQuantity.Value = e.Data.qty;
 					if (!e.Data.loadOnly)
 					{
@@ -3612,7 +3443,7 @@ namespace ROC
 
 					//if (!IsFuture)
 					//{
-						order.secType = CSVEx.CSVFieldIDs.SecutrityTypes.Option;
+						order.secType = CSVEx.CSVFieldIDs.SecurityTypes.Option;
 					//}
 					//else
 					//{
@@ -4037,22 +3868,11 @@ namespace ROC
 			if (isError)
 			{
 				// Add to error list
-				if (_controlsInError.ContainsKey(controlName))
-				{
-					_controlsInError[controlName] = isError;
-				}
-				else
-				{
-					_controlsInError.Add(controlName, isError);
-				}
-			}
-			else
+				_controlsInError[controlName] = isError;
+			} else
 			{
 				// Remove from error list
-				if (_controlsInError.ContainsKey(controlName))
-				{
-					_controlsInError.Remove(controlName);
-				}
+				_controlsInError.Remove(controlName);
 			}
 
 			if (_controlsInError.Count > 0)
@@ -4329,8 +4149,8 @@ namespace ROC
 
 			//cboOrder.Text = "Limit";
 			//cboDuration.Text = "DAY";
-			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(TicketDefaults.Option, CSVEx.CSVFieldIDs.SecutrityTypes.Option));
-			QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(TicketDefaults.Option, CSVEx.CSVFieldIDs.SecutrityTypes.Option), false);
+			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(TicketDefaults.Option, CSVEx.CSVFieldIDs.SecurityTypes.Option));
+			QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(TicketDefaults.Option, CSVEx.CSVFieldIDs.SecurityTypes.Option), false);
 
 			_isLoadingValue = false;
 
@@ -4419,7 +4239,7 @@ namespace ROC
 
 		#region - Export & Import -
 
-		public string ExportOptionGrid()
+		internal string ExportOptionGrid()
 		{
 			ROCOptionListProfile prof = new ROCOptionListProfile(rocOptionList);
 
@@ -4427,7 +4247,7 @@ namespace ROC
 			return System.Convert.ToBase64String(bytes);
 		}
 
-		public void ImportOptionGrid(string s)
+		internal void ImportOptionGrid(string s)
 		{
 			if (s != null && s != "")
 			{
@@ -4440,7 +4260,7 @@ namespace ROC
 			}
 		}
 
-		public string ExportTicket()
+		internal string ExportTicket()
 		{
 			ROCTicketProfile prof = new ROCTicketProfile(this);
 
@@ -4448,7 +4268,7 @@ namespace ROC
 			return System.Convert.ToBase64String(bytes);
 		}
 
-		public void ImportTicket(string s)
+		internal void ImportTicket(string s)
 		{
 			if (s != null && s != "")
 			{
@@ -4466,21 +4286,21 @@ namespace ROC
 			}
 		}
 
-		public void ReloadTicket()
+		internal void ReloadTicket()
 		{
 			if (CurrentSymbolDetail != "" && CurrentSecInfo != null)
 			{
-				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVFieldIDs.SecutrityTypes.Option));
+				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVFieldIDs.SecurityTypes.Option));
 			}
 			else
 			{
-				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(TicketDefaults.Option, CSVFieldIDs.SecutrityTypes.Option));
+				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(TicketDefaults.Option, CSVFieldIDs.SecurityTypes.Option));
 			}
 			//Debug.Print("ReloadTicket().ValidateTicketValues()");
 			ValidateTicketValues();
 		}
 
-		public void Clone()
+		internal void Clone()
 		{
 			lock (GLOBAL.HWindows.OptionTicketWindows)
 			{
@@ -4494,7 +4314,7 @@ namespace ROC
 				GLOBAL.HWindows.OpenWindow(w, true);
 			}
 		}
-		public void Clone(ROCTicketProfile prof, ROCOptionListProfile gridProf)
+		internal void Clone(ROCTicketProfile prof, ROCOptionListProfile gridProf)
 		{
 			if (prof != null)
 			{
@@ -4512,7 +4332,7 @@ namespace ROC
 
 		private void itemSaveAsDefault_Click(object sender, EventArgs e)
 		{
-			SymbolSettingData data = GLOBAL.HSymbolSettingData.GetSymbolDefaults(CurrentSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Option);
+			SymbolSettingData data = GLOBAL.HSymbolSettingData.GetSymbolDefaults(CurrentSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Option);
 
 			data.tradeFor = cmdTradeFor.Text;
 			data.account = cmdAccount.Text;
@@ -4542,9 +4362,9 @@ namespace ROC
 
 		private void itemResetToSystemDefault_Click(object sender, EventArgs e)
 		{
-			GLOBAL.HSymbolSettingData.RemoveSymbolDefault(CurrentSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Option);
-			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Option));
-			QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Option));
+			GLOBAL.HSymbolSettingData.RemoveSymbolDefault(CurrentSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Option);
+			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Option));
+			QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Option));
 		}
 
 		#endregion

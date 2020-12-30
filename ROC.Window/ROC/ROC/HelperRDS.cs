@@ -4,14 +4,13 @@ using System.Collections.Generic;
 
 using RDSEx;
 using CSVEx;
-using MarketDataEx;
-using System.Diagnostics;
+using MarketData;
 
 namespace ROC
 {
-	public class HelperRDS : HelperStatusBase
+	internal class HelperRDS : HelperStatusBase
 	{
-		public enum StatusTypes
+		internal enum StatusTypes
 		{
 			None,
 			GotError,
@@ -41,7 +40,7 @@ namespace ROC
 		#region - Property -
 
 		private StatusTypes _status = StatusTypes.None;
-		public StatusTypes Status
+		internal StatusTypes Status
 		{
 			get
 			{
@@ -57,7 +56,7 @@ namespace ROC
 		}
 
 		private bool _extended = false;
-		public bool Extended
+		internal bool Extended
 		{
 			get
 			{
@@ -82,7 +81,7 @@ namespace ROC
 		}
 
 		private bool _newSecurityInfo = false;
-		public bool NewSecufityInfo
+		internal bool NewSecufityInfo
 		{
 			get
 			{
@@ -98,7 +97,7 @@ namespace ROC
 
 		#region - RDS Property -
 
-		public string ErrorMsg
+		internal string ErrorMsg
 		{
 			get
 			{
@@ -106,7 +105,7 @@ namespace ROC
 			}
 		}
 
-		public string Address
+		internal string Address
 		{
 			get
 			{
@@ -114,7 +113,7 @@ namespace ROC
 			}
 		}
 
-		public string Version
+		internal string Version
 		{
 			get
 			{
@@ -122,7 +121,7 @@ namespace ROC
 			}
 		}
 
-		public bool GotUserProfiles
+		internal bool GotUserProfiles
 		{
 			get
 			{
@@ -130,7 +129,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, TraderMap> UserProfiles
+		internal Dictionary<string, TraderMap> UserProfiles
 		{
 			get
 			{
@@ -138,7 +137,7 @@ namespace ROC
 			}
 		}
 
-		public bool GotUserMarketDataSources
+		internal bool GotUserMarketDataSources
 		{
 			get
 			{
@@ -146,7 +145,7 @@ namespace ROC
 			}
 		}
 
-		public List<string> UserMarketDataSources
+		internal List<string> UserMarketDataSources
 		{
 			get
 			{
@@ -156,7 +155,7 @@ namespace ROC
 
 		#region - Trader to Stock Acct Map -
 
-		public Dictionary<string, List<AccountMap>> TraderToStockAccts
+		internal Dictionary<string, List<AccountMap>> TraderToStockAccts
 		{
 			get
 			{
@@ -164,7 +163,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, List<string>> TraderToStockAcctNames
+		internal Dictionary<string, List<string>> TraderToStockAcctNames
 		{
 			get
 			{
@@ -176,7 +175,7 @@ namespace ROC
 
 		#region - Trader to Future Acct Map -
 
-		public Dictionary<string, List<AccountMap>> TraderToFutureAccts
+		internal Dictionary<string, List<AccountMap>> TraderToFutureAccts
 		{
 			get
 			{
@@ -184,7 +183,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, List<string>> TraderToFutureAcctNames
+		internal Dictionary<string, List<string>> TraderToFutureAcctNames
 		{
 			get
 			{
@@ -196,7 +195,7 @@ namespace ROC
 
 		#region - Trader to Option Acct Map -
 
-		public Dictionary<string, List<AccountMap>> TraderToOptionAccts
+		internal Dictionary<string, List<AccountMap>> TraderToOptionAccts
 		{
 			get
 			{
@@ -204,7 +203,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, List<string>> TraderToOptionAcctNames
+		internal Dictionary<string, List<string>> TraderToOptionAcctNames
 		{
 			get
 			{
@@ -216,7 +215,7 @@ namespace ROC
 
 		#region - Stock Acct to Dest Maps -
 
-		public Dictionary<string, List<DestinationMap>> LocalStockAcctToDests
+		internal Dictionary<string, List<DestinationMap>> LocalStockAcctToDests
 		{
 			get
 			{
@@ -224,7 +223,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, List<int>> LocalStockAcctToDestIDs
+		internal Dictionary<string, List<int>> LocalStockAcctToDestIDs
 		{
 			get
 			{
@@ -232,7 +231,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, List<string>> LocalStockAcctToDestNames
+		internal Dictionary<string, List<string>> LocalStockAcctToDestNames
 		{
 			get
 			{
@@ -244,7 +243,7 @@ namespace ROC
 
 		#region - Future Acct to Dest Maps -
 
-		public Dictionary<string, List<DestinationMap>> LocalFutureAcctToDests
+		internal Dictionary<string, List<DestinationMap>> LocalFutureAcctToDests
 		{
 			get
 			{
@@ -252,7 +251,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, List<int>> LocalFutureAcctToDestIDs
+		internal Dictionary<string, List<int>> LocalFutureAcctToDestIDs
 		{
 			get
 			{
@@ -260,7 +259,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, List<string>> LocalFutureAcctToDestNames
+		internal Dictionary<string, List<string>> LocalFutureAcctToDestNames
 		{
 			get
 			{
@@ -273,7 +272,7 @@ namespace ROC
 		#region - Option Acct To Dest Maps -
 
 		private Dictionary<string, List<DestinationMap>> _localOptionAcctToDests;
-		public Dictionary<string, List<DestinationMap>> LocalOptionAcctToDests
+		internal Dictionary<string, List<DestinationMap>> LocalOptionAcctToDests
 		{
 			get
 			{
@@ -290,7 +289,7 @@ namespace ROC
 		}
 
 		private Dictionary<string, List<int>> _localOptionAcctToDestIDs;
-		public Dictionary<string, List<int>> LocalOptionAcctToDestIDs
+		internal Dictionary<string, List<int>> LocalOptionAcctToDestIDs
 		{
 			get
 			{
@@ -307,7 +306,7 @@ namespace ROC
 		}
 
 		private Dictionary<string, List<string>> _localOptionAcctToDestNames;
-		public Dictionary<string, List<string>> LocalOptionAcctToDestNames
+		internal Dictionary<string, List<string>> LocalOptionAcctToDestNames
 		{
 			get
 			{
@@ -327,7 +326,7 @@ namespace ROC
 
 		#region - Dest ID to Name and Map -
 
-		public Dictionary<int, string> DestIDToName
+		internal Dictionary<int, string> DestIDToName
 		{
 			get
 			{
@@ -335,7 +334,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<int, DestinationMap> DestIDToDestinationMap
+		internal Dictionary<int, DestinationMap> DestIDToDestinationMap
 		{
 			get
 			{
@@ -347,7 +346,7 @@ namespace ROC
 
 		#region - Dest Name To ID and Map -
 
-		public Dictionary<string, int> DestNameToID
+		internal Dictionary<string, int> DestNameToID
 		{
 			get
 			{
@@ -355,7 +354,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, DestinationMap> DestNameToDestinationMap
+		internal Dictionary<string, DestinationMap> DestNameToDestinationMap
 		{
 			get
 			{
@@ -365,7 +364,7 @@ namespace ROC
 
 		#endregion
 
-		public bool GotRocOrders
+		internal bool GotRocOrders
 		{
 			get
 			{
@@ -380,7 +379,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, ROCOrder> RocOrders
+		internal Dictionary<string, ROCOrder> RocOrders
 		{
 			get
 			{
@@ -392,7 +391,7 @@ namespace ROC
 			}
 		}
 
-		public bool GotRocExecutions
+		internal bool GotRocExecutions
 		{
 			get
 			{
@@ -407,7 +406,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, ROCExecution> RocExecutions
+		internal Dictionary<string, ROCExecution> RocExecutions
 		{
 			get
 			{
@@ -420,7 +419,7 @@ namespace ROC
 
 		}
 
-		public bool GotTposExecutions
+		internal bool GotTposExecutions
 		{
 			get
 			{
@@ -435,7 +434,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, TPOSExecution> TposExecutions
+		internal Dictionary<string, TPOSExecution> TposExecutions
 		{
 			get
 			{
@@ -443,7 +442,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, TPOSExecution> NewTposExecutions
+		internal Dictionary<string, TPOSExecution> NewTposExecutions
 		{
 			get
 			{
@@ -452,7 +451,7 @@ namespace ROC
 			}
 		}
 
-		public bool GotTposPositions
+		internal bool GotTposPositions
 		{
 			get
 			{
@@ -467,7 +466,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, TPOSPosition> TposPositions
+		internal Dictionary<string, TPOSPosition> TposPositions
 		{
 			get
 			{
@@ -475,7 +474,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, TPOSPosition> NewTposPositions
+		internal Dictionary<string, TPOSPosition> NewTposPositions
 		{
 			get
 			{
@@ -483,7 +482,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, IMSecurityInfo> SymbolSecurityInfos
+		internal Dictionary<string, IMSecurityInfo> SymbolSecurityInfos
 		{
 			get
 			{
@@ -491,7 +490,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, IMOptionInfo> SymbolToOptionInfoMap
+		internal Dictionary<string, IMOptionInfo> SymbolToOptionInfoMap
 		{
 			get
 			{
@@ -499,7 +498,7 @@ namespace ROC
 			}
 		}
 
-		public Dictionary<string, string> SymbolDetailToRocSymbolMap
+		internal Dictionary<string, string> SymbolDetailToRocSymbolMap
 		{
 			get
 			{
@@ -515,7 +514,7 @@ namespace ROC
 
 		#endregion
 
-		public HelperRDS()
+		internal HelperRDS()
 		{
 			Initialize();
 		}
@@ -533,25 +532,25 @@ namespace ROC
 			}
 		}
 
-		public void GetVersion()
+		internal void GetVersion()
 		{
 			SetStatus(StatusTypes.GettingVersion, String.Concat(new object[] { "RDS|GetVersion Getting... " }));
 			_rds.GetVersion();
 		}
 
-		public void GetUserProfile(string user, string pass)
+		internal void GetUserProfile(string user, string pass)
 		{
 			SetStatus(StatusTypes.GettingUserprofiles, String.Concat(new object[] { "RDS|GetUserProfile Getting... " }));
 			_rds.GetUserProfile(user, pass);
 		}
 
-		public void GetUserMarketDataSource()
+		internal void GetUserMarketDataSource()
 		{
 			SetStatus(StatusTypes.GettingUserprofiles, String.Concat(new object[] { "RDS|GetUserMarketDataSources Getting... " }));
 			_rds.GetUserMarketDataSources();
 		}
 
-		public void GetUserOrders()
+		internal void GetUserOrders()
 		{
 			if (Configuration.User.Default.UseROMDatabase)
 			{
@@ -564,7 +563,7 @@ namespace ROC
 			}
 		}
 
-		public void GetUserExecutions()
+		internal void GetUserExecutions()
 		{
 			if (Configuration.User.Default.UseROMDatabase)
 			{
@@ -577,7 +576,7 @@ namespace ROC
 			}
 		}
 
-		public void GetTPOSPositions()
+		internal void GetTPOSPositions()
 		{
 			if (Configuration.User.Default.UseTPOS)
 			{
@@ -590,7 +589,7 @@ namespace ROC
 			}
 		}
 
-		public void GetTPOSTrades(bool refresh)
+		internal void GetTPOSTrades(bool refresh)
 		{
 			if (Configuration.User.Default.UseTPOS)
 			{
@@ -609,7 +608,7 @@ namespace ROC
 			}
 		}
 
-		public void GetSecurityByTicker(string symbol)
+		internal void GetSecurityByTicker(string symbol)
 		{
 			if (symbol != "")
 			{
@@ -617,7 +616,7 @@ namespace ROC
 			}
 		}
 
-		public void GetOptionChain(string symbol)
+		internal void GetOptionChain(string symbol)
 		{
 			if (symbol != "")
 			{
@@ -625,7 +624,7 @@ namespace ROC
 			}
 		}
 
-		public void GetSSFutureChain(string symbol)
+		internal void GetSSFutureChain(string symbol)
 		{
 			if (symbol != "")
 			{
@@ -633,12 +632,12 @@ namespace ROC
 			}
 		}
 
-		public void UpdateUserPassword(string username, string oldPassword, string newPassword)
+		internal void UpdateUserPassword(string username, string oldPassword, string newPassword)
 		{
 			_rds.UpdateUserPassword(username, oldPassword, newPassword);
 		}
 
-		public void TPOSRefresh()
+		internal void TPOSRefresh()
 		{
 			lock (TposPositions)
 			{
@@ -655,7 +654,7 @@ namespace ROC
 			}
 		}
 
-		public void ConnectToMDS()
+		internal void ConnectToMDS()
 		{
 			if (Configuration.User.Default.UseMarketData)
 			{
@@ -671,139 +670,97 @@ namespace ROC
 			}
 		}
 
-		public void ConnectingToMDS()
+		internal void ConnectingToMDS()
 		{
-			bool mdsStopped = false;
-			bool mdsConnected = true;
+			bool ready = true;
 
-			if (GLOBAL.HMDSs.Count != 0)
-			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
-				{
-					switch (mds.Status)
-					{
-						case HelperMDS.StatusTypes.Stopping:
-						case HelperMDS.StatusTypes.Stopped:
-							mdsStopped = true;
-							break;
-						case HelperMDS.StatusTypes.Started:
-						default:
-							break;
-					}
+			foreach (HelperMDS mds in GLOBAL.HMDSs) {
+				if (!mds.IsConnected)
+					ready = false;
+			}
+
+			if (ready) {
+				// All mds are connected
+				foreach (HelperMDS mds in GLOBAL.HMDSs) {
+					SetStatus(StatusTypes.ConnectedToMDS, String.Concat(new object[] { "MDS|Connection Connected ", mds.ServerIP, " Port: ", mds.ServerPort }));
 				}
-			}
-			else
-			{
-				mdsStopped = true;
-			}
-
-			if (mdsStopped)
-			{
-				// One of the server didn't start
+			} else {
 				SetStatus(StatusTypes.ConnectionToMDSFailed, String.Concat(new object[] { "MDS|Connection Failed " }), true);
-			}
-			else
-			{
-				// no error detected, check to see all mds is connected
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
-				{
-					if (mds.Status != HelperMDS.StatusTypes.Started)
-					{
-						// still not ready
-						mdsConnected = false;
-						break;
-					}
-				}
-
-				if (mdsConnected)
-				{
-					foreach (HelperMDS mds in GLOBAL.HMDSs)
-					{
-						// All mds are connected
-						SetStatus(StatusTypes.ConnectedToMDS, String.Concat(new object[] { "MDS|Connection Connected ", mds.ServerIP, " Port: ", mds.ServerPort }));
-					}
-				}
 			}
 		}
 
-		public void LoginDone()
+		internal void LoginDone()
 		{
 			SetStatus(StatusTypes.Done, String.Concat(new object[] { "ROC|Login Done "}));
 		}
 
-		public void LoginFailed()
+		internal void LoginFailed()
 		{
 			SetStatus(StatusTypes.Failed, String.Concat(new object[] { "RDS|Login Failed " }), true);
 		}
 
-		public void MakeRocStatus(ref ROCOrder ord)
+		internal void MakeRocStatus(ref ROCOrder ord)
 		{
 			_rds.MakeRocStatus(ref ord);
 		}
 
-		public void ResetSecurityInfo()
+		internal void ResetSecurityInfo()
 		{
 			_rds.ResetSecurityInfo();
 		}
 
-		public BaseSecurityInfo GetSecurityInfoBySymbolDetail(string symbolDetail)
+		internal BaseSecurityInfo GetSecurityInfoBySymbolDetail(string symbolDetail)
 		{
 			BaseSecurityInfo secInfo = new BaseSecurityInfo();
-			string rocSymbol = "";
 
-			if (SymbolDetailToRocSymbolMap.ContainsKey(symbolDetail))
-			{
-				rocSymbol = SymbolDetailToRocSymbolMap[symbolDetail];
-			}
-
-			if (rocSymbol != "")
+			if (SymbolDetailToRocSymbolMap.TryGetValue(symbolDetail, out string rocSymbol) && !string.IsNullOrEmpty(rocSymbol))
 			{
 				// Future and Stock
-				if (SymbolSecurityInfos.ContainsKey(rocSymbol))
+				if (SymbolSecurityInfos.TryGetValue(rocSymbol, out IMSecurityInfo securityInfo))
 				{
-					secInfo.MDSymbol = SymbolSecurityInfos[rocSymbol].MDSymbol;
-					secInfo.MDSource = SymbolSecurityInfos[rocSymbol].MDSource;
-					secInfo.TickSize = SymbolSecurityInfos[rocSymbol].TickSize;
-					secInfo.SecType = SymbolSecurityInfos[rocSymbol].SecType;
+					secInfo.MDSymbol = securityInfo.MDSymbol;
+					secInfo.MDSource = securityInfo.MDSource;
+					secInfo.TickSize = securityInfo.TickSize;
+					secInfo.SecType = securityInfo.SecType;
 
-					secInfo.LongName = SymbolSecurityInfos[rocSymbol].LongName;
-					secInfo.ContractSize = SymbolSecurityInfos[rocSymbol].ContractSize;
+					secInfo.LongName = securityInfo.LongName;
+					secInfo.ContractSize = securityInfo.ContractSize;
 
-					secInfo.Underlying = SymbolSecurityInfos[rocSymbol].Underlying;
-					secInfo.Expiration = SymbolSecurityInfos[rocSymbol].Expiration;
+					secInfo.Underlying = securityInfo.Underlying;
+					secInfo.Expiration = securityInfo.Expiration;
 
-					if (SymbolSecurityInfos[rocSymbol].SSFutureChain.Count > 0)
+					if (securityInfo.SSFutureChain.Count > 0)
 					{
-						secInfo.SSFChain = new Dictionary<string, IMSSFutureInfo>(SymbolSecurityInfos[rocSymbol].SSFutureChain);
+						secInfo.SSFChain = new Dictionary<string, IMSSFutureInfo>(securityInfo.SSFutureChain);
 					}
 
-					if (SymbolSecurityInfos[rocSymbol].OptionChain.Count > 0)
+					if (securityInfo.OptionChain.Count > 0)
 					{
-						secInfo.OptionChain = new Dictionary<string, IMOptionInfo>(SymbolSecurityInfos[rocSymbol].OptionChain);
+						secInfo.OptionChain = new Dictionary<string, IMOptionInfo>(securityInfo.OptionChain);
 					}
 					return secInfo;
 				}
 
 				// Option
-				if (SymbolToOptionInfoMap.ContainsKey(rocSymbol))
+				if (SymbolToOptionInfoMap.TryGetValue(rocSymbol, out IMOptionInfo optionInfo))
 				{
-				    secInfo.MDSymbol = SymbolToOptionInfoMap[rocSymbol].MDSymbol;
-				    secInfo.MDSource = SymbolToOptionInfoMap[rocSymbol].MDSource;
-				    secInfo.TickSize = SymbolToOptionInfoMap[rocSymbol].TickSize;
-				    secInfo.SecType = SymbolToOptionInfoMap[rocSymbol].SecType;
+				    secInfo.MDSymbol = optionInfo.MDSymbol;
+				    secInfo.MDSource = optionInfo.MDSource;
+				    secInfo.TickSize = optionInfo.TickSize;
+				    secInfo.SecType = optionInfo.SecType;
 
-				    secInfo.LongName = SymbolToOptionInfoMap[rocSymbol].SymbolDetail;
-					if (SymbolToOptionInfoMap[rocSymbol].ContractSize > 0)
+				    secInfo.LongName = optionInfo.SymbolDetail;
+					if (optionInfo.ContractSize > 0)
 					{
-						secInfo.ContractSize = SymbolToOptionInfoMap[rocSymbol].ContractSize;
+						secInfo.ContractSize = optionInfo.ContractSize;
 					}
 					else
 					{
 						secInfo.ContractSize = 100;
 					}
 
-				    secInfo.Underlying = SymbolToOptionInfoMap[rocSymbol].Underlying;
-				    secInfo.Expiration = SymbolToOptionInfoMap[rocSymbol].ExpDate;
+				    secInfo.Underlying = optionInfo.Underlying;
+				    secInfo.Expiration = optionInfo.ExpDate;
 
 				    return secInfo;
 				}
@@ -812,7 +769,7 @@ namespace ROC
 			return null;
 		}
 
-		public bool CheckSource(string source)
+		internal bool CheckSource(string source)
 		{
 			bool result = false;
 
@@ -978,7 +935,7 @@ namespace ROC
 
 			foreach (HelperMDS mds in GLOBAL.HMDSs)
 			{
-				mds.SubscribeToOptionChain(symbols, e.Info.MDSymbol, e.Info.MDSource, CSVFieldIDs.SecutrityTypes.OptionFuture);
+				mds.SubscribeToOptionChain(symbols, e.Info.MDSymbol, e.Info.MDSource, CSVFieldIDs.SecurityTypes.OptionFuture);
 			}
 		}
 
@@ -1005,8 +962,8 @@ namespace ROC
 
 			foreach (HelperMDS mds in GLOBAL.HMDSs)
 			{
-				mds.SubscribeToOptionChain(symbols, e.Info.MDSymbol, OptionDataSource.OPRA, CSVFieldIDs.SecutrityTypes.Option);
-				mds.SubscribeToOptionChain(nbboSymbols, e.Info.MDSymbol, OptionDataSource.OPRANBBO, CSVFieldIDs.SecutrityTypes.Option);
+				mds.SubscribeToOptionChain(symbols, e.Info.MDSymbol, Constants.OptionDataSource.OPRA, CSVFieldIDs.SecurityTypes.Option);
+				mds.SubscribeToOptionChain(nbboSymbols, e.Info.MDSymbol, Constants.OptionDataSource.OPRANBBO, CSVFieldIDs.SecurityTypes.Option);
 			}
 
 			opraSymbols = null;

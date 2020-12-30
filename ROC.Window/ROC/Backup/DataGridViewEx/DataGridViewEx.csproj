@@ -1,0 +1,245 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B297081D-71ED-4309-9788-25CA8571F6FA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataGridViewEx</RootNamespace>
+    <AssemblyName>DataGridViewEx</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DGVAlert\DGVAlertTextColumn.cs" />
+    <Compile Include="DGVAlert\DGVAlertTimeColumn.cs" />
+    <Compile Include="DGVAutoSpread\DGVAutoSpreadListNumberColumn.cs" />
+    <Compile Include="DGVAutoSpread\DGVAutoSpreadListTextColumn.cs" />
+    <Compile Include="DGVAutoSpread\ROCAutoSpreadList.cs" />
+    <Compile Include="DGVAutoSpread\ROCAutoSpreadListProfile.cs" />
+    <Compile Include="DGVBase\DGVBaseNumberUpDownCell.cs" />
+    <Compile Include="DGVBase\DGVBaseNumberUpDownEditingControl.cs" />
+    <Compile Include="DGVBase\DGVBaseAlgoTypeColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseAlgoTypeCell.cs" />
+    <Compile Include="DGVBase\DGVBaseBatch.cs" />
+    <Compile Include="DGVBase\DGVBaseCell.cs" />
+    <Compile Include="DGVBase\DGVBaseCellNoPaint.cs" />
+    <Compile Include="DGVBase\DGVBaseDestinationCell.cs" />
+    <Compile Include="DGVBase\DGVBaseDestinationColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseHorizontal.cs" />
+    <Compile Include="DGVBase\DGVBaseNotifiedNumberCell.cs" />
+    <Compile Include="DGVBase\DGVBaseNotifiedNumberColumn.cs" />
+    <Compile Include="DGVBaseProfile\DGVBaseProfile.cs" />
+    <Compile Include="DGVBase\DGVBaseNumberCell.cs" />
+    <Compile Include="DGVBase\DGVBaseNumberColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseNumberUpDownColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseQuickNumberCell.cs" />
+    <Compile Include="DGVBase\DGVBaseQuickNumberColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseSideCell.cs" />
+    <Compile Include="DGVBase\DGVBaseSideColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseStatusCell.cs" />
+    <Compile Include="DGVBase\DGVBaseStatusColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseTextCell.cs" />
+    <Compile Include="DGVBase\DGVBaseTextColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseTextOverlayCell.cs" />
+    <Compile Include="DGVBase\DGVBaseTextOverlayColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseTickCell.cs" />
+    <Compile Include="DGVBase\DGVBaseTickColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseTIFCell.cs" />
+    <Compile Include="DGVBase\DGVBaseTIFColumn.cs" />
+    <Compile Include="DGVBase\DGVBaseTypeCell.cs" />
+    <Compile Include="DGVBase\DGVBaseTypeColumn.cs" />
+    <Compile Include="DGVBatchMarketList\DGVBatchMarketNumberColumn.cs" />
+    <Compile Include="DGVBatchMarketList\DGVBatchMarketNumericUpDownColumn.cs" />
+    <Compile Include="DGVBatchMarketList\DGVBatchMarketStatusColumn.cs" />
+    <Compile Include="DGVBatchMarketList\DGVBatchMarketTextColumn.cs" />
+    <Compile Include="DGVBatchMarketList\ROCBatchMarketProfile.cs" />
+    <Compile Include="DGVBatch\DGVBatchNumberColumn.cs" />
+    <Compile Include="DGVBatch\DGVBatchStatusColumn.cs" />
+    <Compile Include="DGVBatch\DGVBatchTextColumn.cs" />
+    <Compile Include="DGVBatch\ROCBatchProfile.cs" />
+    <Compile Include="DGVBookList\DGVBookListNumberColumn.cs" />
+    <Compile Include="DGVBookList\DGVBookListTextColumn.cs" />
+    <Compile Include="DGVBookList\ROCBookList.cs" />
+    <Compile Include="DGVBookList\ROCBookListProfile.cs" />
+    <Compile Include="DGVLevel2List\DGVLevel2ListNumberColumn.cs" />
+    <Compile Include="DGVLevel2List\DGVLevel2ListTextColumn.cs" />
+    <Compile Include="DGVLevel2List\ROCLevel2List.cs" />
+    <Compile Include="DGVLevel2List\ROCLevel2ListProfile.cs" />
+    <Compile Include="DGVBatchMarketList\ROCBatchMarket.cs" />
+    <Compile Include="DGVOptionList\DGVOptionListTimeColumn.cs" />
+    <Compile Include="DGVOptionList\DGVOptionListNumberColumn.cs" />
+    <Compile Include="DGVOptionList\DGVOptionListTextColumn.cs" />
+    <Compile Include="DGVOptionList\DGVOptionListNotifiedNumberColumn.cs" />
+    <Compile Include="DGVOptionList\ROCOptionList.cs" />
+    <Compile Include="DGVOptionList\ROCOptionListProfile.cs" />
+    <Compile Include="DGVOrder\DGVOrderAlgoTypeColumn.cs" />
+    <Compile Include="DGVOrder\DGVOrderTextColumn.cs" />
+    <Compile Include="DGVOrder\DGVOrderTimeColumn.cs" />
+    <Compile Include="DGVOrder\ROCOrderProfile.cs" />
+    <Compile Include="DGVBaseProfile\DGVBaseProfileFieldID.cs" />
+    <Compile Include="DGVBaseProfile\DGVBaseProfileColumn.cs" />
+    <Compile Include="DGVBase\DGVBase.cs">
+    </Compile>
+    <Compile Include="DGVOrder\DGVOrderDestinationColumn.cs" />
+    <Compile Include="DGVOrder\DGVOrderNumberColumn.cs" />
+    <Compile Include="DGVOrder\DGVOrderSideColumn.cs" />
+    <Compile Include="DGVOrder\DGVOrderStatusColumn.cs" />
+    <Compile Include="DGVOrder\DGVOrderTIFColumn.cs" />
+    <Compile Include="DGVOrder\DGVOrderTypeColumn.cs" />
+    <Compile Include="DGVBasePrinter\DGVBasePrinter.cs" />
+    <Compile Include="DGVPosition\DGVPositionTextColumn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DGVPosition\DGVPositionTextOverlayColumn.cs" />
+    <Compile Include="DGVQuickButtonList\DGVQuickButtonTextColumn.cs" />
+    <Compile Include="DGVQuickButtonList\ROCQuickButtonList.cs" />
+    <Compile Include="DGVQuick\DGVQuickListNumberColumn.cs" />
+    <Compile Include="DGVQuick\DGVQuickListTextColumn.cs" />
+    <Compile Include="DGVQuick\ROCQuickList.cs" />
+    <Compile Include="DGVQuick\ROCQuickListProfile.cs" />
+    <Compile Include="DGVAutoSpread\ROCAutoSpreadListSettings.cs" />
+    <Compile Include="DGVSSFList\DGVSSFListNumberColumn.cs" />
+    <Compile Include="DGVSSFList\DGVSSFListTextColumn.cs" />
+    <Compile Include="DGVSSFList\ROCSSFList.cs" />
+    <Compile Include="DGVSSFList\ROCSSFListProfile.cs" />
+    <Compile Include="DGVSymbolSettingList\DGVSymbolSettingTextColumn.cs" />
+    <Compile Include="DGVSymbolSettingList\ROCSymbolSettingList.cs" />
+    <Compile Include="DGVTrade\ROCSubTradesList.cs" />
+    <Compile Include="DGVBase\DGVBaseTimeCell.cs" />
+    <Compile Include="DGVBase\DGVBaseTimeColumn.cs" />
+    <Compile Include="DGVPosition\DGVPositionNumberColumn.cs" />
+    <Compile Include="DGVPosition\ROCPositionProfile.cs" />
+    <Compile Include="DGVTrade\DGVTradeDestinationColumn.cs" />
+    <Compile Include="DGVTrade\DGVTradeNumberColumn.cs" />
+    <Compile Include="DGVTrade\DGVTradeSideColumn.cs" />
+    <Compile Include="DGVTrade\DGVTradeTextColumn.cs" />
+    <Compile Include="DGVTrade\DGVTradeTIFColumn.cs" />
+    <Compile Include="DGVTrade\DGVTradeTimeColumn.cs" />
+    <Compile Include="DGVTrade\DGVTradeTypeColumn.cs" />
+    <Compile Include="DGVTrade\ROCTradeList.cs" />
+    <Compile Include="DGVTrade\ROCTradeProfile.cs" />
+    <Compile Include="DGVTree\DGVTree.cs" />
+    <Compile Include="DGVTree\DGVTreeCell.cs" />
+    <Compile Include="DGVTree\DGVTreeColumn.cs" />
+    <Compile Include="DGVTree\DGVTreeEvents.cs" />
+    <Compile Include="DGVTree\DGVTreeNode.cs" />
+    <Compile Include="DGVTree\DGVTreeNodeCollection.cs" />
+    <Compile Include="DGVUserProfile\DVGUserProfileTextColumn.cs" />
+    <Compile Include="DGVWatchList\DGVWatchListNumberColumn.cs" />
+    <Compile Include="DGVWatchList\DGVWatchListTextColumn.cs" />
+    <Compile Include="DGVWatchList\DGVWatchListTextOverlayColumn.cs" />
+    <Compile Include="DGVWatchList\DGVWatchListTickColumn.cs" />
+    <Compile Include="DGVWatchList\MDSUserWatchList.cs" />
+    <Compile Include="DGVWatchList\ROCWatchListProfile.cs" />
+    <Compile Include="DGVWatchList\MDSWatchList.cs" />
+    <Compile Include="GLOBAL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DGVAlert\ROCAlertList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DGVOrder\ROCOrderList.cs" />
+    <Compile Include="DGVPosition\ROCPositionList.cs" />
+    <Compile Include="DGVUserProfile\ROCUserProfileList.cs">
+    </Compile>
+    <Compile Include="DGVWatchList\ROCWatchList.cs">
+    </Compile>
+    <Compile Include="DGVBatch\ROCBatch.cs" />
+    <Compile Include="DGVAutoSpread\ROCAutoSpreadListSettingsProfile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BindingListEx\BindingListEx.csproj">
+      <Project>{AA07AF7A-5E66-4F14-85A4-06C13FDDD2E3}</Project>
+      <Name>BindingListEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CSVEx\CSVEx.csproj">
+      <Project>{35C6744A-3DA9-4E4D-BDDB-C3A9E9474A86}</Project>
+      <Name>CSVEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataSetEx\DataSetEx.csproj">
+      <Project>{3164576E-2E01-4DD6-A9D6-F40605A3414E}</Project>
+      <Name>DataSetEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DictionaryEx\DictionaryEx.csproj">
+      <Project>{4075C74D-02B0-48F4-8488-1A6FA79D1DC7}</Project>
+      <Name>DictionaryEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarketDataEx\MarketDataEx.csproj">
+      <Project>{3B927E75-C8D6-4FA0-8F65-48DB2740BD88}</Project>
+      <Name>MarketDataEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SerializationEx\SerializationEx.csproj">
+      <Project>{BA0B3DF9-6888-42EA-98A7-2CBAB413CB10}</Project>
+      <Name>SerializationEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,14 +1,13 @@
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Data;
 
+using Common;
 using ROMEx;
 using SocketEx;
 using DateTimeEx;
 using RDSEx;
 using CSVEx;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace ROC
@@ -402,9 +401,8 @@ namespace ROC
 			lock (OrginalCSVs)
 			{
 				// New Orders
-				if (!OrginalCSVs.ContainsKey(csv.Tag))
+				if (OrginalCSVs.TryAdd(csv.Tag, csv))
 				{
-					OrginalCSVs.Add(csv.Tag, csv);
 					// Display Sent Orders
 					if (msg != "")
 					{
@@ -497,21 +495,18 @@ namespace ROC
 		public void ReplaceOrder(string orderID, string deltaShares, string newPrice, string newStopPrice, string newPegPrice, string newDuration, bool useDeltaSharesAsNewShares)
 		{
 			RomBasicReplace replace = new RomBasicReplace();
-			ROCOrder order = new ROCOrder();
 
 			try
 			{
-				if (GLOBAL.HOrders.RocItems.ContainsKey(orderID))
+				if (GLOBAL.HOrders.RocItems.TryGetValue(orderID, out ROCOrder order))
 				{
-					order = GLOBAL.HOrders.RocItems[orderID];
-
 					replace.orderID = order.Tag;
 					replace.trader = order.Trader;
 					replace.side = order.Side.ToString();
 					switch (order.SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
 							replace.symbol = order.SymbolDetail;
 							break;
 						default:
@@ -570,14 +565,11 @@ namespace ROC
 		public void CancelSingleOrder(string orderID)
 		{
 			RomBasicCancel cancel = new RomBasicCancel();
-			ROCOrder order = new ROCOrder();
 
 			try
 			{
-				if (GLOBAL.HOrders.RocItems.ContainsKey(orderID))
+				if (GLOBAL.HOrders.RocItems.TryGetValue(orderID, out ROCOrder order))
 				{
-					order = GLOBAL.HOrders.RocItems[orderID];
-
 					cancel.orderID = order.Tag;
 					cancel.side = order.Side.ToString();
 					cancel.mdSymbol = order.Symbol;
@@ -629,16 +621,11 @@ namespace ROC
 
 		public void CancelAllBySide(string orderID, long side)
 		{
-			string orgSymbol = "";
-			if (GLOBAL.HOrders.RocItems.ContainsKey(orderID))
+			if (GLOBAL.HOrders.RocItems.TryGetValue(orderID, out ROCOrder order))
 			{
-				ROCOrder order = GLOBAL.HOrders.RocItems[orderID];
-				orgSymbol = order.Symbol;
-			}
+				string orgSymbol = order.Symbol;
+				DataRow[] rows;
 
-			if (orgSymbol != "")
-			{
-				DataRow[] rows = new DataRow[0];
 				switch (side)
 				{
 					case CSVEx.CSVFieldIDs.SideCodes.Buy:
@@ -697,16 +684,11 @@ namespace ROC
 
 		public void CancelBySymbol(string orderID)
 		{
-			string orgSymbolDetail = "";
-			if (GLOBAL.HOrders.RocItems.ContainsKey(orderID))
+			if (GLOBAL.HOrders.RocItems.TryGetValue(orderID, out ROCOrder order))
 			{
-				ROCOrder order = GLOBAL.HOrders.RocItems[orderID];
-				orgSymbolDetail = order.SymbolDetail;
-			}
+				string orgSymbolDetail = order.SymbolDetail;
+				DataRow[] rows;
 
-			if (orgSymbolDetail != "")
-			{
-				DataRow[] rows = new DataRow[0];
 				if (!Configuration.User.Default.SkipGTCandGTDonAuto)
 				{
 					rows = GLOBAL.HOrders.Table.Select(
@@ -840,26 +822,26 @@ namespace ROC
 			{
 				switch (type)
 				{
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1}",
 								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.SecutrityTypes.FutureFilter }));
+									CSVFieldIDs.SecurityTypes.FutureFilter }));
 						break;
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1}",
 								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.SecutrityTypes.OptionFilter }));
+									CSVFieldIDs.SecurityTypes.OptionFilter }));
 						break;
-					case CSVFieldIDs.SecutrityTypes.Equity:
+					case CSVFieldIDs.SecurityTypes.Equity:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1}",
 								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.SecutrityTypes.EquityFilter }));
+									CSVFieldIDs.SecurityTypes.EquityFilter }));
 						break;
 					default:
 						rows = GLOBAL.HOrders.Table.Select(
@@ -874,28 +856,28 @@ namespace ROC
 				// Day Order Only
 				switch (type)
 				{
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1} And {2}",
 								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.SecutrityTypes.FutureFilter,
+									CSVFieldIDs.SecurityTypes.FutureFilter,
 									CSVFieldIDs.TIFCodes.TIFDayFilter }));
 						break;
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1} And {2}",
 								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.SecutrityTypes.OptionFilter,
+									CSVFieldIDs.SecurityTypes.OptionFilter,
 									CSVFieldIDs.TIFCodes.TIFDayFilter }));
 						break;
-					case CSVFieldIDs.SecutrityTypes.Equity:
+					case CSVFieldIDs.SecurityTypes.Equity:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1} And {2}",
 								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.SecutrityTypes.EquityFilter,
+									CSVFieldIDs.SecurityTypes.EquityFilter,
 									CSVFieldIDs.TIFCodes.TIFDayFilter }));
 						break;
 					default:
@@ -930,16 +912,16 @@ namespace ROC
 			switch (e.Type)
 			{
 				case ClientEventTypes.OnConnect:
-					SetStatus(StatusTypes.Started, String.Concat(new object[] { "ROM|OnConnect ", e.Message, " From ", e.RemoteEndPoint }));
+					SetStatus(StatusTypes.Started, string.Join(" ", "ROM|OnConnect", e.Message, "From", e.RemoteEndPoint));
 					break;
 				case ClientEventTypes.OnDisconnect:
 					if (Status == StatusTypes.LoggedIn)
 					{
-						SetStatus(StatusTypes.Stopped, String.Concat(new object[] { "ROM|OnDisconnect ", e.Message, " From ", e.RemoteEndPoint }), true);
+						SetStatus(StatusTypes.Stopped, string.Join(" ", "ROM|OnDisconnect", e.Message, "From", e.RemoteEndPoint), true);
 					}
 					else
 					{
-						SetStatus(StatusTypes.Stopped, String.Concat(new object[] { "ROM|OnDisconnect ", e.Message, " From ", e.RemoteEndPoint }));
+						SetStatus(StatusTypes.Stopped, string.Join(" ", "ROM|OnDisconnect", e.Message, "From", e.RemoteEndPoint));
 					}
 					Disconnect();
 					StopHartbeat();
@@ -954,9 +936,9 @@ namespace ROC
 					//AddToCSVs(e.Messages);
 					break;
 				case ClientEventTypes.OnDebug:
-					lock (base.SyncObj)
+					lock (this)
 					{
-						RomMsgLogs.Add(String.Concat(new object[] { _dtHP.Now.ToString("HH:mm:ss.fffffff"), " ", e.Message }));
+						RomMsgLogs.Add(_dtHP.Now.ToString("HH:mm:ss.fffffff") + " " + e.Message);
 					}
 					break;
 				case ClientEventTypes.OnSend:
@@ -965,11 +947,11 @@ namespace ROC
 				default:
 					if (e.Client == null)
 					{
-						SetStatus(StatusTypes.Error, String.Concat(new object[] { "ROM|OnError ", e.Message, }), true);
+						SetStatus(StatusTypes.Error, "ROM|OnError " + e.Message, true);
 					}
 					else
 					{
-						SetStatus(StatusTypes.Error, String.Concat(new object[] { "ROM|OnError ", e.Message, " From ", e.RemoteEndPoint }), true);
+						SetStatus(StatusTypes.Error, string.Join(" ", "ROM|OnError", e.Message, "From", e.RemoteEndPoint), true);
 					}
 					Disconnect();
 					StopHartbeat();
@@ -1192,7 +1174,7 @@ namespace ROC
 
 		private void AddToRomLogs(string romMsg)
 		{
-			lock (base.SyncObj)
+			lock (this)
 			{
 				RomMsgLogs.Add(String.Concat(new object[] { _dtHP.Now.ToString("HH:mm:ss.fffffff"), " ", romMsg }));
 			}
@@ -1201,7 +1183,7 @@ namespace ROC
 		public void LogRomMessages()
 		{
 			string[] msgs = new string[0];
-			lock (base.SyncObj)
+			lock (this)
 			{
 				if (RomMsgLogs.Count > 0)
 				{
@@ -1212,7 +1194,7 @@ namespace ROC
 
 			foreach (string msg in msgs)
 			{
-				GLOBAL.HLog.ROM.Out(msg, false);
+				Common.Log.Info(Common.Log.Target.ROM, msg);
 			}
 		}
 
@@ -1226,14 +1208,7 @@ namespace ROC
 			{
 				lock (NewOrders)
 				{
-					if (NewOrders.ContainsKey(order.Tag))
-					{
-						NewOrders[order.Tag] = order;
-					}
-					else
-					{
-						NewOrders.Add(order.Tag, order);
-					}
+					NewOrders[order.Tag] = order;
 				}
 			}
 		}
@@ -1244,16 +1219,7 @@ namespace ROC
 			{
 				lock (NewExecutions)
 				{
-					if (NewExecutions.ContainsKey(trade.OmExecTag))
-					{
-						// TODO should never be here
-						// Duplicated trades
-						GLOBAL.HROM.NewExecutions[trade.OmExecTag] = trade;
-					}
-					else
-					{
-						GLOBAL.HROM.NewExecutions.Add(trade.OmExecTag, trade);
-					}
+					GLOBAL.HROM.NewExecutions[trade.OmExecTag] = trade;
 				}
 			}
 		}

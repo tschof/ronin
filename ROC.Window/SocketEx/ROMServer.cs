@@ -1,6 +1,8 @@
+#undef RONIN
+
+#if RONIN
 using System;
 using System.Net.Sockets;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace SocketEx
@@ -90,3 +92,27 @@ namespace SocketEx
 		}
 	}
 }
+#else
+namespace SocketEx
+{
+	public class ROMServer
+	{
+		public ROMServer()
+		{
+		}
+
+		public ROMServer(string ip, int port, int maxBackLog, byte[] buffer, int bufferSizeLimit)
+		{
+			
+		}
+
+		public void Send(string msg)
+		{
+		}
+
+		public void Send(System.IntPtr key, string msg)
+		{
+		}
+	}
+}
+#endif // RONIN

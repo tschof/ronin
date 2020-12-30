@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using CSVEx;
-using RDSEx;
-using BenchMarkEx;
-using System.Diagnostics;
+using Log = Common.Log;
+//using System.Diagnostics;
 
 namespace ROC
 {
@@ -23,7 +20,7 @@ namespace ROC
 					switch (arg.ToUpper())
 					{
 						case "-REALTIME":
-							Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.RealTime;
+							System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
 							break;
 						case "-ADMIN":
 							GLOBAL.AdminMode = true;
@@ -45,9 +42,9 @@ namespace ROC
 				}
 			}
 
-			if (Process.GetCurrentProcess().PriorityClass != ProcessPriorityClass.RealTime)
+			if (System.Diagnostics.Process.GetCurrentProcess().PriorityClass != System.Diagnostics.ProcessPriorityClass.RealTime)
 			{
-				Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High;
+				System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High;
 			}
 
 			//GLOBAL.BENCHAMRK.Mark = new Benchmark(null);
@@ -56,38 +53,8 @@ namespace ROC
 
 			try
 			{
-				if (Configuration.User.Default.UseLogRetensionLimit)
-				{
-					GLOBAL.HLog.ROC = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Log, Configuration.User.Default.LogRetensionDays, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.USER = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.User, Configuration.User.Default.LogRetensionDays, Configuration.User.Default.LogFileSizeLimit);
-
-					GLOBAL.HLog.MDS = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.MDS, Configuration.User.Default.LogRetensionDays, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.RDS = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.RDS, Configuration.User.Default.LogRetensionDays, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.ROM = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.ROM, Configuration.User.Default.LogRetensionDays, Configuration.User.Default.LogFileSizeLimit);
-
-					GLOBAL.HLog.Orders = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Orders, Configuration.User.Default.LogRetensionDays, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.Positions = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Positions, Configuration.User.Default.LogRetensionDays, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.Trades = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Trades, Configuration.User.Default.LogRetensionDays, Configuration.User.Default.LogFileSizeLimit);
-
-					GLOBAL.HLog.BMK = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Benchmark, Configuration.User.Default.LogRetensionDays, Configuration.User.Default.LogFileSizeLimit);
-				}
-				else
-				{
-					GLOBAL.HLog.ROC = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Log, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.USER = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.User, Configuration.User.Default.LogFileSizeLimit);
-
-					GLOBAL.HLog.MDS = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.MDS, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.RDS = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.RDS, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.ROM = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.ROM, Configuration.User.Default.LogFileSizeLimit);
-
-					GLOBAL.HLog.Orders = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Orders, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.Positions = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Positions, Configuration.User.Default.LogFileSizeLimit);
-					GLOBAL.HLog.Trades = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Trades, Configuration.User.Default.LogFileSizeLimit);
-
-					GLOBAL.HLog.BMK = new LoggerEx.Logger(Configuration.Path.Default.LogPath, LoggerEx.LogTypes.Benchmark, Configuration.User.Default.LogFileSizeLimit);
-				}
-			}
-			catch (Exception ex)
+				Log.StartSingle(Configuration.Path.Default.LogPath);
+			} catch (Exception ex)
 			{
 				GLOBAL.HROC.AddToException(ex);
 				MessageBox.Show(ex.Message + " " + ex.StackTrace);
@@ -97,20 +64,20 @@ namespace ROC
 
 			#region - Log Version -
 
-			GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "ROC Version ", GLOBAL.ROCVersion.ToString(), " Starting..." }));
+			GLOBAL.HROC.AddToStatusLogs("ROC Version ", GLOBAL.ROCVersion.ToString(), " Starting..." );
 
 			#endregion
 
 			#region - Settings Load -
 
-			GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "ROC Setting Loadding... " }));
+			GLOBAL.HROC.AddToStatusLogs("ROC Setting Loadding... " );
 
 			// Load Local User Settings
 			HelperSettings.Load();
 
 			if (Configuration.ROM.Default.SkipGTCandGTD && !Configuration.User.Default.SkipGTCandGTDonAuto)
 			{
-				GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "Sync ROM/ROC Skip GTC and GTD Flag!" }));
+				GLOBAL.HROC.AddToStatusLogs("Sync ROM/ROC Skip GTC and GTD Flag!" );
 				Configuration.User.Default.SkipGTCandGTDonAuto = Configuration.ROM.Default.SkipGTCandGTD;
 				Configuration.User.Default.Save();
 			}
@@ -122,13 +89,13 @@ namespace ROC
 			try
 			{
 				// Load Future Map
-				GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "Load Future Map PlusOne ", HelperFuture.PlusOne.Count }));
-				GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "Load Future Map DoNotTranslate ", HelperFuture.DoNotTranslate.Count }));
+				GLOBAL.HROC.AddToStatusLogs("Load Future Map PlusOne ", HelperFuture.PlusOne.Count );
+				GLOBAL.HROC.AddToStatusLogs("Load Future Map DoNotTranslate ", HelperFuture.DoNotTranslate.Count );
 
 				// Load Option Map;
-				GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "Load Option Map PlusOne ", HelperOption.PlusOne.Count }));
-				GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "Load Option Map ShowAs64TH ", HelperOption.ShowAs64TH.Count }));
-				GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "Load Option Map Exchange ", HelperOption.exchanges.Count }));
+				GLOBAL.HROC.AddToStatusLogs("Load Option Map PlusOne ", HelperOption.PlusOne.Count );
+				GLOBAL.HROC.AddToStatusLogs("Load Option Map ShowAs64TH ", HelperOption.ShowAs64TH.Count );
+				GLOBAL.HROC.AddToStatusLogs("Load Option Map Exchange ", HelperOption.exchanges.Count );
 			}
 			catch (Exception ex)
 			{
@@ -166,20 +133,18 @@ namespace ROC
 					GLOBAL.HROC.AddToException(ex);
 				}
 
-				//GLOBAL.HProcess.StopProcess();
-
 				GLOBAL.MDSsDisconnect();
 			}
 			else
 			{
 				if (GLOBAL.MDSsConnected)
 				{
-					GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "MDS Not Connected! ", GLOBAL.ROCVersion.ToString(), " Starting Failed." }));
+					GLOBAL.HROC.AddToStatusLogs("MDS Not Connected! ", GLOBAL.ROCVersion.ToString(), " Starting Failed." );
 					//MessageBox.Show("Cannot Connect to One or All MDSs", "Start Up Failed");
 				}
 				else if (GLOBAL.HRDS.Status != HelperRDS.StatusTypes.Done)
 				{
-					GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "RDS Not Connected! ", GLOBAL.ROCVersion.ToString(), " Starting Failed." }));
+					GLOBAL.HROC.AddToStatusLogs("RDS Not Connected! ", GLOBAL.ROCVersion.ToString(), " Starting Failed." );
 					//MessageBox.Show("Cannot Connect to RDS", "Start Up Failed");
 				}
 				
@@ -192,7 +157,7 @@ namespace ROC
 			// Must ShutDown Every Time
 			GLOBAL.HProcess.StopProcess();
 
-			GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "Disconnect from ROM..." }));
+			GLOBAL.HROC.AddToStatusLogs("Disconnect from ROM..." );
 			GLOBAL.HROM.Disconnect();
 
 			// Log last bit of ROM Messages
@@ -204,7 +169,7 @@ namespace ROC
 			// Save Local User Settings
 			HelperSettings.Save();
 
-			GLOBAL.HROC.AddToStatusLogs(String.Concat(new object[] { "ROC Version ", GLOBAL.ROCVersion.ToString(), " Ending..." }));
+			GLOBAL.HROC.AddToStatusLogs("ROC Version ", GLOBAL.ROCVersion.ToString(), " Ending..." );
 		}
 	}
 }

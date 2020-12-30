@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using DictionaryEx;
 using System.Diagnostics;
 using CSVEx;
-using System.Runtime.Serialization;
 
 namespace RDSEx
 {
-	public abstract class BaseTypedAccountMap : MutiTypedDictionary
+	public abstract class BaseTypedAccountMap // : MultiTypedDictionary
 	{
 		private Dictionary<string, AccountMap> _csAccounts;
 		public Dictionary<string, AccountMap> CSAccounts
@@ -63,8 +62,15 @@ namespace RDSEx
 	}
 
 	[Serializable]
-	public abstract class BaseExecution : MutiTypedDictionary
+	public abstract class BaseExecution
 	{
+		protected readonly MultiTypedDictionary _data = new MultiTypedDictionary();
+
+		public void Set<T>(int key, T value)
+		{
+			_data.Set(key, value);
+		}
+
 		public abstract string TradeID
 		{
 			get;
@@ -74,27 +80,16 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(TradedFieldIDs.positionKey))
+				string value;
+				if (!_data.TryGet(TradedFieldIDs.positionKey, out value))
 				{
-					string key;
 					if (ClearingAcct.Length > 5)
-					{
-						key = String.Concat(new object[] {
-							SymbolDetail, "|",
-							Trader,	"|",
-							ClearingAcct.Substring(0, 5) });
-					}
+						value = string.Join("|", SymbolDetail, Trader, ClearingAcct.Substring(0, 5));
 					else
-					{
-						key = String.Concat(new object[] {
-							SymbolDetail, "|",
-							Trader,	"|",
-							ClearingAcct });
-					}
-					Strings.Add(TradedFieldIDs.positionKey, key);
+						value = string.Join("|", SymbolDetail, Trader,	ClearingAcct);
+					_data.Set(TradedFieldIDs.positionKey, value);
 				}
-
-				return Strings[TradedFieldIDs.positionKey];
+				return value;
 			}
 		}
 
@@ -110,13 +105,12 @@ namespace RDSEx
 			{
 				switch (SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
-					case CSVFieldIDs.SecutrityTypes.OptionFuture:
-					case CSVFieldIDs.SecutrityTypes.OptionIndex:
+					case CSVFieldIDs.SecurityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.OptionFuture:
+					case CSVFieldIDs.SecurityTypes.OptionIndex:
 						if (Underlying != "")
 						{
-							int num = 0;
-							if (Int32.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out num))
+							if (int.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out int _))
 							{
 								switch (Underlying.Substring(Underlying.Length - 2, 1))
 								{
@@ -139,11 +133,10 @@ namespace RDSEx
 							}
 						}
 						break;
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						if (Symbol != "")
 						{
-							int num = 0;
-							if (Int32.TryParse(Symbol.Substring(Symbol.Length - 1, 1), out num))
+							if (int.TryParse(Symbol.Substring(Symbol.Length - 1, 1), out int _))
 							{
 								switch (Symbol.Substring(Symbol.Length - 2, 1))
 								{
@@ -175,76 +168,57 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(TradedFieldIDs.symbolDetail))
+				string value;
+				DateTime when;
+				bool ok;
+
+				if (!_data.TryGet(TradedFieldIDs.symbolDetail, out value))
 				{
-					string detail = "";
 					switch (SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
-						case CSVFieldIDs.SecutrityTypes.OptionIndex:
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
-							{
-								if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol))
-								{
-									detail = String.Concat(new object[] {
-										Underlying,	" ",
-										tDT.AddMonths(1).ToString("yy MMM dd").ToUpper(), " ",
-										StrikePrice.Replace(".00", ""), " ",
-										CallPut });
-								}
-								else
-								{
-									if (Underlying.Length == Symbol.Length - 1 && Underlying == Symbol.Substring(0, Symbol.Length - 1))
-									{
-										detail = String.Concat(new object[] {
-											Symbol,	" ",
-											tDT.ToString("yy MMM dd").ToUpper(), " ",
-											StrikePrice.Replace(".00", ""), " ",
-											CallPut });
-									}
-									else
-									{
-										detail = String.Concat(new object[] {
-											Underlying,	" ",
-											tDT.ToString("yy MMM dd").ToUpper(), " ",
-											StrikePrice.Replace(".00", ""), " ",
-											CallPut });
-									}
-								}
-							}
-							else
-							{
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.OptionIndex:
+							if (!TimeFormats.ParseDate(ExpDate, out when)) {
 								Debug.Assert(!Debugger.IsAttached, ExpDate);
+							} else if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol)) {
+								value = string.Join(" ", Underlying,
+									when.AddMonths(1).ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
+							} else if (Underlying.Length == Symbol.Length - 1 && Underlying == Symbol.Substring(0, Symbol.Length - 1)) {
+								value = string.Join(" ", Symbol,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
+							} else {
+								value = string.Join(" ", Underlying,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
 							}
 							break;
-						case CSVFieldIDs.SecutrityTypes.Future:
+						case CSVFieldIDs.SecurityTypes.Future:
 							if (IsTPOS && GLOBAL.Future.PlusOne.Contains(BaseSymbol))
 							{
-								tOk = false;
-								tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-								tDT = tDT.AddMonths(1);
-								if (GLOBAL.MonthCodes.Map.ContainsKey(tDT.Month))
-								{
-									detail = BaseSymbol + GLOBAL.MonthCodes.Map[tDT.Month];
-									detail = detail + Symbol.Substring(detail.Length);
-									break;
+								if (TimeFormats.ParseDate(ExpDate, out when)) {
+									when = when.AddMonths(1);
+									if (GLOBAL.MonthCodes.Map.ContainsKey(when.Month)) {
+										value = BaseSymbol + GLOBAL.MonthCodes.Map[when.Month] + Symbol.Substring(value.Length);
+										break;
+									}
 								}
 							}
-							detail = Symbol;
+							value = Symbol;
 							break;
 						default:
-							detail = Symbol;
+							value = Symbol;
 							break;
 					}
-
-					Strings.Add(TradedFieldIDs.symbolDetail, detail);
+					_data.Set(TradedFieldIDs.symbolDetail, value);
 				}
 
-				return Strings[TradedFieldIDs.symbolDetail];
+				return value;
 			}
 		}
 
@@ -252,52 +226,37 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(TradedFieldIDs.symbolDisplay))
+				string value;
+				if (!_data.TryGet(TradedFieldIDs.symbolDisplay, out value))
 				{
-					string display = "";
 					switch (SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
-						case CSVFieldIDs.SecutrityTypes.OptionIndex:
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
-							{
-								if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol))
-								{
-									display = String.Concat(new object[] {
-										Underlying,	" ",
-										tDT.AddMonths(1).ToString("yy MMM").ToUpper(), 
-										"(",
-										tDT.ToString("yy MMM dd").ToUpper(), ") ",
-										StrikePrice.Replace(".00", ""), " ",
-										CallPut });
-								}
-								else
-								{
-									display = SymbolDetail;
-								}
-							}
-							else
-							{
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.OptionIndex:
+							if (!TimeFormats.ParseDate(ExpDate, out DateTime when)) {
 								Debug.Assert(!Debugger.IsAttached, ExpDate);
+							} else if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol)) {
+								value = string.Format("{0} {1}({2}) {3} {4}",
+									Underlying, 
+									when.AddMonths(1).ToString("yy MMM").ToUpper(),
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""), 
+									CallPut);
+							} else {
+								value = SymbolDetail;
 							}
 							break;
 						default:
-							display = SymbolDetail;
+							value = SymbolDetail;
 							break;
 					}
 
-					if (display == "")
-					{
-						return "";
-					}
-					Strings.Add(TradedFieldIDs.symbolDisplay, display);
+					if (!string.IsNullOrEmpty(value))
+						_data.Set(TradedFieldIDs.symbolDisplay, value);
 				}
 
-				return Strings[TradedFieldIDs.symbolDisplay];
+				return value;
 			}
 		}
 
@@ -305,18 +264,11 @@ namespace RDSEx
 		{
 			get
 			{
-				if (Bools.ContainsKey(TradedFieldIDs.TPOS.isTPOS))
-				{
-					return Bools[TradedFieldIDs.TPOS.isTPOS];
-				}
-				else
-				{
-					return false;
-				}
+				return _data.TryGet(TradedFieldIDs.TPOS.isTPOS, out bool value) ? value : false;
 			}
 			set
 			{
-				Update(TradedFieldIDs.TPOS.isTPOS, value);
+				_data.Set(TradedFieldIDs.TPOS.isTPOS, value);
 			}
 		}
 
@@ -325,24 +277,20 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(OrderFieldIDs.symbolDetail))
+				string value;
+				if (!_data.TryGet(OrderFieldIDs.symbolDetail, out value))
 				{
-					string detail = "";
 					switch (SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
-						case CSVFieldIDs.SecutrityTypes.OptionIndex:
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.OptionIndex:
+							if (TimeFormats.ParseDate(ExpDate, out DateTime when))
 							{
-								detail = String.Concat(new object[] {
-									Underlying,	" ",
-									tDT.ToString("yy MMM dd").ToUpper(), " ",
-									StrikePrice.Replace(".00", ""), " ",
-									CallPut });
+								value = string.Join(" ", Underlying,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
 							}
 							else
 							{
@@ -350,14 +298,14 @@ namespace RDSEx
 							}
 							break;
 						default:
-							detail = Symbol;
+							value = Symbol;
 							break;
 					}
 
-					Strings.Add(OrderFieldIDs.symbolDetail, detail);
+					_data.Set(OrderFieldIDs.symbolDetail, value);
 				}
 
-				return Strings[OrderFieldIDs.symbolDetail];
+				return value;
 			}
 		}
 
@@ -441,16 +389,13 @@ namespace RDSEx
 		public BaseExecution()
 		{
 		}
-
-		public BaseExecution(SerializationInfo info, StreamingContext ctxt)
-			: base(info, ctxt)
-		{
-		}
 	}
 
 	[Serializable]
-	public abstract class BaseOrder : MutiTypedDictionary
+	public abstract class BaseOrder
 	{
+		protected readonly MultiTypedDictionary _data = new MultiTypedDictionary();
+
 		public abstract bool HasTrades
 		{
 			get;
@@ -482,27 +427,17 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(OrderFieldIDs.positionKey))
+				string value;
+				if (!_data.TryGet(OrderFieldIDs.positionKey, out value))
 				{
-					string key;
 					if (ClearingAcct.Length > 5)
-					{
-						key = String.Concat(new object[] {
-							SymbolDetail, "|",
-							Trader,	"|",
-							ClearingAcct.Substring(0, 5) });
-					}
+						value = string.Join("|", SymbolDetail, Trader, ClearingAcct.Substring(0, 5));
 					else
-					{
-						key = String.Concat(new object[] {
-							SymbolDetail, "|",
-							Trader,	"|",
-							ClearingAcct });
-					}
-					Strings.Add(OrderFieldIDs.positionKey, key);
+						value = string.Join("|", SymbolDetail, Trader, ClearingAcct);
+					_data.Set(OrderFieldIDs.positionKey, value);
 				}
 
-				return Strings[OrderFieldIDs.positionKey];
+				return value;
 			}
 		}
 
@@ -518,13 +453,12 @@ namespace RDSEx
 			{
 				switch (SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
-					case CSVFieldIDs.SecutrityTypes.OptionFuture:
-					case CSVFieldIDs.SecutrityTypes.OptionIndex:
+					case CSVFieldIDs.SecurityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.OptionFuture:
+					case CSVFieldIDs.SecurityTypes.OptionIndex:
 						if (Underlying != "")
 						{
-							int num = 0;
-							if (Int32.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out num))
+							if (int.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out int _))
 							{
 								switch (Underlying.Substring(Underlying.Length - 2, 1))
 								{
@@ -556,61 +490,42 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(OrderFieldIDs.symbolDetail))
+				string value;
+				if (!_data.TryGet(OrderFieldIDs.symbolDetail, out value))
 				{
-					string detail = "";
 					switch (SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
-						case CSVFieldIDs.SecutrityTypes.OptionIndex:
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
-							{
-								if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol))
-								{
-									detail = String.Concat(new object[] {
-										Underlying,	" ",
-										tDT.AddMonths(1).ToString("yy MMM dd").ToUpper(), " ",
-										StrikePrice.Replace(".00", ""), " ",
-										CallPut });
-								}
-								else
-								{
-									if (Underlying.Length == Symbol.Length - 1 && Underlying == Symbol.Substring(0, Symbol.Length - 1))
-									{
-										detail = String.Concat(new object[] {
-											Symbol,	" ",
-											tDT.ToString("yy MMM dd").ToUpper(), " ",
-											StrikePrice.Replace(".00", ""), " ",
-											CallPut });
-									}
-									else
-									{
-										detail = String.Concat(new object[] {
-											Underlying,	" ",
-											tDT.ToString("yy MMM dd").ToUpper(), " ",
-											StrikePrice.Replace(".00", ""), " ",
-											CallPut });
-									}
-								}
-							}
-							else
-							{
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.OptionIndex:
+							if (!TimeFormats.ParseDate(ExpDate, out DateTime when)) {
 								Debug.Assert(!Debugger.IsAttached, ExpDate);
+							} else if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol)) {
+								value = string.Join(" ", Underlying,
+									when.AddMonths(1).ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
+							} else if (Underlying.Length == Symbol.Length - 1 && Underlying == Symbol.Substring(0, Symbol.Length - 1)) {
+								value = string.Join(" ", Symbol,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
+							} else {
+								value = string.Join(" ", Underlying,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
 							}
 							break;
 						default:
-							detail = Symbol;
+							value = Symbol;
 							break;
 					}
 
-					Strings.Add(OrderFieldIDs.symbolDetail, detail);
+					_data.Set(OrderFieldIDs.symbolDetail, value);
 				}
 
-				return Strings[OrderFieldIDs.symbolDetail];
+				return value;
 			}
 		}
 
@@ -618,52 +533,37 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(OrderFieldIDs.symbolDisplay))
+				string value;
+				if (!_data.TryGet(OrderFieldIDs.symbolDisplay, out value))
 				{
-					string display = "";
 					switch (SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
-						case CSVFieldIDs.SecutrityTypes.OptionIndex:
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
-							{
-								if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol))
-								{
-									display = String.Concat(new object[] {
-										Underlying,	" ", 
-										tDT.AddMonths(1).ToString("yy MMM").ToUpper(), 
-										"(",
-										tDT.ToString("yy MMM dd").ToUpper(), ") ",
-										StrikePrice.Replace(".00", ""), " ",
-										CallPut });
-								}
-								else
-								{
-									display = SymbolDetail;
-								}
-							}
-							else
-							{
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.OptionIndex:
+							if (!TimeFormats.ParseDate(ExpDate, out DateTime when)) {
 								Debug.Assert(!Debugger.IsAttached, ExpDate);
+							} else if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol)) {
+								value = string.Format("{0} {1}({2}) {3} {4}",
+									Underlying,
+									when.AddMonths(1).ToString("yy MMM").ToUpper(), 
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
+							} else {
+								value = SymbolDetail;
 							}
 							break;
 						default:
-							display = SymbolDetail;
+							value = SymbolDetail;
 							break;
 					}
 
-					if (display == "")
-					{
-						return "";
-					}
-					Strings.Add(OrderFieldIDs.symbolDisplay, display);
+					if (!string.IsNullOrEmpty(value))
+						_data.Set(OrderFieldIDs.symbolDisplay, value);
 				}
 
-				return Strings[OrderFieldIDs.symbolDisplay];
+				return value;
 			}
 		}
 
@@ -672,24 +572,21 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(OrderFieldIDs.symbolDetail))
+				string value;
+				if (!_data.TryGet(OrderFieldIDs.symbolDetail, out value))
 				{
-					string detail = "";
 					switch (SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
-						case CSVFieldIDs.SecutrityTypes.OptionIndex:
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.OptionIndex:
+							if (TimeFormats.ParseDate(ExpDate, out DateTime when))
 							{
-								detail = String.Concat(new object[] {
-									Underlying,	" ",
-									tDT.ToString("yy MMM dd").ToUpper(), " ",
-									StrikePrice.Replace(".00", ""), " ",
-									CallPut });
+								value = string.Join(" ",
+									Underlying,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
 							}
 							else
 							{
@@ -697,14 +594,14 @@ namespace RDSEx
 							}
 							break;
 						default:
-							detail = Symbol;
+							value = Symbol;
 							break;
 					}
 
-					Strings.Add(OrderFieldIDs.symbolDetail, detail);
+					_data.Set(OrderFieldIDs.symbolDetail, value);
 				}
 
-				return Strings[OrderFieldIDs.symbolDetail];
+				return value;
 			}
 		}
 
@@ -763,15 +660,17 @@ namespace RDSEx
 		public BaseOrder()
 		{
 		}
-
-		public BaseOrder(SerializationInfo info, StreamingContext ctxt)
-			: base(info, ctxt)
-		{
-		}
 	}
 
-	public abstract class BasePosition : MutiTypedDictionary
+	public abstract class BasePosition
 	{
+		protected readonly MultiTypedDictionary _data = new MultiTypedDictionary();
+
+		protected void Merge(BasePosition other)
+		{
+			_data.Merge(other._data);
+		}
+
 		public abstract bool HasOrders
 		{
 			get;
@@ -804,27 +703,27 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(PositionFieldIDs.positionKey))
+				string value;
+				if (!_data.TryGet(PositionFieldIDs.positionKey, out value))
 				{
-					string key;
 					if (ClearingAcct.Length > 5)
 					{
-						key = String.Concat(new object[] {
-							SymbolDetail, "|",
-							Trader,	"|",
-							ClearingAcct.Substring(0, 5) });
+						value = string.Join("|", 
+							SymbolDetail,
+							Trader,
+							ClearingAcct.Substring(0, 5));
 					}
 					else
 					{
-						key = String.Concat(new object[] {
-							SymbolDetail, "|",
-							Trader,	"|",
-							ClearingAcct });
+						value = string.Join("|",
+							SymbolDetail,
+							Trader,
+							ClearingAcct);
 					}
-					Strings.Add(PositionFieldIDs.positionKey, key);
+					_data.Set(PositionFieldIDs.positionKey, value);
 				}
 
-				return Strings[PositionFieldIDs.positionKey];
+				return value;
 			}
 		}
 
@@ -840,13 +739,12 @@ namespace RDSEx
 			{
 				switch (SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
-					case CSVFieldIDs.SecutrityTypes.OptionFuture:
-					case CSVFieldIDs.SecutrityTypes.OptionIndex:
+					case CSVFieldIDs.SecurityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.OptionFuture:
+					case CSVFieldIDs.SecurityTypes.OptionIndex:
 						if (Underlying != "")
 						{
-							int num = 0;
-							if (Int32.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out num))
+							if (int.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out _))
 							{
 								switch (Underlying.Substring(Underlying.Length - 2, 1))
 								{
@@ -869,11 +767,10 @@ namespace RDSEx
 							}
 						}
 						break;
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						if (Symbol != "")
 						{
-							int num = 0;
-							if (Int32.TryParse(Symbol.Substring(Symbol.Length - 1, 1), out num))
+							if (int.TryParse(Symbol.Substring(Symbol.Length - 1, 1), out _))
 							{
 								switch (Symbol.Substring(Symbol.Length - 2, 1))
 								{
@@ -905,80 +802,65 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(TradedFieldIDs.symbolDetail))
+				string value;
+				DateTime when;
+
+				if (!_data.TryGet(TradedFieldIDs.symbolDetail, out value))
 				{
-					string detail = "";
 					switch (SecType)
 					{
 						case "O":
 						case "I":
 						case "M":
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
-							{
-								if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol))
-								{
-									detail = String.Concat(new object[] {
-										Underlying,	" ",
-										tDT.AddMonths(1).ToString("yy MMM dd").ToUpper(), " ",
-										StrikePrice.Replace(".00", ""), " ",
-										CallPut });
-								}
-								else
-								{
-									if (Underlying.Length == Symbol.Length - 1 && Underlying == Symbol.Substring(0, Symbol.Length - 1))
-									{
-										detail = String.Concat(new object[] {
-											Symbol,	" ",
-											tDT.ToString("yy MMM dd").ToUpper(), " ",
-											StrikePrice.Replace(".00", ""), " ",
-											CallPut });
-									}
-									else
-									{
-										detail = String.Concat(new object[] {
-										Underlying,	" ",
-										tDT.ToString("yy MMM dd").ToUpper(), " ",
-										StrikePrice.Replace(".00", ""), " ",
-										CallPut });
-									}
-								}
-							}
-							else
-							{
+							if (!TimeFormats.ParseDate(ExpDate, out when)) {
 								Debug.Assert(!Debugger.IsAttached, ExpDate);
+							} else if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol)) {
+								value = string.Join(" ",
+									Underlying,
+									when.AddMonths(1).ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
+							} else if (Underlying.Length == Symbol.Length - 1 && Underlying == Symbol.Substring(0, Symbol.Length - 1)) {
+								value = string.Join(" ",
+									Symbol,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
+							} else {
+								value = string.Join(" ",
+									Underlying,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
 							}
 							break;
-						case CSVFieldIDs.SecutrityTypes.Future:
+						case CSVFieldIDs.SecurityTypes.Future:
 							if (IsTPOS && GLOBAL.Future.PlusOne.Contains(BaseSymbol))
 							{
-								tOk = false;
-								tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-								tDT = tDT.AddMonths(1);
-								if (GLOBAL.MonthCodes.Map.ContainsKey(tDT.Month))
-								{
-									detail = BaseSymbol + GLOBAL.MonthCodes.Map[tDT.Month];
-									detail = detail + Symbol.Substring(detail.Length);
-									break;
+								if (TimeFormats.ParseDate(ExpDate, out when)) {
+									when = when.AddMonths(1);
+									if (GLOBAL.MonthCodes.Map.ContainsKey(when.Month)) {
+										value = BaseSymbol + GLOBAL.MonthCodes.Map[when.Month];
+										value = value + Symbol.Substring(value.Length);
+										break;
+									}
 								}
 							}
-							detail = Symbol;
+							value = Symbol;
 							break;
 						default:
-							detail = Symbol;
+							value = Symbol;
 							break;
 					}
 
-					Strings.Add(TradedFieldIDs.symbolDetail, detail);
+					_data.Set(TradedFieldIDs.symbolDetail, value);
 				}
 
-				return Strings[TradedFieldIDs.symbolDetail];
+				return value;
 			}
 			set
 			{
-				Update(TradedFieldIDs.symbolDetail, value);
+				_data.Set(TradedFieldIDs.symbolDetail, value);
 			}
 		}
 
@@ -986,32 +868,28 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(TradedFieldIDs.symbolDisplay))
+				string value;
+				if (!_data.TryGet(TradedFieldIDs.symbolDisplay, out value))
 				{
-					string display = "";
 					switch (SecType)
 					{
 						case "O":
 						case "I":
 						case "M":
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
+							if (TimeFormats.ParseDate(ExpDate, out DateTime when))
 							{
 								if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol))
 								{
-									display = String.Concat(new object[] {
-										Underlying,	" ",
-										tDT.AddMonths(1).ToString("yy MMM").ToUpper(), 
-										"(",
-										tDT.AddMonths(1).ToString("yy MMM dd").ToUpper(), ") ",
-										StrikePrice.Replace(".00", ""), " ",
-										CallPut });
+									value = string.Format("{0} {1}({2}) {3} {4}",
+										Underlying,
+										when.AddMonths(1).ToString("yy MMM").ToUpper(), 
+										when.AddMonths(1).ToString("yy MMM dd").ToUpper(),
+										StrikePrice.Replace(".00", ""),
+										CallPut);
 								}
 								else
 								{
-									display = SymbolDetail;
+									value = SymbolDetail;
 								}
 							}
 							else
@@ -1020,22 +898,19 @@ namespace RDSEx
 							}
 							break;
 						default:
-							display = SymbolDetail;
+							value = SymbolDetail;
 							break;
 					}
 
-					if (display == "")
-					{
-						return "";
-					}
-					Strings.Add(TradedFieldIDs.symbolDisplay, display);
+					if (!string.IsNullOrEmpty(value))
+						_data.Set(TradedFieldIDs.symbolDisplay, value);
 				}
 
-				return Strings[TradedFieldIDs.symbolDisplay];
+				return value;
 			}
 			set
 			{
-				Update(TradedFieldIDs.symbolDisplay, value);
+				_data.Set(TradedFieldIDs.symbolDisplay, value);
 			}
 		}
 
@@ -1043,18 +918,11 @@ namespace RDSEx
 		{
 			get
 			{
-				if (Bools.ContainsKey(PositionFieldIDs.TPOS.isTPOS))
-				{
-					return Bools[PositionFieldIDs.TPOS.isTPOS];
-				}
-				else
-				{
-					return false;
-				}
+				return _data.TryGet(PositionFieldIDs.TPOS.isTPOS, out bool value) ? value : false;
 			}
 			set
 			{
-				Update(PositionFieldIDs.TPOS.isTPOS, value);
+				_data.Set(PositionFieldIDs.TPOS.isTPOS, value);
 			}
 		}
 
@@ -1063,24 +931,21 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(OrderFieldIDs.symbolDetail))
+				string value;
+				if (!_data.TryGet(OrderFieldIDs.symbolDetail, out value))
 				{
-					string detail = "";
 					switch (SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
-						case CSVFieldIDs.SecutrityTypes.OptionIndex:
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.OptionIndex:
+							if (TimeFormats.ParseDate(ExpDate, out DateTime when))
 							{
-								detail = String.Concat(new object[] {
-									Underlying,	" ",
-									tDT.ToString("yy MMM dd").ToUpper(), " ",
-									StrikePrice.Replace(".00", ""), " ",
-									CallPut });
+								value = string.Join(" ",
+									Underlying,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
 							}
 							else
 							{
@@ -1088,14 +953,14 @@ namespace RDSEx
 							}
 							break;
 						default:
-							detail = Symbol;
+							value = Symbol;
 							break;
 					}
 
-					Strings.Add(OrderFieldIDs.symbolDetail, detail);
+					_data.Set(OrderFieldIDs.symbolDetail, value);
 				}
 
-				return Strings[OrderFieldIDs.symbolDetail];
+				return value;
 			}
 		}
 
@@ -1154,7 +1019,7 @@ namespace RDSEx
 		}
 	}
 
-	public abstract class BaseSecurityInfo : MutiTypedDictionary
+	public abstract class BaseSecurityInfo // : MultiTypedDictionary
 	{
 		public abstract string MDSource
 		{
@@ -1187,8 +1052,15 @@ namespace RDSEx
 		}
 	}
 
-	public abstract class BaseOptionInfo : MutiTypedDictionary
+	public abstract class BaseOptionInfo // : MultiTypedDictionary
 	{
+		protected readonly MultiTypedDictionary _data = new MultiTypedDictionary();
+
+		public void Set<T>(int key, T value)
+		{
+			_data.Set(key, value);
+		}
+
 		public abstract string SecType
 		{
 			get;
@@ -1237,13 +1109,12 @@ namespace RDSEx
 			{
 				switch (SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
-					case CSVFieldIDs.SecutrityTypes.OptionFuture:
-					case CSVFieldIDs.SecutrityTypes.OptionIndex:
+					case CSVFieldIDs.SecurityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.OptionFuture:
+					case CSVFieldIDs.SecurityTypes.OptionIndex:
 						if (Underlying != "")
 						{
-							int num = 0;
-							if (Int32.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out num))
+							if (int.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out _))
 							{
 								switch (Underlying.Substring(Underlying.Length - 2, 1))
 								{
@@ -1266,11 +1137,10 @@ namespace RDSEx
 							}
 						}
 						break;
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						if (MDSymbol != "")
 						{
-							int num = 0;
-							if (Int32.TryParse(MDSymbol.Substring(MDSymbol.Length - 1, 1), out num))
+							if (int.TryParse(MDSymbol.Substring(MDSymbol.Length - 1, 1), out _))
 							{
 								switch (MDSymbol.Substring(MDSymbol.Length - 2, 1))
 								{
@@ -1307,76 +1177,63 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(SecurityFieldIDs.Option.symbolDetail))
+				string value;
+				DateTime when;
+
+				if (!_data.TryGet(SecurityFieldIDs.Option.symbolDetail, out value))
 				{
-					string detail = "";
 					switch (SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
-						case CSVFieldIDs.SecutrityTypes.OptionIndex:
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
-							{
-								if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol))
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.OptionIndex:
+							if (!TimeFormats.ParseDate(ExpDate, out when)) {
+								Debug.Assert(!Debugger.IsAttached, ExpDate);
+							} else if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol))
 								{
-									detail = String.Concat(new object[] {
-										Underlying,	" ",
-										tDT.AddMonths(1).ToString("yy MMM dd").ToUpper(), " ",
-										StrikePrice.Replace(".00", ""), " ",
-										CallPut });
+									value = string.Join(" ",
+										Underlying,
+										when.AddMonths(1).ToString("yy MMM dd").ToUpper(),
+										StrikePrice.Replace(".00", ""),
+										CallPut);
 								}
-								else
-								{
-									if (Underlying.Length == OptionSymbol.Length - 1 && Underlying == OptionSymbol.Substring(0, OptionSymbol.Length - 1))
+								else if (Underlying.Length == OptionSymbol.Length - 1 && Underlying == OptionSymbol.Substring(0, OptionSymbol.Length - 1))
 									{
-										detail = String.Concat(new object[] {
-											OptionSymbol, " ",
-											tDT.ToString("yy MMM dd").ToUpper(), " ",
-											StrikePrice.Replace(".00", ""), " ",
-											CallPut });
+										value = string.Join(" ",
+											OptionSymbol,
+											when.ToString("yy MMM dd").ToUpper(),
+											StrikePrice.Replace(".00", ""),
+											CallPut);
 									}
 									else
 									{
-										detail = String.Concat(new object[] {
-											Underlying,	" ",
-											tDT.ToString("yy MMM dd").ToUpper(), " ",
-											StrikePrice.Replace(".00", ""), " ",
-											CallPut });
+										value = string.Join(" ",
+											Underlying,
+											when.ToString("yy MMM dd").ToUpper(),
+											StrikePrice.Replace(".00", ""),
+											CallPut);
 									}
-								}
-							}
-							else
-							{
-								Debug.Assert(!Debugger.IsAttached, ExpDate);
-							}
 							break;
-						case CSVFieldIDs.SecutrityTypes.Future:
-							if (GLOBAL.Future.PlusOne.Contains(BaseSymbol))
-							{
-								tOk = false;
-								tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-								tDT = tDT.AddMonths(1);
-								if (GLOBAL.MonthCodes.Map.ContainsKey(tDT.Month))
-								{
-									detail = BaseSymbol + GLOBAL.MonthCodes.Map[tDT.Month];
-									detail = detail + MDSymbol.Substring(detail.Length);
+						case CSVFieldIDs.SecurityTypes.Future:
+							if (GLOBAL.Future.PlusOne.Contains(BaseSymbol) && TimeFormats.ParseDate(ExpDate, out when)) {
+								when = when.AddMonths(1);
+								if (GLOBAL.MonthCodes.Map.ContainsKey(when.Month)) {
+									value = BaseSymbol + GLOBAL.MonthCodes.Map[when.Month];
+									value = value + MDSymbol.Substring(value.Length);
 									break;
 								}
 							}
-							detail = MDSymbol;
+							value = MDSymbol;
 							break;
 						default:
-							detail = MDSymbol;
+							value = MDSymbol;
 							break;
 					}
 
-					Strings.Add(SecurityFieldIDs.Option.symbolDetail, detail);
+					_data.Set(SecurityFieldIDs.Option.symbolDetail, value);
 				}
 
-				return Strings[SecurityFieldIDs.Option.symbolDetail];
+				return value;
 			}
 		}
 
@@ -1385,24 +1242,21 @@ namespace RDSEx
 		{
 			get
 			{
-				if (!Strings.ContainsKey(OrderFieldIDs.symbolDetail))
+				string value;
+				if (!_data.TryGet(OrderFieldIDs.symbolDetail, out value))
 				{
-					string detail = "";
 					switch (SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
-						case CSVFieldIDs.SecutrityTypes.OptionFuture:
-						case CSVFieldIDs.SecutrityTypes.OptionIndex:
-							bool tOk = false;
-							DateTime tDT;
-							tOk = DateTime.TryParseExact(ExpDate, TimeFormats.Formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-							if (tOk)
+						case CSVFieldIDs.SecurityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.OptionFuture:
+						case CSVFieldIDs.SecurityTypes.OptionIndex:
+							if (TimeFormats.ParseDate(ExpDate, out DateTime when))
 							{
-								detail = String.Concat(new object[] {
-									Underlying,	" ",
-									tDT.ToString("yy MMM dd").ToUpper(), " ",
-									StrikePrice.Replace(".00", ""), " ",
-									CallPut });
+								value = string.Join(" ",
+									Underlying,
+									when.ToString("yy MMM dd").ToUpper(),
+									StrikePrice.Replace(".00", ""),
+									CallPut);
 							}
 							else
 							{
@@ -1410,25 +1264,25 @@ namespace RDSEx
 							}
 							break;
 						default:
-							detail = MDSymbol;
+							value = MDSymbol;
 							break;
 					}
 
-					Strings.Add(OrderFieldIDs.symbolDetail, detail);
+					_data.Set(OrderFieldIDs.symbolDetail, value);
 				}
 
-				return Strings[OrderFieldIDs.symbolDetail];
+				return value;
 			}
 		}
 	}
 
-	public abstract class BaseSSFutureInfo : MutiTypedDictionary
+	public abstract class BaseSSFutureInfo // : MultiTypedDictionary
 	{
 		public string SecType
 		{
 			get
 			{
-				return CSVEx.CSVFieldIDs.SecutrityTypes.Future;
+				return CSVEx.CSVFieldIDs.SecurityTypes.Future;
 			}
 		}
 

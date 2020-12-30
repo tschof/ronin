@@ -3,24 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
-using FormEx;
 using RDSEx;
 using SerializationEx;
 using LabelEx;
 using ContextMenuEx;
-using System.Diagnostics;
-using MarketDataEx;
 using DataGridViewEx;
 using ROMEx;
 using CSVEx;
+using MarketData;
 
 namespace ROC
 {
 	[System.ComponentModel.DesignerCategory("Form")]
-	public partial class frmStockTicket : StockSupport
+	internal partial class frmStockTicket : StockSupport
 	{
 		#region - Local Variable -
 
@@ -66,7 +63,7 @@ namespace ROC
 
 		private bool _isInError = false;
 		private bool _isLoadingValue = true;
-		public bool IsLoadingValue
+		internal bool IsLoadingValue
 		{
 			get
 			{
@@ -146,23 +143,23 @@ namespace ROC
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
 		private List<ROCOrder> _rocOrders = new List<ROCOrder>();
-		private Dictionary<string, MDServerToClient> _deltas = new Dictionary<string, MDServerToClient>();
+		private Market _deltas = new Market();
 
 		#endregion
 
 		#region - Constructor -
 
-		public frmStockTicket()
+		internal frmStockTicket()
 		{
 			Initialize("", false);
 		}
 
-		public frmStockTicket(string symbolDetail)
+		internal frmStockTicket(string symbolDetail)
 		{
 			Initialize(symbolDetail, false);
 		}
 
-		public frmStockTicket(string symbolDetail, bool showLevel2)
+		internal frmStockTicket(string symbolDetail, bool showLevel2)
 		{
 			Initialize(symbolDetail, showLevel2);
 		}
@@ -1067,7 +1064,7 @@ namespace ROC
 
 				UpdateSecurityInfo(symbolDetail);
 
-				UpdateMarketDataDeltas(symbolDetail, new Dictionary<string, MDServerToClient>(GLOBAL.HMarketData.Current));
+				UpdateMarketDataDeltas(symbolDetail, GLOBAL.HMarketData.Current);
 
 				if (IsLevel2)
 				{
@@ -1111,8 +1108,8 @@ namespace ROC
 
 		#region - Used By Process Thread -
 
-		private delegate void UpdateTicketByProcessDelegate(bool updateIM, List<ROCOrder> orders, Dictionary<string, MDServerToClient> deltas);
-		public void UpdateTicketByProcess(bool updateIM, List<ROCOrder> orders, Dictionary<string, MDServerToClient> deltas)
+		private delegate void UpdateTicketByProcessDelegate(bool updateIM, List<ROCOrder> orders, Market deltas);
+		internal void UpdateTicketByProcess(bool updateIM, List<ROCOrder> orders, Market deltas)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
@@ -1126,20 +1123,7 @@ namespace ROC
 							_rocOrders.AddRange(orders);
 						}
 					}
-					lock (_deltas)
-					{
-						foreach (string key in deltas.Keys)
-						{
-							if (_deltas.ContainsKey(key))
-							{
-								_deltas[key].Update(deltas[key]);
-							}
-							else
-							{
-								_deltas.Add(key, new MDServerToClient(deltas[key]));
-							}
-						}
-					}
+					_deltas.Merge(deltas);
 				}
 				catch (Exception ex)
 				{
@@ -1159,7 +1143,7 @@ namespace ROC
 					{
 						UpdateSecurityInfo();
 					}
-					if (deltas.Count > 0)
+					if (!deltas.Empty)
 					{
 						_updateL2BidAggregation = false;
 						_updateL2AskAggregation = false;
@@ -1206,16 +1190,8 @@ namespace ROC
 						UpdateSecurityInfo();
 					}
 
-					Dictionary<string, MDServerToClient> deltas = new Dictionary<string, MDServerToClient>();
-					lock (_deltas)
-					{
-						if (_deltas.Count > 0)
-						{
-							deltas = new Dictionary<string, MDServerToClient>(_deltas);
-							_deltas.Clear();
-						}
-					}
-					if (deltas.Count > 0)
+					Market deltas = Market.Replace(_deltas);
+					if (!deltas.Empty)
 					{
 						_updateL2BidAggregation = false;
 						_updateL2AskAggregation = false;
@@ -1261,9 +1237,10 @@ namespace ROC
 
 		private void UpdateSecurityInfo()
 		{
-			Dictionary<string, string> lcoImSymbolNeeded = new Dictionary<string, string>();
 			if (ImSymbolNeeded.Count > 0)
 			{
+				Dictionary<string, string> lcoImSymbolNeeded;
+
 				lock (ImSymbolNeeded)
 				{
 					lcoImSymbolNeeded = new Dictionary<string, string>(ImSymbolNeeded);
@@ -1293,12 +1270,7 @@ namespace ROC
 					lock (ImSymbolNeeded)
 					{
 						foreach (string symbolDetail in removeList)
-						{
-							if (ImSymbolNeeded.ContainsKey(symbolDetail))
-							{
-								ImSymbolNeeded.Remove(symbolDetail);
-							}
-						}
+							ImSymbolNeeded.Remove(symbolDetail);
 					}
 				}
 			}
@@ -1308,7 +1280,7 @@ namespace ROC
 		{
 			switch (secInfo.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Equity:
+				case CSVFieldIDs.SecurityTypes.Equity:
 					HelperSubscriber.Subscribe(secInfo.MDSymbol, secInfo.MDSource, secInfo.SecType);
 
 					if (IsLevel2)
@@ -1366,24 +1338,17 @@ namespace ROC
 
 			lock (ImSymbolNeeded)
 			{
-				if (!ImSymbolNeeded.ContainsKey(symbolDetail))
-				{
-					ImSymbolNeeded.Add(symbolDetail, CurrentSecInfo.MDSymbol);
-				}
-				else
-				{
-					ImSymbolNeeded[symbolDetail] = CurrentSecInfo.MDSymbol;
-				}
+				ImSymbolNeeded[symbolDetail] = CurrentSecInfo.MDSymbol;
 			}
 		}
 
 		// Update with Security Info On Play back & onProcess
-		private void UpdateMarketDataDeltas(string symbolDetail, Dictionary<string, MDServerToClient> deltas)
+		private void UpdateMarketDataDeltas(string symbolDetail, Market deltas)
 		{
 			// Update Level 1
-			if (deltas.ContainsKey(symbolDetail))
+			if (deltas.TryGet(symbolDetail, out Book book))
 			{
-				UpdateMarketDataDelta(deltas[symbolDetail]);
+				UpdateMarketDataDelta(book);
 			}
 
 			if (IsLevel2)
@@ -1395,22 +1360,22 @@ namespace ROC
 					switch (CurrentSecInfo.MDSource.ToUpper())
 					{
 						case "CTA":
-							foreach (string key in L2PartipcantCode.IDsCTA.Keys)
+							foreach (string key in Constants.L2PartipcantCodeCTA.Codes)
 							{
-								symbolDetailL2 = string.Concat(new object[] { symbolDetail, ".", key });
-								if (deltas.ContainsKey(symbolDetailL2))
+								symbolDetailL2 = symbolDetail + "." + key;
+								if (deltas.TryGet(symbolDetailL2, out Book found))
 								{
-									UpdateMarketDataDeltaLevel2(deltas[symbolDetailL2]);
+									UpdateMarketDataDeltaLevel2(found);
 								}
 							}
 							break;
 						case "NASDAQ":
-							foreach (string key in L2PartipcantCode.IDsNASDAQ.Keys)
+							foreach (string key in Constants.L2PartipcantCodeNasdaq.Codes)
 							{
-								symbolDetailL2 = string.Concat(new object[] { symbolDetail, ".", key });
-								if (deltas.ContainsKey(symbolDetailL2))
+								symbolDetailL2 = symbolDetail + "." + key;
+								if (deltas.TryGet(symbolDetailL2, out Book found))
 								{
-									UpdateMarketDataDeltaLevel2(deltas[symbolDetailL2]);
+									UpdateMarketDataDeltaLevel2(found);
 								}
 							}
 							break;
@@ -1420,39 +1385,40 @@ namespace ROC
 		}
 
 		// Update with matching market data Level 1
-		private void UpdateMarketDataDelta(MDServerToClient delta)
+		private void UpdateMarketDataDelta(Book delta)
 		{
+			double dval;
+			long lval;
+			string sval;
+
 			lock (panelTicker)
 			{
 				panelTicker.SuspendLayout();
 
-				if (delta.BidPrice != null)
+				if (delta.TryGetField(Book.FieldEnum.BidPrice, out dval))
 				{
-					dspBidPrice.Value = (double)delta.BidPrice;
+					dspBidPrice.Value = dval;
 					_updateL2BidAggregation = true;
 				}
 
-				if (delta.BidSize != null)
+				if (delta.TryGetField(Book.FieldEnum.BidSize, out lval))
 				{
-					dspBidSize.Value = (long)delta.BidSize * 100;
+					dspBidSize.Value = lval;
 					_updateL2BidAggregation = true;
 				}
 
-				if (delta.AskPrice != null)
-				{
-					dspAskPrice.Value = (double)delta.AskPrice;
+				if (delta.TryGetField(Book.FieldEnum.AskPrice, out dval)) {
+					dspAskPrice.Value = dval;
 					_updateL2AskAggregation = true;
 				}
 
-				if (delta.AskSize != null)
-				{
-					dspAskSize.Value = (long)delta.AskSize * 100;
+				if (delta.TryGetField(Book.FieldEnum.AskSize, out lval)) {
+					dspAskSize.Value = lval * 100;
 					_updateL2AskAggregation = true;
 				}
 
-				if (delta.TradePrice != null && delta.TradePrice != 0)
-				{
-					dspTradedPrice.Value = (double)delta.TradePrice;
+				if (delta.TryGetField(Book.FieldEnum.TradePrice, out dval)) {
+					dspTradedPrice.Value = dval;
 					if (!HasFirstUpdate)
 					{
 						HasFirstUpdate = true;
@@ -1471,14 +1437,13 @@ namespace ROC
 				//    }
 				//}
 
-				if (delta.TotalVolume != null)
-				{
-					dspVolume.Value = (long)delta.TotalVolume;
+				if (delta.TryGetField(Book.FieldEnum.TotalVolume, out lval)) {
+					dspVolume.Value = lval;
 				}
 
-				if (delta.TradeTick != null && delta.TradeTick != "")
+				if (delta.TryGetNonEmpty(Book.FieldEnum.TradeTick, out sval))
 				{
-					switch (delta.TradeTick)
+					switch (sval)
 					{
 						case "+":
 						case "+0":
@@ -1495,134 +1460,119 @@ namespace ROC
 					}
 				}
 
-				if (delta.TradeVolume != null)
+				if (delta.TryGetField(Book.FieldEnum.TradeVolume, out lval))
 				{
-					dspTradeVolume.Value = (long)delta.TradeVolume;
+					dspTradeVolume.Value = lval;
 				}
 
-				if (delta.NetChange != null)
+				if (delta.TryGetField(Book.FieldEnum.NetChange, out dval))
 				{
-					dspNetChange.Value = (double)delta.NetChange;
+					dspNetChange.Value = dval;
 					dspTradedPrice.ForeColor = dspNetChange.ForeColor;
 				}
 
-				if (delta.PctChange != null)
-				{
-					dspPctChange.Value = (double)delta.PctChange;
+				if (delta.TryGetField(Book.FieldEnum.PctChange, out dval)) {
+					dspPctChange.Value = dval;
 				}
 
-				if (delta.HighPrice != null)
-				{
-					dspHighPrice.Value = (double)delta.HighPrice;
+				if (delta.TryGetField(Book.FieldEnum.HighPrice, out dval)) {
+					dspHighPrice.Value = dval;
 				}
 
-				if (delta.LowPrice != null)
-				{
-					dspLowPrice.Value = (double)delta.LowPrice;
+				if (delta.TryGetField(Book.FieldEnum.LowPrice, out dval)) {
+					dspLowPrice.Value = dval;
 				}
 
-				if (delta.ClosePrice != null && (double)delta.ClosePrice != 0)
-				{
-					dspClosePrice.Value = (double)delta.ClosePrice;
+				if (delta.TryGetNonZero(Book.FieldEnum.ClosePrice, out dval)) {
+					dspClosePrice.Value = dval;
 				}
 				else
 				{
-					if (delta.AdjPrevClosePrice != null && delta.AdjPrevClosePrice != 0)
-					{
-						dspClosePrice.Value = (double)delta.AdjPrevClosePrice;
+					if (delta.TryGetNonZero(Book.FieldEnum.AdjPrevClosePrice, out dval)) {
+						dspClosePrice.Value = dval;
 					}
-					else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
-					{
-						dspClosePrice.Value = (double)delta.PrevClosePrice;
+					else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out dval)) {
+						dspClosePrice.Value = dval;
 					}
 				}
 
-				switch (delta.SecurityStatusINT)
-				{
-					case SecurityStates.None:
-						break;
-					case SecurityStates.Normal:
-						if (lblSecurityStatus.Visible)
-						{
-							lblSecurityStatus.Visible = false;
-							lblSecurityStatus.Blink = false;
-							lblSecurityStatus.Text = "STA";
-						}
-						break;
-					default:
-						lblSecurityStatus.Text = delta.SecurityStatus;
-						if (!lblSecurityStatus.Visible)
-						{
-							lblSecurityStatus.Visible = true;
-							lblSecurityStatus.Blink = true;
-						}
-						break;
+				if (delta.TryGetField(Book.FieldEnum.SecurityStatus, out sval)) {
+					switch (sval.ToLower()) {
+						case "none":
+							break;
+						case "normal":
+							if (lblSecurityStatus.Visible) {
+								lblSecurityStatus.Visible = false;
+								lblSecurityStatus.Blink = false;
+								lblSecurityStatus.Text = "STA";
+							}
+							break;
+						default:
+							lblSecurityStatus.Text = sval;
+							if (!lblSecurityStatus.Visible) {
+								lblSecurityStatus.Visible = true;
+								lblSecurityStatus.Blink = true;
+							}
+							break;
+					}
 				}
 
 				panelTicker.ResumeLayout();
 			}
 		}
 
-		private void UpdateMarketDataDeltaLevel2(MDServerToClient delta)
+		private void UpdateMarketDataDeltaLevel2(Book delta)
 		{
-			if (delta.BidPrice != null || delta.BidSize != null)
+			if (delta.TryGetField(Book.FieldEnum.BidPrice, out double _) || delta.TryGetField(Book.FieldEnum.BidSize, out long _))
 			{
 				UpdateMarketDataDeltaLevel2(rocLevel2ListBid, level2BidSearchView, delta, "Bid");
 				_updateL2BidAggregation = true;
 			}
-			if (delta.AskPrice != null || delta.AskSize != null)
+			if (delta.TryGetField(Book.FieldEnum.AskPrice, out double _) || delta.TryGetField(Book.FieldEnum.AskSize, out long _))
 			{
 				UpdateMarketDataDeltaLevel2(rocLevel2ListAsk, level2AskSearchView, delta, "Ask");
 				_updateL2AskAggregation = true;
 			}
 		}
 
-		private void UpdateMarketDataDeltaLevel2(ROCLevel2List grid, DataView searchView, MDServerToClient delta, string side)
+		private void UpdateMarketDataDeltaLevel2(ROCLevel2List grid, DataView searchView, Book delta, string side)
 		{
 			lock (grid.RocGridTable)
 			{
 				grid.SuspendLayout();
 
-				DataRowView[] rows = new DataRowView[0];
+				DataRowView[] rows = null;
+				string participantSymbol = "", text;
 
 				if (searchView.Table.Rows.Count > 0)
 				{
-					rows = searchView.FindRows(delta.uParticipentSymbol);
+					if (delta.TryGetNonEmpty(Book.FieldEnum.uParticipantSymbol, out participantSymbol))
+						rows = searchView.FindRows(participantSymbol);
 				}
 
-				if (rows.Length == 0)
+				if ((rows != null) && (rows.GetLength(0) > 0))
 				{
 					DataRow row = grid.RocGridTable.NewRow();
 
-					row["Symbol"] = delta.uSymbol;
-					row["SymbolDetail"] = delta.IssueSymbol;
+					if (delta.TryGetField(Book.FieldEnum.uSymbol, out text))
+						row["Symbol"] = text;
+
+					if (delta.TryGetField(Book.FieldEnum.IssueSymbol, out text))
+						row["SymbolDetail"] = text;
 
 					row["Tag"] = "";
-					row["PartID"] = delta.uParticipentSymbol;
+					row["PartID"] = participantSymbol;
 
 					if (CurrentSecInfo != null)
 					{
+						string name;
 						switch (CurrentSecInfo.MDSource.ToUpper())
 						{
 							case "CTA":
-								if (L2PartipcantCode.IDsCTA.ContainsKey(delta.uParticipentSymbol))
-								{
-									row["PartName"] = L2PartipcantCode.IDsCTA[delta.uParticipentSymbol];
-								}
-								else
-								{
-									row["PartName"] = "";
-								}
+								row["PartName"] = Constants.L2PartipcantCodeCTA.TryGetName(participantSymbol, out name) ? name : "";
 								break;
 							case "NASDAQ":
-								if (L2PartipcantCode.IDsNASDAQ.ContainsKey(delta.uParticipentSymbol))
-								{
-									row["PartName"] = L2PartipcantCode.IDsNASDAQ[delta.uParticipentSymbol];
-								}
-								else
-								{
-									row["PartName"] = "";
-								}
+								row["PartName"] = Constants.L2PartipcantCodeNasdaq.TryGetName(participantSymbol, out name) ? name : "";
 								break;
 						}
 					}
@@ -1632,61 +1582,62 @@ namespace ROC
 
 					if (side == "Ask")
 					{
-						if (delta.AskPrice != null)
+						if (delta.TryGetField(Book.FieldEnum.AskPrice, out double price))
 						{
-							row["Price"] = (double)delta.AskPrice;
+							row["Price"] = price;
 						}
-						if (delta.AskSize != null)
+						if (delta.TryGetField(Book.FieldEnum.AskSize, out long size))
 						{
-							row["Size"] = (long)delta.AskSize;
-							row["RealSize"] = (long)delta.AskSize * 100;
+							row["Size"] = size;
+							row["RealSize"] = size * 100;
 						}
 					}
 					else
 					{
-						if (delta.BidPrice != null)
+						if (delta.TryGetField(Book.FieldEnum.BidPrice, out double price))
 						{
-							row["Price"] = (double)delta.BidPrice;
+							row["Price"] = price;
 						}
-						if (delta.BidSize != null)
+						if (delta.TryGetField(Book.FieldEnum.BidSize, out long size))
 						{
-							row["Size"] = (long)delta.BidSize;
-							row["RealSize"] = (long)delta.BidSize * 100;
+							row["Size"] = size;
+							row["RealSize"] = size * 100;
 						}
 					}
 
-					row["SecType"] = CSVEx.CSVFieldIDs.SecutrityTypes.Equity;
+					row["SecType"] = CSVEx.CSVFieldIDs.SecurityTypes.Equity;
 
 					grid.RocGridTable.Rows.Add(row);
 				}
 				else
 				{
+					double price;
+					long size;
+
 					foreach (DataRowView row in rows)
 					{
 						if (row["Tag"].ToString() == "")
 						{
 							if (side == "Ask")
 							{
-								if (delta.AskPrice != null)
+								if (delta.TryGetField(Book.FieldEnum.AskPrice, out price))
 								{
-									row["Price"] = (double)delta.AskPrice;
+									row["Price"] = price;
 								}
-								if (delta.AskSize != null)
+								if (delta.TryGetField(Book.FieldEnum.AskSize, out size))
 								{
-									row["Size"] = (long)delta.AskSize;
-									row["RealSize"] = (long)delta.AskSize * 100;
+									row["Size"] = size;
+									row["RealSize"] = size * 100;
 								}
 							}
 							else
 							{
-								if (delta.BidPrice != null)
-								{
-									row["Price"] = (double)delta.BidPrice;
+								if (delta.TryGetField(Book.FieldEnum.BidPrice, out price)) {
+									row["Price"] = price;
 								}
-								if (delta.BidSize != null)
-								{
-									row["Size"] = (long)delta.BidSize;
-									row["RealSize"] = (long)delta.BidSize * 100;
+								if (delta.TryGetField(Book.FieldEnum.BidSize, out size)) {
+									row["Size"] = size;
+									row["RealSize"] = size * 100;
 								}
 							}
 						}
@@ -1728,7 +1679,7 @@ namespace ROC
 					row["RealSize"] = (long)order.LeaveQty;
 
 					row["OrderStatus"] = order.Status;
-					row["SecType"] = CSVEx.CSVFieldIDs.SecutrityTypes.Equity;
+					row["SecType"] = CSVEx.CSVFieldIDs.SecurityTypes.Equity;
 
 					grid.RocGridTable.Rows.Add(row);
 				}
@@ -1791,7 +1742,7 @@ namespace ROC
 
 					switch (CurrentSecInfo.SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Equity:
+						case CSVFieldIDs.SecurityTypes.Equity:
 							dspAskPrice.MaxDecimal = 2;
 							dspBidPrice.MaxDecimal = 2;
 							dspNetChange.MaxDecimal = 2;
@@ -1844,8 +1795,8 @@ namespace ROC
 					dspPegPriceTickSize.Value = CurrentSecInfo.TickSize;
 				}
 
-				UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Equity));
-				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Equity));
+				UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Equity));
+				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Equity));
 			}
 			catch (Exception ex)
 			{
@@ -1862,7 +1813,7 @@ namespace ROC
 			GLOBAL.Interrupt = true;
 			switch (e.Data.secType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Equity:
+				case CSVFieldIDs.SecurityTypes.Equity:
 					numQuantity.Value = e.Data.qty;
 					
 					switch (e.Data.basePriceSource)
@@ -2894,8 +2845,8 @@ namespace ROC
 
 			//cboOrder.Text = "Limit"; 
 			//cboDuration.Text = "DAY";
-			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(TicketDefaults.Stock, CSVEx.CSVFieldIDs.SecutrityTypes.Equity));
-			QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(TicketDefaults.Stock, CSVEx.CSVFieldIDs.SecutrityTypes.Equity), false);
+			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(TicketDefaults.Stock, CSVEx.CSVFieldIDs.SecurityTypes.Equity));
+			QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(TicketDefaults.Stock, CSVEx.CSVFieldIDs.SecurityTypes.Equity), false);
 
 			cboAlgoType.Text = "";
 
@@ -3033,7 +2984,7 @@ namespace ROC
 
 		#region - Export & Import -
 
-		public string ExportBidGrid()
+		internal string ExportBidGrid()
 		{
 			ROCLevel2ListProfile prof = new ROCLevel2ListProfile(rocLevel2ListBid);
 
@@ -3041,7 +2992,7 @@ namespace ROC
 			return System.Convert.ToBase64String(bytes);
 		}
 
-		public void ImportBidGrid(string s)
+		internal void ImportBidGrid(string s)
 		{
 			if (s != null && s != "")
 			{
@@ -3054,7 +3005,7 @@ namespace ROC
 			}
 		}
 
-		public string ExportAskGrid()
+		internal string ExportAskGrid()
 		{
 			ROCLevel2ListProfile prof = new ROCLevel2ListProfile(rocLevel2ListAsk);
 
@@ -3062,7 +3013,7 @@ namespace ROC
 			return System.Convert.ToBase64String(bytes);
 		}
 
-		public void ImportAskGrid(string s)
+		internal void ImportAskGrid(string s)
 		{
 			if (s != null && s != "")
 			{
@@ -3075,7 +3026,7 @@ namespace ROC
 			}
 		}
 
-		public string ExportTicket()
+		internal string ExportTicket()
 		{
 			ROCTicketProfile prof = new ROCTicketProfile(this);
 
@@ -3083,7 +3034,7 @@ namespace ROC
 			return System.Convert.ToBase64String(bytes);
 		}
 
-		public void ImportTicket(string s)
+		internal void ImportTicket(string s)
 		{
 			if (s != null && s != "")
 			{
@@ -3111,20 +3062,20 @@ namespace ROC
 			}
 		}
 
-		public void ReloadTicket()
+		internal void ReloadTicket()
 		{
 			if (CurrentSymbolDetail != "" && CurrentSecInfo != null)
 			{
-				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVFieldIDs.SecutrityTypes.Equity));
+				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVFieldIDs.SecurityTypes.Equity));
 			}
 			else
 			{
-				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(TicketDefaults.Stock, CSVFieldIDs.SecutrityTypes.Equity));
+				QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(TicketDefaults.Stock, CSVFieldIDs.SecurityTypes.Equity));
 			}
 			ValidateTicketValues();
 		}
 
-		public void Clone()
+		internal void Clone()
 		{
 			lock (GLOBAL.HWindows.StockTicketWindows)
 			{
@@ -3138,7 +3089,7 @@ namespace ROC
 				GLOBAL.HWindows.OpenWindow(w, true);
 			}
 		}
-		public void Clone(ROCTicketProfile prof, ROCLevel2ListProfile gridBidProf, ROCLevel2ListProfile gridAskProf)
+		internal void Clone(ROCTicketProfile prof, ROCLevel2ListProfile gridBidProf, ROCLevel2ListProfile gridAskProf)
 		{
 			if (prof != null)
 			{
@@ -3159,7 +3110,7 @@ namespace ROC
 		#region - Level DropDown -
 
 		private bool _isLevel2 = false;
-		public bool IsLevel2
+		internal bool IsLevel2
 		{
 			get
 			{
@@ -3189,7 +3140,7 @@ namespace ROC
 			}
 		}
 
-		public string CurrentLevel
+		internal string CurrentLevel
 		{
 			get
 			{
@@ -3243,7 +3194,7 @@ namespace ROC
 
 		private void itemSaveAsDefault_Click(object sender, EventArgs e)
 		{
-			SymbolSettingData data = GLOBAL.HSymbolSettingData.GetSymbolDefaults(CurrentSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Equity);
+			SymbolSettingData data = GLOBAL.HSymbolSettingData.GetSymbolDefaults(CurrentSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Equity);
 
 			data.tradeFor = cmdTradeFor.Text;
 			data.account = cmdAccount.Text;
@@ -3282,9 +3233,9 @@ namespace ROC
 
 		private void itemResetToSystemDefault_Click(object sender, EventArgs e)
 		{
-			GLOBAL.HSymbolSettingData.RemoveSymbolDefault(CurrentSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Equity);
-			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Equity));
-			QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Equity));
+			GLOBAL.HSymbolSettingData.RemoveSymbolDefault(CurrentSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Equity);
+			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Equity));
+			QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(_lastSymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Equity));
 		}
 
 		#endregion
@@ -3345,7 +3296,7 @@ namespace ROC
 			}
 		}
 
-		public string CurrentShortLender
+		internal string CurrentShortLender
 		{
 			get
 			{
@@ -3358,7 +3309,7 @@ namespace ROC
 		}
 
 		private DataTable _shortLenders;
-		public DataTable ShortLenders
+		internal DataTable ShortLenders
 		{
 			get
 			{
@@ -3399,7 +3350,7 @@ namespace ROC
 		// This would reset the combox after every Enter and Delete key stroke
 		private bool _newInstruction = true;
 
-		public string CurrentInstruction
+		internal string CurrentInstruction
 		{
 			get
 			{
@@ -3412,7 +3363,7 @@ namespace ROC
 		}
 
 		private DataTable _instructions;
-		public DataTable Instructions
+		internal DataTable Instructions
 		{
 			get
 			{

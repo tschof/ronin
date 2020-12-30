@@ -10,13 +10,9 @@ namespace ROC
 	{
 		public static void Save(string data, string path, string filename)
 		{
-			Save(data, path, filename, true);
-		}
-		public static void Save(string data, string path, string filename, bool useLocalPath)
-		{
 			try
 			{
-				File.WriteAllText(GetSaveFileName(path, filename, useLocalPath), data);
+				File.WriteAllText(GetSaveFileName(path, filename), data);
 			}
 			catch (Exception ex)
 			{
@@ -26,13 +22,9 @@ namespace ROC
 
 		public static void Save(DataTable data, string path, string filename)
 		{
-			Save(data, path, filename, true);
-		}
-		public static void Save(DataTable data, string path, string filename, bool useLocalPath)
-		{
 			try
 			{
-				data.WriteXml(GetSaveFileName(path, filename, useLocalPath));
+				data.WriteXml(GetSaveFileName(path, filename));
 			}
 			catch (Exception ex)
 			{
@@ -40,30 +32,16 @@ namespace ROC
 			}
 		}
 
-		public static string Load(string path, string filename)
-		{
-			return Load(path, filename, true);
-		}
-		public static string Load(string path, string filename, bool useLocalPath)
+		public static string Load(string folder, string filename)
 		{
 			string data = "";
+			string path = Path.Combine(Common.Application.GetApplicationFolder(folder), filename);
 
-			if (useLocalPath)
-			{
-				path = GetPath(path);
-			}
-
-			if (filename.Substring(0, 2) != "\\")
-			{
-				filename = "\\" + filename;
-			}
-			filename = path + filename;
-
-			if (HasFile(path, filename))
+			if (File.Exists(path))
 			{
 				try
 				{
-					data = File.ReadAllText(filename);
+					data = File.ReadAllText(path);
 				}
 				catch (Exception ex)
 				{
@@ -74,25 +52,17 @@ namespace ROC
 			return data;
 		}
 
-		public static DataTable Load(DataTable data, string path, string filename)
+		public static bool Load(DataTable data, string folder, string filename)
 		{
-			return Load(data, path, filename, true);
-		}
-		public static DataTable Load(DataTable data, string path, string filename, bool useLocalPath)
-		{
-			if (useLocalPath)
-			{
-				path = GetPath(path);
-			}
+			string path = Path.Combine(Common.Application.GetApplicationFolder(folder), filename);
 
-			filename = path + filename;
-
-			if (HasFile(path, filename))
+			if (File.Exists(path))
 			{
 				try
 				{
 					data.Rows.Clear();
-					data.ReadXml(filename);
+					data.ReadXml(path);
+					return true;
 				}
 				catch (Exception ex)
 				{
@@ -100,35 +70,16 @@ namespace ROC
 				}
 			}
 
-			return data;
+			return false;
 		}
 
-		private static string GetPath(string path)
+		private static string GetSaveFileName(string path, string filename)
 		{
-			string appPath = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
-			appPath = appPath + path.Replace(@"..", "");
-
-			return appPath;
-		}
-
-		private static string GetSaveFileName(string path, string filename, bool useLocalPath)
-		{
-			if (useLocalPath)
-			{
-				path = GetPath(path);
-			}
-
-			MakeDirectory(path);
-
-			return MakeFile(path + filename);
-		}
-
-		private static void MakeDirectory(string path)
-		{
+			path = Common.Application.GetApplicationFolder(path);
 			if (!Directory.Exists(path))
-			{
 				Directory.CreateDirectory(path);
-			}
+
+			return MakeFile(Path.Combine(path, filename));
 		}
 
 		private static string MakeFile(string filename)
@@ -146,15 +97,6 @@ namespace ROC
 			}
 
 			return filename;
-		}
-
-		private static bool HasFile(string path, string filename)
-		{
-			if (Directory.Exists(path) && File.Exists(filename))
-			{
-				return true;
-			}
-			return false;
 		}
 	}
 }

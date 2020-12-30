@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="IP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">wron-rom2</Value>
+      <Value Profile="(Default)">localhost</Value>
     </Setting>
     <Setting Name="Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">8008</Value>

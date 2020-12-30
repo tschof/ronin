@@ -1749,20 +1749,20 @@ namespace DataGridViewEx
 
 			if (FilterOutStock)
 			{
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.Equity,  "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Equity,  "'" }));
 			}
 
 			if (FilterOutFuture)
 			{
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.Future, "'" }));
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.SingleStockFuture, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Future, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.SingleStockFuture, "'" }));
 			}
 
 			if (FilterOutOption)
 			{
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.Option, "'" }));
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.OptionFuture, "'" }));
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecutrityTypes.OptionIndex, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Option, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture, "'" }));
+				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex, "'" }));
 			}
 
 			if (FilterOutMarket)

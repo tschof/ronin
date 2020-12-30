@@ -1,0 +1,15 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\MarketDataStub.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\MarketDataStub.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\Common.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\Log.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\MarketData.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\log4net.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\Log.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\Common.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\MarketData.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\bin\Debug\log4net.xml
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\obj\Debug\MarketDataStub.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\obj\Debug\MarketDataStub.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\obj\Debug\MarketDataStub.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\obj\Debug\MarketDataStub.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\MarketDataStub\obj\Debug\MarketDataStub.pdb

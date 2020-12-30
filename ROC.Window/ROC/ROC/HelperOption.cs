@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using System.Drawing;
-using MarketDataEx;
+using MarketData;
+using Log = Common.Log;
 
 namespace ROC
 {
@@ -11,24 +11,18 @@ namespace ROC
 	{
 		#region - Plus One Month -
 
-		private static string _plusOneMonthFileName = "PlusOneConfig.xml";
+		private const string PLUS_ONE_MONTH_FILE = "PlusOneConfig.xml";
 
 		private static DataTable _plusOneMonthTable;
-		private static DataTable plusOneMonthTable
+
+		private static DataTable getPlusOneMonthTable()
 		{
-			get
-			{
 				if (_plusOneMonthTable == null)
 				{
 					_plusOneMonthTable = new DataTable("PlusOneMonth");
 					_plusOneMonthTable.Columns.Add("Symbol", Type.GetType("System.String"));
 				}
 				return _plusOneMonthTable;
-			}
-			set
-			{
-				_plusOneMonthTable = value;
-			}
 		}
 
 		private static List<string> _plusOne;
@@ -50,69 +44,48 @@ namespace ROC
 
 		private static void LoadPlusOneMothSymbols()
 		{
-			plusOneMonthTable = HelperFile.Load(plusOneMonthTable, Configuration.Path.Default.OptionConfigPath, _plusOneMonthFileName);
-			LoadPlusOneMonthDefaultAndSave();
+			var table = getPlusOneMonthTable();
+			if (HelperFile.Load(table, Configuration.Path.Default.OptionConfigPath, PLUS_ONE_MONTH_FILE)) {
+				LoadPlusOneMonthDefaultAndSave();
 
-			_plusOne = new List<string>();
-			foreach (DataRow row in plusOneMonthTable.Rows)
-			{
-				if (row["Symbol"] != DBNull.Value && row["Symbol"].ToString() != "" && !_plusOne.Contains(row["Symbol"].ToString()))
-				{
-					_plusOne.Add(row["Symbol"].ToString());
+				_plusOne = new List<string>();
+				foreach (DataRow row in table.Rows) {
+					if (row["Symbol"] != DBNull.Value && row["Symbol"].ToString() != "" && !_plusOne.Contains(row["Symbol"].ToString())) {
+						_plusOne.Add(row["Symbol"].ToString());
+					}
 				}
+			} else {
+				Log.Error(Log.Target.ROC, $"Can't find PlusOneMonthSymbols file {PLUS_ONE_MONTH_FILE}.");
 			}
 		}
 
 		private static void LoadPlusOneMonthDefaultAndSave()
 		{
+			string[][] symbols = new string[][] {
+				// Energy
+				new string[] {"CL","NG","ZE","BZ","HO","RB"},
+
+				// Metals
+				new string[] {"GC","QC","UX","HR","8Q","QO","SI","6Q","QI","PL","PA","QS","QR","QT"},
+
+				// Bonds (missing 3Y, 7Y, and Ultra)
+				new string[] {"ZT","ZF","ZN","ZB"},
+
+				// Comdities
+				new string[] {"ZC","ZW","ZS","ZM","ZL","ZR","ZO","LE","HE","GF","GPB"}
+			};
+
 			try
 			{
-				if (plusOneMonthTable.Rows.Count == 0)
+				var table = getPlusOneMonthTable();
+				if (table.Rows.Count == 0)
 				{
-					// Energy
-					plusOneMonthTable.Rows.Add(new object[] { "CL" });
-					plusOneMonthTable.Rows.Add(new object[] { "NG" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZE" });
-					plusOneMonthTable.Rows.Add(new object[] { "BZ" });
-					plusOneMonthTable.Rows.Add(new object[] { "HO" });
-					plusOneMonthTable.Rows.Add(new object[] { "RB" });
-
-					// Metals
-					plusOneMonthTable.Rows.Add(new object[] { "GC" });
-					plusOneMonthTable.Rows.Add(new object[] { "QC" });
-					plusOneMonthTable.Rows.Add(new object[] { "UX" });
-					plusOneMonthTable.Rows.Add(new object[] { "HR" });
-					plusOneMonthTable.Rows.Add(new object[] { "8Q" });
-					plusOneMonthTable.Rows.Add(new object[] { "QO" });
-					plusOneMonthTable.Rows.Add(new object[] { "SI" });
-					plusOneMonthTable.Rows.Add(new object[] { "6Q" });
-					plusOneMonthTable.Rows.Add(new object[] { "QI" });
-					plusOneMonthTable.Rows.Add(new object[] { "PL" });
-					plusOneMonthTable.Rows.Add(new object[] { "PA" });
-					plusOneMonthTable.Rows.Add(new object[] { "QS" });
-					plusOneMonthTable.Rows.Add(new object[] { "QR" });
-					plusOneMonthTable.Rows.Add(new object[] { "QT" });
-					
-					// Bonds
-					plusOneMonthTable.Rows.Add(new object[] { "ZT" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZF" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZN" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZB" });
-					
-					// Comdities
-					plusOneMonthTable.Rows.Add(new object[] { "ZC" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZW" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZS" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZM" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZL" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZR" });
-					plusOneMonthTable.Rows.Add(new object[] { "ZO" });
-					plusOneMonthTable.Rows.Add(new object[] { "LE" });
-					plusOneMonthTable.Rows.Add(new object[] { "HE" });
-					plusOneMonthTable.Rows.Add(new object[] { "GF" });
-					plusOneMonthTable.Rows.Add(new object[] { "GPB" });
-
-					HelperFile.Save(plusOneMonthTable, Configuration.Path.Default.OptionConfigPath, _plusOneMonthFileName);
+					foreach (var sector in symbols) {
+						foreach (string symbol in sector) {
+							table.Rows.Add(new object[] { symbol });
+						}
+					}
+					HelperFile.Save(table, Configuration.Path.Default.OptionConfigPath, PLUS_ONE_MONTH_FILE);
 				}
 			}
 			catch (Exception ex)
@@ -164,7 +137,7 @@ namespace ROC
 
 		private static void Load64ThSymbols()
 		{
-			showAs64Table = HelperFile.Load(showAs64Table, Configuration.Path.Default.OptionConfigPath, _showAs64FileName);
+			HelperFile.Load(showAs64Table, Configuration.Path.Default.OptionConfigPath, _showAs64FileName);
 			Load64ThDefaultAndSave();
 
 			_showAs64th = new List<string>();
@@ -253,7 +226,7 @@ namespace ROC
 
 		private static void LoadExchangeTable()
 		{
-			exchangeTable = HelperFile.Load(exchangeTable, Configuration.Path.Default.OptionConfigPath, _exchangeConfigFileName);
+			HelperFile.Load(exchangeTable, Configuration.Path.Default.OptionConfigPath, _exchangeConfigFileName);
 			LoadExchangeDefaultAndSave();
 
 			// Display -> Code/Color
@@ -261,75 +234,26 @@ namespace ROC
 			_exchangeColors = new Dictionary<string, Color>();
 			foreach (DataRow row in exchangeTable.Rows)
 			{
-				if (row["Display"] != DBNull.Value && row["Display"].ToString() != "")
-				{
-					// Code
-					if (!_exchanges.ContainsKey(row["Display"].ToString()))
-					{
-						if (row["Code"] != DBNull.Value && row["Code"].ToString() != "")
-						{
-							_exchanges.Add(row["Display"].ToString(), row["Code"].ToString());
-						}
-					}
+				string displayValue = (row["Display"] == DBNull.Value) ? null : row["Display"].ToString();
+				string codeValue = (row["Code"] == DBNull.Value) ? null : row["Code"].ToString();
+
+				if (!string.IsNullOrEmpty(displayValue) && !_exchanges.ContainsKey(displayValue)) {
+					if (!string.IsNullOrEmpty(codeValue))
+						_exchanges.Add(displayValue, codeValue);
 				}
 
-				// Color
-				if (row["Code"] != DBNull.Value && row["Code"].ToString() != "")
+				if (!string.IsNullOrEmpty(codeValue) && !_exchangeColors.ContainsKey(codeValue))
 				{
-					if (!_exchangeColors.ContainsKey(row["Code"].ToString()))
+					string colorValue = row["Color"] == DBNull.Value ? null : row["Color"].ToString();
+					if (!string.IsNullOrEmpty(colorValue))
 					{
-						if (row["Color"] != DBNull.Value && row["Color"].ToString() != "")
-						{
-							_exchangeColors.Add(row["Code"].ToString(), GetColorFromHexString(row["Color"].ToString()));
-						}
+						_exchangeColors.Add(codeValue, GetColorFromHexString(colorValue));
 					}
 				}
 			}
 
-			foreach (string key in exchanges.Keys)
-			{
-				switch (key)
-				{
-					case "AMEX":
-						OptionExchangeCode.AMEX = exchanges[key];
-						break;
-					case "BATS":
-						OptionExchangeCode.BATS = exchanges[key];
-						break;
-					case "BOX":
-						OptionExchangeCode.BOX = exchanges[key];
-						break;
-					case "C2":
-						OptionExchangeCode.C2 = exchanges[key];
-						break;
-					case "CBOE":
-						OptionExchangeCode.CBOE = exchanges[key];
-						break;
-					case "ISE":
-						OptionExchangeCode.ISE = exchanges[key];
-						break;
-					case "NSDQ":
-						OptionExchangeCode.NSDQ = exchanges[key];
-						break;
-					case "PCX":
-						OptionExchangeCode.PCX = exchanges[key];
-						break;
-					case "PHLX":
-						OptionExchangeCode.PHLX = exchanges[key];
-						break;
-				}
-
-				if (OptionExchangeCode.IDs.ContainsKey(exchanges[key]))
-				{
-					OptionExchangeCode.IDs[exchanges[key]] = key;
-				}
-				else
-				{
-					OptionExchangeCode.IDs.Add(exchanges[key], key);
-				}
-
-				GLOBAL.HROC.AddToStatusLogs(String.Format("Option Exchange {0} Code = {1}", key, exchanges[key]));
-			}
+			OptionExchangeCode.AddOrReplace(exchanges);
+			OptionExchangeCode.ForEach((code, name) => GLOBAL.HROC.AddToStatusLogs(string.Format("Option Exchange {0} Code = {1}", name, code)));
 		}
 
 		private static Color GetColorFromHexString(string hexString)

@@ -1,19 +1,14 @@
 using System;
 using System.Data;
-using System.Text;
-using System.Diagnostics;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-using FormEx;
 using DataGridViewEx;
 using SerializationEx;
-using RDSEx;
-using MarketDataEx;
 using ContextMenuEx;
-using ButtonEx;
 using CSVEx;
+using MarketData;
 
 namespace ROC
 {
@@ -540,12 +535,11 @@ namespace ROC
 
 		#region - Used By Process Thread -
 
-		private delegate void UpdateWatchListByProcessDelegate(bool updateIM, Dictionary<string, MDServerToClient> deltas);
-		public void UpdateWatchListByProcess(bool updateIM, Dictionary<string, MDServerToClient> deltas)
+		public void UpdateWatchListByProcess(bool updateIM, Market deltas)
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new UpdateWatchListByProcessDelegate(UpdateWatchListByProcess), new object[] { updateIM, deltas });
+				BeginInvoke(new System.Action<bool, Market>(UpdateWatchListByProcess), new object[] { updateIM, deltas });
 				return;
 			}
 
@@ -563,7 +557,7 @@ namespace ROC
 							UpdateSecurityInfo();
 						}
 
-						if (deltas.Count > 0)
+						if (!deltas.Empty)
 						{
 							UpdateMarketDataDeltas(deltas);
 						}
@@ -620,10 +614,7 @@ namespace ROC
 					{
 						foreach (string symbolDetail in removeList)
 						{
-							if (ImSymbolNeeded.ContainsKey(symbolDetail))
-							{
-								ImSymbolNeeded.Remove(symbolDetail);
-							}
+							ImSymbolNeeded.Remove(symbolDetail);
 						}
 					}
 				}
@@ -634,7 +625,7 @@ namespace ROC
 		{
 			switch (secInfo.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					HelperSubscriber.SubscribeOptionNBBO(secInfo.MDSymbol, secInfo.MDSource);
 					break;
 				default:
@@ -656,277 +647,202 @@ namespace ROC
 			}
 		}
 
-		private void UpdateMarketDataDeltas(Dictionary<string, MDServerToClient> deltas)
+		private void updateBookDeltas(string symbol, Book delta)
 		{
-			DataRowView[] rows = new DataRowView[0];
+			DataRowView[] rows;
 
-			lock (rocWatchList.RocGridTable)
-			{
-				//rocWatchList.SyncToDefaultView("Symbol", rocWatchList.RocGridTable);
+			if (delta.TryGetField(Book.FieldEnum.IssueSymbol, out string issueSymbol) && rocWatchList.Symbols.Contains(issueSymbol)) {
+				rows = SearchView.FindRows(issueSymbol);
 
-				foreach (MDServerToClient delta in deltas.Values)
-				{
-					if (IsProcessing) return;
+				if (rows.Length > 0) {
+					double uOnMsgTimeDeltaLag = 0;
+					double uClientRecivedTimeDeltaLag = 0;
 
-					if (rocWatchList.Symbols.Contains(delta.IssueSymbol))
-					{
-						rows = SearchView.FindRows(delta.IssueSymbol);
+					if (_checkLatency) {
+						MonitorLatency(delta, out uOnMsgTimeDeltaLag, out uClientRecivedTimeDeltaLag);
+					}
 
-						if (rows.Length > 0)
-						{
-							double uOnMsgTimeDeltaLag = 0;
-							double uClientRecivedTimeDeltaLag = 0;
+					double price, change;
+					long size;
+					string text;
 
-							if (_checkLatency)
-							{
-								MonitorLatency(delta, out uOnMsgTimeDeltaLag, out uClientRecivedTimeDeltaLag);
-							}
+					foreach (DataRowView row in rows) {
+						#region - Row Update -
 
-							foreach (DataRowView row in rows)
-							{
-								#region - Row Update -
+						if (delta.TryGetField(Book.FieldEnum.BidPrice, out price))
+							row["BidPrice"] = price;
 
-								if (delta.BidPrice != null)
-								{
-									row["BidPrice"] = (double)delta.BidPrice;
-								}
+						if (delta.TryGetField(Book.FieldEnum.BidSize, out size))
+							row["BidSize"] = size;
 
-								if (delta.BidSize != null)
-								{
-									row["BidSize"] = (long)delta.BidSize;
-								}
+						if (delta.TryGetField(Book.FieldEnum.BidPartId, out text))
+							row["BidPartID"] = text;
 
-								if (delta.BidPartId != null)
-								{
-									row["BidPartID"] = (string)delta.BidPartId;
-								}
+						if (delta.TryGetField(Book.FieldEnum.BidHigh, out price))
+							row["BidHigh"] = price;
 
-								if (delta.BidHigh != null)
-								{
-									row["BidHigh"] = (double)delta.BidHigh;
-								}
+						if (delta.TryGetField(Book.FieldEnum.BidLow, out price))
+							row["BidLow"] = price;
 
-								if (delta.BidLow != null)
-								{
-									row["BidLow"] = (double)delta.BidLow;
-								}
+						if (delta.TryGetField(Book.FieldEnum.AskPrice, out price))
+							row["AskPrice"] = price;
 
-								if (delta.AskPrice != null)
-								{
-									row["AskPrice"] = (double)delta.AskPrice;
-								}
+						if (delta.TryGetField(Book.FieldEnum.AskSize, out size))
+							row["AskSize"] = size;
 
-								if (delta.AskSize != null)
-								{
-									row["AskSize"] = (long)delta.AskSize;
-								}
+						if (delta.TryGetField(Book.FieldEnum.AskPartId, out text))
+							row["AskPartID"] = text;
 
-								if (delta.AskPartId != null)
-								{
-									row["AskPartID"] = (string)delta.AskPartId;
-								}
+						if (delta.TryGetField(Book.FieldEnum.AskHigh, out price))
+							row["AskHigh"] = price;
 
-								if (delta.AskHigh != null)
-								{
-									row["AskHigh"] = (double)delta.AskHigh;
-								}
+						if (delta.TryGetField(Book.FieldEnum.AskLow, out price))
+							row["AskLow"] = price;
 
-								if (delta.AskLow != null)
-								{
-									row["AskLow"] = (double)delta.AskLow;
-								}
+						if (delta.TryGetNonZero(Book.FieldEnum.TradePrice, out price))
+							row["LastTraded"] = price;
 
-								if (delta.TradePrice != null && delta.TradePrice != 0)
-								{
-									row["LastTraded"] = (double)delta.TradePrice;
-								}
-								//else
-								//{
-								//    if (delta.ClosePrice != null && delta.ClosePrice != 0)
-								//    {
-								//        row["LastTraded"] = (double)delta.ClosePrice;
-								//    }
-								//    else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
-								//    {
-								//        row["LastTraded"] = (double)delta.PrevClosePrice;
-								//    }
-								//}
+						if (delta.TryGetField(Book.FieldEnum.TradeVolume, out size))
+							row["TradeVolume"] = size;
 
-								if (delta.TradeVolume != null)
-								{
-									row["TradeVolume"] = (long)delta.TradeVolume;
-								}
+						if (delta.TryGetField(Book.FieldEnum.TradePartId, out text))
+							row["TradePartID"] = text;
 
-								if (delta.TradePartId != null)
-								{
-									row["TradePartID"] = (string)delta.TradePartId;
-								}
+						if (delta.TryGetNonEmpty(Book.FieldEnum.TradeTick, out text))
+							row["Tick"] = text;
 
-								if (delta.TradeTick != null && delta.TradeTick != "")
-								{
-									row["Tick"] = delta.TradeTick;
-								}
+						if (delta.TryGetField(Book.FieldEnum.NetChange, out change))
+							row["NetChange"] = change;
 
-								if (delta.NetChange != null)
-								{
-									row["NetChange"] = (double)delta.NetChange;
-								}
+						if (delta.TryGetField(Book.FieldEnum.PctChange, out change))
+							row["PctChange"] = change;
 
-								if (delta.PctChange != null)
-								{
-									row["PctChange"] = (double)delta.PctChange;
-								}
+						if (delta.TryGetField(Book.FieldEnum.TotalVolume, out size))
+							row["Volume"] = size;
 
-								if (delta.TotalVolume != null)
-								{
-									row["Volume"] = (long)delta.TotalVolume;
-								}
+						if (delta.TryGetField(Book.FieldEnum.HighPrice, out price))
+							row["High"] = price;
 
-								if (delta.HighPrice != null)
-								{
-									row["High"] = (double)delta.HighPrice;
-								}
+						if (delta.TryGetField(Book.FieldEnum.LowPrice, out price))
+							row["Low"] = price;
 
-								if (delta.LowPrice != null)
-								{
-									row["Low"] = (double)delta.LowPrice;
-								}
+						if (delta.TryGetField(Book.FieldEnum.OpenPrice, out price))
+							row["Open"] = price;
 
-								if (delta.OpenPrice != null)
-								{
-									row["Open"] = (double)delta.OpenPrice;
-								}
+						if (delta.TryGetNonZero(Book.FieldEnum.ClosePrice, out price))
+							row["Close"] = price;
+						else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price))
+							row["Close"] = price;
 
-								if (delta.ClosePrice != null && (double)delta.ClosePrice != 0)
-								{
-									row["Close"] = (double)delta.ClosePrice;
-								}
-								else
-								{
-									if (delta.PrevClosePrice != null && (double)delta.PrevClosePrice != 0)
-									{
-										row["Close"] = (double)delta.PrevClosePrice;
-									}
-								}
+						if (delta.TryGetField(Book.FieldEnum.Vwap, out price))
+							row["Vwap"] = price;
 
-								if (delta.Vwap != null)
-								{
-									row["Vwap"] = (double)delta.Vwap;
-								}
+						if (delta.TryGetField(Book.FieldEnum.OpenInterest, out size))
+							row["OpenInterest"] = size;
 
-								if (delta.OpenInterest != null)
-								{
-									row["OpenInterest"] = (long)delta.OpenInterest;
-								}
+						if (delta.TryGetField(Book.FieldEnum.SettlePrice, out price))
+							row["SettlePrice"] = price;
 
-								if (delta.SettlePrice != null)
-								{
-									row["SettlePrice"] = (double)delta.SettlePrice;
-								}
+						if (delta.TryGetField(Book.FieldEnum.DisplayConversionFactor, out change))
+							row["DisplayFactor"] = change;
 
-								if (delta.DisplayConversionFactor != null)
-								{
-									row["DisplayFactor"] = (double)delta.DisplayConversionFactor;
-								}
-
-								switch (delta.SecurityStatusINT)
-								{
-									case SecurityStates.None:
-										break;
-									case SecurityStates.Normal:
-										row["SecurityStatus"] = DBNull.Value;
-										break;
-									default:
-										row["SecurityStatus"] = delta.SecurityStatus;
-										break;
-								}
-
-								if (_checkLatency)
-								{
-									if (delta.LineTime != "")
-									{
-										row["LineTime"] = delta.LineTime;
-									}
-
-									if (delta.uDecodedTime != null)
-									{
-										row["DecodeTime"] = ((double)delta.uDecodedTime).ToString("F4");
-									}
-
-									//if (delta.uOnMsgTimeDelta != null)
-									//{
-									//    row["OnMsgTime"] =  ((double)delta.uOnMsgTimeDelta).ToString("F0");
-									//}
-
-									if (uOnMsgTimeDeltaLag != 0)
-									{
-										row["OnMsgTime"] = uOnMsgTimeDeltaLag.ToString("F0");
-									}
-
-									if (delta.uServerSentTime != null)
-									{
-										row["ServerSentTime"] = ((DateTime)delta.uServerSentTime).ToString("HH:mm:ss.fff");
-									}
-
-									//if (delta.uClientRecivedTimeDelta != null)
-									//{
-									//    row["ClientRecivedTime"] = ((double)delta.uClientRecivedTimeDelta).ToString("F0");
-									//}
-
-									if (uClientRecivedTimeDeltaLag != 0)
-									{
-										row["ClientRecivedTime"] = uClientRecivedTimeDeltaLag.ToString("F4");
-									}
-								}
-
-								#endregion
+						if (delta.TryGetField(Book.FieldEnum.SecurityStatus, out text)) {
+							switch (text.ToLower()) {
+								case "none":
+									break;
+								case "normal":
+									row["SecurityStatus"] = DBNull.Value;
+									break;
+								default:
+									row["SecurityStatus"] = text;
+									break;
 							}
 						}
+
+						if (_checkLatency) {
+							if (delta.TryGetNonEmpty(Book.FieldEnum.LineTime, out text))
+								row["LineTime"] = text;
+
+							if (delta.TryGetField(Book.FieldEnum.uDecodedTime, out double decodedTime)) {
+								row["DecodeTime"] = decodedTime.ToString("F4");
+							}
+
+							//if (delta.uOnMsgTimeDelta != null)
+							//{
+							//    row["OnMsgTime"] =  ((double)delta.uOnMsgTimeDelta).ToString("F0");
+							//}
+
+							if (uOnMsgTimeDeltaLag != 0) {
+								row["OnMsgTime"] = uOnMsgTimeDeltaLag.ToString("F0");
+							}
+
+							if (delta.TryGetField(Book.FieldEnum.uServerSentTime, out DateTime serverSentTime)) {
+								row["ServerSentTime"] = serverSentTime.ToString("HH:mm:ss.fff");
+							}
+
+							//if (delta.uClientRecivedTimeDelta != null)
+							//{
+							//    row["ClientRecivedTime"] = ((double)delta.uClientRecivedTimeDelta).ToString("F0");
+							//}
+
+							if (uClientRecivedTimeDeltaLag != 0) {
+								row["ClientRecivedTime"] = uClientRecivedTimeDeltaLag.ToString("F4");
+							}
+						}
+
+						#endregion
 					}
 				}
 			}
 		}
 
-		private void MonitorLatency(MDServerToClient delta, out double uOnMsgTimeDeltaLag, out double uClientRecivedTimeDeltaLag)
+		private void UpdateMarketDataDeltas(Market marketDeltas)
 		{
-			string key = delta.uSubscriptionKey;
+			lock (rocWatchList.RocGridTable)
+			{
+				//rocWatchList.SyncToDefaultView("Symbol", rocWatchList.RocGridTable);
+				foreach ((string symbol, Book delta) in marketDeltas) {
+					if (!IsProcessing)
+						return;
+					updateBookDeltas(symbol, delta);
+				}
+			}
+		}
+
+		private void MonitorLatency(Book delta, out double uOnMsgTimeDeltaLag, out double uClientRecivedTimeDeltaLag)
+		{
 			uOnMsgTimeDeltaLag = 0;
 			uClientRecivedTimeDeltaLag = 0;
 
-			if (_checkLatency)
+			if (_checkLatency && delta.TryGetField(Book.FieldEnum.uSubscriptionKey, out string key))
 			{
+				double timeDelta;
+
 				#region - uOnMsgTimeDeltaLag -
 
-				if (delta.uOnMsgTimeDelta != null)
+				if (delta.TryGetField(Book.FieldEnum.uOnMsgTimeDelta, out timeDelta))
 				{
-					if (_monitorBaseLineDeltaLists_MAMA.ContainsKey(key))
-					{
-						if (_monitorBaseLineDeltaLists_MAMA[key].Count > _driftLimit)
+					if (!_monitorBaseLineDeltaLists_MAMA.TryGetValue(key, out List<double> list)) {
+						var entry = new List<double>();
+						entry.Add(timeDelta);
+						_monitorBaseLineDeltaLists_MAMA.Add(key, entry);
+					} else if (list.Count > _driftLimit) {
+						double total = 0;
+						foreach (double d in list)
 						{
-							double total = 0;
-							foreach (double d in _monitorBaseLineDeltaLists_MAMA[key])
-							{
-								total = total + d;
-							}
-							if (!_monitorBaseLineDelta_MAMA.ContainsKey(key))
-							{
-								_monitorBaseLineDelta_MAMA.Add(key, total / _monitorBaseLineDeltaLists_MAMA[key].Count);
-							}
+							total = total + d;
 						}
-						else
+						if (!_monitorBaseLineDelta_MAMA.ContainsKey(key))
 						{
-							_monitorBaseLineDeltaLists_MAMA[key].Add((double)delta.uOnMsgTimeDelta);
+							_monitorBaseLineDelta_MAMA.Add(key, total / list.Count);
 						}
-					}
-					else
-					{
-						_monitorBaseLineDeltaLists_MAMA.Add(key, new List<double>());
-						_monitorBaseLineDeltaLists_MAMA[key].Add((double)delta.uOnMsgTimeDelta);
+					} else {
+						list.Add(timeDelta);
 					}
 
-					if (_monitorBaseLineDelta_MAMA.ContainsKey(key))
+					if (_monitorBaseLineDelta_MAMA.TryGetValue(key, out double value))
 					{
-						uOnMsgTimeDeltaLag = Math.Abs(_monitorBaseLineDelta_MAMA[key] - (double)delta.uOnMsgTimeDelta);
+						uOnMsgTimeDeltaLag = Math.Abs(value - timeDelta);
 					}
 				}
 
@@ -934,36 +850,29 @@ namespace ROC
 
 				#region - uClientRecivedTimeDeltaLag -
 
-				if (delta.uClientRecivedTimeDelta != null)
+				if (delta.TryGetField(Book.FieldEnum.uClientRecievedTimeDelta, out timeDelta))
 				{
-					if (_monitorBaseLineDeltaLists_MDS.ContainsKey(key))
-					{
-						if (_monitorBaseLineDeltaLists_MDS[key].Count > _driftLimit)
+					if (!_monitorBaseLineDeltaLists_MDS.TryGetValue(key, out List<double> list)) {
+						var entry = new List<double>();
+						entry.Add(timeDelta);
+						_monitorBaseLineDeltaLists_MDS.Add(key, entry);
+					} else if (list.Count > _driftLimit) {
+						double total = 0;
+						foreach (double d in list)
 						{
-							double total = 0;
-							foreach (double d in _monitorBaseLineDeltaLists_MDS[key])
-							{
-								total = total + d;
-							}
-							if (!_monitorBaseLineDelta_MDS.ContainsKey(key))
-							{
-								_monitorBaseLineDelta_MDS.Add(key, total / _monitorBaseLineDeltaLists_MDS[key].Count);
-							}
+							total = total + d;
 						}
-						else
+						if (!_monitorBaseLineDelta_MDS.ContainsKey(key))
 						{
-							_monitorBaseLineDeltaLists_MDS[key].Add((double)delta.uClientRecivedTimeDelta);
+							_monitorBaseLineDelta_MDS.Add(key, total / list.Count);
 						}
-					}
-					else
-					{
-						_monitorBaseLineDeltaLists_MDS.Add(key, new List<double>());
-						_monitorBaseLineDeltaLists_MDS[key].Add((double)delta.uClientRecivedTimeDelta);
+					} else {
+						list.Add(timeDelta);
 					}
 
-					if (_monitorBaseLineDelta_MDS.ContainsKey(key))
+					if (_monitorBaseLineDelta_MDS.TryGetValue(key, out double value))
 					{
-						uClientRecivedTimeDeltaLag = Math.Abs(_monitorBaseLineDelta_MDS[key] - (double)delta.uClientRecivedTimeDelta) / 10;
+						uClientRecivedTimeDeltaLag = Math.Abs(value - timeDelta) / 10;
 					}
 				}
 
@@ -980,205 +889,20 @@ namespace ROC
 			double tickSize = 0.01;
 			string secType = "";
 			string name = "";
-			MDServerToClient delta = new MDServerToClient();
+			Book delta = new Book();
 
 			UpdateWatchListWithSecurityInfo(symbolDetail, ref mdSymbol, ref tickSize, ref secType, ref name);
 			UpdateWatchListWithCurrentMarketData(mdSymbol.ToUpper(), ref delta);
 
 			row["Symbol"] = mdSymbol;
-			if (isRefresh)
-			{
-				row["symbolDetail"] = symbolDetail;
-			}
-
-			if (delta.BidPrice != null)
-			{
-				row["BidPrice"] = (double)delta.BidPrice;
-			}
-
-			if (delta.BidSize != null)
-			{
-				row["BidSize"] = (long)delta.BidSize;
-			}
-
-			if (delta.BidPartId != null)
-			{
-				row["BidPartID"] = (string)delta.BidPartId;
-			}
-
-			if (delta.BidHigh != null)
-			{
-				row["BidHigh"] = (double)delta.BidHigh;
-			}
-
-			if (delta.BidLow != null)
-			{
-				row["BidLow"] = (double)delta.BidLow;
-			}
-
-			if (delta.AskPrice != null)
-			{
-				row["AskPrice"] = (double)delta.AskPrice;
-			}
-
-			if (delta.AskSize != null)
-			{
-				row["AskSize"] = (long)delta.AskSize;
-			}
-
-			if (delta.AskPartId != null)
-			{
-				row["AskPartID"] = (string)delta.AskPartId;
-			}
-
-			if (delta.AskHigh != null)
-			{
-				row["AskHigh"] = (double)delta.AskHigh;
-			}
-
-			if (delta.AskLow != null)
-			{
-				row["AskLow"] = (double)delta.AskLow;
-			}
-
-			if (delta.TradePrice != null && delta.TradePrice != 0)
-			{
-				row["LastTraded"] = (double)delta.TradePrice;
-			}
-			else
-			{
-				if (delta.ClosePrice != null && delta.ClosePrice != 0 )
-				{
-					row["LastTraded"] = (double)delta.ClosePrice;
-				}
-				else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
-				{
-					row["LastTraded"] = (double)delta.PrevClosePrice;
-				}
-			}
-
-			if (delta.TradePartId != null)
-			{
-				row["TradePartID"] = (string)delta.TradePartId;
-			}
-
-			if (delta.TradeVolume != null)
-			{
-				row["TradeVolume"] = (double)delta.TradeVolume;
-			}
-
-			if (delta.TradeTick != null)
-			{
-				row["Tick"] = delta.TradeTick;
-			}
-
-			if (delta.NetChange != null)
-			{
-				row["NetChange"] = (double)delta.NetChange;
-			}
-
-			if (delta.PctChange != null)
-			{
-				row["PctChange"] = (double)delta.PctChange;
-			}
-
-			if (delta.TotalVolume != null)
-			{
-				row["Volume"] = (long)delta.TotalVolume;
-			}
-
-			if (delta.HighPrice != null)
-			{
-				row["High"] = (double)delta.HighPrice;
-			}
-
-			if (delta.LowPrice != null)
-			{
-				row["Low"] = (double)delta.LowPrice;
-			}
-
-			if (delta.OpenPrice != null)
-			{
-				row["Open"] = (double)delta.OpenPrice;
-			}
-
-			if (delta.ClosePrice != null && (double)delta.ClosePrice != 0)
-			{
-				row["Close"] = (double)delta.ClosePrice;
-			}
-			else
-			{
-				if (delta.PrevClosePrice != null && (double)delta.PrevClosePrice != 0)
-				{
-					row["Close"] = (double)delta.PrevClosePrice;
-				}
-			}
-
-			if (delta.Vwap != null)
-			{
-				row["Vwap"] = (double)delta.Vwap;
-			}
-
-			if (delta.OpenInterest != null)
-			{
-				row["OpenInterest"] = (long)delta.OpenInterest;
-			}
-
-			if (delta.SettlePrice != null)
-			{
-				row["SettlePrice"] = (double)delta.SettlePrice;
-			}
-
 			row["Name"] = name;
 			row["TickSize"] = tickSize;
-
-			if (delta.DisplayConversionFactor != null)
-			{
-				row["DisplayFactor"] = (double)delta.DisplayConversionFactor;
-			}
-			else
-			{
-				row["DisplayFactor"] = 1;
-			}
-
-			switch (delta.SecurityStatusINT)
-			{
-				case SecurityStates.None:
-					break;
-				case SecurityStates.Normal:
-					row["SecurityStatus"] = DBNull.Value;
-					break;
-				default:
-					row["SecurityStatus"] = delta.SecurityStatus;
-					break;
-			}
-
 			row["SecType"] = secType;
 
-			//if (delta.LineTime != "")
-			//{
-			//    row["LineTime"] = delta.LineTime;
-			//}
+			if (isRefresh)
+				row["symbolDetail"] = symbolDetail;
 
-			//if (delta.uDecodedTime != null)
-			//{
-			//    row["DecodeTime"] = ((double)delta.uDecodedTime).ToString("F4");
-			//}
-
-			//if (delta.uOnMsgTimeDelta != null)
-			//{
-			//    row["OnMsgTime"] = ((double)delta.uOnMsgTimeDelta).ToString("F0");
-			//}
-
-			//if (delta.uServerSentTime != null)
-			//{
-			//    row["ServerSentTime"] = ((DateTime)delta.uServerSentTime).ToString("HH:mm:ss.fff");
-			//}
-
-			//if (delta.uClientRecivedTimeDelta != null)
-			//{
-			//    row["ClientRecivedTime"] = ((double)delta.uClientRecivedTimeDelta).ToString("F0");
-			//}
+			ROC.Lists.Utility.ApplyRowDelta(row, delta, true, false);
 
 			if (symbolDetail.Contains(" "))
 			{
@@ -1197,15 +921,10 @@ namespace ROC
 		}
 
 		// Update with Play back & onLoad
-		private void UpdateWatchListWithCurrentMarketData(string mdSymbol, ref MDServerToClient delta)
+		private void UpdateWatchListWithCurrentMarketData(string mdSymbol, ref Book delta)
 		{
-			if (mdSymbol != null && mdSymbol != "")
-			{
-				if (GLOBAL.HMarketData.Current.ContainsKey(mdSymbol))
-				{
-					delta.Update(GLOBAL.HMarketData.Current[mdSymbol]);
-				}
-			}
+			if (!string.IsNullOrEmpty(mdSymbol) && GLOBAL.HMarketData.Current.TryGet(mdSymbol, out Book found))
+				delta.Merge(found);
 		}
 
 		// Update with Security Info On Play back & onLoad
@@ -1221,7 +940,7 @@ namespace ROC
 
 				switch (secType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rocWatchList.UpdateSymbol(mdSymbol);
 						rocWatchList.UpdateTickSize(mdSymbol, tickSize);
 						break;
@@ -1233,14 +952,7 @@ namespace ROC
 
 			lock (ImSymbolNeeded)
 			{
-				if (!ImSymbolNeeded.ContainsKey(symbolDetail))
-				{
-					ImSymbolNeeded.Add(symbolDetail, mdSymbol);
-				}
-				else
-				{
-					ImSymbolNeeded[symbolDetail] = mdSymbol;
-				}
+				ImSymbolNeeded[symbolDetail] = mdSymbol;
 			}
 		}
 

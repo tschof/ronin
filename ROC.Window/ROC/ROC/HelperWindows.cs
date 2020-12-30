@@ -6,55 +6,55 @@ using ContextMenuEx;
 
 namespace ROC
 {
-	public sealed class WindowMenuTypes
+	internal sealed class WindowMenuTypes
 	{
-		public const int ShowAll = 0;
-		public const int HideAll = 1;
-		public const int WatchLists = 2;
-		public const int PlotLists = 3;
-		public const int StockTickets = 4;
-		public const int OptionTickets = 5;
-		public const int FutureTickets = 6;
-		public const int QuickTickets = 7;
-		public const int BatchTickets = 8;
-		public const int BatchMarketTickets = 9;
-		public const int AutoSpreadTickets = 10;
-		public const int FutureMatrixTickets = 11;
-		public const int OrderWindows = 12;
-		public const int TradeWindows = 13;
-		public const int PositionWindows = 14;
+		internal const int ShowAll = 0;
+		internal const int HideAll = 1;
+		internal const int WatchLists = 2;
+		internal const int PlotLists = 3;
+		internal const int StockTickets = 4;
+		internal const int OptionTickets = 5;
+		internal const int FutureTickets = 6;
+		internal const int QuickTickets = 7;
+		internal const int BatchTickets = 8;
+		internal const int BatchMarketTickets = 9;
+		internal const int AutoSpreadTickets = 10;
+		internal const int FutureMatrixTickets = 11;
+		internal const int OrderWindows = 12;
+		internal const int TradeWindows = 13;
+		internal const int PositionWindows = 14;
 	}
 
-	public sealed class NotificationMenuTypes
+	internal sealed class NotificationMenuTypes
 	{
-		public const int ShowAll = 0;
-		public const int HideAll = 1;
-		public const int WatchList = 2;
-		public const int PlotList = 3;
-		public const int StockTicket = 4;
-		public const int OptionTicket = 5;
-		public const int FutureTicket = 6;
-		public const int QuickTicket = 7;
-		public const int BatchTicket = 8;
-		public const int BatchMarketTickets = 9;
-		public const int AutoSpreadTicket = 10;
-		public const int FutureMatrixTicket = 11;
-		public const int Order = 12;
-		public const int Trade = 13;
-		public const int Position = 14;
-		public const int Windows = 15;
-		public const int Exit = 16;
+		internal const int ShowAll = 0;
+		internal const int HideAll = 1;
+		internal const int WatchList = 2;
+		internal const int PlotList = 3;
+		internal const int StockTicket = 4;
+		internal const int OptionTicket = 5;
+		internal const int FutureTicket = 6;
+		internal const int QuickTicket = 7;
+		internal const int BatchTicket = 8;
+		internal const int BatchMarketTickets = 9;
+		internal const int AutoSpreadTicket = 10;
+		internal const int FutureMatrixTicket = 11;
+		internal const int Order = 12;
+		internal const int Trade = 13;
+		internal const int Position = 14;
+		internal const int Windows = 15;
+		internal const int Exit = 16;
 	}
 
-	public class HelperWindows
+	internal class HelperWindows
 	{
-		public HelperWindows()
+		internal HelperWindows()
 		{
 
 		}
 
 		private Dictionary<IntPtr, frmAlert> _alertWindows;
-		public Dictionary<IntPtr, frmAlert> AlertWindows
+		internal Dictionary<IntPtr, frmAlert> AlertWindows
 		{
 			get
 			{
@@ -71,7 +71,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmClock> _clockWindows;
-		public Dictionary<IntPtr, frmClock> ClockWindows
+		internal Dictionary<IntPtr, frmClock> ClockWindows
 		{
 			get
 			{
@@ -88,7 +88,7 @@ namespace ROC
 		} 
 
 		private Dictionary<IntPtr, frmMain> _mainWindows;
-		public Dictionary<IntPtr, frmMain> MainWindows
+		internal Dictionary<IntPtr, frmMain> MainWindows
 		{
 			get
 			{
@@ -105,7 +105,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmUserProfile> _userProfileWindows;
-		public Dictionary<IntPtr, frmUserProfile> UserProfileWindows
+		internal Dictionary<IntPtr, frmUserProfile> UserProfileWindows
 		{
 			get
 			{
@@ -122,7 +122,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmSettings> _settingsWindows;
-		public Dictionary<IntPtr, frmSettings> SettingsWindows
+		internal Dictionary<IntPtr, frmSettings> SettingsWindows
 		{
 			get
 			{
@@ -139,7 +139,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmEMail> _emailWindows;
-		public Dictionary<IntPtr, frmEMail> EMailWindows
+		internal Dictionary<IntPtr, frmEMail> EMailWindows
 		{
 			get
 			{
@@ -156,7 +156,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmAbout> _aboutWindows;
-		public Dictionary<IntPtr, frmAbout> AboutWindows
+		internal Dictionary<IntPtr, frmAbout> AboutWindows
 		{
 			get
 			{
@@ -173,7 +173,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmWatchList> _watchListWindows;
-		public Dictionary<IntPtr, frmWatchList> WatchListWindows
+		internal Dictionary<IntPtr, frmWatchList> WatchListWindows
 		{
 			get
 			{
@@ -190,7 +190,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmPlotList> _plotListWindows;
-		public Dictionary<IntPtr, frmPlotList> PlotListWindows
+		internal Dictionary<IntPtr, frmPlotList> PlotListWindows
 		{
 			get
 			{
@@ -207,7 +207,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmStockTicket> _stockTicketWindows;
-		public Dictionary<IntPtr, frmStockTicket> StockTicketWindows
+		internal Dictionary<IntPtr, frmStockTicket> StockTicketWindows
 		{
 			get
 			{
@@ -224,7 +224,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmOptionTicket> _optionTicketWindows;
-		public Dictionary<IntPtr, frmOptionTicket> OptionTicketWindows
+		internal Dictionary<IntPtr, frmOptionTicket> OptionTicketWindows
 		{
 			get
 			{
@@ -241,7 +241,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmFutureTicket> _futureTicketWindows;
-		public Dictionary<IntPtr, frmFutureTicket> FutureTicketWindows
+		internal Dictionary<IntPtr, frmFutureTicket> FutureTicketWindows
 		{
 			get
 			{
@@ -258,7 +258,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmQuickTicket> _quickTicketWindows;
-		public Dictionary<IntPtr, frmQuickTicket> QuickTicketWindows
+		internal Dictionary<IntPtr, frmQuickTicket> QuickTicketWindows
 		{
 			get
 			{
@@ -275,7 +275,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmAutoSpreadTicket> _autoSpreadTicketWindows;
-		public Dictionary<IntPtr, frmAutoSpreadTicket> AutoSpreadTicketWindows
+		internal Dictionary<IntPtr, frmAutoSpreadTicket> AutoSpreadTicketWindows
 		{
 			get
 			{
@@ -292,7 +292,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmFutureMatrixTicket> _futureMatrixTicketWindows;
-		public Dictionary<IntPtr, frmFutureMatrixTicket> FutureMatrixTicketWindows
+		internal Dictionary<IntPtr, frmFutureMatrixTicket> FutureMatrixTicketWindows
 		{
 			get
 			{
@@ -309,7 +309,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmBatchTicket> _batchTicketsWindows;
-		public Dictionary<IntPtr, frmBatchTicket> BatchTicketWindows
+		internal Dictionary<IntPtr, frmBatchTicket> BatchTicketWindows
 		{
 			get
 			{
@@ -326,7 +326,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmBatchMarketTicket> _batchMarketTicketsWindows;
-		public Dictionary<IntPtr, frmBatchMarketTicket> BatchMarketTicketWindows
+		internal Dictionary<IntPtr, frmBatchMarketTicket> BatchMarketTicketWindows
 		{
 			get
 			{
@@ -343,7 +343,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmOrders> _orderWindows;
-		public Dictionary<IntPtr, frmOrders> OrderWindows
+		internal Dictionary<IntPtr, frmOrders> OrderWindows
 		{
 			get
 			{
@@ -360,7 +360,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmTrades> _tradeWindows;
-		public Dictionary<IntPtr, frmTrades> TradeWindows
+		internal Dictionary<IntPtr, frmTrades> TradeWindows
 		{
 			get
 			{
@@ -377,7 +377,7 @@ namespace ROC
 		}
 
 		private Dictionary<IntPtr, frmPositions> _positionWindows;
-		public Dictionary<IntPtr, frmPositions> PositionWindows
+		internal Dictionary<IntPtr, frmPositions> PositionWindows
 		{
 			get
 			{
@@ -394,7 +394,7 @@ namespace ROC
 		}
 
 		private VistaContextMenu _windowsMenu;
-		public VistaContextMenu WindowsMenu
+		internal VistaContextMenu WindowsMenu
 		{
 			get
 			{
@@ -407,7 +407,7 @@ namespace ROC
 		}
 
 		private VistaContextMenu _notificationMenu;
-		public VistaContextMenu NotificationMenu
+		internal VistaContextMenu NotificationMenu
 		{
 			get
 			{
@@ -423,7 +423,7 @@ namespace ROC
 
 		// Check to see if any window is in extended mode or not
 		// If not stop TPOS pulling
-		public bool IsExtended
+		internal bool IsExtended
 		{
 			get
 			{
@@ -705,7 +705,7 @@ namespace ROC
 		}
 
 		private bool _busyShowAll = false;
-		public bool BusyShowAll
+		internal bool BusyShowAll
 		{
 			get
 			{
@@ -713,7 +713,7 @@ namespace ROC
 			}
 		}
 
-		public void ShowAll()
+		internal void ShowAll()
 		{
 			if (!_busyShowAll)
 			{
@@ -1182,7 +1182,7 @@ namespace ROC
 		#endregion
 
 		private Size _destopSize;
-		public Size DesktopSize
+		internal Size DesktopSize
 		{
 			get
 			{
@@ -1246,7 +1246,7 @@ namespace ROC
 			w.BringToFront();
 		}
 
-		public frmAlert OpenWindow(frmAlert w)
+		internal frmAlert OpenWindow(frmAlert w)
 		{
 			if (AlertWindows.Count > 0)
 			{
@@ -1265,7 +1265,7 @@ namespace ROC
 			return w;
 		}
 
-		public frmClock OpenWindow(frmClock w)
+		internal frmClock OpenWindow(frmClock w)
 		{
 			if (ClockWindows.Count > 0)
 			{
@@ -1284,7 +1284,7 @@ namespace ROC
 			return w;
 		}
 
-		public frmUserProfile OpenWindow(frmUserProfile w)
+		internal frmUserProfile OpenWindow(frmUserProfile w)
 		{
 			if (UserProfileWindows.Count > 0)
 			{
@@ -1303,7 +1303,7 @@ namespace ROC
 			return w;
 		}
 
-		public frmSettings OpenWindow(frmSettings w)
+		internal frmSettings OpenWindow(frmSettings w)
 		{
 			if (SettingsWindows.Count > 0)
 			{
@@ -1322,7 +1322,7 @@ namespace ROC
 			return w;
 		}
 
-		public frmEMail OpenWindow(frmEMail w)
+		internal frmEMail OpenWindow(frmEMail w)
 		{
 			if (SettingsWindows.Count > 0)
 			{
@@ -1341,7 +1341,7 @@ namespace ROC
 			return w;
 		}
 
-		public frmAbout OpenWindow(frmAbout w)
+		internal frmAbout OpenWindow(frmAbout w)
 		{
 			if (AboutWindows.Count > 0)
 			{
@@ -1360,7 +1360,7 @@ namespace ROC
 			return w;
 		}
 
-		public frmMain OpenWindow(frmMain w)
+		internal frmMain OpenWindow(frmMain w)
 		{
 			if (MainWindows.Count > 0)
 			{
@@ -1377,7 +1377,7 @@ namespace ROC
 			return w;
 		}
 
-		public void OpenWindow(frmWatchList w, bool isNew)
+		internal void OpenWindow(frmWatchList w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1393,7 +1393,7 @@ namespace ROC
 			WatchListWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmPlotList w, bool isNew)
+		internal void OpenWindow(frmPlotList w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1409,7 +1409,7 @@ namespace ROC
 			PlotListWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmStockTicket w, bool isNew)
+		internal void OpenWindow(frmStockTicket w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1422,7 +1422,7 @@ namespace ROC
 			StockTicketWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmOptionTicket w, bool isNew)
+		internal void OpenWindow(frmOptionTicket w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1438,7 +1438,7 @@ namespace ROC
 			OptionTicketWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmFutureTicket w, bool isNew)
+		internal void OpenWindow(frmFutureTicket w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1451,7 +1451,7 @@ namespace ROC
 			FutureTicketWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmQuickTicket w, bool isNew)
+		internal void OpenWindow(frmQuickTicket w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1464,7 +1464,7 @@ namespace ROC
 			QuickTicketWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmAutoSpreadTicket w, bool isNew)
+		internal void OpenWindow(frmAutoSpreadTicket w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1480,7 +1480,7 @@ namespace ROC
 			AutoSpreadTicketWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmFutureMatrixTicket w, bool isNew)
+		internal void OpenWindow(frmFutureMatrixTicket w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1496,7 +1496,7 @@ namespace ROC
 			FutureMatrixTicketWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmBatchTicket w, bool isNew)
+		internal void OpenWindow(frmBatchTicket w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1512,7 +1512,7 @@ namespace ROC
 			BatchTicketWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmBatchMarketTicket w, bool isNew)
+		internal void OpenWindow(frmBatchMarketTicket w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1528,7 +1528,7 @@ namespace ROC
 			BatchMarketTicketWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmOrders w, bool isNew)
+		internal void OpenWindow(frmOrders w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1544,7 +1544,7 @@ namespace ROC
 			OrderWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmTrades w, bool isNew)
+		internal void OpenWindow(frmTrades w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1560,7 +1560,7 @@ namespace ROC
 			TradeWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(frmPositions w, bool isNew)
+		internal void OpenWindow(frmPositions w, bool isNew)
 		{
 			if (isNew)
 			{
@@ -1576,19 +1576,19 @@ namespace ROC
 			PositionWindows.Add(w.Handle, w);
 		}
 
-		public void OpenWindow(string secType, string symbolDetail)
+		internal void OpenWindow(string secType, string symbolDetail)
 		{
 			if (!CheckTicketWindows(secType, symbolDetail))
 			{
 				switch (secType)
 				{
-					case CSVEx.CSVFieldIDs.SecutrityTypes.Equity:
+					case CSVEx.CSVFieldIDs.SecurityTypes.Equity:
 						lock (GLOBAL.HWindows.StockTicketWindows)
 						{
 							OpenWindow(new frmStockTicket(symbolDetail, Configuration.ROC.Default.ShowLevel2AsDefault), true);
 						}
 						break;
-					case CSVEx.CSVFieldIDs.SecutrityTypes.Option:
+					case CSVEx.CSVFieldIDs.SecurityTypes.Option:
 						string[] opts = symbolDetail.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 						if (opts.Length > 0)
 						{
@@ -1598,7 +1598,7 @@ namespace ROC
 							}
 						}
 						break;
-					case CSVEx.CSVFieldIDs.SecutrityTypes.Future:
+					case CSVEx.CSVFieldIDs.SecurityTypes.Future:
 						if (Configuration.ROC.Default.ShowQuickTicketAsDefault)
 						{
 							lock (GLOBAL.HWindows.QuickTicketWindows)
@@ -1623,7 +1623,7 @@ namespace ROC
 			bool found = false;
 			switch (secType)
 			{
-				case CSVEx.CSVFieldIDs.SecutrityTypes.Equity:
+				case CSVEx.CSVFieldIDs.SecurityTypes.Equity:
 					foreach (frmStockTicket w in StockTicketWindows.Values)
 					{
 						if (w.CurrentSymbolDetail == symbolDetail)
@@ -1634,7 +1634,7 @@ namespace ROC
 						}
 					}
 					break;
-				case CSVEx.CSVFieldIDs.SecutrityTypes.Option:
+				case CSVEx.CSVFieldIDs.SecurityTypes.Option:
 					string[] opts = symbolDetail.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 					if (opts.Length > 0)
 					{
@@ -1649,7 +1649,7 @@ namespace ROC
 						}
 					}
 					break;
-				case CSVEx.CSVFieldIDs.SecutrityTypes.Future:
+				case CSVEx.CSVFieldIDs.SecurityTypes.Future:
 					foreach (frmFutureTicket w in FutureTicketWindows.Values)
 					{
 						if (w.CurrentSymbolDetail == symbolDetail)
@@ -1674,115 +1674,115 @@ namespace ROC
 			w.Hide();
 		}
 
-		public void CloseWindow(frmAlert w)
+		internal void CloseWindow(frmAlert w)
 		{
 			CloseWindow((Form)w);
 			AlertWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmClock w)
+		internal void CloseWindow(frmClock w)
 		{
 			CloseWindow((Form)w);
 			ClockWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmAbout w)
+		internal void CloseWindow(frmAbout w)
 		{
 			CloseWindow((Form)w);
 			AboutWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmUserProfile w)
+		internal void CloseWindow(frmUserProfile w)
 		{
 			CloseWindow((Form)w);
 			UserProfileWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmSettings w)
+		internal void CloseWindow(frmSettings w)
 		{
 			CloseWindow((Form)w);
 			SettingsWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmEMail w)
+		internal void CloseWindow(frmEMail w)
 		{
 			CloseWindow((Form)w);
 			EMailWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmWatchList w)
+		internal void CloseWindow(frmWatchList w)
 		{
 			CloseWindow((Form)w);
 			WatchListWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmPlotList w)
+		internal void CloseWindow(frmPlotList w)
 		{
 			CloseWindow((Form)w);
 			PlotListWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmStockTicket w)
+		internal void CloseWindow(frmStockTicket w)
 		{
 			CloseWindow((Form)w);
 			StockTicketWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmOptionTicket w)
+		internal void CloseWindow(frmOptionTicket w)
 		{
 			CloseWindow((Form)w);
 			OptionTicketWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmFutureTicket w)
+		internal void CloseWindow(frmFutureTicket w)
 		{
 			CloseWindow((Form)w);
 			FutureTicketWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmQuickTicket w)
+		internal void CloseWindow(frmQuickTicket w)
 		{
 			CloseWindow((Form)w);
 			QuickTicketWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmAutoSpreadTicket w)
+		internal void CloseWindow(frmAutoSpreadTicket w)
 		{
 			CloseWindow((Form)w);
 			AutoSpreadTicketWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmFutureMatrixTicket w)
+		internal void CloseWindow(frmFutureMatrixTicket w)
 		{
 			CloseWindow((Form)w);
 			FutureMatrixTicketWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmBatchTicket w)
+		internal void CloseWindow(frmBatchTicket w)
 		{
 			CloseWindow((Form)w);
 			BatchTicketWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmBatchMarketTicket w)
+		internal void CloseWindow(frmBatchMarketTicket w)
 		{
 			CloseWindow((Form)w);
 			BatchMarketTicketWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmOrders w)
+		internal void CloseWindow(frmOrders w)
 		{
 			CloseWindow((Form)w);
 			OrderWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmTrades w)
+		internal void CloseWindow(frmTrades w)
 		{
 			CloseWindow((Form)w);
 			TradeWindows.Remove(w.Handle);
 		}
 
-		public void CloseWindow(frmPositions w)
+		internal void CloseWindow(frmPositions w)
 		{
 			CloseWindow((Form)w);
 			PositionWindows.Remove(w.Handle);
@@ -1792,7 +1792,7 @@ namespace ROC
 
 		#region - Zero All Window -
 
-		public void ZeroAllWindowPosition()
+		internal void ZeroAllWindowPosition()
 		{
 			try
 			{

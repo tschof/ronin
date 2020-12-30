@@ -1,31 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace RDSEx
 {
 	public static class TimeFormats
 	{
-		private static string[] _formats = new string[0];
-		public static string[] Formats
-		{
-			get
-			{
-				if (_formats.Length == 0)
-				{
-					_formats = new string[3];
-					_formats[0] = "yyyyMM";
-					_formats[1] = "yyyyMMdd";
-					_formats[2] = "yyyy-MM-dd";
+		private static string[] _formats = {
+			"yyyyMM",
+			"yyyyMMdd",
+			"yyyy-MM-dd"
 
-					//_formats[0] = "HHmmss";
-					//_formats[1] = "yyyyMMdd-HH:mm:ss";
-					//_formats[2] = "yyyyMMdd";
-					//_formats[3] = "yyyyMM";
-					//_formats[3] = "yyyyMMdd-HH:mm:ss.fff";
-				}
-				return _formats;
-			}
+			// "HHmmss",
+			// "yyyyMMdd-HH:mm:ss",
+			// "yyyyMMdd",
+			// "yyyyMM",
+			// "yyyyMMdd-HH:mm:ss.fff"
+		};
+
+		internal static bool ParseDate(string text, out System.DateTime when)
+		{
+			return System.DateTime.TryParseExact(text, _formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out when);
 		}
 	}
 
@@ -291,7 +282,7 @@ namespace RDSEx
 		public sealed class TPOS
 		{
 			public const int tradeGroup = 5001;
-			public const int protfolio = 5002;
+			public const int portfolio = 5002;
 			public const int clearingAccount = 5003;
 			public const int traderAcronym = 5004;
 			public const int instrumentID = 5005;

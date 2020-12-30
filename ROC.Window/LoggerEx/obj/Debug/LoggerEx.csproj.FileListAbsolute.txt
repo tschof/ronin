@@ -1,0 +1,11 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\bin\Debug\LoggerEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\bin\Debug\LoggerEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\bin\Debug\Common.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\bin\Debug\DateTimeEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\bin\Debug\Common.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\bin\Debug\DateTimeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\obj\Debug\LoggerEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\obj\Debug\LoggerEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\obj\Debug\LoggerEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\obj\Debug\LoggerEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\LoggerEx\obj\Debug\LoggerEx.pdb

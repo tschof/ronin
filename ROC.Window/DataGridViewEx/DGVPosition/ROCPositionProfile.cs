@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -226,9 +225,9 @@ namespace DataGridViewEx
 		{
 			get
 			{
-				if (Longs.ContainsKey(DGVProfileFieldID.Position.RowColorType))
+				if (TryGet(DGVProfileFieldID.Position.RowColorType, out long value))
 				{
-					switch (Longs[DGVProfileFieldID.Position.RowColorType])
+					switch (value)
 					{
 						case 1:
 							return ROCPositionList.RowColorTypes.CurrentQty;
@@ -252,107 +251,37 @@ namespace DataGridViewEx
 
 		public bool GridFilterOutStock
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Position.FilterOutStock))
-				{
-					return Bools[DGVProfileFieldID.Position.FilterOutStock];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Position.FilterOutStock, out bool value) && value;
 		}
 
 		public bool GridFilterOutFuture
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Position.FilterOutFuture))
-				{
-					return Bools[DGVProfileFieldID.Position.FilterOutFuture];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Position.FilterOutFuture, out bool value) && value;
 		}
 
 		public bool GridFilterOutOption
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Position.FilterOutOption))
-				{
-					return Bools[DGVProfileFieldID.Position.FilterOutOption];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Position.FilterOutOption, out bool value) && value;
 		}
 
 		public bool GridFilterOutTPOS
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Position.FilterOutTPOS))
-				{
-					return Bools[DGVProfileFieldID.Position.FilterOutTPOS];
-				}
-				else
-				{
-					return true;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Position.FilterOutTPOS, out bool value) ? value : true;
 		}
 
 		public bool GridFilterOutROC
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Position.FilterOutROC))
-				{
-					return Bools[DGVProfileFieldID.Position.FilterOutROC];
-				}
-				else
-				{
-					return true;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Position.FilterOutROC, out bool value) ? value : true;
 		}
 
 		public string GridFilterOutAccounts
 		{
-			get
-			{
-				if (Strings.ContainsKey(DGVProfileFieldID.Position.FilterOutAccounts))
-				{
-					return Strings[DGVProfileFieldID.Position.FilterOutAccounts];
-				}
-				else
-				{
-					return "";
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Position.FilterOutAccounts, out string value) ? value : "";
 		}
 
 		public string GridFilterOutSymbols
 		{
-			get
-			{
-				if (Strings.ContainsKey(DGVProfileFieldID.Position.FilterOutSymbols))
-				{
-					return Strings[DGVProfileFieldID.Position.FilterOutSymbols];
-				}
-				else
-				{
-					return "";
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Position.FilterOutSymbols, out string value) ? value : "";
 		}
 
 		#endregion

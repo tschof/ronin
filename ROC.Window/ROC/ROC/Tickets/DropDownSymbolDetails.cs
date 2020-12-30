@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Data;
 
 namespace ROC
 {
-	public class DropDownSymbolDetails
+	internal class DropDownSymbolDetails
 	{
 		#region - Local Variable -
 
@@ -68,31 +65,31 @@ namespace ROC
 
 		#region - Constructor -
 
-		public DropDownSymbolDetails(frmStockTicket stockTicket)
+		internal DropDownSymbolDetails(frmStockTicket stockTicket)
 		{
 			_stockTicket = stockTicket;
 			_ticketType = TicketTypes.Stock;
 		}
 
-		public DropDownSymbolDetails(frmFutureTicket futureTicket)
+		internal DropDownSymbolDetails(frmFutureTicket futureTicket)
 		{
 			_futureTicket = futureTicket;
 			_ticketType = TicketTypes.Future;
 		}
 
-		public DropDownSymbolDetails(frmQuickTicket quickTicket)
+		internal DropDownSymbolDetails(frmQuickTicket quickTicket)
 		{
 			_quickTicket = quickTicket;
 			_ticketType = TicketTypes.Quick;
 		}
 
-		public DropDownSymbolDetails(frmOptionTicket optionTicket)
+		internal DropDownSymbolDetails(frmOptionTicket optionTicket)
 		{
 			_optionTicket = optionTicket;
 			_ticketType = TicketTypes.Option;
 		}
 
-		public DropDownSymbolDetails(frmFutureMatrixTicket futureMatrixTicket)
+		internal DropDownSymbolDetails(frmFutureMatrixTicket futureMatrixTicket)
 		{
 			_futureMatrixTicket = futureMatrixTicket;
 			_ticketType = TicketTypes.FutureMatrix;
@@ -104,7 +101,7 @@ namespace ROC
 
 		// This would reset the combox after every Enter and Delete key stroke
 		private bool _newSymbolDetail = true;
-		public bool NewSymbolDetail
+		internal bool NewSymbolDetail
 		{
 			get
 			{
@@ -117,7 +114,7 @@ namespace ROC
 		}
 
 		private bool _undoSymbolDetail = false;
-		public bool UndoSymbolDetail
+		internal bool UndoSymbolDetail
 		{
 			get
 			{
@@ -130,7 +127,7 @@ namespace ROC
 		}
 
 		// This is used to get Symbol Setting Defaults and Subscription.
-		public string CurrentSymbolDetail
+		internal string CurrentSymbolDetail
 		{
 			get
 			{
@@ -145,7 +142,7 @@ namespace ROC
 			}
 		}
 
-		public void SymbolDetailsKeyUp(KeyEventArgs e)
+		internal void SymbolDetailsKeyUp(KeyEventArgs e)
 		{
 			GLOBAL.Interrupt = true;
 			switch (e.KeyCode)
@@ -166,7 +163,7 @@ namespace ROC
 			}
 		}
 
-		public void AddSymbolDetail(string symbolDetail)
+		internal void AddSymbolDetail(string symbolDetail)
 		{
 			if (symbolDetails != null)
 			{
@@ -179,7 +176,7 @@ namespace ROC
 			}
 		}
 
-		public void SymbolDetailsKeyDown(KeyEventArgs e)
+		internal void SymbolDetailsKeyDown(KeyEventArgs e)
 		{
 			GLOBAL.Interrupt = true;
 			switch (e.KeyCode)
@@ -204,7 +201,7 @@ namespace ROC
 			}
 		}
 
-		public void DeleteSymbolDetail(string symbolDetail)
+		internal void DeleteSymbolDetail(string symbolDetail)
 		{
 			DataRowView[] rows = symbolDetails.DefaultView.FindRows(symbolDetail);
 

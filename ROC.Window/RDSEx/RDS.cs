@@ -1127,8 +1127,8 @@ namespace RDSEx
 				UserProfiles.Add(tradeFor, traderMap);
 			}
 
-			traderMap.Update(TraderFieldIDs.TradeFor, traderAcr.tradeFor.ToUpper());
-			traderMap.Update(TraderFieldIDs.LocalAcAcrn, traderAcr.localAcAcrn.ToUpper());
+			traderMap.Set(TraderFieldIDs.TradeFor, traderAcr.tradeFor.ToUpper());
+			traderMap.Set(TraderFieldIDs.LocalAcAcrn, traderAcr.localAcAcrn.ToUpper());
 
 			return (object[])traderAcr.acctProfiles;
 		}
@@ -1210,18 +1210,18 @@ namespace RDSEx
 
 		private void UpdateAcctMap(AcctProfile acctProfile, ref AccountMap acctMap)
 		{
-			acctMap.Update(AccountFieldIDs.InterfaceID, acctProfile.interfaceID);
-			acctMap.Update(AccountFieldIDs.Account, acctProfile.account.ToUpper());
-			acctMap.Update(AccountFieldIDs.Type, acctProfile.type.ToUpper());
-			acctMap.Update(AccountFieldIDs.ClearingAcID, acctProfile.clearingAcID.ToUpper());
-			acctMap.Update(AccountFieldIDs.LocalAcAcrn, acctProfile.localAcAcrn.ToUpper());
-			acctMap.Update(AccountFieldIDs.FirmAcr, acctProfile.firmAcr.ToUpper());
-			acctMap.Update(AccountFieldIDs.OmAcctType, acctProfile.omAcctType.ToUpper());
-			acctMap.Update(AccountFieldIDs.Capacity, acctProfile.capacity.ToUpper());
-			acctMap.Update(AccountFieldIDs.InterfaceID, acctProfile.interfaceID);
-			acctMap.Update(AccountFieldIDs.ClearingFirmID, acctProfile.clearingFirmID.ToUpper());
-			acctMap.Update(AccountFieldIDs.OccAcr, acctProfile.occAcr.ToUpper());
-			acctMap.Update(AccountFieldIDs.HomeExchange, acctProfile.homeExchange.ToUpper());
+			acctMap.Set(AccountFieldIDs.InterfaceID, acctProfile.interfaceID);
+			acctMap.Set(AccountFieldIDs.Account, acctProfile.account.ToUpper());
+			acctMap.Set(AccountFieldIDs.Type, acctProfile.type.ToUpper());
+			acctMap.Set(AccountFieldIDs.ClearingAcID, acctProfile.clearingAcID.ToUpper());
+			acctMap.Set(AccountFieldIDs.LocalAcAcrn, acctProfile.localAcAcrn.ToUpper());
+			acctMap.Set(AccountFieldIDs.FirmAcr, acctProfile.firmAcr.ToUpper());
+			acctMap.Set(AccountFieldIDs.OmAcctType, acctProfile.omAcctType.ToUpper());
+			acctMap.Set(AccountFieldIDs.Capacity, acctProfile.capacity.ToUpper());
+			acctMap.Set(AccountFieldIDs.InterfaceID, acctProfile.interfaceID);
+			acctMap.Set(AccountFieldIDs.ClearingFirmID, acctProfile.clearingFirmID.ToUpper());
+			acctMap.Set(AccountFieldIDs.OccAcr, acctProfile.occAcr.ToUpper());
+			acctMap.Set(AccountFieldIDs.HomeExchange, acctProfile.homeExchange.ToUpper());
 		}
 
 		#endregion
@@ -1253,18 +1253,18 @@ namespace RDSEx
 				acctMap.Destinations.Add(acctDestination.destID, destMap);
 			}
 
-			destMap.Update(DestinationFieldIDs.DestID, acctDestination.destID);
-			destMap.Update(DestinationFieldIDs.SecType, acctDestination.secType.ToUpper());
-			destMap.Update(DestinationFieldIDs.ShortName, acctDestination.shortName.ToUpper());
-			destMap.Update(DestinationFieldIDs.CMTAFirmID, acctDestination.cmtaFirmID.ToUpper());
-			destMap.Update(DestinationFieldIDs.GiveupFirmID, acctDestination.giveupFirmID.ToUpper());
+			destMap.Set(DestinationFieldIDs.DestID, acctDestination.destID);
+			destMap.Set(DestinationFieldIDs.SecType, acctDestination.secType.ToUpper());
+			destMap.Set(DestinationFieldIDs.ShortName, acctDestination.shortName.ToUpper());
+			destMap.Set(DestinationFieldIDs.CMTAFirmID, acctDestination.cmtaFirmID.ToUpper());
+			destMap.Set(DestinationFieldIDs.GiveupFirmID, acctDestination.giveupFirmID.ToUpper());
 			if (acctDestination.algoFlag != null)
 			{
-				destMap.Update(DestinationFieldIDs.AlgoFlag, acctDestination.algoFlag.ToUpper());
+				destMap.Set(DestinationFieldIDs.AlgoFlag, acctDestination.algoFlag.ToUpper());
 			}
 			else
 			{
-				destMap.Update(DestinationFieldIDs.AlgoFlag, "0");
+				destMap.Set(DestinationFieldIDs.AlgoFlag, "0");
 			}
 
 			acctMap.Destinations[acctDestination.destID] = destMap;
@@ -1655,46 +1655,46 @@ namespace RDSEx
 				RocOrders.Add(userOrder.omTag, ord);
 			}
 
-			ord.Update(OrderFieldIDs.ROC.avgPrice, userOrder.avgPrice);
-			ord.Update(OrderFieldIDs.ROC.callPut, userOrder.callPut);
-			ord.Update(OrderFieldIDs.ROC.clearingAccount, userOrder.clearingAccount);
-			ord.Update(OrderFieldIDs.ROC.clearingID, userOrder.clearingID);
-			ord.Update(OrderFieldIDs.ROC.cumQty, userOrder.cumQty);
-			ord.Update(OrderFieldIDs.ROC.destID, userOrder.destID);
+			ord.Set(OrderFieldIDs.ROC.avgPrice, userOrder.avgPrice);
+			ord.Set(OrderFieldIDs.ROC.callPut, userOrder.callPut);
+			ord.Set(OrderFieldIDs.ROC.clearingAccount, userOrder.clearingAccount);
+			ord.Set(OrderFieldIDs.ROC.clearingID, userOrder.clearingID);
+			ord.Set(OrderFieldIDs.ROC.cumQty, userOrder.cumQty);
+			ord.Set(OrderFieldIDs.ROC.destID, userOrder.destID);
 			
 			//ord.Update(OrderFieldIDs.ROC.effectiveTime, userOrder.effectiveTime);
 			
-			ord.Update(OrderFieldIDs.ROC.ex_short_name, userOrder.ex_short_name);
-			ord.Update(OrderFieldIDs.ROC.expDate, userOrder.expDate);
-			ord.Update(OrderFieldIDs.ROC.firm, userOrder.firm);
-			ord.Update(OrderFieldIDs.ROC.instructions, userOrder.instructions);
-			ord.Update(OrderFieldIDs.ROC.leavesQty, userOrder.leavesQty);
-			ord.Update(OrderFieldIDs.ROC.localAcct, userOrder.localAcct);
-			ord.Update(OrderFieldIDs.ROC.maxFloor, userOrder.maxFloor);
+			ord.Set(OrderFieldIDs.ROC.ex_short_name, userOrder.ex_short_name);
+			ord.Set(OrderFieldIDs.ROC.expDate, userOrder.expDate);
+			ord.Set(OrderFieldIDs.ROC.firm, userOrder.firm);
+			ord.Set(OrderFieldIDs.ROC.instructions, userOrder.instructions);
+			ord.Set(OrderFieldIDs.ROC.leavesQty, userOrder.leavesQty);
+			ord.Set(OrderFieldIDs.ROC.localAcct, userOrder.localAcct);
+			ord.Set(OrderFieldIDs.ROC.maxFloor, userOrder.maxFloor);
 			
 			//ord.Update(OrderFieldIDs.ROC.multiplier, userOrder.multiplier);
 			
-			ord.Update(OrderFieldIDs.ROC.omTag, userOrder.omTag);
-			ord.Update(OrderFieldIDs.ROC.omTime, userOrder.omTime.ToLocalTime().ToOADate());
-			ord.Update(OrderFieldIDs.ROC.openClose, userOrder.openClose);
-			ord.Update(OrderFieldIDs.ROC.orderExpiresDate, userOrder.orderExpiresDate.ToOADate());
-			ord.Update(OrderFieldIDs.ROC.orderType, userOrder.orderType);
-			ord.Update(OrderFieldIDs.ROC.originalShares, userOrder.originalShares);
-			ord.Update(OrderFieldIDs.ROC.owner, userOrder.owner);
-			ord.Update(OrderFieldIDs.ROC.price, userOrder.price);
-			ord.Update(OrderFieldIDs.ROC.qty, userOrder.qty);
-			ord.Update(OrderFieldIDs.ROC.secType, userOrder.secType);
-			ord.Update(OrderFieldIDs.ROC.side, userOrder.side);
-			ord.Update(OrderFieldIDs.ROC.status, userOrder.status);
-			ord.Update(OrderFieldIDs.ROC.stopPrice, userOrder.stopPrice);
-			ord.Update(OrderFieldIDs.ROC.strikePrice, userOrder.strikePrice);
-			ord.Update(OrderFieldIDs.ROC.symbol, userOrder.symbol);
-			ord.Update(OrderFieldIDs.ROC.tag, userOrder.tag);
-			ord.Update(OrderFieldIDs.ROC.text, userOrder.text);
-			ord.Update(OrderFieldIDs.ROC.tif, userOrder.tif);
-			ord.Update(OrderFieldIDs.ROC.tradeFor, userOrder.tradeFor);
-			ord.Update(OrderFieldIDs.ROC.trader, userOrder.trader);
-			ord.Update(OrderFieldIDs.ROC.underlying, userOrder.underlying);
+			ord.Set(OrderFieldIDs.ROC.omTag, userOrder.omTag);
+			ord.Set(OrderFieldIDs.ROC.omTime, userOrder.omTime.ToLocalTime().ToOADate());
+			ord.Set(OrderFieldIDs.ROC.openClose, userOrder.openClose);
+			ord.Set(OrderFieldIDs.ROC.orderExpiresDate, userOrder.orderExpiresDate.ToOADate());
+			ord.Set(OrderFieldIDs.ROC.orderType, userOrder.orderType);
+			ord.Set(OrderFieldIDs.ROC.originalShares, userOrder.originalShares);
+			ord.Set(OrderFieldIDs.ROC.owner, userOrder.owner);
+			ord.Set(OrderFieldIDs.ROC.price, userOrder.price);
+			ord.Set(OrderFieldIDs.ROC.qty, userOrder.qty);
+			ord.Set(OrderFieldIDs.ROC.secType, userOrder.secType);
+			ord.Set(OrderFieldIDs.ROC.side, userOrder.side);
+			ord.Set(OrderFieldIDs.ROC.status, userOrder.status);
+			ord.Set(OrderFieldIDs.ROC.stopPrice, userOrder.stopPrice);
+			ord.Set(OrderFieldIDs.ROC.strikePrice, userOrder.strikePrice);
+			ord.Set(OrderFieldIDs.ROC.symbol, userOrder.symbol);
+			ord.Set(OrderFieldIDs.ROC.tag, userOrder.tag);
+			ord.Set(OrderFieldIDs.ROC.text, userOrder.text);
+			ord.Set(OrderFieldIDs.ROC.tif, userOrder.tif);
+			ord.Set(OrderFieldIDs.ROC.tradeFor, userOrder.tradeFor);
+			ord.Set(OrderFieldIDs.ROC.trader, userOrder.trader);
+			ord.Set(OrderFieldIDs.ROC.underlying, userOrder.underlying);
 
 			UpdateRocOrders(userOrder.omTag, ord);
 		}
@@ -1809,27 +1809,27 @@ namespace RDSEx
 					RocOrders[omTag].Trades.Add(omExecTag, traded);
 				}
 
-				traded.Update(TradedFieldIDs.ROC.omTag, userExecution.omTag);
-				traded.Update(TradedFieldIDs.ROC.omExecTag, userExecution.omExecTag);
-				traded.Update(TradedFieldIDs.ROC.execTime, userExecution.execTime.ToLocalTime().ToOADate());
-				traded.Update(TradedFieldIDs.ROC.execQty, (long)userExecution.execQty);
-				traded.Update(TradedFieldIDs.ROC.execPrice, userExecution.execPrice);
+				traded.Set(TradedFieldIDs.ROC.omTag, userExecution.omTag);
+				traded.Set(TradedFieldIDs.ROC.omExecTag, userExecution.omExecTag);
+				traded.Set(TradedFieldIDs.ROC.execTime, userExecution.execTime.ToLocalTime().ToOADate());
+				traded.Set(TradedFieldIDs.ROC.execQty, (long)userExecution.execQty);
+				traded.Set(TradedFieldIDs.ROC.execPrice, userExecution.execPrice);
 
 				// Attach some of the order info with the trade
-				traded.Update(TradedFieldIDs.ROC.symbol, RocOrders[omTag].Symbol);
-				traded.Update(TradedFieldIDs.ROC.underlying, RocOrders[omTag].Underlying);
-				traded.Update(TradedFieldIDs.ROC.expDate, RocOrders[omTag].ExpDate);
-				traded.Update(TradedFieldIDs.ROC.strikePrice, RocOrders[omTag].StrikePrice);
-				traded.Update(TradedFieldIDs.ROC.callPut, RocOrders[omTag].CallPut);
-				traded.Update(TradedFieldIDs.ROC.secType, RocOrders[omTag].SecType);
-				traded.Update(TradedFieldIDs.ROC.trader, RocOrders[omTag].Trader);
-				traded.Update(TradedFieldIDs.ROC.localAcct, RocOrders[omTag].LocalAcct);
-				traded.Update(TradedFieldIDs.ROC.account, RocOrders[omTag].ClearingAcct);
-				traded.Update(TradedFieldIDs.ROC.openClose, RocOrders[omTag].OpenClose);
-				traded.Update(TradedFieldIDs.ROC.side, (long)RocOrders[omTag].Side);
-				traded.Update(TradedFieldIDs.ROC.destID, RocOrders[omTag].DestID);
+				traded.Set(TradedFieldIDs.ROC.symbol, RocOrders[omTag].Symbol);
+				traded.Set(TradedFieldIDs.ROC.underlying, RocOrders[omTag].Underlying);
+				traded.Set(TradedFieldIDs.ROC.expDate, RocOrders[omTag].ExpDate);
+				traded.Set(TradedFieldIDs.ROC.strikePrice, RocOrders[omTag].StrikePrice);
+				traded.Set(TradedFieldIDs.ROC.callPut, RocOrders[omTag].CallPut);
+				traded.Set(TradedFieldIDs.ROC.secType, RocOrders[omTag].SecType);
+				traded.Set(TradedFieldIDs.ROC.trader, RocOrders[omTag].Trader);
+				traded.Set(TradedFieldIDs.ROC.localAcct, RocOrders[omTag].LocalAcct);
+				traded.Set(TradedFieldIDs.ROC.account, RocOrders[omTag].ClearingAcct);
+				traded.Set(TradedFieldIDs.ROC.openClose, RocOrders[omTag].OpenClose);
+				traded.Set(TradedFieldIDs.ROC.side, (long)RocOrders[omTag].Side);
+				traded.Set(TradedFieldIDs.ROC.destID, RocOrders[omTag].DestID);
 
-				RocOrders[omTag].Update(OrderFieldIDs.hasTrades, true);
+				RocOrders[omTag].Set(OrderFieldIDs.hasTrades, true);
 				RocOrders[omTag].Trades[omExecTag] = traded;
 
 				if (RocExecutions.ContainsKey(omExecTag))
@@ -1913,38 +1913,38 @@ namespace RDSEx
 				if (VarifyTposPosition(pos))
 				{
 					TPOSPosition position = new TPOSPosition();
-					position.Update(PositionFieldIDs.TPOS.isTPOS, true);
-					position.Update(PositionFieldIDs.TPOS.asOfDate, pos.m_AsOfDate);
-					position.Update(PositionFieldIDs.TPOS.avgCost, pos.m_AvgCost);
-					position.Update(PositionFieldIDs.TPOS.clearingAccount, pos.m_ClearingAccount);
-					position.Update(PositionFieldIDs.TPOS.curQty, pos.m_CurQty);
-					position.Update(PositionFieldIDs.TPOS.displayFormat, pos.m_DisplayFormat);
-					position.Update(PositionFieldIDs.TPOS.expDate, pos.m_ExpDate);
-					position.Update(PositionFieldIDs.TPOS.instrumentID, pos.m_InstrumentID);
-					position.Update(PositionFieldIDs.TPOS.multiplier, pos.m_Multiplier);
-					position.Update(PositionFieldIDs.TPOS.notionalAmount, pos.m_NotionalAmount);
-					position.Update(PositionFieldIDs.TPOS.openMark, pos.m_OpenMark);
-					position.Update(PositionFieldIDs.TPOS.openQty, pos.m_OpenQty);
-					position.Update(PositionFieldIDs.TPOS.protfolio, pos.m_Portfolio);
-					position.Update(PositionFieldIDs.TPOS.putCall, pos.m_PutCall);
-					position.Update(PositionFieldIDs.TPOS.realizedPnL, pos.m_RealizedPnL);
-					position.Update(PositionFieldIDs.TPOS.secType, pos.m_SecType);
-					position.Update(PositionFieldIDs.TPOS.strike, pos.m_Strike.ToString());
-					position.Update(PositionFieldIDs.TPOS.symbol, pos.m_Symbol);
-					position.Update(PositionFieldIDs.TPOS.tradeGroup, pos.m_TradeGroup);
-					position.Update(PositionFieldIDs.TPOS.traderAcronym, pos.m_TraderAcronym);
+					position.Set(PositionFieldIDs.TPOS.isTPOS, true);
+					position.Set(PositionFieldIDs.TPOS.asOfDate, pos.m_AsOfDate);
+					position.Set(PositionFieldIDs.TPOS.avgCost, pos.m_AvgCost);
+					position.Set(PositionFieldIDs.TPOS.clearingAccount, pos.m_ClearingAccount);
+					position.Set(PositionFieldIDs.TPOS.curQty, pos.m_CurQty);
+					position.Set(PositionFieldIDs.TPOS.displayFormat, pos.m_DisplayFormat);
+					position.Set(PositionFieldIDs.TPOS.expDate, pos.m_ExpDate);
+					position.Set(PositionFieldIDs.TPOS.instrumentID, pos.m_InstrumentID);
+					position.Set(PositionFieldIDs.TPOS.multiplier, pos.m_Multiplier);
+					position.Set(PositionFieldIDs.TPOS.notionalAmount, pos.m_NotionalAmount);
+					position.Set(PositionFieldIDs.TPOS.openMark, pos.m_OpenMark);
+					position.Set(PositionFieldIDs.TPOS.openQty, pos.m_OpenQty);
+					position.Set(PositionFieldIDs.TPOS.portfolio, pos.m_Portfolio);
+					position.Set(PositionFieldIDs.TPOS.putCall, pos.m_PutCall);
+					position.Set(PositionFieldIDs.TPOS.realizedPnL, pos.m_RealizedPnL);
+					position.Set(PositionFieldIDs.TPOS.secType, pos.m_SecType);
+					position.Set(PositionFieldIDs.TPOS.strike, pos.m_Strike.ToString());
+					position.Set(PositionFieldIDs.TPOS.symbol, pos.m_Symbol);
+					position.Set(PositionFieldIDs.TPOS.tradeGroup, pos.m_TradeGroup);
+					position.Set(PositionFieldIDs.TPOS.traderAcronym, pos.m_TraderAcronym);
 					//position.Update(PositionFieldIDs.TPOS.traderAcronym, pos.m_Portfolio);
-					position.Update(PositionFieldIDs.TPOS.undSecType, pos.m_UndSecType);
-					if (pos.m_UndSecType == CSVFieldIDs.SecutrityTypes.Equity)
+					position.Set(PositionFieldIDs.TPOS.undSecType, pos.m_UndSecType);
+					if (pos.m_UndSecType == CSVFieldIDs.SecurityTypes.Equity)
 					{
-						position.Update(PositionFieldIDs.TPOS.undSymbol, pos.m_Symbol);
+						position.Set(PositionFieldIDs.TPOS.undSymbol, pos.m_Symbol);
 					}
 					else
 					{
-						position.Update(PositionFieldIDs.TPOS.undSymbol, pos.m_UndSymbol);
+						position.Set(PositionFieldIDs.TPOS.undSymbol, pos.m_UndSymbol);
 					}
-					position.Update(PositionFieldIDs.TPOS.validTraderKey, pos.m_ValidTraderKey);
-					position.Update(PositionFieldIDs.TPOS.version, pos.m_Version);
+					position.Set(PositionFieldIDs.TPOS.validTraderKey, pos.m_ValidTraderKey);
+					position.Set(PositionFieldIDs.TPOS.version, pos.m_Version);
 
 					lock (TposPositions)
 					{
@@ -2063,7 +2063,7 @@ namespace RDSEx
 				if (VarifyTposTrade(tposTrade))
 				{
 					TPOSExecution exec = new TPOSExecution();
-					exec.Update(TradedFieldIDs.TPOS.isTPOS, true);
+					exec.Set(TradedFieldIDs.TPOS.isTPOS, true);
 					lock (TposExecutions)
 					{
 						if (TposExecutions.ContainsKey(tposTrade.m_TradeID))
@@ -2085,61 +2085,61 @@ namespace RDSEx
 						}
 					}
 
-					exec.Update(TradedFieldIDs.TPOS.activeState, tposTrade.m_ActiveState);
-					exec.Update(TradedFieldIDs.TPOS.clearingAccount, tposTrade.m_ClearingAccount);
-					exec.Update(TradedFieldIDs.TPOS.clearingStatus, tposTrade.m_ClearingStatus);
-					exec.Update(TradedFieldIDs.TPOS.commission, tposTrade.m_Commission);
-					exec.Update(TradedFieldIDs.TPOS.contraBroker, tposTrade.m_ContraBroker);
-					exec.Update(TradedFieldIDs.TPOS.contraFirm, tposTrade.m_ContraFirm);
-					exec.Update(TradedFieldIDs.TPOS.exchange, tposTrade.m_Exchange);
-					exec.Update(TradedFieldIDs.TPOS.expDate, tposTrade.m_ExpDate);
-					exec.Update(TradedFieldIDs.TPOS.extDescription, tposTrade.m_ExtDescription);
-					exec.Update(TradedFieldIDs.TPOS.extTradeID, tposTrade.m_ExtTradeID);
-					exec.Update(TradedFieldIDs.TPOS.lastModDate, tposTrade.m_LastModDate);
-					exec.Update(TradedFieldIDs.TPOS.lastModeReason, tposTrade.m_LastModReason);
+					exec.Set(TradedFieldIDs.TPOS.activeState, tposTrade.m_ActiveState);
+					exec.Set(TradedFieldIDs.TPOS.clearingAccount, tposTrade.m_ClearingAccount);
+					exec.Set(TradedFieldIDs.TPOS.clearingStatus, tposTrade.m_ClearingStatus);
+					exec.Set(TradedFieldIDs.TPOS.commission, tposTrade.m_Commission);
+					exec.Set(TradedFieldIDs.TPOS.contraBroker, tposTrade.m_ContraBroker);
+					exec.Set(TradedFieldIDs.TPOS.contraFirm, tposTrade.m_ContraFirm);
+					exec.Set(TradedFieldIDs.TPOS.exchange, tposTrade.m_Exchange);
+					exec.Set(TradedFieldIDs.TPOS.expDate, tposTrade.m_ExpDate);
+					exec.Set(TradedFieldIDs.TPOS.extDescription, tposTrade.m_ExtDescription);
+					exec.Set(TradedFieldIDs.TPOS.extTradeID, tposTrade.m_ExtTradeID);
+					exec.Set(TradedFieldIDs.TPOS.lastModDate, tposTrade.m_LastModDate);
+					exec.Set(TradedFieldIDs.TPOS.lastModeReason, tposTrade.m_LastModReason);
 					if (tposTrade.m_LastModReason.Contains("Deleted"))
 					{
-						exec.Update(TradedFieldIDs.TPOS.lastModReasonID, 3);
+						exec.Set(TradedFieldIDs.TPOS.lastModReasonID, 3);
 					}
 					else
 					{
-						exec.Update(TradedFieldIDs.TPOS.lastModReasonID, tposTrade.m_LastModReasonID);
+						exec.Set(TradedFieldIDs.TPOS.lastModReasonID, tposTrade.m_LastModReasonID);
 					}
-					exec.Update(TradedFieldIDs.TPOS.lastModTime, tposTrade.m_LastModTime);
-					exec.Update(TradedFieldIDs.TPOS.note, tposTrade.m_Note);
-					exec.Update(TradedFieldIDs.TPOS.portfolio, tposTrade.m_Portfolio);
-					exec.Update(TradedFieldIDs.TPOS.putCall, tposTrade.m_PutCall);
+					exec.Set(TradedFieldIDs.TPOS.lastModTime, tposTrade.m_LastModTime);
+					exec.Set(TradedFieldIDs.TPOS.note, tposTrade.m_Note);
+					exec.Set(TradedFieldIDs.TPOS.portfolio, tposTrade.m_Portfolio);
+					exec.Set(TradedFieldIDs.TPOS.putCall, tposTrade.m_PutCall);
 					if (exec.ModReasonID == 3)
 					{
-						exec.Update(TradedFieldIDs.TPOS.qty, 0);
-						exec.Update(TradedFieldIDs.TPOS.price, 0);
+						exec.Set(TradedFieldIDs.TPOS.qty, 0);
+						exec.Set(TradedFieldIDs.TPOS.price, 0);
 					}
 					else
 					{
-						exec.Update(TradedFieldIDs.TPOS.qty, tposTrade.m_Qty);
-						exec.Update(TradedFieldIDs.TPOS.price, tposTrade.m_Price);
+						exec.Set(TradedFieldIDs.TPOS.qty, tposTrade.m_Qty);
+						exec.Set(TradedFieldIDs.TPOS.price, tposTrade.m_Price);
 					}
-					exec.Update(TradedFieldIDs.TPOS.secType, tposTrade.m_SecType);
-					exec.Update(TradedFieldIDs.TPOS.settleDate, tposTrade.m_SettleDate);
-					exec.Update(TradedFieldIDs.TPOS.shortSaleFlag, tposTrade.m_ShortSaleFlag);
-					exec.Update(TradedFieldIDs.TPOS.strike, tposTrade.m_Strike);
-					exec.Update(TradedFieldIDs.TPOS.symbol, tposTrade.m_Symbol);
-					exec.Update(TradedFieldIDs.TPOS.ticker, tposTrade.m_Ticker);
-					exec.Update(TradedFieldIDs.TPOS.tradeDate, tposTrade.m_TradeDate);
-					exec.Update(TradedFieldIDs.TPOS.tradeGroup, tposTrade.m_TradeGroup);
-					exec.Update(TradedFieldIDs.TPOS.tradeID, tposTrade.m_TradeID);
-					exec.Update(TradedFieldIDs.TPOS.traderAcronym, tposTrade.m_TraderAcronym);
+					exec.Set(TradedFieldIDs.TPOS.secType, tposTrade.m_SecType);
+					exec.Set(TradedFieldIDs.TPOS.settleDate, tposTrade.m_SettleDate);
+					exec.Set(TradedFieldIDs.TPOS.shortSaleFlag, tposTrade.m_ShortSaleFlag);
+					exec.Set(TradedFieldIDs.TPOS.strike, tposTrade.m_Strike);
+					exec.Set(TradedFieldIDs.TPOS.symbol, tposTrade.m_Symbol);
+					exec.Set(TradedFieldIDs.TPOS.ticker, tposTrade.m_Ticker);
+					exec.Set(TradedFieldIDs.TPOS.tradeDate, tposTrade.m_TradeDate);
+					exec.Set(TradedFieldIDs.TPOS.tradeGroup, tposTrade.m_TradeGroup);
+					exec.Set(TradedFieldIDs.TPOS.tradeID, tposTrade.m_TradeID);
+					exec.Set(TradedFieldIDs.TPOS.traderAcronym, tposTrade.m_TraderAcronym);
 					//exec.Update(TradedFieldIDs.TPOS.traderAcronym, tposTrade.m_Portfolio);
-					exec.Update(TradedFieldIDs.TPOS.tradeSource, tposTrade.m_TradeSource);
-					exec.Update(TradedFieldIDs.TPOS.tradeTime, tposTrade.m_TradeTime);
-					exec.Update(TradedFieldIDs.TPOS.undSecType, tposTrade.m_UndSecType);
-					exec.Update(TradedFieldIDs.TPOS.undSymbol, tposTrade.m_UndSymbol);
-					exec.Update(TradedFieldIDs.TPOS.version, tposTrade.m_Version);
+					exec.Set(TradedFieldIDs.TPOS.tradeSource, tposTrade.m_TradeSource);
+					exec.Set(TradedFieldIDs.TPOS.tradeTime, tposTrade.m_TradeTime);
+					exec.Set(TradedFieldIDs.TPOS.undSecType, tposTrade.m_UndSecType);
+					exec.Set(TradedFieldIDs.TPOS.undSymbol, tposTrade.m_UndSymbol);
+					exec.Set(TradedFieldIDs.TPOS.version, tposTrade.m_Version);
 
 					if (exec.SymbolDetail == "")
 					{
 						// Force a Symbol Reload
-						exec.Update(TradedFieldIDs.symbolDetail, exec.SymbolDetail);
+						exec.Set(TradedFieldIDs.symbolDetail, exec.SymbolDetail);
 					}
 
 					lock (TposExecutions)
@@ -2303,9 +2303,9 @@ namespace RDSEx
 			{
 				switch (sec.securityType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						break;
-					case CSVFieldIDs.SecutrityTypes.OptionIndex:
+					case CSVFieldIDs.SecurityTypes.OptionIndex:
 						if (count == 1 || rocSymbol.Substring(0, 1) == "^")
 						{
 							SubDecodeSecurityDesc(sec, rocSymbol);
@@ -2322,52 +2322,52 @@ namespace RDSEx
 		{
 			IMSecurityInfo info = new IMSecurityInfo();
 
-			info.Update(SecurityFieldIDs.Security.rocSymbol, rocSymbol);
-			info.Update(SecurityFieldIDs.Security.baseSymbol, sec.baseSymbol);
-			info.Update(SecurityFieldIDs.Security.contractSize, sec.contractSize);
+			info.Set(SecurityFieldIDs.Security.rocSymbol, rocSymbol);
+			info.Set(SecurityFieldIDs.Security.baseSymbol, sec.baseSymbol);
+			info.Set(SecurityFieldIDs.Security.contractSize, sec.contractSize);
 			//info.Update(SecurityFieldIDs.Security.conversion, sec.Conversion);
 			//info.Update(SecurityFieldIDs.Security.coupon, sec.Coupon);
 			//info.Update(SecurityFieldIDs.Security.couponFreq, sec.CouponFreq);
 			//info.Update(SecurityFieldIDs.Security.curCode, sec.CurCode);
 			//info.Update(SecurityFieldIDs.Security.cusip, sec.Cusip);
-			info.Update(SecurityFieldIDs.Security.dataSourceInfo, sec.dataSourceInfo);
-			info.Update(SecurityFieldIDs.Security.decimalPrecision, sec.DecimalPrecision);
-			info.Update(SecurityFieldIDs.Security.displayFormat, sec.DisplayFormat);
-			info.Update(SecurityFieldIDs.Security.exchange, sec.exchange);
+			info.Set(SecurityFieldIDs.Security.dataSourceInfo, sec.dataSourceInfo);
+			info.Set(SecurityFieldIDs.Security.decimalPrecision, sec.DecimalPrecision);
+			info.Set(SecurityFieldIDs.Security.displayFormat, sec.DisplayFormat);
+			info.Set(SecurityFieldIDs.Security.exchange, sec.exchange);
 			//info.Update(SecurityFieldIDs.Security.exerType, sec.ExerType);
-			info.Update(SecurityFieldIDs.Security.expDay, sec.ExpDay);
-			info.Update(SecurityFieldIDs.Security.expirationDate, sec.expirationDate);
-			info.Update(SecurityFieldIDs.Security.expMonth, sec.ExpMonth);
-			info.Update(SecurityFieldIDs.Security.expYear, sec.ExpYear);
+			info.Set(SecurityFieldIDs.Security.expDay, sec.ExpDay);
+			info.Set(SecurityFieldIDs.Security.expirationDate, sec.expirationDate);
+			info.Set(SecurityFieldIDs.Security.expMonth, sec.ExpMonth);
+			info.Set(SecurityFieldIDs.Security.expYear, sec.ExpYear);
 			//info.Update(SecurityFieldIDs.Security.firstCouponDate, sec.FirstCouponDate);
-			info.Update(SecurityFieldIDs.Security.fullSymbol, sec.fullSymbol);
-			info.Update(SecurityFieldIDs.Security.genericMDSymbol, sec.genericMDSymbol);
+			info.Set(SecurityFieldIDs.Security.fullSymbol, sec.fullSymbol);
+			info.Set(SecurityFieldIDs.Security.genericMDSymbol, sec.genericMDSymbol);
 			//info.Update(SecurityFieldIDs.Security.inrstAccuralDate, sec.InrstAccuralDate);
 			//info.Update(SecurityFieldIDs.Security.instrumentId, sec.InstrumentId);
 			//info.Update(SecurityFieldIDs.Security.issueDate, sec.IssueDate);
-			info.Update(SecurityFieldIDs.Security.longName, sec.longName);
+			info.Set(SecurityFieldIDs.Security.longName, sec.longName);
 			//info.Update(SecurityFieldIDs.Security.notionalAmount, sec.NotionalAmount);
 			//info.Update(SecurityFieldIDs.Security.obsoleteDateTime, sec.ObsoleteDateTime);
-			info.Update(SecurityFieldIDs.Security.putCall, sec.PutCall);
+			info.Set(SecurityFieldIDs.Security.putCall, sec.PutCall);
 			//info.Update(SecurityFieldIDs.Security.redemption, sec.Redemption);
 			if (sec.genericMDSymbol.Contains(".IDX"))
 			{
 				// This from IM means it is an option index
-				info.Update(SecurityFieldIDs.Security.securityType, CSVEx.CSVFieldIDs.SecutrityTypes.OptionIndex);
+				info.Set(SecurityFieldIDs.Security.securityType, CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex);
 			}
 			else
 			{
-				info.Update(SecurityFieldIDs.Security.securityType, sec.securityType);
+				info.Set(SecurityFieldIDs.Security.securityType, sec.securityType);
 			}
 			//info.Update(SecurityFieldIDs.Security.spcStlFlag, sec.SpcStlFlag);
-			info.Update(SecurityFieldIDs.Security.strike, sec.Strike);
-			info.Update(SecurityFieldIDs.Security.ticker, sec.Ticker);
+			info.Set(SecurityFieldIDs.Security.strike, sec.Strike);
+			info.Set(SecurityFieldIDs.Security.ticker, sec.Ticker);
 			if (sec.tickSize != 0)
 			{
-				info.Update(SecurityFieldIDs.Security.tickSize, sec.tickSize);
+				info.Set(SecurityFieldIDs.Security.tickSize, sec.tickSize);
 			}
-			info.Update(SecurityFieldIDs.Security.undExpirationDate, sec.UndExpirationDate);
-			info.Update(SecurityFieldIDs.Security.undInstrumentId, sec.UndInstrumentId);
+			info.Set(SecurityFieldIDs.Security.undExpirationDate, sec.UndExpirationDate);
+			info.Set(SecurityFieldIDs.Security.undInstrumentId, sec.UndInstrumentId);
 
 			lock (SymbolSecurityInfos)
 			{
@@ -2396,11 +2396,11 @@ namespace RDSEx
 		{
 			if (reload)
 			{
-				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecutrityTypes.Option);
+				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.Option);
 			}
 			else if (!SymbolSecurityInfos.ContainsKey(rocSymbol) || SymbolSecurityInfos[rocSymbol].OptionChain.Count == 0)
 			{
-				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecutrityTypes.Option);
+				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.Option);
 			}
 			else
 			{
@@ -2494,44 +2494,44 @@ namespace RDSEx
 		{
 			IMOptionInfo info = new IMOptionInfo();
 
-			info.Update(SecurityFieldIDs.Option.stockSymbol, option.stockSymbol);
-			info.Update(SecurityFieldIDs.Option.optionSymbol, option.optionSymbol);
-			info.Update(SecurityFieldIDs.Option.opraSymbol, option.opraSymbol);
+			info.Set(SecurityFieldIDs.Option.stockSymbol, option.stockSymbol);
+			info.Set(SecurityFieldIDs.Option.optionSymbol, option.optionSymbol);
+			info.Set(SecurityFieldIDs.Option.opraSymbol, option.opraSymbol);
 			//info.Update(SecurityFieldIDs.Option.exchange, option.exchange);
-			info.Update(SecurityFieldIDs.Option.dataSource, option.exchange);
-			info.Update(SecurityFieldIDs.Option.strikPrice, option.strike);
-			info.Update(SecurityFieldIDs.Option.expirationDate, option.expirationDate);
-			info.Update(SecurityFieldIDs.Option.contractSize, option.contractSize);
-			info.Update(SecurityFieldIDs.Option.putCall, option.putCall);
+			info.Set(SecurityFieldIDs.Option.dataSource, option.exchange);
+			info.Set(SecurityFieldIDs.Option.strikPrice, option.strike);
+			info.Set(SecurityFieldIDs.Option.expirationDate, option.expirationDate);
+			info.Set(SecurityFieldIDs.Option.contractSize, option.contractSize);
+			info.Set(SecurityFieldIDs.Option.putCall, option.putCall);
 			//info.Update(SecurityFieldIDs.Option.spcStlFlag, option.spcStlFlag);
 			if (option.tickSize != 0)
 			{
-				info.Update(SecurityFieldIDs.Option.tickSize, option.tickSize);
+				info.Set(SecurityFieldIDs.Option.tickSize, option.tickSize);
 			}
 			//info.Update(SecurityFieldIDs.Option.curCode, option.curCode);
 			//info.Update(SecurityFieldIDs.Option.exerType, option.exerType);
 			//info.Update(SecurityFieldIDs.Option.instrumentId, option.instrumentId);
 			//info.Update(SecurityFieldIDs.Option.undInstrumentId, option.undInstrumentId);
-			info.Update(SecurityFieldIDs.Option.longName, option.longName);
-			info.Update(SecurityFieldIDs.Option.genericMDSymbol, option.genericMDSymbol);
+			info.Set(SecurityFieldIDs.Option.longName, option.longName);
+			info.Set(SecurityFieldIDs.Option.genericMDSymbol, option.genericMDSymbol);
 			//info.Update(SecurityFieldIDs.Option.obsoleteDateTime, option.obsoleteDateTime);
-			info.Update(SecurityFieldIDs.Option.undExpirationDate, option.undExpirationDate);
-			info.Update(SecurityFieldIDs.Option.roninSymbol, option.roninSymbol);
-			info.Update(SecurityFieldIDs.Option.underlying, rocSymbol);
+			info.Set(SecurityFieldIDs.Option.undExpirationDate, option.undExpirationDate);
+			info.Set(SecurityFieldIDs.Option.roninSymbol, option.roninSymbol);
+			info.Set(SecurityFieldIDs.Option.underlying, rocSymbol);
 
 			lock (SymbolSecurityInfos)
 			{
 				if (SymbolSecurityInfos.ContainsKey(rocSymbol))
 				{
 					info.MDSource = SymbolSecurityInfos[rocSymbol].MDSource;
-					if (SymbolSecurityInfos[rocSymbol].SecType == CSVFieldIDs.SecutrityTypes.Future)
+					if (SymbolSecurityInfos[rocSymbol].SecType == CSVFieldIDs.SecurityTypes.Future)
 					{
-						info.SecType = CSVFieldIDs.SecutrityTypes.OptionFuture;
+						info.SecType = CSVFieldIDs.SecurityTypes.OptionFuture;
 						info.TickSize = SymbolSecurityInfos[rocSymbol].TickSize;
 					}
 					else
 					{
-						info.SecType = CSVFieldIDs.SecutrityTypes.Option;
+						info.SecType = CSVFieldIDs.SecurityTypes.Option;
 					}
 
 					if (SymbolSecurityInfos[rocSymbol].OptionChain.ContainsKey(info.MDSymbol))
@@ -2576,11 +2576,11 @@ namespace RDSEx
 		{
 			if (reload)
 			{
-				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecutrityTypes.SingleStockFuture);
+				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.SingleStockFuture);
 			}
 			else if (!SymbolSecurityInfos.ContainsKey(rocSymbol) || SymbolSecurityInfos[rocSymbol].SSFutureChain.Count == 0)
 			{
-				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecutrityTypes.SingleStockFuture);
+				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.SingleStockFuture);
 			}
 			else
 			{
@@ -2676,14 +2676,14 @@ namespace RDSEx
 			{
 				IMSSFutureInfo info = new IMSSFutureInfo();
 
-				info.Update(SecurityFieldIDs.SSFuture.fullSymbol, ssfuture.fullSymbol);
+				info.Set(SecurityFieldIDs.SSFuture.fullSymbol, ssfuture.fullSymbol);
 				//info.Update(SecurityFieldIDs.SSFuture.exchange, ssfuture.exchange);
-				info.Update(SecurityFieldIDs.SSFuture.dataSource, ssfuture.exchange);
-				info.Update(SecurityFieldIDs.SSFuture.expirationDate, ssfuture.expirationDate);
-				info.Update(SecurityFieldIDs.SSFuture.contractSize, ssfuture.contractSize);
-				info.Update(SecurityFieldIDs.SSFuture.tickSize, ssfuture.tickSize);
-				info.Update(SecurityFieldIDs.SSFuture.curCode, ssfuture.curCode);
-				info.Update(SecurityFieldIDs.SSFuture.longName, ssfuture.longName);
+				info.Set(SecurityFieldIDs.SSFuture.dataSource, ssfuture.exchange);
+				info.Set(SecurityFieldIDs.SSFuture.expirationDate, ssfuture.expirationDate);
+				info.Set(SecurityFieldIDs.SSFuture.contractSize, ssfuture.contractSize);
+				info.Set(SecurityFieldIDs.SSFuture.tickSize, ssfuture.tickSize);
+				info.Set(SecurityFieldIDs.SSFuture.curCode, ssfuture.curCode);
+				info.Set(SecurityFieldIDs.SSFuture.longName, ssfuture.longName);
 			
 				lock (SymbolSecurityInfos)
 				{
@@ -2791,7 +2791,7 @@ namespace RDSEx
 
 			switch (secType)
 			{
-				case CSVFieldIDs.SecutrityTypes.SingleStockFuture:
+				case CSVFieldIDs.SecurityTypes.SingleStockFuture:
 					lock (ImSFFChainInfoWaitingList)
 					{
 						if (!ImSFFChainInfoWaitingList.Contains(rocSymbol))
@@ -2800,7 +2800,7 @@ namespace RDSEx
 						}
 					}
 					break;
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					lock (ImSFFChainInfoWaitingList)
 					{
 						if (!ImOPTChainInfoWaitingList.Contains(rocSymbol))

@@ -54,24 +54,6 @@ namespace ROC
 				_mail.MailSubject = mailSubject;
 				_mail.MailBody = mailBody;
 
-				if (withLogs)
-				{
-					_mail.MailAttachments = new string[9];
-
-					_mail.MailAttachments[0] = GetAttachmentFilePath(GLOBAL.HLog.ROC.FilePath);
-					_mail.MailAttachments[1] = GetAttachmentFilePath(GLOBAL.HLog.USER.FilePath);
-
-					_mail.MailAttachments[2] = GetAttachmentFilePath(GLOBAL.HLog.MDS.FilePath);
-					_mail.MailAttachments[3] = GetAttachmentFilePath(GLOBAL.HLog.RDS.FilePath);
-					_mail.MailAttachments[4] = GetAttachmentFilePath(GLOBAL.HLog.ROM.FilePath);
-
-					_mail.MailAttachments[5] = GetAttachmentFilePath(GLOBAL.HLog.Orders.FilePath);
-					_mail.MailAttachments[6] = GetAttachmentFilePath(GLOBAL.HLog.Positions.FilePath);
-					_mail.MailAttachments[7] = GetAttachmentFilePath(GLOBAL.HLog.Trades.FilePath);
-
-					_mail.MailAttachments[8] = GetAttachmentFilePath(GLOBAL.HLog.BMK.FilePath);
-				}
-
 				_mail.SMTPServer = smtpServer;
 				_mail.SMTPUsername = smtpUsername;
 				_mail.SMTPPassword = smtpPassword;

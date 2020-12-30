@@ -1,3 +1,4 @@
+#if OLD
 using System;
 using System.IO;
 using DateTimeEx;
@@ -27,6 +28,9 @@ namespace LoggerEx
 
 	public class Logger : IDisposable
 	{
+		private const int LOG_RETENTION_DAYS = 7;
+		private const int FILE_SIZE_LIMIT = 50;
+
 		private DateTime _startedTime;
 		private DateTime _endTime;
 
@@ -66,7 +70,7 @@ namespace LoggerEx
 
 		public Logger(LogTypes type)
 		{
-			initializeLogger("", type, 7, 50);
+			initializeLogger("", type, LOG_RETENTION_DAYS, FILE_SIZE_LIMIT);
 		}
 		public Logger(LogTypes type, int retensionDays)
 		{
@@ -74,15 +78,15 @@ namespace LoggerEx
 		}
 		public Logger(string path, LogTypes type)
 		{
-			initializeLogger(path, type, 7, 50);
+			initializeLogger(path, type, LOG_RETENTION_DAYS, FILE_SIZE_LIMIT);
 		}
 		public Logger(string path, LogTypes type, long fileSizeLimit)
 		{
-			initializeLogger(path, type, 7, fileSizeLimit);
+			initializeLogger(path, type, LOG_RETENTION_DAYS, fileSizeLimit);
 		}
 		public Logger(string path, LogTypes type, int retensionDays)
 		{
-			initializeLogger(path, type, retensionDays, 50);
+			initializeLogger(path, type, retensionDays, FILE_SIZE_LIMIT);
 		}
 		public Logger(string path, LogTypes type, int retensionDays, long fileSizeLimit)
 		{
@@ -97,7 +101,7 @@ namespace LoggerEx
 			_retensionDays = retensionDays;
 			_currentType = type;
 
-			_logDirectory = GetPath(path);
+			_logDirectory = Sumo.Common.GetApplicationFolder(path, "Logs");
 
 			if (!Directory.Exists(_logDirectory))
 			{
@@ -121,76 +125,11 @@ namespace LoggerEx
 			StartRollTimer();
 		}
 
-		private string GetPath(string path)
-		{
-			if (path == null || path == "")
-			{
-				path = @"..\Logs\";
-			}
-
-			string appPath = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
-			appPath = appPath + path.Replace(@"..", "");
-
-			return appPath;
-		}
-		
 		private void SetPathByType(int count)
 		{
-			switch (_currentType)
-			{
-				case LogTypes.Benchmark:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.bch", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.TCP:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.tcp", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				
-				case LogTypes.Log:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.log", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.Trace:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.trc", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.RTE:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.rte", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.User:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.use", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				
-				case LogTypes.MDS:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.mds", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.LBM:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.lbm", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.SRLab:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.srlab", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.RDS:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.rds", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.ROM:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.rom", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				
-				case LogTypes.Orders:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.ord", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.Positions:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.pos", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				case LogTypes.Trades:
-					_filePath = String.Format("ROC_{0:G}{1:G3}{2:G9}.tde", DateTime.Today.Year, DateTime.Today.DayOfYear, count);
-					break;
-				default:
-					break;
-			}
-
-			if (_filePath != "" && _filePath != null)
-			{
-				_filePath = _logDirectory + @"\" + _filePath;
-			}
+			string suffix = _currentType.ToString().ToLower();
+			string fileName = string.Format("ROC_{0:yyyyMMdd}{1:G9}.{2}", DateTime.Today, count, suffix);
+			_filePath = System.IO.Path.Combine(_logDirectory, fileName);
 		}
 
 		#endregion
@@ -421,3 +360,4 @@ namespace LoggerEx
 		#endregion
 	}
 }
+#endif // OLD

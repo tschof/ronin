@@ -56,22 +56,15 @@ namespace ROC
 
 		#region - Binding -
 
-		public void UpdateAlert(AlertListData[] alerts)
+		public void UpdateAlert(System.Collections.IEnumerable alerts)
 		{
-			bool fit = false;
-			foreach (AlertListData alert in alerts)
-			{
-				if (rocAlertList.ROCGridData.Count == 0)
-				{
-					fit = true;
-				}
-				rocAlertList.ROCGridData.Add(alert);
-			}
+			bool empty = rocAlertList.ROCGridData.Count == 0;
 
-			if (fit)
-			{
-				frmAlert_FitClicked(null, EventArgs.Empty);
-			}
+			foreach (AlertListData alert in alerts)
+				rocAlertList.ROCGridData.Add(alert);
+
+			if (empty && (rocAlertList.ROCGridData.Count > 0))
+				frmAlert_FitClicked(null, EventArgs.Empty); // Was empty, now has alerts.
 
 			rocAlertList.ScrollToLastRow();
 		}

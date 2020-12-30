@@ -4,8 +4,8 @@ using System.Windows.Forms;
 using System.Runtime.Serialization;
 using System.Drawing;
 
+using Common;
 using SerializationEx;
-using System.Diagnostics;
 
 namespace ROC
 {
@@ -36,51 +36,13 @@ namespace ROC
 		{
 			set
 			{
-				if (_changed == false && _changed != value)
-				{
-					_changed = value;
-				}
+				_changed = _changed || value;
 			}
 		}
 
-		private Color _positiveColor = Color.LimeGreen;
-		public Color PositiveColor
-		{
-			get
-			{
-				return _positiveColor;
-			}
-			set
-			{
-				_positiveColor = value;
-			}
-		}
-
-		private Color _negativeColor = Color.Red;
-		public Color NegativeColor
-		{
-			get
-			{
-				return _negativeColor;
-			}
-			set
-			{
-				_negativeColor = value;
-			}
-		}
-
-		private Color _normalColor = Color.White;
-		public Color NormalColor
-		{
-			get
-			{
-				return _normalColor;
-			}
-			set
-			{
-				_normalColor = value;
-			}
-		}
+		public Color PositiveColor = Color.LimeGreen;
+		public Color NegativeColor = Color.Red;
+		public Color NormalColor = Color.White;
 
 		private Dictionary<IntPtr, UIProfileMain> _mainUIProfiles;
 		public Dictionary<IntPtr, UIProfileMain> MainUIProfiles
@@ -398,7 +360,7 @@ namespace ROC
 					else
 					{
 						System.Threading.Thread.Sleep(1000);
-						Application.DoEvents();
+						System.Windows.Forms.Application.DoEvents();
 					}
 				}
 			}
@@ -413,7 +375,7 @@ namespace ROC
 			{
 				if (GLOBAL.HROM.UserName != "")
 				{
-					fileName = String.Concat(new object[] { GLOBAL.HROM.UserName, ".profile" });
+					fileName = GLOBAL.HROM.UserName + ".profile";
 				}
 				else
 				{
@@ -426,19 +388,8 @@ namespace ROC
 			}
 			else
 			{
-				HelperFile.Save(data, filePath, fileName, filePath == Configuration.Path.Default.ProfilePath);
+				HelperFile.Save(data, filePath, fileName);
 			}
-			
-			//GLOBAL.FILE.Profile.Export(Configuration.Path.Default.ProfilePath, data);
-
-			//if (GLOBAL.HROM.Status == HelperROM.StatusTypes.LoggedIn)
-			//{
-			//    if (fileName == "")
-			//    {
-			//        fileName = String.Concat(new object[] { Configuration.Path.Default.ProfilePath, @"\", GLOBAL.HROM.UserName, ".profile" });
-			//    }
-			//    GLOBAL.FILE.Profile.Export(Configuration.Path.Default.ProfilePath, fileName, data);
-			//}
 		}
 
 		private void ClearAllUIProfile()
@@ -468,434 +419,152 @@ namespace ROC
 			GLOBAL.HSymbolSettingData.Export();
 			GLOBAL.HQuickButtonSettingData.Export();
 
-			foreach (frmMain w in GLOBAL.HWindows.MainWindows.Values)
-			{
-				Save(w);
+			GLOBAL.HWindows.MainWindows.WithValues(Save);
+			GLOBAL.HWindows.ClockWindows.WithValues(Save);
+			GLOBAL.HWindows.WatchListWindows.WithValues(Save);
+			GLOBAL.HWindows.PlotListWindows.WithValues(Save);
+			GLOBAL.HWindows.StockTicketWindows.WithValues(Save);
+			GLOBAL.HWindows.OptionTicketWindows.WithValues(Save);
+			GLOBAL.HWindows.FutureTicketWindows.WithValues(Save);
+			GLOBAL.HWindows.QuickTicketWindows.WithValues(Save);
+			GLOBAL.HWindows.AutoSpreadTicketWindows.WithValues(Save);
+			GLOBAL.HWindows.FutureMatrixTicketWindows.WithValues(Save);
+			GLOBAL.HWindows.BatchTicketWindows.WithValues(Save);
+			GLOBAL.HWindows.BatchMarketTicketWindows.WithValues(Save);
+			GLOBAL.HWindows.OrderWindows.WithValues(Save);
+			GLOBAL.HWindows.TradeWindows.WithValues(Save);
+			GLOBAL.HWindows.PositionWindows.WithValues(Save);
+		}
+
+		private T setProfileFromWindow<T>(Dictionary<IntPtr, T> collection, FormEx.VistaWindowBase source) where T : DictionaryEx.MultiTypedDictionary, new()
+		{
+			IntPtr key = source.Handle;
+			if (!collection.TryGetValue(key, out var profile)) {
+				profile = new T();
+				collection.Add(key, profile);
+				changed = true;
 			}
 
-			foreach (frmClock w in GLOBAL.HWindows.ClockWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmWatchList w in GLOBAL.HWindows.WatchListWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmPlotList w in GLOBAL.HWindows.PlotListWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmStockTicket w in GLOBAL.HWindows.StockTicketWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmOptionTicket w in GLOBAL.HWindows.OptionTicketWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmFutureTicket w in GLOBAL.HWindows.FutureTicketWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmQuickTicket w in GLOBAL.HWindows.QuickTicketWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmAutoSpreadTicket w in GLOBAL.HWindows.AutoSpreadTicketWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmFutureMatrixTicket w in GLOBAL.HWindows.FutureMatrixTicketWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmBatchTicket w in GLOBAL.HWindows.BatchTicketWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmBatchMarketTicket w in GLOBAL.HWindows.BatchMarketTicketWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmOrders w in GLOBAL.HWindows.OrderWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmTrades w in GLOBAL.HWindows.TradeWindows.Values)
-			{
-				Save(w);
-			}
-
-			foreach (frmPositions w in GLOBAL.HWindows.PositionWindows.Values)
-			{
-				Save(w);
-			}
+			changed = profile.Set(FormUIProfileFieldID.Top, source.Top);
+			changed = profile.Set(FormUIProfileFieldID.Left, source.Left);
+			changed = profile.Set(FormUIProfileFieldID.Width, source.Width);
+			changed = profile.Set(FormUIProfileFieldID.Height, source.Height);
+			changed = profile.Set(FormUIProfileFieldID.Font, source.Font);
+			changed = profile.Set(FormUIProfileFieldID.BackColor, source.BackColor);
+			changed = profile.Set(FormUIProfileFieldID.Caption, source.Caption);
+			changed = profile.Set(FormUIProfileFieldID.Pinned, source.TopMost);
+			return profile;
 		}
 
 		public void Save(frmMain w)
 		{
-			IntPtr key = w.Handle;
-			if (!MainUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				MainUIProfiles.Add(key, new UIProfileMain());
-			}
-
-			changed = MainUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = MainUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = MainUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = MainUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = MainUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = MainUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = MainUIProfiles[key].Update(FormUIProfileFieldID.InSystemTray, w.InSystemTray);
+			var profile = setProfileFromWindow(MainUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.InSystemTray, w.InSystemTray);
 		}
 
 		public void Save(frmClock w)
 		{
-			IntPtr key = w.Handle;
-			if (!ClockUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				ClockUIProfiles.Add(key, new UIProfileClock());
-			}
-
-			changed = ClockUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = ClockUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = ClockUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = ClockUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = ClockUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = ClockUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = ClockUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-			changed = ClockUIProfiles[key].Update(FormUIProfileFieldID.ClockDisplayFormat, w.ClockDisplayFormat);
-			changed = ClockUIProfiles[key].Update(FormUIProfileFieldID.ClockTimeZoneDisplayFormat, w.ClockTimeZoneDisplayFormat);
+			var profile = setProfileFromWindow(ClockUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.ClockDisplayFormat, w.ClockDisplayFormat);
+			changed = profile.Set(FormUIProfileFieldID.ClockTimeZoneDisplayFormat, w.ClockTimeZoneDisplayFormat);
 		}
 
 		private void Save(frmWatchList w)
 		{
-			IntPtr key = w.Handle;
-			if (!WatchListUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				WatchListUIProfiles.Add(key, new UIProfileWatchList());
-			}
-
-			changed = WatchListUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = WatchListUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = WatchListUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = WatchListUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = WatchListUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = WatchListUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = WatchListUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = WatchListUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = WatchListUIProfiles[key].Update(FormUIProfileFieldID.WatchList, w.ExportGrid());
+			var profile = setProfileFromWindow(WatchListUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.WatchList, w.ExportGrid());
 		}
 
 		private void Save(frmPlotList w)
 		{
-			IntPtr key = w.Handle;
-			if (!PlotListUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				PlotListUIProfiles.Add(key, new UIProfilePlotList());
-			}
-
-			changed = PlotListUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = PlotListUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = PlotListUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = PlotListUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = PlotListUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = PlotListUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = PlotListUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = PlotListUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = PlotListUIProfiles[key].Update(FormUIProfileFieldID.PlotList, w.ExportGrid());
+			var profile = setProfileFromWindow(PlotListUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.PlotList, w.ExportGrid());
 		}
 
 		private void Save(frmStockTicket w)
 		{
-			IntPtr key = w.Handle;
-			if (!StockTicketUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				StockTicketUIProfiles.Add(key, new UIProfileStockTicket());
-			}
-
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			//GLOBAL.HROC.AddToStatusLogs("Save StockWindow: " + w.Name + " " + w.Height);
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.Level2BidList, w.ExportBidGrid());
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.Level2AskList, w.ExportAskGrid());
-
-			changed = StockTicketUIProfiles[key].Update(FormUIProfileFieldID.StockTicket, w.ExportTicket());
+			var profile = setProfileFromWindow(StockTicketUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.Level2BidList, w.ExportBidGrid());
+			changed = profile.Set(FormUIProfileFieldID.Level2AskList, w.ExportAskGrid());
+			changed = profile.Set(FormUIProfileFieldID.StockTicket, w.ExportTicket());
 		}
 
 		private void Save(frmOptionTicket w)
 		{
-			IntPtr key = w.Handle;
-			if (!OptionTicketUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				OptionTicketUIProfiles.Add(key, new UIProfileOptionTicket());
-			}
-
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-			
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.OptionList, w.ExportOptionGrid());
-
-			changed = OptionTicketUIProfiles[key].Update(FormUIProfileFieldID.OptionTicket, w.ExportTicket());
+			var profile = setProfileFromWindow(OptionTicketUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.OptionList, w.ExportOptionGrid());
+			changed = profile.Set(FormUIProfileFieldID.OptionTicket, w.ExportTicket());
 		}
 
 		private void Save(frmFutureTicket w)
 		{
-			IntPtr key = w.Handle;
-			if (!FutureTicketUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				FutureTicketUIProfiles.Add(key, new UIProfileFutureTicket());
-			}
-
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.BookBidList, w.ExportBidGrid());
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.BookAskList, w.ExportAskGrid());
-
-			changed = FutureTicketUIProfiles[key].Update(FormUIProfileFieldID.FutureTicket, w.ExportTicket());
+			var profile = setProfileFromWindow(FutureTicketUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.BookBidList, w.ExportBidGrid());
+			changed = profile.Set(FormUIProfileFieldID.BookAskList, w.ExportAskGrid());
+			changed = profile.Set(FormUIProfileFieldID.FutureTicket, w.ExportTicket());
 		}
 
 		private void Save(frmQuickTicket w)
 		{
-			IntPtr key = w.Handle;
-			if (!QuickTicketUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				QuickTicketUIProfiles.Add(key, new UIProfileQuickTicket());
-			}
-
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.QuickList, w.ExportQuickGrid());
-
-			changed = QuickTicketUIProfiles[key].Update(FormUIProfileFieldID.QuickTicket, w.ExportTicket());
+			var profile = setProfileFromWindow(QuickTicketUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.QuickList, w.ExportQuickGrid());
+			changed = profile.Set(FormUIProfileFieldID.QuickTicket, w.ExportTicket());
 		}
 
 		private void Save(frmAutoSpreadTicket w)
 		{
-			IntPtr key = w.Handle;
-			if (!AutoSpreadTicketUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				AutoSpreadTicketUIProfiles.Add(key, new UIProfileAutoSpreadTicket());
-			}
-
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.AutoSpreadSettingsList, w.ExportAutoSpreadSettingsGrid());
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.AutoSpreadList, w.ExportAutoSpreadGrid());
-			changed = AutoSpreadTicketUIProfiles[key].Update(FormUIProfileFieldID.AutoSpreadTicket, w.ExportTicket());
+			var profile = setProfileFromWindow(AutoSpreadTicketUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.AutoSpreadSettingsList, w.ExportAutoSpreadSettingsGrid());
+			changed = profile.Set(FormUIProfileFieldID.AutoSpreadList, w.ExportAutoSpreadGrid());
+			changed = profile.Set(FormUIProfileFieldID.AutoSpreadTicket, w.ExportTicket());
 		}
 
 		private void Save(frmFutureMatrixTicket w)
 		{
-			IntPtr key = w.Handle;
-			if (!FutureMatrixTicketUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				FutureMatrixTicketUIProfiles.Add(key, new UIProfileFutureMatrixTicket());
-			}
-
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.FutureMatrixRange, w.MatrixRange);
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.FutureMatrixInterval, w.MatrixInterval);
-
-			changed = FutureMatrixTicketUIProfiles[key].Update(FormUIProfileFieldID.FutureMatrixTicket, w.ExportTicket());
+			var profile = setProfileFromWindow(FutureMatrixTicketUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.FutureMatrixRange, w.MatrixRange);
+			changed = profile.Set(FormUIProfileFieldID.FutureMatrixInterval, w.MatrixInterval);
+			changed = profile.Set(FormUIProfileFieldID.FutureMatrixTicket, w.ExportTicket());
 		}
 
 		private void Save(frmBatchTicket w)
 		{
-			IntPtr key = w.Handle;
-			if (!BatchTicketUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				BatchTicketUIProfiles.Add(key, new UIProfileBatchTicket());
-			}
-
-			changed = BatchTicketUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = BatchTicketUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = BatchTicketUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = BatchTicketUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = BatchTicketUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = BatchTicketUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = BatchTicketUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = BatchTicketUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = BatchTicketUIProfiles[key].Update(FormUIProfileFieldID.BatchList, w.ExportGrid());
+			var profile = setProfileFromWindow(BatchTicketUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.BatchList, w.ExportGrid());
 		}
 
 		private void Save(frmBatchMarketTicket w)
 		{
-			IntPtr key = w.Handle;
-			if (!BatchMarketTicketUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				BatchMarketTicketUIProfiles.Add(key, new UIProfileBatchMarketTicket());
-			}
-
-			changed = BatchMarketTicketUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = BatchMarketTicketUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = BatchMarketTicketUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = BatchMarketTicketUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = BatchMarketTicketUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = BatchMarketTicketUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = BatchMarketTicketUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = BatchMarketTicketUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = BatchMarketTicketUIProfiles[key].Update(FormUIProfileFieldID.BatchMarketList, w.ExportGrid());
+			var profile = setProfileFromWindow(BatchMarketTicketUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.BatchMarketList, w.ExportGrid());
 		}
 
 		private void Save(frmOrders w)
 		{
-			IntPtr key = w.Handle;
-			if (!OrdersUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				OrdersUIProfiles.Add(key, new UIProfileOrders());
-			}
-
-			changed = OrdersUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = OrdersUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = OrdersUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = OrdersUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = OrdersUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = OrdersUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = OrdersUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = OrdersUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = OrdersUIProfiles[key].Update(FormUIProfileFieldID.OrdersList, w.ExportGrid());
+			var profile = setProfileFromWindow(OrdersUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.OrdersList, w.ExportGrid());
 		}
 
 		private void Save(frmTrades w)
 		{
-			IntPtr key = w.Handle;
-			if (!TradesUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				TradesUIProfiles.Add(key, new UIProfileTrades());
-			}
-
-			changed = TradesUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = TradesUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = TradesUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = TradesUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = TradesUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = TradesUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = TradesUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = TradesUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = TradesUIProfiles[key].Update(FormUIProfileFieldID.TradesList, w.ExportGrid());
+			var profile = setProfileFromWindow(TradesUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.TradesList, w.ExportGrid());
 		}
 
 		private void Save(frmPositions w)
 		{
-			IntPtr key = w.Handle;
-			if (!PositionsUIProfiles.ContainsKey(key))
-			{
-				changed = true;
-				PositionsUIProfiles.Add(key, new UIProfilePositions());
-			}
-
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.Top, w.Top);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.Left, w.Left);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.Width, w.Width);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.Height, w.Height);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.Font, w.Font);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.BackColor, w.BackColor);
-
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.Caption, w.Caption);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.Pinned, w.TopMost);
-
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsList, w.ExportGrid());
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsListGroupBy, w.GroupBy);
-
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsShowOpenQty, w.ShowOpenQty);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsShowBuyQty, w.ShowBuyQty);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsShowSellQty, w.ShowSellQty);
-
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsShowOpenPnL, w.ShowOpenPnL);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsShowDayPnL, w.ShowDayPnL);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsShowRealizedPnL, w.ShowRealizedPnL);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsShowTotalPnL, w.ShowTotalPnL);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsShowCurrentQty, w.ShowCurrentQty);
-			changed = PositionsUIProfiles[key].Update(FormUIProfileFieldID.PositionsShowAllAggregation, w.ShowAllAggregation);
+			var profile = setProfileFromWindow(PositionsUIProfiles, w);
+			changed = profile.Set(FormUIProfileFieldID.PositionsList, w.ExportGrid());
+			changed = profile.Set(FormUIProfileFieldID.PositionsListGroupBy, w.GroupBy);
+			changed = profile.Set(FormUIProfileFieldID.PositionsShowOpenQty, w.ShowOpenQty);
+			changed = profile.Set(FormUIProfileFieldID.PositionsShowBuyQty, w.ShowBuyQty);
+			changed = profile.Set(FormUIProfileFieldID.PositionsShowSellQty, w.ShowSellQty);
+			changed = profile.Set(FormUIProfileFieldID.PositionsShowOpenPnL, w.ShowOpenPnL);
+			changed = profile.Set(FormUIProfileFieldID.PositionsShowDayPnL, w.ShowDayPnL);
+			changed = profile.Set(FormUIProfileFieldID.PositionsShowRealizedPnL, w.ShowRealizedPnL);
+			changed = profile.Set(FormUIProfileFieldID.PositionsShowTotalPnL, w.ShowTotalPnL);
+			changed = profile.Set(FormUIProfileFieldID.PositionsShowCurrentQty, w.ShowCurrentQty);
+			changed = profile.Set(FormUIProfileFieldID.PositionsShowAllAggregation, w.ShowAllAggregation);
 		}
 
 		#endregion
@@ -922,11 +591,7 @@ namespace ROC
 
 				if (prof != null)
 				{
-					foreach (UIProfileMain val in prof.MainUIProfiles.Values)
-					{
-						Load(val);
-					}
-
+					prof.MainUIProfiles.WithValues(Load);
 					LoadAll(prof);
 				}
 			}
@@ -935,6 +600,7 @@ namespace ROC
 		private string LoadFromFile(string filePath, string fileName)
 		{
 			string result = "";
+
 			if (filePath == "")
 			{
 				filePath = Configuration.Path.Default.ProfilePath;
@@ -944,21 +610,21 @@ namespace ROC
 			{
 				if (fileName != "")
 				{
-					result = HelperFile.Load(filePath, fileName, filePath == Configuration.Path.Default.ProfilePath);
-
-					if (result == "")
-					{
-						result = HelperFile.Load(filePath, fileName, false);
-					}
-				}
-				else
-				{
-					fileName = String.Concat(new object[] { GLOBAL.HROM.UserName, ".profile" });
 					result = HelperFile.Load(filePath, fileName);
 
 					if (result == "")
 					{
-						result = HelperFile.Load(filePath, fileName, false);
+						result = HelperFile.Load(filePath, fileName);
+					}
+				}
+				else
+				{
+					fileName = GLOBAL.HROM.UserName + ".profile";
+					result = HelperFile.Load(filePath, fileName);
+
+					if (result == "")
+					{
+						result = HelperFile.Load(filePath, fileName);
 					}
 				}
 			}
@@ -969,27 +635,43 @@ namespace ROC
 				
 				if (result == "")
 				{
-					result = HelperFile.Load(filePath, fileName, false);
+					result = HelperFile.Load(filePath, fileName);
 				}
 			}
 
 			return result;
 		}
 
+		private void setWindowFromProfile(UIProfileBase profile, FormEx.VistaWindowBase window, bool wantBackColor = false, bool wantCaption = false, bool wantPinned = false)
+		{
+			long lval;
+			if (profile.TryGet(FormUIProfileFieldID.Top, out lval))
+				window.Top = (int)lval;
+			if (profile.TryGet(FormUIProfileFieldID.Left, out lval))
+				window.Left = (int)lval;
+			if (profile.TryGet(FormUIProfileFieldID.Width, out lval))
+				window.Width = (int)lval;
+			if (profile.TryGet(FormUIProfileFieldID.Height, out lval))
+				window.Height = (int)lval;
+			if (profile.TryGet(FormUIProfileFieldID.Font, out Font font))
+				window.Font = font;
+			if (wantBackColor && profile.TryGet(FormUIProfileFieldID.BackColor, out Color color))
+				window.BackColor = color;
+			if (wantCaption && profile.TryGet(FormUIProfileFieldID.Caption, out string caption))
+				window.Caption = caption;
+			if (wantPinned && profile.TryGet(FormUIProfileFieldID.Pinned, out bool pinned))
+				window.OnTop = pinned;
+		}
+
 		private void Load(UIProfileMain val)
 		{
 			frmMain w = GLOBAL.HWindows.OpenWindow(new frmMain());
+			setWindowFromProfile(val, w);
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			//w.Height = (int)val.height;
-			w.Height = w.MaximumSize.Height;
-			w.Font = val.font;
-			//w.BackColor = val.backcolor;
+			if (val.TryGet(FormUIProfileFieldID.InSystemTray, out bool bval))
+				w.InSystemTray = bval;
+
 			w.BackColor = Color.FromKnownColor(KnownColor.Control);
-			w.InSystemTray = val.inSystemTray;
-
 			GLOBAL.HWindows.OpenWindow(w);
 		}
 
@@ -1012,11 +694,7 @@ namespace ROC
 
 				if (prof != null)
 				{
-					foreach (UIProfileMain val in prof.MainUIProfiles.Values)
-					{
-						ReLoad(val);
-					}
-
+					prof.MainUIProfiles.WithValues(n => setWindowFromProfile(n, GLOBAL.MainForm, true));
 					UnLoadAll();
 
 					GLOBAL.HRDS.ResetSecurityInfo();
@@ -1030,38 +708,13 @@ namespace ROC
 			data = "";
 		}
 
-		private void ReLoad(UIProfileMain val)
-		{
-			GLOBAL.MainForm.Top = (int)val.top;
-			GLOBAL.MainForm.Left = (int)val.left;
-			GLOBAL.MainForm.Width = (int)val.width;
-			GLOBAL.MainForm.Height = (int)val.height;
-			GLOBAL.MainForm.Font = val.font;
-			GLOBAL.MainForm.BackColor = val.backcolor;
-		}
-
 		// Only reload the user interface
 		public void ReloadUI()
 		{
-			foreach (frmStockTicket w in GLOBAL.HWindows.StockTicketWindows.Values)
-			{
-				w.ReloadTicket();
-			}
-
-			foreach (frmFutureTicket w in GLOBAL.HWindows.FutureTicketWindows.Values)
-			{
-				w.ReloadTicket();
-			}
-
-			foreach (frmOptionTicket w in GLOBAL.HWindows.OptionTicketWindows.Values)
-			{
-				w.ReloadTicket();
-			}
-
-			foreach (frmQuickTicket w in GLOBAL.HWindows.QuickTicketWindows.Values)
-			{
-				w.ReloadTicket();
-			}
+			GLOBAL.HWindows.StockTicketWindows.WithValues(n => n.ReloadTicket());
+			GLOBAL.HWindows.FutureTicketWindows.WithValues(n => n.ReloadTicket());
+			GLOBAL.HWindows.OptionTicketWindows.WithValues(n => n.ReloadTicket());
+			GLOBAL.HWindows.QuickTicketWindows.WithValues(n => n.ReloadTicket());
 		}
 
 		#endregion
@@ -1076,75 +729,20 @@ namespace ROC
 			GLOBAL.HQuickButtonSettingData = new HelperQuickButtonSettingData();
 			GLOBAL.HQuickButtonSettingData.Import();
 
-			foreach (UIProfileClock val in prof.ClockUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileWatchList val in prof.WatchListUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfilePlotList val in prof.PlotListUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileStockTicket val in prof.StockTicketUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileOptionTicket val in prof.OptionTicketUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileFutureTicket val in prof.FutureTicketUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileQuickTicket val in prof.QuickTicketUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileAutoSpreadTicket val in prof.AutoSpreadTicketUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileFutureMatrixTicket val in prof.FutureMatrixTicketUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileBatchTicket val in prof.BatchTicketUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileBatchMarketTicket val in prof.BatchMarketTicketUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileOrders val in prof.OrdersUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfileTrades val in prof.TradesUIProfiles.Values)
-			{
-				Load(val);
-			}
-
-			foreach (UIProfilePositions val in prof.PositionsUIProfiles.Values)
-			{
-				Load(val);
-			}
+			prof.ClockUIProfiles.WithValues(Load);
+			prof.WatchListUIProfiles.WithValues(Load);
+			prof.PlotListUIProfiles.WithValues(Load);
+			prof.StockTicketUIProfiles.WithValues(Load);
+			prof.OptionTicketUIProfiles.WithValues(Load);
+			prof.FutureTicketUIProfiles.WithValues(Load);
+			prof.QuickTicketUIProfiles.WithValues(Load);
+			prof.AutoSpreadTicketUIProfiles.WithValues(Load);
+			prof.FutureMatrixTicketUIProfiles.WithValues(Load);
+			prof.BatchTicketUIProfiles.WithValues(Load);
+			prof.BatchMarketTicketUIProfiles.WithValues(Load);
+			prof.OrdersUIProfiles.WithValues(Load);
+			prof.TradesUIProfiles.WithValues(Load);
+			prof.PositionsUIProfiles.WithValues(Load);
 
 			prof.Dispose();
 		}
@@ -1153,14 +751,12 @@ namespace ROC
 		{
 			frmClock w = GLOBAL.HWindows.OpenWindow(new frmClock());
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-
-			w.OnTop = val.pinned;
-			w.ClockDisplayFormat = val.clockDisplayFormat;
-			w.ClockTimeZoneDisplayFormat = val.clockTimeZoneDisplayFormat;
+			string sval;
+			setWindowFromProfile(val, w, false, false, true);
+			if (val.TryGet(FormUIProfileFieldID.ClockDisplayFormat, out sval))
+				w.ClockDisplayFormat = sval;
+			if (val.TryGet(FormUIProfileFieldID.ClockTimeZoneDisplayFormat, out sval))
+				w.ClockTimeZoneDisplayFormat = sval;
 
 			GLOBAL.HWindows.OpenWindow(w);
 		}
@@ -1169,17 +765,9 @@ namespace ROC
 		{
 			frmWatchList w = new frmWatchList();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportGrid(val.watchList);
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.WatchList, out string sval))
+				w.ImportGrid(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1188,19 +776,12 @@ namespace ROC
 		{
 			frmPlotList w = new frmPlotList();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.CurrentSymbolDetail = val.caption;
-
-			w.ImportGrid(val.plotList);
+			string sval;
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.Caption, out sval))
+				w.CurrentSymbolDetail = sval;
+			if (val.TryGet(FormUIProfileFieldID.PlotList, out sval))
+				w.ImportGrid(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1209,21 +790,14 @@ namespace ROC
 		{
 			frmStockTicket w = new frmStockTicket();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			//GLOBAL.HROC.AddToStatusLogs("Load StockWindow: " + w.Name + " " + w.Height);
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportBidGrid(val.level2BidList);
-			w.ImportAskGrid(val.level2AskList);
-
-			w.ImportTicket(val.stockTicket);
+			string sval;
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.Level2BidList, out sval))
+				w.ImportBidGrid(sval);
+			if (val.TryGet(FormUIProfileFieldID.Level2AskList, out sval))
+				w.ImportAskGrid(sval);
+			if (val.TryGet(FormUIProfileFieldID.StockTicket, out sval))
+				w.ImportTicket(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1232,19 +806,12 @@ namespace ROC
 		{
 			frmOptionTicket w = new frmOptionTicket();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportOptionGrid(val.optionList);
-
-			w.ImportTicket(val.optionTicket);
+			string sval;
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.OptionList, out sval))
+				w.ImportOptionGrid(sval);
+			if (val.TryGet(FormUIProfileFieldID.OptionTicket, out sval))
+				w.ImportTicket(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1253,20 +820,14 @@ namespace ROC
 		{
 			frmFutureTicket w = new frmFutureTicket();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportBidGrid(val.bookBidList);
-			w.ImportAskGrid(val.bookAskList);
-
-			w.ImportTicket(val.futureTicket);
+			string sval;
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.BookBidList, out sval))
+				w.ImportBidGrid(sval);
+			if (val.TryGet(FormUIProfileFieldID.BookAskList, out sval))
+				w.ImportAskGrid(sval);
+			if (val.TryGet(FormUIProfileFieldID.FutureTicket, out sval))
+				w.ImportTicket(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1275,19 +836,12 @@ namespace ROC
 		{
 			frmQuickTicket w = new frmQuickTicket();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportQuickGrid(val.quickList);
-
-			w.ImportTicket(val.quickTicket);
+			string sval;
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.QuickList, out sval))
+				w.ImportQuickGrid(sval);
+			if (val.TryGet(FormUIProfileFieldID.QuickTicket, out sval))
+				w.ImportTicket(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1296,20 +850,15 @@ namespace ROC
 		{
 			frmAutoSpreadTicket w = new frmAutoSpreadTicket();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
+			string sval;
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.AutoSpreadSettingsList, out sval))
+				w.ImportAutoSpreadSettingsGrid(sval);
+			if (val.TryGet(FormUIProfileFieldID.AutoSpreadList, out sval))
+				w.ImportAutoSpreadGrid(sval);
+			if (val.TryGet(FormUIProfileFieldID.AutoSpreadTicket, out sval))
+				w.ImportTicket(sval);
 
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportAutoSpreadSettingsGrid(val.autoSpreadSettingsList);
-			w.ImportAutoSpreadGrid(val.autoSpreadList);
-			w.ImportTicket(val.autoSpreadTicket);
-			
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
 
@@ -1317,20 +866,14 @@ namespace ROC
 		{
 			frmFutureMatrixTicket w = new frmFutureMatrixTicket();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.MatrixRange = val.matrixRange;
-			w.MatrixInterval = val.matrixInterval;
-
-			w.ImportTicket(val.futureMatrixTicket);
+			long lval;
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.FutureMatrixRange, out lval))
+				w.MatrixRange = (int)lval;
+			if (val.TryGet(FormUIProfileFieldID.FutureMatrixInterval, out lval))
+				w.MatrixInterval = (int)lval;
+			if (val.TryGet(FormUIProfileFieldID.FutureMatrixTicket, out string sval))
+				w.ImportTicket(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1339,17 +882,9 @@ namespace ROC
 		{
 			frmBatchTicket w = new frmBatchTicket();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportGrid(val.batchList);
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.BatchList, out string sval))
+				w.ImportGrid(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1358,17 +893,9 @@ namespace ROC
 		{
 			frmBatchMarketTicket w = new frmBatchMarketTicket();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportGrid(val.batchMarketList);
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.BatchMarketList, out string sval))
+				w.ImportGrid(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1377,17 +904,9 @@ namespace ROC
 		{
 			frmOrders w = new frmOrders();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportGrid(val.ordersList);
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.OrdersList, out string sval))
+				w.ImportGrid(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1396,17 +915,9 @@ namespace ROC
 		{
 			frmTrades w = new frmTrades();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
-
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
-
-			w.ImportGrid(val.tradesList);
+			setWindowFromProfile(val, w, true, true, true);
+			if (val.TryGet(FormUIProfileFieldID.TradesList, out string sval))
+				w.ImportGrid(sval);
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1415,29 +926,34 @@ namespace ROC
 		{
 			frmPositions w = new frmPositions();
 
-			w.Top = (int)val.top;
-			w.Left = (int)val.left;
-			w.Width = (int)val.width;
-			w.Height = (int)val.height;
-			w.Font = val.font;
-			w.BackColor = val.backcolor;
+			setWindowFromProfile(val, w, true, true, true);
 
-			w.Caption = val.caption;
-			w.OnTop = val.pinned;
+			long lval;
+			string sval;
+			bool bval;
 
-			w.GroupBy = (int)val.positionsListGroupBy;
-			w.ImportGrid(val.positionsList);
-
-			w.ShowOpenQty = val.positionsShowOpenQty;
-			w.ShowBuyQty = val.positionsShowBuyQty;
-			w.ShowSellQty = val.positionsShowSellQty;
-
-			w.ShowOpenPnL = val.positionsShowOpenPnL;
-			w.ShowDayPnL = val.positionsShowDayPnL;
-			w.ShowRealizedPnL = val.positionsShowRealizedPnL;
-			w.ShowTotalPnL = val.positionsShowTotalPnL;
-			w.ShowCurrentQty = val.positionsShowCurrentQty;
-			w.ShowAllAggregation = val.positionsShowAllAggregation;
+			if (val.TryGet(FormUIProfileFieldID.PositionsListGroupBy, out lval))
+				w.GroupBy = (int)lval;
+			if (val.TryGet(FormUIProfileFieldID.PositionsList, out sval))
+				w.ImportGrid(sval);
+			if (val.TryGet(FormUIProfileFieldID.PositionsShowOpenQty, out bval))
+				w.ShowOpenQty = bval;
+			if (val.TryGet(FormUIProfileFieldID.PositionsShowBuyQty, out bval))
+				w.ShowBuyQty = bval;
+			if (val.TryGet(FormUIProfileFieldID.PositionsShowSellQty, out bval))
+				w.ShowSellQty = bval;
+			if (val.TryGet(FormUIProfileFieldID.PositionsShowSellQty, out bval))
+				w.ShowOpenPnL = bval;
+			if (val.TryGet(FormUIProfileFieldID.PositionsShowDayPnL, out bval))
+				w.ShowDayPnL = bval;
+			if (val.TryGet(FormUIProfileFieldID.PositionsShowRealizedPnL, out bval))
+				w.ShowRealizedPnL = bval;
+			if (val.TryGet(FormUIProfileFieldID.PositionsShowTotalPnL, out bval))
+				w.ShowTotalPnL = bval;
+			if (val.TryGet(FormUIProfileFieldID.PositionsShowCurrentQty, out bval))
+				w.ShowCurrentQty = bval;
+			if (val.TryGet(FormUIProfileFieldID.PositionsShowAllAggregation, out bval))
+				w.ShowAllAggregation = bval;
 
 			GLOBAL.HWindows.OpenWindow(w, false);
 		}
@@ -1448,228 +964,44 @@ namespace ROC
 
 		public void UnLoadAll()
 		{
-			IntPtr[] keys = new IntPtr[0];
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.WatchListWindows)
+				form.Close();
 
-			if (GLOBAL.HWindows.WatchListWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.WatchListWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.WatchListWindows.Count];
-					GLOBAL.HWindows.WatchListWindows.Keys.CopyTo(keys, 0);
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.PlotListWindows)
+				form.Close();
 
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.WatchListWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.WatchListWindows[key].Close();
-						}
-					}
-				}
-			}
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.StockTicketWindows)
+				form.Close();
 
-			if (GLOBAL.HWindows.PlotListWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.PlotListWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.PlotListWindows.Count];
-					GLOBAL.HWindows.PlotListWindows.Keys.CopyTo(keys, 0);
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.OptionTicketWindows)
+				form.Close();
 
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.PlotListWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.PlotListWindows[key].Close();
-						}
-					}
-				}
-			}
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.FutureTicketWindows)
+				form.Close();
 
-			if (GLOBAL.HWindows.StockTicketWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.StockTicketWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.StockTicketWindows.Count];
-					GLOBAL.HWindows.StockTicketWindows.Keys.CopyTo(keys, 0);
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.QuickTicketWindows)
+				form.Close();
 
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.StockTicketWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.StockTicketWindows[key].Close();
-						}
-					}
-				}
-			}
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.BatchTicketWindows)
+				form.Close();
 
-			if (GLOBAL.HWindows.OptionTicketWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.OptionTicketWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.OptionTicketWindows.Count];
-					GLOBAL.HWindows.OptionTicketWindows.Keys.CopyTo(keys, 0);
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.BatchMarketTicketWindows)
+				form.Close();
 
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.OptionTicketWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.OptionTicketWindows[key].Close();
-						}
-					}
-				}
-			}
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.AutoSpreadTicketWindows)
+				form.Close();
 
-			if (GLOBAL.HWindows.FutureTicketWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.FutureTicketWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.FutureTicketWindows.Count];
-					GLOBAL.HWindows.FutureTicketWindows.Keys.CopyTo(keys, 0);
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.FutureMatrixTicketWindows)
+				form.Close();
 
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.FutureTicketWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.FutureTicketWindows[key].Close();
-						}
-					}
-				}
-			}
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.OrderWindows)
+				form.Close();
 
-			if (GLOBAL.HWindows.QuickTicketWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.QuickTicketWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.QuickTicketWindows.Count];
-					GLOBAL.HWindows.QuickTicketWindows.Keys.CopyTo(keys, 0);
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.TradeWindows)
+				form.Close();
 
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.QuickTicketWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.QuickTicketWindows[key].Close();
-						}
-					}
-				}
-			}
-
-			if (GLOBAL.HWindows.BatchTicketWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.BatchTicketWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.BatchTicketWindows.Count];
-					GLOBAL.HWindows.BatchTicketWindows.Keys.CopyTo(keys, 0);
-
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.BatchTicketWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.BatchTicketWindows[key].Close();
-						}
-					}
-				}
-			}
-
-			if (GLOBAL.HWindows.BatchMarketTicketWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.BatchMarketTicketWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.BatchMarketTicketWindows.Count];
-					GLOBAL.HWindows.BatchMarketTicketWindows.Keys.CopyTo(keys, 0);
-
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.BatchMarketTicketWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.BatchMarketTicketWindows[key].Close();
-						}
-					}
-				}
-			}
-
-			if (GLOBAL.HWindows.AutoSpreadTicketWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.AutoSpreadTicketWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.AutoSpreadTicketWindows.Count];
-					GLOBAL.HWindows.AutoSpreadTicketWindows.Keys.CopyTo(keys, 0);
-
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.AutoSpreadTicketWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.AutoSpreadTicketWindows[key].Close();
-						}
-					}
-				}
-			}
-
-			if (GLOBAL.HWindows.FutureMatrixTicketWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.FutureMatrixTicketWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.FutureMatrixTicketWindows.Count];
-					GLOBAL.HWindows.FutureMatrixTicketWindows.Keys.CopyTo(keys, 0);
-
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.FutureMatrixTicketWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.FutureMatrixTicketWindows[key].Close();
-						}
-					}
-				}
-			}
-
-			if (GLOBAL.HWindows.OrderWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.OrderWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.OrderWindows.Count];
-					GLOBAL.HWindows.OrderWindows.Keys.CopyTo(keys, 0);
-
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.OrderWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.OrderWindows[key].Close();
-						}
-					}
-				}
-			}
-
-			if (GLOBAL.HWindows.TradeWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.TradeWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.TradeWindows.Count];
-					GLOBAL.HWindows.TradeWindows.Keys.CopyTo(keys, 0);
-
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.TradeWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.TradeWindows[key].Close();
-						}
-					}
-				}
-			}
-
-			if (GLOBAL.HWindows.PositionWindows.Count > 0)
-			{
-				lock (GLOBAL.HWindows.PositionWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.PositionWindows.Count];
-					GLOBAL.HWindows.PositionWindows.Keys.CopyTo(keys, 0);
-
-					foreach (IntPtr key in keys)
-					{
-						if (GLOBAL.HWindows.PositionWindows.ContainsKey(key))
-						{
-							GLOBAL.HWindows.PositionWindows[key].Close();
-						}
-					}
-				}
-			}
+			foreach ((IntPtr _, var form) in GLOBAL.HWindows.PositionWindows)
+				form.Close();
 
 			Dispose();
 		}

@@ -1,113 +1,81 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
-using ArrayEx;
 using DictionaryEx;
-using System.Runtime.Serialization;
 
 namespace CSVEx
 {
-	public class CSV : MutiTypedDictionary
+	public class CSV
 	{
-		private string[] _timeFormats = new string[0];
-		private string[] timeFormats
-		{
-			get
-			{
-				if (_timeFormats.Length == 0)
-				{
-					_timeFormats = new string[4];
-					_timeFormats[0] = "HHmmss";
-					_timeFormats[1] = "yyyyMMdd-HH:mm:ss";
-					_timeFormats[2] = "yyyyMMdd";
-					//_timeFormats[3] = "yyyyMM";
-					_timeFormats[3] = "yyyyMMdd-HH:mm:ss.fff";
-				}
-				return _timeFormats;
-			}
-		}
+		private const int MAX_FIELD_COUNT = ushort.MaxValue;
+
+		private readonly MultiTypedDictionary _data = new MultiTypedDictionary();
+
+		private static string[] _timeFormats = new string[] {
+			"HHmmss",
+			"yyyyMMdd-HH:mm:ss",
+			"yyyyMMdd",
+			"yyyyMMdd-HH:mm:ss.fff"
+		};
 
 		private List<CSV> _children;
-		public List<CSV> Children
-		{
-			get
-			{
-				if (_children == null)
-				{
+		public List<CSV> Children {
+			get {
+				if (_children == null) {
 					_children = new List<CSV>();
 				}
 				return _children;
 			}
 		}
 
-		private string _message;
-		public string Message
-		{
-			get
-			{
-				return _message;
-			}
-		}
+		public string Message { get; private set; } = "";
+		public string EncodeMessage { get; private set; }
 
-		private string _encodeMessage;
-		public string EncodeMessage
-		{
-			get
-			{
-				return _encodeMessage;
-			}
-		}
-
-		//private int _fieldLength = 0;
-		private string[] _fields = new string[0];
-		public string[] Fields
-		{
-			get
-			{
-				return _fields;
-			}
-			set
-			{
-				_fields = value;
-			}
-		}
-
-		public CSV(SerializationInfo info, StreamingContext ctxt)
-			: base(info, ctxt)
-		{
-		}
+		private string[] _fields;
+		public string[] Fields => _fields;
 
 		private bool _hasBackFills = false;
 
 		public CSV()
 		{
-			Initialize();
+			_fields = new string[0];
 		}
-		private void Initialize()
+
+		public CSV(int capacity)
 		{
-			_message = "";
+			_fields = new string[capacity];
 		}
 
 		public CSV(string message)
 		{
-			_message = message;
+			_fields = new string[0];
+			Message = message;
 			Decode();
+		}
+
+		private bool tryGetField(int key, out string value)
+		{
+			if ((_fields != null) && (key < _fields.Length)) {
+				value = _fields[key];
+				return !string.IsNullOrEmpty(value);
+			}
+			value = null;
+			return false;
 		}
 
 		#region - Decode -
 
 		public void Decode()
 		{
-			if (_message != null && _message != "\n" && _message != "")
+			if (Message != null && Message != "\n" && Message != "")
 			{
-				Decode(_message);
+				Decode(Message);
 			}
 		}
 		private void Decode(string message)
 		{
 			// Split For Children
-			string[] childrenMsg = _message.Split(new string[] { "!#!" }, StringSplitOptions.None);
+			string[] childrenMsg = Message.Split(new string[] { "!#!" }, StringSplitOptions.None);
 
 			if (childrenMsg.Length > 1)
 			{
@@ -120,16 +88,7 @@ namespace CSVEx
 			else
 			{
 				// No Children
-				_fields = _message.Split(new char[] { ',' }, StringSplitOptions.None);
-
-				//if (Fields.Length > 0)
-				//{
-				//    _fieldLength = Fields.Length - 1;
-				//    for (int i = 0; i < _fieldLength; i++)
-				//    {
-				//        FilterAndUpdateByFieldID(i);
-				//    }
-				//}
+				_fields = Message.Split(new char[] { ',' }, StringSplitOptions.None);
 			}
 		}
 
@@ -137,9 +96,9 @@ namespace CSVEx
 
 		//private void FilterAndUpdateByFieldID(int id)
 		//{
-		//    if (Fields.Length > id)
+		//    if (_fields.Length > id)
 		//    {
-		//        switch (Fields[id])
+		//        switch (_fields[id])
 		//        {
 		//            case "":
 		//            case "\n":
@@ -155,160 +114,160 @@ namespace CSVEx
 		//    switch (id)
 		//    {
 		//        case CSVFieldIDs.AveragePrice:
-		//            UpdateToDouble(id, Fields[id]);
+		//            UpdateToDouble(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.CallPut:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ClearingAcct:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ClearingID:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Command:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.CumShares:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.CurrentTimeStamp:
-		//            UpdateToDateTime(id, Fields[id]);
+		//            UpdateToDateTime(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.EffectiveTime:
-		//            UpdateToDateTime(id, Fields[id]);
+		//            UpdateToDateTime(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ExchangeID:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.AlgoExchangeID:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ExpDate:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Firm:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Floor:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Instructions:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ExecutionInstruction:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.LeaveShares:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.LocalAcct:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.OmExecTag:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.OmTag:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ExecutionTime:
-		//            UpdateToDateTime(id, Fields[id]);
+		//            UpdateToDateTime(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.OmTime:
-		//            UpdateToDateTime(id, Fields[id]);
+		//            UpdateToDateTime(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.OpenClose:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.OrderExpirationDateTime:
-		//            UpdateToDateTime(id, Fields[id]);
+		//            UpdateToDateTime(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.LastShares:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.OriginalShares:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Owner:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Price:
-		//            UpdateToDouble(id, Fields[id]);
+		//            UpdateToDouble(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ExecPrice:
-		//            UpdateToDouble(id, Fields[id]);
+		//            UpdateToDouble(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.SecType:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Shares:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Side:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Status:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.StopPrice:
-		//            UpdateToDouble(id, Fields[id]);
+		//            UpdateToDouble(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.PegOffsetPrice:
-		//            UpdateToDouble(id, Fields[id]);
+		//            UpdateToDouble(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.StrikePrice:
-		//            UpdateToDouble(id, Fields[id]);
+		//            UpdateToDouble(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Symbol:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Tag:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Text:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.TIF:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.TradeFor:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Trader:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Type:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.AlgoType:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.Underlying:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ParentTag:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.CplxOrderType:
-		//            UpdateToLong(id, Fields[id]);
+		//            UpdateToLong(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ClientEcho:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.ProgramTrade:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.EndTime:
-		//            UpdateToDateTime(id, Fields[id]);
+		//            UpdateToDateTime(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.DisplayInstruction:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        case CSVFieldIDs.MaturityDay:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//        default:
-		//            Update(id, Fields[id]);
+		//            Update(id, _fields[id]);
 		//            break;
 		//    }
 		//}
@@ -384,50 +343,38 @@ namespace CSVEx
 
 		private string GetAsString(int key)
 		{
-			//if (!Strings.ContainsKey(key))
-			//{
-			//    FilterAndUpdateByFieldID(key);
-			//}
+			string value;
 
-			if (Strings.ContainsKey(key))
+			if (_data.TryGet(key, out value))
+				return value;
+
+			if (tryGetField(key, out value))
 			{
-				return Strings[key];
-			}
-			else if (Contains(key))
-			{
-				Update(key, Fields[key]);
-				return Fields[key];
+				_data.Set(key, value);
+				return value;
 			}
 			
 			return "";
 		}
+
 		private long GetAsLong(int key)
 		{
-			//if (!Longs.ContainsKey(key))
-			//{
-			//    FilterAndUpdateByFieldID(key);
-			//}
+			if (_data.TryGet(key, out long value))
+				return value;
 
-			if (Longs.ContainsKey(key))
+			if (tryGetField(key, out string field))
 			{
-				return Longs[key];
-			}
-			else if (Contains(key))
-			{
-				Int64 tL = 0;
-				if (Fields[key] != null)
+				if (long.TryParse(field, out long converted))
 				{
-					if (Int64.TryParse(Fields[key], out tL))
-					{
-						Update(key, tL);
-						return tL;
-					}
-					else
-					{
-						Debug.Assert(false, String.Concat(new object[] { key.ToString(), "|", Fields[key] }));
-					}
+					_data.Set(key, converted);
+					return converted;
+				}
+				else
+				{
+					Debug.Assert(false, key.ToString() + "|" + field);
 				}
 			}
+
 			switch (key)
 			{
 				case CSVFieldIDs.TIF:
@@ -436,76 +383,52 @@ namespace CSVEx
 					return 0;
 			}
 		}
+
 		private double GetAsDouble(int key)
 		{
-			//if (!Doubles.ContainsKey(key))
-			//{
-			//    FilterAndUpdateByFieldID(key);
-			//}
+			if (_data.TryGet(key, out double value))
+				return value;
 
-			if (Doubles.ContainsKey(key))
-			{
-				return Doubles[key];
-			}
-			else if (Contains(key))
-			{
-				double tD;
-				if (Fields[key] != null)
-				{
-					if (Double.TryParse(Fields[key], out tD))
-					{
-						Update(key, tD);
-						return tD;
-					}
-					else
-					{
-						if ((Command == CSVFieldIDs.MessageTypes.LoggedIn || Command == CSVFieldIDs.MessageTypes.LoginFailed) && 
-							key == CSVFieldIDs.Price)
-						{
-							// Special Case for Loggin mssages L, K, this is the password field
-						}
-						else
-						{
-							Debug.Assert(false, String.Concat(new object[] { key.ToString(), "|", Fields[key] }));
-						}
-					}
+			if (tryGetField(key, out string field)) {
+				if (double.TryParse(field, out double converted)) {
+					_data.Set(key, converted);
+					return converted;
+				} else if ((key == CSVFieldIDs.Price) &&
+					(Command == CSVFieldIDs.MessageTypes.LoggedIn || Command == CSVFieldIDs.MessageTypes.LoginFailed)) {
+					// Special Case for Loggin mssages L, K, this is the password field
+				} else {
+					Debug.Assert(false, String.Concat(new object[] { key.ToString(), "|", _fields[key] }));
 				}
 			}
 
 			return 0;
 		}
+
 		private DateTime GetAsDateTime(int key)
 		{
-			//if (!Doubles.ContainsKey(key))
-			//{
-			//    FilterAndUpdateByFieldID(key);
-			//}
-
-			if (Doubles.ContainsKey(key))
+			if (_data.TryGet(key, out double value))
+				return DateTime.FromOADate(value);
+			
+			if (tryGetField(key, out string field))
 			{
-				return DateTime.FromOADate(Doubles[key]);
-			}
-			else if (Contains(key))
-			{
-				DateTime tDT;
-
-				if (Fields[key] != null && Fields[key] != "00000000")
+				if ((field != null) && (field != "00000000"))
 				{
-					bool tOk = DateTime.TryParseExact(Fields[key], timeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-					if (!tOk)
+					DateTime converted;
+					bool ok = DateTime.TryParseExact(_fields[key], _timeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out converted);
+					if (!ok)
 					{
-						tOk = DateTime.TryParse(Fields[key], out tDT);
+						ok = DateTime.TryParse(_fields[key], out converted);
 					}
 
-					if (tOk)
+					if (ok)
 					{
-						tDT = tDT.ToLocalTime();
-						Update(key, tDT.ToOADate());
-						return tDT;
+						converted = converted.ToLocalTime();
+						_data.Set(key, converted.ToOADate());
+						return converted;
 					}
 					else
 					{
-						Debug.Assert(false, String.Concat(new object[] { key.ToString(), "|", Fields[key] }));
+						Debug.Assert(false, key.ToString() + "|" + _fields[key]);
 					}
 				}
 			}
@@ -519,99 +442,73 @@ namespace CSVEx
 
 		public void Encode()
 		{
-			_encodeMessage = "";
-			if (Fields != null && Fields.Length > 0)
+			EncodeMessage = "";
+			if (_fields != null && _fields.Length > 0)
 			{
-				Encode(Fields);
+				Encode(_fields);
 			}
 		}
-		private void Encode(string[] inputFields)
+		private void Encode(string[] input_fields)
 		{
 			SetAt(CSVFieldIDs.CurrentTimeStamp, DateTime.Now.ToString("HHmmss"));
 
-			_encodeMessage = String.Join(",", inputFields);
+			EncodeMessage = string.Join(",", input_fields);
 
 			// If have child convert them to string too
 			foreach (CSV child in Children)
 			{
 				child.Encode();
-				_encodeMessage = String.Concat(new object[] { "!#!", _encodeMessage, child.EncodeMessage });
-				_encodeMessage.Replace('\n', ' ');
+				EncodeMessage = "!#!" + EncodeMessage + child.EncodeMessage;
+				EncodeMessage.Replace('\n', ' ');
 			}
 
 			if (Children.Count != 0)
 			{
-				_encodeMessage += "!#!";
+				EncodeMessage += "!#!";
 			}
 
-			_encodeMessage += '\n';
+			EncodeMessage += '\n';
 		}
 
 		#endregion
 
 		#region - Set -
 
+		// Expands the array as necessary and inserts the value.
+		private void insert(int key, string value)
+		{
+			if (key < MAX_FIELD_COUNT) {
+				if (_fields.Length < (key + 1))
+					System.Array.Resize(ref _fields, key + 1);
+				_fields[key] = value;
+			}
+		}
+
 		public void SetAt(int key, double val)
 		{
-			val = Math.Round(val, 7);
-			Fields = (string[])ArrayHelper.Update(Fields, key, val.ToString());
+			insert(key, Math.Round(val, 7).ToString());
 		}
-		public void SetAt(int key, decimal val)
-		{
-			Fields = (string[])ArrayHelper.Update(Fields, key, val.ToString());
-		}
-		public void SetAt(int key, long val)
-		{
-			Fields = (string[])ArrayHelper.Update(Fields, key, val.ToString());
-		}
-		public void SetAt(int key, int val)
-		{
-			Fields = (string[])ArrayHelper.Update(Fields, key, val.ToString());
-		}
-		public void SetAt(int key, string val)
-		{
-			Fields = (string[])ArrayHelper.Update(Fields, key, val);
-		}
+
 		public void SetAt(int key, DateTime val)
 		{
-			Fields = (string[])ArrayHelper.Update(Fields, key, val.ToString("yyyyMMdd-HH:mm:ss"));
+			insert(key, val.ToString("yyyyMMdd-HH:mm:ss"));
+		}
+
+		public void SetAt<T>(int key, T val)
+		{
+			insert(key, val.ToString());
 		}
 
 		#endregion
 
 		public bool Contains(int key)
 		{
-			if (_hasBackFills)
-			{
-				if ((key < Fields.Length && Fields[key] != "") ||
-					Strings.ContainsKey(key) ||
-					Doubles.ContainsKey(key) ||
-					Longs.ContainsKey(key))
-				{
-					return true;
-				}
-			}
-			else
-			{
-				// No Bakc Fills then only check the Field Array
-				if (key < Fields.Length && Fields[key] != "")
-				{
-					return true;
-				}
-			}
-
-			//if (Fields.Length >= key + 1)
-			//{
-			//    if (GetAsString(key) != "")
-			//    {
-			//        return true;
-			//    }
-			//}
-
-			return false;
+			if (tryGetField(key, out string _))
+				return true;
+			return _hasBackFills && _data.Has(key);
 		}
 
-		#region - Decoded Fields By Name -
+		#region - Decoded _fields By Name -
 
 		public string Command
 		{
@@ -622,7 +519,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.Command, value);
+				_data.Set(CSVFieldIDs.Command, value);
 			}
 		}
 
@@ -635,7 +532,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.AveragePrice, value);
+				_data.Set(CSVFieldIDs.AveragePrice, value);
 			}
 		}
 
@@ -648,7 +545,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.CallPut, value);
+				_data.Set(CSVFieldIDs.CallPut, value);
 			}
 		}
 
@@ -661,7 +558,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.ClearingAcct, value);
+				_data.Set(CSVFieldIDs.ClearingAcct, value);
 			}
 		}
 
@@ -714,7 +611,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.ExpDate, value);
+				_data.Set(CSVFieldIDs.ExpDate, value);
 			}
 		}
 
@@ -767,7 +664,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.LocalAcct, value);
+				_data.Set(CSVFieldIDs.LocalAcct, value);
 			}
 		}
 
@@ -836,7 +733,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.Type, value);
+				_data.Set(CSVFieldIDs.Type, value);
 			}
 		}
 
@@ -849,7 +746,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.AlgoType, value);
+				_data.Set(CSVFieldIDs.AlgoType, value);
 			}
 		}
 
@@ -886,7 +783,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.Price, value);
+				_data.Set(CSVFieldIDs.Price, value);
 			}
 		}
 
@@ -899,7 +796,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.OriginalPrice, value);
+				_data.Set(CSVFieldIDs.OriginalPrice, value);
 			}
 		}
 
@@ -920,7 +817,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.Shares, value);
+				_data.Set(CSVFieldIDs.Shares, value);
 			}
 		}
 
@@ -933,7 +830,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.SecType, value);
+				_data.Set(CSVFieldIDs.SecType, value);
 			}
 		}
 
@@ -946,7 +843,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.Side, value);
+				_data.Set(CSVFieldIDs.Side, value);
 			}
 		}
 
@@ -983,7 +880,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.StrikePrice, value);
+				_data.Set(CSVFieldIDs.StrikePrice, value);
 			}
 		}
 
@@ -1020,7 +917,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.TIF, value);
+				_data.Set(CSVFieldIDs.TIF, value);
 			}
 		}
 
@@ -1033,7 +930,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.TradeFor, value);
+				_data.Set(CSVFieldIDs.TradeFor, value);
 			}
 		}
 
@@ -1046,7 +943,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.Trader, value);
+				_data.Set(CSVFieldIDs.Trader, value);
 			}
 		}
 
@@ -1059,7 +956,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.Underlying, value);
+				_data.Set(CSVFieldIDs.Underlying, value);
 			}
 		}
 
@@ -1072,7 +969,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.ParentTag, value);
+				_data.Set(CSVFieldIDs.ParentTag, value);
 			}
 		}
 
@@ -1093,7 +990,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.ClientEcho, value);
+				_data.Set(CSVFieldIDs.ClientEcho, value);
 			}
 		}
 
@@ -1110,7 +1007,7 @@ namespace CSVEx
 					default:
 						return true;
 					*/
-					case CSVFieldIDs.CplxOrderTypes.Continer:
+					case CSVFieldIDs.CplxOrderTypes.Container:
 						return true;
 					case CSVFieldIDs.CplxOrderTypes.Leg:
 					default:
@@ -1134,7 +1031,7 @@ namespace CSVEx
 					*/
 					case CSVFieldIDs.CplxOrderTypes.Leg:
 					    return true;
-					case CSVFieldIDs.CplxOrderTypes.Continer:
+					case CSVFieldIDs.CplxOrderTypes.Container:
 					default:
 					    return false;
 				}
@@ -1151,7 +1048,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.SecurityDefinition, value);
+				_data.Set(CSVFieldIDs.SecurityDefinition, value);
 			}
 		}
 
@@ -1164,7 +1061,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.EndTime, value.ToOADate());
+				_data.Set(CSVFieldIDs.EndTime, value.ToOADate());
 			}
 		}
 
@@ -1177,7 +1074,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.DisplayInstruction, value);
+				_data.Set(CSVFieldIDs.DisplayInstruction, value);
 			}
 		}
 
@@ -1190,7 +1087,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.CMTAAccount, value);
+				_data.Set(CSVFieldIDs.CMTAAccount, value);
 			}
 		}
 
@@ -1203,7 +1100,7 @@ namespace CSVEx
 			set
 			{
 				_hasBackFills = true;
-				Update(CSVFieldIDs.MaturityDay, value);
+				_data.Set(CSVFieldIDs.MaturityDay, value);
 			}
 		}
 

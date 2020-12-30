@@ -73,8 +73,7 @@ namespace SerializationEx
 		}
 		public object Deserialize(byte[] input, SerializationTypes type, byte[] key, byte[] iv)
 		{
-			BinaryFormatter binFormatter = new BinaryFormatter();
-			MemoryStream memStream = new MemoryStream();
+			MemoryStream memStream;
 
 			switch (type)
 			{

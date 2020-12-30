@@ -25,7 +25,7 @@ namespace DataGridViewEx
 
 		#endregion
 
-		private string _currentSecType = CSVEx.CSVFieldIDs.SecutrityTypes.Equity;
+		private string _currentSecType = CSVEx.CSVFieldIDs.SecurityTypes.Equity;
 		[Browsable(false)]
 		public string CurrentSecType
 		{

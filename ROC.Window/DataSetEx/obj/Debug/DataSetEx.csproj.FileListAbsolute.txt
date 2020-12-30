@@ -1,0 +1,6 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\DataSetEx\bin\Debug\DataSetEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\DataSetEx\bin\Debug\DataSetEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\DataSetEx\obj\Debug\DataSetEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\DataSetEx\obj\Debug\DataSetEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\DataSetEx\obj\Debug\DataSetEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\DataSetEx\obj\Debug\DataSetEx.csprojAssemblyReference.cache

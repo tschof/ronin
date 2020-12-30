@@ -1,0 +1,13 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\bin\Debug\CSVEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\bin\Debug\CSVEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\bin\Debug\ArrayEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\bin\Debug\DictionaryEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\bin\Debug\SerializationEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\bin\Debug\ArrayEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\bin\Debug\DictionaryEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\bin\Debug\SerializationEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\obj\Debug\CSVEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\obj\Debug\CSVEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\obj\Debug\CSVEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\obj\Debug\CSVEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\CSVEx\obj\Debug\CSVEx.pdb

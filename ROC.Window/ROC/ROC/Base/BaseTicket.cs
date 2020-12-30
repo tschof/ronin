@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
+using Common;
 using FormEx;
 using ROMEx;
 
@@ -73,11 +72,8 @@ namespace ROC
 			}
 			else if (ctl is PanelEx.PanelManager)
 			{
-				if (!_panelManagers.ContainsKey(ctl.Name))
-				{
-					_panelManagers.Add(ctl.Name, (PanelEx.PanelManager)ctl);
-				}
-			}
+				_panelManagers.TryAdd(ctl.Name, (PanelEx.PanelManager)ctl);
+			} 
 			else if (ctl is ComboBox)
 			{
 				switch (ctl.Name)
@@ -164,10 +160,7 @@ namespace ROC
 			{
 				if (ctl.BackColor == Color.LightSteelBlue)
 				{
-					if (!_controls.ContainsKey(ctl.Name))
-					{
-						_controls.Add(ctl.Name, ctl);
-					}
+					_controls.TryAdd(ctl.Name, ctl);
 					ctl.MouseEnter += new EventHandler(ctl_MouseLeave);
 				}
 			}

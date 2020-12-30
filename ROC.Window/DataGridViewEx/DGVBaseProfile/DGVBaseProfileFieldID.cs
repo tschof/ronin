@@ -21,7 +21,7 @@ namespace DataGridViewEx
 
 			public const int DisplayIndex = 109;
 			public const int Name = 110;
-			public const int Visiable = 111;
+			public const int Visible = 111;
 			public const int Width = 112;
 
 			public const int SelectedBackColor = 113;
@@ -42,7 +42,7 @@ namespace DataGridViewEx
 
 		public sealed class OrderStatus
 		{
-			public const int ParitalFilledColor = 301;
+			public const int PartialFilledColor = 301;
 			public const int FilledColor = 302;
 			public const int DoneForDayColor = 303;
 			public const int CancelledColor = 304;

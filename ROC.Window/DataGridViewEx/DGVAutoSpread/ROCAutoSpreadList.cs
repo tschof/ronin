@@ -1,12 +1,9 @@
 using System;
-using System.Windows.Forms;
 using System.ComponentModel;
-using System.Drawing;
-using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 
-using BindingListEx;
+using Price = Common.Price;
 
 namespace DataGridViewEx
 {
@@ -96,7 +93,7 @@ namespace DataGridViewEx
 
 		#region - Auto Spread Function -
 
-		public override void SetBookSize(double price, long size, string side)
+		public override void SetBookSize(Price price, long size, string side)
 		{
 			DataRowView[] rows = new DataRowView[0];
 
@@ -139,17 +136,17 @@ namespace DataGridViewEx
 			}
 		}
 
-		public void FlagAskPriceFromSpredPrice(double oldPrice, double newPrice)
+		public void FlagAskPriceFromSpredPrice(Price oldPrice, Price newPrice)
 		{
 			FlagAskPrice(oldPrice, CalTickPriceFromSpreadPrice(newPrice, "Ask"));
 		}
 
-		public void FlagBidPriceFromSpredPrice(double oldPrice, double newPrice)
+		public void FlagBidPriceFromSpredPrice(Price oldPrice, Price newPrice)
 		{
 			FlagBidPrice(oldPrice, CalTickPriceFromSpreadPrice(newPrice, "Bid"));
 		}
 
-		public void FlagTradedPriceFromSpredPrice(double oldPrice, double newPrice, string tick)
+		public void FlagTradedPriceFromSpredPrice(Price oldPrice, Price newPrice, string tick)
 		{
 			if (tick == "+")
 			{
@@ -161,9 +158,9 @@ namespace DataGridViewEx
 			}
 		}
 
-		public double CalTickPriceFromSpreadPrice(double price, string side)
+		public Price CalTickPriceFromSpreadPrice(Price price, string side)
 		{
-			double result = price;
+			Price result = price;
 
 			switch (side)
 			{
@@ -175,41 +172,28 @@ namespace DataGridViewEx
 					break;
 			}
 
-			double startingPrice = (double)RocGridTable.Rows[0]["Price"];
-			if (RocGridTable.Rows.Count > 0 && startingPrice > price)
-			{
-				int rowIndex = Convert.ToInt32((startingPrice - price) / TickSize);
+			if (RocGridTable.Rows.Count > 0) {
+				Price startingPrice = (double)RocGridTable.Rows[0]["Price"];
+				if (startingPrice > price) {
+					int rowIndex = Convert.ToInt32((startingPrice - price).Value / TickSize);
 
-				result = startingPrice - (rowIndex * TickSize);
+					result = startingPrice - (rowIndex * TickSize);
+				}
 			}
 
-			return Math.Round(result, 2);
+			return result.Round(2);
 		}
 
-		private double RoundDown(double price)
+		private Price RoundDown(Price price)
 		{
-			double roundedValue = Math.Round(price, 2);
-			if (roundedValue > price)
-			{
-				return (roundedValue - TickSize);
-			}
-			else
-			{
-				return (roundedValue);
-			}
+			Price roundedValue = price.Round(2);
+			return (roundedValue > price) ? (roundedValue - TickSize) : roundedValue;
 		}
 
-		private double RoundUp(double price)
+		private Price RoundUp(Price price)
 		{
-			double roundedValue = Math.Round(price, 2);
-			if (roundedValue < price)
-			{
-				return (roundedValue + TickSize);
-			}
-			else
-			{
-				return (roundedValue);
-			}
+			Price roundedValue = price.Round(2);
+			return (roundedValue < price) ? (roundedValue + TickSize) : roundedValue;
 		}
 
 		#endregion

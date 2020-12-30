@@ -3,25 +3,25 @@
   <Profiles />
   <Settings>
     <Setting Name="Open" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Sounds\CLICK.WAV</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Sounds\default.wav</Value>
     </Setting>
     <Setting Name="Filled" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Sounds\CASHREG.WAV</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Sounds\default.wav</Value>
     </Setting>
     <Setting Name="Rejected" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Sounds\EXPLODE.WAV</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Sounds\default.wav</Value>
     </Setting>
     <Setting Name="Canceled" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Sounds\EXPLODE.WAV</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Sounds\default.wav</Value>
     </Setting>
     <Setting Name="FilledAndCanceled" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Sounds\CASHREG.WAV</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Sounds\default.wav</Value>
     </Setting>
     <Setting Name="PartiallyFilled" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Sounds\CASHREG.WAV</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Sounds\default.wav</Value>
     </Setting>
     <Setting Name="Replaced" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Sounds\CLICK.WAV</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Sounds\default.wav</Value>
     </Setting>
     <Setting Name="EnableOpen" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -45,7 +45,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="AutoSpreadPartiallyFilled" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Sounds\CASHREG.WAV</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Sounds\default.wav</Value>
     </Setting>
     <Setting Name="EnableAutoSpreadPartiallyFilled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

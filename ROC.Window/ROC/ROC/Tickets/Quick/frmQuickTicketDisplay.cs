@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using FormEx;
 using DataGridViewEx;
@@ -11,7 +8,7 @@ using DataGridViewEx;
 namespace ROC
 {
 	[System.ComponentModel.DesignerCategory("Form")]
-	public partial class frmQuickTicketDisplay : VistaWindowBorderless, INotifyPropertyChanged
+	internal partial class frmQuickTicketDisplay : VistaWindowBorderless, INotifyPropertyChanged
 	{
 		#region - INotifyPropertyChanged Members -
 
@@ -27,7 +24,7 @@ namespace ROC
 
 		#endregion
 
-		public frmQuickTicketDisplay(ROCQuickListProfile grid, ROCTicketProfile ticket)
+		internal frmQuickTicketDisplay(ROCQuickListProfile grid, ROCTicketProfile ticket)
 		{
 			InitializeComponent();
 
@@ -51,40 +48,59 @@ namespace ROC
 
 			itemFontText.ItemFont = grid.GridFont;
 
-			itemColorTicketBackColor.ItemColor = ticket.TicketBackColor;
-			itemOpacity.Value = Convert.ToInt32(ticket.TicketOpacity * 100);
+			if (ticket.TryGet(ROCTicketProfileFieldID.BackColor, out Color color))
+				itemColorTicketBackColor.ItemColor = color;
+			if (ticket.TryGet(ROCTicketProfileFieldID.Opacity, out double opacity))
+				itemOpacity.Value = Convert.ToInt32(opacity * 100);
 			itemColorSelectedStopLimitBackColor.ItemColor = grid.SelectedStopLimitBackColor;
 
 			chkAutoCenter.Checked = grid.GridAutoCenterOnTraded;
 			numAutoCenterRange.Value = grid.GridAutoCenterRange;
 
-			chkShowBidPrice.Checked = ticket.ShowBidPrice;
-			chkShowBidSize.Checked = ticket.ShowBidSize;
-			chkShowAskPrice.Checked = ticket.ShowAskPrice;
-			chkShowAskSize.Checked = ticket.ShowAskSize;
-			chkShowNetChange.Checked = ticket.ShowNetChange;
-			chkShowPctChange.Checked = ticket.ShowPctChange;
-			chkShowTotalVolume.Checked = ticket.ShowTotalVolume;
-			chkShowTradedVolume.Checked = ticket.ShowTradedVolume;
-			chkShowLowPrice.Checked = ticket.ShowLowPrice;
-			chkShowHighPrice.Checked = ticket.ShowHighPrice;
-			chkShowPrevClosePrice.Checked = ticket.ShowPrevClosePrice;
-
-			chkShowQty.Checked = ticket.ShowQty;
-			chkShowOrderType.Checked = ticket.ShowOrder;
-			chkShowLimitPrice.Checked = ticket.ShowLimitPrice;
-			chkShowStopPrice.Checked = ticket.ShowStopPrice;
-			chkShowDuration.Checked = ticket.ShowDuration;
-			chkShowExchange.Checked = ticket.ShowExchange;
-
-			chkShowOrderInfo.Checked = ticket.ShowOrderInfo;
-
-			chkShowCommand.Checked = ticket.ShowCommand;
-
-			chkShowSelectedAccountOnly.Checked = ticket.ShowSelectedAccountOnly;
+			bool bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowBidPrice, out bval))
+				chkShowBidPrice.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowBidSize, out bval))
+				chkShowBidSize.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowAskPrice, out bval))
+				chkShowAskPrice.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowAskSize, out bval))
+				chkShowAskSize.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowNetChange, out bval))
+				chkShowNetChange.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowPctChange, out bval))
+				chkShowPctChange.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowTotalVolume, out bval))
+				chkShowTotalVolume.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowTradedVolume, out bval))
+				chkShowTradedVolume.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowLowPrice, out bval))
+				chkShowLowPrice.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowHighPrice, out bval))
+				chkShowHighPrice.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowPrevClosePrice, out bval))
+				chkShowPrevClosePrice.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowQty, out bval))
+				chkShowQty.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowOrder, out bval))
+				chkShowOrderType.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowLimitPrice, out bval))
+				chkShowLimitPrice.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowStopPrice, out bval))
+				chkShowStopPrice.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowDuration, out bval))
+				chkShowDuration.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowExchange, out bval))
+				chkShowExchange.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowOrderInfo, out bval))
+				chkShowOrderInfo.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowCommand, out bval))
+				chkShowCommand.Checked = bval;
+			if (ticket.TryGet(ROCTicketProfileFieldID.ShowSelectedAccountOnly, out bval))
+				chkShowSelectedAccountOnly.Checked = bval;
 		}
 
-		public ROCQuickListProfile GetProfile(ROCQuickListProfile prof)
+		internal ROCQuickListProfile GetProfile(ROCQuickListProfile prof)
 		{
 			prof.GridColor = itemColorGridlines.ItemColor;
 
@@ -114,35 +130,30 @@ namespace ROC
 			return prof;
 		}
 
-		public ROCTicketProfile GetProfile(ROCTicketProfile prof)
+		internal ROCTicketProfile GetProfile(ROCTicketProfile prof)
 		{
-			prof.TicketOpacity = itemOpacity.Value / 100F;
-			prof.TicketBackColor = itemColorTicketBackColor.ItemColor;
-
-			prof.ShowBidPrice = chkShowBidPrice.Checked;
-			prof.ShowBidSize = chkShowBidSize.Checked;
-			prof.ShowAskPrice = chkShowAskPrice.Checked;
-			prof.ShowAskSize = chkShowAskSize.Checked;
-			prof.ShowNetChange = chkShowNetChange.Checked;
-			prof.ShowPctChange = chkShowPctChange.Checked;
-			prof.ShowTotalVolume = chkShowTotalVolume.Checked;
-			prof.ShowTradedVolume = chkShowTradedVolume.Checked;
-			prof.ShowLowPrice = chkShowLowPrice.Checked;
-			prof.ShowHighPrice = chkShowHighPrice.Checked;
-			prof.ShowPrevClosePrice = chkShowPrevClosePrice.Checked;
-
-			prof.ShowQty = chkShowQty.Checked;
-			prof.ShowOrder = chkShowOrderType.Checked;
-			prof.ShowLimitPrice = chkShowLimitPrice.Checked;
-			prof.ShowStopPrice = chkShowStopPrice.Checked;
-			prof.ShowDuration = chkShowDuration.Checked;
-			prof.ShowExchange = chkShowExchange.Checked;
-
-			prof.ShowOrderInfo = chkShowOrderInfo.Checked;
-
-			prof.ShowCommand = chkShowCommand.Checked;
-
-			prof.ShowSelectedAccountOnly = chkShowSelectedAccountOnly.Checked;
+			prof.Set(ROCTicketProfileFieldID.Opacity, itemOpacity.Value / 100F);
+			prof.Set(ROCTicketProfileFieldID.BackColor, itemColorTicketBackColor.ItemColor);
+			prof.Set(ROCTicketProfileFieldID.ShowBidPrice, chkShowBidPrice.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowBidSize, chkShowBidSize.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowAskPrice, chkShowAskPrice.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowAskSize, chkShowAskSize.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowNetChange, chkShowNetChange.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowPctChange, chkShowPctChange.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowTotalVolume, chkShowTotalVolume.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowTradedVolume, chkShowTradedVolume.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowLowPrice, chkShowLowPrice.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowHighPrice, chkShowHighPrice.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowPrevClosePrice, chkShowPrevClosePrice.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowQty, chkShowQty.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowOrder, chkShowOrderType.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowLimitPrice, chkShowLimitPrice.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowStopPrice, chkShowStopPrice.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowDuration, chkShowDuration.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowExchange, chkShowExchange.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowOrderInfo, chkShowOrderInfo.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowCommand, chkShowCommand.Checked);
+			prof.Set(ROCTicketProfileFieldID.ShowSelectedAccountOnly, chkShowSelectedAccountOnly.Checked);
 
 			return prof;
 		}
@@ -199,11 +210,11 @@ namespace ROC
 
 		#region - Show -
 
-		public void Display(Control control)
+		internal void Display(Control control)
 		{
 			Display(control, control.ClientRectangle);
 		}
-		public void Display(Form f, Point p)
+		internal void Display(Form f, Point p)
 		{
 			Display(f, new Rectangle(p, new Size(0, 0)));
 		}

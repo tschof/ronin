@@ -292,21 +292,12 @@ namespace DataGridViewEx
 		{
 			get
 			{
-				if (Longs.ContainsKey(DGVProfileFieldID.Watch.RowColorType))
-				{
-					switch (Longs[DGVProfileFieldID.Watch.RowColorType])
-					{
-						case 1:
-							return ROCWatchList.RowColorTypes.Performence;
-						case 0:
-						default:
-							return ROCWatchList.RowColorTypes.None;
-					}
-				}
-				else
-				{
+				if (!TryGet(DGVProfileFieldID.Watch.RowColorType, out long value))
 					return ROCWatchList.RowColorTypes.None;
-				}
+				else if (value == 1)
+					return ROCWatchList.RowColorTypes.Performence;
+				else
+					return ROCWatchList.RowColorTypes.None;
 			}
 			set
 			{

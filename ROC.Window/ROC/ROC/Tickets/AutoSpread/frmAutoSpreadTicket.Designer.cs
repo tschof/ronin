@@ -1454,12 +1454,12 @@ namespace ROC
 			// 
 			// rocAutoSpreadList
 			// 
-			this.rocAutoSpreadList.askBookPrices = ((System.Collections.Generic.List<double>)(resources.GetObject("rocAutoSpreadList.askBookPrices")));
+			this.rocAutoSpreadList.askBookPrices = ((System.Collections.Generic.List<Common.Price>)(resources.GetObject("rocAutoSpreadList.askBookPrices")));
 			this.rocAutoSpreadList.AskColor = System.Drawing.Color.Red;
 			this.rocAutoSpreadList.AskPrice = 0;
 			this.rocAutoSpreadList.AutoCenterOnTraded = false;
 			this.rocAutoSpreadList.AutoCenterRange = ((long)(3));
-			this.rocAutoSpreadList.bidBookPrices = ((System.Collections.Generic.List<double>)(resources.GetObject("rocAutoSpreadList.bidBookPrices")));
+			this.rocAutoSpreadList.bidBookPrices = ((System.Collections.Generic.List<Common.Price>)(resources.GetObject("rocAutoSpreadList.bidBookPrices")));
 			this.rocAutoSpreadList.BidColor = System.Drawing.Color.LimeGreen;
 			this.rocAutoSpreadList.BidPrice = 0;
 			this.rocAutoSpreadList.BlueDefault = 228;

@@ -19,9 +19,8 @@ namespace ROC
 					_orderTypeByExchangeTable = new DataTable("OrderTypeByExchange");
 					_orderTypeByExchangeTable.Columns.Add("Type", Type.GetType("System.String"));
 					_orderTypeByExchangeTable.Columns.Add("Exchanges", Type.GetType("System.String"));
-					_orderTypeByExchangeTable = HelperFile.Load(_orderTypeByExchangeTable, Configuration.Path.Default.OrderTypeConfigPath, _orderTypeByExchangeFileName);
 
-					if (_orderTypeByExchangeTable.Rows.Count == 0)
+					if (HelperFile.Load(_orderTypeByExchangeTable, Configuration.Path.Default.OrderTypeConfigPath, _orderTypeByExchangeFileName))
 					{
 						_orderTypeByExchangeTable.Rows.Add(new object[] { "ExchangesSupportExtendedMarketOrderType", "ARCA,INET,NYSE,BATS,EDG" });
 						_orderTypeByExchangeTable.Rows.Add(new object[] { "ExchangesSupportExtendedLimitOrderType", "ARCA,INET,NYSE,BATS,EDG" });

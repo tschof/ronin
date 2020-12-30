@@ -1,0 +1,11 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\bin\Debug\SerializationEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\bin\Debug\SerializationEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\bin\Debug\Common.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\bin\Debug\DateTimeEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\bin\Debug\Common.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\bin\Debug\DateTimeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\obj\Debug\SerializationEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\obj\Debug\SerializationEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\obj\Debug\SerializationEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\obj\Debug\SerializationEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\SerializationEx\obj\Debug\SerializationEx.pdb

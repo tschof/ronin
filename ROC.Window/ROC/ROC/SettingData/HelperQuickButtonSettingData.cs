@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using CSVEx;
+using Path = System.IO.Path;
 
 namespace ROC
 {
@@ -29,7 +29,7 @@ namespace ROC
 
 					switch (secType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Equity:
+						case CSVFieldIDs.SecurityTypes.Equity:
 							if (basePriceOffset == 0)
 							{
 								result = string.Format("{0} {1}", new object[] { qty, basePriceSource });
@@ -39,10 +39,10 @@ namespace ROC
 								result = string.Format("{0} {1} {2}", new object[] { qty, basePriceSource, basePriceOffset });
 							}
 							break;
-						case CSVFieldIDs.SecutrityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.Option:
 							result = string.Format("{0}", new object[] { qty });
 							break;
-						case CSVFieldIDs.SecutrityTypes.Future:
+						case CSVFieldIDs.SecurityTypes.Future:
 							if (basePriceOffset == 0)
 							{
 								result = string.Format("{0} {1}", new object[] { qty, basePriceSource });
@@ -113,11 +113,11 @@ namespace ROC
 
 		public void CheckDefaults()
 		{
-			GetSymbolDefaults(TicketDefaults.Stock, CSVFieldIDs.SecutrityTypes.Equity, true);
+			GetSymbolDefaults(TicketDefaults.Stock, CSVFieldIDs.SecurityTypes.Equity, true);
 
-			GetSymbolDefaults(TicketDefaults.Future, CSVFieldIDs.SecutrityTypes.Future, true);
+			GetSymbolDefaults(TicketDefaults.Future, CSVFieldIDs.SecurityTypes.Future, true);
 
-			GetSymbolDefaults(TicketDefaults.Option, CSVFieldIDs.SecutrityTypes.Option, true);
+			GetSymbolDefaults(TicketDefaults.Option, CSVFieldIDs.SecurityTypes.Option, true);
 		}
 
 		public List<QuickButtonSettingData> GetSymbolDefaults(string symbolDetail, string secType)
@@ -145,13 +145,13 @@ namespace ROC
 			{
 				switch (secType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rows = SettingTable.DefaultView.FindRows(new object[] { TicketDefaults.Option, secType });
 						break;
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						rows = SettingTable.DefaultView.FindRows(new object[] { TicketDefaults.Future, secType });
 						break;
-					case CSVFieldIDs.SecutrityTypes.Equity:
+					case CSVFieldIDs.SecurityTypes.Equity:
 					default:
 						rows = SettingTable.DefaultView.FindRows(new object[] { TicketDefaults.Stock, secType });
 						break;
@@ -166,13 +166,13 @@ namespace ROC
 
 					switch (secType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Equity:
+						case CSVFieldIDs.SecurityTypes.Equity:
 							data.qty = 100;
 							break;
-						case CSVFieldIDs.SecutrityTypes.Future:
+						case CSVFieldIDs.SecurityTypes.Future:
 							data.qty = 1;
 							break;
-						case CSVFieldIDs.SecutrityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.Option:
 							data.qty = 1;
 							break;
 					}
@@ -290,21 +290,20 @@ namespace ROC
 		{
 			if (SettingTable != null)
 			{
-				SettingTable = HelperFile.Load(SettingTable, Configuration.Path.Default.QuickButtonConfigPath, FileName());
-				if (SettingTable.Rows.Count == 0)
+				if (HelperFile.Load(SettingTable, Configuration.Path.Default.QuickButtonConfigPath, FileName()))
 				{
 					if (!Configuration.Path.Default.QuickButtonConfigPath.Contains(Configuration.Path.Default.ProfilePath))
 					{
 						// Check New Location Under Profild Folder
 						// Put the quick button setting into the Profile Folder
-						Configuration.Path.Default.QuickButtonConfigPath = Configuration.Path.Default.ProfilePath + @"QuickButtonConfig\";
+						Configuration.Path.Default.QuickButtonConfigPath = Path.Combine(Configuration.Path.Default.ProfilePath, "QuickButtonConfig");
 						Configuration.Path.Default.Save();
-						SettingTable = HelperFile.Load(SettingTable, Configuration.Path.Default.QuickButtonConfigPath, FileName());
+						HelperFile.Load(SettingTable, Configuration.Path.Default.QuickButtonConfigPath, FileName());
 					}
 					else
 					{
 						// Already Using New Location, but didn't find any, try old location again
-						SettingTable = HelperFile.Load(SettingTable, @"..\QuickButtonConfig\", FileName(), false);
+						HelperFile.Load(SettingTable, "QuickButtonConfig", FileName());
 					}
 				}
 
@@ -320,7 +319,7 @@ namespace ROC
 				if (!Configuration.Path.Default.QuickButtonConfigPath.Contains(Configuration.Path.Default.ProfilePath))
 				{
 					// Put the quick button setting into the Profile Folder
-					Configuration.Path.Default.QuickButtonConfigPath = Configuration.Path.Default.ProfilePath + @"QuickButtonConfig\";
+					Configuration.Path.Default.QuickButtonConfigPath = Path.Combine(Configuration.Path.Default.ProfilePath, "QuickButtonConfig");
 					Configuration.Path.Default.Save();
 				}
 				HelperFile.Save(SettingTable, Configuration.Path.Default.QuickButtonConfigPath, FileName());

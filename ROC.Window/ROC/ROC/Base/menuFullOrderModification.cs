@@ -2,13 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using RDSEx;
 using CSVEx;
-using MarketDataEx;
 using LabelEx;
+using MarketData;
 
 namespace ROC
 {
@@ -158,7 +155,7 @@ namespace ROC
 			_crrentPriceObj = numLimitPrice;
 		}
 
-		public void UpdateOrderModificationTicketByProcess(bool updateIM, Dictionary<string, MDServerToClient> deltas)
+		public void UpdateOrderModificationTicketByProcess(bool updateIM, Market deltas)
 		{
 			_menu.UpdateOrderModificationTicketByProcess(updateIM, deltas);
 		}

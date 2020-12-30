@@ -1,0 +1,9 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\DictionaryEx\bin\Debug\DictionaryEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\DictionaryEx\bin\Debug\DictionaryEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\DictionaryEx\bin\Debug\SerializationEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\DictionaryEx\bin\Debug\SerializationEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\DictionaryEx\obj\Debug\DictionaryEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\DictionaryEx\obj\Debug\DictionaryEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\DictionaryEx\obj\Debug\DictionaryEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\DictionaryEx\obj\Debug\DictionaryEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\DictionaryEx\obj\Debug\DictionaryEx.pdb

@@ -1,0 +1,9 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\BindingListEx\bin\Debug\BindingListEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\BindingListEx\bin\Debug\BindingListEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\BindingListEx\bin\Debug\SerializationEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\BindingListEx\bin\Debug\SerializationEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\BindingListEx\obj\Debug\BindingListEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\BindingListEx\obj\Debug\BindingListEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\BindingListEx\obj\Debug\BindingListEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\BindingListEx\obj\Debug\BindingListEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\BindingListEx\obj\Debug\BindingListEx.pdb

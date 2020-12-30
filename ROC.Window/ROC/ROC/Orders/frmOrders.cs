@@ -2,21 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
 
+using Common;
 using FormEx;
 using RDSEx;
 using DataGridViewEx;
 using SerializationEx;
 using ContextMenuEx;
 using ButtonEx;
-using BindingListEx;
 using CSVEx;
-using ROMEx;
-using MarketDataEx;
+using MarketData;
 
 namespace ROC
 {
@@ -65,7 +61,7 @@ namespace ROC
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
 		private List<ROCOrder> _rocOrders = new List<ROCOrder>();
-		private Dictionary<string, MDServerToClient> _deltas = new Dictionary<string, MDServerToClient>();
+		private Market _deltas = new Market();
 
 		#endregion
 
@@ -501,8 +497,8 @@ namespace ROC
 
 		#region - Used by Process Thread -
 
-		private delegate void AddUpdateOrdersByProcessDelegate(bool updateIM, ROCOrder[] orders, Dictionary<string, MDServerToClient> deltas);
-		public void AddUpdateOrdersByProcess(bool updateIM, ROCOrder[] orders, Dictionary<string, MDServerToClient> deltas)
+		private delegate void AddUpdateOrdersByProcessDelegate(bool updateIM, ROCOrder[] orders, Market deltas);
+		public void AddUpdateOrdersByProcess(bool updateIM, ROCOrder[] orders, Market deltas)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
@@ -513,20 +509,7 @@ namespace ROC
 					{
 						_rocOrders.AddRange(orders);
 					}
-					lock (_deltas)
-					{
-						foreach (string key in deltas.Keys)
-						{
-							if (_deltas.ContainsKey(key))
-							{
-								_deltas[key].Update(deltas[key]);
-							}
-							else
-							{
-								_deltas.Add(key, new MDServerToClient(deltas[key]));
-							}
-						}
-					}
+					_deltas.Merge(deltas);
 				}
 				catch (Exception ex)
 				{
@@ -559,7 +542,7 @@ namespace ROC
 								}
 							}
 						}
-						if (_menuOrderModification != null && (updateIM || deltas.Count > 0))
+						if (_menuOrderModification != null && (updateIM || !deltas.Empty))
 						{
 							lock (_menuOrderModification)
 							{
@@ -618,16 +601,16 @@ namespace ROC
 								}
 							}
 						}
-						Dictionary<string, MDServerToClient> deltas = new Dictionary<string, MDServerToClient>();
+						Market deltas = new Market();
 						lock (_deltas)
 						{
-							if (_deltas.Count > 0)
+							if (!_deltas.Empty)
 							{
-								deltas = new Dictionary<string, MDServerToClient>(_deltas);
-								_deltas.Clear();
+								deltas = Market.Replace(_deltas);
 							}
 						}
-						if (_menuOrderModification != null && (updateIM || deltas.Count > 0))
+
+						if (_menuOrderModification != null && (updateIM || !deltas.Empty))
 						{
 							lock (_menuOrderModification)
 							{
@@ -696,10 +679,7 @@ namespace ROC
 					{
 						foreach (string symbolDetail in removeList)
 						{
-							if (ImSymbolNeeded.ContainsKey(symbolDetail))
-							{
-								ImSymbolNeeded.Remove(symbolDetail);
-							}
+							ImSymbolNeeded.Remove(symbolDetail);
 						}
 					}
 				}
@@ -712,10 +692,8 @@ namespace ROC
 		{
 			lock (rocOrdersList.RocGridTable)
 			{
-				if (!rocOrdersList.OrderStatuses.ContainsKey(order.Tag))
+				if (rocOrdersList.OrderStatuses.TryAdd(order.Tag, order.Status))
 				{
-					rocOrdersList.OrderStatuses.Add(order.Tag, order.Status);
-
 					if (!rocOrdersList.Symbols.Contains(order.Symbol))
 					{
 						rocOrdersList.Symbols.Add(order.Symbol);
@@ -760,10 +738,10 @@ namespace ROC
 
 						switch (order.SecType)
 						{
-							case CSVFieldIDs.SecutrityTypes.Option:
+							case CSVFieldIDs.SecurityTypes.Option:
 								GLOBAL.HRDS.GetOptionChain(order.Underlying);
 								break;
-							case CSVFieldIDs.SecutrityTypes.SingleStockFuture:
+							case CSVFieldIDs.SecurityTypes.SingleStockFuture:
 								GLOBAL.HRDS.GetSSFutureChain(order.Underlying);
 								break;
 							default:
@@ -836,7 +814,7 @@ namespace ROC
 
 				switch (order.SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rocOrdersList.UpdateSymbol(order.Symbol);
 						rocOrdersList.UpdateTickSize(order.Symbol, order.TickSize);
 						break;
@@ -848,14 +826,7 @@ namespace ROC
 
 			lock (ImSymbolNeeded)
 			{
-				if (!ImSymbolNeeded.ContainsKey(order.SymbolDetail))
-				{
-					ImSymbolNeeded.Add(order.SymbolDetail, order.Symbol);
-				}
-				else
-				{
-					ImSymbolNeeded[order.SymbolDetail] = order.Symbol;
-				}
+				ImSymbolNeeded[order.SymbolDetail] = order.Symbol;
 			}
 
 			return order;
@@ -1559,17 +1530,11 @@ namespace ROC
 			{
 				if (rocOrdersList.FilterOutAccounts.Contains(acct.clearingAcIDShort))
 				{
-					if (!items.ContainsKey(acct.clearingAcIDShort))
-					{
-						items.Add(acct.clearingAcIDShort, new FilterItem(acct.clearingAcIDShort, true));
-					}
-				}
+					items.TryAdd(acct.clearingAcIDShort, new FilterItem(acct.clearingAcIDShort, true));
+				} 
 				else
 				{
-					if (!items.ContainsKey(acct.clearingAcIDShort))
-					{
-						items.Add(acct.clearingAcIDShort, new FilterItem(acct.clearingAcIDShort, false));
-					}
+					items.TryAdd(acct.clearingAcIDShort, new FilterItem(acct.clearingAcIDShort, false));
 				}
 			}
 		}
@@ -1665,7 +1630,7 @@ namespace ROC
 
 				switch (secType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						imObj = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 						if (imObj != null && imObj is IMOptionInfo)
 						{
@@ -1674,7 +1639,7 @@ namespace ROC
 						}
 						row["ContractSize"] = 100;
 						break;
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						imObj = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 						if (imObj != null && imObj is IMSecurityInfo)
 						{

@@ -159,10 +159,10 @@ namespace ROC
 				// Get the sender name
 				string key = ((LabelVista)sender).Name;
 
-				if (_items.ContainsKey(key))
+				if (_items.TryGetValue(key, out FilterItem filter))
 				{
-					_items[key].Hide = !_items[key].Hide;
-					UpdateColor((Label)sender, _items[key].Hide);
+					filter.Hide = !filter.Hide;
+					UpdateColor((Label)sender, filter.Hide);
 				}
 			}
 		}

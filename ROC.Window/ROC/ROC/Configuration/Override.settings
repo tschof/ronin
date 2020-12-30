@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="ByPassROM" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ByPassRDS" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="OverrideNBBO" Type="System.String" Scope="User">
       <Value Profile="(Default)">OPRANBBOTEST</Value>

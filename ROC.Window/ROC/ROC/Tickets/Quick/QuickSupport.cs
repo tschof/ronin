@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MarketDataEx;
-using ArrayEx;
 using RDSEx;
 using System.Data;
 using CSVEx;
+using Price = Common.Price;
 
 namespace ROC
 {
@@ -100,9 +98,9 @@ namespace ROC
 				if (row["Tag"] != DBNull.Value && row["Tag"].ToString() != "")
 				{
 					tag = row["Tag"].ToString();
-					if (GLOBAL.HOrders.RocItems.ContainsKey(tag) && !orders.ContainsKey(tag))
+					if (GLOBAL.HOrders.RocItems.TryGetValue(tag, out ROCOrder found) && !orders.ContainsKey(tag))
 					{
-						orders.Add(tag, GLOBAL.HOrders.RocItems[tag]);
+						orders.Add(tag, found);
 					}
 				}
 			}
@@ -163,9 +161,9 @@ namespace ROC
 				if (row["Tag"] != DBNull.Value && row["Tag"].ToString() != "")
 				{
 					tag = row["Tag"].ToString();
-					if (GLOBAL.HOrders.RocItems.ContainsKey(tag) && !result.ContainsKey(tag))
+					if (GLOBAL.HOrders.RocItems.TryGetValue(tag, out ROCOrder found) && !result.ContainsKey(tag))
 					{
-						result.Add(tag, GLOBAL.HOrders.RocItems[tag]);
+						result.Add(tag, found);
 					}
 				}
 			}
@@ -175,16 +173,16 @@ namespace ROC
 
 		internal sealed class OpenOrderItems
 		{
-			private Dictionary<double, long> _openOrderPriceQty;
-			private List<double> _openStopOrderPrice;
+			private Dictionary<Price, long> _openOrderPriceQty;
+			private List<Price> _openStopOrderPrice;
 
-			public Dictionary<double, long> OpenOrderPriceQty
+			public Dictionary<Price, long> OpenOrderPriceQty
 			{
 				get
 				{
 					if (_openOrderPriceQty == null)
 					{
-						_openOrderPriceQty = new Dictionary<double, long>();
+						_openOrderPriceQty = new Dictionary<Price, long>();
 					}
 					return _openOrderPriceQty;
 				}
@@ -194,13 +192,13 @@ namespace ROC
 				}
 			}
 
-			public List<double> OpenStopOrderPrice
+			public List<Price> OpenStopOrderPrice
 			{
 				get
 				{
 					if (_openStopOrderPrice == null)
 					{
-						_openStopOrderPrice = new List<double>();
+						_openStopOrderPrice = new List<Price>();
 					}
 					return _openStopOrderPrice;
 				}
@@ -261,18 +259,18 @@ namespace ROC
 					}
 				}
 
-				if (price != null)
+				if (price.HasValue)
 				{
 					if (row["LeaveQty"] != DBNull.Value)
 					{
 						qty = (long)row["LeaveQty"];
-						if (result.OpenOrderPriceQty.ContainsKey((double)price))
+						if (result.OpenOrderPriceQty.ContainsKey(price.Value))
 						{
-							result.OpenOrderPriceQty[(double)price] = result.OpenOrderPriceQty[(double)price] + qty;
+							result.OpenOrderPriceQty[price.Value] += qty;
 						}
 						else
 						{
-							result.OpenOrderPriceQty.Add((double)price, qty);
+							result.OpenOrderPriceQty.Add(price.Value, qty);
 						}
 					}
 				}

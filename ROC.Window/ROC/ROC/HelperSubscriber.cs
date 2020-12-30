@@ -1,7 +1,5 @@
-using System;
-using System.Diagnostics;
 using CSVEx;
-using MarketDataEx;
+using MarketData;
 
 namespace ROC
 {
@@ -13,7 +11,7 @@ namespace ROC
 		{
 			foreach (HelperMDS mds in GLOBAL.HMDSs)
 			{
-				mds.ReSubscribe(symbol, source, subscriptionType, secType);
+				mds.Resubscribe(symbol, source, subscriptionType, secType);
 			}
 		}
 
@@ -25,7 +23,7 @@ namespace ROC
 				{
 					switch (secType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Equity:
+						case CSVFieldIDs.SecurityTypes.Equity:
 							if (_useGroupSubscription)
 							{
 								// Group subscription have the base symbol,
@@ -36,8 +34,8 @@ namespace ROC
 								mds.Subscribe(symbol, source, "", secType);
 							}
 							break;
-						case CSVFieldIDs.SecutrityTypes.Option:
-							if (source.Contains(OptionDataSource.OPRANBBO) && Configuration.Override.Default.UseOverridNBBO)
+						case CSVFieldIDs.SecurityTypes.Option:
+							if (source.Contains(Constants.OptionDataSource.OPRANBBO) && Configuration.Override.Default.UseOverridNBBO)
 							{
 								source = Configuration.Override.Default.OverrideNBBO;
 							}
@@ -66,13 +64,13 @@ namespace ROC
 						switch (source.ToUpper())
 						{
 							case "CTA":
-								foreach (string key in L2PartipcantCode.IDsCTA.Keys)
+								foreach (string key in Constants.L2PartipcantCodeCTA.Codes)
 								{
 									mds.Subscribe(string.Concat(new object[] { symbol, ".", key }), source, "", secType);
 								}
 								break;
 							case "NASDAQ":
-								foreach (string key in L2PartipcantCode.IDsNASDAQ.Keys)
+								foreach (string key in Constants.L2PartipcantCodeNasdaq.Codes)
 								{
 									mds.Subscribe(string.Concat(new object[] { symbol, ".", key }), source, "", secType);
 								}
@@ -120,22 +118,23 @@ namespace ROC
 			{
 				foreach (HelperMDS mds in GLOBAL.HMDSs)
 				{
-					if (symbolDetail != "" && GLOBAL.OptionToExchangeMaps.ContainsKey(symbolDetail))
+					if (symbolDetail != "" && GLOBAL.OptionToExchangeMaps.TryGetValue(symbolDetail, out var exchanges))
 					{
-						foreach (string key in OptionExchangeCode.IDs.Keys)
-						{
-							if (GLOBAL.OptionToExchangeMaps[symbolDetail].Contains(key))
-							{
-								mds.Subscribe(string.Concat(new object[] { symbol, ".", key }), OptionDataSource.OPRA, "", CSVFieldIDs.SecutrityTypes.Option);
+						OptionExchangeCode.ForEach((code, name) => {
+							if (exchanges.Contains(code)) {
+								mds.Subscribe(
+									string.Concat(new object[] { symbol, ".", code }), 
+									Constants.OptionDataSource.OPRA, 
+									"", 
+									CSVFieldIDs.SecurityTypes.Option);
 							}
-						}
+						});
 					}
 					else
 					{
-						foreach (string key in OptionExchangeCode.IDs.Keys)
-						{
-							mds.Subscribe(string.Concat(new object[] { symbol, ".", key }), OptionDataSource.OPRA, "", CSVFieldIDs.SecutrityTypes.Option);
-						}
+						OptionExchangeCode.ForEach((code, name) => {
+							mds.Subscribe(string.Concat(new object[] { symbol, ".", code }), Constants.OptionDataSource.OPRA, "", CSVFieldIDs.SecurityTypes.Option);
+						});
 					}
 
 					if (withNBBO)
@@ -167,11 +166,11 @@ namespace ROC
 				{
 					if (Configuration.Override.Default.UseOverridNBBO)
 					{
-						mds.Subscribe(symbol, Configuration.Override.Default.OverrideNBBO, "", CSVFieldIDs.SecutrityTypes.Option);
+						mds.Subscribe(symbol, Configuration.Override.Default.OverrideNBBO, "", CSVFieldIDs.SecurityTypes.Option);
 					}
 					else
 					{
-						mds.Subscribe(symbol, OptionDataSource.OPRANBBO, "", CSVFieldIDs.SecutrityTypes.Option);
+						mds.Subscribe(symbol, MarketData.Constants.OptionDataSource.OPRANBBO, "", CSVFieldIDs.SecurityTypes.Option);
 					}
 				}
 			}
@@ -182,16 +181,16 @@ namespace ROC
 			{
 				foreach (HelperMDS mds in GLOBAL.HMDSs)
 				{
-					mds.Subscribe(symbol, source, "", CSVFieldIDs.SecutrityTypes.OptionFuture);
+					mds.Subscribe(symbol, source, "", CSVFieldIDs.SecurityTypes.OptionFuture);
 				}
 			}
 		}
 		
 		public static string WombatTypeBySymbolDetail(string symbolDetail)
 		{
-			if (GLOBAL.HRDS.SymbolDetailToRocSymbolMap.ContainsKey(symbolDetail))
+			if (GLOBAL.HRDS.SymbolDetailToRocSymbolMap.TryGetValue(symbolDetail, out string value))
 			{
-				return WombatTypeBySymbol(GLOBAL.HRDS.SymbolDetailToRocSymbolMap[symbolDetail]);
+				return WombatTypeBySymbol(value);
 			}
 			else
 			{
@@ -203,13 +202,13 @@ namespace ROC
 		{
 			string secType = "";
 
-			if (GLOBAL.HRDS.SymbolSecurityInfos.ContainsKey(symbol))
+			if (GLOBAL.HRDS.SymbolSecurityInfos.TryGetValue(symbol, out var securityInfo))
 			{
-				secType = GLOBAL.HRDS.SymbolSecurityInfos[symbol].SecType;
+				secType = securityInfo.SecType;
 			}
-			else if (GLOBAL.HRDS.SymbolToOptionInfoMap.ContainsKey(symbol))
+			else if (GLOBAL.HRDS.SymbolToOptionInfoMap.TryGetValue(symbol, out var optionInfo))
 			{
-				secType = GLOBAL.HRDS.SymbolToOptionInfoMap[symbol].MDSymbol;
+				secType = optionInfo.MDSymbol;
 			}
 
 			return secType;
@@ -217,9 +216,9 @@ namespace ROC
 
 		public static string WombatSymbolBySymbolDetail(string symbolDetail)
 		{
-			if (GLOBAL.HRDS.SymbolDetailToRocSymbolMap.ContainsKey(symbolDetail))
+			if (GLOBAL.HRDS.SymbolDetailToRocSymbolMap.TryGetValue(symbolDetail, out string value))
 			{
-				return WombatSymbolBySymbol(GLOBAL.HRDS.SymbolDetailToRocSymbolMap[symbolDetail]);
+				return WombatSymbolBySymbol(value);
 			}
 			else
 			{
@@ -231,13 +230,13 @@ namespace ROC
 		{
 			string wombatSymbol = "";
 
-			if (GLOBAL.HRDS.SymbolSecurityInfos.ContainsKey(symbol))
+			if (GLOBAL.HRDS.SymbolSecurityInfos.TryGetValue(symbol, out var securityInfo))
 			{
-				wombatSymbol = GLOBAL.HRDS.SymbolSecurityInfos[symbol].MDSymbol;
+				wombatSymbol = securityInfo.MDSymbol;
 			}
-			else if (GLOBAL.HRDS.SymbolToOptionInfoMap.ContainsKey(symbol))
+			else if (GLOBAL.HRDS.SymbolToOptionInfoMap.TryGetValue(symbol, out var optionInfo))
 			{
-				wombatSymbol = GLOBAL.HRDS.SymbolToOptionInfoMap[symbol].MDSymbol;
+				wombatSymbol = optionInfo.MDSymbol;
 			}
 
 			if (wombatSymbol != "" && wombatSymbol.Contains("/P"))
@@ -257,9 +256,9 @@ namespace ROC
 
 		public static string WombatSourceBySymbolDetail(string symbolDetail)
 		{
-			if (GLOBAL.HRDS.SymbolDetailToRocSymbolMap.ContainsKey(symbolDetail))
+			if (GLOBAL.HRDS.SymbolDetailToRocSymbolMap.TryGetValue(symbolDetail, out string value))
 			{
-				return WombatSourceBySymbol(GLOBAL.HRDS.SymbolDetailToRocSymbolMap[symbolDetail]);
+				return WombatSourceBySymbol(value);
 			}
 			else
 			{
@@ -269,13 +268,13 @@ namespace ROC
 
 		public static string WombatSourceBySymbol(string symbol)
 		{
-			if (GLOBAL.HRDS.SymbolSecurityInfos.ContainsKey(symbol))
+			if (GLOBAL.HRDS.SymbolSecurityInfos.TryGetValue(symbol, out var securityInfo))
 			{
-				return GLOBAL.HRDS.SymbolSecurityInfos[symbol].MDSource;
+				return securityInfo.MDSource;
 			}
-			else if (GLOBAL.HRDS.SymbolToOptionInfoMap.ContainsKey(symbol))
+			else if (GLOBAL.HRDS.SymbolToOptionInfoMap.TryGetValue(symbol, out var optionInfo))
 			{
-				return GLOBAL.HRDS.SymbolToOptionInfoMap[symbol].MDSource;
+				return optionInfo.MDSource;
 			}
 			else
 			{

@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
-using FormEx;
 using DataGridViewEx;
 using SerializationEx;
 using ContextMenuEx;
 using CSVEx;
-using ROMEx;
 using RDSEx;
-using System.Diagnostics;
-using System.IO;
-using MarketDataEx;
+using MarketData;
 
 namespace ROC
 {
@@ -112,7 +107,7 @@ namespace ROC
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
 		private List<ROCOrder> _rocOrders = new List<ROCOrder>();
-		private Dictionary<string, MDServerToClient> _deltas = new Dictionary<string, MDServerToClient>();
+		private Market _deltas = new Market();
 
 		private char[] symbolDetailSpliter = new char[] { ' ' };
 
@@ -605,8 +600,8 @@ namespace ROC
 
 		#region - Used By Process Thread Update Market Data -
 
-		private delegate void UpdateBatchMarketByProcessDelegate(bool updateIM, ROCOrder[] orders, Dictionary<string, MDServerToClient> deltas);
-		public void UpdateBatchMarketByProcess(bool updateIM, ROCOrder[] orders, Dictionary<string, MDServerToClient> deltas)
+		private delegate void UpdateBatchMarketByProcessDelegate(bool updateIM, ROCOrder[] orders, Market deltas);
+		public void UpdateBatchMarketByProcess(bool updateIM, ROCOrder[] orders, Market deltas)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
@@ -617,20 +612,7 @@ namespace ROC
 					{
 						_rocOrders.AddRange(orders);
 					}
-					lock (_deltas)
-					{
-						foreach (string key in deltas.Keys)
-						{
-							if (_deltas.ContainsKey(key))
-							{
-								_deltas[key].Update(deltas[key]);
-							}
-							else
-							{
-								_deltas.Add(key, new MDServerToClient(deltas[key]));
-							}
-						}
-					}
+					_deltas.Merge(deltas);
 				}
 				catch (Exception ex)
 				{
@@ -664,7 +646,7 @@ namespace ROC
 								}
 							}
 
-							if (deltas.Count > 0)
+							if (!deltas.Empty)
 							{
 								UpdateMarketDataDeltas(deltas);
 							}
@@ -713,16 +695,8 @@ namespace ROC
 								}
 							}
 
-							Dictionary<string, MDServerToClient> deltas = new Dictionary<string, MDServerToClient>();
-							lock (_deltas)
-							{
-								if (_deltas.Count > 0)
-								{
-									deltas = new Dictionary<string, MDServerToClient>(_deltas);
-									_deltas.Clear();
-								}
-							}
-							if (deltas.Count > 0)
+							Market deltas = Market.Replace(_deltas);
+							if (!deltas.Empty)
 							{
 								UpdateMarketDataDeltas(deltas);
 							}
@@ -777,12 +751,7 @@ namespace ROC
 					lock (ImSymbolNeeded)
 					{
 						foreach (string symbolDetail in removeList)
-						{
-							if (ImSymbolNeeded.ContainsKey(symbolDetail))
-							{
-								ImSymbolNeeded.Remove(symbolDetail);
-							}
-						}
+							ImSymbolNeeded.Remove(symbolDetail);
 					}
 				}
 			}
@@ -792,7 +761,7 @@ namespace ROC
 		{
 			switch (secInfo.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					HelperSubscriber.SubscribeOptionNBBO(secInfo.MDSymbol, secInfo.MDSource);
 					break;
 				default:
@@ -813,8 +782,8 @@ namespace ROC
 				
 				switch (secInfo.SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
-					case CSVFieldIDs.SecutrityTypes.OptionFuture:
+					case CSVFieldIDs.SecurityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.OptionFuture:
 						string[] optionDetails = symbolDetail.Split(symbolDetailSpliter);
 						row["CallPut"] = optionDetails[5];
 
@@ -832,87 +801,33 @@ namespace ROC
 			}
 		}
 
-		private void UpdateMarketDataDeltas(Dictionary<string, MDServerToClient> deltas)
+		private void UpdateMarketDataDeltas(Market deltas)
 		{
 			DataRowView[] rows = new DataRowView[0];
+			double price;
 
 			lock (rocBatchMarket.RocGridTable)
 			{
-				foreach (MDServerToClient delta in deltas.Values)
+				foreach ((string symbol, Book delta) in deltas)
 				{
 					if (IsProcessing) return;
 
-					if (rocBatchMarket.Symbols.Contains(delta.IssueSymbol))
+					if (delta.TryGetNonEmpty(Book.FieldEnum.IssueSymbol, out string issueSymbol) && rocBatchMarket.Symbols.Contains(issueSymbol))
 					{
-						rows = SearchViewMDSymbol.FindRows(delta.IssueSymbol);
+						rows = SearchViewMDSymbol.FindRows(issueSymbol);
 
 						foreach (DataRowView row in rows)
 						{
-							#region - Row Update -
+							if (delta.TryGetField(Book.FieldEnum.BidPrice, out price))
+								row["BidPrice"] = price;
 
-							#region - Not Used -
-							/*switch (_priceSouce)
-							{
-								case PriceSouces.Bid:
-									if (delta.BidPrice != null && delta.BidPrice != 0 && row["TickSize"] != DBNull.Value)
-									{
-										if (row["SecType"].ToString() == "E")
-										{
-											row["Price"] = Math.Round((double)delta.BidPrice + (double)row["TickSize"] * _priceOffset, 2);
-										}
-										else
-										{
-											row["Price"] = (double)delta.BidPrice + (double)row["TickSize"] * _priceOffset;
-										}
-									}
-									break;
-								case PriceSouces.Ask:
-									if (delta.AskPrice != null && delta.AskPrice != 0 && row["TickSize"] != DBNull.Value && row["SecType"] != DBNull.Value)
-									{
-										if (row["SecType"].ToString() == "E")
-										{
-											row["Price"] = Math.Round((double)delta.AskPrice + (double)row["TickSize"] * _priceOffset, 2);
-										}
-										else
-										{
-											row["Price"] = (double)delta.AskPrice + (double)row["TickSize"] * _priceOffset;
-										}
-									}
-									break;
-								case PriceSouces.Last:
-									if (delta.TradePrice != null && delta.TradePrice != 0 && row["TickSize"] != DBNull.Value && row["SecType"] != DBNull.Value)
-									{
-										if (row["SecType"].ToString() == "E")
-										{
-											row["Price"] = Math.Round((double)delta.TradePrice + (double)row["TickSize"] * _priceOffset, 2);
-										}
-										else
-										{
-											row["Price"] = (double)delta.TradePrice + (double)row["TickSize"] * _priceOffset;
-										}
-									}
-									break;
-							}*/
-							#endregion
+							if (delta.TryGetField(Book.FieldEnum.AskPrice, out price))
+								row["AskPrice"] = price;
 
-							if (delta.BidPrice != null)
-							{
-								row["BidPrice"] = (double)delta.BidPrice;
-							}
-
-							if (delta.AskPrice != null)
-							{
-								row["AskPrice"] = (double)delta.AskPrice;
-							}
-
-							if (delta.TradePrice != null && delta.TradePrice != 0)
-							{
-								row["LastTraded"] = (double)delta.TradePrice;
-							}
+							if (delta.TryGetNonZero(Book.FieldEnum.TradePrice, out price))
+								row["LastTraded"] = price;
 
 							UpdatePriceByDataGridViewRow(row.Row);
-
-							#endregion
 						}
 					}
 				}
@@ -1054,7 +969,8 @@ namespace ROC
 			string strike = "";
 			string underlying = "";
 
-			MDServerToClient delta = new MDServerToClient();
+			Book delta = new Book();
+			double price;
 
 			UpdateBatchMarketTicketWithSecurityInfo(symbolDetail, ref mdSymbol, ref tickSize, ref secType, ref name, ref callput, ref expDate, ref maturityDay, ref strike, ref underlying);
 			UpdateBatchMarketTicketWithCurrentMarketData(mdSymbol.ToUpper(), ref delta);
@@ -1065,37 +981,30 @@ namespace ROC
 				row["symbolDetail"] = symbolDetail;
 			}
 
-			if (delta.BidPrice != null)
+			if (delta.TryGetField(Book.FieldEnum.BidPrice, out price))
 			{
-				row["BidPrice"] = (double)delta.BidPrice;
+				row["BidPrice"] = price;
 			}
 
-			if (delta.AskPrice != null)
-			{
-				row["AskPrice"] = (double)delta.AskPrice;
+			if (delta.TryGetField(Book.FieldEnum.AskPrice, out price)) {
+				row["AskPrice"] = price;
 			}
 
-			if (delta.TradePrice != null && delta.TradePrice != 0)
-			{
-				row["LastTraded"] = (double)delta.TradePrice;
+			if (delta.TryGetNonZero(Book.FieldEnum.TradePrice, out price)) {
+				row["LastTraded"] = price;
 			}
-			else
-			{
-				if (delta.ClosePrice != null && delta.ClosePrice != 0)
-				{
-					row["LastTraded"] = (double)delta.ClosePrice;
-				}
-				else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
-				{
-					row["LastTraded"] = (double)delta.PrevClosePrice;
-				}
+			else if (delta.TryGetNonZero(Book.FieldEnum.ClosePrice, out price)) {
+				row["LastTraded"] = price;
+			}
+			else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price)) {
+				row["LastTraded"] = price;
 			}
 
 			row["TickSize"] = tickSize;
 
-			if (delta.DisplayConversionFactor != null)
+			if (delta.TryGetField(Book.FieldEnum.DisplayConversionFactor, out price))
 			{
-				row["DisplayFactor"] = (double)delta.DisplayConversionFactor;
+				row["DisplayFactor"] = price;
 			}
 			else
 			{
@@ -1144,13 +1053,13 @@ namespace ROC
 		}
 
 		// Update with Play back & onLoad
-		private void UpdateBatchMarketTicketWithCurrentMarketData(string mdSymbol, ref MDServerToClient delta)
+		private void UpdateBatchMarketTicketWithCurrentMarketData(string mdSymbol, ref Book delta)
 		{
 			if (mdSymbol != null && mdSymbol != "")
 			{
-				if (GLOBAL.HMarketData.Current.ContainsKey(mdSymbol))
+				if (GLOBAL.HMarketData.Current.TryGet(mdSymbol, out Book found))
 				{
-					delta.Update(GLOBAL.HMarketData.Current[mdSymbol]);
+					delta.Merge(found);
 				}
 			}
 		}
@@ -1169,7 +1078,7 @@ namespace ROC
 
 				switch (secInfo.SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 					//case CSVFieldIDs.SecutrityTypes.OptionFuture:
 						rocBatchMarket.UpdateSymbol(mdSymbol);
 						rocBatchMarket.UpdateTickSize(mdSymbol, tickSize);
@@ -1200,14 +1109,7 @@ namespace ROC
 
 			lock (ImSymbolNeeded)
 			{
-				if (!ImSymbolNeeded.ContainsKey(symbolDetail))
-				{
-					ImSymbolNeeded.Add(symbolDetail, mdSymbol);
-				}
-				else
-				{
-					ImSymbolNeeded[symbolDetail] = mdSymbol;
-				}
+				ImSymbolNeeded[symbolDetail] = mdSymbol;
 			}
 		}
 

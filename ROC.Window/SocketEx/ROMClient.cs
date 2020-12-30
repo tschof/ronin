@@ -30,11 +30,8 @@ namespace SocketEx
 
 		public override void Send(string msg)
 		{
-			lock (base.SyncObj)
-			{
-				byte[] data = Encoding.ASCII.GetBytes(msg.ToCharArray());
-				base.Send(data);
-			}
+			byte[] data = Encoding.ASCII.GetBytes(msg.ToCharArray());
+			base.Send(data);
 		}
 
 		public override void OnReceive(IAsyncResult ar)
@@ -48,9 +45,9 @@ namespace SocketEx
 				{
 					byte[] input = new byte[bytesRecived];
 					Array.Copy(base.ReceivedBuffer, 0, input, 0, bytesRecived);
-					lock (base.IncommingData)
+					lock (base.Incoming)
 					{
-						base.IncommingData.AddRange(input);
+						base.Incoming.AddRange(input);
 					}
 
 					if (!base.Stopping)
@@ -88,18 +85,18 @@ namespace SocketEx
 			}
 		}
 
-		public override void ProcessRecived()
+		public override void ProcessReceived()
 		{
 			List<byte> locIncommingData = new List<byte>();
 
 			while (!base.ThreadRecivedProcessShouldStop)
 			{
-				lock (base.IncommingData)
+				lock (base.Incoming)
 				{
-					if (base.IncommingData.Count > 0)
+					if (base.Incoming.Count > 0)
 					{
-						locIncommingData.AddRange(base.IncommingData.ToArray());
-						base.IncommingData.Clear();
+						locIncommingData.AddRange(base.Incoming.ToArray());
+						base.Incoming.Clear();
 					}
 				}
 

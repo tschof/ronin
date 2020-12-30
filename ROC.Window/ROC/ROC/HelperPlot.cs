@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+
 using PlotEx;
+using Price = Common.Price;
 
 namespace ROC
 {
@@ -15,14 +16,14 @@ namespace ROC
 				_tickSize = tickSize;
 			}
 
-			private Dictionary<double, int> _priceToPointList;
-			public Dictionary<double, int> PriceToPointList
+			private Dictionary<Price, int> _priceToPointList;
+			public Dictionary<Price, int> PriceToPointList
 			{
 				get
 				{
 					if (_priceToPointList == null)
 					{
-						_priceToPointList = new Dictionary<double, int>();
+						_priceToPointList = new Dictionary<Price, int>();
 					}
 					return _priceToPointList;
 				}
@@ -103,9 +104,8 @@ namespace ROC
 
 			private void Update(double price, double volume)
 			{
-				if (PriceToPointList.ContainsKey(price))
+				if (PriceToPointList.TryGetValue(price, out int pointIndex))
 				{
-					int pointIndex = PriceToPointList[price];
 					PointPairs[pointIndex].Y += volume;
 					Curve[pointIndex].Y = PointPairs[pointIndex].Y;
 				}

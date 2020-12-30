@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="MailFrom" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">colin.langan@scgroup.com</Value>
     </Setting>
     <Setting Name="MailTo" Type="System.String" Scope="User">
-      <Value Profile="(Default)">zhen.cha@dartexecutions.com</Value>
+      <Value Profile="(Default)">colin.langan@scgroup.com</Value>
     </Setting>
     <Setting Name="MailSubject" Type="System.String" Scope="User">
       <Value Profile="(Default)">ROC Event</Value>
@@ -15,7 +15,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SMTPServer" Type="System.String" Scope="User">
-      <Value Profile="(Default)">relay.ronin.roncap.com</Value>
+      <Value Profile="(Default)">smtp.scgroup.com</Value>
     </Setting>
     <Setting Name="SMTPUsername" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

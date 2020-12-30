@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Data;
 
 using DictionaryEx;
-using System.Data;
-using System.Drawing;
 
 namespace ROC
 {
 	[Serializable]
-	public class ROCTicketProfile : MutiTypedUIDictionary, IDisposable
+	internal class ROCTicketProfile : MultiTypedUIDictionary, IDisposable
 	{
 		#region - IDisposable Members -
 
@@ -18,20 +16,13 @@ namespace ROC
 			SymbolDetails.Clear();
 			ShortLenders.Clear();
 			Instructions.Clear();
-
-			Strings.Clear();
-			Doubles.Clear();
-			Longs.Clear();
-			DateTimes.Clear();
-			Bools.Clear();
-			Colors.Clear();
-			Fonts.Clear();
+			base.Clear();
 		}
 
 		#endregion
 
 		private List<string> _symbolDetails;
-		public List<string> SymbolDetails
+		internal List<string> SymbolDetails
 		{
 			get
 			{
@@ -48,7 +39,7 @@ namespace ROC
 		}
 
 		private List<string> _shortLenders;
-		public List<string> ShortLenders
+		internal List<string> ShortLenders
 		{
 			get
 			{
@@ -65,7 +56,7 @@ namespace ROC
 		}
 
 		private List<string> _instructions;
-		public List<string> Instructions
+		internal List<string> Instructions
 		{
 			get
 			{
@@ -81,26 +72,26 @@ namespace ROC
 			}
 		}
 
-		public ROCTicketProfile()
+		internal ROCTicketProfile()
 		{
 		}
 
 		#region - Stock Ticket -
 
-		public ROCTicketProfile(frmStockTicket ticket)
+		internal ROCTicketProfile(frmStockTicket ticket)
 		{
 			Export(ticket);
 		}
-		public ROCTicketProfile(frmStockTicket ticket, ROCTicketProfile prof)
+		internal ROCTicketProfile(frmStockTicket ticket, ROCTicketProfile prof)
 		{
 			Import(ticket, prof, true);
 		}
-		public ROCTicketProfile(frmStockTicket ticket, ROCTicketProfile prof, bool clone)
+		internal ROCTicketProfile(frmStockTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			Import(ticket, prof, clone);
 		}
 
-		public void Export(frmStockTicket ticket)
+		internal void Export(frmStockTicket ticket)
 		{
 			foreach (DataRow row in ticket.CurrentSymbolDetails.Rows)
 			{
@@ -126,47 +117,40 @@ namespace ROC
 				}
 			}
 
-			Update(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
-			Update(ROCTicketProfileFieldID.CurrentShortLender, ticket.CurrentShortLender);
-			Update(ROCTicketProfileFieldID.CurrentInstruction, ticket.CurrentInstruction);
+			Set(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
+			Set(ROCTicketProfileFieldID.CurrentShortLender, ticket.CurrentShortLender);
+			Set(ROCTicketProfileFieldID.CurrentInstruction, ticket.CurrentInstruction);
 
-			Update(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
-			Update(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
-			Update(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
+			Set(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
+			Set(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
+			Set(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
 
-			Update(ROCTicketProfileFieldID.IsLevel2, ticket.IsLevel2);
+			Set(ROCTicketProfileFieldID.IsLevel2, ticket.IsLevel2);
 		}
 
-		public void Import(frmStockTicket ticket, ROCTicketProfile prof, bool clone)
+		internal void Import(frmStockTicket ticket, ROCTicketProfile prof, bool clone)
 		{
-			lock (prof)
-			{
+			lock (prof) {
 				ticket.IsLoadingValue = true;
+				string sval;
 
-				if (clone)
-				{
-					if (prof.CurrentSymbolDetail != "")
-					{
-						ticket.CurrentSymbolDetail = prof.CurrentSymbolDetail;
-					}
-					if (prof.CurrentTradeFor != "")
-					{
-						ticket.CurrentTradeFor = prof.CurrentTradeFor;
-					}
-					if (prof.CurrentAccount != "")
-					{
-						ticket.CurrentAccount = prof.CurrentAccount;
-					}
-					if (prof.CurrentExchange != "")
-					{
-						ticket.CurrentExchange = prof.CurrentExchange;
-					}
+				if (clone) {
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentSymbolDetail, out sval))
+						ticket.CurrentSymbolDetail = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentTradeFor, out sval))
+						ticket.CurrentTradeFor = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentAccount, out sval))
+						ticket.CurrentAccount = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentExchange, out sval))
+						ticket.CurrentExchange = sval;
 				}
 
-				ticket.CurrentShortLender = prof.CurrentShortLender;
-				ticket.CurrentInstruction = prof.CurrentInstruction;
-				ticket.IsLevel2 = prof.IsLevel2;
-
+				if (prof.TryGet(ROCTicketProfileFieldID.CurrentShortLender, out sval))
+					ticket.CurrentShortLender = sval;
+				if (prof.TryGet(ROCTicketProfileFieldID.CurrentInstruction, out sval))
+					ticket.CurrentInstruction = sval;
+				if (prof.TryGet(ROCTicketProfileFieldID.IsLevel2, out bool bval))
+					ticket.IsLevel2 = bval;
 				ticket.IsLoadingValue = false;
 			}
 		}
@@ -175,20 +159,20 @@ namespace ROC
 
 		#region - Future Ticket -
 
-		public ROCTicketProfile(frmFutureTicket ticket)
+		internal ROCTicketProfile(frmFutureTicket ticket)
 		{
 			Export(ticket);
 		}
-		public ROCTicketProfile(frmFutureTicket ticket, ROCTicketProfile prof)
+		internal ROCTicketProfile(frmFutureTicket ticket, ROCTicketProfile prof)
 		{
 			Import(ticket, prof, true);
 		}
-		public ROCTicketProfile(frmFutureTicket ticket, ROCTicketProfile prof, bool clone)
+		internal ROCTicketProfile(frmFutureTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			Import(ticket, prof, clone);
 		}
 
-		public void Export(frmFutureTicket ticket)
+		internal void Export(frmFutureTicket ticket)
 		{
 			foreach (DataRow row in ticket.CurrentSymbolDetails.Rows)
 			{
@@ -198,35 +182,27 @@ namespace ROC
 				}
 			}
 
-			Update(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
-
-			Update(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
-			Update(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
-			Update(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
+			Set(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
+			Set(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
+			Set(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
+			Set(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
 		}
 
-		public void Import(frmFutureTicket ticket, ROCTicketProfile prof, bool clone)
+		internal void Import(frmFutureTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			lock (prof)
 			{
 				if (clone)
 				{
-					if (prof.CurrentSymbolDetail != "")
-					{
-						ticket.CurrentSymbolDetail = prof.CurrentSymbolDetail;
-					}
-					if (prof.CurrentTradeFor != "")
-					{
-						ticket.CurrentTradeFor = prof.CurrentTradeFor;
-					}
-					if (prof.CurrentAccount != "")
-					{
-						ticket.CurrentAccount = prof.CurrentAccount;
-					}
-					if (prof.CurrentExchange != "")
-					{
-						ticket.CurrentExchange = prof.CurrentExchange;
-					}
+					string sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentSymbolDetail, out sval))
+						ticket.CurrentSymbolDetail = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentTradeFor, out sval))
+						ticket.CurrentTradeFor = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentAccount, out sval))
+						ticket.CurrentAccount = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentExchange, out sval))
+						ticket.CurrentExchange = sval;
 				}
 			}
 
@@ -237,20 +213,20 @@ namespace ROC
 
 		#region - Quick Ticket -
 
-		public ROCTicketProfile(frmQuickTicket ticket)
+		internal ROCTicketProfile(frmQuickTicket ticket)
 		{
 			Export(ticket);
 		}
-		public ROCTicketProfile(frmQuickTicket ticket, ROCTicketProfile prof)
+		internal ROCTicketProfile(frmQuickTicket ticket, ROCTicketProfile prof)
 		{
 			Import(ticket, prof, true);
 		}
-		public ROCTicketProfile(frmQuickTicket ticket, ROCTicketProfile prof, bool clone)
+		internal ROCTicketProfile(frmQuickTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			Import(ticket, prof, clone);
 		}
 
-		public void Export(frmQuickTicket ticket)
+		internal void Export(frmQuickTicket ticket)
 		{
 			foreach (DataRow row in ticket.CurrentSymbolDetails.Rows)
 			{
@@ -268,100 +244,102 @@ namespace ROC
 				}
 			}
 
-			Update(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
-
-			Update(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
-			Update(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
-			Update(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
-
-			Update(ROCTicketProfileFieldID.Opacity, ticket.TicketOpacity); 
-			Update(ROCTicketProfileFieldID.BackColor, ticket.TicketBackColor);
-
-			Update(ROCTicketProfileFieldID.ShowBidPrice, ticket.ShowBidPrice);
-			Update(ROCTicketProfileFieldID.ShowBidSize, ticket.ShowBidSize);
-			Update(ROCTicketProfileFieldID.ShowAskPrice, ticket.ShowAskPrice);
-			Update(ROCTicketProfileFieldID.ShowAskSize, ticket.ShowAskSize);
-			Update(ROCTicketProfileFieldID.ShowNetChange, ticket.ShowNetChange);
-			Update(ROCTicketProfileFieldID.ShowPctChange, ticket.ShowPctChange);
-			Update(ROCTicketProfileFieldID.ShowTotalVolume, ticket.ShowTotalVolume);
-			Update(ROCTicketProfileFieldID.ShowTradedVolume, ticket.ShowTradedVolume);
-			Update(ROCTicketProfileFieldID.ShowLowPrice, ticket.ShowLowPrice);
-			Update(ROCTicketProfileFieldID.ShowHighPrice, ticket.ShowHighPrice);
-			Update(ROCTicketProfileFieldID.ShowExchange, ticket.ShowExchange);
-
-			Update(ROCTicketProfileFieldID.ShowTicker, ticket.ShowTicker);
-
-			Update(ROCTicketProfileFieldID.ShowQty, ticket.ShowQty);
-			Update(ROCTicketProfileFieldID.ShowOrder, ticket.ShowOrder);
-			Update(ROCTicketProfileFieldID.ShowLimitPrice, ticket.ShowLimitPrice);
-			Update(ROCTicketProfileFieldID.ShowStopPrice, ticket.ShowStopPrice);
-			Update(ROCTicketProfileFieldID.ShowDuration, ticket.ShowDuration);
-			Update(ROCTicketProfileFieldID.ShowDuration, ticket.ShowDuration);
-
-			Update(ROCTicketProfileFieldID.ShowOrderInfo, ticket.ShowOrderInfo);
-
-			Update(ROCTicketProfileFieldID.ShowCommand, ticket.ShowCommand);
-
-			Update(ROCTicketProfileFieldID.ShowIncrement, ticket.ShowIncrement);
-
-			Update(ROCTicketProfileFieldID.ShowSelectedAccountOnly, ticket.ShowSelectedAccountOnly);
+			Set(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
+			Set(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
+			Set(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
+			Set(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
+			Set(ROCTicketProfileFieldID.Opacity, ticket.TicketOpacity); 
+			Set(ROCTicketProfileFieldID.BackColor, ticket.TicketBackColor);
+			Set(ROCTicketProfileFieldID.ShowBidPrice, ticket.ShowBidPrice);
+			Set(ROCTicketProfileFieldID.ShowBidSize, ticket.ShowBidSize);
+			Set(ROCTicketProfileFieldID.ShowAskPrice, ticket.ShowAskPrice);
+			Set(ROCTicketProfileFieldID.ShowAskSize, ticket.ShowAskSize);
+			Set(ROCTicketProfileFieldID.ShowNetChange, ticket.ShowNetChange);
+			Set(ROCTicketProfileFieldID.ShowPctChange, ticket.ShowPctChange);
+			Set(ROCTicketProfileFieldID.ShowTotalVolume, ticket.ShowTotalVolume);
+			Set(ROCTicketProfileFieldID.ShowTradedVolume, ticket.ShowTradedVolume);
+			Set(ROCTicketProfileFieldID.ShowLowPrice, ticket.ShowLowPrice);
+			Set(ROCTicketProfileFieldID.ShowHighPrice, ticket.ShowHighPrice);
+			Set(ROCTicketProfileFieldID.ShowExchange, ticket.ShowExchange);
+			Set(ROCTicketProfileFieldID.ShowTicker, ticket.ShowTicker);
+			Set(ROCTicketProfileFieldID.ShowQty, ticket.ShowQty);
+			Set(ROCTicketProfileFieldID.ShowOrder, ticket.ShowOrder);
+			Set(ROCTicketProfileFieldID.ShowLimitPrice, ticket.ShowLimitPrice);
+			Set(ROCTicketProfileFieldID.ShowStopPrice, ticket.ShowStopPrice);
+			Set(ROCTicketProfileFieldID.ShowDuration, ticket.ShowDuration);
+			Set(ROCTicketProfileFieldID.ShowDuration, ticket.ShowDuration);
+			Set(ROCTicketProfileFieldID.ShowOrderInfo, ticket.ShowOrderInfo);
+			Set(ROCTicketProfileFieldID.ShowCommand, ticket.ShowCommand);
+			Set(ROCTicketProfileFieldID.ShowIncrement, ticket.ShowIncrement);
+			Set(ROCTicketProfileFieldID.ShowSelectedAccountOnly, ticket.ShowSelectedAccountOnly);
 		}
 
-		public void Import(frmQuickTicket ticket, ROCTicketProfile prof, bool clone)
+		internal void Import(frmQuickTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			lock (prof)
 			{
 				if (clone)
 				{
-					if (prof.CurrentSymbolDetail != "")
-					{
-						ticket.CurrentSymbolDetail = prof.CurrentSymbolDetail;
-					}
-					if (prof.CurrentTradeFor != "")
-					{
-						ticket.CurrentTradeFor = prof.CurrentTradeFor;
-					}
-					if (prof.CurrentAccount != "")
-					{
-						ticket.CurrentAccount = prof.CurrentAccount;
-					}
-					if (prof.CurrentExchange != "")
-					{
-						ticket.CurrentExchange = prof.CurrentExchange;
-					}
+					string sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentSymbolDetail, out sval))
+						ticket.CurrentSymbolDetail = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentTradeFor, out sval))
+						ticket.CurrentTradeFor = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentAccount, out sval))
+						ticket.CurrentAccount = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentExchange, out sval))
+						ticket.CurrentExchange = sval;
 				}
 
-				ticket.TicketOpacity = prof.TicketOpacity;
-				ticket.TicketBackColor = prof.TicketBackColor;
-
-				ticket.ShowBidPrice = prof.ShowBidPrice;
-				ticket.ShowBidSize = prof.ShowBidSize;
-				ticket.ShowAskPrice = prof.ShowAskPrice;
-				ticket.ShowAskSize = prof.ShowAskSize;
-				ticket.ShowNetChange = prof.ShowNetChange;
-				ticket.ShowPctChange = prof.ShowPctChange;
-				ticket.ShowTotalVolume = prof.ShowTotalVolume;
-				ticket.ShowTradedVolume = prof.ShowTradedVolume;
-				ticket.ShowLowPrice = prof.ShowLowPrice;
-				ticket.ShowHighPrice = prof.ShowHighPrice;
-				ticket.ShowPrevClosePrice = prof.ShowPrevClosePrice;
-
-				ticket.ShowTicker = prof.ShowTicker;
-
-				ticket.ShowQty = prof.ShowQty;
-				ticket.ShowOrder = prof.ShowOrder;
-				ticket.ShowLimitPrice = prof.ShowLimitPrice;
-				ticket.ShowStopPrice = prof.ShowStopPrice;
-				ticket.ShowDuration = prof.ShowDuration;
-				ticket.ShowExchange = prof.ShowExchange;
-
-				ticket.ShowOrderInfo = prof.ShowOrderInfo;
-
-				ticket.ShowCommand = prof.ShowCommand;
-
-				ticket.ShowIncrement = prof.ShowIncrement;
-
-				ticket.ShowSelectedAccountOnly = prof.ShowSelectedAccountOnly;
+				bool bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.Opacity, out double opacity))
+					ticket.TicketOpacity = opacity;
+				if (prof.TryGet(ROCTicketProfileFieldID.BackColor, out System.Drawing.Color color))
+					ticket.TicketBackColor = color;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowBidPrice, out bval))
+					ticket.ShowBidPrice = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowBidSize, out bval))
+					ticket.ShowBidSize = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowAskPrice, out bval))
+					ticket.ShowAskPrice = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowAskSize, out bval))
+					ticket.ShowAskSize = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowNetChange, out bval))
+					ticket.ShowNetChange = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowPctChange, out bval))
+					ticket.ShowPctChange = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowTotalVolume, out bval))
+					ticket.ShowTotalVolume = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowTradedVolume, out bval))
+					ticket.ShowTradedVolume = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowLowPrice, out bval))
+					ticket.ShowLowPrice = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowHighPrice, out bval))
+					ticket.ShowHighPrice = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowPrevClosePrice, out bval))
+					ticket.ShowPrevClosePrice = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowTicker, out bval))
+					ticket.ShowTicker = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowQty, out bval))
+					ticket.ShowQty = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowOrder, out bval))
+					ticket.ShowOrder = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowLimitPrice, out bval))
+					ticket.ShowLimitPrice = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowStopPrice, out bval))
+					ticket.ShowStopPrice = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowDuration, out bval))
+					ticket.ShowDuration = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowExchange, out bval))
+					ticket.ShowExchange = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowOrderInfo, out bval))
+					ticket.ShowOrderInfo = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowCommand, out bval))
+					ticket.ShowCommand = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowIncrement, out bval))
+					ticket.ShowIncrement = bval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowSelectedAccountOnly, out bval))
+					ticket.ShowSelectedAccountOnly = bval;
 			}
 
 			prof.Dispose();
@@ -371,20 +349,20 @@ namespace ROC
 
 		#region - Option Ticket -
 
-		public ROCTicketProfile(frmOptionTicket ticket)
+		internal ROCTicketProfile(frmOptionTicket ticket)
 		{
 			Export(ticket);
 		}
-		public ROCTicketProfile(frmOptionTicket ticket, ROCTicketProfile prof)
+		internal ROCTicketProfile(frmOptionTicket ticket, ROCTicketProfile prof)
 		{
 			Import(ticket, prof, true);
 		}
-		public ROCTicketProfile(frmOptionTicket ticket, ROCTicketProfile prof, bool clone)
+		internal ROCTicketProfile(frmOptionTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			Import(ticket, prof, clone);
 		}
 
-		public void Export(frmOptionTicket ticket)
+		internal void Export(frmOptionTicket ticket)
 		{
 			foreach (DataRow row in ticket.CurrentSymbolDetails.Rows)
 			{
@@ -394,44 +372,41 @@ namespace ROC
 				}
 			}
 
-			Update(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
+			Set(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
 
-			Update(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
-			Update(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
-			Update(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
+			Set(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
+			Set(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
+			Set(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
 			
-			Update(ROCTicketProfileFieldID.StrikesToShow, ticket.StrikesToShow);
-			Update(ROCTicketProfileFieldID.ExpirationsToShow, ticket.ExpirationsToShow);
-			Update(ROCTicketProfileFieldID.ShowMonthlyExpirationsOnly, ticket.ShowMonthlyExpirationsOnly);
+			Set(ROCTicketProfileFieldID.StrikesToShow, ticket.StrikesToShow);
+			Set(ROCTicketProfileFieldID.ExpirationsToShow, ticket.ExpirationsToShow);
+			Set(ROCTicketProfileFieldID.ShowMonthlyExpirationsOnly, ticket.ShowMonthlyExpirationsOnly);
 		}
 
-		public void Import(frmOptionTicket ticket, ROCTicketProfile prof, bool clone)
+		internal void Import(frmOptionTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			lock (prof)
 			{
+				string sval;
+
 				if (clone)
 				{
-					if (prof.CurrentSymbolDetail != "")
-					{
-						ticket.CurrentSymbolDetail = prof.CurrentSymbolDetail;
-					}
-					if (prof.CurrentTradeFor != "")
-					{
-						ticket.CurrentTradeFor = prof.CurrentTradeFor;
-					}
-					if (prof.CurrentAccount != "")
-					{
-						ticket.CurrentAccount = prof.CurrentAccount;
-					}
-					if (prof.CurrentExchange != "")
-					{
-						ticket.CurrentExchange = prof.CurrentExchange;
-					}
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentSymbolDetail, out sval))
+						ticket.CurrentSymbolDetail = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentTradeFor, out sval))
+						ticket.CurrentTradeFor = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentAccount, out sval))
+						ticket.CurrentAccount = sval;
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentExchange, out sval))
+						ticket.CurrentExchange = sval;
 				}
 
-				ticket.StrikesToShow = prof.StrikesToShow;
-				ticket.ExpirationsToShow = prof.ExpirationsToShow;
-				ticket.ShowMonthlyExpirationsOnly = prof.ShowMonthlyExpirationsOnly;
+				if (prof.TryGet(ROCTicketProfileFieldID.StrikesToShow, out sval))
+					ticket.StrikesToShow = sval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ExpirationsToShow, out sval))
+					ticket.ExpirationsToShow = sval;
+				if (prof.TryGet(ROCTicketProfileFieldID.ShowMonthlyExpirationsOnly, out bool bval))
+					ticket.ShowMonthlyExpirationsOnly = bval;
 			}
 
 			prof.Dispose();
@@ -441,33 +416,37 @@ namespace ROC
 
 		#region - Auto Spread Ticket -
 
-		public ROCTicketProfile(frmAutoSpreadTicket ticket)
+		internal ROCTicketProfile(frmAutoSpreadTicket ticket)
 		{
 			Export(ticket);
 		}
-		public ROCTicketProfile(frmAutoSpreadTicket ticket, ROCTicketProfile prof)
+		internal ROCTicketProfile(frmAutoSpreadTicket ticket, ROCTicketProfile prof)
 		{
 			Import(ticket, prof, true);
 		}
-		public ROCTicketProfile(frmAutoSpreadTicket ticket, ROCTicketProfile prof, bool clone)
+		internal ROCTicketProfile(frmAutoSpreadTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			Import(ticket, prof, clone);
 		}
 
-		public void Export(frmAutoSpreadTicket ticket)
+		internal void Export(frmAutoSpreadTicket ticket)
 		{
-			Update(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
-			Update(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
-			Update(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
+			Set(ROCTicketProfileFieldID.CurrentTradeFor, ticket.CurrentTradeFor);
+			Set(ROCTicketProfileFieldID.CurrentAccount, ticket.CurrentAccount);
+			Set(ROCTicketProfileFieldID.CurrentExchange, ticket.CurrentExchange);
 		}
 
-		public void Import(frmAutoSpreadTicket ticket, ROCTicketProfile prof, bool clone)
+		internal void Import(frmAutoSpreadTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			lock (prof)
 			{
-				ticket.CurrentTradeFor = prof.CurrentTradeFor;
-				ticket.CurrentAccount = prof.CurrentAccount;
-				ticket.CurrentExchange = prof.CurrentExchange;
+				string sval;
+				if (prof.TryGet(ROCTicketProfileFieldID.CurrentTradeFor, out sval))
+					ticket.CurrentTradeFor = sval;
+				if (prof.TryGet(ROCTicketProfileFieldID.CurrentAccount, out sval))
+					ticket.CurrentAccount = sval;
+				if (prof.TryGet(ROCTicketProfileFieldID.CurrentExchange, out sval))
+					ticket.CurrentExchange = sval;
 			}
 
 			prof.Dispose();
@@ -477,20 +456,20 @@ namespace ROC
 
 		#region - Future Matrix Ticket -
 
-		public ROCTicketProfile(frmFutureMatrixTicket ticket)
+		internal ROCTicketProfile(frmFutureMatrixTicket ticket)
 		{
 			Export(ticket);
 		}
-		public ROCTicketProfile(frmFutureMatrixTicket ticket, ROCTicketProfile prof)
+		internal ROCTicketProfile(frmFutureMatrixTicket ticket, ROCTicketProfile prof)
 		{
 			Import(ticket, prof, true);
 		}
-		public ROCTicketProfile(frmFutureMatrixTicket ticket, ROCTicketProfile prof, bool clone)
+		internal ROCTicketProfile(frmFutureMatrixTicket ticket, ROCTicketProfile prof, bool clone)
 		{
 			Import(ticket, prof, clone);
 		}
 
-		public void Export(frmFutureMatrixTicket ticket)
+		internal void Export(frmFutureMatrixTicket ticket)
 		{
 			foreach (DataRow row in ticket.CurrentSymbolDetails.Rows)
 			{
@@ -500,675 +479,22 @@ namespace ROC
 				}
 			}
 
-			Update(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
+			Set(ROCTicketProfileFieldID.CurrentSymbolDetail, ticket.CurrentSymbolDetail);
 		}
 
-		public void Import(frmFutureMatrixTicket ticket, ROCTicketProfile prof, bool clone)
+		internal void Import(frmFutureMatrixTicket ticket, ROCTicketProfile prof, bool clone)
 		{
-			lock (prof)
-			{
-				if (clone)
+			if (clone) {
+				lock (prof)
 				{
-					if (prof.CurrentSymbolDetail != "")
-					{
-						ticket.CurrentSymbolDetail = prof.CurrentSymbolDetail;
-					}
+					if (prof.TryGet(ROCTicketProfileFieldID.CurrentSymbolDetail, out string sval))
+						ticket.CurrentSymbolDetail = sval;
 				}
 			}
 
 			prof.Dispose();
 		}
 
-		#endregion
-
-		#region - Ticket -
-
-		public string CurrentSymbolDetail
-		{
-			get
-			{
-				if (Strings.ContainsKey(ROCTicketProfileFieldID.CurrentSymbolDetail))
-				{
-					return Strings[ROCTicketProfileFieldID.CurrentSymbolDetail];
-				}
-				else
-				{
-					return "";
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.CurrentSymbolDetail, value);
-			}
-		}
-
-		public string CurrentShortLender
-		{
-			get
-			{
-				if (Strings.ContainsKey(ROCTicketProfileFieldID.CurrentShortLender))
-				{
-					return Strings[ROCTicketProfileFieldID.CurrentShortLender];
-				}
-				else
-				{
-					return "";
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.CurrentShortLender, value);
-			}
-		}
-
-		public string CurrentInstruction
-		{
-			get
-			{
-				if (Strings.ContainsKey(ROCTicketProfileFieldID.CurrentInstruction))
-				{
-					return Strings[ROCTicketProfileFieldID.CurrentInstruction];
-				}
-				else
-				{
-					return "";
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.CurrentInstruction, value);
-			}
-		}
-
-		public string CurrentTradeFor
-		{
-			get
-			{
-				if (Strings.ContainsKey(ROCTicketProfileFieldID.CurrentTradeFor))
-				{
-					return Strings[ROCTicketProfileFieldID.CurrentTradeFor];
-				}
-				else
-				{
-					return "";
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.CurrentTradeFor, value);
-			}
-		}
-
-		public string CurrentAccount
-		{
-			get
-			{
-				if (Strings.ContainsKey(ROCTicketProfileFieldID.CurrentAccount))
-				{
-					return Strings[ROCTicketProfileFieldID.CurrentAccount];
-				}
-				else
-				{
-					return "";
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.CurrentAccount, value);
-			}
-		}
-
-		public string CurrentExchange
-		{
-			get
-			{
-				if (Strings.ContainsKey(ROCTicketProfileFieldID.CurrentExchange))
-				{
-					return Strings[ROCTicketProfileFieldID.CurrentExchange];
-				}
-				else
-				{
-					return "";
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.CurrentExchange, value);
-			}
-		}
-
-		public bool IsLevel2
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.IsLevel2))
-				{
-					return Bools[ROCTicketProfileFieldID.IsLevel2];
-				}
-				else
-				{
-					return false;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.IsLevel2, value);
-			}
-		}
-
-		public string StrikesToShow
-		{
-			get
-			{
-				if (Strings.ContainsKey(ROCTicketProfileFieldID.StrikesToShow))
-				{
-					return Strings[ROCTicketProfileFieldID.StrikesToShow];
-				}
-				else
-				{
-					return "ALL";
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.StrikesToShow, value);
-			}
-		}
-
-		public string ExpirationsToShow
-		{
-			get
-			{
-				if (Strings.ContainsKey(ROCTicketProfileFieldID.ExpirationsToShow))
-				{
-					return Strings[ROCTicketProfileFieldID.ExpirationsToShow];
-				}
-				else
-				{
-					return "ALL";
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ExpirationsToShow, value);
-			}
-		}
-
-		public bool ShowMonthlyExpirationsOnly
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowMonthlyExpirationsOnly))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowMonthlyExpirationsOnly];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowMonthlyExpirationsOnly, value);
-			}
-		}
-
-		public double TicketOpacity
-		{
-			get
-			{
-				if (Doubles.ContainsKey(ROCTicketProfileFieldID.Opacity))
-				{
-					return Doubles[ROCTicketProfileFieldID.Opacity];
-				}
-				else
-				{
-					return 1;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.Opacity, value);
-			}
-		}
-
-		public Color TicketBackColor
-		{
-			get
-			{
-				if (Colors.ContainsKey(ROCTicketProfileFieldID.BackColor))
-				{
-					return Colors[ROCTicketProfileFieldID.BackColor];
-				}
-				else
-				{
-					return Color.LightSteelBlue;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.BackColor, value);
-			}
-		}
-
-		public bool ShowBidPrice
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowBidPrice))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowBidPrice];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowBidPrice, value);
-			}
-		}
-
-		public bool ShowBidSize
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowBidSize))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowBidSize];
-				}
-				else
-				{
-					return false;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowBidSize, value);
-			}
-		}
-
-		public bool ShowAskPrice
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowAskPrice))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowAskPrice];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowAskPrice, value);
-			}
-		}
-
-		public bool ShowAskSize
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowAskSize))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowAskSize];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowAskSize, value);
-			}
-		}
-
-		public bool ShowNetChange
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowNetChange))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowNetChange];
-				}
-				else
-				{
-					return false;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowNetChange, value);
-			}
-		}
-
-		public bool ShowPctChange
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowPctChange))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowPctChange];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowPctChange, value);
-			}
-		}
-
-		public bool ShowTotalVolume
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowTotalVolume))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowTotalVolume];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowTotalVolume, value);
-			}
-		}
-
-		public bool ShowTradedVolume
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowTradedVolume))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowTradedVolume];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowTradedVolume, value);
-			}
-		}
-
-		public bool ShowLowPrice
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowLowPrice))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowLowPrice];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowLowPrice, value);
-			}
-		}
-
-		public bool ShowHighPrice
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowHighPrice))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowHighPrice];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowHighPrice, value);
-			}
-		}
-
-		public bool ShowPrevClosePrice
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowPrevClosePrice))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowPrevClosePrice];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowPrevClosePrice, value);
-			}
-		}
-
-		public bool ShowTicker
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowTicker))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowTicker];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowTicker, value);
-			}
-		}
-
-		public bool ShowQty
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowQty))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowQty];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowQty, value);
-			}
-		}
-
-		public bool ShowOrder
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowOrder))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowOrder];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowOrder, value);
-			}
-		}
-
-		public bool ShowLimitPrice
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowLimitPrice))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowLimitPrice];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowLimitPrice, value);
-			}
-		}
-
-		public bool ShowStopPrice
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowStopPrice))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowStopPrice];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowStopPrice, value);
-			}
-		}
-
-		public bool ShowDuration
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowDuration))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowDuration];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowDuration, value);
-			}
-		}
-
-		public bool ShowExchange
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowExchange))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowExchange];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowExchange, value);
-			}
-		}
-
-		public bool ShowOrderInfo
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowOrderInfo))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowOrderInfo];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowOrderInfo, value);
-			}
-		}
-
-		public bool ShowCommand
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowCommand))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowCommand];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowCommand, value);
-			}
-		}
-
-		public bool ShowIncrement
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowIncrement))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowIncrement];
-				}
-				else
-				{
-					return true;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowIncrement, value);
-			}
-		}
-
-		public bool ShowSelectedAccountOnly
-		{
-			get
-			{
-				if (Bools.ContainsKey(ROCTicketProfileFieldID.ShowSelectedAccountOnly))
-				{
-					return Bools[ROCTicketProfileFieldID.ShowSelectedAccountOnly];
-				}
-				else
-				{
-					return false;
-				}
-			}
-			set
-			{
-				Update(ROCTicketProfileFieldID.ShowSelectedAccountOnly, value);
-			}
-		}
-		
 		#endregion
 	}
 }

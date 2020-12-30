@@ -1,0 +1,6 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\BenchMarkEx\bin\Debug\BenchMarkEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\BenchMarkEx\bin\Debug\BenchMarkEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\BenchMarkEx\obj\Debug\BenchMarkEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\BenchMarkEx\obj\Debug\BenchMarkEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\BenchMarkEx\obj\Debug\BenchMarkEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\BenchMarkEx\obj\Debug\BenchMarkEx.csprojAssemblyReference.cache

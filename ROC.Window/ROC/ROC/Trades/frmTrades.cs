@@ -624,12 +624,7 @@ namespace ROC
 					lock (ImSymbolNeeded)
 					{
 						foreach (string symbolDetail in removeList)
-						{
-							if (ImSymbolNeeded.ContainsKey(symbolDetail))
-							{
-								ImSymbolNeeded.Remove(symbolDetail);
-							}
-						}
+							ImSymbolNeeded.Remove(symbolDetail);
 					}
 				}
 			}
@@ -714,10 +709,10 @@ namespace ROC
 
 					switch (trade.SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.Option:
 							GLOBAL.HRDS.GetOptionChain(trade.Underlying);
 							break;
-						case CSVFieldIDs.SecutrityTypes.SingleStockFuture:
+						case CSVFieldIDs.SecurityTypes.SingleStockFuture:
 							GLOBAL.HRDS.GetSSFutureChain(trade.Underlying);
 							break;
 						default:
@@ -766,7 +761,7 @@ namespace ROC
 
 				switch (trade.SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rocTradesList.UpdateSymbol(trade.Symbol);
 						rocTradesList.UpdateTickSize(trade.Symbol, trade.TickSize);
 						break;
@@ -778,14 +773,7 @@ namespace ROC
 
 			lock (ImSymbolNeeded)
 			{
-				if (!ImSymbolNeeded.ContainsKey(trade.SymbolDetail))
-				{
-					ImSymbolNeeded.Add(trade.SymbolDetail, trade.Symbol);
-				}
-				else
-				{
-					ImSymbolNeeded[trade.SymbolDetail] = trade.Symbol;
-				}
+				ImSymbolNeeded[trade.SymbolDetail] = trade.Symbol;
 			}
 
 			return trade;
@@ -832,10 +820,10 @@ namespace ROC
 
 					switch (trade.SecType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.Option:
 							GLOBAL.HRDS.GetOptionChain(trade.Underlying);
 							break;
-						case CSVFieldIDs.SecutrityTypes.SingleStockFuture:
+						case CSVFieldIDs.SecurityTypes.SingleStockFuture:
 							GLOBAL.HRDS.GetSSFutureChain(trade.Underlying);
 							break;
 						default:
@@ -884,11 +872,11 @@ namespace ROC
 
 				switch (trade.SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rocTradesList.UpdateSymbol(trade.Symbol);
 						rocTradesList.UpdateTickSize(trade.Symbol, trade.TickSize);
 						break;
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						rocTradesList.UpdateTickSize(trade.Symbol, trade.TickSize);
 						break;
 				}
@@ -900,14 +888,7 @@ namespace ROC
 
 			lock (ImSymbolNeeded)
 			{
-				if (!ImSymbolNeeded.ContainsKey(trade.SymbolDetail))
-				{
-					ImSymbolNeeded.Add(trade.SymbolDetail, trade.Symbol);
-				}
-				else
-				{
-					ImSymbolNeeded[trade.SymbolDetail] = trade.Symbol;
-				}
+				ImSymbolNeeded[trade.SymbolDetail] = trade.Symbol;
 			}
 
 			return trade;

@@ -1,0 +1,9 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\PanelEx\bin\Debug\PanelEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\PanelEx\bin\Debug\PanelEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\PanelEx\bin\Debug\ShapeEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\PanelEx\bin\Debug\ShapeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\PanelEx\obj\Debug\PanelEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\PanelEx\obj\Debug\PanelEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\PanelEx\obj\Debug\PanelEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\PanelEx\obj\Debug\PanelEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\PanelEx\obj\Debug\PanelEx.pdb

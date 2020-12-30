@@ -1,0 +1,9 @@
+C:\Users\clangan\source\repos\ROC\Log\bin\Debug\Log.dll
+C:\Users\clangan\source\repos\ROC\Log\bin\Debug\Log.pdb
+C:\Users\clangan\source\repos\ROC\Log\bin\Debug\log4net.dll
+C:\Users\clangan\source\repos\ROC\Log\bin\Debug\log4net.xml
+C:\Users\clangan\source\repos\ROC\Log\obj\Debug\Log.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\Log\obj\Debug\Log.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\Log\obj\Debug\Log.dll
+C:\Users\clangan\source\repos\ROC\Log\obj\Debug\Log.pdb
+C:\Users\clangan\source\repos\ROC\Log\obj\Debug\Log.csprojAssemblyReference.cache

@@ -1,0 +1,15 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\bin\Debug\ColorDialogEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\bin\Debug\ColorDialogEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\bin\Debug\ButtonEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\bin\Debug\LabelEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\bin\Debug\ShapeEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\bin\Debug\ButtonEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\bin\Debug\LabelEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\bin\Debug\ShapeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\obj\Debug\ColorDialogEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\obj\Debug\ColorDialogEx.ColorWheelDialog.resources
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\obj\Debug\ColorDialogEx.csproj.GenerateResource.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\obj\Debug\ColorDialogEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\obj\Debug\ColorDialogEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\obj\Debug\ColorDialogEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ColorDialogEx\obj\Debug\ColorDialogEx.pdb

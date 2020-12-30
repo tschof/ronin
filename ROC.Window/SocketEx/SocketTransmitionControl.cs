@@ -69,7 +69,7 @@ namespace SocketEx
 		}
 	}
 
-	internal static class ByteArrayOperations
+	public static class ByteArrayOperations
 	{
 		public static byte[] AddByteArrays(byte[] destinationArray, byte[] inputArray)
 		{

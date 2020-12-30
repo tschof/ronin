@@ -2,7 +2,6 @@ using System;
 using System.Net.Sockets;
 using System.Net;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
 
 namespace SocketEx
@@ -234,12 +233,9 @@ namespace SocketEx
 					IntPtr key = client.Handle;
 					lock (SyncObj)
 					{
-						if (Clients.ContainsKey(key))
+						if (Clients.TryGetValue(key, out SocketBaseClient found))
 						{
-							SocketBaseClient sc = Clients[key];
-							sc.OnClientEvent -= new ClientEventHandler(OnClientEvent);
-
-							Clients[key].Stop();
+							found.Stop();
 						}
 					}
 				}

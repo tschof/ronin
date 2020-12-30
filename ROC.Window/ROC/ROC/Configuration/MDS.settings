@@ -15,13 +15,13 @@
       <Value Profile="(Default)">3456</Value>
     </Setting>
     <Setting Name="IP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">pdrt-ltc-lsrl1,pdrt-ltc-lsrl2,pdrt-ltc-lsrl4</Value>
+      <Value Profile="(Default)">localhost,10.40.33.162</Value>
     </Setting>
     <Setting Name="PortBackup" Type="System.String" Scope="User">
       <Value Profile="(Default)">3456</Value>
     </Setting>
     <Setting Name="IPBackup" Type="System.String" Scope="User">
-      <Value Profile="(Default)">prtp-ltc-srltest01,prtp-ltc-srltest02,pdrt-ltc-lsrl3</Value>
+      <Value Profile="(Default)">localhost</Value>
     </Setting>
   </Settings>
 </SettingsFile>

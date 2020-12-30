@@ -1,14 +1,14 @@
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
+using Common;
 using RDSEx;
 
 namespace ROC
 {
-	public class DropDownTraderAccount : INotifyPropertyChanged
+	internal class DropDownTraderAccount : INotifyPropertyChanged
 	{
 		#region - INotifyPropertyChanged Members -
 
@@ -180,31 +180,31 @@ namespace ROC
 
 		#region - Constructor -
 
-		public DropDownTraderAccount(frmStockTicket stockTicket)
+		internal DropDownTraderAccount(frmStockTicket stockTicket)
 		{
 			_stockTicket = stockTicket;
 			_ticketType = TicketTypes.Stock;
 		}
 
-		public DropDownTraderAccount(frmFutureTicket futureTicket)
+		internal DropDownTraderAccount(frmFutureTicket futureTicket)
 		{
 			_futureTicket = futureTicket;
 			_ticketType = TicketTypes.Future;
 		}
 
-		public DropDownTraderAccount(frmQuickTicket quickTicket)
+		internal DropDownTraderAccount(frmQuickTicket quickTicket)
 		{
 			_quickTicket = quickTicket;
 			_ticketType = TicketTypes.Quick;
 		}
 
-		public DropDownTraderAccount(frmOptionTicket optionTicket)
+		internal DropDownTraderAccount(frmOptionTicket optionTicket)
 		{
 			_optionTicket = optionTicket;
 			_ticketType = TicketTypes.Option;
 		}
 
-		public DropDownTraderAccount(frmAutoSpreadTicket autoSpreadTicket)
+		internal DropDownTraderAccount(frmAutoSpreadTicket autoSpreadTicket)
 		{
 			_autoSpreadTicket = autoSpreadTicket;
 			_ticketType = TicketTypes.AutoSpread;
@@ -222,7 +222,7 @@ namespace ROC
 		private Dictionary<string, DestinationMap> _currentDestinations = new Dictionary<string, DestinationMap>();
 
 		private string _selectedTradeFor = "";
-		public string SelectedTraderFor
+		internal string SelectedTraderFor
 		{
 			get
 			{
@@ -235,7 +235,7 @@ namespace ROC
 		}
 
 		private string _selectedLocalAccountAcrn = "";
-		public string SelectedLocalAccountAcrn
+		internal string SelectedLocalAccountAcrn
 		{
 			get
 			{
@@ -248,7 +248,7 @@ namespace ROC
 		}
 
 		private string _selectedExchange = "";
-		public string SelectedExchange
+		internal string SelectedExchange
 		{
 			get
 			{
@@ -261,7 +261,7 @@ namespace ROC
 		}
 
 		private string _selectedAlgoExchange = "";
-		public string SelectedAlgoExchange
+		internal string SelectedAlgoExchange
 		{
 			get
 			{
@@ -273,7 +273,7 @@ namespace ROC
 			}
 		}
 
-		public string CurrentTradeFor
+		internal string CurrentTradeFor
 		{
 			get
 			{
@@ -285,7 +285,7 @@ namespace ROC
 			}
 		}
 
-		public string CurrentAccount
+		internal string CurrentAccount
 		{
 			get
 			{
@@ -297,45 +297,26 @@ namespace ROC
 			}
 		}
 
-		public AccountMap CurrentAcctountInfo
-		{
-			get
-			{
-				if (_currentAccounts.ContainsKey(CurrentAccount))
-				{
-					return _currentAccounts[CurrentAccount];
-				}
-				return null;
-			}
-		}
+		internal AccountMap CurrentAcctountInfo => _currentAccounts.TryGetValue(CurrentAccount, out var found) ? found : null;
 
-		public DestinationMap CurrentDestinationInfo
-		{
-			get
-			{
-				if (_currentDestinations.ContainsKey(CurrentExchange))
-				{
-					return _currentDestinations[CurrentExchange];
-				}
-				return null;
-			}
-		}
+		internal DestinationMap CurrentDestinationInfo => _currentDestinations.TryGetValue(CurrentExchange, out var found) ? found : null;
 
-		public bool GetCurrentAccount(ref AccountMap map)
+		internal bool GetCurrentAccount(ref AccountMap map)
 		{
 			return GetCurrentAccount(CurrentAccount, ref map);
 		}
-		public bool GetCurrentAccount(string currentAccount, ref AccountMap map)
+
+		internal bool GetCurrentAccount(string currentAccount, ref AccountMap map)
 		{
-			if (_currentAccounts.ContainsKey(currentAccount))
+			if (_currentAccounts.TryGetValue(currentAccount, out var found))
 			{
-				map = _currentAccounts[currentAccount];
+				map = found;
 				return true;
 			}
 			return false;
 		}
 
-		public string CurrentExchange
+		internal string CurrentExchange
 		{
 			get
 			{
@@ -347,7 +328,7 @@ namespace ROC
 			}
 		}
 
-		public string CurrentAlgoExchange
+		internal string CurrentAlgoExchange
 		{
 			get
 			{
@@ -359,35 +340,35 @@ namespace ROC
 			}
 		}
 
-		public bool GetCurrentExchange(ref DestinationMap map)
+		internal bool GetCurrentExchange(ref DestinationMap map)
 		{
 			return GetCurrentExchange(CurrentExchange, ref map);
 		}
-		public bool GetCurrentExchange(string currentExchange, ref DestinationMap map)
+		internal bool GetCurrentExchange(string currentExchange, ref DestinationMap map)
 		{
-			if (_currentDestinations.ContainsKey(currentExchange))
+			if (_currentDestinations.TryGetValue(currentExchange, out var found))
 			{
-				map = _currentDestinations[currentExchange];
+				map = found;
 				return true;
 			}
 			return false;
 		}
 
-		public bool GetCurrentAlgoExchange(ref DestinationMap map)
+		internal bool GetCurrentAlgoExchange(ref DestinationMap map)
 		{
 			return GetCurrentAlgoExchange(CurrentAlgoExchange, ref map);
 		}
-		public bool GetCurrentAlgoExchange(string currentAlgoExchange, ref DestinationMap map)
+		internal bool GetCurrentAlgoExchange(string currentAlgoExchange, ref DestinationMap map)
 		{
-			if (_currentDestinations.ContainsKey(currentAlgoExchange))
+			if (_currentDestinations.TryGetValue(currentAlgoExchange, out var found))
 			{
-				map = _currentDestinations[currentAlgoExchange];
+				map = found;
 				return true;
 			}
 			return false;
 		}
 
-		public void LoadUserAccounts()
+		internal void LoadUserAccounts()
 		{
 			_tradeForList.Clear();
 			_accountList.Clear();
@@ -534,11 +515,7 @@ namespace ROC
 				{
 					if (trader.tradeFor == tradeFor)
 					{
-						if (!_currentTraders.ContainsKey(tradeFor))
-						{
-							_currentTraders.Add(tradeFor, trader);
-						}
-
+						_currentTraders.TryAdd(tradeFor, trader);
 						SetAccountByTicketType(trader);
 					}
 				}
@@ -774,17 +751,11 @@ namespace ROC
 
 		private void SetDestinationsByAccount(AccountMap acct)
 		{
-			if (!_currentAccounts.ContainsKey(acct.account))
-			{
-				_currentAccounts.Add(acct.account, acct);
-			}
+			_currentAccounts.TryAdd(acct.account, acct);
 
 			foreach (DestinationMap dest in acct.Destinations.Values)
 			{
-				if (!_currentDestinations.ContainsKey(dest.shortName))
-				{
-					_currentDestinations.Add(dest.shortName, dest);
-				}
+				_currentDestinations.TryAdd(dest.shortName, dest);
 
 				if (!cboExchange.Items.Contains(dest.shortName))
 				{

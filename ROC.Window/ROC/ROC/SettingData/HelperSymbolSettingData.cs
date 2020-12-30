@@ -162,11 +162,11 @@ namespace ROC
 
 		public void CheckDefaults()
 		{
-			GetSymbolDefaults(TicketDefaults.Stock, CSVFieldIDs.SecutrityTypes.Equity, true);
+			GetSymbolDefaults(TicketDefaults.Stock, CSVFieldIDs.SecurityTypes.Equity, true);
 
-			GetSymbolDefaults(TicketDefaults.Future, CSVFieldIDs.SecutrityTypes.Future, true);
+			GetSymbolDefaults(TicketDefaults.Future, CSVFieldIDs.SecurityTypes.Future, true);
 
-			GetSymbolDefaults(TicketDefaults.Option, CSVFieldIDs.SecutrityTypes.Option, true);
+			GetSymbolDefaults(TicketDefaults.Option, CSVFieldIDs.SecurityTypes.Option, true);
 		}
 
 		public SymbolSettingData GetSymbolDefaults(string secType)
@@ -198,13 +198,13 @@ namespace ROC
 			{
 				switch (secType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rows = SettingTable.DefaultView.FindRows(new object[] { TicketDefaults.Option, secType });
 						break;
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						rows = SettingTable.DefaultView.FindRows(new object[] { TicketDefaults.Future, secType });
 						break;
-					case CSVFieldIDs.SecutrityTypes.Equity:
+					case CSVFieldIDs.SecurityTypes.Equity:
 					default:
 						rows = SettingTable.DefaultView.FindRows(new object[] { TicketDefaults.Stock, secType });
 						break;
@@ -219,15 +219,15 @@ namespace ROC
 
 					switch (secType)
 					{
-						case CSVFieldIDs.SecutrityTypes.Equity:
+						case CSVFieldIDs.SecurityTypes.Equity:
 							data.qty = 100;
 							data.qtyIncrement = 100;
 							break;
-						case CSVFieldIDs.SecutrityTypes.Future:
+						case CSVFieldIDs.SecurityTypes.Future:
 							data.qty = 1;
 							data.qtyIncrement = 1;
 							break;
-						case CSVFieldIDs.SecutrityTypes.Option:
+						case CSVFieldIDs.SecurityTypes.Option:
 							data.qty = 1;
 							data.qtyIncrement = 1;
 							break;
@@ -537,21 +537,20 @@ namespace ROC
 		{
 			if (SettingTable != null)
 			{
-				SettingTable = HelperFile.Load(SettingTable, Configuration.Path.Default.SymbolSettingPath, FileName());
-				if (SettingTable.Rows.Count == 0)
+				if (HelperFile.Load(SettingTable, Configuration.Path.Default.SymbolSettingPath, FileName()))
 				{
 					if (!Configuration.Path.Default.SymbolSettingPath.Contains(Configuration.Path.Default.ProfilePath))
 					{
 						// Check New Location Under Profild Folder
 						// Put the symbols setting into the Profile Folder
-						Configuration.Path.Default.SymbolSettingPath = Configuration.Path.Default.ProfilePath + @"Symbols\";
+						Configuration.Path.Default.SymbolSettingPath = System.IO.Path.Combine(Configuration.Path.Default.ProfilePath, "Symbols");
 						Configuration.Path.Default.Save();
-						SettingTable = HelperFile.Load(SettingTable, Configuration.Path.Default.SymbolSettingPath, FileName());
+						HelperFile.Load(SettingTable, Configuration.Path.Default.SymbolSettingPath, FileName());
 					}
 					else
 					{
 						// Already Using New Location, but didn't find any, try old location again
-						SettingTable = HelperFile.Load(SettingTable, @"..\Symbols\", FileName(), false);
+						HelperFile.Load(SettingTable, "Symbols", FileName());
 					}
 				}
 
@@ -567,7 +566,7 @@ namespace ROC
 				if (!Configuration.Path.Default.SymbolSettingPath.Contains(Configuration.Path.Default.ProfilePath))
 				{
 					// Put the symbols setting into the Profile Folder
-					Configuration.Path.Default.SymbolSettingPath = Configuration.Path.Default.ProfilePath + @"Symbols\";
+					Configuration.Path.Default.SymbolSettingPath = System.IO.Path.Combine(Configuration.Path.Default.ProfilePath, "Symbols");
 					Configuration.Path.Default.Save();
 				}
 				HelperFile.Save(SettingTable, Configuration.Path.Default.SymbolSettingPath, FileName());

@@ -63,7 +63,7 @@ namespace ROC
 		{
 			try
 			{
-				csvConfigTable = HelperFile.Load(csvConfigTable, Configuration.Path.Default.CSVConfigPath, _filename);
+				HelperFile.Load(csvConfigTable, Configuration.Path.Default.CSVConfigPath, _filename);
 
 				// Load Default, and save to file;
 				_csvDefaultValue = new Dictionary<string, string>();
@@ -112,30 +112,12 @@ namespace ROC
 		private static void AddToCSVFormat(int colNumber, string name)
 		{
 			if (name != "" && name.Substring(0, 1) != "!")
-			{
-				if (_csvFormat.ContainsKey(colNumber))
-				{
-					_csvFormat[colNumber] = name;
-				}
-				else
-				{
-					_csvFormat.Add(colNumber, name);
-				}
-			}
+				_csvFormat[colNumber] = name;
 		}
 		private static void AddToCSVDefaultValue(string name, string defaultValue)
 		{
 			if (defaultValue != "")
-			{
-				if (_csvDefaultValue.ContainsKey(name))
-				{
-					_csvDefaultValue[name] = defaultValue;
-				}
-				else
-				{
-					_csvDefaultValue.Add(name, defaultValue);
-				}
-			}
+				_csvDefaultValue[name] = defaultValue;
 		}
 
 		private static void LoadDefaultAndSave()
@@ -191,7 +173,7 @@ namespace ROC
 			}
 			else
 			{
-				string csvString = HelperFile.Load(path, filename, false);
+				string csvString = HelperFile.Load(path, filename);
 
 				csvItems = csvString.Split(new string[] { "\r", "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 				if (_csvStartLine > 0 || _csvEndLine > 0)

@@ -1,0 +1,119 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{53AA1A0B-493E-4260-8B35-1A93661164EE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FormEx</RootNamespace>
+    <AssemblyName>FormEx</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AnimatedWindow\AnimatedWindowHelper.cs" />
+    <Compile Include="DoubleBufferGraphics.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SuspendGraphics.cs" />
+    <Compile Include="VistaWindow\VistaWindowBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VistaWindow\VistaWindowBorder.cs">
+    </Compile>
+    <Compile Include="DockWindow\DockWindow.cs" />
+    <Compile Include="DockWindow\DockWindowHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VistaWindow\VistaWindowBorderless.cs">
+    </Compile>
+    <Compile Include="VistaWindow\VistaWindowCaptionBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VistaWindow\VistaWindowCaptionBar.designer.cs">
+      <DependentUpon>VistaWindowCaptionBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XForm\X3DBorderPrimitive.cs" />
+    <Compile Include="XForm\XAntiAlias.cs" />
+    <Compile Include="XForm\XWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XForm\XWindowHelper.cs" />
+    <Compile Include="XForm\XStatusBar.cs" />
+    <Compile Include="XForm\XTitleBar.cs" />
+    <Compile Include="XForm\XTitleBarButton.cs" />
+    <Compile Include="XForm\XTitleBarIconHolder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ButtonEx\ButtonEx.csproj">
+      <Project>{B6138DC7-206C-4F81-A9E9-516A49098B4B}</Project>
+      <Name>ButtonEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataGridViewEx\DataGridViewEx.csproj">
+      <Project>{B297081D-71ED-4309-9788-25CA8571F6FA}</Project>
+      <Name>DataGridViewEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LabelEx\LabelEx.csproj">
+      <Project>{C70BDE49-77A9-4263-819F-F50CC56F8E69}</Project>
+      <Name>LabelEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PanelEx\PanelEx.csproj">
+      <Project>{861DE436-9F12-4E5D-B66C-01407F79037C}</Project>
+      <Name>PanelEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VistaWindow\VistaWindowCaptionBar.resx">
+      <DependentUpon>VistaWindowCaptionBar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

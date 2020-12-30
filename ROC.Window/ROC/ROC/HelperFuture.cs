@@ -48,7 +48,7 @@ namespace ROC
 
 		private static void LoadPlusOneMothSymbols()
 		{
-			plusOneMonthTable = HelperFile.Load(plusOneMonthTable, Configuration.Path.Default.FutureConfigPath, _plusOneMonthFileName);
+			HelperFile.Load(plusOneMonthTable, Configuration.Path.Default.FutureConfigPath, _plusOneMonthFileName);
 			LoadPlusOneMonthDefaultAndSave();
 
 			_plusOne = new List<string>();
@@ -125,7 +125,7 @@ namespace ROC
 
 		private static void LoadDoNotTranslateSymbols()
 		{
-			doNotTranslateTable = HelperFile.Load(doNotTranslateTable, Configuration.Path.Default.FutureConfigPath, _doNotTranslateFileName);
+			HelperFile.Load(doNotTranslateTable, Configuration.Path.Default.FutureConfigPath, _doNotTranslateFileName);
 			LoadDoNotTranslateDefaultAndSave();
 
 			_doNotTranslate = new List<string>();

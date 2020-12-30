@@ -2,17 +2,11 @@ using System;
 using System.Drawing;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Windows.Forms;
 
 using FormEx;
-using LabelEx;
-using SerializationEx;
 using ContextMenuEx;
 using ButtonEx;
-using RDSEx;
-using MarketDataEx;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace ROC
@@ -179,7 +173,7 @@ namespace ROC
 		#region - Form UI Timer Event -
 
 		private HelperROM.StatusTypes _lastROMStatus = HelperROM.StatusTypes.None;
-		private Dictionary<string, HelperMDS.StatusTypes> _lastMDSStatuss = new Dictionary<string, HelperMDS.StatusTypes>();
+		private List<(string, bool)> _lastMDSStatuss = new List<(string, bool)>();
 
 		private void Form_UITimerTicked(object sender, EventArgs e)
 		{
@@ -238,27 +232,12 @@ namespace ROC
 			{
 				if (GLOBAL.ROCLoginCompleted)
 				{
-					if (_lastMDSStatuss.ContainsKey(mds.ServerIP))
-					{
-						if (_lastMDSStatuss[mds.ServerIP] != mds.Status)
-						{
-							_lastMDSStatuss[mds.ServerIP] = mds.Status;
-						}
+					int index = _lastMDSStatuss.FindIndex(n => n.Item1 == mds.ServerIP);
+					if (index < 0) {
+						_lastMDSStatuss.Add((mds.ServerIP, mds.IsConnected));
+					} else {
+						_lastMDSStatuss[index] = (mds.ServerIP, mds.IsConnected);
 					}
-					else
-					{
-						_lastMDSStatuss.Add(mds.ServerIP, mds.Status);
-					}
-
-					if (_lastMDSStatuss[mds.ServerIP] == HelperMDS.StatusTypes.Started)
-					{
-						mds.StartHartbeat();
-					}
-				}
-
-				if (GLOBAL.MDSsConnected)
-				{
-					//mds.HartbeatTimeOutCheck();
 				}
 
 				mds.LogStatusMessages();
@@ -584,13 +563,13 @@ namespace ROC
 			switch (e.PropertyName)
 			{
 				case AutomationType.AutoCancelStock:
-					GLOBAL.HROM.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecutrityTypes.Equity);
+					GLOBAL.HROM.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecurityTypes.Equity);
 					break;
 				case AutomationType.AutoCancelFuture:
-					GLOBAL.HROM.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecutrityTypes.Future);
+					GLOBAL.HROM.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecurityTypes.Future);
 					break;
 				case AutomationType.AutoCancelOption:
-					GLOBAL.HROM.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecutrityTypes.Option);
+					GLOBAL.HROM.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecurityTypes.Option);
 					break;
 				case AutomationType.AutoStop:
 					AutoExitApplication();

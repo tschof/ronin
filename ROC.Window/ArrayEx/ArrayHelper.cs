@@ -1,6 +1,6 @@
+#if OLD
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 
 namespace ArrayEx
@@ -66,7 +66,7 @@ namespace ArrayEx
 			return newArray;
 		}
 
-		public static List<double> ConvertToList(Dictionary<double, long> input)
+		public static List<double> ConvertToList(Dictionary<Price, long> input)
 		{
 			List<double> result = new List<double>();
 
@@ -78,3 +78,4 @@ namespace ArrayEx
 		}
 	}
 }
+#endif // OLD

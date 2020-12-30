@@ -6,11 +6,11 @@ using System.Data;
 using RDSEx;
 using CSVEx;
 using System.Windows.Forms;
-using MarketDataEx;
+using MarketData;
 
 namespace ROC
 {
-	public class MenuOrderModification
+	internal class MenuOrderModification
 	{
 		private double _stockSmallIncr = 0.01;
 		private double _stockLargeIncr = 0.05;
@@ -18,7 +18,7 @@ namespace ROC
 		#region - Property -
 
 		private BaseSecurityInfo _currentSecInfo = null;
-		public BaseSecurityInfo CurrentSecInfo
+		internal BaseSecurityInfo CurrentSecInfo
 		{
 			get
 			{
@@ -30,15 +30,15 @@ namespace ROC
 			}
 		}
 
-		public sealed class TradeTicks
+		internal sealed class TradeTicks
 		{
-			public const int Up = 0;
-			public const int None = 1;
-			public const int Down = 2;
+			internal const int Up = 0;
+			internal const int None = 1;
+			internal const int Down = 2;
 		}
 
 		private Dictionary<string, string> _imSymbolNeeded;
-		public Dictionary<string, string> ImSymbolNeeded
+		internal Dictionary<string, string> ImSymbolNeeded
 		{
 			get
 			{
@@ -55,7 +55,7 @@ namespace ROC
 		}
 
 		private List<string> _mdSymbols = new List<string>();
-		public List<string> MDSymbols
+		internal List<string> MDSymbols
 		{
 			get
 			{
@@ -67,7 +67,7 @@ namespace ROC
 			}
 		}
 
-		public long GetOrderTypeCode(string type)
+		internal long GetOrderTypeCode(string type)
 		{
 			switch (type)
 			{
@@ -91,7 +91,7 @@ namespace ROC
 			}
 		}
 
-		public long GetDurationCode(string tif)
+		internal long GetDurationCode(string tif)
 		{
 			switch (tif)
 			{
@@ -126,7 +126,7 @@ namespace ROC
 			}
 		}
 
-		public string NewDuration
+		internal string NewDuration
 		{
 			get
 			{
@@ -138,7 +138,7 @@ namespace ROC
 		private DataView _durationsView;
 
 		private ROCOrder _currentOrder = null;
-		public ROCOrder CurrentOrder
+		internal ROCOrder CurrentOrder
 		{
 			get
 			{
@@ -147,7 +147,7 @@ namespace ROC
 		}
 
 		private decimal _initialLeaveQty = 0m;
-		public decimal InitialLeaveQty
+		internal decimal InitialLeaveQty
 		{
 			get
 			{
@@ -715,19 +715,19 @@ namespace ROC
 
 		#endregion
 
-		public MenuOrderModification(menuBaseOrderModification parent)
+		internal MenuOrderModification(menuBaseOrderModification parent)
 		{
 			_isFull = false;
 			_parent = parent;
 		}
 
-		public MenuOrderModification(menuFullOrderModification fullParent)
+		internal MenuOrderModification(menuFullOrderModification fullParent)
 		{
 			_isFull = true;
 			_fullParent = fullParent;
 		}
 
-		public void Initialize(
+		internal void Initialize(
 			string orderID,
 			decimal qtyIncrement,
 			decimal showIncrement,
@@ -962,11 +962,11 @@ namespace ROC
 			numLimitPrice.DecimalPlaces = CurrentSecInfo.DecimalPlaces;
 			switch (CurrentOrder.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					SetOptionPriceIncrement(numLimitPrice, dspLimitPriceTickSize);
 					dspLimitPriceIncrement.Value = 1;
 					break;
-				case CSVFieldIDs.SecutrityTypes.Spread:
+				case CSVFieldIDs.SecurityTypes.Spread:
 					numLimitPrice.Minimum = -numLimitPrice.Maximum;
 					numLimitPrice.Increment = _settingData.limitPriceIncrement;
 					dspLimitPriceTickSize.TickSize = CurrentSecInfo.TickSize;
@@ -993,12 +993,12 @@ namespace ROC
 			numStopPrice.DecimalPlaces = CurrentSecInfo.DecimalPlaces;
 			switch (CurrentOrder.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					numStopPrice.Minimum = 0;
 					SetOptionPriceIncrement(numStopPrice, dspStopPriceTickSize);
 					dspStopPriceIncrement.Value = 1;
 					break;
-				case CSVFieldIDs.SecutrityTypes.Spread:
+				case CSVFieldIDs.SecurityTypes.Spread:
 					numStopPrice.Minimum = -numStopPrice.Maximum;
 					numStopPrice.Increment = _settingData.stopPriceIncrement;
 					dspStopPriceTickSize.TickSize = CurrentSecInfo.TickSize;
@@ -1069,7 +1069,7 @@ namespace ROC
 			numPegPrice.Value = Convert.ToDecimal(CurrentOrder.PegPrice);
 			switch (CurrentOrder.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					SetOptionPriceIncrement(numStopPrice, dspStopPriceTickSize);
 					break;
 				default:
@@ -1079,11 +1079,11 @@ namespace ROC
 			orderMsg = string.Concat(new object[] { CurrentOrder.Tag, " ", CurrentOrder.LeaveQty, "@", CurrentOrder.Price, " ", CurrentOrder.StopPrice, " ", CurrentOrder.OmTime });
 		}
 
-		public void SetOptionPriceIncrement(NumericUpDown num, LabelEx.LabelBase lblTick)
+		internal void SetOptionPriceIncrement(NumericUpDown num, LabelEx.LabelBase lblTick)
 		{
 			switch (CurrentOrder.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					if (CurrentSecInfo != null && CurrentOrder.IsOptionOnFuture)
 					{
 						num.Increment = CurrentSecInfo.TickSizeDec;
@@ -1112,12 +1112,12 @@ namespace ROC
 		{
 			UpdateSecurityInfo(symbolDetail);
 
-			UpdateMarketDataDeltas(symbolDetail, new Dictionary<string, MDServerToClient>(GLOBAL.HMarketData.Current));
+			UpdateMarketDataDeltas(symbolDetail, GLOBAL.HMarketData.Current);
 		}
 
 		#region - Used By Process Thread -
 
-		public void UpdateOrderModificationTicketByProcess(bool updateIM, Dictionary<string, MDServerToClient> deltas)
+		internal void UpdateOrderModificationTicketByProcess(bool updateIM, Market deltas)
 		{
 			try
 			{
@@ -1126,7 +1126,7 @@ namespace ROC
 					UpdateSecurityInfo();
 				}
 
-				if (deltas.Count > 0)
+				if (!deltas.Empty)
 				{
 					if (CurrentSecInfo != null)
 					{
@@ -1167,7 +1167,7 @@ namespace ROC
 						UpdateTicket();
 
 						// Get the Snap Shot From Memory
-						UpdateMarketDataDeltas(symbolDetail, new Dictionary<string, MDServerToClient>(GLOBAL.HMarketData.Current));
+						UpdateMarketDataDeltas(symbolDetail, GLOBAL.HMarketData.Current);
 					}
 				}
 
@@ -1177,12 +1177,7 @@ namespace ROC
 					lock (ImSymbolNeeded)
 					{
 						foreach (string symbolDetail in removeList)
-						{
-							if (ImSymbolNeeded.ContainsKey(symbolDetail))
-							{
-								ImSymbolNeeded.Remove(symbolDetail);
-							}
-						}
+							ImSymbolNeeded.Remove(symbolDetail);
 					}
 				}
 			}
@@ -1192,7 +1187,7 @@ namespace ROC
 		{
 			switch (secInfo.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					HelperSubscriber.SubscribeOptionNBBO(secInfo.MDSymbol, secInfo.MDSource);
 					break;
 				default:
@@ -1215,10 +1210,10 @@ namespace ROC
 
 			switch (CurrentOrder.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Option:
+				case CSVFieldIDs.SecurityTypes.Option:
 					GLOBAL.HRDS.GetOptionChain(CurrentOrder.Underlying);
 					break;
-				case CSVFieldIDs.SecutrityTypes.SingleStockFuture:
+				case CSVFieldIDs.SecurityTypes.SingleStockFuture:
 					GLOBAL.HRDS.GetSSFutureChain(CurrentOrder.Underlying);
 					break;
 				default:
@@ -1238,92 +1233,85 @@ namespace ROC
 
 			lock (ImSymbolNeeded)
 			{
-				if (!ImSymbolNeeded.ContainsKey(symbolDetail))
-				{
-					ImSymbolNeeded.Add(symbolDetail, CurrentOrder.Symbol);
-				}
-				else
-				{
-					ImSymbolNeeded[symbolDetail] = CurrentOrder.Symbol;
-				}
+				ImSymbolNeeded[symbolDetail] = CurrentOrder.Symbol;
 			}
 		}
 
 		// Update with Security Info On Play back & onProcess
-		private void UpdateMarketDataDeltas(string symbolDetail, Dictionary<string, MDServerToClient> deltas)
+		private void UpdateMarketDataDeltas(string symbolDetail, Market deltas)
 		{
 			// Update Level 1
-			if (_isFull && deltas.ContainsKey(symbolDetail))
+			if (_isFull && deltas.TryGet(symbolDetail, out Book book))
 			{
-				UpdateMarketDataDelta(deltas[symbolDetail]);
+				UpdateMarketDataDelta(book);
 			}
 		}
 
 		// Update with matching market data Level 1
-		private void UpdateMarketDataDelta(MDServerToClient delta)
+		private void UpdateMarketDataDelta(Book delta)
 		{
+			double price, change;
+			long size;
+
 			lock (panelTicker)
 			{
 				panelTicker.SuspendLayout();
 
-				if (delta.BidPrice != null)
+				if (delta.TryGetField(Book.FieldEnum.BidPrice, out price))
 				{
-					dspBidPrice.Value = (double)delta.BidPrice;
+					dspBidPrice.Value = price;
 				}
 
-				if (delta.BidSize != null)
+				if (delta.TryGetField(Book.FieldEnum.BidSize, out size))
 				{
-					if (CurrentOrder.SecType == CSVFieldIDs.SecutrityTypes.Equity)
+					if (CurrentOrder.SecType == CSVFieldIDs.SecurityTypes.Equity)
 					{
-						dspBidSize.Value = (long)delta.BidSize * 100;
+						dspBidSize.Value = size * 100;
 					}
 					else
 					{
-						dspBidSize.Value = (long)delta.BidSize;
+						dspBidSize.Value = size;
 					}
 				}
 
-				if (delta.AskPrice != null)
+				if (delta.TryGetField(Book.FieldEnum.AskPrice, out price))
 				{
-					dspAskPrice.Value = (double)delta.AskPrice;
+					dspAskPrice.Value = price;
 				}
 
-				if (delta.AskSize != null)
+				if (delta.TryGetField(Book.FieldEnum.AskSize, out size))
 				{
-					if (CurrentOrder.SecType == CSVFieldIDs.SecutrityTypes.Equity)
+					if (CurrentOrder.SecType == CSVFieldIDs.SecurityTypes.Equity)
 					{
-						dspAskSize.Value = (long)delta.AskSize * 100;
+						dspAskSize.Value = size * 100;
 					}
 					else
 					{
-						dspAskSize.Value = (long)delta.AskSize;
+						dspAskSize.Value = size;
 					}
 				}
 
-				if (delta.TradePrice != null && delta.TradePrice != 0)
+				if (delta.TryGetNonZero(Book.FieldEnum.TradePrice, out price))
 				{
-					dspTradedPrice.Value = (double)delta.TradePrice;
+					dspTradedPrice.Value = price;
 				}
-				else
+				else if (delta.TryGetNonZero(Book.FieldEnum.ClosePrice, out price))
 				{
-					if (delta.ClosePrice != null && delta.ClosePrice != 0)
-					{
-						dspTradedPrice.Value = (double)delta.ClosePrice;
-					}
-					else if (delta.PrevClosePrice != null && delta.PrevClosePrice != 0)
-					{
-						dspTradedPrice.Value = (double)delta.PrevClosePrice;
-					}
+					dspTradedPrice.Value = price;
+				}
+				else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price))
+				{
+					dspTradedPrice.Value = price;
 				}
 
-				if (delta.TotalVolume != null)
+				if (delta.TryGetField(Book.FieldEnum.TotalVolume, out size))
 				{
-					dspVolume.Value = (long)delta.TotalVolume;
+					dspVolume.Value = size;
 				}
 
-				if (delta.TradeTick != null && delta.TradeTick != "")
+				if (delta.TryGetNonEmpty(Book.FieldEnum.TradeTick, out string tradeTick))
 				{
-					switch (delta.TradeTick)
+					switch (tradeTick)
 					{
 						case "+":
 						case "+0":
@@ -1340,42 +1328,39 @@ namespace ROC
 					}
 				}
 
-				if (delta.TradeVolume != null)
+				if (delta.TryGetField(Book.FieldEnum.TradeVolume, out size))
 				{
-					dspTradeVolume.Value = (long)delta.TradeVolume;
+					dspTradeVolume.Value = size;
 				}
 
-				if (delta.NetChange != null)
+				if (delta.TryGetField(Book.FieldEnum.NetChange, out change))
 				{
-					dspNetChange.Value = (double)delta.NetChange;
+					dspNetChange.Value = change;
 					dspTradedPrice.ForeColor = dspNetChange.ForeColor;
 				}
 
-				if (delta.PctChange != null)
+				if (delta.TryGetField(Book.FieldEnum.PctChange, out change))
 				{
-					dspPctChange.Value = (double)delta.PctChange;
+					dspPctChange.Value = change;
 				}
 
-				if (delta.HighPrice != null)
+				if (delta.TryGetField(Book.FieldEnum.HighPrice, out price))
 				{
-					dspHighPrice.Value = (double)delta.HighPrice;
+					dspHighPrice.Value = price;
 				}
 
-				if (delta.LowPrice != null)
+				if (delta.TryGetField(Book.FieldEnum.LowPrice, out price))
 				{
-					dspLowPrice.Value = (double)delta.LowPrice;
+					dspLowPrice.Value = price;
 				}
 
-				if (delta.ClosePrice != null && (double)delta.ClosePrice != 0)
+				if (delta.TryGetNonZero(Book.FieldEnum.ClosePrice, out price))
 				{
-					dspClosePrice.Value = (double)delta.ClosePrice;
+					dspClosePrice.Value = price;
 				}
-				else
+				else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price))
 				{
-					if (delta.PrevClosePrice != null && (double)delta.PrevClosePrice != 0)
-					{
-						dspClosePrice.Value = (double)delta.PrevClosePrice;
-					}
+					dspClosePrice.Value = price;
 				}
 
 				panelTicker.ResumeLayout();

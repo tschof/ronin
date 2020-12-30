@@ -132,9 +132,9 @@ namespace ROC
 
 		private static string ConvertToFutureDateCode(DateTime expDate)
 		{
-			if (FutureDateCodeByMonth.ContainsKey(expDate.Month))
+			if (FutureDateCodeByMonth.TryGetValue(expDate.Month, out string value))
 			{
-				return string.Concat(new object[] { FutureDateCodeByMonth[expDate.Month], expDate.Year.ToString().Substring(3, 1) });
+				return string.Concat(new object[] { value, expDate.Year.ToString().Substring(3, 1) });
 			}
 
 			return "";

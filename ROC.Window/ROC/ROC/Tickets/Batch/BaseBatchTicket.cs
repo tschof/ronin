@@ -2,19 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using Path = System.IO.Path;
 
-using FormEx;
+using Common;
 using DataGridViewEx;
-using SerializationEx;
 using ContextMenuEx;
 using CSVEx;
 using ROMEx;
 using RDSEx;
-using System.Diagnostics;
-using System.IO;
 
 namespace ROC
 {
@@ -241,82 +237,82 @@ namespace ROC
 
 				for (int i = 0; i < txtCells.Length; i++)
 				{
-					if (HelperBatchCSV.CSVFormat.ContainsKey(i))
+					if (HelperBatchCSV.CSVFormat.TryGetValue(i, out string value))
 					{
-						txtCells[i] = ((string)txtCells[i]).Trim(filterOut);
+						txtCells[i] = txtCells[i].Trim(filterOut);
 
-						switch (HelperBatchCSV.CSVFormat[i])
+						switch (value)
 						{
 							case "Symbol":
 							case "SymbolDetail":
 								if (BatchGrid.IsMarketDataBatchGrid)
 								{
-									row["SymbolDetail"] = (string)txtCells[i];
+									row["SymbolDetail"] = txtCells[i];
 								}
 								else
 								{
-									row["Symbol"] = (string)txtCells[i];
+									row["Symbol"] = txtCells[i];
 								}
 								break;
 							case "Qty":
-								if (Int64.TryParse(txtCells[i].Replace(",", ""), out qty))
+								if (long.TryParse(txtCells[i].Replace(",", ""), out qty))
 								{
 									row["Qty"] = qty;
 								}
 								break;
 							case "Side":
-								row["Side"] = (string)txtCells[i];
+								row["Side"] = txtCells[i];
 								break;
 							case "Price":
-								if (Double.TryParse(txtCells[i].Replace(",", ""), out price))
+								if (double.TryParse(txtCells[i].Replace(",", ""), out price))
 								{
 									row["Price"] = price;
 								}
 								break;
 							case "Exchange":
-								row["Exchange"] = (string)txtCells[i];
+								row["Exchange"] = txtCells[i];
 								break;
 							case "LocalAccountAcrn":
-								row["LocalAccountAcrn"] = (string)txtCells[i];
+								row["LocalAccountAcrn"] = txtCells[i];
 								break;
 							case "TraderFor":
-								row["TraderFor"] = (string)txtCells[i];
+								row["TraderFor"] = txtCells[i];
 								break;
 							case "Display":
-								row["Display"] = (string)txtCells[i].Replace(",", "");
+								row["Display"] = txtCells[i].Replace(",", "");
 								break;
 							case "ShortLender":
-								row["ShortLender"] = (string)txtCells[i];
+								row["ShortLender"] = txtCells[i];
 								break;
 							case "Duration":
-								row["Duration"] = (string)txtCells[i];
+								row["Duration"] = txtCells[i];
 								break;
 							case "OrderType":
-								row["OrderType"] = (string)txtCells[i];
+								row["OrderType"] = txtCells[i];
 								break;
 							case "Instruction":
-								row["Instruction"] = (string)txtCells[i];
+								row["Instruction"] = txtCells[i];
 								break;
 							case "ExecInstruction":
-								row["ExecInstruction"] = (string)txtCells[i];
+								row["ExecInstruction"] = txtCells[i];
 								break;
 							case "StopPrice":
-								if (Double.TryParse(txtCells[i].Replace(",", ""), out stopPrice))
+								if (double.TryParse(txtCells[i].Replace(",", ""), out stopPrice))
 								{
 									row["StopPrice"] = stopPrice;
 								}
 								break;
 							case "PegPrice":
-								if (Double.TryParse(txtCells[i].Replace(",", ""), out pegPrice))
+								if (double.TryParse(txtCells[i].Replace(",", ""), out pegPrice))
 								{
 									row["PegPrice"] = pegPrice;
 								}
 								break;
 							case "Note":
-								row["Note"] = (string)txtCells[i];
+								row["Note"] = txtCells[i];
 								break;
 							case "ProgramTrade":
-								row["ProgramTrade"] = (string)txtCells[i];
+								row["ProgramTrade"] = txtCells[i];
 								break;
 						}
 					}
@@ -484,8 +480,8 @@ namespace ROC
 					{
 						switch (order.secType)
 						{
-							case CSVFieldIDs.SecutrityTypes.Option:
-							case CSVFieldIDs.SecutrityTypes.OptionFuture:
+							case CSVFieldIDs.SecurityTypes.Option:
+							case CSVFieldIDs.SecurityTypes.OptionFuture:
 								break;
 							default:
 								SetOrderID(row, "Invalid Option", true);
@@ -734,9 +730,9 @@ namespace ROC
 				_isOption = false;
 				switch (order.secType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						_isOption = true;
-						if (order.secType != CSVFieldIDs.SecutrityTypes.Option)
+						if (order.secType != CSVFieldIDs.SecurityTypes.Option)
 						{
 							SetOrderID(row, "Inavlid Account For Option", true);
 							return false;
@@ -744,24 +740,24 @@ namespace ROC
 
 						order.multiplier = "100";
 						break;
-					case CSVFieldIDs.SecutrityTypes.OptionFuture:
+					case CSVFieldIDs.SecurityTypes.OptionFuture:
 						_isOption = true;
-						if (order.secType != CSVFieldIDs.SecutrityTypes.OptionFuture && 
-							order.secType != CSVFieldIDs.SecutrityTypes.Option &&
-							order.secType != CSVFieldIDs.SecutrityTypes.Future)
+						if (order.secType != CSVFieldIDs.SecurityTypes.OptionFuture && 
+							order.secType != CSVFieldIDs.SecurityTypes.Option &&
+							order.secType != CSVFieldIDs.SecurityTypes.Future)
 						{
 							SetOrderID(row, "Inavlid Account For Option On future", true);
 							return false;
 						}
 
 						// Force secType to be option
-						order.secType = CSVFieldIDs.SecutrityTypes.Option;
+						order.secType = CSVFieldIDs.SecurityTypes.Option;
 						order.multiplier = GetValue(row, "DisplayFactor");
 						break;
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						#region - Verify Future -
 
-						if (order.secType != CSVFieldIDs.SecutrityTypes.Future)
+						if (order.secType != CSVFieldIDs.SecurityTypes.Future)
 						{
 							SetOrderID(row, "Inavlid Account For Future", true);
 							return false;
@@ -1299,18 +1295,17 @@ namespace ROC
 			if (GLOBAL.HRDS.GotUserProfiles)
 			{
 				string key = MakeUserInfoKey(order);
-				if (_validUserInfos.ContainsKey(key))
+				if (_validUserInfos.TryGetValue(key, out RomBasicOrder info))
 				{
-					order.capacity = _validUserInfos[key].capacity;
-					order.clearingAcctID = _validUserInfos[key].clearingAcctID;
-					order.clearingFirmID = _validUserInfos[key].clearingFirmID;
-					order.firmArc = _validUserInfos[key].firmArc;
-					order.localAcctAcrn = _validUserInfos[key].localAcctAcrn;
-
-					order.exchangeID = _validUserInfos[key].exchangeID;
+					order.capacity = info.capacity;
+					order.clearingAcctID = info.clearingAcctID;
+					order.clearingFirmID = info.clearingFirmID;
+					order.firmArc = info.firmArc;
+					order.localAcctAcrn = info.localAcctAcrn;
+					order.exchangeID = info.exchangeID;
 					if (order.secType == "")
 					{
-						order.secType = _validUserInfos[key].secType;
+						order.secType = info.secType;
 					}
 
 					return true;
@@ -1324,13 +1319,13 @@ namespace ROC
 						{
 							switch (order.secType)
 							{
-								case CSVFieldIDs.SecutrityTypes.Option:
+								case CSVFieldIDs.SecurityTypes.Option:
 									if (VerifyExchange(ref order, trader.OPTAccounts))
 									{
 										return true;
 									}
 									break;
-								case CSVFieldIDs.SecutrityTypes.OptionFuture:
+								case CSVFieldIDs.SecurityTypes.OptionFuture:
 									if (VerifyExchange(ref order, trader.OPTAccounts))
 									{
 										return true;
@@ -1340,7 +1335,7 @@ namespace ROC
 										return true;
 									}
 									break;
-								case CSVFieldIDs.SecutrityTypes.Future:
+								case CSVFieldIDs.SecurityTypes.Future:
 									if (VerifyExchange(ref order, trader.FUTAccounts))
 									{
 										return true;
@@ -1428,14 +1423,7 @@ namespace ROC
 			}
 
 			string key = order.tradeFor + "," + order.localAcctAcrn + "," + destMap.shortName;
-			if (_validUserInfos.ContainsKey(key))
-			{
-				_validUserInfos[key] = order;
-			}
-			else
-			{
-				_validUserInfos.Add(key, order);
-			}
+			_validUserInfos[key] = order;
 		}
 
 		private string MakeUserInfoKey(RomBasicOrder order)
@@ -1916,15 +1904,14 @@ namespace ROC
 			}
 
 			string key = MakeUserInfoKey(order);
-			if (_validUserInfos.ContainsKey(key))
+			if (_validUserInfos.TryGetValue(key, out RomBasicOrder info))
 			{
-				order.capacity = _validUserInfos[key].capacity;
-				order.clearingAcctID = _validUserInfos[key].clearingAcctID;
-				order.clearingFirmID = _validUserInfos[key].clearingFirmID;
-				order.firmArc = _validUserInfos[key].firmArc;
-				order.localAcctAcrn = _validUserInfos[key].localAcctAcrn;
-
-				order.exchangeID = _validUserInfos[key].exchangeID;
+				order.capacity = info.capacity;
+				order.clearingAcctID = info.clearingAcctID;
+				order.clearingFirmID = info.clearingFirmID;
+				order.firmArc = info.firmArc;
+				order.localAcctAcrn = info.localAcctAcrn;
+				order.exchangeID = info.exchangeID;
 				found = true;
 			}
 			else
@@ -2005,30 +1992,15 @@ namespace ROC
 						if (trader.tradeFor.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
 						{
 							foreach (AccountMap acctMap in trader.CSAccounts.Values)
-							{
-								if (!items.ContainsKey(acctMap.account))
-								{
-									items.Add(acctMap.account, acctMap.account);
-								}
-							}
+								items.TryAdd(acctMap.account, acctMap.account);
 
 							foreach (AccountMap acctMap in trader.FUTAccounts.Values)
-							{
-								if (!items.ContainsKey(acctMap.account))
-								{
-									items.Add(acctMap.account, acctMap.account);
-								}
-							}
+								items.TryAdd(acctMap.account, acctMap.account);
 
 							if (BatchGrid.IsMarketDataBatchGrid)
 							{
 								foreach (AccountMap acctMap in trader.OPTAccounts.Values)
-								{
-									if (!items.ContainsKey(acctMap.account))
-									{
-										items.Add(acctMap.account, acctMap.account);
-									}
-								}
+									items.TryAdd(acctMap.account, acctMap.account);
 							}
 
 							break;
@@ -2079,15 +2051,15 @@ namespace ROC
 			}
 
 			string key = MakeUserInfoKey(order);
-			if (_validUserInfos.ContainsKey(key))
+			if (_validUserInfos.TryGetValue(key, out RomBasicOrder info))
 			{
-				order.capacity = _validUserInfos[key].capacity;
-				order.clearingAcctID = _validUserInfos[key].clearingAcctID;
-				order.clearingFirmID = _validUserInfos[key].clearingFirmID;
-				order.firmArc = _validUserInfos[key].firmArc;
-				order.localAcctAcrn = _validUserInfos[key].localAcctAcrn;
+				order.capacity = info.capacity;
+				order.clearingAcctID = info.clearingAcctID;
+				order.clearingFirmID = info.clearingFirmID;
+				order.firmArc = info.firmArc;
+				order.localAcctAcrn = info.localAcctAcrn;
 
-				order.exchangeID = _validUserInfos[key].exchangeID;
+				order.exchangeID = info.exchangeID;
 				found = true;
 			}
 			else
@@ -2221,12 +2193,7 @@ namespace ROC
 								if (acctMap.account.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
 									foreach (DestinationMap destMap in acctMap.Destinations.Values)
-									{
-										if (!items.ContainsKey(destMap.shortName))
-										{
-											items.Add(destMap.shortName, destMap.shortName);
-										}
-									}
+										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
 
@@ -2235,12 +2202,7 @@ namespace ROC
 								if (acctMap.account.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
 									foreach (DestinationMap destMap in acctMap.Destinations.Values)
-									{
-										if (!items.ContainsKey(destMap.shortName))
-										{
-											items.Add(destMap.shortName, destMap.shortName);
-										}
-									}
+										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
 
@@ -2249,12 +2211,7 @@ namespace ROC
 								if (acctMap.account.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
 									foreach (DestinationMap destMap in acctMap.Destinations.Values)
-									{
-										if (!items.ContainsKey(destMap.shortName))
-										{
-											items.Add(destMap.shortName, destMap.shortName);
-										}
-									}
+										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
 
@@ -2307,15 +2264,15 @@ namespace ROC
 				order.exchangeID = e.PropertyName;
 
 				string key = MakeUserInfoKey(order);
-				if (_validUserInfos.ContainsKey(key))
+				if (_validUserInfos.TryGetValue(key, out RomBasicOrder info))
 				{
-					order.capacity = _validUserInfos[key].capacity;
-					order.clearingAcctID = _validUserInfos[key].clearingAcctID;
-					order.clearingFirmID = _validUserInfos[key].clearingFirmID;
-					order.firmArc = _validUserInfos[key].firmArc;
-					order.localAcctAcrn = _validUserInfos[key].localAcctAcrn;
+					order.capacity = info.capacity;
+					order.clearingAcctID = info.clearingAcctID;
+					order.clearingFirmID = info.clearingFirmID;
+					order.firmArc = info.firmArc;
+					order.localAcctAcrn = info.localAcctAcrn;
 
-					//order.exchangeID = _validUserInfos[key].exchangeID;
+					//order.exchangeID = info.exchangeID;
 					found = true;
 				}
 				else

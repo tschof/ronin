@@ -255,9 +255,9 @@ namespace DataGridViewEx
 		{
 			get
 			{
-				if (Longs.ContainsKey(DGVProfileFieldID.Order.RowColorType))
+				if (TryGet(DGVProfileFieldID.Order.RowColorType, out long value))
 				{
-					switch (Longs[DGVProfileFieldID.Order.RowColorType])
+					switch (value)
 					{
 						case 0:
 							return ROCOrderList.RowColorTypes.None;
@@ -281,137 +281,47 @@ namespace DataGridViewEx
 
 		public bool GridFilterOutStock
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Order.FilterOutStock))
-				{
-					return Bools[DGVProfileFieldID.Order.FilterOutStock];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Order.FilterOutStock, out bool value) && value;
 		}
 
 		public bool GridFilterOutFuture
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Order.FilterOutFuture))
-				{
-					return Bools[DGVProfileFieldID.Order.FilterOutFuture];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Order.FilterOutFuture, out bool value) && value;
 		}
 
 		public bool GridFilterOutOption
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Order.FilterOutOption))
-				{
-					return Bools[DGVProfileFieldID.Order.FilterOutOption];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Order.FilterOutOption, out bool value) && value;
 		}
 
 		public bool GridFilterOutFilled
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Order.FilterOutFilled))
-				{
-					return Bools[DGVProfileFieldID.Order.FilterOutFilled];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Order.FilterOutFilled, out bool value) && value;
 		}
 
 		public bool GridFilterOutPartialFilled
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Order.FilterOutPartialFilled))
-				{
-					return Bools[DGVProfileFieldID.Order.FilterOutPartialFilled];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Order.FilterOutPartialFilled, out bool value) && value;
 		}
 
 		public bool GridFilterOutReplaced
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Order.FilterOutReplaced))
-				{
-					return Bools[DGVProfileFieldID.Order.FilterOutReplaced];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Order.FilterOutReplaced, out bool value) && value;
 		}
 
 		public bool GridFilterOutOpen
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Order.FilterOutOpen))
-				{
-					return Bools[DGVProfileFieldID.Order.FilterOutOpen];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Order.FilterOutOpen, out bool value) && value;
 		}
 
 		public bool GridFilterOutCanceled
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Order.FilterOutCancelled))
-				{
-					return Bools[DGVProfileFieldID.Order.FilterOutCancelled];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Order.FilterOutCancelled, out bool value) && value;
 		}
 
 		public bool GridFilterOutRejected
 		{
-			get
-			{
-				if (Bools.ContainsKey(DGVProfileFieldID.Order.FilterOutRejected))
-				{
-					return Bools[DGVProfileFieldID.Order.FilterOutRejected];
-				}
-				else
-				{
-					return false;
-				}
-			}
+			get => TryGet(DGVProfileFieldID.Order.FilterOutRejected, out bool value) && value;
 		}
 
 		#endregion

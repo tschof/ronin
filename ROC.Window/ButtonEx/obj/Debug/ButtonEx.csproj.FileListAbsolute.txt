@@ -1,0 +1,11 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\bin\Debug\ButtonEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\bin\Debug\ButtonEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\bin\Debug\ContextMenuEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\bin\Debug\ShapeEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\bin\Debug\ContextMenuEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\bin\Debug\ShapeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\obj\Debug\ButtonEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\obj\Debug\ButtonEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\obj\Debug\ButtonEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\obj\Debug\ButtonEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\ButtonEx\obj\Debug\ButtonEx.pdb

@@ -3,43 +3,43 @@
   <Profiles />
   <Settings>
     <Setting Name="LogPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Logs\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Logs</Value>
     </Setting>
     <Setting Name="OrderPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Orders\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Orders</Value>
     </Setting>
     <Setting Name="TradePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Trades\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Trades</Value>
     </Setting>
     <Setting Name="ProfilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Profiles\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Profiles</Value>
     </Setting>
     <Setting Name="PositionPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Positions\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Positions</Value>
     </Setting>
     <Setting Name="SymbolSettingPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Profiles\Symbols\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Profiles\Symbols</Value>
     </Setting>
     <Setting Name="SettingPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Profiles\Settings\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Profiles\Settings</Value>
     </Setting>
     <Setting Name="CSVConfigPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\CSVConfig\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\CSVConfig</Value>
     </Setting>
     <Setting Name="OptionConfigPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\OptionConfig\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\OptionConfig</Value>
     </Setting>
     <Setting Name="QuickButtonConfigPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\Profiles\QuickButtonConfig\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\Profiles\QuickButtonConfig</Value>
     </Setting>
     <Setting Name="FutureConfigPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\FutureConfig\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\FutureConfig</Value>
     </Setting>
     <Setting Name="SubscriptionCachePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\SubscriptionCache\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\SubscriptionCache</Value>
     </Setting>
     <Setting Name="OrderTypeConfigPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\OrderTypeConfig\</Value>
+      <Value Profile="(Default)">C:\Users\clangan\Applications\ROC\OrderTypeConfig</Value>
     </Setting>
   </Settings>
 </SettingsFile>

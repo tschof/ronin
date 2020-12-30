@@ -1,7 +1,5 @@
 using System;
 using System.Net.Sockets;
-using System.Text;
-using System.Collections;
 using System.Net;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +10,6 @@ namespace SocketEx
 	{
 		// Client Only
 		OnConnect,
-
 		OnDisconnect,
 		OnRawReceive,
 		OnReceive,
@@ -25,17 +22,6 @@ namespace SocketEx
 
 	public abstract class SocketBaseClient
 	{
-		private object _syncObj = new object();
-		public object SyncObj
-		{
-			get
-			{
-				return _syncObj;
-			}
-		}
-
-		#region - Event -
-
 		public event ClientEventHandler OnClientEvent;
 
 		protected virtual void OnSocketEvent(ClientEventArgs e)
@@ -46,14 +32,12 @@ namespace SocketEx
 			}
 		}
 
-		#endregion
-
 		#region - Recived Process Thread -
 
 		#region - Local Incomming MDS Data -
 
 		private List<byte> _incommingData = new List<byte>();
-		public List<byte> IncommingData
+		public List<byte> Incoming
 		{
 			get
 			{
@@ -345,6 +329,7 @@ namespace SocketEx
 			{
 				_stopping = true;
 
+				OnClientEvent = null;
 				StopReceiveThread();
 				StopSendThread();
 
@@ -379,7 +364,7 @@ namespace SocketEx
 			{
 				_threadReceivedProcessShouldStop = false;
 
-				_threadReceivedProcess = new System.Threading.Thread(new System.Threading.ThreadStart(ProcessRecived));
+				_threadReceivedProcess = new System.Threading.Thread(new System.Threading.ThreadStart(ProcessReceived));
 				_threadReceivedProcess.Name = "SocketReceivedProcess";
 				_threadReceivedProcess.Start();
 
@@ -430,7 +415,7 @@ namespace SocketEx
 
 		public abstract void OnReceive(IAsyncResult ar);
 
-		public abstract void ProcessRecived();
+		public abstract void ProcessReceived();
 
 		private void StopReceiveThread()
 		{
@@ -470,19 +455,11 @@ namespace SocketEx
 		{
 			try
 			{
-				//if (_outgoingData.Count + data.Length < _clientBufferSizeLimit)
-				//{
-					lock (SyncObj)
-					{
-						_outgoingData.AddRange(data);
-					}
-					StartSendThread();
-				//}
-				//else
-				//{
-				//    // Stop Feeding the Client
-				//    OnSocketEvent(new ClientEventArgs(ClientEventTypes.OnError, "OutGoingData Buffer Full"));
-				//}
+				lock (this)
+				{
+					_outgoingData.AddRange(data);
+				}
+				StartSendThread();
 			}
 			catch (Exception ex)
 			{
@@ -531,7 +508,7 @@ namespace SocketEx
 
 			try
 			{
-				lock (SyncObj)
+				lock (this)
 				{
 					_readyToSend = false;
 
@@ -664,6 +641,11 @@ namespace SocketEx
 		}
 
 		#endregion
+
+		public override string ToString()
+		{
+			return $"{_serverIP}:{_port}";
+		}
 	}
 
 	public class ClientEventArgs : EventArgs

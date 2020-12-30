@@ -1,0 +1,93 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ROC.Configuration" GeneratedClassName="ROC">
+  <Profiles />
+  <Settings>
+    <Setting Name="ExchangesSupportExtendedMarketOrderType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ARCA,INET,NYSE,BATS,EDG</Value>
+    </Setting>
+    <Setting Name="ExchangesSupportExtendedLimitOrderType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ARCA,INET,NYSE,BATS,EDG</Value>
+    </Setting>
+    <Setting Name="UseGroupSubscription" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="BookDepthLimit" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="MemoryFlushInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="MemoryFlushLimit" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">150</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusPlotList" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusWatchList" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusOrders" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusPositions" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusBatchTicket" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusFutureTicket" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusOptionTicket" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusQuickTicket" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusStockTicket" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusTrades" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusAutoSpreadTicket" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ExchangesSupportStopOrderType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NYSE,GLBX,GLOBEX</Value>
+    </Setting>
+    <Setting Name="ExchangesSupportLimitStopOrderType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">GLBX,GLOBEX</Value>
+    </Setting>
+    <Setting Name="ExchangesSupportPegMktOrderType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ARCA,INET,BATS,EDG</Value>
+    </Setting>
+    <Setting Name="ExchangesSupportPegPriOrderType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ARCA,INET,BATS,EDG</Value>
+    </Setting>
+    <Setting Name="ExchangesSupportPegMidOrderType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">INET,BATS,EDG</Value>
+    </Setting>
+    <Setting Name="LargeScreenSize" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ShowLevel2AsDefault" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ShowQuickTicketAsDefault" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ExchangesSupportImbalanceOnlyType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">INET</Value>
+    </Setting>
+    <Setting Name="EnableAutoFocusMarketDataBatchTicket" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableQuickTicketAutoCenter" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="QuickTicketAutoCenterRange" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,9 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\NumericUpDownEx\bin\Debug\NumericUpDownEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\NumericUpDownEx\bin\Debug\NumericUpDownEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\NumericUpDownEx\bin\Debug\ButtonEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\NumericUpDownEx\bin\Debug\ButtonEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\NumericUpDownEx\obj\Debug\NumericUpDownEx.csprojAssemblyReference.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\NumericUpDownEx\obj\Debug\NumericUpDownEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\source\repos\ROC\ROC.Window\NumericUpDownEx\obj\Debug\NumericUpDownEx.csproj.CopyComplete
+C:\Users\clangan\source\repos\ROC\ROC.Window\NumericUpDownEx\obj\Debug\NumericUpDownEx.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\NumericUpDownEx\obj\Debug\NumericUpDownEx.pdb

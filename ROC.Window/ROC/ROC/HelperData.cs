@@ -4,10 +4,8 @@ using System.Collections.Generic;
 
 using RDSEx;
 using CSVEx;
-using MarketDataEx;
-using DictionaryEx;
 using SerializationEx;
-using System.Diagnostics;
+using MarketData;
 
 namespace ROC
 {
@@ -15,12 +13,9 @@ namespace ROC
 	public class HelperOrdersData : HelperDataBase
 	{
 		private DataTable _optionTypes;
-		public DataTable OptionTypes
-		{
-			get
-			{
-				if (_optionTypes == null)
-				{
+		public DataTable OptionTypes {
+			get {
+				if (_optionTypes == null) {
 					_optionTypes = new DataTable();
 
 					_optionTypes.Columns.Add(new DataColumn("Type", Type.GetType("System.String")));
@@ -36,19 +31,15 @@ namespace ROC
 				}
 				return _optionTypes;
 			}
-			set
-			{
+			set {
 				_optionTypes = value;
 			}
 		}
 
 		private DataTable _baseOrderTypes;
-		public DataTable BaseOrderTypes
-		{
-			get
-			{
-				if (_baseOrderTypes == null)
-				{
+		public DataTable BaseOrderTypes {
+			get {
+				if (_baseOrderTypes == null) {
 					_baseOrderTypes = new DataTable();
 
 					_baseOrderTypes.Columns.Add(new DataColumn("Type", Type.GetType("System.String")));
@@ -72,12 +63,9 @@ namespace ROC
 		}
 
 		private DataTable _stockOrderTypes;
-		public DataTable StockOrderTypes
-		{
-			get
-			{
-				if (_stockOrderTypes == null)
-				{
+		public DataTable StockOrderTypes {
+			get {
+				if (_stockOrderTypes == null) {
 					_stockOrderTypes = BaseOrderTypes.Copy();
 					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "OCO");
 					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "PEG MKT");
@@ -93,73 +81,57 @@ namespace ROC
 				}
 				return _stockOrderTypes;
 			}
-			set
-			{
+			set {
 				_stockOrderTypes = value;
 			}
 		}
 
 		private DataTable _futureOrderTypes;
-		public DataTable FutureOrderTypes
-		{
-			get
-			{
-				if (_futureOrderTypes == null)
-				{
+		public DataTable FutureOrderTypes {
+			get {
+				if (_futureOrderTypes == null) {
 					_futureOrderTypes = BaseOrderTypes.Copy();
 					_futureOrderTypes.Rows.Add(_futureOrderTypes.NewRow()["Type"] = "OCO");
 					_futureOrderTypes.TableName = "FUT";
 				}
 				return _futureOrderTypes;
 			}
-			set
-			{
+			set {
 				_futureOrderTypes = value;
 			}
 		}
 
 		private DataTable _autoSpreadOrderTypes;
-		public DataTable AutoSpreadOrderTypes
-		{
-			get
-			{
-				if (_autoSpreadOrderTypes == null)
-				{
+		public DataTable AutoSpreadOrderTypes {
+			get {
+				if (_autoSpreadOrderTypes == null) {
 					_autoSpreadOrderTypes = BaseOrderTypes.Clone();
 					_autoSpreadOrderTypes.Rows.Add(_autoSpreadOrderTypes.NewRow()["Type"] = "LIMIT");
 				}
 				return _autoSpreadOrderTypes;
 			}
-			set
-			{
+			set {
 				_autoSpreadOrderTypes = value;
 			}
 		}
 
 		private DataTable _optionOrderTypes;
-		public DataTable OptionOrderTypes
-		{
-			get
-			{
-				if (_optionOrderTypes == null)
-				{
+		public DataTable OptionOrderTypes {
+			get {
+				if (_optionOrderTypes == null) {
 					_optionOrderTypes = BaseOrderTypes.Copy();
 				}
 				return _optionOrderTypes;
 			}
-			set
-			{
+			set {
 				_optionOrderTypes = value;
 			}
 		}
 
 		private DataTable _durations;
-		public DataTable Durations
-		{
-			get
-			{
-				if (_durations == null)
-				{
+		public DataTable Durations {
+			get {
+				if (_durations == null) {
 					_durations = new DataTable();
 
 					_durations.Columns.Add(new DataColumn("Duration", Type.GetType("System.String")));
@@ -178,54 +150,42 @@ namespace ROC
 				}
 				return _durations;
 			}
-			set
-			{
+			set {
 				_durations = value;
 			}
 		}
 
 		private DataTable _stockDurations;
-		public DataTable StockDurations
-		{
-			get
-			{
-				if (_stockDurations == null)
-				{
+		public DataTable StockDurations {
+			get {
+				if (_stockDurations == null) {
 					_stockDurations = Durations.Copy();
 				}
 				return _stockDurations;
 			}
-			set
-			{
+			set {
 				_stockDurations = value;
 			}
 		}
 
 		private DataTable _autoSpreadDurations;
-		public DataTable AutoSpreadDurations
-		{
-			get
-			{
-				if (_autoSpreadDurations == null)
-				{
+		public DataTable AutoSpreadDurations {
+			get {
+				if (_autoSpreadDurations == null) {
 					_autoSpreadDurations = Durations.Clone();
 					_autoSpreadDurations.Rows.Add(_durations.NewRow()["Duration"] = "DAY");
 				}
 				return _autoSpreadDurations;
 			}
-			set
-			{
+			set {
 				_autoSpreadDurations = value;
 			}
 		}
 
 		private DataTable _stokAlgoTypes;
-		public DataTable StokAlgoTypes
-		{
-			get
-			{
-				if (_stokAlgoTypes == null)
-				{
+		public DataTable StokAlgoTypes {
+			get {
+				if (_stokAlgoTypes == null) {
 					_stokAlgoTypes = new DataTable();
 
 					_stokAlgoTypes.Columns.Add(new DataColumn("AlgoType", Type.GetType("System.String")));
@@ -243,25 +203,20 @@ namespace ROC
 				}
 				return _stokAlgoTypes;
 			}
-			set
-			{
+			set {
 				_stokAlgoTypes = value;
 			}
 		}
 
 		private Dictionary<string, ROCOrder> _rocItems;
-		public Dictionary<string, ROCOrder> RocItems
-		{
-			get
-			{
-				if (_rocItems == null)
-				{
+		public Dictionary<string, ROCOrder> RocItems {
+			get {
+				if (_rocItems == null) {
 					_rocItems = new Dictionary<string, ROCOrder>();
 				}
 				return _rocItems;
 			}
-			set
-			{
+			set {
 				_rocItems = value;
 			}
 		}
@@ -314,14 +269,11 @@ namespace ROC
 		// Used by RDS When it first got all the orders from DB
 		public void Update(Dictionary<string, ROCOrder> orders)
 		{
-			if (GLOBAL.HRDS.GotRocOrders)
-			{
-				lock (Table)
-				{
+			if (GLOBAL.HRDS.GotRocOrders) {
+				lock (Table) {
 					string[] keys = new string[orders.Count];
 					orders.Keys.CopyTo(keys, 0);
-					foreach (string key in keys)
-					{
+					foreach (string key in keys) {
 						orders[key] = Update(orders[key]);
 					}
 				}
@@ -330,58 +282,46 @@ namespace ROC
 
 		public ROCOrder Update(ROCOrder order)
 		{
-			if (!RocItems.ContainsKey(order.Tag))
-			{
+			if (!RocItems.TryGetValue(order.Tag, out ROCOrder found)) {
 				RocItems.Add(order.Tag, order);
-			}
-			else
-			{
+			} else {
 				// Update Only Active Orders
-				if (RocItems[order.Tag].IsActive)
-				{
-					RocItems[order.Tag].Status = order.Status;
-					RocItems[order.Tag].LeaveQty = order.LeaveQty;
-					RocItems[order.Tag].CumQty = order.CumQty;
+				if (found.IsActive) {
+					found.Status = order.Status;
+					found.LeaveQty = order.LeaveQty;
+					found.CumQty = order.CumQty;
 
-					if (order.UpdateOrder)
-					{
-						RocItems[order.Tag].Qty = order.Qty;
-						RocItems[order.Tag].Price = order.Price;
-						RocItems[order.Tag].StopPrice = order.StopPrice;
-						RocItems[order.Tag].PegPrice = order.PegPrice;
-						RocItems[order.Tag].AvgPrice = order.AvgPrice;
-					}
-					else
-					{
+					if (order.UpdateOrder) {
+						found.Qty = order.Qty;
+						found.Price = order.Price;
+						found.StopPrice = order.StopPrice;
+						found.PegPrice = order.PegPrice;
+						found.AvgPrice = order.AvgPrice;
+					} else {
 						// Container back fill
-						order.Symbol = RocItems[order.Tag].Symbol;
-						if (RocItems[order.Tag].Price != 0)
-						{
-							order.Price = RocItems[order.Tag].Price;
+						order.Symbol = found.Symbol;
+						if (found.Price != 0) {
+							order.Price = found.Price;
 						}
-						if (RocItems[order.Tag].StopPrice != 0)
-						{
-							order.StopPrice = RocItems[order.Tag].StopPrice;
+						if (found.StopPrice != 0) {
+							order.StopPrice = found.StopPrice;
 						}
-						if (RocItems[order.Tag].PegPrice != 0)
-						{
-							order.PegPrice = RocItems[order.Tag].PegPrice;
+						if (found.PegPrice != 0) {
+							order.PegPrice = found.PegPrice;
 						}
-						if (RocItems[order.Tag].AvgPrice != 0)
-						{
-							order.AvgPrice = RocItems[order.Tag].AvgPrice;
+						if (found.AvgPrice != 0) {
+							order.AvgPrice = found.AvgPrice;
 						}
 					}
 
-					RocItems[order.Tag].OrderType = order.OrderType;
-					RocItems[order.Tag].TIF = order.TIF;
-					RocItems[order.Tag].OmTime = order.OmTime;
-					RocItems[order.Tag].Text = order.Text;
+					found.OrderType = order.OrderType;
+					found.TIF = order.TIF;
+					found.OmTime = order.OmTime;
+					found.Text = order.Text;
 				}
 			}
 
-			if (!Keys.Contains(order.Tag))
-			{
+			if (!Keys.Contains(order.Tag)) {
 				Keys.Add(order.Tag);
 
 				Table.Rows.Add(new object[] {
@@ -414,18 +354,14 @@ namespace ROC
 					order.ParentTag,
 					order.ClientEcho,
 					order.CplxOrderType });
-			}
-			else
-			{
+			} else {
 				DataRowView[] rows = SearchView.FindRows(order.Tag);
-				foreach (DataRowView row in rows)
-				{
+				foreach (DataRowView row in rows) {
 					row["Status"] = order.Status;
 					row["LeaveQty"] = order.LeaveQty;
 					row["CumQty"] = order.CumQty;
 
-					if (RocItems[order.Tag].UpdateOrder)
-					{
+					if (RocItems[order.Tag].UpdateOrder) {
 						row["Qty"] = order.Qty;
 						row["Price"] = order.Price;
 						row["StopPrice"] = order.StopPrice;
@@ -446,26 +382,18 @@ namespace ROC
 
 		public ROCOrder GetOrderByOrderID(string orderID)
 		{
-			if (GLOBAL.HOrders.RocItems.ContainsKey(orderID))
-			{
-				return GLOBAL.HOrders.RocItems[orderID];
-			}
-
-			return null;
+			return GLOBAL.HOrders.RocItems.TryGetValue(orderID, out ROCOrder value) ? value : null;
 		}
 
 		#region - Export & Import -
 
 		public void Import(string username)
 		{
-			try
-			{
-				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.Started)
-				{
+			try {
+				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.Started) {
 					string data = HelperFile.Load(Configuration.Path.Default.OrderPath, String.Format(@"{0}_{1:G}{2:G3}.orders", username, DateTime.Today.Year, DateTime.Today.DayOfYear));
 
-					if (data != "")
-					{
+					if (data != "") {
 						byte[] bytes = System.Convert.FromBase64String(data);
 						Dictionary<string, ROCOrder> orders = (Dictionary<string, ROCOrder>)new ToBinary().Deserialize(bytes, SerializationTypes.Normal);
 
@@ -476,19 +404,15 @@ namespace ROC
 						Update(orders);
 					}
 				}
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				GLOBAL.HROC.AddToException(ex);
 			}
 		}
 
 		public void Export()
 		{
-			if (GLOBAL.HROM.UserName != "")
-			{
-				if (RocItems != null && RocItems.Count > 0)
-				{
+			if (GLOBAL.HROM.UserName != "") {
+				if (RocItems != null && RocItems.Count > 0) {
 					byte[] bytes = new ToBinary().Serialize(RocItems, SerializationTypes.Normal);
 					string data = System.Convert.ToBase64String(bytes);
 
@@ -504,35 +428,27 @@ namespace ROC
 	public class HelperExecutionsData : HelperDataBase
 	{
 		private Dictionary<string, ROCExecution> _rocItems;
-		public Dictionary<string, ROCExecution> RocItems
-		{
-			get
-			{
-				if (_rocItems == null)
-				{
+		public Dictionary<string, ROCExecution> RocItems {
+			get {
+				if (_rocItems == null) {
 					_rocItems = new Dictionary<string, ROCExecution>();
 				}
 				return _rocItems;
 			}
-			set
-			{
+			set {
 				_rocItems = value;
 			}
 		}
 
 		private Dictionary<string, TPOSExecution> _tposItems;
-		public Dictionary<string, TPOSExecution> TposItems
-		{
-			get
-			{
-				if (_tposItems == null)
-				{
+		public Dictionary<string, TPOSExecution> TposItems {
+			get {
+				if (_tposItems == null) {
 					_tposItems = new Dictionary<string, TPOSExecution>();
 				}
 				return _tposItems;
 			}
-			set
-			{
+			set {
 				_tposItems = value;
 			}
 		}
@@ -573,65 +489,49 @@ namespace ROC
 		// Used by RDS When it first got all the roc executions from DB
 		public void Update(Dictionary<string, ROCExecution> trades)
 		{
-			if (GLOBAL.HRDS.GotRocExecutions)
-			{
-				lock (Table)
-				{
-					foreach (ROCExecution trade in trades.Values)
-					{
+			if (GLOBAL.HRDS.GotRocExecutions) {
+				lock (Table) {
+					foreach (ROCExecution trade in trades.Values) {
 						Update(trade);
 					}
 				}
 			}
 		}
-		
+
 		public void Update(ROCExecution trade)
 		{
-			if (trade.UpdateTrade)
-			{
-				if (RocItems.ContainsKey(trade.OmExecTag))
-				{
-					RocItems[trade.OmExecTag] = trade;
-				}
-				else
-				{
-					RocItems.Add(trade.OmExecTag, trade);
-				}
+			if (trade.UpdateTrade) {
+				RocItems[trade.OmExecTag] = trade;
 
-				if (!Keys.Contains(trade.OmExecTag))
-				{
+				if (!Keys.Contains(trade.OmExecTag)) {
 					Keys.Add(trade.OmExecTag);
 
 					Table.Rows.Add(new object[] {
-		            trade.OmExecTag,
-		            trade.Symbol,
-		            trade.SymbolDetail,
+					trade.OmExecTag,
+					trade.Symbol,
+					trade.SymbolDetail,
 					trade.SymbolDisplay,
-		            trade.Side,
-		            trade.Qty,
-		            trade.Price,
-		            trade.TradeValue,
-		            trade.DestID,
-		            trade.TradeTime,
-		            trade.ClearingAcct,
-		            trade.ContractSize,
-		            trade.TickSize,
-		            trade.DisplayFactor,
-		            trade.OmTag,
-		            trade.SecType,
-		            0,
+					trade.Side,
+					trade.Qty,
+					trade.Price,
+					trade.TradeValue,
+					trade.DestID,
+					trade.TradeTime,
+					trade.ClearingAcct,
+					trade.ContractSize,
+					trade.TickSize,
+					trade.DisplayFactor,
+					trade.OmTag,
+					trade.SecType,
+					0,
 					trade.CplxOrderType });
-				}
-				else
-				{
+				} else {
 					DataRowView[] rows = SearchView.FindRows(trade.OmExecTag);
-					foreach (DataRowView row in rows)
-					{
+					foreach (DataRowView row in rows) {
 						row["Qty"] = trade.Qty;
 						row["Price"] = trade.Price;
 						row["TradeValue"] = trade.TradeValue;
-						if (trade.TradeTime != null)
-						{
+						if (trade.TradeTime != null) {
 							row["OmTime"] = trade.TradeTime;
 						}
 					}
@@ -642,12 +542,9 @@ namespace ROC
 		// Used by RDS When it first got all the executions tpos
 		public void Update(Dictionary<string, TPOSExecution> trades)
 		{
-			if (GLOBAL.HRDS.GotTposExecutions)
-			{
-				lock (Table)
-				{
-					foreach (TPOSExecution trade in trades.Values)
-					{
+			if (GLOBAL.HRDS.GotTposExecutions) {
+				lock (Table) {
+					foreach (TPOSExecution trade in trades.Values) {
 						Update(trade);
 					}
 				}
@@ -656,43 +553,32 @@ namespace ROC
 
 		public void Update(TPOSExecution trade)
 		{
-			if (TposItems.ContainsKey(trade.TradeID))
-			{
-				TposItems[trade.TradeID] = trade;
-			}
-			else
-			{
-				TposItems.Add(trade.TradeID, trade);
-			}
+			TposItems[trade.TradeID] = trade;
 
-			if (!Keys.Contains(trade.TradeID))
-			{
+			if (!Keys.Contains(trade.TradeID)) {
 				Keys.Add(trade.TradeID);
 
 				Table.Rows.Add(new object[] {
-		            trade.TradeID,
-		            trade.Symbol,
-		            trade.SymbolDetail,
+					trade.TradeID,
+					trade.Symbol,
+					trade.SymbolDetail,
 					trade.SymbolDisplay,
-		            trade.Side,
-		            trade.Qty,
-		            trade.Price,
-		            trade.TradeValue,
-		            trade.DestID,
-		            trade.TradeTime,
-		            trade.ClearingAcct,
-		            trade.ContractSize,
-		            trade.TickSize,
-		            trade.DisplayFactor,
-		            trade.OmTag,
-		            trade.SecType,
-		            1});
-			}
-			else
-			{
+					trade.Side,
+					trade.Qty,
+					trade.Price,
+					trade.TradeValue,
+					trade.DestID,
+					trade.TradeTime,
+					trade.ClearingAcct,
+					trade.ContractSize,
+					trade.TickSize,
+					trade.DisplayFactor,
+					trade.OmTag,
+					trade.SecType,
+					1});
+			} else {
 				DataRowView[] rows = SearchView.FindRows(trade.TradeID);
-				foreach (DataRowView row in rows)
-				{
+				foreach (DataRowView row in rows) {
 					row["Qty"] = trade.Qty;
 					row["Price"] = trade.Price;
 					row["TradeValue"] = trade.TradeValue;
@@ -705,14 +591,11 @@ namespace ROC
 
 		public void Import(string username)
 		{
-			try
-			{
-				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.Started)
-				{
+			try {
+				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.Started) {
 					string data = HelperFile.Load(Configuration.Path.Default.TradePath, String.Format(@"{0}_{1:G}{2:G3}.trades", username, DateTime.Today.Year, DateTime.Today.DayOfYear));
 
-					if (data != "")
-					{
+					if (data != "") {
 						byte[] bytes = System.Convert.FromBase64String(data);
 						Dictionary<string, ROCExecution> trades = (Dictionary<string, ROCExecution>)new ToBinary().Deserialize(bytes, SerializationTypes.Normal);
 
@@ -727,19 +610,15 @@ namespace ROC
 						GLOBAL.HPositions.Update(trades);
 					}
 				}
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				GLOBAL.HROC.AddToException(ex);
 			}
 		}
 
 		public void Export()
 		{
-			if (GLOBAL.HROM.UserName != "")
-			{
-				if (RocItems != null && RocItems.Count > 0)
-				{
+			if (GLOBAL.HROM.UserName != "") {
+				if (RocItems != null && RocItems.Count > 0) {
 					byte[] bytes = new ToBinary().Serialize(RocItems, SerializationTypes.Normal);
 					string data = System.Convert.ToBase64String(bytes);
 
@@ -755,35 +634,27 @@ namespace ROC
 	public class HelperPositionsData : HelperDataBase
 	{
 		private Dictionary<string, TPOSPosition> _rocItems;
-		public Dictionary<string, TPOSPosition> RocItems
-		{
-			get
-			{
-				if (_rocItems == null)
-				{
+		public Dictionary<string, TPOSPosition> RocItems {
+			get {
+				if (_rocItems == null) {
 					_rocItems = new Dictionary<string, TPOSPosition>();
 				}
 				return _rocItems;
 			}
-			set
-			{
+			set {
 				_rocItems = value;
 			}
 		}
 
 		private Dictionary<string, TPOSPosition> _tposItems;
-		public Dictionary<string, TPOSPosition> TposItems
-		{
-			get
-			{
-				if (_tposItems == null)
-				{
+		public Dictionary<string, TPOSPosition> TposItems {
+			get {
+				if (_tposItems == null) {
 					_tposItems = new Dictionary<string, TPOSPosition>();
 				}
 				return _tposItems;
 			}
-			set
-			{
+			set {
 				_tposItems = value;
 			}
 		}
@@ -844,12 +715,9 @@ namespace ROC
 		// Used by RDS When it first got all positions from TPOS
 		public void Update(Dictionary<string, TPOSPosition> positions)
 		{
-			if (GLOBAL.HRDS.GotTposPositions)
-			{
-				lock (Table)
-				{
-					foreach (TPOSPosition position in positions.Values)
-					{
+			if (GLOBAL.HRDS.GotTposPositions) {
+				lock (Table) {
+					foreach (TPOSPosition position in positions.Values) {
 						Update(position);
 					}
 				}
@@ -861,39 +729,26 @@ namespace ROC
 			string key = position.PositionKey;
 			double cost = 0;
 
-			lock (TposItems)
-			{
-				TPOSPosition currentPosition;
-				if (TposItems.ContainsKey(key))
-				{
-					currentPosition = TposItems[key];
-
-					if (position.OpenQty > 0)
-					{
-						currentPosition.OpenQty = position.OpenQty;
-						currentPosition.OpenAvg = position.OpenAvg;
+			lock (TposItems) {
+				if (TposItems.TryGetValue(key, out TPOSPosition found)) {
+					if (position.OpenQty > 0) {
+						found.OpenQty = position.OpenQty;
+						found.OpenAvg = position.OpenAvg;
 					}
 
-					if (position.BuyQty > 0)
-					{
-						cost = (currentPosition.BuyQty * currentPosition.BuyAvg) + (position.BuyQty * position.BuyAvg);
-						currentPosition.BuyQty = currentPosition.BuyQty + position.BuyQty;
-						currentPosition.BuyAvg = cost / currentPosition.BuyQty;
+					if (position.BuyQty > 0) {
+						cost = (found.BuyQty * found.BuyAvg) + (position.BuyQty * position.BuyAvg);
+						found.BuyQty = found.BuyQty + position.BuyQty;
+						found.BuyAvg = cost / found.BuyQty;
 					}
 
-					if (position.SellQty > 0)
-					{
-						cost = (currentPosition.SellQty * currentPosition.SellAvg) + (position.SellQty * position.SellAvg);
-						currentPosition.SellQty = currentPosition.SellQty + position.SellQty;
-						currentPosition.SellAvg = cost / currentPosition.SellQty;
+					if (position.SellQty > 0) {
+						cost = (found.SellQty * found.SellAvg) + (position.SellQty * position.SellAvg);
+						found.SellQty = found.SellQty + position.SellQty;
+						found.SellAvg = cost / found.SellQty;
 					}
-
-					TposItems[key] = currentPosition;
-				}
-				else
-				{
-					currentPosition = position;
-					TposItems.Add(key, currentPosition);
+				} else {
+					TposItems.Add(key, position);
 				}
 			}
 		}
@@ -905,12 +760,9 @@ namespace ROC
 		// Used by RDS When it first got all the roc executions from DB
 		public void Update(Dictionary<string, ROCExecution> trades)
 		{
-			if (GLOBAL.HRDS.GotRocExecutions)
-			{
-				lock (Table)
-				{
-					foreach (ROCExecution trade in trades.Values)
-					{
+			if (GLOBAL.HRDS.GotRocExecutions) {
+				lock (Table) {
+					foreach (ROCExecution trade in trades.Values) {
 						Update(trade);
 					}
 				}
@@ -919,54 +771,32 @@ namespace ROC
 
 		public void Update(ROCExecution trade)
 		{
-		    string key = trade.PositionKey;
-			double cost = 0;
+			string key = trade.PositionKey;
+			double cost;
 			TPOSPosition position;
-			
-		    lock (RocItems)
-		    {
-		        if (RocItems.ContainsKey(key))
-		        {
-		            position = RocItems[key];
-		        }
-		        else
-		        {
-		            position = new TPOSPosition();
+
+			lock (RocItems) {
+				if (!RocItems.TryGetValue(key, out position)) {
+					position = new TPOSPosition();
 
 					position.Symbol = trade.Symbol;
-					//position.SymbolDetail,
 					position.Underlying = trade.Underlying;
 					position.ExpDate = trade.ExpDate;
 					position.StrikePrice = trade.StrikePrice;
 					position.CallPut = trade.CallPut;
 					position.SecType = trade.SecType;
-					//position.LastTraded,
-					//position.NetChange,
-					//position.PctChange,
-					//position.TotalVolume,
-					if (trade.ClearingAcct.Length > 5)
-					{
+
+					if (trade.ClearingAcct.Length > 5) {
 						position.ClearingAcct = trade.ClearingAcct.Substring(0, 5);
-					}
-					else
-					{
+					} else {
 						position.ClearingAcct = trade.ClearingAcct;
 					}
+
 					position.Trader = trade.LocalAcct;
-					//position.OpenQty,
-					//position.OpenAvg,
-					//position.CurrentQty,
-					//position.ContractSize,
-					//position.OpenPnL,
-					//position.DayPnL,
-					//position.DayRealizedPnL,
-					//position.TotalPnL,
+					RocItems.Add(key, position);
+				}
 
-		            RocItems.Add(key, position);
-		        }
-
-				switch (trade.Side)
-				{
+				switch (trade.Side) {
 					case CSVFieldIDs.SideCodes.Buy:
 						cost = (position.BuyQty * position.BuyAvg) + (trade.Qty * trade.Price);
 						position.BuyQty = position.BuyQty + trade.Qty;
@@ -980,9 +810,7 @@ namespace ROC
 						position.SellAvg = cost / position.SellQty;
 						break;
 				}
-
-		        RocItems[key] = position;
-		    }
+			}
 		}
 
 		#endregion
@@ -992,12 +820,9 @@ namespace ROC
 		// Used by RDS When it first got all the executions from Tpos
 		public void Update(Dictionary<string, TPOSExecution> trades)
 		{
-			if (GLOBAL.HRDS.GotTposExecutions)
-			{
-				lock (Table)
-				{
-					foreach (TPOSExecution trade in trades.Values)
-					{
+			if (GLOBAL.HRDS.GotTposExecutions) {
+				lock (Table) {
+					foreach (TPOSExecution trade in trades.Values) {
 						Update(trade);
 					}
 				}
@@ -1007,95 +832,56 @@ namespace ROC
 		public void Update(TPOSExecution trade)
 		{
 			// Filter out Auot Blance Trades from TPOS
-			if (trade.Price > 0)
-			{
+			if (trade.Price > 0) {
 				string key = trade.PositionKey;
-				double cost = 0;
+				double cost;
 				TPOSPosition position;
 
-				lock (TposItems)
-				{
-					if (TposItems.ContainsKey(key))
-					{
-						position = TposItems[key];
-					}
-					else
-					{
+				lock (TposItems) {
+					if (!TposItems.TryGetValue(key, out position))
 						position = new TPOSPosition();
 
-						position.Symbol = trade.Symbol;
-						//position.SymbolDetail,
-						position.Underlying = trade.Underlying;
-						position.ExpDate = trade.ExpDate;
-						position.StrikePrice = trade.StrikePrice;
-						position.CallPut = trade.CallPut;
-						position.SecType = trade.SecType;
-						//position.LastTraded,
-						//position.NetChange,
-						//position.PctChange,
-						//position.TotalVolume,
-						if (trade.ClearingAcct.Length > 5)
-						{
-							position.ClearingAcct = trade.ClearingAcct.Substring(0, 5);
-						}
-						else
-						{
-							position.ClearingAcct = trade.ClearingAcct;
-						}
-						position.Trader = trade.Trader;
-						//position.OpenQty,
-						//position.OpenAvg,
-						//position.CurrentQty,
-						//position.ContractSize,
-						//position.OpenPnL,
-						//position.DayPnL,
-						//position.DayRealizedPnL,
-						//position.TotalPnL,
-
-						TposItems.Add(key, position);
+					position.Symbol = trade.Symbol;
+					position.Underlying = trade.Underlying;
+					position.ExpDate = trade.ExpDate;
+					position.StrikePrice = trade.StrikePrice;
+					position.CallPut = trade.CallPut;
+					position.SecType = trade.SecType;
+					if (trade.ClearingAcct.Length > 5) {
+						position.ClearingAcct = trade.ClearingAcct.Substring(0, 5);
+					} else {
+						position.ClearingAcct = trade.ClearingAcct;
 					}
+					position.Trader = trade.Trader;
+					TposItems.Add(key, position);
+				}
 
-					switch (trade.Side)
-					{
-						case CSVFieldIDs.SideCodes.Buy:
-							cost = (position.BuyQty * position.BuyAvg) + (trade.Qty * trade.Price);
-							position.BuyQty = position.BuyQty + trade.Qty;
-							position.BuyAvg = cost / position.BuyQty;
-							break;
-						case CSVFieldIDs.SideCodes.Sell:
-						case CSVFieldIDs.SideCodes.Short:
-						default:
-							cost = (position.SellQty * position.SellAvg) + (trade.Qty * trade.Price);
-							position.SellQty = position.SellQty + trade.Qty;
-							position.SellAvg = cost / position.SellQty;
-							break;
-					}
-
-					TposItems[key] = position;
+				switch (trade.Side) {
+					case CSVFieldIDs.SideCodes.Buy:
+						cost = (position.BuyQty * position.BuyAvg) + (trade.Qty * trade.Price);
+						position.BuyQty = position.BuyQty + trade.Qty;
+						position.BuyAvg = cost / position.BuyQty;
+						break;
+					case CSVFieldIDs.SideCodes.Sell:
+					case CSVFieldIDs.SideCodes.Short:
+					default:
+						cost = (position.SellQty * position.SellAvg) + (trade.Qty * trade.Price);
+						position.SellQty = position.SellQty + trade.Qty;
+						position.SellAvg = cost / position.SellQty;
+						break;
 				}
 			}
 		}
-		
-		#endregion
 	}
+
+	#endregion
 
 	#region - Main Market Data -
 
 	// Main Market Data Collection
 	public class HelperMarketData
 	{
-		private Dictionary<string, MDServerToClient> _current;
-		public Dictionary<string, MDServerToClient> Current
-		{
-			get
-			{
-				if (_current == null)
-				{
-					_current = new Dictionary<string, MDServerToClient>();
-				}
-				return _current;
-			}
-		}
+		public Market Current { get; private set; } = new Market();
 	}
 
 	#endregion

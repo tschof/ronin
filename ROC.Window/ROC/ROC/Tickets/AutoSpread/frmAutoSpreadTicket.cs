@@ -3,28 +3,31 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
 
+using Common;
 using SerializationEx;
 using DataGridViewEx;
-using MarketDataEx;
 using CSVEx;
 using RDSEx;
 using ContextMenuEx;
 using LabelEx;
 using ROMEx;
-using DateTimeEx;
+using MarketData;
+using ROC.Tickets.AutoSpread;
+
+using Price = Common.Price;
+using IndexQuoteCollection = Common.PairCollection<int, MarketData.Quote>;
+using IndexLegCollection = Common.PairCollection<int, ROC.Tickets.AutoSpread.AutoSpreadItem>;
 
 namespace ROC
 {
 	[System.ComponentModel.DesignerCategory("Form")]
-	public partial class frmAutoSpreadTicket : QuickAutoSpreadSupport
+	internal partial class frmAutoSpreadTicket : QuickAutoSpreadSupport
 	{
 		#region - Properties -
 
-		public bool IsProcessing
+		internal bool IsProcessing
 		{
 			get
 			{
@@ -37,7 +40,7 @@ namespace ROC
 		}
 
 		private List<AutoSpreadSymbolSetting> _lastSavedAutoSpreadSymbolSettingList;
-		public List<AutoSpreadSymbolSetting> LastSavedAutoSpreadSymbolSettingList
+		internal List<AutoSpreadSymbolSetting> LastSavedAutoSpreadSymbolSettingList
 		{
 			get
 			{
@@ -55,7 +58,7 @@ namespace ROC
 
 		private DataView _searchView;
 		[Browsable(false)]
-		public DataView SearchView
+		internal DataView SearchView
 		{
 			get
 			{
@@ -72,20 +75,7 @@ namespace ROC
 			}
 		}
 
-		public bool EquityOnly
-		{
-			get
-			{
-				foreach (AutoSpreadItem item in _autoSpreadSupport.ItemByLegs.Values)
-				{
-					if (item.TradeFor == "" || item.LocalAcctAcrn == "" || item.Exchange == "")
-					{
-						return false;
-					}
-				}
-				return true;
-			}
-		}
+		internal bool EquityOnly => _autoSpreadSupport.EquityOnly;
 
 		#endregion
 
@@ -219,7 +209,7 @@ namespace ROC
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
 		private List<ROCOrder> _rocOrders = new List<ROCOrder>();
-		private Dictionary<string, MDServerToClient> _deltas = new Dictionary<string, MDServerToClient>();
+		private Market _deltas = new Market();
 
 		// Used to store user info for faster lookup
 		private Dictionary<string, RomBasicOrder> _validUserInfos = new Dictionary<string, RomBasicOrder>();
@@ -228,7 +218,7 @@ namespace ROC
 
 		#region - Construtor -
 
-		public frmAutoSpreadTicket()
+		internal frmAutoSpreadTicket()
 		{
 			InitializeComponent();
 			
@@ -242,7 +232,7 @@ namespace ROC
 			_isLoadingValue = true;
 
 			_autoSpreadSupport = new AutoSpreadSupport(Configuration.ROC.Default.BookDepthLimit, 0, Handle);
-			lblLegs.Value = _autoSpreadSupport.Legs;
+			lblLegs.Value = _autoSpreadSupport.LegCount;
 
 			_crrentPriceObj = numLimitPrice;
 
@@ -297,9 +287,9 @@ namespace ROC
 				UpdateTicketByProcessByTimer();
 			}
 
-			if (lblLegs.Value == null || (int)lblLegs.Value != _autoSpreadSupport.Legs)
+			if (lblLegs.Value == null || (int)lblLegs.Value != _autoSpreadSupport.LegCount)
 			{
-				lblLegs.Value = _autoSpreadSupport.Legs;
+				lblLegs.Value = _autoSpreadSupport.LegCount;
 			}
 
 			rocAutoSpreadList.PadByLimit();
@@ -633,7 +623,7 @@ namespace ROC
 				// replay current
 				try
 				{
-					UpdateMarketDataDeltas(new Dictionary<string, MDServerToClient>(GLOBAL.HMarketData.Current));
+					UpdateMarketDataDeltas(GLOBAL.HMarketData.Current);
 				}
 				catch (Exception ex)
 				{
@@ -668,7 +658,7 @@ namespace ROC
 			double tickSize = 0.01;
 			string secType = "";
 			string name = "";
-			MDServerToClient delta = new MDServerToClient();
+			Book delta = new Book();
 
 			UpdateAutoSpreadSettingsWithSecurityInfo(symbolDetail, ref mdSymbol, ref tickSize, ref secType, ref name);
 
@@ -690,9 +680,9 @@ namespace ROC
 
 			row["TickSize"] = tickSize;
 
-			if (delta.DisplayConversionFactor != null)
+			if (delta.TryGetField(Book.FieldEnum.DisplayConversionFactor, out double displayFactor))
 			{
-				row["DisplayFactor"] = (double)delta.DisplayConversionFactor;
+				row["DisplayFactor"] = displayFactor;
 			}
 			else
 			{
@@ -838,11 +828,9 @@ namespace ROC
 		private void cmdCenterLow_Click(object sender, EventArgs e)
 		{
 			GLOBAL.Interrupt = true;
-			Nullable<double> price = _autoSpreadSupport.EndOfBookPrice("Bid");
-			if (price != null)
-			{
-				price = rocAutoSpreadList.CalTickPriceFromSpreadPrice((double)price, "Bid");
-				rocAutoSpreadList.CenterOnPrice((double)price);
+			if (_autoSpreadSupport.TryGetEndOfBookPrice("Bid", out Price price)) {
+				price = rocAutoSpreadList.CalTickPriceFromSpreadPrice(price, "Bid");
+				rocAutoSpreadList.CenterOnPrice(price);
 			}
 		}
 
@@ -855,11 +843,9 @@ namespace ROC
 		private void cmdCenterHigh_Click(object sender, EventArgs e)
 		{
 			GLOBAL.Interrupt = true;
-			Nullable<double> price = _autoSpreadSupport.EndOfBookPrice("Ask");
-			if (price != null)
-			{
-				price = rocAutoSpreadList.CalTickPriceFromSpreadPrice((double)price, "Ask");
-				rocAutoSpreadList.CenterOnPrice((double)price);
+			if (_autoSpreadSupport.TryGetEndOfBookPrice("Ask", out Price price)) {
+				price = rocAutoSpreadList.CalTickPriceFromSpreadPrice(price, "Ask");
+				rocAutoSpreadList.CenterOnPrice(price);
 			}
 		}
 
@@ -919,7 +905,7 @@ namespace ROC
 
 		#region - Refresh & First Load -
 
-		public void RefreshAutoSpreadSettingsList(object input)
+		internal void RefreshAutoSpreadSettingsList(object input)
 		{
 			UpdateAutoSpreadSettingsStart();
 
@@ -1023,8 +1009,8 @@ namespace ROC
 
 		#region - Used By Process Thread -
 
-		private delegate void UpdateTicketByProcessDelegate(bool updateIM, ROCOrder[] orders, Dictionary<string, MDServerToClient> deltas);
-		public void UpdateTicketByProcess(bool updateIM, ROCOrder[] orders, Dictionary<string, MDServerToClient> deltas)
+		private delegate void UpdateTicketByProcessDelegate(bool updateIM, ROCOrder[] orders, Market deltas);
+		internal void UpdateTicketByProcess(bool updateIM, ROCOrder[] orders, Market deltas)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
@@ -1035,20 +1021,7 @@ namespace ROC
 					{
 						_rocOrders.AddRange(orders);
 					}
-					lock (_deltas)
-					{
-						foreach (string key in deltas.Keys)
-						{
-							if (_deltas.ContainsKey(key))
-							{
-								_deltas[key].Update(deltas[key]);
-							}
-							else
-							{
-								_deltas.Add(key, new MDServerToClient(deltas[key]));
-							}
-						}
-					}
+					_deltas.Merge(deltas);
 				}
 				catch (Exception ex)
 				{
@@ -1085,7 +1058,7 @@ namespace ROC
 						}
 					}
 
-					if (deltas.Count > 0)
+					if (!deltas.Empty)
 					{
 						UpdateMarketDataDeltas(deltas);
 					}
@@ -1137,16 +1110,15 @@ namespace ROC
 						}
 					}
 
-					Dictionary<string, MDServerToClient> deltas = new Dictionary<string, MDServerToClient>();
+					Market deltas = new Market();
 					lock (_deltas)
 					{
-						if (_deltas.Count > 0)
+						if (!_deltas.Empty)
 						{
-							deltas = new Dictionary<string, MDServerToClient>(_deltas);
-							_deltas.Clear();
+							deltas = Market.Replace(_deltas);
 						}
 					}
-					if (deltas.Count > 0)
+					if (!deltas.Empty)
 					{
 						UpdateMarketDataDeltas(deltas);
 					}
@@ -1202,10 +1174,7 @@ namespace ROC
 					{
 						foreach (string symbolDetail in removeList)
 						{
-							if (ImSymbolNeeded.ContainsKey(symbolDetail))
-							{
-								ImSymbolNeeded.Remove(symbolDetail);
-							}
+							ImSymbolNeeded.Remove(symbolDetail);
 						}
 					}
 				}
@@ -1217,13 +1186,13 @@ namespace ROC
 			HelperSubscriber.Subscribe(secInfo.MDSymbol, secInfo.MDSource, secInfo.SecType);
 			switch (secInfo.SecType)
 			{
-				case CSVFieldIDs.SecutrityTypes.Equity:
+				case CSVFieldIDs.SecurityTypes.Equity:
 					if (!MDSymbols.Contains(secInfo.MDSymbol))
 					{
 						MDSymbols.Add(secInfo.MDSymbol);
 					}
 					break;
-				case CSVFieldIDs.SecutrityTypes.Future:
+				case CSVFieldIDs.SecurityTypes.Future:
 					HelperSubscriber.SubscribeBook(secInfo.MDSymbol, secInfo.MDSource, secInfo.SecType);
 
 					if (!MDSymbols.Contains(secInfo.MDSymbol))
@@ -1353,7 +1322,7 @@ namespace ROC
 								break;
 							case CSVFieldIDs.StatusCodes.Filled:
 							case CSVFieldIDs.StatusCodes.PartiallyFilled:
-								if (spreadOrders.Count == _autoSpreadSupport.Legs)
+								if (spreadOrders.Count == _autoSpreadSupport.LegCount)
 								{
 									if (IsLockableSpreadOrder(spreadOrders))
 									{
@@ -1402,23 +1371,25 @@ namespace ROC
 		#endregion
 
 		// Update On Play back & onProcess
-		private void UpdateMarketDataDeltas(Dictionary<string, MDServerToClient> deltas)
+		private void UpdateMarketDataDeltas(Market deltas)
 		{
 			bool recalculateSpread = false;
 			bool checkBook = false;
 
-			int[] legs = new int[_autoSpreadSupport.ItemByLegs.Keys.Count];
-			_autoSpreadSupport.ItemByLegs.Keys.CopyTo(legs, 0);
+			//int[] legs = new int[_autoSpreadSupport.ItemByLegs.Keys.Count];
+			//_autoSpreadSupport.ItemByLegs.Keys.CopyTo(legs, 0);
 
-			foreach (int leg in legs)
+			IndexLegCollection.Enumerator i = _autoSpreadSupport.GetLegEnumerator();
+			while (i.MoveNext())
 			{
-				AutoSpreadItem item = _autoSpreadSupport.ItemByLegs[leg];
+				Book delta;
 				checkBook = false;
+				AutoSpreadItem item = i.Current.Value;
 
-				if (deltas.ContainsKey(item.SecInfo.MDSymbol))
+				if (deltas.TryGet(item.SecInfo.MDSymbol, out delta))
 				{
 					// Update Level 1
-					UpdateMarketDataDeltaL1(item.SecInfo.MDSymbol, ref item, deltas[item.SecInfo.MDSymbol]);
+					UpdateMarketDataDeltaL1(item.SecInfo.MDSymbol, item, delta);
 					recalculateSpread = true;
 					checkBook = true;
 				}
@@ -1426,12 +1397,12 @@ namespace ROC
 				string bookSymbol = "";
 				switch (item.SecInfo.SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						// Update Book
 						bookSymbol = "b" + item.SecInfo.MDSymbol;
-						if (deltas.ContainsKey(bookSymbol))
+						if (deltas.TryGet(bookSymbol, out delta))
 						{
-							UpdateMarketDataDeltaBook(leg, bookSymbol, ref item, deltas[bookSymbol]);
+							UpdateMarketDataDeltaBook(i.Current.Key, bookSymbol, item, delta);
 							recalculateSpread = true;
 							checkBook = true;
 						}
@@ -1442,20 +1413,18 @@ namespace ROC
 				{
 					// Makeup the bid and ask book to level and synthetic size
 					item.CheckLegBooks();
-
-					_autoSpreadSupport.ItemByLegs[leg] = item;
 				}
 			}
 
 			if (recalculateSpread)
 			{
-				ReclaculateSpread(legs);
+				ReclaculateSpread();
 			}			
 		}
 
-		private void ReclaculateSpread(int[] legs)
+		private void ReclaculateSpread()
 		{
-			CalculateSpreadData(legs);
+			CalculateSpreadData();
 
 			UpdateSpreadBook();
 
@@ -1465,73 +1434,44 @@ namespace ROC
 		#region - Level 1 Update -
 
 		// Get L1 Market Data By Process
-		private void UpdateMarketDataDeltaL1(string symbol, ref AutoSpreadItem item, MDServerToClient delta)
+		private void UpdateMarketDataDeltaL1(string symbol, AutoSpreadItem item, Book delta)
 		{
-			if (item.IsNewL1 && GLOBAL.HMarketData.Current.ContainsKey(symbol))
+			if (item.IsNewL1 && GLOBAL.HMarketData.Current.TryGet(symbol, out Book found))
 			{
 				// First Time
-				item.MarketData.Update(GLOBAL.HMarketData.Current[symbol]);
+				item.MarketData.Merge(found);
 				item.IsNewL1 = false;
 			}
 			else
 			{
 				// Update
-				item.MarketData.Update(delta);
+				item.MarketData.Merge(delta);
 			}
 
-			UpdateMarketDataDeltaBookFromL1(ref item);
+			UpdateMarketDataDeltaBookFromL1(item);
 		}
 
-		private void UpdateMarketDataDeltaBookFromL1(ref AutoSpreadItem item)
+		private void UpdateMarketDataDeltaBookFromL1(AutoSpreadItem item)
 		{
-			double price = 0;
-			long size = 0;
-			if ((item.MarketData.BidBooks.Count == 0 || item.SecInfo.SecType != CSVFieldIDs.SecutrityTypes.Future) &&
-				(item.MarketData.BidPrice != null && item.MarketData.BidSize != null))
-			{
-				price = (double)item.MarketData.BidPrice;
-				switch (item.SecInfo.SecType)
-				{
-					case CSVFieldIDs.SecutrityTypes.Equity:
-						size = (long)item.MarketData.BidSize * 100;
-						break;
-					default:
-						size = (long)item.MarketData.BidSize;
-						break;
-				}
+			double price ;
+			long size;
 
-				if (item.MarketData.BidBooks.ContainsKey(price))
-				{
-					item.MarketData.BidBooks[price]= size;
-				}
+			if ((item.MarketData.Bids.Count == 0 || item.SecInfo.SecType != CSVFieldIDs.SecurityTypes.Future) &&
+				(item.MarketData.TryGetField(Book.FieldEnum.BidPrice, out price) && item.MarketData.TryGetField(Book.FieldEnum.BidSize, out size)))
+			{
+				if (item.SecInfo.SecType == CSVFieldIDs.SecurityTypes.Equity)
+					item.MarketData.SetBid(price, size * 100);
 				else
-				{
-					item.MarketData.BidBooks.Add(price, size);
-				}
+					item.MarketData.SetBid(price, size);
 			}
 
-			if ((item.MarketData.AskBooks.Count == 0 || item.SecInfo.SecType != CSVFieldIDs.SecutrityTypes.Future) &&
-				(item.MarketData.AskPrice != null && item.MarketData.AskSize != null))
+			if ((item.MarketData.Asks.Count == 0 || item.SecInfo.SecType != CSVFieldIDs.SecurityTypes.Future) &&
+				(item.MarketData.TryGetField(Book.FieldEnum.AskPrice, out price) && item.MarketData.TryGetField(Book.FieldEnum.AskSize, out size)))
 			{
-				price = (double)item.MarketData.AskPrice;
-				switch (item.SecInfo.SecType)
-				{
-					case CSVFieldIDs.SecutrityTypes.Equity:
-						size = (long)item.MarketData.AskSize * 100;
-						break;
-					default:
-						size = (long)item.MarketData.AskSize;
-						break;
-				}
-
-				if (item.MarketData.AskBooks.ContainsKey(price))
-				{
-					item.MarketData.AskBooks[price] = size;
-				}
+				if (item.SecInfo.SecType == CSVFieldIDs.SecurityTypes.Equity)
+					item.MarketData.SetAsk(price, size * 100);
 				else
-				{
-					item.MarketData.AskBooks.Add(price, size);
-				}
+					item.MarketData.SetAsk(price, size);
 			}
 		}
 
@@ -1540,18 +1480,18 @@ namespace ROC
 		#region - Book Update -
 
 		// Get Book Market Data By Process
-		private void UpdateMarketDataDeltaBook(int leg, string bookSymbol, ref AutoSpreadItem item, MDServerToClient delta)
+		private void UpdateMarketDataDeltaBook(int leg, string bookSymbol, AutoSpreadItem item, Book delta)
 		{
-			if (item.IsNewBook && GLOBAL.HMarketData.Current.ContainsKey(bookSymbol))
+			if (item.IsNewBook && GLOBAL.HMarketData.Current.TryGet(bookSymbol, out Book found))
 			{
 				// First Time
-				item.MarketData.Update(GLOBAL.HMarketData.Current[bookSymbol]);
+				item.MarketData.Merge(found);
 				item.IsNewBook = false;
 			}
 			else
 			{
 				// Update
-				item.MarketData.Update(delta);
+				item.MarketData.Merge(delta);
 			}
 		}
 
@@ -1559,33 +1499,26 @@ namespace ROC
 
 		#region - Spread Calculation -
 
-		private void CalculateSpreadData(int[] legs)
+		private void CalculateSpreadData()
 		{
 			// Prime Leg must have a non zero factor
-			if (_autoSpreadSupport.HasAllLegs && _autoSpreadSupport.ItemByLegs[_autoSpreadSupport.PrimeLeg].Factor != 0)
+			if (!_autoSpreadSupport.TryGetPrimeLeg(out var primeLeg))
+				return;
+
+			if (_autoSpreadSupport.HasAllLegs && primeLeg.Factor != 0)
 			{
-				//DateTimeHP _dtHP = new DateTimeHP();
-				//TimeSpan _pTimeSpan = new TimeSpan();
-
-				//DateTime _pTime = _dtHP.Now;
-
-				_autoSpreadSupport.CalculateSyntheticBookFromLegs(legs, "Ask");
-				_autoSpreadSupport.CalculateSyntheticBookFromLegs(legs, "Bid");
-
-				//_autoSpreadSupport.CalculateSyntheticTradedPriceByLegs(legs);
-				_autoSpreadSupport.CalculateSyntheticLevel1PricesByLegs(legs);
-
-				//_pTimeSpan = _dtHP.Now.Subtract(_pTime);
-				//GLOBAL.HROC.AddToStatusLogs(string.Format("CalculateSyntheticTime {0,8}ms| 3Leg", _pTimeSpan.TotalMilliseconds));
+				_autoSpreadSupport.CalculateSyntheticBookFromLegs("Ask");
+				_autoSpreadSupport.CalculateSyntheticBookFromLegs("Bid");
+				_autoSpreadSupport.CalculateSyntheticLevel1PricesByLegs(primeLeg);
 
 				if (okToBuildQuickList && !rocAutoSpreadList.ReadyForTickTable)
 				{
 					lock (rocAutoSpreadList)
 					{
 						// Update TickSize 
-						if (rocAutoSpreadList.TickSize != _autoSpreadSupport.ItemByLegs[_autoSpreadSupport.PrimeLeg].SecInfo.TickSize)
+						if (rocAutoSpreadList.TickSize != primeLeg.SecInfo.TickSize)
 						{
-							rocAutoSpreadList.TickSize = _autoSpreadSupport.ItemByLegs[_autoSpreadSupport.PrimeLeg].SecInfo.TickSize;
+							rocAutoSpreadList.TickSize = primeLeg.SecInfo.TickSize;
 						}
 
 						// Refresh Ladder
@@ -1610,7 +1543,7 @@ namespace ROC
 				{
 					oldPrice = (double)oldRow["Price"];
 
-					if (!priceItems.OpenOrderPriceQty.ContainsKey(oldPrice))
+					if (!priceItems.OpenOrderPriceQty.TryGetValue(oldPrice, out long size))
 					{
 						// The Qty is no longer there
 						oldRow[side + "OpenQty"] = DBNull.Value;
@@ -1623,9 +1556,9 @@ namespace ROC
 					else
 					{
 						// Update Qty And Remove from the update
-						if (oldRow[side + "OpenQty"] == DBNull.Value || (long)oldRow[side + "OpenQty"] != priceItems.OpenOrderPriceQty[oldPrice])
+						if (oldRow[side + "OpenQty"] == DBNull.Value || (long)oldRow[side + "OpenQty"] != size)
 						{
-							oldRow[side + "OpenQty"] = priceItems.OpenOrderPriceQty[oldPrice];
+							oldRow[side + "OpenQty"] = size;
 						}
 						priceItems.OpenOrderPriceQty.Remove(oldPrice);
 
@@ -1635,15 +1568,15 @@ namespace ROC
 				}
 
 				// Only new prices left here
-				foreach (double price in priceItems.OpenOrderPriceQty.Keys)
+				foreach ((Price price, long size) in priceItems.OpenOrderPriceQty)
 				{
 					DataRowView[] rows = rocAutoSpreadList.PriceSearchView.FindRows(price);
 
 					foreach (DataRowView row in rows)
 					{
-						if (priceItems.OpenOrderPriceQty[price] > 0)
+						if (size > 0)
 						{
-							row[side + "OpenQty"] = priceItems.OpenOrderPriceQty[price];
+							row[side + "OpenQty"] = size;
 							// Flag Stop Price
 							if (priceItems.OpenStopOrderPrice.Contains(price))
 							{
@@ -1787,12 +1720,13 @@ namespace ROC
 				{
 					bool hasError = false;
 					long baseQty = Convert.ToInt64(numQuantity.Value);
+					IndexLegCollection.Enumerator i = _autoSpreadSupport.GetLegEnumerator();
 
-					foreach (AutoSpreadItem item in _autoSpreadSupport.ItemByLegs.Values)
-					{
+					while (i.MoveNext()) {
 						RomBasicOrder order = new RomBasicOrder();
 						string limitMarketPrice = "";
 						string stopMarketPrice = "";
+						AutoSpreadItem item = i.Current.Value;
 
 						bool isShort = false;
 						order.side = GetLegSideCode(side, item, ref isShort);
@@ -1806,14 +1740,14 @@ namespace ROC
 
 						switch (item.SecInfo.SecType)
 						{
-							case CSVEx.CSVFieldIDs.SecutrityTypes.Future:
+							case CSVEx.CSVFieldIDs.SecurityTypes.Future:
 								order.symbol = item.SymbolDetail;
 								order.mdSymbol = item.SecInfo.MDSymbol;
 								order.secType = item.SecInfo.SecType;
 								order.underlying = item.SecInfo.Underlying;
 								order.expDate = item.SecInfo.Expiration;
 								break;
-							case CSVEx.CSVFieldIDs.SecutrityTypes.Equity:
+							case CSVEx.CSVFieldIDs.SecurityTypes.Equity:
 							default:
 								order.symbol = item.SymbolDetail;
 								order.mdSymbol = item.SecInfo.MDSymbol;
@@ -1913,14 +1847,14 @@ namespace ROC
 
 				switch (orgOrder.SecType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Future:
+					case CSVFieldIDs.SecurityTypes.Future:
 						order.symbol = orgOrder.SymbolDetail;
 						order.mdSymbol = orgOrder.Symbol;
 						order.secType = orgOrder.SecType;
 						order.underlying = orgOrder.Underlying;
 						order.expDate = orgOrder.ExpDate;
 						break;
-					case CSVFieldIDs.SecutrityTypes.Equity:
+					case CSVFieldIDs.SecurityTypes.Equity:
 					default:
 						order.symbol = orgOrder.SymbolDetail;
 						order.mdSymbol = orgOrder.Symbol;
@@ -1938,11 +1872,13 @@ namespace ROC
 				order.cmtaFirmID = orgOrder.CMTAFirmID;
 				order.exchangeID = orgOrder.DestID.ToString();
 
-				foreach (AutoSpreadItem item in _autoSpreadSupport.ItemByLegs.Values)
+				IndexLegCollection.Enumerator i = _autoSpreadSupport.GetLegEnumerator();
+				while (i.MoveNext())
 				{
+					AutoSpreadItem item = i.Current.Value;
 					if (item.SymbolDetail == orgOrder.SymbolDetail)
 					{
-						if (item.Exchange != "" && item.LocalAcctAcrn != "" && item.TradeFor != "")
+						if (item.HasOriginInfo)
 						{
 							// User Specified
 							order.tradeFor = item.TradeFor;
@@ -1973,7 +1909,7 @@ namespace ROC
 			}
 		}
 
-		private void CancelOrderByPrice(string side, double price)
+		private void CancelOrderByPrice(string side, Price price)
 		{
 			lock (GLOBAL.HOrders)
 			{
@@ -1986,9 +1922,9 @@ namespace ROC
 					ParentTagKeyItems pTagItems = new ParentTagKeyItems(parentTag);
 					Dictionary<int, ROCOrder> orders = GetSpreadOrders(parentTag, false);
 
-					if (pTagItems.LimitSpreadPriceDouble != null && 
-						(double)pTagItems.LimitSpreadPriceDouble == price &&
-						pTagItems.MasterSideSpreadName == side)
+					if (pTagItems.TryGetLimitSpreadPrice(out double spreadPrice) && 
+						(price == spreadPrice) &&
+						(pTagItems.MasterSideSpreadName == side))
 					{
 						foreach (ROCOrder order in orders.Values)
 						{
@@ -2010,14 +1946,11 @@ namespace ROC
 				{
 					Dictionary<int, ROCOrder> orders = GetSpreadOrders(parentTag, false);
 					
-					if (orders.ContainsKey(_autoSpreadSupport.PrimeLeg) && 
-						orders[_autoSpreadSupport.PrimeLeg].Side != null &&
-						(long)orders[_autoSpreadSupport.PrimeLeg].Side == side)
+					if (orders.TryGetValue(_autoSpreadSupport.PrimeLegNumber, out ROCOrder primeOrder) &&  (primeOrder.Side == side))
 					{
-						foreach (ROCOrder order in orders.Values)
-						{
-							GLOBAL.HROM.CancelSingleOrder(order.Tag);
-						}
+						var i = orders.GetEnumerator();
+						while (i.MoveNext())
+							GLOBAL.HROM.CancelSingleOrder(i.Current.Value.Tag);
 					}
 				}
 			}
@@ -2274,7 +2207,7 @@ namespace ROC
 
 			//cboOrder.Text = "Limit";
 			//cboDuration.Text = "DAY";
-			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(TicketDefaults.Future, CSVEx.CSVFieldIDs.SecutrityTypes.Future));
+			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(TicketDefaults.Future, CSVEx.CSVFieldIDs.SecurityTypes.Future));
 
 			_isLoadingValue = false;
 
@@ -2417,7 +2350,8 @@ namespace ROC
 
 			LongName = _autoSpreadSupport.LongName;
 
-			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(_autoSpreadSupport.PrimeSymbolDetail, CSVEx.CSVFieldIDs.SecutrityTypes.Future));
+			if (_autoSpreadSupport.TryGetPrimeLeg(out var primeLeg))
+				UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(primeLeg.SymbolDetail, CSVEx.CSVFieldIDs.SecurityTypes.Future));
 		}
 
 		private void UpdateSpreadBook()
@@ -2503,26 +2437,27 @@ namespace ROC
 		{
 			if (rocAutoSpreadList.ReadyForTickTable && okToBuildQuickList && rocAutoSpreadList.RocGridTable.Rows.Count == 0)
 			{
-				lock (grid.RocGridTable)
-				{
-					grid.SetupTickTable(Math.Round(_autoSpreadSupport.SyntheticAskBook[0].Price, 2), _autoSpreadSupport.BookDepthLimit);
+				if (_autoSpreadSupport.SyntheticAskBook.TryGetFront(out Quote frontQuote)) {
+					lock (grid.RocGridTable) {
+						grid.SetupTickTable(frontQuote.QuotePrice.Round(2), _autoSpreadSupport.BookDepthLimit);
+					}
 				}
 			}
 		}
 
-		private void UpdateTickTable(ROCAutoSpreadList grid, Dictionary<int, PriceVolumePair> book, string side)
+		private void UpdateTickTable(ROCAutoSpreadList grid, IndexQuoteCollection book, string side)
 		{
-			if (rocAutoSpreadList.ReadyForTickTable && okToBuildQuickList)
+			if (rocAutoSpreadList.ReadyForTickTable && okToBuildQuickList && book.TryGetFront(out Quote frontQuote))
 			{
 				lock (grid.RocGridTable)
 				{
-					double limitPrice = book[0].Price;
+					Price limitPrice = frontQuote.QuotePrice;
 
 					rocAutoSpreadList.CheckBook(limitPrice, side);
 
-					foreach (int level in book.Keys)
+					foreach ((int level, Quote quote) in book)
 					{
-						double price = Math.Round(book[level].Price, 2);
+						Price price = quote.QuotePrice.Round(2);
 
 						if (grid.RocGridTable.Rows.Count > 0)
 						{
@@ -2532,15 +2467,15 @@ namespace ROC
 						switch (side)
 						{
 							case "Bid":
-								if (price <= limitPrice && book[level].Volume != 0)
+								if ((price <= limitPrice) && quote.Size != 0)
 								{
-									grid.SetBookSize(grid.CalTickPriceFromSpreadPrice(price, side), book[level].Volume, side);
+									grid.SetBookSize(grid.CalTickPriceFromSpreadPrice(price, side), quote.Size, side);
 								}
 								break;
 							case "Ask":
-								if (price >= limitPrice && book[level].Volume != 0)
+								if ((price >= limitPrice) && quote.Size != 0)
 								{
-									grid.SetBookSize(grid.CalTickPriceFromSpreadPrice(price, side), book[level].Volume, side);
+									grid.SetBookSize(grid.CalTickPriceFromSpreadPrice(price, side), quote.Size, side);
 								}
 								break;
 						}
@@ -2623,8 +2558,6 @@ namespace ROC
 			}
 			List<string> parentTags = GetParentTags(rows);
 
-			Nullable<double> orgLimitSpreadPrice = null;
-			Nullable<double> orgStopSpreadPrice = null;
 			foreach (string parentTag in parentTags)
 			{
 				if (_lockedParentTags.Contains(parentTag))
@@ -2635,32 +2568,37 @@ namespace ROC
 
 				Dictionary<int, ROCOrder> orders = GetSpreadOrders(parentTag, false);
 
-				if (orders.Count == _autoSpreadSupport.Legs)
+				if (orders.Count == _autoSpreadSupport.LegCount)
 				{
 					// Get the origional spread price from parent tag
 					ParentTagKeyItems pTagItems = new ParentTagKeyItems(parentTag);
-					orgLimitSpreadPrice = pTagItems.LimitSpreadPriceDouble;
-					orgStopSpreadPrice = pTagItems.StopSpreadPriceDouble;
-
-					if (orgLimitSpreadPrice != null)
-					{
-						ReplaceSpreadOrders(orders, (double)orgLimitSpreadPrice, orgStopSpreadPrice);
+					if (pTagItems.TryGetLimitSpreadPrice(out double limitSpreadPrice)) {
+						if (pTagItems.TryGetStopSpreadPrice(out double stopSpreadPrice))
+							ReplaceSpreadOrders(orders, limitSpreadPrice, stopSpreadPrice);
 					}
 				}
 			}
 		}
-		private void ReplaceSpreadOrders(Dictionary<int, ROCOrder> orders, double orgLimitSpreadPrice, Nullable<double> orgStopSpreadPrice)
+
+		private void ReplaceSpreadOrders(Dictionary<int, ROCOrder> orders, double orgLimitSpreadPrice, double? orgStopSpreadPrice)
 		{
-			string newLimitPrice = "";
+			string newLimitPrice;
 			string newStopPrice = "";
-			string newLimitMarketPrice = "";
-			string newStopMarketPrice = "";
+			string newLimitMarketPrice;
+			string newStopMarketPrice;
+
+			if (orders == null)
+				return;
 
 			lock (_replacingOrders)
 			{
-				foreach (int legNumber in orders.Keys)
+				Dictionary<int, ROCOrder>.Enumerator i = orders.GetEnumerator();
+				while (i.MoveNext())
 				{
-					switch (orders[legNumber].Status)
+					int legNumber = i.Current.Key;
+					ROCOrder order = i.Current.Value;
+
+					switch (order.Status)
 					{
 						case CSVFieldIDs.StatusCodes.Rejected:
 						case CSVFieldIDs.StatusCodes.Filled:
@@ -2668,27 +2606,23 @@ namespace ROC
 						case CSVFieldIDs.StatusCodes.ReplacedAndFilled:
 							break;
 						default:
-							newLimitPrice = GetLegPrice((long)orders[legNumber].Side, orgLimitSpreadPrice, legNumber, out newLimitMarketPrice);
-							if (newLimitMarketPrice != "")
-							{
-								_autoSpreadSupport.NewLimitMarketPriceFor(orders[legNumber].Tag, newLimitMarketPrice);
-							}
-
-							if (orgStopSpreadPrice != null)
-							{
-								newStopPrice = GetLegPrice((long)orders[legNumber].Side, (double)orgStopSpreadPrice, legNumber, out newStopMarketPrice);
-								if (newStopMarketPrice != "")
-								{
-									_autoSpreadSupport.NewStopMarketPriceFor(orders[legNumber].Tag, newStopMarketPrice);
+							if (_autoSpreadSupport.TryGetLeg(legNumber, out var legItem) && order.Side.HasValue) {
+								newLimitPrice = GetLegPrice(order.Side.Value, orgLimitSpreadPrice, legItem, out newLimitMarketPrice);
+								if (newLimitMarketPrice != "") {
+									_autoSpreadSupport.NewLimitMarketPriceFor(order.Tag, newLimitMarketPrice);
 								}
-							}
 
-							if (newLimitPrice != "")
-							{
-								if (!_replacingOrders.ContainsKey(orders[legNumber].Tag))
-								{
-									_replacingOrders.Add(orders[legNumber].Tag, null);
-									GLOBAL.HROM.ReplaceOrder(orders[legNumber].Tag, newLimitPrice, newStopPrice);
+								if (orgStopSpreadPrice.HasValue) {
+									newStopPrice = GetLegPrice(order.Side.Value, orgStopSpreadPrice.Value, legItem, out newStopMarketPrice);
+									if (newStopMarketPrice != "") {
+										_autoSpreadSupport.NewStopMarketPriceFor(order.Tag, newStopMarketPrice);
+									}
+								}
+
+								if (newLimitPrice != "") {
+									if (_replacingOrders.TryAdd(order.Tag, null)) {
+										GLOBAL.HROM.ReplaceOrder(order.Tag, newLimitPrice, newStopPrice);
+									}
 								}
 							}
 							break;
@@ -2755,15 +2689,14 @@ namespace ROC
 						break;
 					default:
 						TagKeyItems tagItems = new TagKeyItems(order.Tag);
-						if (order.Price.ToString() != tagItems.LimitMarketPrice || order.StopPrice.ToString() != tagItems.StopMarketPrice)
+						if (order.Price.ToString() != tagItems.LimitMarketPriceText || order.StopPrice.ToString() != tagItems.StopMarketPriceText)
 						{
 							lock (_replacingOrders)
 							{
 								// The order is already locked don't replace it anymore
-								if (!_replacingOrders.ContainsKey(order.Tag))
+								if (_replacingOrders.TryAdd(order.Tag, null))
 								{
-									_replacingOrders.Add(order.Tag, null);
-									GLOBAL.HROM.ReplaceOrder(order.Tag, tagItems.LimitMarketPrice, tagItems.StopMarketPrice);
+									GLOBAL.HROM.ReplaceOrder(order.Tag, tagItems.LimitMarketPriceText, tagItems.StopMarketPriceText);
 								}
 							}
 						}
@@ -2773,25 +2706,17 @@ namespace ROC
 		}
 
 		// Replace Order by partially filled order
-		private void GetLeaveMultiple(Dictionary<int, ROCOrder> orders, out Nullable<KeyValuePair<int, double>> largestMultiple, out Nullable<KeyValuePair<int, double>> smallestMultiple)
+		private void GetLeaveMultiple(Dictionary<int, ROCOrder> orders, out KeyValuePair<int, double>? largestMultiple, out KeyValuePair<int, double>? smallestMultiple)
 		{
 			Dictionary<int, double> leaveMultiples = new Dictionary<int,double>();
 			foreach (ROCOrder order in orders.Values)
 			{
 				TagKeyItems tagItems = new TagKeyItems(order.Tag);
 
-				if (tagItems.LegNumberInt != null)
+				if (tagItems.TryGetLegNumber(out int legNumber) && _autoSpreadSupport.TryGetLeg(legNumber, out var leg))
 				{
-					int legNumber = (int)tagItems.LegNumberInt;
-					double multiple =  Math.Abs(order.LeaveQty / _autoSpreadSupport.ItemByLegs[legNumber].Factor);
-					if (leaveMultiples.ContainsKey(legNumber))
-					{
-						leaveMultiples[legNumber] = multiple;
-					}
-					else
-					{
-						leaveMultiples.Add(legNumber, multiple);
-					}
+					double multiple =  Math.Abs(order.LeaveQty / leg.Factor);
+					leaveMultiples[legNumber] = multiple;
 				}
 			}
 
@@ -2841,9 +2766,11 @@ namespace ROC
 				smallestMultiple = null;
 			}
 		}
-		private long GetOrigionalMultiple(long orginalQty, int legNumber)
+		private long GetOriginalMultiple(long orginalQty, int legNumber)
 		{
-			return Convert.ToInt64(Math.Abs(Math.Floor(orginalQty / _autoSpreadSupport.ItemByLegs[legNumber].Factor)));
+			if (_autoSpreadSupport.TryGetLeg(legNumber, out var legItem))
+				return Convert.ToInt64(Math.Abs(Math.Floor(orginalQty / legItem.Factor)));
+			return 1;
 		}
 
 		private void ReplaceSpreadOrdersByLeaveMultiple(Dictionary<int, ROCOrder> orders, long replaceMultiple)
@@ -2854,18 +2781,21 @@ namespace ROC
 
 				lock (_replacingOrders)
 				{
-					foreach (int legNumber in orders.Keys)
+					Dictionary<int, ROCOrder>.Enumerator i = orders.GetEnumerator();
+					while (i.MoveNext())
 					{
-						replaceQty = GetQtyFromMultiple(orders[legNumber], replaceMultiple, _autoSpreadSupport.ItemByLegs[legNumber].Factor, false);
-						if (replaceQty != "")
-						{
-							if (!_replacingOrders.ContainsKey(orders[legNumber].Tag))
-							{
+						int legNumber = i.Current.Key;
+						ROCOrder order = i.Current.Value;
+
+						if (_autoSpreadSupport.TryGetLeg(legNumber, out var legItem)) {
+							replaceQty = GetQtyFromMultiple(order, replaceMultiple, legItem.Factor, false);
+							if (replaceQty != "") {
 								// save the origional qty of the order
-								_replacingOrders.Add(orders[legNumber].Tag, orders[legNumber].Qty);
-								TagKeyItems tagItems = new TagKeyItems(orders[legNumber].Tag);
-								// reduce qty to multiple and lock price to market
-								GLOBAL.HROM.ReplaceOrder(orders[legNumber].Tag, replaceQty, tagItems.LimitMarketPrice, tagItems.StopMarketPrice);
+								if (_replacingOrders.TryAdd(order.Tag, order.Qty)) {
+									TagKeyItems tagItems = new TagKeyItems(order.Tag);
+									// reduce qty to multiple and lock price to market
+									GLOBAL.HROM.ReplaceOrder(order.Tag, replaceQty, tagItems.LimitMarketPriceText, tagItems.StopMarketPriceText);
+								}
 							}
 						}
 					}
@@ -2878,35 +2808,32 @@ namespace ROC
 
 			lock (_replacingOrders)
 			{
-				foreach (int legNumber in orders.Keys)
-				{
-					newQty = GetQtyFromMultiple(orders[legNumber], leaveMultiple, _autoSpreadSupport.ItemByLegs[legNumber].Factor, true);
-					if (newQty == "")
-					{
-						// Can not replace qty to factor, cancell the order and then reopen
-						if (!_replacingOrders.ContainsKey(orders[legNumber].Tag))
-						{
-							_replacingOrders.Add(orders[legNumber].Tag, orders[legNumber].Qty);
-							// save the origional qty of the order
-							if (orders[legNumber].Qty.ToString() != newQty)
-							{
-								GLOBAL.HROM.CancelSingleOrder(orders[legNumber].Tag);
-								// Debug
-								//GLOBAL.HROC.AddToStatusLogs("CancelSingleOrder " + orders[legNumber].Tag);
+				Dictionary<int, ROCOrder>.Enumerator i = orders.GetEnumerator();
+				while (i.MoveNext()) {
+					int legNumber = i.Current.Key;
+					ROCOrder order = i.Current.Value;
+
+					if (_autoSpreadSupport.TryGetLeg(legNumber, out var legItem)) {
+						newQty = GetQtyFromMultiple(order, leaveMultiple, legItem.Factor, true);
+						if (newQty == "") {
+							// Can not replace qty to factor, cancell the order and then reopen
+							if (_replacingOrders.TryAdd(order.Tag, order.Qty)) {
+								// save the origional qty of the order
+								if (order.Qty.ToString() != newQty) {
+									GLOBAL.HROM.CancelSingleOrder(order.Tag);
+									// Debug
+									//GLOBAL.HROC.AddToStatusLogs("CancelSingleOrder " + orders[legNumber].Tag);
+								}
 							}
-						}
-					}
-					else
-					{
-						// Still can replace qty
-						if (!_replacingOrders.ContainsKey(orders[legNumber].Tag))
-						{
-							_replacingOrders.Add(orders[legNumber].Tag, orders[legNumber].Qty);
-							TagKeyItems tagItems = new TagKeyItems(orders[legNumber].Tag);
-							// reduce qty to multiple and lock price to market
-							GLOBAL.HROM.ReplaceOrder(orders[legNumber].Tag, newQty, tagItems.LimitMarketPrice, tagItems.StopMarketPrice);
-							// Debug
-							//GLOBAL.HROC.AddToStatusLogs("ReplaceOrder " + orders[legNumber].Tag);
+						} else {
+							// Still can replace qty
+							if (_replacingOrders.TryAdd(order.Tag, order.Qty)) {
+								TagKeyItems tagItems = new TagKeyItems(order.Tag);
+								// reduce qty to multiple and lock price to market
+								GLOBAL.HROM.ReplaceOrder(order.Tag, newQty, tagItems.LimitMarketPriceText, tagItems.StopMarketPriceText);
+								// Debug
+								//GLOBAL.HROC.AddToStatusLogs("ReplaceOrder " + orders[legNumber].Tag);
+							}
 						}
 					}
 				}
@@ -2933,18 +2860,18 @@ namespace ROC
 			Nullable<long> orgTotalQty = null;
 			lock (_replacingOrders)
 			{
-				if (_replacingOrders.ContainsKey(order.Tag))
+				if (_replacingOrders.TryGetValue(order.Tag, out long? size))
 				{
-					orgTotalQty = _replacingOrders[order.Tag];
+					orgTotalQty = size;
 					_replacingOrders.Remove(order.Tag);
 				}
 			}
 
-			if (orgTotalQty != null)
+			if (orgTotalQty.HasValue)
 			{
 				// Make a new order out of qty need to refill the origional qty
 				long currentTotalQty = order.CumQty + order.LeaveQty;
-				long newQty = (long)orgTotalQty - currentTotalQty;
+				long newQty = orgTotalQty.Value - currentTotalQty;
 
 				if (newQty > 0)
 				{
@@ -2967,7 +2894,7 @@ namespace ROC
 
 		private Dictionary<int, ROCOrder> GetSpreadOrders(ROCOrder currentOrder, TagKeyItems tagItems)
 		{
-			if (tagItems.LegNumberInt == null)
+			if (!tagItems.TryGetLegNumber(out int _))
 			{
 				// This is not a spread order without leg number
 				//GLOBAL.HROC.AddToException(currentOrder.Tag + " Can not find leg number!");
@@ -2987,7 +2914,7 @@ namespace ROC
 				{
 					rows = GLOBAL.HOrders.Table.Select(GetAllOrderFilter(parentTag, false), "Tag");
 					// Check To See if We have equal number of orders to legs
-					if (rows.Length != _autoSpreadSupport.Legs)
+					if (rows.Length != _autoSpreadSupport.LegCount)
 					{
 						// Missing Legs
 						//GLOBAL.HROC.AddToException(parentTag + " Can not find all legs in data table!");
@@ -2998,7 +2925,7 @@ namespace ROC
 				{
 					// Used by Market Data Replace
 					rows = GLOBAL.HOrders.Table.Select(GetOpenOrderFilter(parentTag, true), "Tag");
-					if (rows.Length != _autoSpreadSupport.Legs)
+					if (rows.Length != _autoSpreadSupport.LegCount)
 					{
 						// Is a locked order don't do replace on it anymore
 						// remember the locked parentTags
@@ -3026,18 +2953,12 @@ namespace ROC
 				foreach (DataRow row in rows)
 				{
 					string orderID = row["Tag"].ToString();
-					if (GLOBAL.HOrders.RocItems.ContainsKey(orderID))
+					if (GLOBAL.HOrders.RocItems.TryGetValue(orderID, out ROCOrder order))
 					{
-						ROCOrder order = GLOBAL.HOrders.RocItems[orderID];
 						TagKeyItems tagItems = new TagKeyItems(orderID);
 
-						if (tagItems.LegNumberInt != null)
-						{
-							if (!result.ContainsKey((int)tagItems.LegNumberInt))
-							{
-								result.Add((int)tagItems.LegNumberInt, order);
-							}
-						}
+						if (tagItems.TryGetLegNumber(out int legNumber))
+							result.TryAdd(legNumber, order);
 					}
 				}
 			}
@@ -3069,35 +2990,31 @@ namespace ROC
 
 			//string legPrices = "[LIM] \r\n";
 			string legPrices = "";
-			foreach (AutoSpreadItem item in _autoSpreadSupport.ItemByLegs.Values)
+			IndexLegCollection.Enumerator i = _autoSpreadSupport.GetLegEnumerator();
+			while (i.MoveNext())
 			{
-				if (item.LegNumber == _autoSpreadSupport.PrimeLeg)
+				AutoSpreadItem item = i.Current.Value;
+
+				if (item.LegNumber == _autoSpreadSupport.PrimeLegNumber)
 				{
 					legPrices = legPrices + string.Format("{0, -6}  BID {1, 8}  ASK {2, 8} Last {3, 8} \r\n", new object[] { item.SymbolDetail, item.BidPriceSTR, item.AskPriceSTR, item.TradedPriceSTR });
 					legPrices = legPrices + string.Format("{0, -6}  BUY {1, 8} SELL {2, 8} \r\n", new object[] { "", item.BuyLimitPriceSTR, item.SellLimitPriceSTR });
 					legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", new object[] { item.TickLimit, item.BuyLimitPriceFromBidPrice, item.SellLimitPriceFromAskPrice });
 				}
+				else if (_autoSpreadSupport.IsFlipped(_autoSpreadSupport.PrimeFactor, item.Factor))
+				{
+					legPrices = legPrices + string.Format("{0, -6}  ASK {1, 8}  BID {2, 8} Last {3, 8} \r\n", new object[] { item.SymbolDetail, item.AskPriceSTR, item.BidPriceSTR, item.TradedPriceSTR });
+					legPrices = legPrices + string.Format("{0, -6} SELL {1, 8}  BUY {2, 8} \r\n", new object[] { "", item.SellLimitPriceSTR, item.BuyLimitPriceSTR });
+					legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", new object[] { item.TickLimit, item.SellLimitPriceFromAskPrice, item.BuyLimitPriceFromBidPrice });
+				}
 				else
 				{
-					if (_autoSpreadSupport.IsFlipped(_autoSpreadSupport.PrimeFactor, item.Factor))
-					{
-						legPrices = legPrices + string.Format("{0, -6}  ASK {1, 8}  BID {2, 8} Last {3, 8} \r\n", new object[] { item.SymbolDetail, item.AskPriceSTR, item.BidPriceSTR, item.TradedPriceSTR });
-						legPrices = legPrices + string.Format("{0, -6} SELL {1, 8}  BUY {2, 8} \r\n", new object[] { "", item.SellLimitPriceSTR, item.BuyLimitPriceSTR });
-						legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", new object[] { item.TickLimit, item.SellLimitPriceFromAskPrice, item.BuyLimitPriceFromBidPrice });
-					}
-					else
-					{
-						legPrices = legPrices + string.Format("{0, -6}  BID {1, 8}  ASK {2, 8} Last {3, 8} \r\n", new object[] { item.SymbolDetail, item.BidPriceSTR, item.AskPriceSTR, item.TradedPriceSTR });
-						legPrices = legPrices + string.Format("{0, -6}  BUY {1, 8} SELL {2, 8} \r\n", new object[] { "", item.BuyLimitPriceSTR, item.SellLimitPriceSTR });
-						legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", new object[] { item.TickLimit, item.BuyLimitPriceFromBidPrice, item.SellLimitPriceFromAskPrice });
-					}
+					legPrices = legPrices + string.Format("{0, -6}  BID {1, 8}  ASK {2, 8} Last {3, 8} \r\n", new object[] { item.SymbolDetail, item.BidPriceSTR, item.AskPriceSTR, item.TradedPriceSTR });
+					legPrices = legPrices + string.Format("{0, -6}  BUY {1, 8} SELL {2, 8} \r\n", new object[] { "", item.BuyLimitPriceSTR, item.SellLimitPriceSTR });
+					legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", new object[] { item.TickLimit, item.BuyLimitPriceFromBidPrice, item.SellLimitPriceFromAskPrice });
 				}
 			}
-			//legPrices = legPrices + "[STP] \r\n";
-			//foreach (AutoSpreadItem item in _autoSpreadSupport.ItemByLegs.Values)
-			//{
-			//    legPrices = legPrices + string.Format("{0, -6} Bid {1, -8} Ask {2, -8} \r\n", new object[] { item.SecInfo.MDSymbol, item.BidStopPrice, item.AskStopPrice });
-			//}
+
 			if (legPrices.Length > 4)
 			{
 				dspSelectedLegPrice.Text = legPrices.Substring(0, legPrices.Length - 3);
@@ -3132,7 +3049,7 @@ namespace ROC
 				switch (sideCode)
 				{
 					case CSVEx.CSVFieldIDs.SideCodes.Buy:
-						if (item.SecInfo.SecType == CSVFieldIDs.SecutrityTypes.Equity &&
+						if (item.SecInfo.SecType == CSVFieldIDs.SecurityTypes.Equity &&
 							item.ShortLender != "")
 						{
 							isShort = true;
@@ -3166,36 +3083,30 @@ namespace ROC
 		}
 
 		// Used When executing orders
-		private string GetLegPrice(string sideCode, string selPrice, AutoSpreadItem item, out string marketPrice)
+		private string GetLegPrice(string sideCode, string selPrice, AutoSpreadItem legItem, out string marketPrice)
 		{
-			return GetLegPrice(Convert.ToInt64(sideCode), Convert.ToDouble(selPrice), item.LegNumber, out marketPrice);
+			return GetLegPrice(Convert.ToInt64(sideCode), Convert.ToDouble(selPrice), legItem, out marketPrice);
 		}
-		private string GetLegPrice(string sideCode, double selPrice, AutoSpreadItem item, out string marketPrice)
+		private string GetLegPrice(string sideCode, double selPrice, AutoSpreadItem legItem, out string marketPrice)
 		{
-			return GetLegPrice(Convert.ToInt64(sideCode), selPrice, item.LegNumber, out marketPrice);
+			return GetLegPrice(Convert.ToInt64(sideCode), selPrice, legItem, out marketPrice);
 		}
-		private string GetLegPrice(long sideCode, double selPrice, int legNumber, out string marketPrice)
+		private string GetLegPrice(long sideCode, double selPrice, AutoSpreadItem legItem, out string marketPrice)
 		{
-			Nullable<double> legPrice = null;
+			double? legPrice = null;
 			marketPrice = "";
 
 			switch (sideCode)
 			{
 				case CSVFieldIDs.SideCodes.Buy:
-					legPrice = _autoSpreadSupport.CalculateLegPriceFromSelectedPriceByLeg("Bid", selPrice, legNumber, out marketPrice);
+					legPrice = _autoSpreadSupport.CalculateLegPriceFromSelectedPriceByLeg("Bid", selPrice, legItem, out marketPrice);
 					break;
 				case CSVFieldIDs.SideCodes.Short:
 				case CSVFieldIDs.SideCodes.Sell:
-					legPrice = _autoSpreadSupport.CalculateLegPriceFromSelectedPriceByLeg("Ask", selPrice, legNumber, out marketPrice);
+					legPrice = _autoSpreadSupport.CalculateLegPriceFromSelectedPriceByLeg("Ask", selPrice, legItem, out marketPrice);
 					break;
 			}
-
-			if (legPrice != null)
-			{
-				return legPrice.ToString();
-			}
-
-			return "";
+			return legPrice.HasValue ? legPrice.ToString() : "";
 		}
 
 		#endregion
@@ -3206,8 +3117,7 @@ namespace ROC
 		{
 			lock (_autoSpreadSupport)
 			{
-				_autoSpreadSupport.HasAllLegs = false;
-				_autoSpreadSupport.ItemByLegs.Clear();
+				_autoSpreadSupport.ClearLegs();
 
 				lock (_autoSpreadSupport.SyntheticBidBook)
 				{
@@ -3234,9 +3144,7 @@ namespace ROC
 
 			double factor = 1;
 			double contractSize = 1;
-			double ratio = 0;
-
-			int legCount = 0;
+			int legNumber = 0;
 
 			ClearSpreadBooks();
 
@@ -3269,86 +3177,81 @@ namespace ROC
 							{
 								contractSize = (double)row.Cells["ContractSize"].Value;
 							}
-							ratio = (factor * contractSize) / (factorBase * contractSizeBase);
+
+							double ratio = (factor * contractSize) / (factorBase * contractSizeBase);
 							row.Cells["Ratio"].Value = Math.Round(ratio, 7);
 							break;
 					}
 
-					RefreshSpreadItemsBySettingRow(legCount, row);
-
-					legCount = legCount + 1;
+					RefreshSpreadItemsBySettingRow(legNumber, row);
+					++legNumber;
 				}
 			}
-
-			_autoSpreadSupport.Legs = legCount;
 		}
 
-		private void RefreshSpreadItemsBySettingRow(int leg, DataGridViewRow row)
+		private void RefreshSpreadItemsBySettingRow(int legNumber, DataGridViewRow row)
 		{
-			if (!_autoSpreadSupport.ItemByLegs.ContainsKey(leg))
-			{
-				_autoSpreadSupport.ItemByLegs.Add(leg, new AutoSpreadItem(leg, 3));
-			}
+			AutoSpreadItem legItem = _autoSpreadSupport.FindOrAddLeg(legNumber, 3);
 
-			_autoSpreadSupport.ItemByLegs[leg].RowIndex = leg;
+			legItem.RowIndex = legNumber;
 			if (row.Cells["Factor"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].Factor = (double)row.Cells["Factor"].Value;
+				legItem.Factor = (double)row.Cells["Factor"].Value;
 			}
 			if (row.Cells["Ratio"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].Ratio = (double)row.Cells["Ratio"].Value;
+				legItem.Ratio = (double)row.Cells["Ratio"].Value;
 			}
 			if (row.Cells["UserRatio"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].UserRatio = (double)row.Cells["UserRatio"].Value;
+				legItem.UserRatio = (double)row.Cells["UserRatio"].Value;
 			}
 			if (row.Cells["Lean"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].IsLean = (bool)row.Cells["Lean"].Value;
+				legItem.IsLean = (bool)row.Cells["Lean"].Value;
 			}
 			if (row.Cells["TickLimit"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].TickLimit = (long)row.Cells["TickLimit"].Value;
+				legItem.TickLimit = (long)row.Cells["TickLimit"].Value;
 			}
 			if (row.Cells["SymbolDetail"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].SymbolDetail = (string)row.Cells["SymbolDetail"].Value;
+				legItem.SymbolDetail = (string)row.Cells["SymbolDetail"].Value;
 			}
 			if (row.Cells["Exchange"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].Exchange = (string)row.Cells["Exchange"].Value;
+				legItem.Exchange = (string)row.Cells["Exchange"].Value;
 			}
 			if (row.Cells["LocalAccountAcrn"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].LocalAcctAcrn = (string)row.Cells["LocalAccountAcrn"].Value;
+				legItem.LocalAcctAcrn = (string)row.Cells["LocalAccountAcrn"].Value;
 			}
 			if (row.Cells["TraderFor"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].TradeFor = (string)row.Cells["TraderFor"].Value;
+				legItem.TradeFor = (string)row.Cells["TraderFor"].Value;
 			}
 			if (row.Cells["ShortLender"].Value != DBNull.Value)
 			{
-				_autoSpreadSupport.ItemByLegs[leg].ShortLender = (string)row.Cells["ShortLender"].Value;
+				legItem.ShortLender = (string)row.Cells["ShortLender"].Value;
 			}
 
-			_autoSpreadSupport.ItemByLegs[leg].MarketData = new MDServerToClient();
-			_autoSpreadSupport.ItemByLegs[leg].IsNewL1 = true;
-			_autoSpreadSupport.ItemByLegs[leg].IsNewBook = true;
+			legItem.MarketData = new Book();
+			legItem.IsNewL1 = true;
+			legItem.IsNewBook = true;
 
 			// Make a copy
-			ItemByLegs = new Dictionary<int, AutoSpreadItem>(_autoSpreadSupport.ItemByLegs);
-			PrimeLeg = _autoSpreadSupport.PrimeLeg;
+			ReplaceLegCollection(_autoSpreadSupport.CloneLegCollection());
+			PrimeLegNumber = _autoSpreadSupport.PrimeLegNumber;
 		}
 
 		// Update with Play back & onLoad
-		private void UpdateAutoSpreadSettingsWithCurrentMarketData(string mdSymbol, ref MDServerToClient delta)
+		private void UpdateAutoSpreadSettingsWithCurrentMarketData(string mdSymbol, ref Book delta)
 		{
 			if (mdSymbol != null && mdSymbol != "")
 			{
-				if (GLOBAL.HMarketData.Current.ContainsKey(mdSymbol))
+				if (GLOBAL.HMarketData.Current.TryGet(mdSymbol, out Book found))
 				{
-					delta.Update(GLOBAL.HMarketData.Current[mdSymbol]);
+					delta.Merge(found);
 				}
 			}
 		}
@@ -3368,7 +3271,7 @@ namespace ROC
 
 				switch (secType)
 				{
-					case CSVFieldIDs.SecutrityTypes.Option:
+					case CSVFieldIDs.SecurityTypes.Option:
 						rocAutoSpreadListSettings.UpdateSymbol(mdSymbol);
 						rocAutoSpreadListSettings.UpdateTickSize(mdSymbol, tickSize);
 						break;
@@ -3382,14 +3285,7 @@ namespace ROC
 
 			lock (ImSymbolNeeded)
 			{
-				if (!ImSymbolNeeded.ContainsKey(symbolDetail))
-				{
-					ImSymbolNeeded.Add(symbolDetail, mdSymbol);
-				}
-				else
-				{
-					ImSymbolNeeded[symbolDetail] = mdSymbol;
-				}
+				ImSymbolNeeded[symbolDetail] = mdSymbol;
 			}
 
 			return result;
@@ -3435,7 +3331,7 @@ namespace ROC
 
 		#region - Export & Import -
 
-		public string ExportAutoSpreadSettingsGrid()
+		internal string ExportAutoSpreadSettingsGrid()
 		{
 			ROCAutoSpreadListSettingsProfile prof = new ROCAutoSpreadListSettingsProfile(rocAutoSpreadListSettings);
 
@@ -3443,7 +3339,7 @@ namespace ROC
 			return System.Convert.ToBase64String(bytes);
 		}
 
-		public string ExportAutoSpreadGrid()
+		internal string ExportAutoSpreadGrid()
 		{
 			ROCAutoSpreadListProfile prof = new ROCAutoSpreadListProfile(rocAutoSpreadList);
 
@@ -3451,7 +3347,7 @@ namespace ROC
 			return System.Convert.ToBase64String(bytes);
 		}
 
-		public string ExportTicket()
+		internal string ExportTicket()
 		{
 			ROCTicketProfile prof = new ROCTicketProfile(this);
 
@@ -3459,7 +3355,7 @@ namespace ROC
 			return System.Convert.ToBase64String(bytes);
 		}
 
-		public void ImportAutoSpreadSettingsGrid(string s)
+		internal void ImportAutoSpreadSettingsGrid(string s)
 		{
 			if (s != null && s != "")
 			{
@@ -3473,7 +3369,7 @@ namespace ROC
 			}
 		}
 
-		public void ImportAutoSpreadGrid(string s)
+		internal void ImportAutoSpreadGrid(string s)
 		{
 			if (s != null && s != "")
 			{
@@ -3486,7 +3382,7 @@ namespace ROC
 			}
 		}
 
-		public void ImportTicket(string s)
+		internal void ImportTicket(string s)
 		{
 			if (s != null && s != "")
 			{
@@ -3668,15 +3564,15 @@ namespace ROC
 				}
 
 				string key = MakeUserInfoKey(order);
-				if (_validUserInfos.ContainsKey(key))
+				if (_validUserInfos.TryGetValue(key, out RomBasicOrder basicOrder))
 				{
-					order.capacity = _validUserInfos[key].capacity;
-					order.clearingAcctID = _validUserInfos[key].clearingAcctID;
-					order.clearingFirmID = _validUserInfos[key].clearingFirmID;
-					order.firmArc = _validUserInfos[key].firmArc;
-					order.localAcctAcrn = _validUserInfos[key].localAcctAcrn;
+					order.capacity = basicOrder.capacity;
+					order.clearingAcctID = basicOrder.clearingAcctID;
+					order.clearingFirmID = basicOrder.clearingFirmID;
+					order.firmArc = basicOrder.firmArc;
+					order.localAcctAcrn = basicOrder.localAcctAcrn;
 
-					order.exchangeID = _validUserInfos[key].exchangeID;
+					order.exchangeID = basicOrder.exchangeID;
 					found = true;
 				}
 				else
@@ -3769,28 +3665,10 @@ namespace ROC
 						if (trader.tradeFor.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
 						{
 							foreach (AccountMap acctMap in trader.CSAccounts.Values)
-							{
-								if (!items.ContainsKey(acctMap.account))
-								{
-									items.Add(acctMap.account, acctMap.account);
-								}
-							}
+								items.TryAdd(acctMap.account, acctMap.account);
 
 							foreach (AccountMap acctMap in trader.FUTAccounts.Values)
-							{
-								if (!items.ContainsKey(acctMap.account))
-								{
-									items.Add(acctMap.account, acctMap.account);
-								}
-							}
-
-							//foreach (AccountMap acctMap in trader.OPTAccounts.Values)
-							//{
-							//    if (!items.ContainsKey(acctMap.account))
-							//    {
-							//        items.Add(acctMap.account, acctMap.account);
-							//    }
-							//}
+								items.TryAdd(acctMap.account, acctMap.account);
 
 							break;
 						}
@@ -3840,15 +3718,14 @@ namespace ROC
 			}
 
 			string key = MakeUserInfoKey(order);
-			if (_validUserInfos.ContainsKey(key))
+			if (_validUserInfos.TryGetValue(key, out RomBasicOrder basicOrder))
 			{
-				order.capacity = _validUserInfos[key].capacity;
-				order.clearingAcctID = _validUserInfos[key].clearingAcctID;
-				order.clearingFirmID = _validUserInfos[key].clearingFirmID;
-				order.firmArc = _validUserInfos[key].firmArc;
-				order.localAcctAcrn = _validUserInfos[key].localAcctAcrn;
-
-				order.exchangeID = _validUserInfos[key].exchangeID;
+				order.capacity = basicOrder.capacity;
+				order.clearingAcctID = basicOrder.clearingAcctID;
+				order.clearingFirmID = basicOrder.clearingFirmID;
+				order.firmArc = basicOrder.firmArc;
+				order.localAcctAcrn = basicOrder.localAcctAcrn;
+				order.exchangeID = basicOrder.exchangeID;
 				found = true;
 			}
 			else
@@ -3927,12 +3804,7 @@ namespace ROC
 								if (acctMap.account.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
 									foreach (DestinationMap destMap in acctMap.Destinations.Values)
-									{
-										if (!items.ContainsKey(destMap.shortName))
-										{
-											items.Add(destMap.shortName, destMap.shortName);
-										}
-									}
+										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
 
@@ -3941,12 +3813,7 @@ namespace ROC
 								if (acctMap.account.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
 									foreach (DestinationMap destMap in acctMap.Destinations.Values)
-									{
-										if (!items.ContainsKey(destMap.shortName))
-										{
-											items.Add(destMap.shortName, destMap.shortName);
-										}
-									}
+										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
 
@@ -3955,12 +3822,7 @@ namespace ROC
 								if (acctMap.account.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
 									foreach (DestinationMap destMap in acctMap.Destinations.Values)
-									{
-										if (!items.ContainsKey(destMap.shortName))
-										{
-											items.Add(destMap.shortName, destMap.shortName);
-										}
-									}
+										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
 
@@ -4011,15 +3873,15 @@ namespace ROC
 			order.exchangeID = e.PropertyName;
 
 			string key = MakeUserInfoKey(order);
-			if (_validUserInfos.ContainsKey(key))
+			if (_validUserInfos.TryGetValue(key, out RomBasicOrder basicOrder))
 			{
-				order.capacity = _validUserInfos[key].capacity;
-				order.clearingAcctID = _validUserInfos[key].clearingAcctID;
-				order.clearingFirmID = _validUserInfos[key].clearingFirmID;
-				order.firmArc = _validUserInfos[key].firmArc;
-				order.localAcctAcrn = _validUserInfos[key].localAcctAcrn;
+				order.capacity = basicOrder.capacity;
+				order.clearingAcctID = basicOrder.clearingAcctID;
+				order.clearingFirmID = basicOrder.clearingFirmID;
+				order.firmArc = basicOrder.firmArc;
+				order.localAcctAcrn = basicOrder.localAcctAcrn;
 
-				//order.exchangeID = _validUserInfos[key].exchangeID;
+				//order.exchangeID = basicOrder.exchangeID;
 				found = true;
 			}
 			else
@@ -4129,18 +3991,17 @@ namespace ROC
 			if (GLOBAL.HRDS.GotUserProfiles)
 			{
 				string key = MakeUserInfoKey(order);
-				if (_validUserInfos.ContainsKey(key))
-				{
-					order.capacity = _validUserInfos[key].capacity;
-					order.clearingAcctID = _validUserInfos[key].clearingAcctID;
-					order.clearingFirmID = _validUserInfos[key].clearingFirmID;
-					order.firmArc = _validUserInfos[key].firmArc;
-					order.localAcctAcrn = _validUserInfos[key].localAcctAcrn;
+				if (_validUserInfos.TryGetValue(key, out RomBasicOrder basicOrder)) {
+					order.capacity = basicOrder.capacity;
+					order.clearingAcctID = basicOrder.clearingAcctID;
+					order.clearingFirmID = basicOrder.clearingFirmID;
+					order.firmArc = basicOrder.firmArc;
+					order.localAcctAcrn = basicOrder.localAcctAcrn;
 
-					order.exchangeID = _validUserInfos[key].exchangeID;
+					order.exchangeID = basicOrder.exchangeID;
 					if (order.secType == "")
 					{
-						order.secType = _validUserInfos[key].secType;
+						order.secType = basicOrder.secType;
 					}
 
 					return true;
@@ -4154,13 +4015,13 @@ namespace ROC
 						{
 							switch (order.secType)
 							{
-								case CSVFieldIDs.SecutrityTypes.Option:
+								case CSVFieldIDs.SecurityTypes.Option:
 									if (VerifyExchange(ref order, trader.OPTAccounts))
 									{
 										return true;
 									}
 									break;
-								case CSVFieldIDs.SecutrityTypes.OptionFuture:
+								case CSVFieldIDs.SecurityTypes.OptionFuture:
 									if (VerifyExchange(ref order, trader.OPTAccounts))
 									{
 										return true;
@@ -4170,7 +4031,7 @@ namespace ROC
 										return true;
 									}
 									break;
-								case CSVFieldIDs.SecutrityTypes.Future:
+								case CSVFieldIDs.SecurityTypes.Future:
 									if (VerifyExchange(ref order, trader.FUTAccounts))
 									{
 										return true;
@@ -4258,9 +4119,8 @@ namespace ROC
 			}
 
 			string key = order.tradeFor + "," + order.localAcctAcrn + "," + destMap.shortName;
-			if (_validUserInfos.ContainsKey(key))
-			{
-				_validUserInfos[key] = order;
+			if (_validUserInfos.TryGetValue(key, out RomBasicOrder basicOrder)) {
+				basicOrder = order;
 			}
 			else
 			{

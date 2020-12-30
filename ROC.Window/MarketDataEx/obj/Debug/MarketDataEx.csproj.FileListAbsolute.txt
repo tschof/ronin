@@ -1,0 +1,15 @@
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\MarketDataEx.dll
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\MarketDataEx.pdb
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\CSVEx.dll
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\DictionaryEx.dll
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\SerializationEx.dll
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\ArrayEx.dll
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\CSVEx.pdb
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\DictionaryEx.pdb
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\SerializationEx.pdb
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\bin\Debug\ArrayEx.pdb
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\obj\Debug\MarketDataEx.csprojAssemblyReference.cache
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\obj\Debug\MarketDataEx.csproj.CoreCompileInputs.cache
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\obj\Debug\MarketDataEx.csproj.CopyComplete
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\obj\Debug\MarketDataEx.dll
+C:\Users\clangan\Source\Repos\ROC\ROC.Window\MarketDataEx\obj\Debug\MarketDataEx.pdb
