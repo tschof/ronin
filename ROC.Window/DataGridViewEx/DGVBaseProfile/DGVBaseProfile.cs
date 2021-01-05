@@ -101,24 +101,24 @@ namespace DataGridViewEx
 		{
 			if (!ProfileColumns.ContainsKey(col.Name))
 			{
-				ProfileColumns.Add(col.Name, new DGVColumnProfile());
+				var profile = new DGVColumnProfile();
+				ProfileColumns.Add(col.Name, profile);
 
-				ProfileColumns[col.Name].ColumnForeColor = col.DefaultCellStyle.ForeColor;
-				ProfileColumns[col.Name].ColumnBackColor = col.DefaultCellStyle.BackColor;
-				ProfileColumns[col.Name].ColumnFont = col.DefaultCellStyle.Font;
+				profile.ColumnForeColor = col.DefaultCellStyle.ForeColor;
+				profile.ColumnBackColor = col.DefaultCellStyle.BackColor;
+				profile.ColumnFont = col.DefaultCellStyle.Font;
 
-				ProfileColumns[col.Name].HeaderForeColor = col.HeaderCell.Style.ForeColor;
-				ProfileColumns[col.Name].HeaderBackColor = col.HeaderCell.Style.BackColor;
-				ProfileColumns[col.Name].HeaderFont = col.HeaderCell.Style.Font;
+				profile.HeaderForeColor = col.HeaderCell.Style.ForeColor;
+				profile.HeaderBackColor = col.HeaderCell.Style.BackColor;
+				profile.HeaderFont = col.HeaderCell.Style.Font;
 
-				ProfileColumns[col.Name].ColumnDisplayIndex = col.DisplayIndex;
-				ProfileColumns[col.Name].ColumnName = col.Name;
-				ProfileColumns[col.Name].ColumnVisiable = col.Visible;
-				ProfileColumns[col.Name].ColumnWidth = col.Width;
+				profile.ColumnDisplayIndex = col.DisplayIndex;
+				profile.ColumnName = col.Name;
+				profile.ColumnVisiable = col.Visible;
+				profile.ColumnWidth = col.Width;
 
-				ProfileColumns[col.Name].SelectedBackColor = col.DefaultCellStyle.SelectionBackColor;
-			}
-			else
+				profile.SelectedBackColor = col.DefaultCellStyle.SelectionBackColor;
+			} else
 			{
 				Debug.Assert(false, "Duplicated: " + col.Name);
 			}

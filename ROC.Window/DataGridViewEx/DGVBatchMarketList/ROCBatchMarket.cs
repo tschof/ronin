@@ -769,14 +769,7 @@ namespace DataGridViewEx
 
 		public void UpdateMultiplier(string symbol, double tickSize)
 		{
-			if (TickSizes.ContainsKey(symbol))
-			{
-				TickSizes[symbol] = tickSize;
-			}
-			else
-			{
-				TickSizes.Add(symbol, tickSize);
-			}
+			TickSizes[symbol] = tickSize;
 		}
 
 		#endregion

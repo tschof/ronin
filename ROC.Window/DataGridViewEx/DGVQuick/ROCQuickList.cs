@@ -1732,9 +1732,9 @@ namespace DataGridViewEx
 			}
 		}
 
-		public void FlagStopLimitPrice(string colName, double stopPrice, double stopLimitPrice)
+		public void FlagStopLimitPrice(string colName, Price stopPrice, Price stopLimitPrice)
 		{
-			DataRow[] rows = RocGridTable.Select(string.Format("Price >= '{0}' And Price <= '{1}'", new object[] {stopPrice, stopLimitPrice}));
+			DataRow[] rows = RocGridTable.Select($"Price >= '{stopPrice}' And Price <= '{stopLimitPrice}'");
 
 			foreach (DataRow row in rows)
 			{
@@ -1746,7 +1746,7 @@ namespace DataGridViewEx
 
 		public void ClearStopLimit(string colName)
 		{
-			DataRow[] rows = RocGridTable.Select(string.Format("{0} = '{1}'", new object[] { colName, PriceFlages.stopLimit }));
+			DataRow[] rows = RocGridTable.Select($"{colName} = '{PriceFlages.stopLimit}'");
 
 			foreach (DataRow row in rows)
 			{

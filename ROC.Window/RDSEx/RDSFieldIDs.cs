@@ -6,15 +6,9 @@ namespace RDSEx
 			"yyyyMM",
 			"yyyyMMdd",
 			"yyyy-MM-dd"
-
-			// "HHmmss",
-			// "yyyyMMdd-HH:mm:ss",
-			// "yyyyMMdd",
-			// "yyyyMM",
-			// "yyyyMMdd-HH:mm:ss.fff"
 		};
 
-		internal static bool ParseDate(string text, out System.DateTime when)
+		public static bool TryParse(string text, out System.DateTime when)
 		{
 			return System.DateTime.TryParseExact(text, _formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out when);
 		}
@@ -61,31 +55,6 @@ namespace RDSEx
 	{
 		public const int TradeFor = 1;
 		public const int LocalAcAcrn = 2;
-	}
-
-	public sealed class AccountFieldIDs
-	{
-		public const int InterfaceID = 11;
-		public const int Account = 12;
-		public const int Type = 13;
-		public const int ClearingAcID = 14;
-		public const int LocalAcAcrn = 15;
-		public const int FirmAcr = 16;
-		public const int OmAcctType = 17;
-		public const int Capacity = 18;
-		public const int ClearingFirmID = 19;
-		public const int OccAcr = 20;
-		public const int HomeExchange = 21;
-	}
-
-	public sealed class DestinationFieldIDs
-	{
-		public const int DestID = 101;
-		public const int SecType = 102;
-		public const int ShortName = 103;
-		public const int GiveupFirmID = 104;
-		public const int CMTAFirmID = 105;
-		public const int AlgoFlag = 106;
 	}
 
 	public sealed class TradedFieldIDs

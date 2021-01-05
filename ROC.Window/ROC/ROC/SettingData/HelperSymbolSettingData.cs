@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using CSVEx;
 
@@ -52,7 +51,7 @@ namespace ROC
 	}
 
 	// Saved to user profile
-	public class HelperSymbolSettingData : HelperSettingDataBase
+	public class HelperSymbolSettingData
 	{
 		private DataTable _settingTable;
 		public DataTable SettingTable
@@ -187,8 +186,7 @@ namespace ROC
 
 			if (rows.Length == 0 && symbolDetail != "")
 			{
-				string baseSymbol = GetBaseSymbol(symbolDetail);
-				if (baseSymbol != "")
+				if (SettingData.Utility.TryGetBaseSymbol(symbolDetail, out string baseSymbol))
 				{
 					rows = SettingTable.DefaultView.FindRows(new object[] { baseSymbol, secType });
 				}

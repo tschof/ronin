@@ -1,8 +1,10 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using BenchMarkEx;
 using System.Collections.Generic;
+using System.Linq;
+
+using Common;
 using RDSEx;
 
 namespace ROC
@@ -56,93 +58,33 @@ namespace ROC
 
 	internal sealed class AccountTypeToGet
 	{
-		private bool _cs = false;
-		internal bool CS
-		{
-			get
-			{
-				return _cs;
-			}
-		}
-		
-		private bool _fut = false;
-		internal bool FUT
-		{
-			get
-			{
-				return _fut;
-			}
-		}
-
-		private bool _opt = false;
-		internal bool OPT
-		{
-			get
-			{
-				return _opt;
-			}
-		}
+		internal bool CS { get; private set; } = false;
+		internal bool FUT { get; private set; } = false;
+		internal bool OPT { get; private set; } = false;
 
 		internal AccountTypeToGet(bool cs, bool fut, bool opt)
 		{
-			_cs = cs;
-			_fut = fut;
-			_opt = opt;
+			CS = cs;
+			FUT = fut;
+			OPT = opt;
 		}
 	}
 
 	internal sealed class BaseSecurityInfo
 	{
+		internal string MDSymbol = "";
+		internal string MDSource = "";
+		internal double TickSize = 0.01;
+		internal double ContractSize = 1.0;
+		internal string SecType = "";
+		internal string Underlying = "";
+		internal string LongName = "";
+		internal string Expiration = "";
+
 		internal BaseSecurityInfo()
 		{
-			_mdSymbol = "";
-			_tickSize = 0.01;
-			_contractSize = 1;
-			_secType = "";
-			_longName = "";
-			_expiration = "";
-
 			_ssfChain = null;
 			_optionChain = null;
-		}
-
-		private string _mdSymbol = "";
-		internal string MDSymbol
-		{
-			get
-			{
-				return _mdSymbol;
-			}
-			set
-			{
-				_mdSymbol = value;
-			}
-		}
-
-		private string _mdSource = "";
-		internal string MDSource
-		{
-			get
-			{
-				return _mdSource;
-			}
-			set
-			{
-				_mdSource = value;
-			}
-		}
-
-		private double _tickSize = 0.01;
-		internal double TickSize
-		{
-			get
-			{
-				return _tickSize;
-			}
-			set
-			{
-				_tickSize = value;
-			}
 		}
 
 		internal decimal TickSizeDec
@@ -169,85 +111,14 @@ namespace ROC
 			}
 		}
 
-		private double _contractSize = 1;
-		internal double ContractSize
-		{
-			get
-			{
-				return _contractSize;
-			}
-			set
-			{
-				_contractSize = value;
-			}
-		}
 
-		private string _secType = "";
-		internal string SecType
+		internal bool TryGetExpiration(out DateTime expiration)
 		{
-			get
-			{
-				return _secType;
+			if (string.IsNullOrEmpty(Expiration)) {
+				expiration = default;
+				return false;
 			}
-			set
-			{
-				_secType = value;
-			}
-		}
-
-		private string _underlying = "";
-		internal string Underlying
-		{
-			get
-			{
-				return _underlying;
-			}
-			set
-			{
-				_underlying = value;
-			}
-		}
-
-		private string _longName = "";
-		internal string LongName
-		{
-			get
-			{
-				return _longName;
-			}
-			set
-			{
-				_longName = value;
-			}
-		}
-
-		private string _expiration = "";
-		internal string Expiration
-		{
-			get
-			{
-				return _expiration;
-			}
-			set
-			{
-				_expiration = value;
-			}
-		}
-
-		internal Nullable<DateTime> ExpirationDT
-		{
-			get
-			{
-				if (Expiration != "")
-				{
-					DateTime tDT;
-					if (DateTime.TryParseExact(Expiration, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT))
-					{
-						return tDT;
-					}
-				}
-				return null;
-			}
+			return GLOBAL.TimeFormats.TryParse(Expiration, out expiration, "yyyyMMdd");
 		}
 
 		private Dictionary<string, IMSSFutureInfo> _ssfChain;
@@ -295,142 +166,89 @@ namespace ROC
 		internal static bool ByPassRomLogin { get; private set; } = Configuration.Override.Default.ByPassROM;
 		internal static bool ByPassRdsLogin { get; private set; } = Configuration.Override.Default.ByPassRDS;
 		internal static bool ByPassMdsLogin { get; private set; } = false;
+		internal static bool Interrupt = false;
+		internal static bool ShuttingDown = false;
+		internal static bool AdminMode = false;
+		internal static bool UseDelayedUpdate { get; private set; } = false;
+		internal static bool ReloadProcessSettings = false;
+		internal static int AvgPriceResolution => Configuration.User.Default.OrderAvgPriceResolution;
+		internal static Version ROCVersion = new Version(System.Windows.Forms.Application.ProductVersion);
+		internal static bool ShownDM => !Debugger.IsAttached;
 
-		internal static bool ShownDM
+		internal static class TimeFormats
 		{
-			get
+			private static string[] _formats = new string[] { "HH:mm:ss", "yyyyMM" };
+
+			internal static bool TryParse(string text, out DateTime value)
 			{
-				return !Debugger.IsAttached;
+				return TryParse(text, out value, _formats);
+			}
+
+			internal static bool TryParse(string text, out DateTime value, params string[] formats)
+			{
+				return DateTime.TryParseExact(text, formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out value);
 			}
 		}
-		
-		internal static Version ROCVersion = new Version(Application.ProductVersion);
 
-		private static string[] _timeFormats = new string[0];
-		internal static string[] TimeFormats
+		private class DateTimeSetting
 		{
-			get
+			private DateTime? _value;
+			private readonly string _fallbackText;
+			private readonly Converter<Configuration.User, string> _getter;
+			private readonly Action<Configuration.User, string> _setter;
+
+			internal DateTimeSetting(string fallbackText, Converter<Configuration.User, string> getter, Action<Configuration.User, string> setter)
 			{
-				if (_timeFormats.Length == 0)
-				{
-					_timeFormats = new string[2];
-					_timeFormats[0] = "HH:mm:ss";
-					_timeFormats[1] = "yyyyMM";
-				}
-				return _timeFormats;
+				_fallbackText = fallbackText;
+				_getter = getter;
+				_setter = setter;
 			}
-		}
 
-		private static Nullable<DateTime> _stopTime = null;
-		internal static DateTime StopTime
-		{
-			get
+			internal DateTime GetValue()
 			{
-				if (_stopTime == null)
-				{
-					DateTime tDT;
-					if (DateTime.TryParseExact(Configuration.User.Default.StopTime, TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT))
-					{
-					}
-					else
-					{
-						Configuration.User.Default.StopTime = "23:55:00";
+				if (!_value.HasValue) {
+					DateTime when;
+					if (GLOBAL.TimeFormats.TryParse(_getter(Configuration.User.Default), out when)) {
+						_value = when;
+					} else if (GLOBAL.TimeFormats.TryParse(_fallbackText, out when)) {
+						_value = when;
+						_setter(Configuration.User.Default, _fallbackText);
 						Configuration.User.Default.Save();
-						DateTime.TryParseExact(Configuration.User.Default.StopTime, TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
+					} else {
+						_value = default;
 					}
-
-					_stopTime = tDT;
 				}
+				return _value.Value;
+			}
 
-				return (DateTime)_stopTime;
+			internal void SetValue(DateTime value)
+			{
+				_value = value;
 			}
 		}
 
-		private static Nullable<DateTime> _stockAutoCancelTime = null;
+		private static DateTimeSetting _stopTime = new DateTimeSetting("23:55:00", n => n.StopTime, (n, s) => n.StopTime = s);
+		internal static DateTime StopTime => _stopTime.GetValue();
+
+		private static DateTimeSetting _stockAutoCancelTime = new DateTimeSetting("15:00:00", n => n.StockAutoCancelTime, (n, s) => n.StockAutoCancelTime = s);
 		internal static DateTime StockAutoCancelTime
 		{
-			get
-			{
-				if (_stockAutoCancelTime == null)
-				{
-					DateTime tDT;
-					if (DateTime.TryParseExact(Configuration.User.Default.StockAutoCancelTime, TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT))
-					{
-					}
-					else
-					{
-						Configuration.User.Default.StockAutoCancelTime = "15:00:00";
-						Configuration.User.Default.Save();
-						DateTime.TryParseExact(Configuration.User.Default.StockAutoCancelTime, TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-					}
-
-					_stockAutoCancelTime = tDT;
-				}
-
-				return (DateTime)_stockAutoCancelTime;
-			}
-			set
-			{
-				_stockAutoCancelTime = null;
-			}
+			get => _stockAutoCancelTime.GetValue();
+			set => _stockAutoCancelTime.SetValue(value);
 		}
 
-		private static Nullable<DateTime> _futureAutoCancelTime = null;
+		private static DateTimeSetting _futureAutoCancelTime = new DateTimeSetting("15:30:00", n => n.FutureAutoCancelTime, (n, s) => n.FutureAutoCancelTime = s);
 		internal static DateTime FutureAutoCancelTime
 		{
-			get
-			{
-				if (_futureAutoCancelTime == null)
-				{
-					DateTime tDT;
-					if (DateTime.TryParseExact(Configuration.User.Default.FutureAutoCancelTime, TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT))
-					{
-					}
-					else
-					{
-						Configuration.User.Default.FutureAutoCancelTime = "15:30:00";
-						Configuration.User.Default.Save();
-						DateTime.TryParseExact(Configuration.User.Default.FutureAutoCancelTime, TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-					}
-
-					_futureAutoCancelTime = tDT;
-				}
-
-				return (DateTime)_futureAutoCancelTime;
-			}
-			set
-			{
-				_futureAutoCancelTime = null;
-			}
+			get => _futureAutoCancelTime.GetValue();
+			set => _futureAutoCancelTime.SetValue(value);
 		}
 
-		private static Nullable<DateTime> _optionAutoCancelTime = null;
+		private static DateTimeSetting _optionAutoCancelTime = new DateTimeSetting("15:00:00", n => n.OptionAutoCancelTime, (n, s) => n.OptionAutoCancelTime = s);
 		internal static DateTime OptionAutoCancelTime
 		{
-			get
-			{
-				if (_optionAutoCancelTime == null)
-				{
-					DateTime tDT;
-					if (DateTime.TryParseExact(Configuration.User.Default.OptionAutoCancelTime, TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT))
-					{
-					}
-					else
-					{
-						Configuration.User.Default.OptionAutoCancelTime = "15:00:00";
-						Configuration.User.Default.Save();
-						DateTime.TryParseExact(Configuration.User.Default.OptionAutoCancelTime, TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT);
-					}
-
-					_optionAutoCancelTime = tDT;
-				}
-
-				return (DateTime)_optionAutoCancelTime;
-			}
-			set
-			{
-				_optionAutoCancelTime = null;
-			}
+			get => _optionAutoCancelTime.GetValue();
+			set => _optionAutoCancelTime.SetValue(value);
 		}
 
 		internal static bool ROCLoginCompleted
@@ -440,101 +258,10 @@ namespace ROC
 				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.LoggedIn &&
 					GLOBAL.HRDS.Status == HelperRDS.StatusTypes.Done)
 				{
-					//if (Configuration.User.Default.UseMarketData)
-					//{
-					//    if (GLOBAL.MDSsConnected)
-					//    {
-					//        return true;
-					//    }
-					//}
-					//else
-					//{
-					//    return true;
-					//}
-
 					// Login is completed even if MDS is not connected
 					return true;
 				}
 				return false;
-			}
-		}
-
-		private static bool _interrupt = false;
-		internal static bool Interrupt
-		{
-			get
-			{
-				return _interrupt;
-			}
-			set
-			{
-				_interrupt = value;
-
-				//if (value && Configuration.ROC.Default.LargeScreenSize)
-				//{
-				//    _interrupt = true;
-				//}
-				//else
-				//{
-				//    _interrupt = false;
-				//}
-			}
-		}
-
-		private static bool _shuttingDown = false;
-		internal static bool ShuttingDown
-		{
-			get
-			{
-				return _shuttingDown;
-			}
-			set
-			{
-				_shuttingDown = value;
-			}
-		}
-
-		private static bool _adminMode = false;
-		internal static bool AdminMode
-		{
-			get
-			{
-				return _adminMode;
-			}
-			set
-			{
-				_adminMode = value;
-			}
-		}
-
-		private static bool _useDelayedUpdate = false;
-		internal static bool UseDelayedUpdate
-		{
-			get
-			{
-				return _useDelayedUpdate;
-			}
-		}
-
-		private static bool _reloadProcessSettings = false;
-		internal static bool ReloadProcessSettings
-		{
-			get
-			{
-				return _reloadProcessSettings;
-			}
-			set
-			{
-				_reloadProcessSettings = value;
-			}
-		}
-
-		internal static int AvgPriceResolution
-		{
-			get
-			{
-				// Used By Order and Position Window
-				return Configuration.User.Default.OrderAvgPriceResolution;
 			}
 		}
 
@@ -557,23 +284,7 @@ namespace ROC
 			}
 		}
 
-		private static frmMain _mainForm;
-		internal static frmMain MainForm
-		{
-			get
-			{
-				if (_mainForm == null)
-				{
-					foreach (frmMain main in HWindows.MainWindows.Values)
-					{
-						// There should only be one main form
-						_mainForm = main;
-						break;
-					}
-				}
-				return _mainForm;
-			}
-		}
+		internal static frmMain MainForm => HWindows.MainWindow;
 
 		private static frmLogin _loginForm;
 		internal static frmLogin LoginForm
@@ -606,151 +317,62 @@ namespace ROC
 
 		internal static HelperEMail HMail = new HelperEMail();
 
-		private static bool _useMDSBackup = false;
-		internal static bool UseMDSBackup
-		{
-			get
-			{
-				return _useMDSBackup;
-			}
-			set
-			{
-				_useMDSBackup = value;
-			}
-		}
-
 		private static List<HelperMDS> _hMDSs;
-		private static List<HelperMDS> _hMDSBackups;
-		internal static List<HelperMDS> HMDSs
-		{
-			get
-			{
-				if (_useMDSBackup)
-				{
-					#region - MDS Backup -
+		internal static List<HelperMDS> HMDSs {
+			get {
 
-					if (_hMDSBackups == null || _hMDSBackups.Count == 0)
-					{
-						_hMDSBackups = new List<HelperMDS>();
+				if (_hMDSs == null || _hMDSs.Count == 0) {
+					_hMDSs = new List<HelperMDS>();
 
-						string[] serverIPs = Configuration.MDS.Default.IPBackup.ToUpper().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-						string[] serverPorts = Configuration.MDS.Default.PortBackup.ToUpper().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+					char[] comma = new char[] { ',' };
+					string[] serverIPs = Configuration.MDS.Default.IP.ToUpper().Split(comma, StringSplitOptions.RemoveEmptyEntries);
+					string[] serverPorts = Configuration.MDS.Default.Port.ToUpper().Split(comma, StringSplitOptions.RemoveEmptyEntries);
+					int serverCount = serverIPs.GetLength(0);
+					int portCount = serverPorts.GetLength(0);
+					int defaultPort = -1;
 
-						int ipCount = 0;
-						List<int> ports = new List<int>();
-						foreach (string serverPort in serverPorts)
-						{
-							try
-							{
-								ports.Add(Convert.ToInt32(serverPort));
+					if (serverCount > 0) {
+						for (int i = 0; i < serverCount; ++i) {
+							int port;
+
+							if (i >= portCount) {
+								port = defaultPort;
+							} else if (!int.TryParse(serverPorts[i], out port)) {
+								Log.Error(Log.Target.General, $"Can't add market data server {serverIPs[i]}:{serverPorts[i]}: bad port");
+								port = 0;
+							} else if (defaultPort < 0) {
+								defaultPort = port;
 							}
-							catch
-							{
+
+							if (port > 0) {
+								try {
+									_hMDSs.Add(new HelperMDS(serverIPs[i], port));
+								} catch (Exception x) {
+									Log.Error(Log.Target.General, $"Can't add market data server {serverIPs[i]}:{port}", x);
+								}
 							}
 						}
-
-						foreach (string serverIP in serverIPs)
-						{
-							if (ipCount < ports.Count)
-							{
-								_hMDSBackups.Add(new HelperMDS(serverIP, ports[ipCount]));
-							}
-							else
-							{
-								_hMDSBackups.Add(new HelperMDS(serverIP, ports[0]));
-							}
-							ipCount++;
-						}
+					} else {
+						Log.Error(Log.Target.General, "Can't add market data servers from empty IP or port list.");
 					}
-
-					#endregion
-
-					return _hMDSBackups;
 				}
-				else
-				{
-					#region - MDS -
-
-					if (_hMDSs == null || _hMDSs.Count == 0)
-					{
-						_hMDSs = new List<HelperMDS>();
-
-						string[] serverIPs = Configuration.MDS.Default.IP.ToUpper().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-						string[] serverPorts = Configuration.MDS.Default.Port.ToUpper().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-						int ipCount = 0;
-						List<int> ports = new List<int>();
-						foreach (string serverPort in serverPorts)
-						{
-							try
-							{
-								ports.Add(Convert.ToInt32(serverPort));
-							}
-							catch
-							{
-							}
-						}
-
-						foreach (string serverIP in serverIPs)
-						{
-							if (ipCount < ports.Count)
-							{
-								_hMDSs.Add(new HelperMDS(serverIP, ports[ipCount]));
-							}
-							else
-							{
-								_hMDSs.Add(new HelperMDS(serverIP, ports[0]));
-							}
-							ipCount++;
-						}
-					}
-
-					#endregion
-
-					return _hMDSs;
-				}
+				return _hMDSs;
 			}
-			set
-			{
-				if (_useMDSBackup)
-				{
-					_hMDSBackups = value;
-				}
-				else
-				{
-					_hMDSs = value;
-				}
+			set {
+				_hMDSs = value;
 			}
 		}
 
-		internal static bool MDSsConnected
-		{
-			get
-			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
-				{
-					if (!mds.IsConnected)
-						return false;
-				}
-
-				return true;
-			}
-		}
+		internal static bool MDSsConnected => !GLOBAL.HMDSs.Any(n => !n.IsConnected); // true if all connected, false if any not connected
 
 		internal static void MDSsDisconnect()
 		{
-			foreach (HelperMDS mds in GLOBAL.HMDSs)
-			{
-				mds.Disconnect();
-			}
+			GLOBAL.HMDSs.ForEach(n => n.Disconnect());
 		}
 
 		internal static void MDSsReconnect()
 		{
-			foreach (HelperMDS mds in GLOBAL.HMDSs)
-			{
-				mds.Reconnect();
-			}
+			GLOBAL.HMDSs.ForEach(n => n.Reconnect());
 		}
 
 		private static HelperROM _hROM;
@@ -759,9 +381,7 @@ namespace ROC
 			get
 			{
 				if (_hROM == null)
-				{
 					_hROM = new HelperROM();
-				}
 				return _hROM;
 			}
 			set
@@ -776,9 +396,7 @@ namespace ROC
 			get
 			{
 				if (_hRDS == null)
-				{
 					_hRDS = new HelperRDS();
-				}
 				return _hRDS;
 			}
 			set
@@ -793,9 +411,7 @@ namespace ROC
 			get
 			{
 				if (_hROC == null)
-				{
 					_hROC = new HelperROC();
-				}
 				return _hROC;
 			}
 			set
@@ -810,9 +426,7 @@ namespace ROC
 			get
 			{
 				if (_hProcess == null)
-				{
 					_hProcess = new HelperProcess();
-				}
 				return _hProcess;
 			}
 			set
@@ -827,9 +441,7 @@ namespace ROC
 			get
 			{
 				if (_hWindows == null)
-				{
 					_hWindows = new HelperWindows();
-				}
 				return _hWindows;
 			}
 		}
@@ -840,9 +452,7 @@ namespace ROC
 			get
 			{
 				if (_hOrders == null)
-				{
 					_hOrders = new HelperOrdersData();
-				}
 				return _hOrders;
 			}
 			set
@@ -857,9 +467,7 @@ namespace ROC
 			get
 			{
 				if (_hExecutions == null)
-				{
 					_hExecutions = new HelperExecutionsData();
-				}
 				return _hExecutions;
 			}
 			set
@@ -874,9 +482,7 @@ namespace ROC
 			get
 			{
 				if (_hPositions == null)
-				{
 					_hPositions = new HelperPositionsData();
-				}
 				return _hPositions;
 			}
 			set
@@ -891,9 +497,7 @@ namespace ROC
 			get
 			{
 				if (_hMarketData == null)
-				{
 					_hMarketData = new HelperMarketData();
-				}
 				return _hMarketData;
 			}
 			set
@@ -946,9 +550,7 @@ namespace ROC
 			get
 			{
 				if (_userUIProfile == null)
-				{
 					_userUIProfile = new UIProfile();
-				}
 				return _userUIProfile;
 			}
 			set
@@ -990,42 +592,6 @@ namespace ROC
 
 		#endregion
 
-#region - Log -
-#if OLD
-		internal static class HLog
-		{
-			internal static void Create(string logPath, int logRetentionDays, long logFileSizeLimit)
-			{
-				ROC = new Logger(logPath, LogTypes.Log, logRetentionDays, logFileSizeLimit);
-				USER = new Logger(logPath, LogTypes.User, logRetentionDays, logFileSizeLimit);
-
-				MDS = new Logger(logPath, LogTypes.MDS, logRetentionDays, logFileSizeLimit);
-				RDS = new Logger(logPath, LogTypes.RDS, logRetentionDays, logFileSizeLimit);
-				ROM = new Logger(logPath, LogTypes.ROM, logRetentionDays, logFileSizeLimit);
-
-				Orders = new Logger(logPath, LogTypes.Orders, logRetentionDays, logFileSizeLimit);
-				Positions = new Logger(logPath, LogTypes.Positions, logRetentionDays, logFileSizeLimit);
-				Trades = new Logger(logPath, LogTypes.Trades, logRetentionDays, logFileSizeLimit);
-
-				BMK = new Logger(logPath, LogTypes.Benchmark, logRetentionDays, logFileSizeLimit);
-			}
-
-			internal static Logger ROC { get; private set; }
-			internal static Logger USER { get; private set; }         // User Action Log
-
-			internal static Logger MDS { get; private set; }          // MDS TCP Log
-			internal static Logger RDS { get; private set; }
-			internal static Logger ROM { get; private set; }
-
-			internal static Logger Orders { get; private set; }       // ROM Order Log
-			internal static Logger Positions { get; private set; }        // TPOS Position Log
-			internal static Logger Trades { get; private set; }       // TPOS Trade Log
-
-			internal static Logger BMK { get; private set; }          // Performance Log
-		}
-#endif // OLD
-#endregion
-
 #region - Option To Exchange Maps -
 
 		private static Dictionary<string, List<string>> _optionToExchangeMaps;
@@ -1035,11 +601,9 @@ namespace ROC
 			{
 				if (_optionToExchangeMaps == null)
 				{
-					_optionToExchangeMaps = new Dictionary<string,List<string>>();
-
-					List<string> exchanges = new List<string>();
-					//exchanges.Add(MarketDataEx.OptionExchangeCode.CBOE);
-					_optionToExchangeMaps.Add("SPX", exchanges);
+					_optionToExchangeMaps = new Dictionary<string, List<string>>() {
+						{ "SPX", new List<string>() }
+					};
 				}
 				return _optionToExchangeMaps;
 			}
@@ -1055,42 +619,12 @@ namespace ROC
 			get
 			{
 				if (_rocSounds == null)
-				{
 					_rocSounds = new HelperSound();
-				}
 				return _rocSounds;
 			}
 		}
 
 #endregion
 
-#region - Month Codes -
-
-		internal static class MonthCodes
-		{
-			internal const string January = "F";
-			internal const string February = "G";
-			internal const string March = "H";
-			internal const string April = "J";
-			internal const string May = "K";
-			internal const string June = "M";
-			internal const string July = "N";
-			internal const string August = "Q";
-			internal const string September = "U";
-			internal const string October = "V";
-			internal const string November = "X";
-			internal const string December = "Z";
-		}
-
-#endregion
-
-#region - Micro Bench -
-
-		internal static class BENCHAMRK
-		{
-			internal static Benchmark Mark;
-		}
-
-#endregion
 	}
 }

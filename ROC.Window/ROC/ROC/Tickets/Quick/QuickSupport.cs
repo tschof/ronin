@@ -52,7 +52,7 @@ namespace ROC
 			{
 				lock (GLOBAL.HOrders.Table)
 				{
-					Int64.TryParse(GLOBAL.HOrders.Table.Compute("Sum(LeaveQty)", filter).ToString(), out result);
+					long.TryParse(GLOBAL.HOrders.Table.Compute("Sum(LeaveQty)", filter).ToString(), out result);
 				}
 			}
 
@@ -68,17 +68,15 @@ namespace ROC
 			{
 				lock (GLOBAL.HOrders.Table)
 				{
-					Int64.TryParse(GLOBAL.HOrders.Table.Compute("Sum(CumQty)", filter).ToString(), out result);
+					long.TryParse(GLOBAL.HOrders.Table.Compute("Sum(CumQty)", filter).ToString(), out result);
 				}
 			}
 
 			return result;
 		}
 
-		internal Nullable<double> GetStopLimitPrice(string side, double price)
+		internal Price? GetStopLimitPrice(string side, double price)
 		{
-			Nullable<double> stopLimitPrice = null;
-
 			Dictionary<string, ROCOrder> orders = new Dictionary<string, ROCOrder>();
 
 			DataRow[] rows = new DataRow[0];
@@ -105,12 +103,14 @@ namespace ROC
 				}
 			}
 
+			Price? stopLimitPrice = null;
+
 			switch (side)
 			{
 				case "Buy":
 					foreach (ROCOrder order in orders.Values)
 					{
-						if (stopLimitPrice == null || (double)stopLimitPrice < order.Price)
+						if (!stopLimitPrice.HasValue || (stopLimitPrice.Value < order.Price))
 						{
 							stopLimitPrice = order.Price;
 						}
@@ -119,7 +119,7 @@ namespace ROC
 				case "Sell":
 					foreach (ROCOrder order in orders.Values)
 					{
-						if (stopLimitPrice == null || (double)stopLimitPrice > order.Price)
+						if (!stopLimitPrice.HasValue || (stopLimitPrice.Value > order.Price))
 						{
 							stopLimitPrice = order.Price;
 						}
@@ -142,19 +142,17 @@ namespace ROC
 
 			return new Dictionary<string, ROCOrder>();
 		}
-		internal Dictionary<string, ROCOrder> GetOpenOrder(long side, Nullable<double> price)
+		internal Dictionary<string, ROCOrder> GetOpenOrder(long side, Price? price)
 		{
 			Dictionary<string, ROCOrder> result = new Dictionary<string, ROCOrder>();
 
-			DataRow[] rows = new DataRow[0];
-			if (price == null)
-			{
-				rows = GetOpenOrderRows(side, FilterType.Default);
-			}
+			DataRow[] rows;
+
+			if (price.HasValue)
+				rows = GetOpenOrderRows(side, FilterType.Default, price.Value);
 			else
-			{
-				rows = GetOpenOrderRows(side, FilterType.Default, (double)price);
-			}
+				rows = GetOpenOrderRows(side, FilterType.Default);
+
 			foreach (DataRow row in rows)
 			{
 				string tag = "";
@@ -225,7 +223,7 @@ namespace ROC
 		{
 			OpenOrderItems result = new OpenOrderItems();
 
-			Nullable<double> price;
+			Price? price;
 			long qty;
 			
 			DataRow[] rows = GetOpenOrderRows(side, FilterType.Default);
@@ -243,17 +241,17 @@ namespace ROC
 							if (row["StopPrice"] != DBNull.Value)
 							{
 								// Use Stop Price for Stop Orders
-								price = (double)row["StopPrice"];
-								if (price != null && !result.OpenStopOrderPrice.Contains((double)price))
+								price = Price.FromObject(row["StopPrice"]);
+								if (price.HasValue && !result.OpenStopOrderPrice.Contains(price.Value))
 								{
-									result.OpenStopOrderPrice.Add((double)price);
+									result.OpenStopOrderPrice.Add(price.Value);
 								}
 							}
 							break;
 						default:
 							if (row["Price"] != DBNull.Value)
 							{
-								price = (double)row["Price"];
+								price = Price.FromObject(row["Price"]);
 							}
 							break;
 					}
@@ -295,7 +293,7 @@ namespace ROC
 
 			return new DataRow[0];
 		}
-		private DataRow[] GetOpenOrderRows(long side, int filterType, double price)
+		private DataRow[] GetOpenOrderRows(long side, int filterType, Price price)
 		{
 			if (CurrentSecInfo != null && CurrentSymbolDetail != "")
 			{
@@ -349,7 +347,8 @@ namespace ROC
 			}
 			return result;
 		}
-		private string GetOpenOrderFilter(long side, int filterType, double price)
+
+		private string GetOpenOrderFilter(long side, int filterType, Price price)
 		{
 			string result = GetOpenOrderFilter(side, filterType);
 

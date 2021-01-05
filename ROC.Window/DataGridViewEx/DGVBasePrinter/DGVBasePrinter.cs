@@ -479,61 +479,61 @@ namespace DataGridViewEx
 
 		#region - Cell Properties -
 
-		private StringFormat cellformat = null;
+		private StringFormat _cellformat = null;
 		public StringFormat GetCellFormat(DataGridView grid)
 		{
 			// get default values from provided data grid view, but only
 			// if we don't already have a cell format
-			if ((null != grid) && (null == cellformat))
+			if ((null != grid) && (null == _cellformat))
 			{
-				buildstringformat(ref cellformat, grid.Rows[0].Cells[0].InheritedStyle,
-					cellalignment, StringAlignment.Near, cellformatflags,
+				buildstringformat(ref _cellformat, grid.Rows[0].Cells[0].InheritedStyle,
+					_cellalignment, StringAlignment.Near, _cellformatflags,
 					StringTrimming.Word);
 			}
 
 			// if we still don't have a cell format, create an empty
-			if (null == cellformat)
-				cellformat = new StringFormat(cellformatflags);
+			if (null == _cellformat)
+				_cellformat = new StringFormat(_cellformatflags);
 
-			return cellformat;
+			return _cellformat;
 		}
 
-		private StringAlignment cellalignment;
+		private StringAlignment _cellalignment;
 		public StringAlignment CellAlignment
 		{
-			get { return cellalignment; }
-			set { cellalignment = value; }
+			get { return _cellalignment; }
+			set { _cellalignment = value; }
 		}
 
-		private StringFormatFlags cellformatflags;
+		private StringFormatFlags _cellformatflags;
 		public StringFormatFlags CellFormatFlags
 		{
-			get { return cellformatflags; }
-			set { cellformatflags = value; }
+			get { return _cellformatflags; }
+			set { _cellformatflags = value; }
 		}
 
-		private List<float> colwidthsoverride = new List<float>();
-		private Dictionary<string, float> publicwidthoverrides = new Dictionary<string, float>();
+		private List<float> _colwidthsoverride = new List<float>();
+		private Dictionary<string, float> _publicwidthoverrides = new Dictionary<string, float>();
 		public Dictionary<string, float> ColumnWidths
 		{
-			get { return publicwidthoverrides; }
+			get { return _publicwidthoverrides; }
 		}
 
-		private Dictionary<string, DataGridViewCellStyle> colstyles = new Dictionary<string, DataGridViewCellStyle>();
+		private Dictionary<string, DataGridViewCellStyle> _colstyles = new Dictionary<string, DataGridViewCellStyle>();
 		public Dictionary<string, DataGridViewCellStyle> ColumnStyles
 		{
-			get { return colstyles; }
+			get { return _colstyles; }
 		}
 
 		#endregion
 
 		#region - Page Level Properties -
 
-		private Margins printmargins;
+		private Margins _printmargins;
 		public Margins PrintMargins
 		{
-			get { return printmargins; }
-			set { printmargins = value; }
+			get { return _printmargins; }
+			set { _printmargins = value; }
 		}
 
 		public PageSettings PageSettings
@@ -541,19 +541,19 @@ namespace DataGridViewEx
 			get { return printDoc.DefaultPageSettings; }
 		}
 
-		private bool porportionalcolumns = false;
+		private bool _porportionalcolumns = false;
 		public bool PorportionalColumns
 		{
-			get { return porportionalcolumns; }
-			set { porportionalcolumns = value; }
+			get { return _porportionalcolumns; }
+			set { _porportionalcolumns = value; }
 		}
 
 		public enum Alignment { NotSet, Left, Right, Center }
-		private Alignment tablealignment = Alignment.NotSet;
+		private Alignment _tablealignment = Alignment.NotSet;
 		public Alignment TableAlignment
 		{
-			get { return tablealignment; }
-			set { tablealignment = value; }
+			get { return _tablealignment; }
+			set { _tablealignment = value; }
 		}
 
 		#endregion
@@ -585,7 +585,7 @@ namespace DataGridViewEx
 			printDoc = new PrintDocument();
 			printDoc.PrintPage += new PrintPageEventHandler(printDoc_PrintPage);
 			printDoc.BeginPrint += new PrintEventHandler(printDoc_BeginPrint);
-			printmargins = new Margins(60, 60, 40, 40);			
+			_printmargins = new Margins(60, 60, 40, 40);			
 
 			// set default fonts
 			pagenofont = new Font("Tahoma", 8, FontStyle.Regular, GraphicsUnit.Point);
@@ -609,7 +609,7 @@ namespace DataGridViewEx
 
 			// Set these formatting objects to null to flag whether or not they were set by the caller
 			headercellformat = null;
-			cellformat = null;
+			_cellformat = null;
 
 			// Print Preview properties
 			Owner = null;
@@ -618,8 +618,8 @@ namespace DataGridViewEx
 			// Deprecated properties - retain for backwards compatibility
 			headercellalignment = StringAlignment.Near;
 			headercellformatflags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
-			cellalignment = StringAlignment.Near;
-			cellformatflags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
+			_cellalignment = StringAlignment.Near;
+			_cellformatflags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
 		}
 
 		public void PrintDataGridView(DataGridView dgv)
@@ -680,7 +680,7 @@ namespace DataGridViewEx
 
 			// setup print dialog with internal setttings
 			pd.Document = printDoc;
-			printDoc.DefaultPageSettings.Margins = printmargins;
+			printDoc.DefaultPageSettings.Margins = _printmargins;
 			if (!String.IsNullOrEmpty(printerName))
 				printDoc.PrinterSettings.PrinterName = printerName;
 
@@ -734,13 +734,13 @@ namespace DataGridViewEx
 					headercellformatflags,
 					StringTrimming.Word);
 			}
-			if (null == cellformat)
+			if (null == _cellformat)
 			{
-				buildstringformat(ref cellformat, 
+				buildstringformat(ref _cellformat, 
 					_dgv.DefaultCellStyle,
-					cellalignment, 
+					_cellalignment, 
 					StringAlignment.Near, 
-					cellformatflags,
+					_cellformatflags,
 					StringTrimming.Word);
 			}
 
@@ -768,16 +768,16 @@ namespace DataGridViewEx
 			//-----------------------------------------------------------------
 
 			// Set initial printer margins 
-			printmargins = printDoc.DefaultPageSettings.Margins;
+			_printmargins = printDoc.DefaultPageSettings.Margins;
 
 			// adjust for when the margins are less than the printer's hard x/y limits
-			printmargins.Right = (hardx > printmargins.Right) ? hardx : printmargins.Right;
-			printmargins.Left = (hardx > printmargins.Left) ? hardx : printmargins.Left;
-			printmargins.Top = (hardy > printmargins.Top) ? hardy : printmargins.Top;
-			printmargins.Bottom = (hardy > printmargins.Bottom) ? hardy : printmargins.Bottom;
+			_printmargins.Right = (hardx > _printmargins.Right) ? hardx : _printmargins.Right;
+			_printmargins.Left = (hardx > _printmargins.Left) ? hardx : _printmargins.Left;
+			_printmargins.Top = (hardy > _printmargins.Top) ? hardy : _printmargins.Top;
+			_printmargins.Bottom = (hardy > _printmargins.Bottom) ? hardy : _printmargins.Bottom;
 
 			// Now, we can calc default print width, again, respecting the printer's limitations
-			printWidth = pageWidth - printmargins.Left - printmargins.Right;
+			printWidth = pageWidth - _printmargins.Left - _printmargins.Right;
 			printWidth = (printWidth > printareawidth) ? printareawidth : printWidth;
 
 			//-----------------------------------------------------------------
@@ -915,10 +915,10 @@ namespace DataGridViewEx
 
 			// Adjust override list to have the same number of entries as colstoprint
 			foreach (DataGridViewColumn col in colstoprint)
-				if (publicwidthoverrides.ContainsKey(col.Name))
-					colwidthsoverride.Add(publicwidthoverrides[col.Name]);
+				if (_publicwidthoverrides.TryGetValue(col.Name, out float value))
+					_colwidthsoverride.Add(value);
 				else
-					colwidthsoverride.Add(-1);
+					_colwidthsoverride.Add(-1);
 
 			//-----------------------------------------------------------------
 			// Now that we know what we're printing, measure the print area and
@@ -994,8 +994,8 @@ namespace DataGridViewEx
 
 				// deal with overridden col widths
 				float usewidth = 0;
-				if (0 < colwidthsoverride[i])
-					usewidth = colwidthsoverride[i];
+				if (0 < _colwidthsoverride[i])
+					usewidth = _colwidthsoverride[i];
 				else
 					usewidth = printWidth;
 
@@ -1087,26 +1087,26 @@ namespace DataGridViewEx
 
 					// get gridview style, and override if we have a set style for this column
 					StringFormat currentformat = null;
-					DataGridViewCellStyle colstyle = null;
-					if (ColumnStyles.ContainsKey(col.Name))
+					DataGridViewCellStyle colstyle;
+					if (_colstyles.TryGetValue(col.Name, out var style))
 					{
-						colstyle = colstyles[col.Name];
+						colstyle = style;
 
 						// build the cell style and font 
-						buildstringformat(ref currentformat, colstyle, cellformat.Alignment, cellformat.LineAlignment,
-							cellformat.FormatFlags, cellformat.Trimming);
+						buildstringformat(ref currentformat, colstyle, _cellformat.Alignment, _cellformat.LineAlignment,
+							_cellformat.FormatFlags, _cellformat.Trimming);
 					}
 					else if ((col.HasDefaultCellStyle) || (row.Cells[col.Index].HasStyle))
 					{
 						colstyle = row.Cells[col.Index].InheritedStyle;
 
 						// build the cell style and font 
-						buildstringformat(ref currentformat, colstyle, cellformat.Alignment, cellformat.LineAlignment,
-							cellformat.FormatFlags, cellformat.Trimming);
+						buildstringformat(ref currentformat, colstyle, _cellformat.Alignment, _cellformat.LineAlignment,
+							_cellformat.FormatFlags, _cellformat.Trimming);
 					}
 					else
 					{
-						currentformat = cellformat;
+						currentformat = _cellformat;
 						colstyle = _dgv.DefaultCellStyle;
 					}
 
@@ -1115,11 +1115,11 @@ namespace DataGridViewEx
 
 					// Handle fixed size cells and > printwidth cells where the width of the
 					// data won't fit. (I.E. need to stretch the row down the page) 
-					if ((0 < colwidthsoverride[j]) || (size.Width > printWidth))
+					if ((0 < _colwidthsoverride[j]) || (size.Width > printWidth))
 					{
 						// set column width
-						if (0 < colwidthsoverride[j])
-							colwidths[j] = colwidthsoverride[j];
+						if (0 < _colwidthsoverride[j])
+							colwidths[j] = _colwidthsoverride[j];
 						else if (size.Width > printWidth)
 							colwidths[j] = printWidth;
 
@@ -1148,7 +1148,7 @@ namespace DataGridViewEx
 
 			// assume everything will fit on one page
 			pagesets = new List<PageDef>();
-			pagesets.Add(new PageDef(printmargins, colstoprint.Count));
+			pagesets.Add(new PageDef(_printmargins, colstoprint.Count));
 			int pset = 0;
 
 			// Account for row headers 
@@ -1159,15 +1159,15 @@ namespace DataGridViewEx
 			for (i = 0; i < colstoprint.Count; i++)
 			{
 				// get initial column width
-				columnwidth = (colwidthsoverride[i] >= 0)
-					? colwidthsoverride[i] : colwidths[i];
+				columnwidth = (_colwidthsoverride[i] >= 0)
+					? _colwidthsoverride[i] : colwidths[i];
 
 				// See if the column width takes us off the page - Except for the 
 				// first column. This will prevent printing an empty page!! Otherwise,
 				// columns longer than the page width are printed on their own page
 				if (printWidth < (pagesets[pset].coltotalwidth + columnwidth) && i != 0)
 				{
-					pagesets.Add(new PageDef(printmargins, colstoprint.Count));
+					pagesets.Add(new PageDef(_printmargins, colstoprint.Count));
 					pset++;
 
 					// Account for row headers 
@@ -1177,7 +1177,7 @@ namespace DataGridViewEx
 				// update page set definition 
 				pagesets[pset].colstoprint.Add(colstoprint[i]);
 				pagesets[pset].colwidths.Add(colwidths[i]);
-				pagesets[pset].colwidthsoverride.Add(colwidthsoverride[i]);
+				pagesets[pset].colwidthsoverride.Add(_colwidthsoverride[i]);
 				pagesets[pset].coltotalwidth += columnwidth;
 			}
 
@@ -1214,7 +1214,7 @@ namespace DataGridViewEx
 
 			// calculate the ratio for porportional colums, use 1 for no 
 			// non-overridden columns or not porportional
-			if (porportionalcolumns && 0 < remainingcolwidth)
+			if (_porportionalcolumns && 0 < remainingcolwidth)
 				ratio = ((float)printWidth - fixedcolwidth) / (float)remainingcolwidth;
 			else
 				ratio = (float)1.0;
@@ -1239,19 +1239,19 @@ namespace DataGridViewEx
 			//-----------------------------------------------------------------
 
 			// Reset Print Margins based on table alignment
-			if (Alignment.Left == tablealignment)
+			if (Alignment.Left == _tablealignment)
 			{
 				// Bias table to the left by setting "right" value
 				pageset.margins.Right = pageWidth - pageset.margins.Left - (int)pageset.coltotalwidth;
 				if (0 > pageset.margins.Right) pageset.margins.Right = 0;
 			}
-			else if (Alignment.Right == tablealignment)
+			else if (Alignment.Right == _tablealignment)
 			{
 				// Bias table to the right by setting "left" value
 				pageset.margins.Left = pageWidth - pageset.margins.Right - (int)pageset.coltotalwidth;
 				if (0 > pageset.margins.Left) pageset.margins.Left = 0;
 			}
-			else if (Alignment.Center == tablealignment)
+			else if (Alignment.Center == _tablealignment)
 			{
 				// Bias the table to the center by setting left and right equal
 				pageset.margins.Left = (pageWidth - (int)pageset.coltotalwidth) / 2;
@@ -1265,7 +1265,7 @@ namespace DataGridViewEx
 			int pages = 1;
 			float pos = 0;
 			float printablearea = pageHeight - headerHeight - footerHeight -
-				printmargins.Top - printmargins.Bottom;
+				_printmargins.Top - _printmargins.Bottom;
 
 			for (int i = 0; i < (rowheights.Count); i++)
 			{
@@ -1699,29 +1699,24 @@ namespace DataGridViewEx
 
 				// get DGV column style and see if we have an override for this column
 				StringFormat finalformat = null;
-				Font cellfont = null;
-				DataGridViewCellStyle colstyle = null;
-				if (ColumnStyles.ContainsKey(col.Name))
-				{
-					colstyle = colstyles[col.Name];
 
+				if (ColumnStyles.TryGetValue(col.Name, out var colstyle))
+				{
 					// set string format
-					buildstringformat(ref finalformat, colstyle, cellformat.Alignment, cellformat.LineAlignment,
-						cellformat.FormatFlags, cellformat.Trimming);
-					cellfont = colstyle.Font;
+					buildstringformat(ref finalformat, colstyle, _cellformat.Alignment, _cellformat.LineAlignment,
+						_cellformat.FormatFlags, _cellformat.Trimming);
 				}
 				else if ((col.HasDefaultCellStyle) || (row.Cells[col.Index].HasStyle))
 				{
 					colstyle = row.Cells[col.Index].InheritedStyle;
 
 					// set string format
-					buildstringformat(ref finalformat, colstyle, cellformat.Alignment, cellformat.LineAlignment,
-						cellformat.FormatFlags, cellformat.Trimming);
-					cellfont = colstyle.Font;
+					buildstringformat(ref finalformat, colstyle, _cellformat.Alignment, _cellformat.LineAlignment,
+						_cellformat.FormatFlags, _cellformat.Trimming);
 				}
 				else
 				{
-					finalformat = cellformat;
+					finalformat = _cellformat;
 
 					// inherited style == default style (mostly) if no style was ever set.
 					colstyle = row.Cells[col.Index].InheritedStyle;

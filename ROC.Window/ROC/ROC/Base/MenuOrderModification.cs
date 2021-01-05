@@ -1,12 +1,9 @@
+using CSVEx;
+using MarketData;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using System.Data;
-using RDSEx;
-using CSVEx;
 using System.Windows.Forms;
-using MarketData;
 
 namespace ROC
 {
@@ -137,8 +134,8 @@ namespace ROC
 		private DataView _orderTypesView;
 		private DataView _durationsView;
 
-		private ROCOrder _currentOrder = null;
-		internal ROCOrder CurrentOrder
+		private RDSEx.ROCOrder _currentOrder = null;
+		internal RDSEx.ROCOrder CurrentOrder
 		{
 			get
 			{

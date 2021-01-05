@@ -352,7 +352,7 @@ namespace ROC
 				}
 				else
 				{
-					DialogResult dr = MessageBox.Show(String.Concat(new object[] { "Save current profile?" }), "User Profile", MessageBoxButtons.YesNo);
+					DialogResult dr = MessageBox.Show(string.Concat("Save current profile?"), "User Profile", MessageBoxButtons.YesNo);
 					if (dr == DialogResult.Yes)
 					{
 						SaveToFile(filePath, fileName);
@@ -419,7 +419,7 @@ namespace ROC
 			GLOBAL.HSymbolSettingData.Export();
 			GLOBAL.HQuickButtonSettingData.Export();
 
-			GLOBAL.HWindows.MainWindows.WithValues(Save);
+			Save(GLOBAL.HWindows.MainWindow);
 			GLOBAL.HWindows.ClockWindows.WithValues(Save);
 			GLOBAL.HWindows.WatchListWindows.WithValues(Save);
 			GLOBAL.HWindows.PlotListWindows.WithValues(Save);
@@ -683,6 +683,7 @@ namespace ROC
 		{
 			ReLoad("", "");
 		}
+
 		public void ReLoad(string filePath, string fileName)
 		{
 			string data = LoadFromFile(filePath, fileName);

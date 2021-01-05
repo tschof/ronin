@@ -47,7 +47,8 @@ namespace MarketData.Ronin
 				switch (subscriptionType) {
 					case "L2":
 						_addToReplayFn?.Invoke(symbol);
-						foreach (MDServerToClient data in _subscribed.Values) {
+						foreach (KeyValuePair<string, MDServerToClient> entry in _subscribed) {
+							MDServerToClient data = entry.Value;
 							if ((data.uSymbol == symbol) && !string.IsNullOrEmpty(data.uParticipantSymbol))
 								_addToReplayFn?.Invoke(data.IssueSymbol);
 						}

@@ -50,7 +50,7 @@ namespace ROC
 
 				if (parts.Length == 2)
 				{
-					Double.TryParse(parts[0], out price);
+					double.TryParse(parts[0], out price);
 					// Fraction Part
 					switch (tickSize.ToString())
 					{
@@ -62,12 +62,12 @@ namespace ROC
 							if (parts[1].Length < 2)
 							{
 								parts[1] = parts[1] + "0";
-								Double.TryParse(parts[1], out tempPrice);
+								double.TryParse(parts[1], out tempPrice);
 							}
 							else if (parts[1].Length == 3 && parts[1].Substring(0, 1) == "0")
 							{
 								parts[1] = parts[1].Substring(1, 2);
-								if (Double.TryParse(parts[1], out tempPrice))
+								if (double.TryParse(parts[1], out tempPrice))
 								{
 									tempPrice = tempPrice / 10;
 								}
@@ -76,7 +76,7 @@ namespace ROC
 							else if (parts[1].Length >= 3 && parts[1].Substring(2, 1) == "0")
 							{
 								parts[1] = parts[1].Substring(0, 2);
-								Double.TryParse(parts[1], out tempPrice);
+								double.TryParse(parts[1], out tempPrice);
 							}
 							if (tempPrice > 32)
 							{
@@ -108,7 +108,7 @@ namespace ROC
 										break;
 								}
 							}
-							Double.TryParse("." + parts[1].TrimEnd(new char[] { '0' }), out tempPrice);
+							double.TryParse("." + parts[1].TrimEnd(new char[] { '0' }), out tempPrice);
 							price = price + tempPrice;
 							break;
 					}
@@ -116,7 +116,7 @@ namespace ROC
 			}
 			else
 			{
-				Double.TryParse(value, out price);
+				double.TryParse(value, out price);
 			}
 
 			return price;

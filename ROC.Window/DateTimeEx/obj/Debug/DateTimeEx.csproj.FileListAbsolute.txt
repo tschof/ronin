@@ -1,6 +1,6 @@
 C:\Users\clangan\source\repos\ROC\ROC.Window\DateTimeEx\bin\Debug\DateTimeEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\DateTimeEx\bin\Debug\DateTimeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\DateTimeEx\obj\Debug\DateTimeEx.csprojAssemblyReference.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\DateTimeEx\obj\Debug\DateTimeEx.csproj.CoreCompileInputs.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\DateTimeEx\obj\Debug\DateTimeEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\DateTimeEx\obj\Debug\DateTimeEx.pdb
-C:\Users\clangan\source\repos\ROC\ROC.Window\DateTimeEx\obj\Debug\DateTimeEx.csprojAssemblyReference.cache

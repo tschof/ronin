@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Collections.Generic;
 
 using RDSEx.WEB;
-using DictionaryEx;
 using System.Diagnostics;
 using CSVEx;
 
@@ -848,14 +847,14 @@ namespace RDSEx
 		}
 
 		// <symbol, IMSSFutureInfo>
-		private Dictionary<string, IMSSFutureInfo> _symbolToSSFInfos;
-		public Dictionary<string, IMSSFutureInfo> SymbolToSSFInfos
+		private Dictionary<string, BaseSSFutureInfo> _symbolToSSFInfos;
+		public Dictionary<string, BaseSSFutureInfo> SymbolToSSFInfos
 		{
 			get
 			{
 				if (_symbolToSSFInfos == null)
 				{
-					_symbolToSSFInfos = new Dictionary<string, IMSSFutureInfo>();
+					_symbolToSSFInfos = new Dictionary<string, BaseSSFutureInfo>();
 				}
 				return _symbolToSSFInfos;
 			}
@@ -970,11 +969,11 @@ namespace RDSEx
 		{
 			if (e.Cancelled)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetUserProfile|Cancelled", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetUserProfile|Cancelled", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else if (e.Error != null)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetUserProfile|Error ", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetUserProfile|Error ", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else
 			{
@@ -995,16 +994,16 @@ namespace RDSEx
 							}
 							else
 							{
-								ErrorMsg = String.Concat(new object[] { "GetUserProfile|Result Empty" });
+								ErrorMsg = string.Concat("GetUserProfile|Result Empty");
 							}
 						}
 						catch (Exception ex)
 						{
-							ErrorMsg = String.Concat(new object[] { "GetUserProfile|Exception ", ex.Message, " : ", ex.StackTrace });
+							ErrorMsg = string.Concat("GetUserProfile|Exception ", ex.Message, " : ", ex.StackTrace);
 						}
 						break;
 					default:
-						ErrorMsg = String.Concat(new object[] { "GetUserProfile|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage });
+						ErrorMsg = string.Concat("GetUserProfile|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage);
 						break;
 				}
 			}
@@ -1034,11 +1033,11 @@ namespace RDSEx
 
 			if (e.Cancelled)
 			{
-				WarningMsg = String.Concat(new object[] { "GetUserMarketDataSources|Cancelled", e.Error.Message, " ", e.Error.StackTrace });
+				WarningMsg = string.Concat("GetUserMarketDataSources|Cancelled", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else if (e.Error != null)
 			{
-				WarningMsg = String.Concat(new object[] { "GetUserMarketDataSources|Error ", e.Error.Message, " ", e.Error.StackTrace });
+				WarningMsg = string.Concat("GetUserMarketDataSources|Error ", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else
 			{
@@ -1051,33 +1050,28 @@ namespace RDSEx
 							{
 								lock (_syncObj)
 								{
-									DecodeUserMarketDataObj((object[])e.Result.retValues);
+									if (e.Result.retValues is object[] userMarketDataObjs) {
+										foreach (object userMarketDataObj in userMarketDataObjs) {
+											if (userMarketDataObj != null) {
+												UserMarketDataSources.Add((string)userMarketDataObj);
+											}
+										}
+									}
 								}
 							}
 							else
 							{
-								WarningMsg = String.Concat(new object[] { "GetUserMarketDataSources|Result Empty" });
+								WarningMsg = "GetUserMarketDataSources|Result Empty";
 							}
 						}
 						catch (Exception ex)
 						{
-							WarningMsg = String.Concat(new object[] { "GetUserMarketDataSources|Exception ", ex.Message, " : ", ex.StackTrace });
+							WarningMsg = string.Concat("GetUserMarketDataSources|Exception ", ex.Message, " : ", ex.StackTrace);
 						}
 						break;
 					default:
-						WarningMsg = String.Concat(new object[] { "GetUserMarketDataSources|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage });
+						WarningMsg = string.Concat("GetUserMarketDataSources|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage);
 						break;
-				}
-			}
-		}
-
-		private void DecodeUserMarketDataObj(object[] userMarketDataObjs)
-		{
-			foreach (object userMarketDataObj in userMarketDataObjs)
-			{
-				if (userMarketDataObj != null)
-				{
-					UserMarketDataSources.Add((string)userMarketDataObj);
 				}
 			}
 		}
@@ -1095,11 +1089,11 @@ namespace RDSEx
 
 			foreach (object traderAcrObj in traderAcrObjs)
 			{
-				if (traderAcrObj != null)
+				if (traderAcrObj is TraderAcr traderAcr)
 				{
 					tradeFor = "";
 					traderMap = new TraderMap();
-					acctProfileObjs = DecodeTrader((TraderAcr)traderAcrObj, ref traderMap, ref tradeFor);
+					acctProfileObjs = DecodeTrader(traderAcr, ref traderMap, ref tradeFor);
 
 					if (acctProfileObjs != null)
 					{
@@ -1117,20 +1111,16 @@ namespace RDSEx
 		private object[] DecodeTrader(TraderAcr traderAcr, ref TraderMap traderMap, ref string tradeFor)
 		{
 			tradeFor = traderAcr.tradeFor.ToUpper();
-			if (UserProfiles.ContainsKey(tradeFor))
-			{
-				traderMap = UserProfiles[tradeFor];
-			}
-			else
+			if (!UserProfiles.TryGetValue(tradeFor, out traderMap))
 			{
 				traderMap = new TraderMap();
 				UserProfiles.Add(tradeFor, traderMap);
 			}
 
-			traderMap.Set(TraderFieldIDs.TradeFor, traderAcr.tradeFor.ToUpper());
-			traderMap.Set(TraderFieldIDs.LocalAcAcrn, traderAcr.localAcAcrn.ToUpper());
+			traderMap.tradeFor = traderAcr.tradeFor.ToUpper();
+			traderMap.localAcAcrn = traderAcr.localAcAcrn.ToUpper();
 
-			return (object[])traderAcr.acctProfiles;
+			return traderAcr.acctProfiles;
 		}
 
 		#endregion
@@ -1141,393 +1131,168 @@ namespace RDSEx
 		{
 			foreach (object acctProfileObj in acctProfileObjs)
 			{
-				if (acctProfileObj != null)
-				{
-					DecodeAcctProfile((AcctProfile)acctProfileObj, ref traderMap);
+				if (acctProfileObj is AcctProfile acctProfile) {
+					AccountMap acctMap = GetAcctMapByType(acctProfile, ref traderMap);
+					acctMap.Update(acctProfile);
+
+					if (acctProfile.accountDestinations != null) {
+						DecodeDestinationObj(acctProfile.accountDestinations, acctMap);
+					}
 				}
-			}
-		}
-
-		private void DecodeAcctProfile(AcctProfile acctProfile, ref TraderMap traderMap)
-		{
-			AccountMap acctMap;
-			acctMap = GetAcctMapByType(acctProfile, ref traderMap);
-
-			UpdateAcctMap(acctProfile, ref acctMap);
-
-			if (acctProfile.accountDestinations != null)
-			{
-				DecodeDestinationObj((object[])acctProfile.accountDestinations, ref acctMap);
 			}
 		}
 
 		private AccountMap GetAcctMapByType(AcctProfile acctProfile, ref TraderMap traderMap)
 		{
+			Dictionary<string, AccountMap> accounts;
 			AccountMap acctMap;
 
 			switch (acctProfile.type)
 			{
 				case AccountTypes.Stock:
-					if (traderMap.CSAccounts.ContainsKey(acctProfile.account))
-					{
-						acctMap = traderMap.CSAccounts[acctProfile.account];
-					}
-					else
-					{
-						acctMap = new AccountMap();
-						traderMap.CSAccounts.Add(acctProfile.account, acctMap);
-					}
+					accounts = traderMap.CSAccounts;
 					break;
 				case AccountTypes.Option:
-					if (traderMap.OPTAccounts.ContainsKey(acctProfile.account))
-					{
-						acctMap = traderMap.OPTAccounts[acctProfile.account];
-					}
-					else
-					{
-						acctMap = new AccountMap();
-						traderMap.OPTAccounts.Add(acctProfile.account, acctMap);
-					}
+					accounts = traderMap.OPTAccounts;
 					break;
 				case AccountTypes.Future:
-					if (traderMap.FUTAccounts.ContainsKey(acctProfile.account))
-					{
-						acctMap = traderMap.FUTAccounts[acctProfile.account];
-					}
-					else
-					{
-						acctMap = new AccountMap();
-						traderMap.FUTAccounts.Add(acctProfile.account, acctMap);
-					}
+					accounts = traderMap.FUTAccounts;
 					break;
 				default:
-					acctMap = null;
+					accounts = null;
 					break;
 			}
 
-			return acctMap;
-		}
+			if (accounts == null) {
+				return null;
+			} else if (!accounts.TryGetValue(acctProfile.account, out acctMap)) {
+				acctMap = new AccountMap();
+				accounts.Add(acctProfile.account, acctMap);
+			}
 
-		private void UpdateAcctMap(AcctProfile acctProfile, ref AccountMap acctMap)
-		{
-			acctMap.Set(AccountFieldIDs.InterfaceID, acctProfile.interfaceID);
-			acctMap.Set(AccountFieldIDs.Account, acctProfile.account.ToUpper());
-			acctMap.Set(AccountFieldIDs.Type, acctProfile.type.ToUpper());
-			acctMap.Set(AccountFieldIDs.ClearingAcID, acctProfile.clearingAcID.ToUpper());
-			acctMap.Set(AccountFieldIDs.LocalAcAcrn, acctProfile.localAcAcrn.ToUpper());
-			acctMap.Set(AccountFieldIDs.FirmAcr, acctProfile.firmAcr.ToUpper());
-			acctMap.Set(AccountFieldIDs.OmAcctType, acctProfile.omAcctType.ToUpper());
-			acctMap.Set(AccountFieldIDs.Capacity, acctProfile.capacity.ToUpper());
-			acctMap.Set(AccountFieldIDs.InterfaceID, acctProfile.interfaceID);
-			acctMap.Set(AccountFieldIDs.ClearingFirmID, acctProfile.clearingFirmID.ToUpper());
-			acctMap.Set(AccountFieldIDs.OccAcr, acctProfile.occAcr.ToUpper());
-			acctMap.Set(AccountFieldIDs.HomeExchange, acctProfile.homeExchange.ToUpper());
+			return acctMap;
 		}
 
 		#endregion
 
 		#region - User Profile - Traders - Accounts - Destinations -
 
-		private void DecodeDestinationObj(object[] acctDestinationObjs, ref AccountMap acctMap)
+		private void DecodeDestinationObj(object[] acctDestinationObjs, AccountMap acctMap)
 		{
 			foreach (object acctDestinationObj in acctDestinationObjs)
 			{
-				if (acctDestinationObj != null)
-				{
-					DecodeDestination((AcctDestination)acctDestinationObj, ref acctMap);
+				if (acctDestinationObj is AcctDestination acctDest) {
+					DestinationMap destMap = acctMap.Destinations.FindOrAdd(acctDest.destID);
+
+					destMap.destID = acctDest.destID;
+					destMap.secType = acctDest.secType.ToUpper();
+					destMap.shortName = acctDest.shortName.ToUpper();
+					destMap.cmtaFirmID = acctDest.cmtaFirmID.ToUpper();
+					destMap.giveupFirmID = acctDest.giveupFirmID.ToUpper();
+
+					string algoFlag = (acctDest.algoFlag == null) ? "0" : acctDest.algoFlag.ToUpper();
+					destMap.algoFlag = algoFlag;
+
+					BuildDestinationMaps(destMap);
 				}
 			}
-		}
-
-		private void DecodeDestination(AcctDestination acctDestination, ref AccountMap acctMap)
-		{
-			DestinationMap destMap;
-
-			if (acctMap.Destinations.ContainsKey(acctDestination.destID))
-			{
-				destMap = acctMap.Destinations[acctDestination.destID];
-			}
-			else
-			{
-				destMap = new DestinationMap();
-				acctMap.Destinations.Add(acctDestination.destID, destMap);
-			}
-
-			destMap.Set(DestinationFieldIDs.DestID, acctDestination.destID);
-			destMap.Set(DestinationFieldIDs.SecType, acctDestination.secType.ToUpper());
-			destMap.Set(DestinationFieldIDs.ShortName, acctDestination.shortName.ToUpper());
-			destMap.Set(DestinationFieldIDs.CMTAFirmID, acctDestination.cmtaFirmID.ToUpper());
-			destMap.Set(DestinationFieldIDs.GiveupFirmID, acctDestination.giveupFirmID.ToUpper());
-			if (acctDestination.algoFlag != null)
-			{
-				destMap.Set(DestinationFieldIDs.AlgoFlag, acctDestination.algoFlag.ToUpper());
-			}
-			else
-			{
-				destMap.Set(DestinationFieldIDs.AlgoFlag, "0");
-			}
-
-			acctMap.Destinations[acctDestination.destID] = destMap;
-
-			BuildDestinationMaps(destMap);
 		}
 
 		#endregion
 
 		#region - Quick Local Account - Destinations Maps
 
+		private void buildAccounts(
+			string tradeFor,
+			Dictionary<string, AccountMap> accounts,
+			Dictionary<string, List<AccountMap>> traderAccounts,
+			Dictionary<string, List<string>> traderAccountNames,
+			Dictionary<string, List<DestinationMap>> localAccountToDests,
+			Dictionary<string, List<int>> localAccountToDestIds,
+			Dictionary<string, List<string>> localAccountToDestNames
+			)
+		{
+			Dictionary<string, AccountMap>.Enumerator stockAccounts = accounts.GetEnumerator();
+			while (stockAccounts.MoveNext()) {
+				AccountMap acctVal = stockAccounts.Current.Value;
+				AddToTposAccountFilter(acctVal);
+
+				if (!traderAccounts.TryGetValue(tradeFor, out List<AccountMap> accts)) {
+					accts = new List<AccountMap>();
+					traderAccounts[tradeFor] = accts;
+				}
+				accts.Add(acctVal);
+
+				if (!traderAccountNames.TryGetValue(tradeFor, out List<string> acctNames)) {
+					acctNames = new List<string>();
+					traderAccountNames[tradeFor] = acctNames;
+				}
+				acctNames.Add(acctVal.account);
+
+				DestinationMap.Collection.Enumerator destinations = accounts[acctVal.account].Destinations.GetEnumerator();
+				while (destinations.MoveNext()) {
+					DestinationMap destVal = destinations.Current;
+
+					if (!localAccountToDests.TryGetValue(acctVal.account, out List<DestinationMap> dests)) {
+						dests = new List<DestinationMap>();
+						localAccountToDests.Add(acctVal.account, dests);
+					}
+					dests.Add(destVal);
+
+					if (!localAccountToDestIds.TryGetValue(acctVal.account, out List<int> destIDs)) {
+						destIDs = new List<int>();
+						localAccountToDestIds.Add(acctVal.account, destIDs);
+					}
+
+					if (destVal.destID != null)
+						destIDs.Add((int)destVal.destID);
+
+					if (!localAccountToDestNames.TryGetValue(acctVal.account, out List<string> destNames)) {
+						destNames = new List<string>();
+						localAccountToDestNames.Add(acctVal.account, destNames);
+					}
+					destNames.Add(destVal.shortName);
+				}
+			}
+		}
+
 		private void BuildLocalAccounts()
 		{
-			List<AccountMap> accts;
-			List<string> acctNames;
-
-			List<DestinationMap> dests;
-			List<int> destIDs;
-			List<string> destNames;
-
 			if (GotUserProfiles)
 			{
-				foreach (TraderMap tm in UserProfiles.Values)
-				{
-					#region - Stock Maps - 
+				Dictionary<string, TraderMap>.Enumerator traders = UserProfiles.GetEnumerator();
+				while (traders.MoveNext()) {
+					TraderMap tm = traders.Current.Value;
 
-					foreach (AccountMap acctVal in tm.CSAccounts.Values )
-					{
-						AddToTposAccountFilter(acctVal);
+					// Stock Maps
+					buildAccounts(
+						tm.tradeFor,
+						tm.CSAccounts,
+						TraderToStockAccts,
+						TraderToStockAcctNames,
+						LocalStockAcctToDests,
+						LocalStockAcctToDestIDs,
+						LocalStockAcctToDestNames);
 
-						#region - Trader to Acct -
+					// Future Maps
+					buildAccounts(
+						tm.tradeFor,
+						tm.FUTAccounts,
+						TraderToFutureAccts,
+						TraderToFutureAcctNames,
+						LocalFutureAcctToDests,
+						LocalFutureAcctToDestIDs,
+						LocalFutureAcctToDestNames);
 
-						if (TraderToStockAccts.ContainsKey(tm.tradeFor))
-						{
-							accts = TraderToStockAccts[tm.tradeFor];
-						}
-						else
-						{
-							accts = new List<AccountMap>();
-						}
-						accts.Add(acctVal);
-
-						if (TraderToStockAcctNames.ContainsKey(tm.tradeFor))
-						{
-							acctNames = TraderToStockAcctNames[tm.tradeFor];
-						}
-						else
-						{
-							acctNames = new List<string>();
-						}
-						acctNames.Add(acctVal.account);
-
-						#endregion
-
-						foreach (DestinationMap destVal in tm.CSAccounts[acctVal.account].Destinations.Values)
-						{
-							#region - Acct to Dest -
-
-							if (LocalStockAcctToDests.ContainsKey(acctVal.account))
-							{
-								dests = LocalStockAcctToDests[acctVal.account];
-							}
-							else
-							{
-								dests = new List<DestinationMap>();
-							}
-							dests.Add(destVal);
-
-							if (LocalStockAcctToDestIDs.ContainsKey(acctVal.account))
-							{
-								destIDs = LocalStockAcctToDestIDs[acctVal.account];
-							}
-							else
-							{
-								destIDs = new List<int>();
-							}
-							if (destVal.destID != null)
-							{
-								destIDs.Add((int)destVal.destID);
-							}
-
-							if (LocalStockAcctToDestNames.ContainsKey(acctVal.account))
-							{
-								destNames = LocalStockAcctToDestNames[acctVal.account];
-							}
-							else
-							{
-								destNames = new List<string>();
-							}
-							destNames.Add(destVal.shortName);
-
-							#endregion
-
-							LocalStockAcctToDests[acctVal.account] = dests;
-							LocalStockAcctToDestIDs[acctVal.account] = destIDs;
-							LocalStockAcctToDestNames[acctVal.account] = destNames;
-						}
-
-						TraderToStockAccts[tm.tradeFor] = accts;
-						TraderToStockAcctNames[tm.tradeFor] = acctNames;
-					}
-
-					#endregion
-
-					#region - Future Maps -
-
-					foreach (AccountMap acctVal in tm.FUTAccounts.Values)
-					{
-						AddToTposAccountFilter(acctVal);
-
-						#region - Trader to Acct -
-
-						if (TraderToFutureAccts.ContainsKey(tm.tradeFor))
-						{
-							accts = TraderToFutureAccts[tm.tradeFor];
-						}
-						else
-						{
-							accts = new List<AccountMap>();
-						}
-						accts.Add(acctVal);
-
-						if (TraderToFutureAcctNames.ContainsKey(tm.tradeFor))
-						{
-							acctNames = TraderToFutureAcctNames[tm.tradeFor];
-						}
-						else
-						{
-							acctNames = new List<string>();
-						}
-						acctNames.Add(acctVal.account);
-
-						#endregion
-
-						foreach (DestinationMap destVal in tm.FUTAccounts[acctVal.account].Destinations.Values)
-						{
-							#region - Acct to Dest -
-
-							if (LocalFutureAcctToDests.ContainsKey(acctVal.account))
-							{
-								dests = LocalFutureAcctToDests[acctVal.account];
-							}
-							else
-							{
-								dests = new List<DestinationMap>();
-							}
-							dests.Add(destVal);
-
-							if (LocalFutureAcctToDestIDs.ContainsKey(acctVal.account))
-							{
-								destIDs = LocalFutureAcctToDestIDs[acctVal.account];
-							}
-							else
-							{
-								destIDs = new List<int>();
-							}
-							if (destVal.destID != null)
-							{
-								destIDs.Add((int)destVal.destID);
-							}
-
-							if (LocalFutureAcctToDestNames.ContainsKey(acctVal.account))
-							{
-								destNames = LocalFutureAcctToDestNames[acctVal.account];
-							}
-							else
-							{
-								destNames = new List<string>();
-							}
-							destNames.Add(destVal.shortName);
-
-							#endregion
-
-							LocalFutureAcctToDests[acctVal.account] = dests;
-							LocalFutureAcctToDestIDs[acctVal.account] = destIDs;
-							LocalFutureAcctToDestNames[acctVal.account] = destNames;
-						}
-
-						TraderToFutureAccts[tm.tradeFor] = accts;
-						TraderToFutureAcctNames[tm.tradeFor] = acctNames;
-					}
-
-					#endregion
-
-					#region - Option Maps -
-
-					foreach (AccountMap acctVal in tm.OPTAccounts.Values)
-					{
-						AddToTposAccountFilter(acctVal);
-
-						#region - Trader to Acct -
-
-						if (TraderToOptionAccts.ContainsKey(tm.tradeFor))
-						{
-							accts = TraderToOptionAccts[tm.tradeFor];
-						}
-						else
-						{
-							accts = new List<AccountMap>();
-						}
-						accts.Add(acctVal);
-
-						if (TraderToOptionAcctNames.ContainsKey(tm.tradeFor))
-						{
-							acctNames = TraderToOptionAcctNames[tm.tradeFor];
-						}
-						else
-						{
-							acctNames = new List<string>();
-						}
-						acctNames.Add(acctVal.account);
-
-						#endregion
-
-						foreach (DestinationMap destVal in tm.OPTAccounts[acctVal.account].Destinations.Values)
-						{
-							#region - Acct to Dest -
-
-							if (LocalOptionAcctToDests.ContainsKey(acctVal.account))
-							{
-								dests = LocalOptionAcctToDests[acctVal.account];
-							}
-							else
-							{
-								dests = new List<DestinationMap>();
-							}
-							dests.Add(destVal);
-
-							if (LocalOptionAcctToDestIDs.ContainsKey(acctVal.account))
-							{
-								destIDs = LocalOptionAcctToDestIDs[acctVal.account];
-							}
-							else
-							{
-								destIDs = new List<int>();
-							}
-							if (destVal.destID != null)
-							{
-								destIDs.Add((int)destVal.destID);
-							}
-
-							if (LocalOptionAcctToDestNames.ContainsKey(acctVal.account))
-							{
-								destNames = LocalOptionAcctToDestNames[acctVal.account];
-							}
-							else
-							{
-								destNames = new List<string>();
-							}
-							destNames.Add(destVal.shortName);
-
-							#endregion
-
-							LocalOptionAcctToDests[acctVal.account] = dests;
-							LocalOptionAcctToDestIDs[acctVal.account] = destIDs;
-							LocalOptionAcctToDestNames[acctVal.account] = destNames;
-						}
-
-						TraderToOptionAccts[tm.tradeFor] = accts;
-						TraderToOptionAcctNames[tm.tradeFor] = acctNames;
-					}
-
-					#endregion
+					// Option Maps
+					buildAccounts(
+						tm.tradeFor,
+						tm.OPTAccounts,
+						TraderToOptionAccts,
+						TraderToOptionAcctNames,
+						LocalOptionAcctToDests,
+						LocalOptionAcctToDestIDs,
+						LocalOptionAcctToDestNames);
 				}
 			}
 		}
@@ -1597,11 +1362,11 @@ namespace RDSEx
 		{
 			if (e.Cancelled)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetUserOrder|Cancelled", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetUserOrder|Cancelled", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else if (e.Error != null)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetUserOrder|Error ", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetUserOrder|Error ", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else
 			{
@@ -1621,11 +1386,11 @@ namespace RDSEx
 						}
 						catch (Exception ex)
 						{
-							ErrorMsg = String.Concat(new object[] { "GetUserOrder|Exception ", ex.Message, " : ", ex.StackTrace });
+							ErrorMsg = string.Concat("GetUserOrder|Exception ", ex.Message, " : ", ex.StackTrace);
 						}
 						break;
 					default:
-						ErrorMsg = String.Concat(new object[] { "GetUserOrder|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage });
+						ErrorMsg = string.Concat("GetUserOrder|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage);
 						break;
 				}
 			}
@@ -1645,11 +1410,7 @@ namespace RDSEx
 		private void DecodeUserOrder(Order userOrder)
 		{
 			ROCOrder ord;
-			if (RocOrders.ContainsKey(userOrder.omTag))
-			{
-				ord = RocOrders[userOrder.omTag];
-			}
-			else
+			if (!RocOrders.TryGetValue(userOrder.omTag, out ord))
 			{
 				ord = new ROCOrder();
 				RocOrders.Add(userOrder.omTag, ord);
@@ -1704,15 +1465,7 @@ namespace RDSEx
 			lock (RocOrders)
 			{
 				MakeRocStatus(ref ord);
-
-				if (RocOrders.ContainsKey(key))
-				{
-					RocOrders[key] = ord;
-				}
-				else
-				{
-					RocOrders.Add(key, ord);
-				}
+				RocOrders[key] = ord;
 			}
 		}
 
@@ -1744,11 +1497,11 @@ namespace RDSEx
 		{
 			if (e.Cancelled)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetUserExecutions|Cancelled", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetUserExecutions|Cancelled", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else if (e.Error != null)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetUserExecutions|Error ", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetUserExecutions|Error ", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else
 			{
@@ -1768,11 +1521,11 @@ namespace RDSEx
 						}
 						catch (Exception ex)
 						{
-							ErrorMsg = String.Concat(new object[] { "GetUserExecutions|Exception ", ex.Message, " : ", ex.StackTrace });
+							ErrorMsg = string.Concat("GetUserExecutions|Exception ", ex.Message, " : ", ex.StackTrace);
 						}
 						break;
 					default:
-						ErrorMsg = String.Concat(new object[] { "GetUserExecutions|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage });
+						ErrorMsg = string.Concat("GetUserExecutions|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage);
 						break;
 				}
 			}
@@ -1794,19 +1547,18 @@ namespace RDSEx
 			string omTag = userExecution.omTag;
 			string omExecTag = userExecution.omExecTag;
 
-			if (omExecTag != "" && omTag != "" && RocOrders.ContainsKey(omTag))
+			if (omExecTag != "" && omTag != "" && RocOrders.TryGetValue(omTag, out ROCOrder order))
 			{
 				ROCExecution traded;
-				if (RocOrders[omTag].Trades.ContainsKey(omExecTag))
+				if (order.Trades.TryGetValue(omExecTag, out traded))
 				{
 					// trade again?
-					traded = RocOrders[omTag].Trades[omExecTag];
-					ErrorMsg = String.Concat(new object[] { "DecodeUserExecution|Duplication ", omExecTag });
+					ErrorMsg = string.Concat("DecodeUserExecution|Duplication ", omExecTag);
 				}
 				else
 				{
 					traded = new ROCExecution();
-					RocOrders[omTag].Trades.Add(omExecTag, traded);
+					order.Trades.Add(omExecTag, traded);
 				}
 
 				traded.Set(TradedFieldIDs.ROC.omTag, userExecution.omTag);
@@ -1816,31 +1568,23 @@ namespace RDSEx
 				traded.Set(TradedFieldIDs.ROC.execPrice, userExecution.execPrice);
 
 				// Attach some of the order info with the trade
-				traded.Set(TradedFieldIDs.ROC.symbol, RocOrders[omTag].Symbol);
-				traded.Set(TradedFieldIDs.ROC.underlying, RocOrders[omTag].Underlying);
-				traded.Set(TradedFieldIDs.ROC.expDate, RocOrders[omTag].ExpDate);
-				traded.Set(TradedFieldIDs.ROC.strikePrice, RocOrders[omTag].StrikePrice);
-				traded.Set(TradedFieldIDs.ROC.callPut, RocOrders[omTag].CallPut);
-				traded.Set(TradedFieldIDs.ROC.secType, RocOrders[omTag].SecType);
-				traded.Set(TradedFieldIDs.ROC.trader, RocOrders[omTag].Trader);
-				traded.Set(TradedFieldIDs.ROC.localAcct, RocOrders[omTag].LocalAcct);
-				traded.Set(TradedFieldIDs.ROC.account, RocOrders[omTag].ClearingAcct);
-				traded.Set(TradedFieldIDs.ROC.openClose, RocOrders[omTag].OpenClose);
-				traded.Set(TradedFieldIDs.ROC.side, (long)RocOrders[omTag].Side);
-				traded.Set(TradedFieldIDs.ROC.destID, RocOrders[omTag].DestID);
+				traded.Set(TradedFieldIDs.ROC.symbol, order.Symbol);
+				traded.Set(TradedFieldIDs.ROC.underlying, order.Underlying);
+				traded.Set(TradedFieldIDs.ROC.expDate, order.ExpDate);
+				traded.Set(TradedFieldIDs.ROC.strikePrice, order.StrikePrice);
+				traded.Set(TradedFieldIDs.ROC.callPut, order.CallPut);
+				traded.Set(TradedFieldIDs.ROC.secType, order.SecType);
+				traded.Set(TradedFieldIDs.ROC.trader, order.Trader);
+				traded.Set(TradedFieldIDs.ROC.localAcct, order.LocalAcct);
+				traded.Set(TradedFieldIDs.ROC.account, order.ClearingAcct);
+				traded.Set(TradedFieldIDs.ROC.openClose, order.OpenClose);
+				traded.Set(TradedFieldIDs.ROC.side, (long)order.Side);
+				traded.Set(TradedFieldIDs.ROC.destID, order.DestID);
 
-				RocOrders[omTag].Set(OrderFieldIDs.hasTrades, true);
-				RocOrders[omTag].Trades[omExecTag] = traded;
+				order.Set(OrderFieldIDs.hasTrades, true);
+				order.Trades[omExecTag] = traded;
 
-				if (RocExecutions.ContainsKey(omExecTag))
-				{
-					// Traded Twice?
-					RocExecutions[omExecTag] = traded;
-				}
-				else
-				{
-					RocExecutions.Add(omExecTag, traded);
-				}
+				RocExecutions[omExecTag] = traded;
 			}
 		}
 
@@ -1861,11 +1605,11 @@ namespace RDSEx
 		{
 			if (e.Cancelled)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetTposPosition|Cancelled", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetTposPosition|Cancelled", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else if (e.Error != null)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetTposPosition|Error ", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetTposPosition|Error ", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else
 			{
@@ -1889,7 +1633,7 @@ namespace RDSEx
 						e.Result.retValues = null;
 						break;
 					default:
-						ErrorMsg = String.Concat(new object[] { "GetTposPosition|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage });
+						ErrorMsg = string.Concat("GetTposPosition|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage);
 						break;
 				}
 			}
@@ -1948,18 +1692,8 @@ namespace RDSEx
 
 					lock (TposPositions)
 					{
-						if (TposPositions.ContainsKey(position.PositionKey))
-						{
-							if (TposPositions[position.PositionKey].Version != pos.m_Version)
-							{
-								// new version of the position
-								TposPositions[position.PositionKey] = position;
-								AddToNewPositions(position);
-							}
-						}
-						else
-						{
-							TposPositions.Add(position.PositionKey, position);
+						if (!TposPositions.TryGetValue(position.PositionKey, out TPOSPosition found) || (found.Version != pos.m_Version)) {
+							TposPositions[position.PositionKey] = position;
 							AddToNewPositions(position);
 						}
 					}
@@ -1967,7 +1701,7 @@ namespace RDSEx
 			}
 			catch (Exception ex)
 			{
-				ErrorMsg = String.Concat(new object[] { "DecodeTposPosition|Error ", ex.Message, " : ", ex.StackTrace });
+				ErrorMsg = string.Concat("DecodeTposPosition|Error ", ex.Message, " : ", ex.StackTrace);
 			}
 		}
 
@@ -1982,14 +1716,7 @@ namespace RDSEx
 			{
 				lock (NewTposPositions)
 				{
-					if (NewTposPositions.ContainsKey(position.PositionKey))
-					{
-						NewTposPositions[position.PositionKey] = position;
-					}
-					else
-					{
-						NewTposPositions.Add(position.PositionKey, position);
-					}
+					NewTposPositions[position.PositionKey] = position;
 				}
 			}
 		}
@@ -2011,11 +1738,11 @@ namespace RDSEx
 		{
 			if (e.Cancelled)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetTposTrades|Cancelled", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetTposTrades|Cancelled", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else if (e.Error != null)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetTposTrades|Error ", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetTposTrades|Error ", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else
 			{
@@ -2039,7 +1766,7 @@ namespace RDSEx
 						e.Result.retValues = null;
 						break;
 					default:
-						ErrorMsg = String.Concat(new object[] { "GetTposTrades|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage });
+						ErrorMsg = string.Concat("GetTposTrades|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage);
 						break;
 				}
 			}
@@ -2066,22 +1793,13 @@ namespace RDSEx
 					exec.Set(TradedFieldIDs.TPOS.isTPOS, true);
 					lock (TposExecutions)
 					{
-						if (TposExecutions.ContainsKey(tposTrade.m_TradeID))
-						{
-							if (TposExecutions[tposTrade.m_TradeID].Version != tposTrade.m_Version ||
-								TposExecutions[tposTrade.m_TradeID].ModReasonID != tposTrade.m_LastModReasonID)
-							{
-								exec = TposExecutions[tposTrade.m_TradeID];
-							}
-							else
-							{
-								// Same trade, exit.
-								return;
-							}
-						}
-						else
-						{
+						if (!TposExecutions.TryGetValue(tposTrade.m_TradeID, out TPOSExecution found)) {
 							TposExecutions.Add(tposTrade.m_TradeID, exec);
+						} else if ((found.Version != tposTrade.m_Version) || (found.ModReasonID != tposTrade.m_LastModReasonID)) {
+							exec = TposExecutions[tposTrade.m_TradeID];
+						} else {
+							// Same trade, exit.
+							return;
 						}
 					}
 
@@ -2154,7 +1872,7 @@ namespace RDSEx
 			}
 			catch (Exception ex)
 			{
-				ErrorMsg = String.Concat(new object[] { "DecodeTposTrades|Error ", ex.Message, " : ", ex.StackTrace });
+				ErrorMsg = string.Concat("DecodeTposTrades|Error ", ex.Message, " : ", ex.StackTrace);
 			}
 		}
 
@@ -2164,14 +1882,7 @@ namespace RDSEx
 			{
 				lock (NewTposExecutions)
 				{
-					if (NewTposExecutions.ContainsKey(exec.TradeID))
-					{
-						NewTposExecutions[exec.TradeID] = exec;
-					}
-					else
-					{
-						NewTposExecutions.Add(exec.TradeID, exec);
-					}
+					NewTposExecutions[exec.TradeID] = exec;
 				}
 			}
 		}
@@ -2198,18 +1909,18 @@ namespace RDSEx
 					AddToSecurityInfoWaitingList(rocSymbol, "");
 				}
 
-				if (!SymbolSecurityInfos.ContainsKey(rocSymbol))
+				if (!SymbolSecurityInfos.TryGetValue(rocSymbol, out IMSecurityInfo found))
 				{
 					AddToSecurityInfoWaitingList(rocSymbol, "");
 				}
 				else
 				{
-					OnSecurityReceived(new SecurityEventArgs(SymbolSecurityInfos[rocSymbol]));
+					OnSecurityReceived(new SecurityEventArgs(found));
 				}
 			}
 			catch (Exception ex)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetSecurityByTicker|Error ", ex.Message, " : ", ex.StackTrace });
+				ErrorMsg = string.Concat("GetSecurityByTicker|Error ", ex.Message, " : ", ex.StackTrace);
 			}
 		}
 
@@ -2220,11 +1931,11 @@ namespace RDSEx
 
 			if (e.Cancelled)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetSecurityByTicker|Cancelled", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetSecurityByTicker|Cancelled", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else if (e.Error != null)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetSecurityByTicker|Error ", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetSecurityByTicker|Error ", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else
 			{
@@ -2235,22 +1946,24 @@ namespace RDSEx
 						e.Result.retValues = null;
 						break;
 					default:
-						ErrorMsg = String.Concat(new object[] { "GetSecurityByTicker|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage });
+						ErrorMsg = string.Concat("GetSecurityByTicker|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage);
 						break;
 				}
 			}
 
 			lock (ImSecurityInfoWaitingList)
 			{
+				IMSecurityInfo found;
+
 				RemoveFromSecurityInfoWaitingList(rocSymbol);
 
 				if (ImOPTChainInfoWaitingList.Contains(rocSymbol))
 				{
 					GetOptionChainInfo(rocSymbol);
 
-					if (gotSecInfo && SymbolSecurityInfos.ContainsKey(rocSymbol))
+					if (gotSecInfo && SymbolSecurityInfos.TryGetValue(rocSymbol, out found))
 					{
-						OnSecurityReceived(new SecurityEventArgs(SymbolSecurityInfos[rocSymbol]));
+						OnSecurityReceived(new SecurityEventArgs(found));
 					}
 					return;
 				}
@@ -2258,17 +1971,17 @@ namespace RDSEx
 				{
 					GetSSFutureChainInfo(rocSymbol);
 
-					if (gotSecInfo && SymbolSecurityInfos.ContainsKey(rocSymbol))
+					if (gotSecInfo && SymbolSecurityInfos.TryGetValue(rocSymbol, out found))
 					{
-						OnSecurityReceived(new SecurityEventArgs(SymbolSecurityInfos[rocSymbol]));
+						OnSecurityReceived(new SecurityEventArgs(found));
 					}
 					return;
 				}
 
 				// Done
-				if (gotSecInfo && SymbolSecurityInfos.ContainsKey(rocSymbol))
+				if (gotSecInfo && SymbolSecurityInfos.TryGetValue(rocSymbol, out found))
 				{
-					OnSecurityReceived(new SecurityEventArgs(SymbolSecurityInfos[rocSymbol]));
+					OnSecurityReceived(new SecurityEventArgs(found));
 				}
 				
 				// Get Next Symbol
@@ -2371,14 +2084,7 @@ namespace RDSEx
 
 			lock (SymbolSecurityInfos)
 			{
-				if (SymbolSecurityInfos.ContainsKey(rocSymbol))
-				{
-					SymbolSecurityInfos[rocSymbol] = info;
-				}
-				else
-				{
-					SymbolSecurityInfos.Add(rocSymbol, info);
-				}
+				SymbolSecurityInfos[rocSymbol] = info;
 			}
 
 			AddToSymbolDetailToRocSymbolMap(rocSymbol, rocSymbol);
@@ -2398,7 +2104,7 @@ namespace RDSEx
 			{
 				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.Option);
 			}
-			else if (!SymbolSecurityInfos.ContainsKey(rocSymbol) || SymbolSecurityInfos[rocSymbol].OptionChain.Count == 0)
+			else if (!SymbolSecurityInfos.TryGetValue(rocSymbol, out IMSecurityInfo found) || found.OptionChain.Count == 0)
 			{
 				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.Option);
 			}
@@ -2415,11 +2121,11 @@ namespace RDSEx
 
 			if (e.Cancelled)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetOptionChain|Cancelled", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetOptionChain|Cancelled", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else if (e.Error != null)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetOptionChain|Error ", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetOptionChain|Error ", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else
 			{
@@ -2430,30 +2136,32 @@ namespace RDSEx
 						e.Result.retValues = null;
 						break;
 					default:
-						ErrorMsg = String.Concat(new object[] { "GetOptionChain|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage });
+						ErrorMsg = string.Concat("GetOptionChain|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage);
 						break;
 				}
 			}
 
 			lock (ImSecurityInfoWaitingList)
 			{
+				IMSecurityInfo found;
+
 				RemoveFromOPTChainInfoWaitingList(rocSymbol);
 
 				if (ImSFFChainInfoWaitingList.Contains(rocSymbol))
 				{
 					GetSSFutureChainInfo(rocSymbol);
 
-					if (gotSecInfo && SymbolSecurityInfos.ContainsKey(rocSymbol))
+					if (gotSecInfo && SymbolSecurityInfos.TryGetValue(rocSymbol, out found))
 					{
-						OnOptionChainReceived(new OptionChainEventArgs(SymbolSecurityInfos[rocSymbol]));
+						OnOptionChainReceived(new OptionChainEventArgs(found));
 					}
 					return;
 				}
 
 				// Done
-				if (gotSecInfo && SymbolSecurityInfos.ContainsKey(rocSymbol))
+				if (gotSecInfo && SymbolSecurityInfos.TryGetValue(rocSymbol, out found))
 				{
-					OnOptionChainReceived(new OptionChainEventArgs(SymbolSecurityInfos[rocSymbol]));
+					OnOptionChainReceived(new OptionChainEventArgs(found));
 				}
 
 				// Get Next Symbol
@@ -2481,9 +2189,9 @@ namespace RDSEx
 					}
 				}
 
-				if (gotSecInfo && SymbolSecurityInfos.ContainsKey(rocSymbol))
+				if (gotSecInfo && SymbolSecurityInfos.TryGetValue(rocSymbol, out IMSecurityInfo found))
 				{
-					OnSecurityReceived(new SecurityEventArgs(SymbolSecurityInfos[rocSymbol]));
+					OnSecurityReceived(new SecurityEventArgs(found));
 				}
 			}
 
@@ -2521,29 +2229,21 @@ namespace RDSEx
 
 			lock (SymbolSecurityInfos)
 			{
-				if (SymbolSecurityInfos.ContainsKey(rocSymbol))
+				if (SymbolSecurityInfos.TryGetValue(rocSymbol, out IMSecurityInfo secinfo))
 				{
-					info.MDSource = SymbolSecurityInfos[rocSymbol].MDSource;
-					if (SymbolSecurityInfos[rocSymbol].SecType == CSVFieldIDs.SecurityTypes.Future)
+					info.MDSource = secinfo.MDSource;
+					if (secinfo.SecType == CSVFieldIDs.SecurityTypes.Future)
 					{
 						info.SecType = CSVFieldIDs.SecurityTypes.OptionFuture;
-						info.TickSize = SymbolSecurityInfos[rocSymbol].TickSize;
+						info.TickSize = secinfo.TickSize;
 					}
 					else
 					{
 						info.SecType = CSVFieldIDs.SecurityTypes.Option;
 					}
 
-					if (SymbolSecurityInfos[rocSymbol].OptionChain.ContainsKey(info.MDSymbol))
-					{
-						SymbolSecurityInfos[rocSymbol].OptionChain[info.MDSymbol] = info;
-					}
-					else
-					{
-						SymbolSecurityInfos[rocSymbol].OptionChain.Add(info.MDSymbol, info);
-					}
-				}
-				else
+					secinfo.OptionChain[info.MDSymbol] = info;
+				} else
 				{
 					Debug.Assert(!Debugger.IsAttached, "Missing Symbol For Option Chain");
 				}
@@ -2551,14 +2251,7 @@ namespace RDSEx
 
 			lock (SymbolToOptionInfos)
 			{
-				if (SymbolToOptionInfos.ContainsKey(info.MDSymbol))
-				{
-					SymbolToOptionInfos[info.MDSymbol] = info;
-				}
-				else
-				{
-					SymbolToOptionInfos.Add(info.MDSymbol, info);
-				}
+				SymbolToOptionInfos[info.MDSymbol] = info;
 			}
 
 			AddToSymbolDetailToRocSymbolMap(info.SymbolDetail, info.MDSymbol);
@@ -2578,7 +2271,7 @@ namespace RDSEx
 			{
 				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.SingleStockFuture);
 			}
-			else if (!SymbolSecurityInfos.ContainsKey(rocSymbol) || SymbolSecurityInfos[rocSymbol].SSFutureChain.Count == 0)
+			else if (!SymbolSecurityInfos.TryGetValue(rocSymbol, out var found) || (found.SSFutureChain.Count == 0))
 			{
 				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.SingleStockFuture);
 			}
@@ -2595,11 +2288,11 @@ namespace RDSEx
 
 			if (e.Cancelled)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetSSFutureChain|Cancelled", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetSSFutureChain|Cancelled", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else if (e.Error != null)
 			{
-				ErrorMsg = String.Concat(new object[] { "GetSSFutureChain|Error ", e.Error.Message, " ", e.Error.StackTrace });
+				ErrorMsg = string.Concat("GetSSFutureChain|Error ", e.Error.Message, " ", e.Error.StackTrace);
 			}
 			else
 			{
@@ -2610,30 +2303,32 @@ namespace RDSEx
 						e.Result.retValues = null;
 						break;
 					default:
-						ErrorMsg = String.Concat(new object[] { "GetSSFutureChain|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage });
+						ErrorMsg = string.Concat("GetSSFutureChain|Result|StatusCode ", e.Result.statusCode.ToString(), " : ", e.Result.statusMessage);
 						break;
 				}
 			}
 
 			lock (ImSecurityInfoWaitingList)
 			{
+				IMSecurityInfo found;
+
 				RemoveFromSFFChainInfoWaitingList(rocSymbol);
 
 				if (ImOPTChainInfoWaitingList.Contains(rocSymbol))
 				{
 					GetOptionChainInfo(rocSymbol);
 
-					if (gotSecInfo && SymbolSecurityInfos.ContainsKey(rocSymbol))
+					if (gotSecInfo && SymbolSecurityInfos.TryGetValue(rocSymbol, out found))
 					{
-						OnSSFutureChainReceived(new SSFutureChainEventArgs(SymbolSecurityInfos[rocSymbol]));
+						OnSSFutureChainReceived(new SSFutureChainEventArgs(found));
 					}
 					return;
 				}
 
 				// Done
-				if (gotSecInfo && SymbolSecurityInfos.ContainsKey(rocSymbol))
+				if (gotSecInfo && SymbolSecurityInfos.TryGetValue(rocSymbol, out found))
 				{
-					OnSSFutureChainReceived(new SSFutureChainEventArgs(SymbolSecurityInfos[rocSymbol]));
+					OnSSFutureChainReceived(new SSFutureChainEventArgs(found));
 				}
 
 				// Get Next Symbol
@@ -2661,9 +2356,9 @@ namespace RDSEx
 					}
 				}
 
-				if (gotSecInfo && SymbolSecurityInfos.ContainsKey(rocSymbol))
+				if (gotSecInfo && SymbolSecurityInfos.TryGetValue(rocSymbol, out IMSecurityInfo found))
 				{
-					OnSecurityReceived(new SecurityEventArgs(SymbolSecurityInfos[rocSymbol]));
+					OnSecurityReceived(new SecurityEventArgs(found));
 				}
 			}
 
@@ -2674,31 +2369,14 @@ namespace RDSEx
 		{
 			if (ssfuture != null)
 			{
-				IMSSFutureInfo info = new IMSSFutureInfo();
-
-				info.Set(SecurityFieldIDs.SSFuture.fullSymbol, ssfuture.fullSymbol);
-				//info.Update(SecurityFieldIDs.SSFuture.exchange, ssfuture.exchange);
-				info.Set(SecurityFieldIDs.SSFuture.dataSource, ssfuture.exchange);
-				info.Set(SecurityFieldIDs.SSFuture.expirationDate, ssfuture.expirationDate);
-				info.Set(SecurityFieldIDs.SSFuture.contractSize, ssfuture.contractSize);
-				info.Set(SecurityFieldIDs.SSFuture.tickSize, ssfuture.tickSize);
-				info.Set(SecurityFieldIDs.SSFuture.curCode, ssfuture.curCode);
-				info.Set(SecurityFieldIDs.SSFuture.longName, ssfuture.longName);
+				IMSSFutureInfo info = new IMSSFutureInfo(ssfuture);
 			
 				lock (SymbolSecurityInfos)
 				{
-					if (SymbolSecurityInfos.ContainsKey(rocSymbol))
+					if (SymbolSecurityInfos.TryGetValue(rocSymbol, out var found))
 					{
-						if (SymbolSecurityInfos[rocSymbol].SSFutureChain.ContainsKey(info.MDSymbol))
-						{
-							SymbolSecurityInfos[rocSymbol].SSFutureChain[info.MDSymbol] = info;
-						}
-						else
-						{
-							SymbolSecurityInfos[rocSymbol].SSFutureChain.Add(info.MDSymbol, info);
-						}
-					}
-					else
+						found.SSFutureChain[info.MDSymbol] = info;
+					} else
 					{
 						Debug.Assert(!Debugger.IsAttached, "Missing Symbol For SSFuture Chain");
 					}
@@ -2706,14 +2384,7 @@ namespace RDSEx
 
 				lock (SymbolToSSFInfos)
 				{
-					if (SymbolToSSFInfos.ContainsKey(ssfuture.fullSymbol))
-					{
-						SymbolToSSFInfos[ssfuture.fullSymbol] = info;
-					}
-					else
-					{
-						SymbolToSSFInfos.Add(ssfuture.fullSymbol, info);
-					}
+					SymbolToSSFInfos[ssfuture.fullSymbol] = info;
 				}
 
 				AddToSymbolDetailToRocSymbolMap(ssfuture.fullSymbol, rocSymbol);
@@ -2732,7 +2403,7 @@ namespace RDSEx
 			}
 			catch (Exception ex)
 			{
-				ErrorMsg = String.Concat(new object[] { "UpdateUserPassword|Error ", ex.Message, " : ", ex.StackTrace });
+				ErrorMsg = string.Concat("UpdateUserPassword|Error ", ex.Message, " : ", ex.StackTrace);
 			}
 		}
 
@@ -2750,7 +2421,7 @@ namespace RDSEx
 			}
 			catch (Exception ex)
 			{
-				ErrorMsg = String.Concat(new object[] { "ResetSecurityInfo|Error ", ex.Message, " : ", ex.StackTrace });
+				ErrorMsg = string.Concat("ResetSecurityInfo|Error ", ex.Message, " : ", ex.StackTrace);
 			}
 		}
 
@@ -2824,10 +2495,7 @@ namespace RDSEx
 		{
 			lock (ImSecurityInfoWaitingList)
 			{
-				if (ImSecurityInfoWaitingList.Contains(rocSymbol))
-				{
-					ImSecurityInfoWaitingList.Remove(rocSymbol);
-				}
+				ImSecurityInfoWaitingList.Remove(rocSymbol);
 			}
 		}
 
@@ -2835,10 +2503,7 @@ namespace RDSEx
 		{
 			lock (ImOPTChainInfoWaitingList)
 			{
-				if (ImOPTChainInfoWaitingList.Contains(rocSymbol))
-				{
-					ImOPTChainInfoWaitingList.Remove(rocSymbol);
-				}
+				ImOPTChainInfoWaitingList.Remove(rocSymbol);
 			}
 		}
 
@@ -2846,31 +2511,14 @@ namespace RDSEx
 		{
 			lock (ImSFFChainInfoWaitingList)
 			{
-				if (ImSFFChainInfoWaitingList.Contains(rocSymbol))
-				{
-					ImSFFChainInfoWaitingList.Remove(rocSymbol);
-				}
+				ImSFFChainInfoWaitingList.Remove(rocSymbol);
 			}
 		}
 
 		// Used by Sercrity Info Only
 		private string ConvertToIMSymbol(string rocSymbol)
 		{
-			string _tposSymbol = rocSymbol;
-
-			if (_tposSymbol.Contains("/PR"))
-			{
-				_tposSymbol = _tposSymbol.Replace("/PR", "/P");
-			}
-			//else if (_tposSymbol.Contains("/RT"))
-			//{
-			//    _tposSymbol = _tposSymbol.Replace("/RT", "/RT");
-			//}
-			//else if (_tposSymbol.Contains("/RTWI"))
-			//{
-			//    _tposSymbol = _tposSymbol.Replace("/RTWI", "/RTWI");
-			//}
-
+			string _tposSymbol = string.IsNullOrEmpty(rocSymbol) ? "": rocSymbol.Replace("/PR", "/P");
 			return _tposSymbol;
 		}
 
@@ -2878,14 +2526,7 @@ namespace RDSEx
 		{
 			lock (SymbolDetailToRocSymbolMap)
 			{
-				if (!SymbolDetailToRocSymbolMap.ContainsKey(symbolDetail))
-				{
-					SymbolDetailToRocSymbolMap.Add(symbolDetail, rocSymbol);
-				}
-				else
-				{
-					SymbolDetailToRocSymbolMap[symbolDetail] = rocSymbol;
-				}
+				SymbolDetailToRocSymbolMap[symbolDetail] = rocSymbol;
 			}
 		}
 
@@ -2909,55 +2550,31 @@ namespace RDSEx
 
 	public class SecurityEventArgs : EventArgs
 	{
-		private IMSecurityInfo _info;
+		public readonly IMSecurityInfo Info;
 
 		public SecurityEventArgs(IMSecurityInfo info)
 		{
-			_info = info;
-		}
-
-		public IMSecurityInfo Info
-		{
-			get
-			{
-				return _info;
-			}
+			Info = info;
 		}
 	}
 
 	public class OptionChainEventArgs : EventArgs
 	{
-		private IMSecurityInfo _info;
+		public readonly IMSecurityInfo Info;
 
 		public OptionChainEventArgs(IMSecurityInfo info)
 		{
-			_info = info;
-		}
-
-		public IMSecurityInfo Info
-		{
-			get
-			{
-				return _info;
-			}
+			Info = info;
 		}
 	}
 
 	public class SSFutureChainEventArgs : EventArgs
 	{
-		private IMSecurityInfo _info;
+		public readonly IMSecurityInfo Info;
 
 		public SSFutureChainEventArgs(IMSecurityInfo info)
 		{
-			_info = info;
-		}
-
-		public IMSecurityInfo Info
-		{
-			get
-			{
-				return _info;
-			}
+			Info = info;
 		}
 	}
 }

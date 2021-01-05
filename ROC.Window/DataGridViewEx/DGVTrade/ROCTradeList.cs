@@ -404,11 +404,11 @@ namespace DataGridViewEx
 		{
 			if (RocGridTable.DefaultView.RowFilter != "")
 			{
-				return string.Concat(new object[] { RocGridTable.DefaultView.RowFilter, " and Side = ", side.ToString() });
+				return string.Concat(RocGridTable.DefaultView.RowFilter, " and Side = ", side.ToString());
 			}
 			else
 			{
-				return string.Concat(new object[] { "Side = ", side.ToString() });
+				return string.Concat("Side = ", side.ToString());
 			}
 		}
 
@@ -420,7 +420,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(TradeValue)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Buy)).ToString(), out _buyValue))
+					if (double.TryParse(RocGridTable.Compute("Sum(TradeValue)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Buy)).ToString(), out _buyValue))
 					{
 						return Math.Round(_buyValue, 7);
 					}
@@ -441,7 +441,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(Qty)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Buy)).ToString(), out _buyQty))
+					if (long.TryParse(RocGridTable.Compute("Sum(Qty)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Buy)).ToString(), out _buyQty))
 					{
 						return _buyQty;
 					}
@@ -462,7 +462,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(TradeValue)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Sell)).ToString(), out _sellValue))
+					if (double.TryParse(RocGridTable.Compute("Sum(TradeValue)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Sell)).ToString(), out _sellValue))
 					{
 						return Math.Round(_sellValue, 7);
 					}
@@ -483,7 +483,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(Qty)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Sell)).ToString(), out _sellQty))
+					if (long.TryParse(RocGridTable.Compute("Sum(Qty)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Sell)).ToString(), out _sellQty))
 					{
 						return _sellQty;
 					}
@@ -504,7 +504,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(TradeValue)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Short)).ToString(), out _shortValue))
+					if (double.TryParse(RocGridTable.Compute("Sum(TradeValue)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Short)).ToString(), out _shortValue))
 					{
 						return Math.Round(_shortValue, 7);
 					}
@@ -525,7 +525,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(Qty)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Short)).ToString(), out _shortQty))
+					if (long.TryParse(RocGridTable.Compute("Sum(Qty)", FilterBySide(CSVEx.CSVFieldIDs.SideCodes.Short)).ToString(), out _shortQty))
 					{
 						return _shortQty;
 					}
@@ -1002,14 +1002,14 @@ namespace DataGridViewEx
 					{
 						foreach (string symbol in symbols)
 						{
-							filter = BuildRowFilterString(filter, String.Concat(new object[] { "SymbolDetail = '", symbol, "'" }), true);
+							filter = BuildRowFilterString(filter, string.Concat("SymbolDetail = '", symbol, "'"), true);
 						}
 
-						filter = String.Concat(new object[] { "(", filter, ")" });
+						filter = string.Concat("(", filter, ")");
 					}
 					else
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "SymbolDetail = '", symbols[0], "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("SymbolDetail = '", symbols[0], "'"));
 					}
 				}
 
@@ -1019,36 +1019,36 @@ namespace DataGridViewEx
 
 					foreach (string acct in accts)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "ClearingAcct Not Like '", acct, "%'" }));
+						filter = BuildRowFilterString(filter, string.Concat("ClearingAcct Not Like '", acct, "%'"));
 					}
 				}
 
 				if (FilterOutStock)
 				{
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Equity, "'" }));
+					filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Equity, "'"));
 				}
 
 				if (FilterOutFuture)
 				{
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Future, "'" }));
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.SingleStockFuture, "'" }));
+					filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Future, "'"));
+					filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.SingleStockFuture, "'"));
 				}
 
 				if (FilterOutOption)
 				{
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Option, "'" }));
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture, "'" }));
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex, "'" }));
+					filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Option, "'"));
+					filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture, "'"));
+					filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex, "'"));
 				}
 
 				if (FilterOutTPOS)
 				{
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "TPOS <> 1" }));
+					filter = BuildRowFilterString(filter, string.Concat("TPOS <> 1"));
 				}
 
 				if (FilterOutROC)
 				{
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "TPOS <> 0" }));
+					filter = BuildRowFilterString(filter, string.Concat("TPOS <> 0"));
 				}
 
 				try

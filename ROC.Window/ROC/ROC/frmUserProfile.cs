@@ -104,7 +104,7 @@ namespace ROC
 				acctNode.Nodes.Add(new object[] { "occAcr", acctMap.occAcr });
 				acctNode.Nodes.Add(new object[] { "homeExchange", acctMap.homeExchange });
 
-				foreach (DestinationMap destMap in acctMap.Destinations.Values)
+				foreach (DestinationMap destMap in acctMap.Destinations)
 				{
 					destNode = acctNode.Nodes.Add(new object[] { "Dest", destMap.shortName });
 					destNode.DefaultCellStyle.Font = rocUserProfile.NodeFont;

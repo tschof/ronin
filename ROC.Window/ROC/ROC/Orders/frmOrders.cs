@@ -761,7 +761,7 @@ namespace ROC
 							status = 0;
 							if (row["Status"] != DBNull.Value && row["Status"].ToString() != "")
 							{
-								Int64.TryParse(row["Status"].ToString(), out status);
+								long.TryParse(row["Status"].ToString(), out status);
 							}
 
 							switch (status)
@@ -1193,7 +1193,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Filled" });
+				filters = string.Concat(filters, " Filled");
 			}
 
 			if (rocOrdersList.FilterOutPartialFilled)
@@ -1201,7 +1201,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " PartialFilled" });
+				filters = string.Concat(filters, " PartialFilled");
 			}
 
 			if (rocOrdersList.FilterOutReplaced)
@@ -1209,7 +1209,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Replaced" });
+				filters = string.Concat(filters, " Replaced");
 			}
 
 			if (rocOrdersList.FilterOutOpen)
@@ -1217,7 +1217,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Open" });
+				filters = string.Concat(filters, " Open");
 			}
 
 			if (rocOrdersList.FilterOutRejected)
@@ -1225,7 +1225,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Rejected" });
+				filters = string.Concat(filters, " Rejected");
 			}
 
 			if (rocOrdersList.FilterOutCanceled)
@@ -1233,7 +1233,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Canceled" });
+				filters = string.Concat(filters, " Canceled");
 			}
 
 			cmdStatus.Text = filters;
@@ -1303,7 +1303,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Stock" });
+				filters = string.Concat(filters, " Stock");
 			}
 
 			if (rocOrdersList.FilterOutFuture)
@@ -1311,7 +1311,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Future" });
+				filters = string.Concat(filters, " Future");
 			}
 
 			if (rocOrdersList.FilterOutOption)
@@ -1319,7 +1319,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Option" });
+				filters = string.Concat(filters, " Option");
 			}
 
 			cmdSecurities.Text = filters;
@@ -1385,7 +1385,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Market" });
+				filters = string.Concat(filters, " Market");
 			}
 
 			if (rocOrdersList.FilterOutLimit)
@@ -1393,7 +1393,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Limit" });
+				filters = string.Concat(filters, " Limit");
 			}
 
 			cmdOrderType.Text = filters;
@@ -1455,7 +1455,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Day" });
+				filters = string.Concat(filters, " Day");
 			}
 
 
@@ -1504,11 +1504,11 @@ namespace ROC
 				default:
 					if (rocOrdersList.FilterOutAccounts.Contains(e.PropertyName))
 					{
-						rocOrdersList.FilterOutAccounts = rocOrdersList.FilterOutAccounts.Replace(string.Concat(new object[] { e.PropertyName }), "");
+						rocOrdersList.FilterOutAccounts = rocOrdersList.FilterOutAccounts.Replace(e.PropertyName, "");
 					}
 					else
 					{
-						rocOrdersList.FilterOutAccounts = string.Concat(new object[] { rocOrdersList.FilterOutAccounts, " ", e.PropertyName });
+						rocOrdersList.FilterOutAccounts = string.Concat(rocOrdersList.FilterOutAccounts, " ", e.PropertyName);
 					}
 					break;
 			}
@@ -1565,7 +1565,7 @@ namespace ROC
 					}
 					else if (!filters.Contains(acct.clearingAcIDShort))
 					{
-						filters = string.Concat(new object[] { filters, " ", acct.clearingAcIDShort });
+						filters = string.Concat(filters, " ", acct.clearingAcIDShort);
 					}
 				}
 			}

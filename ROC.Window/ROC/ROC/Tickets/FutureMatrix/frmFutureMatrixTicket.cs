@@ -34,7 +34,7 @@ namespace ROC
 			get
 			{
 				int range = 0;
-				if (Int32.TryParse(cboMatrixRange.Text, out range))
+				if (int.TryParse(cboMatrixRange.Text, out range))
 				{
 					return range;
 				}
@@ -662,14 +662,13 @@ namespace ROC
 		{
 			try
 			{
-				DateTime tDT;
-				if (DateTime.TryParseExact(secInfo.Expiration, GLOBAL.TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT))
+				if (GLOBAL.TimeFormats.TryParse(secInfo.Expiration, out DateTime when))
 				{
 					string _baseSymbol = CurrentSymbolDetailBase;
 					int range = MatrixRange * MatrixInterval;
 					for (int index = 0; index < range; index++)
 					{
-						MatrixColumns.Add(new FutureMatrixColumn(range - index, MatrixInterval, _baseSymbol, tDT.AddMonths(index)));
+						MatrixColumns.Add(new FutureMatrixColumn(range - index, MatrixInterval, _baseSymbol, when.AddMonths(index)));
 						index = index + MatrixInterval - 1;
 					}
 

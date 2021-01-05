@@ -787,9 +787,9 @@ namespace ROC
 						string[] optionDetails = symbolDetail.Split(symbolDetailSpliter);
 						row["CallPut"] = optionDetails[5];
 
-						if (secInfo.ExpirationDT != null)
+						if (secInfo.TryGetExpiration(out DateTime when))
 						{
-							DateTime tempDT = (DateTime)secInfo.ExpirationDT;
+							DateTime tempDT = when;
 							row["ExpDate"] = tempDT.ToString("yyyyMM");
 							row["MaturityDay"] = tempDT.ToString("dd");
 						}
@@ -1086,11 +1086,9 @@ namespace ROC
 						string[] optionDetails = symbolDetail.Split(symbolDetailSpliter);
 						callput = optionDetails[5];
 
-						if (secInfo.ExpirationDT != null)
-						{
-							DateTime tempDT = (DateTime)secInfo.ExpirationDT;
-							expDate = tempDT.ToString("yyyyMM");
-							maturityDay = tempDT.ToString("dd");
+						if (secInfo.TryGetExpiration(out DateTime when)) {
+							expDate = when.ToString("yyyyMM");
+							maturityDay = when.ToString("dd");
 						}
 
 						strike = optionDetails[4];

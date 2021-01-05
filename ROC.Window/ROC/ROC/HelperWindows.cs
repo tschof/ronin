@@ -85,24 +85,9 @@ namespace ROC
 			{
 				_clockWindows = value;
 			}
-		} 
-
-		private Dictionary<IntPtr, frmMain> _mainWindows;
-		internal Dictionary<IntPtr, frmMain> MainWindows
-		{
-			get
-			{
-				if (_mainWindows == null)
-				{
-					_mainWindows = new Dictionary<IntPtr, frmMain>();
-				}
-				return _mainWindows;
-			}
-			set
-			{
-				_mainWindows = value;
-			}
 		}
+
+		internal frmMain MainWindow;
 
 		private Dictionary<IntPtr, frmUserProfile> _userProfileWindows;
 		internal Dictionary<IntPtr, frmUserProfile> UserProfileWindows
@@ -1362,19 +1347,10 @@ namespace ROC
 
 		internal frmMain OpenWindow(frmMain w)
 		{
-			if (MainWindows.Count > 0)
-			{
-				foreach (frmMain wOld in MainWindows.Values)
-				{
-					ShowWindow((Form)wOld);
-					w = wOld;
-				}
-			}
-			else
-			{
-				MainWindows.Add(w.Handle, w);
-			}
-			return w;
+			if (MainWindow == null)
+				MainWindow = w;
+			ShowWindow(MainWindow);
+			return MainWindow;
 		}
 
 		internal void OpenWindow(frmWatchList w, bool isNew)
@@ -1796,17 +1772,14 @@ namespace ROC
 		{
 			try
 			{
+				ZeroPosition(MainWindow);
+
 				foreach (frmAlert w in AlertWindows.Values)
 				{
 					ZeroPosition((Form)w);
 				}
 
 				foreach (frmClock w in ClockWindows.Values)
-				{
-					ZeroPosition((Form)w);
-				}
-
-				foreach (frmMain w in MainWindows.Values)
 				{
 					ZeroPosition((Form)w);
 				}

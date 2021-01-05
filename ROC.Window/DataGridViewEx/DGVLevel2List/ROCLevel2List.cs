@@ -425,7 +425,7 @@ namespace DataGridViewEx
 			{
 				if (RocGridTable.Rows.Count > 0)
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(Size)", "Price = " + price).ToString(), out _totalSize))
+					if (long.TryParse(RocGridTable.Compute("Sum(Size)", "Price = " + price).ToString(), out _totalSize))
 					{
 						return _totalSize;
 					}
@@ -711,31 +711,33 @@ namespace DataGridViewEx
 		{
 			if (e.RowIndex >= 0)
 			{
-				Rows[e.RowIndex].Cells["TickSize"].Style.BackColor = Color.Black;
+				DataGridViewRow row = Rows[e.RowIndex];
+				row.Cells["TickSize"].Style.BackColor = Color.Black;
 
-				if (Rows[e.RowIndex].Cells["Tag"].Value == null || Rows[e.RowIndex].Cells["Tag"].Value.ToString() == "")
+				if (row.Cells["Tag"].Value == null || row.Cells["Tag"].Value.ToString() == "")
 				{
 					// Market Data
-					_shiftMultiples = Convert.ToInt32(Math.Abs((double)Rows[0].Cells["Price"].Value - (double)Rows[e.RowIndex].Cells["Price"].Value) * 100);
+					_shiftMultiples = Convert.ToInt32(Math.Abs((double)Rows[0].Cells["Price"].Value - (double)row.Cells["Price"].Value) * 100);
 					if (_shiftMultiples > ColorShiftIntervalMax) _shiftMultiples = ColorShiftIntervalMax;
 
-					if (!_shiftedColors.ContainsKey(_shiftMultiples))
+					if (!_shiftedColors.TryGetValue(_shiftMultiples, out Color color))
 					{
 						// Make new shifted color
 						_red = RedDefault - (ColorShiftInterval * _shiftMultiples);
 						_green = GreenDefault - (ColorShiftInterval * _shiftMultiples);
 						_blue = BlueDefault - (ColorShiftInterval * _shiftMultiples);
 
-						_shiftedColors.Add(_shiftMultiples, Color.FromArgb(_red, _green, _blue));
+						color = Color.FromArgb(_red, _green, _blue);
+						_shiftedColors.Add(_shiftMultiples, color);
 					}
 
-					if (Rows[e.RowIndex].DefaultCellStyle.BackColor != _shiftedColors[_shiftMultiples])
+					if (row.DefaultCellStyle.BackColor != color)
 					{
-						Rows[e.RowIndex].DefaultCellStyle.BackColor = _shiftedColors[_shiftMultiples];
+						row.DefaultCellStyle.BackColor = color;
 					}
-					if (Rows[e.RowIndex].DefaultCellStyle.ForeColor != Color.Black)
+					if (row.DefaultCellStyle.ForeColor != Color.Black)
 					{
-						Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+						row.DefaultCellStyle.ForeColor = Color.Black;
 					}
 				}
 				else
@@ -743,24 +745,24 @@ namespace DataGridViewEx
 					// User Orders
 					if (_side == GridSides.Bid)
 					{
-						if (Rows[e.RowIndex].DefaultCellStyle.BackColor != BidColor)
+						if (row.DefaultCellStyle.BackColor != BidColor)
 						{
-							Rows[e.RowIndex].DefaultCellStyle.BackColor = BidColor;
+							row.DefaultCellStyle.BackColor = BidColor;
 						}
-						if (Rows[e.RowIndex].DefaultCellStyle.ForeColor != Color.Gainsboro)
+						if (row.DefaultCellStyle.ForeColor != Color.Gainsboro)
 						{
-							Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Gainsboro;
+							row.DefaultCellStyle.ForeColor = Color.Gainsboro;
 						}
 					}
 					else
 					{
-						if (Rows[e.RowIndex].DefaultCellStyle.BackColor != AskColor)
+						if (row.DefaultCellStyle.BackColor != AskColor)
 						{
-							Rows[e.RowIndex].DefaultCellStyle.BackColor = AskColor;
+							row.DefaultCellStyle.BackColor = AskColor;
 						}
-						if (Rows[e.RowIndex].DefaultCellStyle.ForeColor != Color.Gainsboro)
+						if (row.DefaultCellStyle.ForeColor != Color.Gainsboro)
 						{
-							Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Gainsboro;
+							row.DefaultCellStyle.ForeColor = Color.Gainsboro;
 						}
 					}
 				}
@@ -876,19 +878,19 @@ namespace DataGridViewEx
 						case "PartID":
 							if (Rows[e.RowIndex].Cells["Tag"].Value.ToString() != "")
 							{
-								ShowTip = String.Concat(new object[] { 
+								ShowTip = string.Concat(
 									Rows[e.RowIndex].Cells["Tag"].Value.ToString(), 
 									" - ", 
 									Rows[e.RowIndex].Cells["Size"].Value.ToString(),
 									"@",
-									Rows[e.RowIndex].Cells["Price"].Value.ToString() });
+									Rows[e.RowIndex].Cells["Price"].Value.ToString());
 							}
 							else
 							{
-								ShowTip = String.Concat(new object[] { 
+								ShowTip = string.Concat(
 									Rows[e.RowIndex].Cells["PartID"].Value.ToString(), 
 									" - ", 
-									Rows[e.RowIndex].Cells["PartName"].Value.ToString() } );
+									Rows[e.RowIndex].Cells["PartName"].Value.ToString());
 							}
 							ShowToolTip = true;
 							break;
@@ -901,15 +903,6 @@ namespace DataGridViewEx
 								PriceL2Selected = true;
 							}
 							break;
-						//case "Size":
-						//    if (Rows[e.RowIndex].Cells["Tag"].Value.ToString() == "")
-						//    {
-						//        PriceL2 = (double)Rows[e.RowIndex].Cells["Price"].Value;
-						//        SizeL2 = (long)Rows[e.RowIndex].Cells["Size"].Value;
-
-						//        SizeL2Selected = true;
-						//    }
-						//    break;
 					}
 				}
 				else if (e.Button == MouseButtons.Right)

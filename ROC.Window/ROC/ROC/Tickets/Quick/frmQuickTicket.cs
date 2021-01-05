@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
+using Common;
 using RDSEx;
 using DataGridViewEx;
 using SerializationEx;
@@ -13,7 +14,6 @@ using LabelEx;
 using ROMEx;
 using CSVEx;
 using MarketData;
-using Price = Common.Price;
 
 namespace ROC
 {
@@ -22,32 +22,24 @@ namespace ROC
 	{
 		#region - Ticket Properties -
 
-		internal double TicketOpacity
-		{
-			get
-			{
+		internal double TicketOpacity {
+			get {
 				return Opacity;
 			}
-			set
-			{
-				if (Opacity != value)
-				{
+			set {
+				if (Opacity != value) {
 					Opacity = value;
 				}
 			}
 		}
 
 		private Color _ticketBackColor = Color.LightSteelBlue;
-		internal Color TicketBackColor
-		{
-			get
-			{
+		internal Color TicketBackColor {
+			get {
 				return _ticketBackColor;
 			}
-			set
-			{
-				if (_ticketBackColor != value)
-				{
+			set {
+				if (_ticketBackColor != value) {
 					_ticketBackColor = value;
 					SetTicketBackColor();
 				}
@@ -61,265 +53,202 @@ namespace ROC
 			managedPanelBook.BackColor = _ticketBackColor;
 		}
 
-		internal bool ShowBidPrice
-		{
-			get
-			{
+		internal bool ShowBidPrice {
+			get {
 				return lblBidPrice.Visible;
 			}
-			set
-			{
+			set {
 				lblBidPrice.Visible = value;
 				dspBidPrice.Visible = value;
 			}
 		}
 
-		internal bool ShowBidSize
-		{
-			get
-			{
+		internal bool ShowBidSize {
+			get {
 				return lblBidSize.Visible;
 			}
-			set
-			{
+			set {
 				lblBidSize.Visible = value;
 				dspBidSize.Visible = value;
 			}
 		}
 
-		internal bool ShowAskPrice
-		{
-			get
-			{
+		internal bool ShowAskPrice {
+			get {
 				return lblAskPrice.Visible;
 			}
-			set
-			{
+			set {
 				lblAskPrice.Visible = value;
 				dspAskPrice.Visible = value;
 			}
 		}
 
-		internal bool ShowAskSize
-		{
-			get
-			{
+		internal bool ShowAskSize {
+			get {
 				return lblAskSize.Visible;
 			}
-			set
-			{
+			set {
 				lblAskSize.Visible = value;
 				dspAskSize.Visible = value;
 			}
 		}
 
-		internal bool ShowNetChange
-		{
-			get
-			{
+		internal bool ShowNetChange {
+			get {
 				return lblNetChange.Visible;
 			}
-			set
-			{
+			set {
 				lblNetChange.Visible = value;
 				dspNetChange.Visible = value;
 			}
 		}
 
-		internal bool ShowPctChange
-		{
-			get
-			{
+		internal bool ShowPctChange {
+			get {
 				return lblPctChange.Visible;
 			}
-			set
-			{
+			set {
 				lblPctChange.Visible = value;
 				dspPctChange.Visible = value;
 			}
 		}
 
-		internal bool ShowTotalVolume
-		{
-			get
-			{
+		internal bool ShowTotalVolume {
+			get {
 				return lblVolume.Visible;
 			}
-			set
-			{
+			set {
 				lblVolume.Visible = value;
 				dspVolume.Visible = value;
 			}
 		}
 
-		internal bool ShowTradedVolume
-		{
-			get
-			{
+		internal bool ShowTradedVolume {
+			get {
 				return lblTradeVolume.Visible;
 			}
-			set
-			{
+			set {
 				lblTradeVolume.Visible = value;
 				dspTradeVolume.Visible = value;
 			}
 		}
 
-		internal bool ShowLowPrice
-		{
-			get
-			{
+		internal bool ShowLowPrice {
+			get {
 				return lblLowPrice.Visible;
 			}
-			set
-			{
+			set {
 				lblLowPrice.Visible = value;
 				dspLowPrice.Visible = value;
 			}
 		}
 
-		internal bool ShowHighPrice
-		{
-			get
-			{
+		internal bool ShowHighPrice {
+			get {
 				return lblHighPrice.Visible;
 			}
-			set
-			{
+			set {
 				lblHighPrice.Visible = value;
 				dspHighPrice.Visible = value;
 			}
 		}
 
-		internal bool ShowPrevClosePrice
-		{
-			get
-			{
+		internal bool ShowPrevClosePrice {
+			get {
 				return lblClosePrice.Visible;
 			}
-			set
-			{
+			set {
 				lblClosePrice.Visible = value;
 				dspClosePrice.Visible = value;
 			}
 		}
 
-		internal bool ShowTicker
-		{
-			get
-			{
+		internal bool ShowTicker {
+			get {
 				return panelTicker.Visible;
 			}
-			set
-			{
+			set {
 				panelTicker.Visible = value;
 			}
 		}
 
-		internal bool ShowQty
-		{
-			get
-			{
+		internal bool ShowQty {
+			get {
 				return panelShares.Visible;
 			}
-			set
-			{
+			set {
 				panelShares.Visible = value;
 			}
 		}
 
-		internal bool ShowOrder
-		{
-			get
-			{
+		internal bool ShowOrder {
+			get {
 				return panelOrderTypes.Visible;
 			}
-			set
-			{
+			set {
 				panelOrderTypes.Visible = value;
 			}
 		}
 
-		internal bool ShowLimitPrice
-		{
-			get
-			{
+		internal bool ShowLimitPrice {
+			get {
 				return panelLimitPrice.Visible;
 			}
-			set
-			{
+			set {
 				panelLimitPrice.Visible = value;
 			}
 		}
 
-		internal bool ShowStopPrice
-		{
-			get
-			{
+		internal bool ShowStopPrice {
+			get {
 				return panelStopPrice.Visible;
 			}
-			set
-			{
+			set {
 				panelStopPrice.Visible = value;
 			}
 		}
 
-		internal bool ShowDuration
-		{
-			get
-			{
+		internal bool ShowDuration {
+			get {
 				return panelDuration.Visible;
 			}
-			set
-			{
+			set {
 				panelDuration.Visible = value;
 			}
 		}
 
-		internal bool ShowExchange
-		{
-			get
-			{
+		internal bool ShowExchange {
+			get {
 				return panelExchange.Visible;
 			}
-			set
-			{
+			set {
 				panelExchange.Visible = value;
 			}
 		}
 
-		internal bool ShowOrderInfo
-		{
-			get
-			{
+		internal bool ShowOrderInfo {
+			get {
 				return panelOrderInfoMsg.Visible;
 			}
-			set
-			{
+			set {
 				panelOrderInfoMsg.Visible = value;
 			}
 		}
 
-		internal bool ShowCommand
-		{
-			get
-			{
+		internal bool ShowCommand {
+			get {
 				return panelCommands.Visible;
 			}
-			set
-			{
+			set {
 				panelCommands.Visible = value;
 			}
 		}
 
-		internal bool ShowIncrement
-		{
-			get
-			{
+		internal bool ShowIncrement {
+			get {
 				return dspQuantityIncrement.Visible;
 			}
-			set
-			{
+			set {
 				dspQuantityIncrement.Visible = value;
 
 				dspLimitPriceIncrement.Visible = value;
@@ -336,160 +265,76 @@ namespace ROC
 
 		#region - Local Variable -
 
-		internal Nullable<double> HighPrice
+		internal Price? HighPrice => getPrice(dspHighPrice);
+		internal Price? LowPrice => getPrice(dspLowPrice);
+		internal Price? AskPrice => getPrice(dspAskPrice);
+		internal Price? BidPrice => getPrice(dspBidPrice);
+		internal Price? TradedPrice => getPrice(dspTradedPrice);
+		internal Price CenterPrice => firstOf(TradedPrice, AskPrice, BidPrice);
+
+		private Price? getPrice(LabelEx.LabelBase field)
 		{
-			get
-			{
-				try
-				{
-					if (dspHighPrice.Value != null && dspHighPrice.Value.ToString() != "")
-					{
-						return Convert.ToDouble(dspHighPrice.Value);
-					}
-				}
-				catch (Exception ex)
-				{
-					GLOBAL.HROC.AddToException(ex);
-				}
+			string text = field.Value as string;
+			if (!string.IsNullOrEmpty(text) && double.TryParse(text, out double value)) {
+				return value;
+			} else {
+				GLOBAL.HROC.AddToException($"Bad High Price {text}.");
 				return null;
 			}
 		}
 
-		internal Nullable<double> LowPrice
+		private Price firstOf(params Price?[] values)
 		{
-			get
-			{
-				try
-				{
-					if (dspLowPrice.Value != null && dspLowPrice.Value.ToString() != "")
-					{
-						return Convert.ToDouble(dspLowPrice.Value);
-					}
-				}
-				catch (Exception ex)
-				{
-					GLOBAL.HROC.AddToException(ex);
-				}
-				return null;
+			foreach (Price? value in values) {
+				if (value.HasValue && !value.Value.IsZero)
+					return value.Value;
 			}
+			return Price.UnsetPrice;
 		}
 
-		internal Nullable<double> AskPrice
+		private class FormFlags
 		{
-			get
-			{
-				try
-				{
-					if (dspAskPrice.Value != null && dspAskPrice.Value.ToString() != "")
-					{
-						return Convert.ToDouble(dspAskPrice.Value);
-					}
-				}
-				catch (Exception ex)
-				{
-					GLOBAL.HROC.AddToException(ex);
-				}
-				return null;
-			}
-		}
+			[System.Flags]
+			internal enum ID : ushort { 
+				None = 0,
+				// changed flags
+				Width = 0x0001, Height = 0x0002, Grid = 0x0004, BuyAgg = 0x0008, SellAgg = 0x0010, UpdateIM = 0x0020,
+				// state flags
+				LastIsBook = 0x0040, HasError = 0x0080, OrderTypesView = 0x0100, DurationView = 0x0200, Centered = 0x0400, OrderLoaded = 0x0800,
+				// lock flags
+				UpdatingUI = 0x1000, LoadingValue = 0x200
+			};
 
-		internal Nullable<double> BidPrice
-		{
-			get
-			{
-				try
-				{
-					if (dspBidPrice.Value != null && dspBidPrice.Value.ToString() != "")
-					{
-						return Convert.ToDouble(dspBidPrice.Value);
-					}
-				}
-				catch (Exception ex)
-				{
-					GLOBAL.HROC.AddToException(ex);
-				}
-				return null;
-			}
-		}
+			private volatile ID _flags;
 
-		internal Nullable<double> TradedPrice
-		{
-			get
+			internal FormFlags(ID initial)
 			{
-				try
-				{
-					if (dspTradedPrice.Value != null && dspTradedPrice.Value.ToString() != "")
-					{
-						return Convert.ToDouble(dspTradedPrice.Value);
-					}
-				}
-				catch (Exception ex)
-				{
-					GLOBAL.HROC.AddToException(ex);
-				}
-				return null;
+				_flags = initial;
 			}
-		}
 
-		internal double CenterPrice
-		{
-			get
-			{
-				if (TradedPrice == null || (double)TradedPrice == 0)
-				{
-					if (AskPrice == null || (double)AskPrice == 0)
-					{
-						if (BidPrice == null || (double)BidPrice == 0)
-						{
-						}
-						else
-						{
-							return (double)BidPrice;
-						}
-					}
+			// You can use joined flags for 'get' and 'set'.
+			// Eg. get: 'State[ID.Width | ID.Height | ID.Grid]' will return true if any of those flags are set.
+			// Eg. set: 'State[ID.Width | ID.Height] = true' will set both the Width and Height flags ('false' will clear both).
+			internal bool this[ID which] { 
+				get => (_flags & which) != 0;
+				set {
+					if (value)
+						_flags |= which; // set flag
 					else
-					{
-						return (double)AskPrice;
-					}
+						_flags &= ~which; // clear flag
 				}
-				else
-				{
-					return (double)TradedPrice;
-				}
-
-				return 0;
 			}
 		}
 
+		private FormFlags _flags = new FormFlags(FormFlags.ID.LastIsBook | FormFlags.ID.LoadingValue);
 		private string _lastSymbolDetail = "";
-		private bool _lastIsBook = true;
-
 		private Size _lastSize = new Size();
-		private bool _widthChanged = false;
-		private bool _heightChanged = false;
-		private bool _resizeGridToFit = false;
-
-		private bool _isInError = false;
-		private bool _isLoadingValue = true;
-
 		private DataView _orderTypesView;
 		private DataView _durationsView;
-
 		private NumericUpDown _crrentPriceObj;
-
-		private bool _updateBuyAggregation = false;
-		private bool _updateSellAggregation = false;
-
-		private bool _orderLoaded = false;
-
 		private long _openBuyQty = 0;
 		private long _openSellQty = 0;
 		private long _netFilledQty = 0;
-
-		private bool _centered = false;
-
-		private bool _updatingUI = false;
-		private bool _updateIM = false;
 		private List<ROCOrder> _rocOrders = new List<ROCOrder>();
 		private Market _deltas = new Market();
 
@@ -533,7 +378,7 @@ namespace ROC
 			rocQuickListBook.ReadyForTickTable = false;
 			rocQuickListBook.TickSize = 0.01;
 
-			_isLoadingValue = true;
+			_flags[FormFlags.ID.LoadingValue] = true;
 
 			_crrentPriceObj = numLimitPrice;
 
@@ -594,7 +439,7 @@ namespace ROC
 			rocQuickListBook.AutoCenterOnTraded = Configuration.ROC.Default.EnableQuickTicketAutoCenter;
 			rocQuickListBook.AutoCenterRange = Configuration.ROC.Default.QuickTicketAutoCenterRange;
 
-			_isLoadingValue = false;
+			_flags[FormFlags.ID.LoadingValue] = false;
 
 			cboSymbolDetails.LostFocus += new EventHandler(cboSymbolDetails_LostFocus);
 			cboSymbolDetails.SelectedValueChanged += new EventHandler(cboSymbolDetails_LostFocus);
@@ -648,14 +493,14 @@ namespace ROC
 			}
 
 			bool reloadUserAccounts = false;
-			if (_lastIsBook && IsStock)
+			if (_flags[FormFlags.ID.LastIsBook] && IsStock)
 			{
-				_lastIsBook = false;
+				_flags[FormFlags.ID.LastIsBook] = false;
 				reloadUserAccounts = true;
 			}
-			else if (!_lastIsBook && IsFuture)
+			else if (!_flags[FormFlags.ID.LastIsBook] && IsFuture)
 			{
-				_lastIsBook = true;
+				_flags[FormFlags.ID.LastIsBook] = true;
 				reloadUserAccounts = true;
 			}
 
@@ -843,34 +688,31 @@ namespace ROC
 
 		private void Form_SizeChanged(object sender, EventArgs e)
 		{
-			if (!_resizeGridToFit)
+			if (!_flags[FormFlags.ID.Grid])
 			{
-				_widthChanged = (_lastSize.Width != Width);
-				_heightChanged = (_lastSize.Height != Height);
+				_flags[FormFlags.ID.Width] = _lastSize.Width != Width;
+				_flags[FormFlags.ID.Height] = _lastSize.Height != Height;
 
-				if (_widthChanged || _heightChanged)
+				if (_flags[FormFlags.ID.Width | FormFlags.ID.Height])
 				{
 					_lastSize = Size;
-					if (_widthChanged)
-					{
+					if (_flags[FormFlags.ID.Width])
 						FitWidth(false);
-					}
-					if (_heightChanged)
-					{
+
+					if (_flags[FormFlags.ID.Height])
 						FitHeight();
-					}
 				}
 			}
 		}
 
 		private void FitWidth(bool manual)
 		{
-			_widthChanged = false;
-			_resizeGridToFit = manual;
+			_flags[FormFlags.ID.Width] = false;
+			_flags[FormFlags.ID.Grid] = manual;
 
 			lock (rocQuickListBook)
 			{
-				if (_resizeGridToFit)
+				if (manual)
 				{
 					SetColumnMode(rocQuickListBook, DataGridViewAutoSizeColumnMode.DisplayedCells);
 					ResizeToFit(rocQuickListBook);
@@ -923,12 +765,12 @@ namespace ROC
 				dspSellOpenQty.Width = dspSellOpenQty.MinimumSize.Width;
 			}
 
-			_resizeGridToFit = false;
+			_flags[FormFlags.ID.Grid] = false;
 		}
 
 		private void FitHeight()
 		{
-			_heightChanged = false;
+			_flags[FormFlags.ID.Height] = false;
 		}
 
 		private void Form_Load(object sender, EventArgs e)
@@ -1092,10 +934,10 @@ namespace ROC
 					break;
 				case "ShowBuyStopLimit":
 					double buyStopPrice = ((ROCQuickList)sender).StopPriceBook;
-					Nullable<double> buyStopLimitPrice = GetStopLimitPrice("Buy", buyStopPrice);
-					if (buyStopLimitPrice != null)
+					Price? buyStopLimitPrice = GetStopLimitPrice("Buy", buyStopPrice);
+					if (buyStopLimitPrice.HasValue)
 					{
-						((ROCQuickList)sender).FlagStopLimitPrice("BuyStopLimitFlag", buyStopPrice, (double)buyStopLimitPrice);
+						((ROCQuickList)sender).FlagStopLimitPrice("BuyStopLimitFlag", buyStopPrice, buyStopLimitPrice.Value);
 					}
 					break;
 				case "ClearBuyStopLimit":
@@ -1103,10 +945,10 @@ namespace ROC
 					break;
 				case "ShowSellStopLimit":
 					double sellStopPrice = ((ROCQuickList)sender).StopPriceBook;
-					Nullable<double> sellStopLimitPrice = GetStopLimitPrice("Sell", sellStopPrice);
+					Price? sellStopLimitPrice = GetStopLimitPrice("Sell", sellStopPrice);
 					if (sellStopLimitPrice != null)
 					{
-						((ROCQuickList)sender).FlagStopLimitPrice("SellStopLimitFlag", (double)sellStopLimitPrice, sellStopPrice);
+						((ROCQuickList)sender).FlagStopLimitPrice("SellStopLimitFlag", sellStopLimitPrice.Value, sellStopPrice);
 					}
 					break;
 				case "ClearSellStopLimit":
@@ -1427,10 +1269,7 @@ namespace ROC
 		{
 			try
 			{
-				_centered = false;
-				_orderLoaded = false;
-				_updateBuyAggregation = false;
-				_updateSellAggregation = false;
+				_flags[FormFlags.ID.BuyAgg | FormFlags.ID.SellAgg | FormFlags.ID.Centered | FormFlags.ID.OrderLoaded] = false;
 
 				if (IsSpread)
 				{
@@ -1452,7 +1291,7 @@ namespace ROC
 					UpdateMarketDataDeltaBook(delta);
 				}
 
-				if (!_orderLoaded && rocQuickListBook.ReadyForTickTable && rocQuickListBook.Rows.Count > 0)
+				if (!_flags[FormFlags.ID.OrderLoaded] && rocQuickListBook.ReadyForTickTable && rocQuickListBook.Rows.Count > 0)
 				{
 					InitialOrderLoad(symbolDetail);
 				}
@@ -1465,7 +1304,7 @@ namespace ROC
 
 		private void InitialOrderLoad(string symbolDetail)
 		{
-			_orderLoaded = true;
+			_flags[FormFlags.ID.OrderLoaded] = true;
 
 			ROCOrder[] orders = new ROCOrder[GLOBAL.HOrders.RocItems.Count];
 			GLOBAL.HOrders.RocItems.Values.CopyTo(orders, 0);
@@ -1483,7 +1322,7 @@ namespace ROC
 			{
 				try
 				{
-					_updateIM = updateIM;
+					_flags[FormFlags.ID.UpdateIM] = updateIM;
 					lock (_rocOrders)
 					{
 						_rocOrders.AddRange(orders);
@@ -1510,14 +1349,13 @@ namespace ROC
 						UpdateSecurityInfo();
 					}
 
-					_updateBuyAggregation = false;
-					_updateSellAggregation = false;
+					_flags[FormFlags.ID.BuyAgg | FormFlags.ID.SellAgg] = false;
 
-					if (!_orderLoaded && rocQuickListBook.ReadyForTickTable && rocQuickListBook.Rows.Count > 0)
+					if (!_flags[FormFlags.ID.OrderLoaded] && rocQuickListBook.ReadyForTickTable && rocQuickListBook.Rows.Count > 0)
 					{
 						InitialOrderLoad(CurrentSymbolDetail);
 					}
-					else if (_orderLoaded)
+					else if (_flags[FormFlags.ID.OrderLoaded])
 					{
 						if (orders.Length > 0)
 						{
@@ -1560,23 +1398,22 @@ namespace ROC
 		{
 			try
 			{
-				if (!_updatingUI)
+				if (!_flags[FormFlags.ID.UpdatingUI])
 				{
-					_updatingUI = true;
-					if (_updateIM)
+					_flags[FormFlags.ID.UpdatingUI] = true;
+					if (_flags[FormFlags.ID.UpdateIM])
 					{
-						_updateIM = false;
+						_flags[FormFlags.ID.UpdateIM] = false;
 						UpdateSecurityInfo();
 					}
 
-					_updateBuyAggregation = false;
-					_updateSellAggregation = false;
+					_flags[FormFlags.ID.BuyAgg | FormFlags.ID.SellAgg] = false;
 
-					if (!_orderLoaded && rocQuickListBook.ReadyForTickTable && rocQuickListBook.Rows.Count > 0)
+					if (!_flags[FormFlags.ID.OrderLoaded] && rocQuickListBook.ReadyForTickTable && rocQuickListBook.Rows.Count > 0)
 					{
 						InitialOrderLoad(CurrentSymbolDetail);
 					}
-					else if (_orderLoaded)
+					else if (_flags[FormFlags.ID.OrderLoaded])
 					{
 						ROCOrder[] orders = new ROCOrder[0];
 						lock (_rocOrders)
@@ -1632,7 +1469,7 @@ namespace ROC
 			{
 				GLOBAL.HROC.AddToException(ex);
 			}
-			_updatingUI = false;
+			_flags[FormFlags.ID.UpdatingUI] = false;
 		}
 
 		private void UpdateSecurityInfo()
@@ -1734,13 +1571,14 @@ namespace ROC
 				if (hasBuy)
 				{
 					UpdateOpenOrders("Buy", GetOpenPriceQty("Buy"));
-					_updateBuyAggregation = true;
+					_flags[FormFlags.ID.BuyAgg] = true;
+
 				}
 
 				if (hasSell)
 				{
 					UpdateOpenOrders("Sell", GetOpenPriceQty("Sell"));
-					_updateSellAggregation = true;
+					_flags[FormFlags.ID.SellAgg] = true;
 				}
 			}
 		}
@@ -2083,7 +1921,7 @@ namespace ROC
 					}
 				}
 
-				if (!_centered && grid.RocGridTable.Rows.Count > 0)
+				if (!_flags[FormFlags.ID.Centered] && grid.RocGridTable.Rows.Count > 0)
 				{
 					FirstTimeCenter();
 				}
@@ -2092,7 +1930,7 @@ namespace ROC
 
 		private void FirstTimeCenter()
 		{
-			_centered = true;
+			_flags[FormFlags.ID.Centered] = true;
 
 			// First Center after a symbol load
 			rocQuickListBook.CenterOnPrice(CenterPrice);
@@ -2129,7 +1967,7 @@ namespace ROC
 				{
 					oldPrice = (double)oldRow["Price"];
 
-					if (!priceItems.OpenOrderPriceQty.ContainsKey(oldPrice))
+					if (!priceItems.OpenOrderPriceQty.TryGetValue(oldPrice, out long quantity))
 					{
 						// The Qty is no longer there
 						oldRow[side + "OpenQty"] = DBNull.Value;
@@ -2139,9 +1977,9 @@ namespace ROC
 					else
 					{
 						// Update Qty And Remove from the update
-						if (oldRow[side + "OpenQty"] == DBNull.Value || (long)oldRow[side + "OpenQty"] != priceItems.OpenOrderPriceQty[oldPrice])
+						if (oldRow[side + "OpenQty"] == DBNull.Value || (long)oldRow[side + "OpenQty"] != quantity)
 						{
-							oldRow[side + "OpenQty"] = priceItems.OpenOrderPriceQty[oldPrice];
+							oldRow[side + "OpenQty"] = quantity;
 						}
 						priceItems.OpenOrderPriceQty.Remove(oldPrice);
 					}
@@ -2167,17 +2005,17 @@ namespace ROC
 
 		private void UpdateAggregation()
 		{
-			if (_updateBuyAggregation)
+			if (_flags[FormFlags.ID.BuyAgg])
 			{
 				_openBuyQty = GetOpenQty(CSVFieldIDs.SideCodes.Buy);
 			}
 
-			if (_updateSellAggregation)
+			if (_flags[FormFlags.ID.SellAgg])
 			{
 				_openSellQty = GetOpenQty(CSVFieldIDs.SideCodes.Sell);
 			}
 
-			if (_updateBuyAggregation || _updateSellAggregation)
+			if (_flags[FormFlags.ID.BuyAgg | FormFlags.ID.SellAgg])
 			{
 				_netFilledQty = GetFilledQty(CSVFieldIDs.SideCodes.Buy) - GetFilledQty(CSVFieldIDs.SideCodes.Sell);
 			}
@@ -2363,12 +2201,12 @@ namespace ROC
 
 		private void cmdBuy_Click(object sender, EventArgs e)
 		{
-			if (_isInError)
+			if (_flags[FormFlags.ID.HasError])
 			{
 				ValidateTicketValues();
 			}
 
-			if (!_isInError)
+			if (!_flags[FormFlags.ID.HasError])
 			{
 				GLOBAL.Interrupt = true;
 				BuildOrder(CSVEx.CSVFieldIDs.SideCodes.Buy.ToString());
@@ -2381,12 +2219,12 @@ namespace ROC
 
 		private void cmdSell_Click(object sender, EventArgs e)
 		{
-			if (_isInError)
+			if (_flags[FormFlags.ID.HasError])
 			{
 				ValidateTicketValues();
 			}
 
-			if (!_isInError)
+			if (!_flags[FormFlags.ID.HasError])
 			{
 				GLOBAL.Interrupt = true;
 				BuildOrder(CSVEx.CSVFieldIDs.SideCodes.Sell.ToString());
@@ -2399,12 +2237,12 @@ namespace ROC
 
 		private void cmdShort_Click(object sender, EventArgs e)
 		{
-			if (_isInError)
+			if (_flags[FormFlags.ID.HasError])
 			{
 				ValidateTicketValues();
 			}
 
-			if (!_isInError)
+			if (!_flags[FormFlags.ID.HasError])
 			{
 				GLOBAL.Interrupt = true;
 				if (IsStock)
@@ -2634,13 +2472,13 @@ namespace ROC
 
 		private void ValidateTicketValues()
 		{
-			_isInError = false;
+			_flags[FormFlags.ID.HasError] = false;
 
-			if (!_isLoadingValue)
+			if (!_flags[FormFlags.ID.LoadingValue])
 			{
-				IsInError(SetState(cmdTradeFor, (cmdTradeFor.Text == "N/A" || cmdTradeFor.Text == "")));
-				IsInError(SetState(cmdAccount, (cmdAccount.Text == "N/A" || cmdAccount.Text == "")));
-				IsInError(SetState(lblExchange, (cboExchange.Text == "")));
+				setHasError(SetState(cmdTradeFor, (cmdTradeFor.Text == "N/A" || cmdTradeFor.Text == "")));
+				setHasError(SetState(cmdAccount, (cmdAccount.Text == "N/A" || cmdAccount.Text == "")));
+				setHasError(SetState(lblExchange, (cboExchange.Text == "")));
 				SetPanelWidth(ref panelExchange, cboExchange);
 
 				try
@@ -2668,23 +2506,23 @@ namespace ROC
 					GLOBAL.HROC.AddToException(ex);
 				}
 
-				IsInError(SetState(lblQuantity, numQuantity.Value <= 0));
+				setHasError(SetState(lblQuantity, numQuantity.Value <= 0));
 				SetPanelWidth(ref panelShares, numQuantity);
 				rocQuickListBook.Qty = Convert.ToInt64(numQuantity.Value);
 
-				IsInError(SetState(numQuantity, numQuantity.Value <= 0));
+				setHasError(SetState(numQuantity, numQuantity.Value <= 0));
 
 				if (panelLimitPrice.Visible)
 				{
 					if (!IsSpread)
 					{
-						IsInError(SetState(lblLimitPrice, numLimitPrice.Value <= 0));
-						IsInError(SetState(numLimitPrice, numLimitPrice.Value <= 0));
+						setHasError(SetState(lblLimitPrice, numLimitPrice.Value <= 0));
+						setHasError(SetState(numLimitPrice, numLimitPrice.Value <= 0));
 					}
 					else
 					{
-						IsInError(SetState(lblLimitPrice, false));
-						IsInError(SetState(numLimitPrice, false));
+						setHasError(SetState(lblLimitPrice, false));
+						setHasError(SetState(numLimitPrice, false));
 					}
 
 					SetPanelWidth(ref panelLimitPrice, numLimitPrice);
@@ -2695,13 +2533,13 @@ namespace ROC
 				{
 					if (!IsSpread)
 					{
-						IsInError(SetState(lblStopPrice, numStopPrice.Value <= 0));
-						IsInError(SetState(numStopPrice, numStopPrice.Value <= 0));
+						setHasError(SetState(lblStopPrice, numStopPrice.Value <= 0));
+						setHasError(SetState(numStopPrice, numStopPrice.Value <= 0));
 					}
 					else
 					{
-						IsInError(SetState(lblStopPrice, false));
-						IsInError(SetState(numStopPrice, false));
+						setHasError(SetState(lblStopPrice, false));
+						setHasError(SetState(numStopPrice, false));
 					}
 
 					SetPanelWidth(ref panelStopPrice, numStopPrice);
@@ -2734,10 +2572,10 @@ namespace ROC
 					cmdShort.Visible = false;
 				}
 
-				IsInError(SetState(lblOrderType, cboOrder.Text == ""));
+				setHasError(SetState(lblOrderType, cboOrder.Text == ""));
 				SetPanelWidth(ref panelOrderTypes, cboOrder);
 
-				IsInError(SetState(lblDuration, cboDuration.Text == ""));
+				setHasError(SetState(lblDuration, cboDuration.Text == ""));
 				SetPanelWidth(ref panelDuration, cboDuration);
 
 				BuildOrderMsg();
@@ -2826,12 +2664,10 @@ namespace ROC
 			}
 		}
 
-		private void IsInError(bool isError)
+		private void setHasError(bool isError)
 		{
-			if (!_isInError)
-			{
-				_isInError = isError;
-			}
+			if (isError)
+				_flags[FormFlags.ID.HasError] = true;
 		}
 
 		private void SetTicketStateByOrderType()
@@ -2894,23 +2730,13 @@ namespace ROC
 			{
 				_durationsView.RowFilter = durationFilter;
 			}
-
-			//string durationFilter = "";
-
-			//if (cboOrder.Text != "MOO")
-			//{
-			//    durationFilter = "Duration <> 'OPG'";
-			//}
-
-			//_durationsView.RowFilter = durationFilter;
-			//cboOrder.DataSource = _durationsView;
 		}
 
 		private void BuildOrderMsg()
 		{
 			try
 			{
-				if (_isInError)
+				if (_flags[FormFlags.ID.HasError])
 				{
 					dspOrderMsg.ForeColor = Color.Red;
 				}
@@ -3029,8 +2855,8 @@ namespace ROC
 
 		private void ResetTicketValues()
 		{
-			_isLoadingValue = true;
-			_centered = false;
+			_flags[FormFlags.ID.LoadingValue] = true;
+			_flags[FormFlags.ID.Centered] = false;
 
 			_openBuyQty = 0;
 			_openSellQty = 0;
@@ -3076,7 +2902,7 @@ namespace ROC
 			UILoadSymbolDefaults(GLOBAL.HSymbolSettingData.GetSymbolDefaults(TicketDefaults.Future, CSVEx.CSVFieldIDs.SecurityTypes.Future));
 			QuickButtonSupprot.UILoadSymbolQuickButtonDefaults(GLOBAL.HQuickButtonSettingData.GetSymbolDefaults(TicketDefaults.Future, CSVEx.CSVFieldIDs.SecurityTypes.Future), false);
 
-			_isLoadingValue = false;
+			_flags[FormFlags.ID.LoadingValue] = false;
 
 			rocQuickListBook.TradePrice = 0;
 			rocQuickListBook.HighPrice = 0;
@@ -3108,7 +2934,7 @@ namespace ROC
 		// Used to load symbol defaults from last saved settings, else it loads the Ticket Default Value;
 		private void UILoadSymbolDefaults(SymbolSettingData data)
 		{
-			_isLoadingValue = true;
+			_flags[FormFlags.ID.LoadingValue] = true;
 
 			bool reloadUserAccounts = false;
 
@@ -3190,7 +3016,7 @@ namespace ROC
 				CurrentShortLender = data.shortLender;
 			}
 
-			_isLoadingValue = false;
+			_flags[FormFlags.ID.LoadingValue] = false;
 
 			ValidateTicketValues();
 		}

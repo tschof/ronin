@@ -29,6 +29,8 @@ namespace Common
 			return true;
 		}
 
+		// Apply the given action to all values in a dictionary.  Replaces all of the iteration over Dictionary.Values
+		// I found in the code.
 		public static void WithValues<TKey, TValue>(this Dictionary<TKey, TValue> collection, System.Action<TValue> action)
 		{
 			if ((collection != null) && (action != null)) {

@@ -1,5 +1,5 @@
-#define WANT_STUB
-#define WANT_RONIN
+#define WANT_MDS_STUB
+#define WANT_MDS_RONIN
 
 using MarketData;
 using System;
@@ -23,11 +23,11 @@ namespace ROC
 			ServerIP = serverIP;
 			ServerPort = serverPort;
 
-#if WANT_STUB
+#if WANT_MDS_STUB
 			var server = new MarketData.Stub.Server(this, GLOBAL.HProcess.AddToReplayList);
 			_server = server;
 			_subscription = server;
-#elif WANT_RONIN
+#elif WANT_MDS_RONIN
 			var server = new MarketData.Ronin.Server(
 				serverIP,
 				serverPort,
@@ -39,7 +39,7 @@ namespace ROC
 			_subscription = new MarketData.Ronin.SubscriptionManager(
 				server,
 				GLOBAL.HProcess.AddToReplayList);
-#endif // WANT_RONIN
+#endif // WANT_MDS_RONIN
 		}
 
 

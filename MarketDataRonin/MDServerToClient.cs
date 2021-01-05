@@ -16,7 +16,12 @@ namespace MarketData.Ronin
 		internal List<Quote> AskBooks { get { return _asks; } }
 		internal List<Quote> TradedVolumes { get { return _volumes; } }
 
-		private static string[] TimeFormats { get; } = new string[] { "HH:mm:ss.fff" };
+		private static class TimeFormats {
+			internal static bool TryParse(string text, out DateTime value)
+			{
+				return DateTime.TryParseExact(text, "HH:mm:ss.fff", System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out value);
+			}
+		}
 
 		internal long Count {
 			get {
@@ -277,10 +282,8 @@ namespace MarketData.Ronin
 			get {
 				if (_fields.TryGet(WombatFieldIDs.LineTime, out string lineTimeText)) {
 					DateTime? onMsgTime = uOnMsgTime;
-					if (onMsgTime.HasValue) {
-						DateTime lineTime;
-						if (DateTime.TryParseExact(lineTimeText, TimeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out lineTime))
-							return onMsgTime.Value.Subtract(lineTime.ToLocalTime()).TotalMilliseconds;
+					if (onMsgTime.HasValue && TimeFormats.TryParse(lineTimeText, out DateTime lineTime)) {
+						return onMsgTime.Value.Subtract(lineTime.ToLocalTime()).TotalMilliseconds;
 					}
 				}
 				return null;

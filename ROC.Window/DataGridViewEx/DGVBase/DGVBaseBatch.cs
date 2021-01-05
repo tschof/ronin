@@ -376,7 +376,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(Qty)", "Side = 'Buy' Or Side = 'B'").ToString(), out _buySharesCount))
+					if (long.TryParse(RocGridTable.Compute("Sum(Qty)", "Side = 'Buy' Or Side = 'B'").ToString(), out _buySharesCount))
 					{
 						return _buySharesCount;
 					}
@@ -397,7 +397,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(Qty)", "Side = 'Sell' Or Side = 'S'").ToString(), out _sellSharesCount))
+					if (long.TryParse(RocGridTable.Compute("Sum(Qty)", "Side = 'Sell' Or Side = 'S'").ToString(), out _sellSharesCount))
 					{
 						return _sellSharesCount;
 					}
@@ -418,7 +418,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(Qty)", "Side = 'Short' Or Side = 'Sell Short' Or Side = 'SS'").ToString(), out _shortSharesCount))
+					if (long.TryParse(RocGridTable.Compute("Sum(Qty)", "Side = 'Short' Or Side = 'Sell Short' Or Side = 'SS'").ToString(), out _shortSharesCount))
 					{
 						return _shortSharesCount;
 					}

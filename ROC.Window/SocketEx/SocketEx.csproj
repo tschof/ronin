@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MDSClient.cs" />
-    <Compile Include="MDSServer.cs" />
     <Compile Include="ROMClient.cs" />
     <Compile Include="ROMServer.cs" />
     <Compile Include="SocketBaseClient.cs" />

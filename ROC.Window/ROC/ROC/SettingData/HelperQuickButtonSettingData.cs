@@ -73,7 +73,7 @@ namespace ROC
 		public bool active = false;
 	}
 
-	public class HelperQuickButtonSettingData : HelperSettingDataBase
+	public class HelperQuickButtonSettingData
 	{
 		private DataTable _settingTable;
 		public DataTable SettingTable
@@ -124,6 +124,7 @@ namespace ROC
 		{
 			return GetSymbolDefaults(symbolDetail, secType, false);
 		}
+
 		public List<QuickButtonSettingData> GetSymbolDefaults(string symbolDetail, string secType, bool save)
 		{
 			List<QuickButtonSettingData> datas = new List<QuickButtonSettingData>();
@@ -134,8 +135,7 @@ namespace ROC
 
 			if (rows.Length == 0 && symbolDetail != "")
 			{
-				string baseSymbol = GetBaseSymbol(symbolDetail);
-				if (baseSymbol != "")
+				if (SettingData.Utility.TryGetBaseSymbol(symbolDetail, out string baseSymbol))
 				{
 					rows = SettingTable.DefaultView.FindRows(new object[] { baseSymbol, secType });
 				}

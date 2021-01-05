@@ -55,10 +55,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArrayEx\ArrayEx.csproj">
-      <Project>{DC5D6A82-6E1D-48CF-A572-AB84576B2704}</Project>
-      <Name>ArrayEx</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DictionaryEx\DictionaryEx.csproj">
       <Project>{4075C74D-02B0-48F4-8488-1A6FA79D1DC7}</Project>
       <Name>DictionaryEx</Name>

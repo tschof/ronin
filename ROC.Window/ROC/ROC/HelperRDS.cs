@@ -534,19 +534,19 @@ namespace ROC
 
 		internal void GetVersion()
 		{
-			SetStatus(StatusTypes.GettingVersion, String.Concat(new object[] { "RDS|GetVersion Getting... " }));
+			SetStatus(StatusTypes.GettingVersion, string.Concat("RDS|GetVersion Getting... "));
 			_rds.GetVersion();
 		}
 
 		internal void GetUserProfile(string user, string pass)
 		{
-			SetStatus(StatusTypes.GettingUserprofiles, String.Concat(new object[] { "RDS|GetUserProfile Getting... " }));
+			SetStatus(StatusTypes.GettingUserprofiles, string.Concat("RDS|GetUserProfile Getting... "));
 			_rds.GetUserProfile(user, pass);
 		}
 
 		internal void GetUserMarketDataSource()
 		{
-			SetStatus(StatusTypes.GettingUserprofiles, String.Concat(new object[] { "RDS|GetUserMarketDataSources Getting... " }));
+			SetStatus(StatusTypes.GettingUserprofiles, string.Concat("RDS|GetUserMarketDataSources Getting... "));
 			_rds.GetUserMarketDataSources();
 		}
 
@@ -554,12 +554,12 @@ namespace ROC
 		{
 			if (Configuration.User.Default.UseROMDatabase)
 			{
-				SetStatus(StatusTypes.GettingUserOrders, String.Concat(new object[] { "RDS|GetUserOrders Getting... " }));
+				SetStatus(StatusTypes.GettingUserOrders, string.Concat("RDS|GetUserOrders Getting... "));
 				_rds.GetUserOrders();
 			}
 			else
 			{
-				SetStatus(StatusTypes.GotUserOrders, String.Concat(new object[] { "RDS|GetUserOrders Skipped " }));
+				SetStatus(StatusTypes.GotUserOrders, string.Concat("RDS|GetUserOrders Skipped "));
 			}
 		}
 
@@ -567,12 +567,12 @@ namespace ROC
 		{
 			if (Configuration.User.Default.UseROMDatabase)
 			{
-				SetStatus(StatusTypes.GettingUserExecutions, String.Concat(new object[] { "RDS|GetUserExecutions Getting... " }));
+				SetStatus(StatusTypes.GettingUserExecutions, string.Concat("RDS|GetUserExecutions Getting... "));
 				_rds.GetUserExecutions();
 			}
 			else
 			{
-				SetStatus(StatusTypes.GotUserExecutions, String.Concat(new object[] { "RDS|GetUserExecutions Skipped " }));
+				SetStatus(StatusTypes.GotUserExecutions, string.Concat("RDS|GetUserExecutions Skipped "));
 			}
 		}
 
@@ -580,12 +580,12 @@ namespace ROC
 		{
 			if (Configuration.User.Default.UseTPOS)
 			{
-				SetStatus(StatusTypes.GettingTPOSPositions, String.Concat(new object[] { "RDS|GetTPOSPositions Getting... " }));
+				SetStatus(StatusTypes.GettingTPOSPositions, string.Concat("RDS|GetTPOSPositions Getting... "));
 				_rds.GetTPosPositions();
 			}
 			else
 			{
-				SetStatus(StatusTypes.GotTPOSPositions, String.Concat(new object[] { "RDS|GetTPOSPositions Skipped " }));
+				SetStatus(StatusTypes.GotTPOSPositions, string.Concat("RDS|GetTPOSPositions Skipped "));
 			}
 		}
 
@@ -595,7 +595,7 @@ namespace ROC
 			{
 				if (!refresh)
 				{
-					SetStatus(StatusTypes.GettingTPOSTrades, String.Concat(new object[] { "RDS|GetTPOSTrades Getting... " }));
+					SetStatus(StatusTypes.GettingTPOSTrades, string.Concat("RDS|GetTPOSTrades Getting... "));
 				}
 				_rds.GetTPosExecutions();
 			}
@@ -603,7 +603,7 @@ namespace ROC
 			{
 				if (!refresh)
 				{
-					SetStatus(StatusTypes.GotTPOSTrades, String.Concat(new object[] { "RDS|GetTPOSTrades Skipped " }));
+					SetStatus(StatusTypes.GotTPOSTrades, string.Concat("RDS|GetTPOSTrades Skipped "));
 				}
 			}
 		}
@@ -658,7 +658,7 @@ namespace ROC
 		{
 			if (Configuration.User.Default.UseMarketData)
 			{
-				SetStatus(StatusTypes.ConnectingToMDS, String.Concat(new object[] { "MDS|Connection Connecting... ", Configuration.MDS.Default.IP, " Port: ", Configuration.MDS.Default.Port }));
+				SetStatus(StatusTypes.ConnectingToMDS, string.Concat("MDS|Connection Connecting... ", Configuration.MDS.Default.IP, " Port: ", Configuration.MDS.Default.Port));
 				foreach (HelperMDS mds in GLOBAL.HMDSs)
 				{
 					mds.Connect();
@@ -666,7 +666,7 @@ namespace ROC
 			}
 			else
 			{
-				SetStatus(StatusTypes.ConnectedToMDS, String.Concat(new object[] { "MDS|Connection Skipped " }));
+				SetStatus(StatusTypes.ConnectedToMDS, string.Concat("MDS|Connection Skipped "));
 			}
 		}
 
@@ -682,21 +682,21 @@ namespace ROC
 			if (ready) {
 				// All mds are connected
 				foreach (HelperMDS mds in GLOBAL.HMDSs) {
-					SetStatus(StatusTypes.ConnectedToMDS, String.Concat(new object[] { "MDS|Connection Connected ", mds.ServerIP, " Port: ", mds.ServerPort }));
+					SetStatus(StatusTypes.ConnectedToMDS, string.Concat("MDS|Connection Connected ", mds.ServerIP, " Port: ", mds.ServerPort));
 				}
 			} else {
-				SetStatus(StatusTypes.ConnectionToMDSFailed, String.Concat(new object[] { "MDS|Connection Failed " }), true);
+				SetStatus(StatusTypes.ConnectionToMDSFailed, string.Concat("MDS|Connection Failed "), true);
 			}
 		}
 
 		internal void LoginDone()
 		{
-			SetStatus(StatusTypes.Done, String.Concat(new object[] { "ROC|Login Done "}));
+			SetStatus(StatusTypes.Done, string.Concat("ROC|Login Done "));
 		}
 
 		internal void LoginFailed()
 		{
-			SetStatus(StatusTypes.Failed, String.Concat(new object[] { "RDS|Login Failed " }), true);
+			SetStatus(StatusTypes.Failed, string.Concat("RDS|Login Failed "), true);
 		}
 
 		internal void MakeRocStatus(ref ROCOrder ord)
@@ -802,45 +802,45 @@ namespace ROC
 			switch (e.PropertyName)
 			{
 				case "Version":
-					SetStatus(StatusTypes.GotVersion, String.Concat(new object[] { "RDS|GotVersion ", Version }));
+					SetStatus(StatusTypes.GotVersion, string.Concat("RDS|GotVersion ", Version));
 					break;
 				case "GotUserProfiles":
-					SetStatus(StatusTypes.GotUserprofiles, String.Concat(new object[] { "RDS|GotUserprofiles " }));
+					SetStatus(StatusTypes.GotUserprofiles, string.Concat("RDS|GotUserprofiles "));
 					break;
 				case "GotUserMarketDataSources":
-					SetStatus(StatusTypes.GotUserMarketDataSources, String.Concat(new object[] { "RDS|GotUserMarketDataSources " }));
+					SetStatus(StatusTypes.GotUserMarketDataSources, string.Concat("RDS|GotUserMarketDataSources "));
 					break;
 				case "GotRocOrders":
-					SetStatus(StatusTypes.GotUserOrders, String.Concat(new object[] { "RDS|GotUserOrders = ", RocOrders.Count}));
+					SetStatus(StatusTypes.GotUserOrders, string.Concat("RDS|GotUserOrders = ", RocOrders.Count));
 					// Put all the RDS(old) orders into the main orders collection
 					GLOBAL.HOrders.Update(RocOrders);
 					break;
 				case "GotRocExecutions":
-					SetStatus(StatusTypes.GotUserExecutions, String.Concat(new object[] { "RDS|GotUserExecutions = ", RocExecutions.Count }));
+					SetStatus(StatusTypes.GotUserExecutions, string.Concat("RDS|GotUserExecutions = ", RocExecutions.Count));
 					// Put all the RDS(old) executions into the main executions collection
 					GLOBAL.HExecutions.Update(RocExecutions);
 					GLOBAL.HPositions.Update(RocExecutions);
 					break;
 				case "GotTposExecutions":
-					SetStatus(StatusTypes.GotTPOSTrades, String.Concat(new object[] { "RDS|GotTposExecutions = ", TposExecutions.Count }));
+					SetStatus(StatusTypes.GotTPOSTrades, string.Concat("RDS|GotTposExecutions = ", TposExecutions.Count));
 					// Put all the tpos executions into the main executions collection
 					GLOBAL.HExecutions.Update(TposExecutions);
 					GLOBAL.HPositions.Update(TposExecutions);
 					break;
 				case "GotTposPositions":
-					SetStatus(StatusTypes.GotTPOSPositions, String.Concat(new object[] { "RDS|GotTposPositions = ", TposPositions.Count }));
+					SetStatus(StatusTypes.GotTPOSPositions, string.Concat("RDS|GotTposPositions = ", TposPositions.Count));
 					// Put all the tpos position into the main position collection
 					GLOBAL.HPositions.Update(TposPositions);
 					break;
 				case "GotTposPositionsRefresh":
-					AddToStatusLogs(String.Concat(new object[] { "RDS|GotTposPositionsRefresh = ", TposPositions.Count }));
+					AddToStatusLogs(string.Concat("RDS|GotTposPositionsRefresh = ", TposPositions.Count));
 
 					// Repopulate Positions Again.
 					lock (GLOBAL.HPositions.TposItems)
 					{
 						if (GLOBAL.HPositions.TposItems.Count == 0 && TposPositions.Count > 0)
 						{
-							AddToStatusLogs(String.Concat(new object[] { "RDS|GotTposPositionsRefresh|Repopulate = ", TposPositions.Count }));
+							AddToStatusLogs(string.Concat("RDS|GotTposPositionsRefresh|Repopulate = ", TposPositions.Count));
 							GLOBAL.HPositions.Update(TposPositions);
 						}
 					}
@@ -858,12 +858,12 @@ namespace ROC
 					break;
 				case "WarningMsg":
 					// No Status Change, just a waring msg
-					SetStatus(Status, String.Concat(new object[] { "RDS|GotWarning ", ErrorMsg }), true);
+					SetStatus(Status, string.Concat("RDS|GotWarning ", ErrorMsg), true);
 					break;
 				case "ErrorMsg":
 				default:
 					CheckExtendedTimer();
-					SetStatus(StatusTypes.GotError, String.Concat(new object[] { "RDS|GotError ", ErrorMsg }), true);
+					SetStatus(StatusTypes.GotError, string.Concat("RDS|GotError ", ErrorMsg), true);
 					break;
 			}
 		}
@@ -871,54 +871,16 @@ namespace ROC
 		private void rds_OnSecurityEvent(object sender, SecurityEventArgs e)
 		{
 			NewSecufityInfo = true;
-			//foreach (HelperMDS mds in GLOBAL.HMDSs)
-			//{
-			//    switch (mds.Status)
-			//    {
-			//        case HelperMDS.StatusTypes.Started:
-			//            NewSecufityInfo = true;
-			//            HelperSubscriber.Subscribe(e.Info.MDSymbol, e.Info.MDSource, e.Info.SecType);
-			//            break;
-			//        case HelperMDS.StatusTypes.Starting:
-			//        case HelperMDS.StatusTypes.Stopped:
-			//        case HelperMDS.StatusTypes.Stopping:
-			//            SetStatus(StatusTypes.GotError, String.Concat(new object[] { "MDS|NotConnected" }));
-			//            mds.Connect();
-			//            break;
-			//    }
-			//}
 		}
 
 		private void rds_OnOptionChainEvent(object sender, OptionChainEventArgs e)
 		{
 			NewSecufityInfo = true;
-			//if (GLOBAL.MDSsConnected)
-			//{
-			//    foreach (HelperMDS mds in GLOBAL.HMDSs)
-			//    {
-			//        switch (e.Info.SecType)
-			//        {
-			//            case CSVFieldIDs.SecutrityTypes.Future:
-			//                SubscribeFullFutureOptionChain(e);
-			//                break;
-			//            default:
-			//                SubScribeFullOptionChain(e);
-			//                break;
-			//        }
-			//    }
-			//}
 		}
 
 		private void rds_OnSSFutureChainEvent(object sender, SSFutureChainEventArgs e)
 		{
 			NewSecufityInfo = true;
-			//if (GLOBAL.MDSsConnected)
-			//{
-			//    foreach (HelperMDS mds in GLOBAL.HMDSs)
-			//    {
-			//        mds.Subscribe(e.Info.MDSymbol, e.Info.MDSource, "", e.Info.SecType);
-			//    }
-			//}
 		}
 
 		#endregion
@@ -949,14 +911,14 @@ namespace ROC
 
 			foreach (string opraSymbol in opraSymbols)
 			{
-				symbols.Add(string.Concat(new object[] { opraSymbol, ".", OptionExchangeCode.AMEX }));
-				symbols.Add(string.Concat(new object[] { opraSymbol, ".", OptionExchangeCode.BOX }));
-				symbols.Add(string.Concat(new object[] { opraSymbol, ".", OptionExchangeCode.CBOE }));
-				symbols.Add(string.Concat(new object[] { opraSymbol, ".", OptionExchangeCode.C2 }));
-				symbols.Add(string.Concat(new object[] { opraSymbol, ".", OptionExchangeCode.ISE }));
-				symbols.Add(string.Concat(new object[] { opraSymbol, ".", OptionExchangeCode.NSDQ }));
-				symbols.Add(string.Concat(new object[] { opraSymbol, ".", OptionExchangeCode.PCX }));
-				symbols.Add(string.Concat(new object[] { opraSymbol, ".", OptionExchangeCode.PHLX }));
+				symbols.Add(string.Concat(opraSymbol, ".", OptionExchangeCode.AMEX));
+				symbols.Add(string.Concat(opraSymbol, ".", OptionExchangeCode.BOX));
+				symbols.Add(string.Concat(opraSymbol, ".", OptionExchangeCode.CBOE));
+				symbols.Add(string.Concat(opraSymbol, ".", OptionExchangeCode.C2));
+				symbols.Add(string.Concat(opraSymbol, ".", OptionExchangeCode.ISE));
+				symbols.Add(string.Concat(opraSymbol, ".", OptionExchangeCode.NSDQ));
+				symbols.Add(string.Concat(opraSymbol, ".", OptionExchangeCode.PCX));
+				symbols.Add(string.Concat(opraSymbol, ".", OptionExchangeCode.PHLX));
 				nbboSymbols.Add(opraSymbol);
 			}
 

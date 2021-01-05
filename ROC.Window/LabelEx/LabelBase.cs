@@ -355,10 +355,10 @@ namespace LabelEx
 							switch (_decimalPlace)
 							{
 								case 0:
-									_formatedValue = String.Concat(new object[] { _formatedValue, "00" });
+									_formatedValue = string.Concat(_formatedValue, "00");
 									break;
 								case 1:
-									_formatedValue = String.Concat(new object[] { _formatedValue, "0" });
+									_formatedValue = string.Concat(_formatedValue, "0");
 									break;
 								default:
 									break;

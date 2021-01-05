@@ -302,25 +302,10 @@ namespace DataGridViewEx
 
 		public override string GetDisplayValue(object value)
 		{
-			if (value != null && value is long)
+			if (value is long statusCode)
 			{
-				_statusCode = (long)value;
-				if (CSVEx.CSVFieldIDs.StatusCodes.Descriptions.ContainsKey(_statusCode))
-				{
-					return CSVEx.CSVFieldIDs.StatusCodes.Descriptions[_statusCode];
-				}
-				else if (_statusCode == CSVEx.CSVFieldIDs.StatusCodes.FilledAndCancelled)
-				{
-					return CSVEx.CSVFieldIDs.StatusCodes.Descriptions[_statusCode];
-				}
-				else if (_statusCode == CSVEx.CSVFieldIDs.StatusCodes.ReplacedAndFilled)
-				{
-					return CSVEx.CSVFieldIDs.StatusCodes.Descriptions[_statusCode];
-				}
-				else
-				{
-					return _statusCode.ToString();
-				}
+				_statusCode = statusCode;
+				return CSVEx.CSVFieldIDs.StatusCodes.GetDescription(_statusCode);
 			}
 
 			return "";

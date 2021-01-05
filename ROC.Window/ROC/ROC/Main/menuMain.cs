@@ -53,14 +53,7 @@ namespace ROC
 				lblRDSStatus.BackColor = Color.Yellow;
 			}
 
-			if (GLOBAL.UseMDSBackup)
-			{
-				cmdMDS.Text = "MDS.BAK";
-			}
-			else
-			{
-				cmdMDS.Text = "MDS";
-			}
+			cmdMDS.Text = "MDS";
 
 			if (Configuration.User.Default.UseMarketData)
 			{

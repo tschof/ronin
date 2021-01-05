@@ -87,7 +87,7 @@ namespace DataGridViewEx
 					if (UnderlyingSymbol != "" && UnderlyingSymbol.Length >= 4)
 					{
 						int num = 0;
-						if (Int32.TryParse(UnderlyingSymbol.Substring(UnderlyingSymbol.Length - 1, 1), out num))
+						if (int.TryParse(UnderlyingSymbol.Substring(UnderlyingSymbol.Length - 1, 1), out num))
 						{
 							switch (UnderlyingSymbol.Substring(UnderlyingSymbol.Length - 2, 1))
 							{
@@ -847,10 +847,10 @@ namespace DataGridViewEx
 											switch (decimalPlace)
 											{
 												case 0:
-													formatedValue = String.Concat(new object[] { formatedValue, "00" });
+													formatedValue = string.Concat(formatedValue, "00");
 													break;
 												case 1:
-													formatedValue = String.Concat(new object[] { formatedValue, "0" });
+													formatedValue = string.Concat(formatedValue, "0");
 													break;
 												default:
 													break;
@@ -870,7 +870,7 @@ namespace DataGridViewEx
 				{
 					if (owningColumn.IsPercent)
 					{
-						formatedValue = String.Concat(new object[] { formatedValue, "%" });
+						formatedValue = string.Concat(formatedValue, "%");
 					}
 					else if (owningColumn.IsCurrency)
 					{

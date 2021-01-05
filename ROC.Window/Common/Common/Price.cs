@@ -56,18 +56,6 @@ namespace Common
 			return new Price(System.Math.Round(_value, digits));
 		}
 
-		public static bool IsZeroValue(double value)
-		{
-			return (value < 0) ? (value > -EPSILON) : (value < EPSILON);
-		}
-
-		public static bool Same(double a, double b)
-		{
-			if (a < b)
-				return (b - a) < EPSILON;
-			return (a - b) < EPSILON;
-		}
-
 		public int CompareTo(Price other)
 		{
 			if (_value < other._value) {
@@ -101,6 +89,18 @@ namespace Common
 			return _value.ToString();
 		}
 
+		public static bool IsZeroValue(double value)
+		{
+			return (value < 0) ? (value > -EPSILON) : (value < EPSILON);
+		}
+
+		public static bool Same(double a, double b)
+		{
+			if (a < b)
+				return (b - a) < EPSILON;
+			return (a - b) < EPSILON;
+		}
+
 		public enum SortOrder : byte
 		{
 			Ask, // ascending (lowest ask is top)
@@ -115,73 +115,25 @@ namespace Common
 			}
 		}
 
-		/*
-		public class Collection<TValue>
+		public static Price FromObject(object value)
 		{
-			private List<(Price, TValue)> _container = new List<(Price, TValue)>();
-
-			public Collection()
-			{
-				_container = new List<(Price, TValue)>();
-			}
-
-			public Collection(Collection<TValue> other)
-			{
-				_container = new List<(Price, TValue)>(other._container);
-			}
-
-			private Collection(List<(Price, TValue)> container)
-			{
-				_container = container;
-			}
-
-			public static Collection<TValue> Replace(Collection<TValue> other)
-			{
-				List<(Price, TValue)> replaced = other._container, empty = new List<(Price, TValue)>();
-				lock (other) {
-					other._container = empty;
-				}
-				return new Collection<TValue>(replaced);
-			}
-
-			public bool TryGet(Price key, out TValue value, TValue missValue)
-			{
-				int index = _container.FindIndex(n => n.Item1 == key);
-				if (index < 0) {
-					value = missValue;
-					return false;
-				}
-				value = _container[index].Item2;
-				return true;
-			}
-
-			public void Sort(SortOrder order)
-			{
-				if (_container != null) {
-					SortCollection<TValue> compare = new SortCollection<TValue>(order);
-					_container.Sort(compare);
-				}
-			}
-
-			private class SortCollection<T> : IComparer<(Price, T)>
-			{
-				private readonly SortOrder _order;
-
-				internal SortCollection(SortOrder order)
-				{
-					_order = order;
-				}
-
-				public int Compare((Price, T) x, (Price, T) y)
-				{
-					if (_order == SortOrder.Ask)
-						return x.Item1.CompareTo(y.Item1);
-					else
-						return y.Item1.CompareTo(x.Item1);
-				}
+			switch (value) {
+				case Price p:
+					return new Price(p);
+				case double d:
+					return new Price(d);
+				case int i:
+					return new Price(i);
+				case long l:
+					return new Price(l);
+				case decimal n:
+					return new Price(decimal.ToDouble(n));
+				case string s:
+					return double.TryParse(s, out double converted) ? new Price(converted) : Price.UnsetPrice;
+				default:
+					return Price.UnsetPrice;
 			}
 		}
-		*/
 
 		#region comparers
 

@@ -1,6 +1,6 @@
 C:\Users\clangan\source\repos\ROC\ROC.Window\ShapeEx\bin\Debug\ShapeEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\ShapeEx\bin\Debug\ShapeEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ShapeEx\obj\Debug\ShapeEx.csprojAssemblyReference.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\ShapeEx\obj\Debug\ShapeEx.csproj.CoreCompileInputs.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\ShapeEx\obj\Debug\ShapeEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\ShapeEx\obj\Debug\ShapeEx.pdb
-C:\Users\clangan\source\repos\ROC\ROC.Window\ShapeEx\obj\Debug\ShapeEx.csprojAssemblyReference.cache

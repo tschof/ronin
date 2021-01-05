@@ -344,7 +344,7 @@ namespace ROC
 			}
 
 			int year = 0;
-			if (Int32.TryParse(symbol.Substring(symbol.Length - 1, 1), out year))
+			if (int.TryParse(symbol.Substring(symbol.Length - 1, 1), out year))
 			{
 				if (MonthCode.Contains(symbol.Substring(symbol.Length - 2, 1)))
 				{

@@ -1187,7 +1187,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Roc" });
+				filters = string.Concat(filters, " Roc");
 			}
 
 			if (rocTradesList.FilterOutTPOS)
@@ -1197,7 +1197,7 @@ namespace ROC
 			else
 			{
 				GLOBAL.HRDS.Extended = true;
-				filters = String.Concat(new object[] { filters, " Tpos" });
+				filters = string.Concat(filters, " Tpos");
 			}
 
 			cmdSources.Text = filters;
@@ -1267,7 +1267,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Stock" });
+				filters = string.Concat(filters, " Stock");
 			}
 
 			if (rocTradesList.FilterOutFuture)
@@ -1275,7 +1275,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Future" });
+				filters = string.Concat(filters, " Future");
 			}
 
 			if (rocTradesList.FilterOutOption)
@@ -1283,7 +1283,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Option" });
+				filters = string.Concat(filters, " Option");
 			}
 
 			cmdSecurities.Text = filters;

@@ -49,7 +49,7 @@ namespace DataGridViewEx
 			}
 		}
 
-		public Nullable<double> TopOfBookAskPrice
+		public Price? TopOfBookAskPrice
 		{
 			get
 			{
@@ -58,7 +58,7 @@ namespace DataGridViewEx
 					DataRow[] rows = RocGridTable.Select("AskSize > 0", "Price DESC");
 					if (rows.Length > 0)
 					{
-						return (double)rows[rows.Length - 1]["Price"];
+						return Price.FromObject(rows[rows.Length - 1]["Price"]);
 					}
 				}
 				catch (Exception ex)
@@ -69,7 +69,7 @@ namespace DataGridViewEx
 			}
 		}
 
-		public Nullable<double> TopOfBookBidPrice
+		public Price? TopOfBookBidPrice
 		{
 			get
 			{
@@ -78,7 +78,7 @@ namespace DataGridViewEx
 					DataRow[] rows = RocGridTable.Select("BidSize > 0", "Price DESC");
 					if (rows.Length > 0)
 					{
-						return (double)rows[0]["Price"];
+						return Price.FromObject(rows[0]["Price"]);
 					}
 				}
 				catch (Exception ex)

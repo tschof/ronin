@@ -92,17 +92,10 @@ namespace DataGridViewEx
 
 		public override string GetDisplayValue(object value)
 		{
-			if (value != null && value is long)
+			if (value is long sideCode)
 			{
-				_sideCode = (long)value;
-				if (CSVEx.CSVFieldIDs.SideCodes.Descriptions.ContainsKey(_sideCode))
-				{
-					return CSVEx.CSVFieldIDs.SideCodes.Descriptions[_sideCode].ToUpper();
-				}
-				else
-				{
-					return _sideCode.ToString();
-				}
+				_sideCode = sideCode;
+				return CSVEx.CSVFieldIDs.SideCodes.GetDescription(sideCode);
 			}
 
 			return "";
@@ -110,11 +103,7 @@ namespace DataGridViewEx
 
 		private Color SetCellForeColor(Color foreColor)
 		{
-			if (_currentForeColor != foreColor)
-			{
-				_currentForeColor = foreColor;
-			}
-
+			_currentForeColor = foreColor;
 			return _currentForeColor;
 		}
 	}

@@ -1,8 +1,8 @@
 C:\Users\clangan\source\repos\ROC\ROC.Window\ClockEx\bin\Debug\ClockEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\ClockEx\bin\Debug\ClockEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\ClockEx\obj\Debug\ClockEx.csprojAssemblyReference.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\ClockEx\obj\Debug\ClockEx.DigitalClockCtrl.resources
 C:\Users\clangan\source\repos\ROC\ROC.Window\ClockEx\obj\Debug\ClockEx.csproj.GenerateResource.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\ClockEx\obj\Debug\ClockEx.csproj.CoreCompileInputs.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\ClockEx\obj\Debug\ClockEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\ClockEx\obj\Debug\ClockEx.pdb
-C:\Users\clangan\source\repos\ROC\ROC.Window\ClockEx\obj\Debug\ClockEx.csprojAssemblyReference.cache

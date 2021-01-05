@@ -60,26 +60,22 @@ namespace NumberEx
 		public FractionFixed()
 		{
 		}
-		public FractionFixed(Nullable<double> tickSize, Nullable<double> displayFactor)
+		public FractionFixed(double? tickSize, double? displayFactor)
 		{
-			if (tickSize != null)
-			{
-				_tickSize = (double)tickSize;
-			}
-
-			if (displayFactor != null)
-			{
-				_displayFactor = (double)displayFactor;
-			}
+			if (tickSize.HasValue)
+				_tickSize = tickSize.Value;
+			if (displayFactor.HasValue)
+				_displayFactor = displayFactor.Value;
 		}
 
 		public string ToString(decimal val)
 		{
 			return ToString((double)val);
 		}
+
 		public string ToString(double val)
 		{
-			string result = null;
+			string result;
 
 			bool isNeg = false;
 			val = Math.Round(val, MaxDecimalPlace);
@@ -131,7 +127,7 @@ namespace NumberEx
 
 			if (isNeg)
 			{
-				return String.Concat(new object[] { "-", result });
+				return string.Concat("-", result);
 			}
 			else
 			{
@@ -143,10 +139,10 @@ namespace NumberEx
 		{
 			double subNumerator = numerator / div;
 
-			return String.Concat(new object[] { 
+			return string.Concat(
 				leftSide.ToString("N0"),
 				"'",
-				subNumerator.ToString("F2").Replace(".", "") });
+				subNumerator.ToString("F2").Replace(".", ""));
 		}
 
 		private string GetFormated400BasedDisplay(double leftSide, double rightSide)
@@ -179,10 +175,10 @@ namespace NumberEx
 				result = result + "0";
 			}
 
-			return String.Concat(new object[] { 
+			return string.Concat(
 				leftSide.ToString("N0"),
 				"'",
-				result });
+				result);
 		}
 	}
 }

@@ -13,6 +13,7 @@ C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\bin\Debug\sv\PlotEx.resource
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\bin\Debug\tr\PlotEx.resources.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\bin\Debug\zh-cn\PlotEx.resources.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\bin\Debug\zh-tw\PlotEx.resources.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.csprojAssemblyReference.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.Controls.ZedGraphControl.resources
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.Resources.ZedGraphLocale.resources
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.Resources.ZedGraphLocale.tw.resources
@@ -46,4 +47,3 @@ C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\zh-cn\PlotEx.resou
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\zh-tw\PlotEx.resources.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.pdb
-C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.csprojAssemblyReference.cache

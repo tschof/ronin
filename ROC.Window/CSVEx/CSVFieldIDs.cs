@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CSVEx
 {
@@ -24,26 +22,21 @@ namespace CSVEx
 			public const string WorkingOrder = "E";
 			public const string OrderStatus = "S";
 
-			private static Dictionary<string, string> _descriptions;
-			public static Dictionary<string, string> Descriptions
+			public static string GetDescription(string which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<string, string>();
-						_descriptions.Add(EndOfQueuedMsg, "End of Queued ROM Messages");
-						_descriptions.Add(HeartBeat, "Heart Beat");
-						_descriptions.Add(LoggedIn, "Logged In");
-						_descriptions.Add(Alert, "Alert");
-						_descriptions.Add(InvalidField, "Invalid Field");
-						_descriptions.Add(WorkingOrder, "Working Order");
-						_descriptions.Add(OrderStatus, "Order Status");
-					}
-
-					return _descriptions;
-				}
+				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
+				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
 			}
+
+			private static (string, string)[] _descriptions = new (string, string)[] {
+				(EndOfQueuedMsg, "End of Queued ROM Messages"),
+				(HeartBeat, "Heart Beat"),
+				(LoggedIn, "Logged In"),
+				(Alert, "Alert"),
+				(InvalidField, "Invalid Field"),
+				(WorkingOrder, "Working Order"),
+				(OrderStatus, "Order Status")
+			};
 		}
 
 		public sealed class CommandTypes
@@ -54,24 +47,19 @@ namespace CSVEx
 			public const string CancelMultiple = "c";
 			public const string Replace = "R";
 
-			private static Dictionary<string, string> _descriptions;
-			public static Dictionary<string, string> Descriptions
+			public static string GetDescription(string which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<string, string>();
-						_descriptions.Add(Login, "Login");
-						_descriptions.Add(EnterOrder, "Enter Order");
-						_descriptions.Add(CancelSingle, "Cancel Single");
-						_descriptions.Add(CancelMultiple, "Cancel Multiple");
-						_descriptions.Add(Replace, "Replace");
-					}
-
-					return _descriptions;
-				}
+				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
+				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
 			}
+
+			private static (string, string)[] _descriptions = new (string, string)[] {
+				(Login, "Login"),
+				(EnterOrder, "Enter Order"),
+				(CancelSingle, "Cancel Single"),
+				(CancelMultiple, "Cancel Multiple"),
+				(Replace, "Replace")
+			};
 		}
 
 		// Used when Sending Loggin Commands
@@ -81,22 +69,16 @@ namespace CSVEx
 			public const int CancelAllLiveOrderOnDisconnection = 1;
 			public const int CancelAllLiveOrderExceptGTD_GTC = 2;
 
-			private static Dictionary<int, string> _descriptions;
-			public static Dictionary<int, string> Descriptions
+			public static string GetDescription(long which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<int, string>();
-						_descriptions.Add(KeepOrdersAlive, "Keep Orders Alive");
-						_descriptions.Add(CancelAllLiveOrderOnDisconnection, "Cancel All Live Order On Disconnection");
-						_descriptions.Add(CancelAllLiveOrderExceptGTD_GTC, "Cancel All Live Order Except GTD & GTC");
-					}
-
-					return _descriptions;
-				}
+				return ((which >= 0) && (which <= 2)) ? _descriptions[(int)which] : which.ToString();
 			}
+
+			private static string[] _descriptions = new string[] {
+				"Keep Orders Alive",
+				"Cancel All Live Order On Disconnection",
+				"Cancel All Live Order Except GTD & GTC"
+			};
 		}
 
 		// Used when Sending Enter Commands 
@@ -107,41 +89,21 @@ namespace CSVEx
 			public const long Short = 5;
 			public const long SSE = 6;
 
-			private static Dictionary<long, string> _descriptions;
-			public static Dictionary<long, string> Descriptions
+			public static string GetDescription(long which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<long, string>();
-						_descriptions.Add(Buy, "Buy");
-						_descriptions.Add(Sell, "Sell");
-						_descriptions.Add(Short, "Short");
-						_descriptions.Add(SSE, "SSE");
-					}
-
-					return _descriptions;
-				}
+				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
+				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
 			}
 
-			private static string _buySideFilter = string.Format("Side = {0}", SideCodes.Buy);
-			public static string BuySideFilter
-			{
-				get
-				{
-					return _buySideFilter;
-				}
-			}
+			private static (long, string)[] _descriptions = new (long, string)[] {
+				(Buy, "Buy"),
+				(Sell, "Sell"),
+				(Short, "Short"),
+				(SSE, "SSE")
+			};
 
-			private static string _sellSideFilter = string.Format("Side = {0} Or Side = {1}", SideCodes.Sell, SideCodes.Short);
-			public static string SellSideFilter
-			{
-				get
-				{
-					return _sellSideFilter;
-				}
-			}
+			public static string BuySideFilter { get; } = $"Side = {Buy}";
+			public static string SellSideFilter { get; } = $"Side = {Sell} Or Side = {Short}";
 		}
 
 		public sealed class OrderTypes
@@ -172,69 +134,40 @@ namespace CSVEx
 
 			// K = Marketable Limit order on CME/Globex
 
-			private static Dictionary<long, string> _descriptions;
-			public static Dictionary<long, string> Descriptions
+			public static string GetDescription(long which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<long, string>();
-						_descriptions.Add(Market, "Market");
-						_descriptions.Add(Limit, "Limit");
-						_descriptions.Add(Stop, "Stop");
-						_descriptions.Add(StopLimit, "StopLimit");
-						_descriptions.Add(MarketOnClose, "MOC");
-						_descriptions.Add(WithOrWithout, "WithOrWithout");
-						_descriptions.Add(LimitOrBetter, "LimitOrBetter");
-						_descriptions.Add(LimitWithOrWithout, "LimitWithOrWithout");
-						_descriptions.Add(OnBasis, "OnBasis");
-						_descriptions.Add(OnClose, "OnClose");
-						_descriptions.Add(LimitOnClose, "LOC");
-						_descriptions.Add(MarketAtOpen, "MOO");
-						_descriptions.Add(VWAP, "VWAP");
-						_descriptions.Add(PegMkt, "Peg MKT");
-						_descriptions.Add(PegPri, "Peg PRI");
-						_descriptions.Add(PegMid, "Peg MID");
-						_descriptions.Add(IMBOC, "IMBOC");
-						_descriptions.Add(IMBOO, "IMBOO");
-						_descriptions.Add(IMBOI, "IMBOI");
-						_descriptions.Add(VWAPMKT, "VWAP MKT");
-						_descriptions.Add(VWAPLIM, "VWAP LIM");
-						_descriptions.Add(GVWAP, "GVWAP");
-						_descriptions.Add(OCO, "OCO");
-					}
-
-					return _descriptions;
-				}
+				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
+				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
 			}
 
-			private static string _nonMarketOrderOnlyFilter = string.Format(
-				("OrderType <> {0} And OrderType <> {1} And OrderType <> {2}"),
-				new object[] {
-					OrderTypes.Market,
-					OrderTypes.MarketOnClose,
-					OrderTypes.MarketAtOpen });
-			public static string NonMarketOrderOnlyFilter
-			{
-				get
-				{
-					return _nonMarketOrderOnlyFilter;
-				}
-			}
+			private static (long, string)[] _descriptions = new (long, string)[] {
+				(Market, "Market"),
+				(Limit, "Limit"),
+				(Stop, "Stop"),
+				(StopLimit, "StopLimit"),
+				(MarketOnClose, "MOC"),
+				(WithOrWithout, "WithOrWithout"),
+				(LimitOrBetter, "LimitOrBetter"),
+				(LimitWithOrWithout, "LimitWithOrWithout"),
+				(OnBasis, "OnBasis"),
+				(OnClose, "OnClose"),
+				(LimitOnClose, "LOC"),
+				(MarketAtOpen, "MOO"),
+				(VWAP, "VWAP"),
+				(PegMkt, "Peg MKT"),
+				(PegPri, "Peg PRI"),
+				(PegMid, "Peg MID"),
+				(IMBOC, "IMBOC"),
+				(IMBOO, "IMBOO"),
+				(IMBOI, "IMBOI"),
+				(VWAPMKT, "VWAP MKT"),
+				(VWAPLIM, "VWAP LIM"),
+				(GVWAP, "GVWAP"),
+				(OCO, "OCO")
+			};
 
-			private static string _stopOrderOnlyFilter = string.Format(
-				("OrderType = {0} Or OrderType = {1}"),
-				new object[] {
-					OrderTypes.Stop,
-					OrderTypes.StopLimit });
-			public static string StopOrderOnlyFilter
-			{
-				get
-				{
-					return _stopOrderOnlyFilter;
-				}
-			}
+			public static string NonMarketOrderOnlyFilter { get; } = $"OrderType <> {Market} And OrderType <> {MarketOnClose} And OrderType <> {MarketAtOpen}";
+			public static string StopOrderOnlyFilter { get; } = $"OrderType = {Stop} Or OrderType = {StopLimit}";
 		}
 
 		public sealed class TIFCodes
@@ -246,42 +179,25 @@ namespace CSVEx
 			public const long FOK = 4;		// Fill or Kill
 			public const long GTX = 5;
 			public const long GTD = 6;		// Good Till Date
-			public const long OCL = 7;		// On Close
+			public const long OCL = 7;      // On Close
 
-			private static Dictionary<long, string> _descriptions;
-			public static Dictionary<long, string> Descriptions
+			public static string GetDescription(long which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<long, string>();
-						_descriptions.Add(Day, "Day");
-						_descriptions.Add(GTC, "GTC");
-						_descriptions.Add(OPG, "On Open");
-						_descriptions.Add(IOC, "IOC");
-						_descriptions.Add(FOK, "FOK");
-						_descriptions.Add(GTX, "GTX");
-						_descriptions.Add(GTD, "GTD");
-						_descriptions.Add(OCL, "On Close");
-					}
-
-					return _descriptions;
-				}
+				return ((which >= 0) && (which <= 7)) ? _descriptions[(int)which] : which.ToString();
 			}
 
-			private static string _tifDayFilter = string.Format(
-				("TIF <> {0} And TIF <> {1}"),
-				new object[] {
-					TIFCodes.GTC,
-					TIFCodes.GTD });
-			public static string TIFDayFilter
-			{
-				get
-				{
-					return _tifDayFilter;
-				}
-			}
+			private static string[] _descriptions = new string[] {
+				"Day",
+				"GTC",
+				"On Open",
+				"IOC",
+				"FOK",
+				"GTX",
+				"GTD",
+				"On Close"
+			};
+
+			public static string TIFDayFilter { get; } = $"TIF <> {GTC} And TIF <> {GTD}";
 		}
 
 		public sealed class AlgoTypes
@@ -291,23 +207,17 @@ namespace CSVEx
 			public const long VWAP = 2;
 			public const long GVWAP = 3;
 
-			private static Dictionary<long, string> _descriptions;
-			public static Dictionary<long, string> Descriptions
+			public static string GetDescription(long which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<long, string>();
-						_descriptions.Add(None, "None");
-						_descriptions.Add(TWAP, "TWAP");
-						_descriptions.Add(VWAP, "VWAP");
-						_descriptions.Add(GVWAP, "GVWAP");
-					}
-
-					return _descriptions;
-				}
+				return ((which >= 0) && (which <= 3)) ? _descriptions[(int)which] : which.ToString();
 			}
+
+			private static string[] _descriptions = new string[] {
+				"None",
+				"TWAP",
+				"VWAP",
+				"GVWAP"
+			};
 		}
 
 		public sealed class StatusCodes
@@ -339,79 +249,58 @@ namespace CSVEx
 			public const long FilledAndCancelled = 99;
 			public const long ReplacedAndFilled = 100;
 
-			private static Dictionary<long, string> _descriptions;
-			public static Dictionary<long, string> Descriptions
+			public static string GetDescription(long which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<long, string>();
-						_descriptions.Add(New, "Sent");
-						_descriptions.Add(PartiallyFilled, "Partially Filled");
-						_descriptions.Add(Filled, "Filled");
-						_descriptions.Add(DoneForDay, "Done For Day");
-						_descriptions.Add(Canceled, "Canceled");
-						_descriptions.Add(Replaced, "Replaced");
-						_descriptions.Add(PendingCancel, "Pending Cancel");
-						_descriptions.Add(Stopped, "Stopped");
-						_descriptions.Add(Rejected, "Rejected");
-						_descriptions.Add(PendingNew, "Pending New");
-						_descriptions.Add(Calculated, "Calculated");
-						_descriptions.Add(Expired, "Expired");
-						_descriptions.Add(Open, "Open");
-						_descriptions.Add(CancelRejected, "Cancel Rejected");
-						_descriptions.Add(Corrected, "Corrected");
-						_descriptions.Add(Busted, "Busted");
-						_descriptions.Add(ReplaceRejected, "Replace Rejected");
-						_descriptions.Add(Exposed, "Exposed");
-						_descriptions.Add(DirectedThruIML, "Directed Thru IML");
-						_descriptions.Add(Directed, "Directed");
-						_descriptions.Add(DirectedReject, "Directed Reject");
-						_descriptions.Add(ROMCancelPending, "ROM Cancel Pending");
-						_descriptions.Add(ROMReplacePending, "ROM Replace Pending");
-						_descriptions.Add(FilledAndCancelled, "Fill-Canceled");
-						_descriptions.Add(ReplacedAndFilled, "Replace-Filled");
-					}
-
-					return _descriptions;
-				}
+				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
+				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
 			}
 
 			public static bool IsActive(long status)
 			{
 				switch (status)
 				{
-					case StatusCodes.Busted:
-					case StatusCodes.Expired:
-					case StatusCodes.Rejected:
-					case StatusCodes.Canceled:
-					case StatusCodes.Filled:
-					case StatusCodes.FilledAndCancelled:
-					case StatusCodes.ReplacedAndFilled:
+					case Busted:
+					case Expired:
+					case Rejected:
+					case Canceled:
+					case Filled:
+					case FilledAndCancelled:
+					case ReplacedAndFilled:
 						return false;
 					default:
 						return true;
 				}
 			}
 
-			private static string _activeStatusFilter = string.Format(
-				("Status <> {0} And Status <> {1} And Status <> {2} And Status <> {3} And Status <> {4} And Status <> {5} And Status <> {6}"),
-				new object[] {
-					StatusCodes.Busted,
-					StatusCodes.Expired,
-					StatusCodes.Rejected,
-					StatusCodes.Canceled, 
-					StatusCodes.Filled,
-					StatusCodes.FilledAndCancelled,
-					StatusCodes.ReplacedAndFilled });
-			public static string ActiveStatusFilter
-			{
-				get
-				{
-					return _activeStatusFilter;
-				}
-			}
+			public static string ActiveStatusFilter { get; } = $"Status <> {Busted} And Status <> {Expired} And Status <> {Rejected} And Status <> {Canceled} And Status <> {Filled} And Status <> {FilledAndCancelled} And Status <> {ReplacedAndFilled}";
+
+			private static (long, string)[] _descriptions = new (long, string)[] {
+				(New, "Sent"),
+				(PartiallyFilled, "Partially Filled"),
+				(Filled, "Filled"),
+				(DoneForDay, "Done For Day"),
+				(Canceled, "Canceled"),
+				(Replaced, "Replaced"),
+				(PendingCancel, "Pending Cancel"),
+				(Stopped, "Stopped"),
+				(Rejected, "Rejected"),
+				(PendingNew, "Pending New"),
+				(Calculated, "Calculated"),
+				(Expired, "Expired"),
+				(Open, "Open"),
+				(CancelRejected, "Cancel Rejected"),
+				(Corrected, "Corrected"),
+				(Busted, "Busted"),
+				(ReplaceRejected, "Replace Rejected"),
+				(Exposed, "Exposed"),
+				(DirectedThruIML, "Directed Thru IML"),
+				(Directed, "Directed"),
+				(DirectedReject, "Directed Reject"),
+				(ROMCancelPending, "ROM Cancel Pending"),
+				(ROMReplacePending, "ROM Replace Pending"),
+				(FilledAndCancelled, "Fill-Canceled"),
+				(ReplacedAndFilled, "Replace-Filled")
+			};
 		}
 
 		public sealed class OptionTypes
@@ -422,23 +311,18 @@ namespace CSVEx
 			public const string Close = "0";
 			public const string Open = "1";
 
-			private static Dictionary<string, string> _descriptions;
-			public static Dictionary<string, string> Descriptions
+			public static string GetDescription(string which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<string, string>();
-						_descriptions.Add(Put, "Put");
-						_descriptions.Add(Call, "Call");
-						_descriptions.Add(Close, "Close");
-						_descriptions.Add(Open, "Open");
-					}
-
-					return _descriptions;
-				}
+				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
+				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
 			}
+
+			private static (string, string)[] _descriptions = new (string, string)[] {
+				(Put, "Put"),
+				(Call, "Call"),
+				(Close, "Close"),
+				(Open, "Open")
+			};
 		}
 
 		public sealed class SecurityTypes
@@ -454,56 +338,28 @@ namespace CSVEx
 			public const string Spread = "S";
 			public const string Forex = "X";
 
-			private static Dictionary<string, string> _descriptions;
-			public static Dictionary<string, string> Descriptions
+			public static string GetDescription(string which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<string, string>();
-						_descriptions.Add(Equity, "Equity");
-						_descriptions.Add(Future, "Future");
-						_descriptions.Add(Option, "Option");
-						_descriptions.Add(OptionIndex, "OptionIndex");
-						_descriptions.Add(SingleStockFuture, "SingleStockFuture");
-						_descriptions.Add(FutureIndex, "FutureIndex");
-						_descriptions.Add(FutureCurrency, "FutureCurrency");
-						_descriptions.Add(OptionFuture, "OptionFuture");
-						_descriptions.Add(Spread, "Spread");
-						_descriptions.Add(Forex, "Forex");
-					}
-
-					return _descriptions;
-				}
+				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
+				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
 			}
 
-			private static string _equityFilter = string.Format("SecType = '{0}'", new object[] { SecurityTypes.Equity });
-			public static string EquityFilter
-			{
-				get
-				{
-					return _equityFilter;
-				}
-			}
+			private static (string, string)[] _descriptions = new (string, string)[] {
+				(Equity, "Equity"),
+				(Future, "Future"),
+				(Option, "Option"),
+				(OptionIndex, "OptionIndex"),
+				(SingleStockFuture, "SingleStockFuture"),
+				(FutureIndex, "FutureIndex"),
+				(FutureCurrency, "FutureCurrency"),
+				(OptionFuture, "OptionFuture"),
+				(Spread, "Spread"),
+				(Forex, "Forex")
+			};
 
-			private static string _futureFilter = string.Format("SecType = '{0}'", new object[] { SecurityTypes.Future });
-			public static string FutureFilter
-			{
-				get
-				{
-					return _futureFilter;
-				}
-			}
-
-			private static string _optionFilter = string.Format("SecType = '{0}'", new object[] { SecurityTypes.Option });
-			public static string OptionFilter
-			{
-				get
-				{
-					return _optionFilter;
-				}
-			}
+			public static string EquityFilter { get; } = $"SecType = '{Equity}'";
+			public static string FutureFilter { get; } = $"SecType = '{Future}'";
+			public static string OptionFilter { get; } = $"SecType = '{Option}'";
 		}
 
 		public sealed class ExecutionInstructions
@@ -538,48 +394,43 @@ namespace CSVEx
 			public const string Netting = "V";
 			public const string VWAPPeg = "W";
 
-			private static Dictionary<string, string> _descriptions;
-			public static Dictionary<string, string> Descriptions
+			public static string GetDescription(string which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<string, string>();
-						_descriptions.Add(NotHeld, "NotHeld");
-						_descriptions.Add(Work, "Work");
-						_descriptions.Add(GoAlong, "GoAlong");
-						_descriptions.Add(OverTheDay, "OverTheDay");
-						_descriptions.Add(Held, "Held");
-						_descriptions.Add(PartNoInit, "PartNoInit");
-						_descriptions.Add(StrictScale, "StrictScale");
-						_descriptions.Add(TryScale, "TryScale");
-						_descriptions.Add(StayOnBid, "StayOnBid");
-						_descriptions.Add(StayOnOffer, "StayOnOffer");
-						_descriptions.Add(NoCross, "NoCross");
-						_descriptions.Add(OkToCross, "OkToCross");
-						_descriptions.Add(CallFirst, "CallFirst");
-						_descriptions.Add(PctOfVol, "PctOfVol");
-						_descriptions.Add(DNI, "DNI");
-						_descriptions.Add(DNR, "DNR");
-						_descriptions.Add(AON, "AON");
-						_descriptions.Add(InstOnly, "InstOnly");
-						_descriptions.Add(LastPeg, "LastPeg");
-						_descriptions.Add(MidPricePeg, "MidPricePeg");
-						_descriptions.Add(NonNegot, "NonNegot");
-						_descriptions.Add(OpeningPeg, "OpeningPeg");
-						_descriptions.Add(MarketPeg, "MarketPeg");
-						_descriptions.Add(PrimaryPeg, "PrimaryPeg");
-						_descriptions.Add(Suspend, "Suspend");
-						_descriptions.Add(FixedPeg, "FixedPeg");
-						_descriptions.Add(CustDisp, "CustDisp");
-						_descriptions.Add(Netting, "Netting");
-						_descriptions.Add(VWAPPeg, "VWAPPeg");
-					}
-
-					return _descriptions;
-				}
+				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
+				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
 			}
+
+			private static (string, string)[] _descriptions = new (string, string)[] {
+				(NotHeld, "NotHeld"),
+				(Work, "Work"),
+				(GoAlong, "GoAlong"),
+				(OverTheDay, "OverTheDay"),
+				(Held, "Held"),
+				(PartNoInit, "PartNoInit"),
+				(StrictScale, "StrictScale"),
+				(TryScale, "TryScale"),
+				(StayOnBid, "StayOnBid"),
+				(StayOnOffer, "StayOnOffer"),
+				(NoCross, "NoCross"),
+				(OkToCross, "OkToCross"),
+				(CallFirst, "CallFirst"),
+				(PctOfVol, "PctOfVol"),
+				(DNI, "DNI"),
+				(DNR, "DNR"),
+				(AON, "AON"),
+				(InstOnly, "InstOnly"),
+				(LastPeg, "LastPeg"),
+				(MidPricePeg, "MidPricePeg"),
+				(NonNegot, "NonNegot"),
+				(OpeningPeg, "OpeningPeg"),
+				(MarketPeg, "MarketPeg"),
+				(PrimaryPeg, "PrimaryPeg"),
+				(Suspend, "Suspend"),
+				(FixedPeg, "FixedPeg"),
+				(CustDisp, "CustDisp"),
+				(Netting, "Netting"),
+				(VWAPPeg, "VWAPPeg")
+			};
 		}
 
 		public sealed class CplxOrderTypes
@@ -587,21 +438,16 @@ namespace CSVEx
 			public const int Container = 5;
 			public const int Leg = 6;
 
-			private static Dictionary<int, string> _descriptions;
-			public static Dictionary<int, string> Descriptions
+			public static string GetDescription(int which)
 			{
-				get
-				{
-					if (_descriptions == null)
-					{
-						_descriptions = new Dictionary<int, string>();
-						_descriptions.Add(Container, "Continer");
-						_descriptions.Add(Leg, "Leg");
-					}
-
-					return _descriptions;
-				}
+				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
+				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
 			}
+
+			private static (int, string)[] _descriptions = new (int, string)[] {
+				(Container, "Continer"),
+				(Leg, "Leg")
+			};
 		}
 
 		public sealed class PegOrderExecInstructions

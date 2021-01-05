@@ -96,8 +96,8 @@ namespace ROC
 			Text = Caption;
 
 			notifyIconROC.Text = Configuration.User.Default.InstanceName;
-			notifyIconROC.BalloonTipTitle = String.Concat(new object[] { Configuration.User.Default.InstanceName, " UI Minimized" });
-			notifyIconROC.BalloonTipText = String.Concat(new object[] { "Double Click to Reopen ", Configuration.User.Default.InstanceName, " UI" });
+			notifyIconROC.BalloonTipTitle = string.Concat(Configuration.User.Default.InstanceName, " UI Minimized");
+			notifyIconROC.BalloonTipText = string.Concat("Double Click to Reopen ", Configuration.User.Default.InstanceName, " UI");
 
 			DockWindow.RegisterExternalReferenceForm(this);
 
@@ -215,7 +215,7 @@ namespace ROC
 			{
 				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.LoggedIn)
 				{
-					ShowWaitWindow(String.Concat(new object[] { "Processing ROM Messages... ", GLOBAL.HROM.EndOfQueuedMsgCount.ToString() }));
+					ShowWaitWindow(string.Concat("Processing ROM Messages... ", GLOBAL.HROM.EndOfQueuedMsgCount.ToString()));
 				}
 			}
 
@@ -850,9 +850,7 @@ namespace ROC
 					break;
 				case "Load":
 					if (MessageBox.Show("Override Current Layout?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
-					{
 						GLOBAL.UserUIProfile.ReLoad();
-					}
 					break;
 				case "LoadFrom":
 					LoadFrom();

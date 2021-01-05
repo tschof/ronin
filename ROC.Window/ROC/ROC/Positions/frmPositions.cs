@@ -986,7 +986,7 @@ namespace ROC
 					break;
 			}
 
-			DataRow[] rows = rocPositionsList.RocGridTable.Select(string.Concat(new object[] { "SymbolDetail = '", symbolDetail, "'" }));
+			DataRow[] rows = rocPositionsList.RocGridTable.Select(string.Concat("SymbolDetail = '", symbolDetail, "'"));
 			foreach (DataRow row in rows)
 			{
 				row["Symbol"] = secInfo.MDSymbol.Replace("/P", "/PR");
@@ -1304,7 +1304,7 @@ namespace ROC
 					}
 					else
 					{
-						DataRow[] rows = rocPositionsList.RocGridTable.Select(string.Concat(new object[] { "PositionKey = '", key, "'" }));
+						DataRow[] rows = rocPositionsList.RocGridTable.Select(string.Concat("PositionKey = '", key, "'"));
 
 						if (rows.Length > 0)
 						{
@@ -1609,11 +1609,11 @@ namespace ROC
 				case GroupByTypes.ByAccount:
 					if (position.ClearingAcct.Length > 5)
 					{
-						key = string.Concat(new object[] { position.ClearingAcct.Substring(0, 5) });
+						key = string.Concat(position.ClearingAcct.Substring(0, 5));
 					}
 					else
 					{
-						key = string.Concat(new object[] { position.ClearingAcct });
+						key = string.Concat(position.ClearingAcct);
 					}
 					break;
 				case GroupByTypes.BySymbol:
@@ -2026,7 +2026,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Roc" });
+				filters = string.Concat(filters, " Roc");
 			}
 
 			if (rocPositionsList.FilterOutTPOS)
@@ -2036,7 +2036,7 @@ namespace ROC
 			else
 			{
 				GLOBAL.HRDS.Extended = true;
-				filters = String.Concat(new object[] { filters, " Tpos" });
+				filters = string.Concat(filters, " Tpos");
 			}
 
 			cmdSources.Text = filters;
@@ -2106,7 +2106,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Stock" });
+				filters = string.Concat(filters, " Stock");
 			}
 
 			if (rocPositionsList.FilterOutFuture)
@@ -2114,7 +2114,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Future" });
+				filters = string.Concat(filters, " Future");
 			}
 
 			if (rocPositionsList.FilterOutOption)
@@ -2122,7 +2122,7 @@ namespace ROC
 			}
 			else
 			{
-				filters = String.Concat(new object[] { filters, " Option" });
+				filters = string.Concat(filters, " Option");
 			}
 
 			cmdSecurities.Text = filters;
@@ -2170,11 +2170,11 @@ namespace ROC
 				default:
 					if (rocPositionsList.FilterOutAccounts.Contains(e.PropertyName))
 					{
-						rocPositionsList.FilterOutAccounts = rocPositionsList.FilterOutAccounts.Replace(string.Concat(new object[] { e.PropertyName }), "");
+						rocPositionsList.FilterOutAccounts = rocPositionsList.FilterOutAccounts.Replace(e.PropertyName, "");
 					}
 					else
 					{
-						rocPositionsList.FilterOutAccounts = string.Concat(new object[] { rocPositionsList.FilterOutAccounts, " ", e.PropertyName });
+						rocPositionsList.FilterOutAccounts = string.Concat(rocPositionsList.FilterOutAccounts, " ", e.PropertyName);
 					}
 					break;
 			}
@@ -2237,7 +2237,7 @@ namespace ROC
 					}
 					else if (!filters.Contains(acct.clearingAcIDShort))
 					{
-						filters = string.Concat(new object[] { filters, " ", acct.clearingAcIDShort });
+						filters = string.Concat(filters, " ", acct.clearingAcIDShort);
 					}
 				}
 			}
@@ -2475,7 +2475,7 @@ namespace ROC
 			switch(GroupBy)
 			{
 				case GroupByTypes.BySymbol:
-					groupBy = String.Concat(new object[] { groupBy, " Symbol" });
+					groupBy = string.Concat(groupBy, " Symbol");
 					break;
 				case GroupByTypes.None:
 					break;

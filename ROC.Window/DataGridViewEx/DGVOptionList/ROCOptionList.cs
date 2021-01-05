@@ -2095,12 +2095,7 @@ namespace DataGridViewEx
 
 		private Color GetExchangeColor(string pid)
 		{
-			if (ExchangeColors.ContainsKey(pid))
-			{
-				return ExchangeColors[pid];
-			}
-
-			return DefaultCellForeColor;
+			return ExchangeColors.TryGetValue(pid, out Color value) ? value : DefaultCellForeColor;
 		}
 
 		// This will subscribe option chain as symbol scroll into view.
@@ -2110,30 +2105,32 @@ namespace DataGridViewEx
 			{
 				if (ShouldSubscribe(rowIndex))
 				{
-					MDPutSymbol = (string)Rows[rowIndex].Cells["PutSymbol"].Value;
-					if (Rows[rowIndex].Cells["PutPartID"].Value.ToString() == "")
+					DataGridViewRow row = Rows[rowIndex];
+
+					MDPutSymbol = (string)row.Cells["PutSymbol"].Value;
+					if (row.Cells["PutPartID"].Value.ToString() == "")
 					{
 						MDPutSymbolOPRA = MDPutSymbol;
 					}
 					else
 					{
-						MDPutSymbolOPRA = (string)Rows[rowIndex].Cells["PutSymbol"].Value + "." + (string)Rows[rowIndex].Cells["PutPartID"].Value;
+						MDPutSymbolOPRA = (string)row.Cells["PutSymbol"].Value + "." + (string)row.Cells["PutPartID"].Value;
 					}
 
-					MDCallSymbol = (string)Rows[rowIndex].Cells["CallSymbol"].Value;
-					if (Rows[rowIndex].Cells["CallPartID"].Value.ToString() == "")
+					MDCallSymbol = (string)row.Cells["CallSymbol"].Value;
+					if (row.Cells["CallPartID"].Value.ToString() == "")
 					{
 						// NBBO
 						MDCallSymbolOPRA = MDCallSymbol;
 					}
 					else
 					{
-						MDCallSymbolOPRA = MDCallSymbol + "." + (string)Rows[rowIndex].Cells["CallPartID"].Value;
+						MDCallSymbolOPRA = MDCallSymbol + "." + (string)row.Cells["CallPartID"].Value;
 					}
 
-					MDSource = (string)Rows[rowIndex].Cells["MDSource"].Value;
-					SecType = (string)Rows[rowIndex].Cells["SecType"].Value;
-					Rows[rowIndex].Cells["Subscribed"].Value = 1;
+					MDSource = (string)row.Cells["MDSource"].Value;
+					SecType = (string)row.Cells["SecType"].Value;
+					row.Cells["Subscribed"].Value = 1;
 
 					Subscribe = true;
 				}
@@ -2222,78 +2219,78 @@ namespace DataGridViewEx
 				{
 					if (FilterOutCBOE)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID = '", OptionExchangeCode.CBOE, "' And CallPartID = '", OptionExchangeCode.CBOE, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID = '", OptionExchangeCode.CBOE, "' And CallPartID = '", OptionExchangeCode.CBOE, "'"));
 					}
 					else if (FilterOutBOX)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID = '", OptionExchangeCode.BOX, "' And CallPartID = '", OptionExchangeCode.BOX, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID = '", OptionExchangeCode.BOX, "' And CallPartID = '", OptionExchangeCode.BOX, "'"));
 					}
 					else if (FilterOutAMEX)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID = '", OptionExchangeCode.AMEX, "' And CallPartID = '", OptionExchangeCode.AMEX, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID = '", OptionExchangeCode.AMEX, "' And CallPartID = '", OptionExchangeCode.AMEX, "'"));
 					}
 					else if (FilterOutPHLX)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID = '", OptionExchangeCode.PHLX, "' And CallPartID = '", OptionExchangeCode.PHLX, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID = '", OptionExchangeCode.PHLX, "' And CallPartID = '", OptionExchangeCode.PHLX, "'"));
 					}
 					else if (FilterOutPCX)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID = '", OptionExchangeCode.PCX, "' And CallPartID = '", OptionExchangeCode.PCX, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID = '", OptionExchangeCode.PCX, "' And CallPartID = '", OptionExchangeCode.PCX, "'"));
 					}
 					else if (FilterOutISE)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID = '", OptionExchangeCode.ISE, "' And CallPartID = '", OptionExchangeCode.ISE, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID = '", OptionExchangeCode.ISE, "' And CallPartID = '", OptionExchangeCode.ISE, "'"));
 					}
 					else if (FilterOutNSDQ)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID = '", OptionExchangeCode.NSDQ, "' And CallPartID = '", OptionExchangeCode.NSDQ, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID = '", OptionExchangeCode.NSDQ, "' And CallPartID = '", OptionExchangeCode.NSDQ, "'"));
 					}
 					else if (FilterOutBATS)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID = '", OptionExchangeCode.BATS, "' And CallPartID = '", OptionExchangeCode.BATS, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID = '", OptionExchangeCode.BATS, "' And CallPartID = '", OptionExchangeCode.BATS, "'"));
 					}
 					else if (FilterOutC2)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID = '", OptionExchangeCode.C2, "' And CallPartID = '", OptionExchangeCode.C2, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID = '", OptionExchangeCode.C2, "' And CallPartID = '", OptionExchangeCode.C2, "'"));
 					}
 				}
 				else
 				{
 					if (FilterOutCBOE)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID <> '", OptionExchangeCode.CBOE, "' And CallPartID <> '", OptionExchangeCode.CBOE, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID <> '", OptionExchangeCode.CBOE, "' And CallPartID <> '", OptionExchangeCode.CBOE, "'"));
 					}
 					if (FilterOutBOX)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID <> '", OptionExchangeCode.BOX, "' And CallPartID <> '", OptionExchangeCode.BOX, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID <> '", OptionExchangeCode.BOX, "' And CallPartID <> '", OptionExchangeCode.BOX, "'"));
 					}
 					if (FilterOutAMEX)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID <> '", OptionExchangeCode.AMEX, "' And CallPartID <> '", OptionExchangeCode.AMEX, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID <> '", OptionExchangeCode.AMEX, "' And CallPartID <> '", OptionExchangeCode.AMEX, "'"));
 					}
 					if (FilterOutPHLX)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID <> '", OptionExchangeCode.PHLX, "' And CallPartID <> '", OptionExchangeCode.PHLX, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID <> '", OptionExchangeCode.PHLX, "' And CallPartID <> '", OptionExchangeCode.PHLX, "'"));
 					}
 					if (FilterOutPCX)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID <> '", OptionExchangeCode.PCX, "' And CallPartID <> '", OptionExchangeCode.PCX, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID <> '", OptionExchangeCode.PCX, "' And CallPartID <> '", OptionExchangeCode.PCX, "'"));
 					}
 					if (FilterOutISE)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID <> '", OptionExchangeCode.ISE, "' And CallPartID <> '", OptionExchangeCode.ISE, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID <> '", OptionExchangeCode.ISE, "' And CallPartID <> '", OptionExchangeCode.ISE, "'"));
 					}
 					if (FilterOutNSDQ)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID <> '", OptionExchangeCode.NSDQ, "' And CallPartID <> '", OptionExchangeCode.NSDQ, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID <> '", OptionExchangeCode.NSDQ, "' And CallPartID <> '", OptionExchangeCode.NSDQ, "'"));
 					}
 					if (FilterOutBATS)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID <> '", OptionExchangeCode.BATS, "' And CallPartID <> '", OptionExchangeCode.BATS, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID <> '", OptionExchangeCode.BATS, "' And CallPartID <> '", OptionExchangeCode.BATS, "'"));
 					}
 					if (FilterOutC2)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "PutPartID <> '", OptionExchangeCode.C2, "' And CallPartID <> '", OptionExchangeCode.C2, "'" }));
+						filter = BuildRowFilterString(filter, string.Concat("PutPartID <> '", OptionExchangeCode.C2, "' And CallPartID <> '", OptionExchangeCode.C2, "'"));
 					}
 				}
 

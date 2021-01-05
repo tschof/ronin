@@ -525,93 +525,60 @@ namespace DataGridViewEx
 		{
 			if (e.RowIndex >= 0)
 			{
-				Rows[e.RowIndex].Cells["TickSize"].Style.BackColor = Color.Black;
+				DataGridViewRow row = Rows[e.RowIndex];
+				row.Cells["TickSize"].Style.BackColor = Color.Black;
 
-				if (Rows[e.RowIndex].Cells["Tag"].Value == null || Rows[e.RowIndex].Cells["Tag"].Value.ToString() == "")
+				if (row.Cells["Tag"].Value == null || row.Cells["Tag"].Value.ToString() == "")
 				{
 					// Market Data
 					_shiftMultiples = e.RowIndex;
 					if (_shiftMultiples > ColorShiftIntervalMax) _shiftMultiples = ColorShiftIntervalMax;
 
-					if (!_shiftedColors.ContainsKey(_shiftMultiples))
+					if (!_shiftedColors.TryGetValue(_shiftMultiples, out Color color))
 					{
 						// Make new shifted color
 						_red = RedDefault - (ColorShiftInterval * _shiftMultiples);
 						_green = GreenDefault - (ColorShiftInterval * _shiftMultiples);
 						_blue = BlueDefault - (ColorShiftInterval * _shiftMultiples);
 
-						_shiftedColors.Add(_shiftMultiples, Color.FromArgb(_red, _green, _blue));
+						color = Color.FromArgb(_red, _green, _blue);
+						_shiftedColors.Add(_shiftMultiples, color);
 					}
 
-					if (Rows[e.RowIndex].DefaultCellStyle.BackColor != _shiftedColors[_shiftMultiples])
+					if (row.DefaultCellStyle.BackColor != color)
 					{
-						Rows[e.RowIndex].DefaultCellStyle.BackColor = _shiftedColors[_shiftMultiples];
-					}
-					if (Rows[e.RowIndex].DefaultCellStyle.ForeColor != Color.Black)
-					{
-						Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+						row.DefaultCellStyle.BackColor = color;
 					}
 
-					//for (int i = 0; i < Columns.Count; i++)
-					//{
-					//    if (Columns[i].Visible)
-					//    {
-					//        if (Rows[e.RowIndex].Cells[i].Style.BackColor != _shiftedColors[_shiftMultiples])
-					//        {
-					//            Rows[e.RowIndex].Cells[i].Style.BackColor = _shiftedColors[_shiftMultiples];
-					//            Rows[e.RowIndex].Cells[i].Style.ForeColor = Color.Black;
-					//        }
-					//    }
-					//}
+					if (row.DefaultCellStyle.ForeColor != Color.Black)
+					{
+						row.DefaultCellStyle.ForeColor = Color.Black;
+					}
 				}
 				else
 				{
 					// User Orders
 					if (_side == GridSides.Bid)
 					{
-						if (Rows[e.RowIndex].DefaultCellStyle.BackColor != BidColor)
+						if (row.DefaultCellStyle.BackColor != BidColor)
 						{
-							Rows[e.RowIndex].DefaultCellStyle.BackColor = BidColor;
+							row.DefaultCellStyle.BackColor = BidColor;
 						}
-						if (Rows[e.RowIndex].DefaultCellStyle.ForeColor != Color.Gainsboro)
+						if (row.DefaultCellStyle.ForeColor != Color.Gainsboro)
 						{
-							Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Gainsboro;
+							row.DefaultCellStyle.ForeColor = Color.Gainsboro;
 						}
-
-						//for (int i = 0; i < Columns.Count; i++)
-						//{
-						//    if (Columns[i].Visible)
-						//    {
-						//        if (Rows[e.RowIndex].Cells[i].Style.BackColor != BidColor)
-						//        {
-						//            Rows[e.RowIndex].Cells[i].Style.BackColor = BidColor;
-						//            Rows[e.RowIndex].Cells[i].Style.ForeColor = Color.Gainsboro;
-						//        }
-						//    }
-						//}
 					}
 					else
 					{
-						if (Rows[e.RowIndex].DefaultCellStyle.BackColor != AskColor)
+						if (row.DefaultCellStyle.BackColor != AskColor)
 						{
-							Rows[e.RowIndex].DefaultCellStyle.BackColor = AskColor;
+							row.DefaultCellStyle.BackColor = AskColor;
 						}
-						if (Rows[e.RowIndex].DefaultCellStyle.ForeColor != Color.Gainsboro)
+						if (row.DefaultCellStyle.ForeColor != Color.Gainsboro)
 						{
-							Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Gainsboro;
+							row.DefaultCellStyle.ForeColor = Color.Gainsboro;
 						}
-
-						//for (int i = 0; i < Columns.Count; i++)
-						//{
-						//    if (Columns[i].Visible)
-						//    {
-						//        if (Rows[e.RowIndex].Cells[i].Style.BackColor != AskColor)
-						//        {
-						//            Rows[e.RowIndex].Cells[i].Style.BackColor = AskColor;
-						//            Rows[e.RowIndex].Cells[i].Style.ForeColor = Color.Gainsboro;
-						//        }
-						//    }
-						//}
 					}
 				}
 			}
@@ -634,16 +601,17 @@ namespace DataGridViewEx
 		{
 			if (e.RowIndex >= 0)
 			{
-				if (e.Button == MouseButtons.Left && Rows[e.RowIndex].Cells["Tag"].Value.ToString() == "")
+				DataGridViewRow row = Rows[e.RowIndex];
+				if (e.Button == MouseButtons.Left && row.Cells["Tag"].Value.ToString() == "")
 				{
 					switch (Columns[e.ColumnIndex].Name)
 					{
 						case "Price":
-							Rows[e.RowIndex].Cells["Price"].Style.ForeColor = SelectedForeColor;
+							row.Cells["Price"].Style.ForeColor = SelectedForeColor;
 							break;
 						case "Size":
-							Rows[e.RowIndex].Cells["Price"].Style.ForeColor = SelectedForeColor;
-							Rows[e.RowIndex].Cells["Size"].Style.ForeColor = SelectedForeColor;
+							row.Cells["Price"].Style.ForeColor = SelectedForeColor;
+							row.Cells["Size"].Style.ForeColor = SelectedForeColor;
 							break;
 					}
 				}
@@ -656,16 +624,17 @@ namespace DataGridViewEx
 		{
 			if (e.RowIndex >= 0)
 			{
-				if (e.Button == MouseButtons.Left && Rows[e.RowIndex].Cells["Tag"].Value.ToString() == "")
+				DataGridViewRow row = Rows[e.RowIndex];
+				if (e.Button == MouseButtons.Left && row.Cells["Tag"].Value.ToString() == "")
 				{
 					switch (Columns[e.ColumnIndex].Name)
 					{
 						case "Price":
-							Rows[e.RowIndex].Cells["Price"].Style.ForeColor = DefaultCellForeColor;
+							row.Cells["Price"].Style.ForeColor = DefaultCellForeColor;
 							break;
 						case "Size":
-							Rows[e.RowIndex].Cells["Price"].Style.ForeColor = DefaultCellForeColor;
-							Rows[e.RowIndex].Cells["Size"].Style.ForeColor = DefaultCellForeColor;
+							row.Cells["Price"].Style.ForeColor = DefaultCellForeColor;
+							row.Cells["Size"].Style.ForeColor = DefaultCellForeColor;
 							break;
 					}
 				}
@@ -678,33 +647,34 @@ namespace DataGridViewEx
 		{
 			if (e.RowIndex >= 0)
 			{
+				DataGridViewRow row = Rows[e.RowIndex];
 				if (e.Button == MouseButtons.Left)
 				{
 					switch (Columns[e.ColumnIndex].Name)
 					{
 						case "Price":
-							if (Rows[e.RowIndex].Cells["Tag"].Value.ToString() == "")
+							if (row.Cells["Tag"].Value.ToString() == "")
 							{
-								PriceBook = (double)Rows[e.RowIndex].Cells["Price"].Value;
+								PriceBook = (double)row.Cells["Price"].Value;
 
 								PriceSelected = true;
 							}
 							else
 							{
-								ShowTip = String.Concat(new object[] { 
-									Rows[e.RowIndex].Cells["Tag"].Value.ToString(), 
+								ShowTip = string.Concat(
+									row.Cells["Tag"].Value.ToString(), 
 									" - ", 
-									Rows[e.RowIndex].Cells["Size"].Value.ToString(),
+									row.Cells["Size"].Value.ToString(),
 									"@",
-									Rows[e.RowIndex].Cells["Price"].Value.ToString() });
+									row.Cells["Price"].Value.ToString());
 								ShowToolTip = true;
 							}
 							break;
 						case "Size":
-							if (Rows[e.RowIndex].Cells["Tag"].Value.ToString() == "")
+							if (row.Cells["Tag"].Value.ToString() == "")
 							{
-								PriceBook = (double)Rows[e.RowIndex].Cells["Price"].Value;
-								SizeBook = (long)Rows[e.RowIndex].Cells["Size"].Value;
+								PriceBook = (double)row.Cells["Price"].Value;
+								SizeBook = (long)row.Cells["Size"].Value;
 
 								SizeSelected = true;
 							}
@@ -713,9 +683,9 @@ namespace DataGridViewEx
 				}
 				else if (e.Button == MouseButtons.Right)
 				{
-					if (Rows[e.RowIndex].Cells["Tag"].Value.ToString() != "")
+					if (row.Cells["Tag"].Value.ToString() != "")
 					{
-						ShowOrderID = Rows[e.RowIndex].Cells["Tag"].Value.ToString();
+						ShowOrderID = row.Cells["Tag"].Value.ToString();
 						ShowOrderMenu = true;
 					}
 				}

@@ -992,11 +992,11 @@ namespace DataGridViewEx
 			{
 				if (useOr)
 				{
-					filter = String.Concat(new object[] { filter, " or ", input });
+					filter = string.Concat(filter, " or ", input);
 				}
 				else
 				{
-					filter = String.Concat(new object[] { filter, " and ", input });
+					filter = string.Concat(filter, " and ", input);
 				}
 			}
 
@@ -1043,14 +1043,7 @@ namespace DataGridViewEx
 
 		public void UpdateTickSize(string symbol, double tickSize)
 		{
-			if (TickSizes.ContainsKey(symbol))
-			{
-				TickSizes[symbol] = tickSize;
-			}
-			else
-			{
-				TickSizes.Add(symbol, tickSize);
-			}
+			TickSizes[symbol] = tickSize;
 		}
 
 		#endregion
@@ -1059,14 +1052,7 @@ namespace DataGridViewEx
 
 		public void UpdateDisplayFactor(string symbol, double displayFactor)
 		{
-			if (DisplayFactors.ContainsKey(symbol))
-			{
-				DisplayFactors[symbol] = displayFactor;
-			}
-			else
-			{
-				DisplayFactors.Add(symbol, displayFactor);
-			}
+			DisplayFactors[symbol] = displayFactor;
 		}
 
 		#endregion

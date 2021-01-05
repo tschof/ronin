@@ -1,6 +1,8 @@
 using System;
 using MarketData;
 
+using Price = Common.Price;
+
 namespace ROC
 {
 	public class BookSupport : BaseTicket //, BookISupport
@@ -18,7 +20,7 @@ namespace ROC
 			return UpdateMarketData(deltas, null, null, null, null);
 		}
 
-		public Book UpdateMarketData(Market deltas, double? askPrice, double? bidPrice, double? highPrice, double? lowPrice)
+		public Book UpdateMarketData(Market deltas, Price? askPrice, Price? bidPrice, Price? highPrice, Price? lowPrice)
 		{
 			// Market deltas
 
@@ -53,7 +55,7 @@ namespace ROC
 			return null;
 		}
 
-		private void makeStockBook(ref Book delta, double? askPrice, double? bidPrice, double? highPrice, double? lowPrice)
+		private void makeStockBook(ref Book delta, Price? askPrice, Price? bidPrice, Price? highPrice, Price? lowPrice)
 		{
 			delta.RoundPrices(STOCK_PRICE_DIGITS, askPrice, bidPrice, highPrice, lowPrice);
 
@@ -212,10 +214,10 @@ namespace ROC
 								switch (decimalPlace)
 								{
 									case 0:
-										formatedValue = String.Concat(new object[] { formatedValue, "00" });
+										formatedValue = string.Concat(formatedValue, "00");
 										break;
 									case 1:
-										formatedValue = String.Concat(new object[] { formatedValue, "0" });
+										formatedValue = string.Concat(formatedValue, "0");
 										break;
 									default:
 										break;
@@ -255,7 +257,7 @@ namespace ROC
 
 				if (parts.Length == 2)
 				{
-					Double.TryParse(parts[0], out price);
+					double.TryParse(parts[0], out price);
 					// Fraction Part
 					switch (tickSize.ToString())
 					{
@@ -267,12 +269,12 @@ namespace ROC
 							if (parts[1].Length < 2)
 							{
 								parts[1] = parts[1] + "0";
-								Double.TryParse(parts[1], out tempPrice);
+								double.TryParse(parts[1], out tempPrice);
 							}
 							else if (parts[1].Length == 3 && parts[1].Substring(0, 1) == "0")
 							{
 								parts[1] = parts[1].Substring(1, 2);
-								if (Double.TryParse(parts[1], out tempPrice))
+								if (double.TryParse(parts[1], out tempPrice))
 								{
 									tempPrice = tempPrice / 10;
 								}
@@ -281,7 +283,7 @@ namespace ROC
 							else if (parts[1].Length >= 3 && parts[1].Substring(2, 1) == "0")
 							{
 								parts[1] = parts[1].Substring(0, 2);
-								Double.TryParse(parts[1], out tempPrice);
+								double.TryParse(parts[1], out tempPrice);
 							}
 							if (tempPrice > 32)
 							{
@@ -313,7 +315,7 @@ namespace ROC
 										break;
 								}
 							}
-							Double.TryParse("." + parts[1].TrimEnd(new char[] { '0' }), out tempPrice);
+							double.TryParse("." + parts[1].TrimEnd(new char[] { '0' }), out tempPrice);
 							price = price + tempPrice;
 							break;
 					}
@@ -321,7 +323,7 @@ namespace ROC
 			}
 			else
 			{
-				Double.TryParse(value, out price);
+				double.TryParse(value, out price);
 			}
 
 			return price;

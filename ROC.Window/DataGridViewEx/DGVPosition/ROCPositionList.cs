@@ -496,7 +496,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(OpenQty)", RocGridTable.DefaultView.RowFilter).ToString(), out _openQty))
+					if (long.TryParse(RocGridTable.Compute("Sum(OpenQty)", RocGridTable.DefaultView.RowFilter).ToString(), out _openQty))
 					{
 						return _openQty;
 					}
@@ -517,7 +517,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(OpenQty)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _openQty_STK))
+					if (long.TryParse(RocGridTable.Compute("Sum(OpenQty)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _openQty_STK))
 					{
 						return _openQty_STK;
 					}
@@ -538,7 +538,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(OpenQty)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _openQty_FUT))
+					if (long.TryParse(RocGridTable.Compute("Sum(OpenQty)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _openQty_FUT))
 					{
 						return _openQty_FUT;
 					}
@@ -559,7 +559,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(OpenQty)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _openQty_OPT))
+					if (long.TryParse(RocGridTable.Compute("Sum(OpenQty)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _openQty_OPT))
 					{
 						return _openQty_OPT;
 					}
@@ -584,7 +584,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(BuyQty)", RocGridTable.DefaultView.RowFilter).ToString(), out _buyQty))
+					if (long.TryParse(RocGridTable.Compute("Sum(BuyQty)", RocGridTable.DefaultView.RowFilter).ToString(), out _buyQty))
 					{
 						return _buyQty;
 					}
@@ -605,7 +605,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(BuyQty)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _buyQty_STK))
+					if (long.TryParse(RocGridTable.Compute("Sum(BuyQty)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _buyQty_STK))
 					{
 						return _buyQty_STK;
 					}
@@ -626,7 +626,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(BuyQty)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _buyQty_FUT))
+					if (long.TryParse(RocGridTable.Compute("Sum(BuyQty)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _buyQty_FUT))
 					{
 						return _buyQty_FUT;
 					}
@@ -647,7 +647,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(BuyQty)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _buyQty_OPT))
+					if (long.TryParse(RocGridTable.Compute("Sum(BuyQty)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _buyQty_OPT))
 					{
 						return _buyQty_OPT;
 					}
@@ -672,7 +672,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(SellQty)", RocGridTable.DefaultView.RowFilter).ToString(), out _sellQty))
+					if (long.TryParse(RocGridTable.Compute("Sum(SellQty)", RocGridTable.DefaultView.RowFilter).ToString(), out _sellQty))
 					{
 						return _sellQty;
 					}
@@ -693,7 +693,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(SellQty)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _sellQty_STK))
+					if (long.TryParse(RocGridTable.Compute("Sum(SellQty)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _sellQty_STK))
 					{
 						return _sellQty_STK;
 					}
@@ -714,7 +714,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(SellQty)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _sellQty_FUT))
+					if (long.TryParse(RocGridTable.Compute("Sum(SellQty)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _sellQty_FUT))
 					{
 						return _sellQty_FUT;
 					}
@@ -735,7 +735,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(SellQty)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _sellQty_OPT))
+					if (long.TryParse(RocGridTable.Compute("Sum(SellQty)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _sellQty_OPT))
 					{
 						return _sellQty_OPT;
 					}
@@ -760,7 +760,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(CurrentQty)", RocGridTable.DefaultView.RowFilter).ToString(), out _currentQty))
+					if (long.TryParse(RocGridTable.Compute("Sum(CurrentQty)", RocGridTable.DefaultView.RowFilter).ToString(), out _currentQty))
 					{
 						return _currentQty;
 					}
@@ -781,7 +781,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(CurrentQty)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _currentQty_STK))
+					if (long.TryParse(RocGridTable.Compute("Sum(CurrentQty)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _currentQty_STK))
 					{
 						return _currentQty_STK;
 					}
@@ -802,7 +802,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(CurrentQty)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _currentQty_FUT))
+					if (long.TryParse(RocGridTable.Compute("Sum(CurrentQty)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _currentQty_FUT))
 					{
 						return _currentQty_FUT;
 					}
@@ -823,7 +823,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Int64.TryParse(RocGridTable.Compute("Sum(CurrentQty)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _currentQty_OPT))
+					if (long.TryParse(RocGridTable.Compute("Sum(CurrentQty)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _currentQty_OPT))
 					{
 						return _currentQty_OPT;
 					}
@@ -848,7 +848,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(OpenPnL)", RocGridTable.DefaultView.RowFilter).ToString(), out _openPnL))
+					if (double.TryParse(RocGridTable.Compute("Sum(OpenPnL)", RocGridTable.DefaultView.RowFilter).ToString(), out _openPnL))
 					{
 						return _openPnL;
 					}
@@ -869,7 +869,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(OpenPnL)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _openPnL_STK))
+					if (double.TryParse(RocGridTable.Compute("Sum(OpenPnL)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _openPnL_STK))
 					{
 						return _openPnL_STK;
 					}
@@ -890,7 +890,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(OpenPnL)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _openPnL_FUT))
+					if (double.TryParse(RocGridTable.Compute("Sum(OpenPnL)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _openPnL_FUT))
 					{
 						return _openPnL_FUT;
 					}
@@ -911,7 +911,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(OpenPnL)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _openPnL_OPT))
+					if (double.TryParse(RocGridTable.Compute("Sum(OpenPnL)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _openPnL_OPT))
 					{
 						return _openPnL_OPT;
 					}
@@ -936,7 +936,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(DayPnL)", RocGridTable.DefaultView.RowFilter).ToString(), out _dayPnL))
+					if (double.TryParse(RocGridTable.Compute("Sum(DayPnL)", RocGridTable.DefaultView.RowFilter).ToString(), out _dayPnL))
 					{
 						return _dayPnL;
 					}
@@ -957,7 +957,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(DayPnL)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _dayPnL_STK))
+					if (double.TryParse(RocGridTable.Compute("Sum(DayPnL)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _dayPnL_STK))
 					{
 						return _dayPnL_STK;
 					}
@@ -978,7 +978,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(DayPnL)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _dayPnL_FUT))
+					if (double.TryParse(RocGridTable.Compute("Sum(DayPnL)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _dayPnL_FUT))
 					{
 						return _dayPnL_FUT;
 					}
@@ -999,7 +999,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(DayPnL)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _dayPnL_OPT))
+					if (double.TryParse(RocGridTable.Compute("Sum(DayPnL)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _dayPnL_OPT))
 					{
 						return _dayPnL_OPT;
 					}
@@ -1024,7 +1024,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(DayRealizedPnL)", RocGridTable.DefaultView.RowFilter).ToString(), out _realizedPnL))
+					if (double.TryParse(RocGridTable.Compute("Sum(DayRealizedPnL)", RocGridTable.DefaultView.RowFilter).ToString(), out _realizedPnL))
 					{
 						return _realizedPnL;
 					}
@@ -1045,7 +1045,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(DayRealizedPnL)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _realizedPnL_STK))
+					if (double.TryParse(RocGridTable.Compute("Sum(DayRealizedPnL)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _realizedPnL_STK))
 					{
 						return _realizedPnL_STK;
 					}
@@ -1066,7 +1066,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(DayRealizedPnL)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _realizedPnL_FUT))
+					if (double.TryParse(RocGridTable.Compute("Sum(DayRealizedPnL)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _realizedPnL_FUT))
 					{
 						return _realizedPnL_FUT;
 					}
@@ -1087,7 +1087,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(DayRealizedPnL)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _realizedPnL_OPT))
+					if (double.TryParse(RocGridTable.Compute("Sum(DayRealizedPnL)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _realizedPnL_OPT))
 					{
 						return _realizedPnL_OPT;
 					}
@@ -1112,7 +1112,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(TotalPnL)", RocGridTable.DefaultView.RowFilter).ToString(), out _totalPnL))
+					if (double.TryParse(RocGridTable.Compute("Sum(TotalPnL)", RocGridTable.DefaultView.RowFilter).ToString(), out _totalPnL))
 					{
 						return _totalPnL;
 					}
@@ -1133,7 +1133,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(TotalPnL)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _totalPnL_STK))
+					if (double.TryParse(RocGridTable.Compute("Sum(TotalPnL)", AggragationFilter(AggragationFilterTypes.STK)).ToString(), out _totalPnL_STK))
 					{
 						return _totalPnL_STK;
 					}
@@ -1154,7 +1154,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(TotalPnL)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _totalPnL_FUT))
+					if (double.TryParse(RocGridTable.Compute("Sum(TotalPnL)", AggragationFilter(AggragationFilterTypes.FUT)).ToString(), out _totalPnL_FUT))
 					{
 						return _totalPnL_FUT;
 					}
@@ -1175,7 +1175,7 @@ namespace DataGridViewEx
 			{
 				try
 				{
-					if (Double.TryParse(RocGridTable.Compute("Sum(TotalPnL)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _totalPnL_OPT))
+					if (double.TryParse(RocGridTable.Compute("Sum(TotalPnL)", AggragationFilter(AggragationFilterTypes.OPT)).ToString(), out _totalPnL_OPT))
 					{
 						return _totalPnL_OPT;
 					}
@@ -2061,14 +2061,14 @@ namespace DataGridViewEx
 				{
 					foreach (string symbol in symbols)
 					{
-						filter = BuildRowFilterString(filter, String.Concat(new object[] { "SymbolDetail Not Like '", symbol, "%'" }));
+						filter = BuildRowFilterString(filter, string.Concat("SymbolDetail Not Like '", symbol, "%'"));
 					}
 
-					filter = String.Concat(new object[] { "(", filter, ")" });
+					filter = string.Concat("(", filter, ")");
 				}
 				else
 				{
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SymbolDetail Not Like '", symbols[0], "%'" }));
+					filter = BuildRowFilterString(filter, string.Concat("SymbolDetail Not Like '", symbols[0], "%'"));
 				}
 			}
 
@@ -2078,36 +2078,36 @@ namespace DataGridViewEx
 
 				foreach (string acct in accts)
 				{
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "ClearingAcct Not Like '", acct, "%'" }));
+					filter = BuildRowFilterString(filter, string.Concat("ClearingAcct Not Like '", acct, "%'"));
 				}
 			}
 
 			if (FilterOutStock)
 			{
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Equity, "'" }));
+				filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Equity, "'"));
 			}
 
 			if (FilterOutFuture)
 			{
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Future, "'" }));
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.SingleStockFuture, "'" }));
+				filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Future, "'"));
+				filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.SingleStockFuture, "'"));
 			}
 
 			if (FilterOutOption)
 			{
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Option, "'" }));
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture, "'" }));
-				filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex, "'" }));
+				filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.Option, "'"));
+				filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture, "'"));
+				filter = BuildRowFilterString(filter, string.Concat("SecType <> '", CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex, "'"));
 			}
 
 			//if (FilterOutTPOS)
 			//{
-			//    filter = BuildRowFilterString(filter, String.Concat(new object[] { "TPOS <> 1" }));
+			//    filter = BuildRowFilterString(filter, string.Concat("TPOS <> 1"));
 			//}
 
 			//if (FilterOutROC)
 			//{
-			//    filter = BuildRowFilterString(filter, String.Concat(new object[] { "TPOS <> 0" }));
+			//    filter = BuildRowFilterString(filter, string.Concat("TPOS <> 0"));
 			//}
 
 			try
@@ -2141,16 +2141,16 @@ namespace DataGridViewEx
 			switch (type)
 			{
 				case AggragationFilterTypes.STK:
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.Equity, "'" }));
+					filter = BuildRowFilterString(filter, string.Concat("SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.Equity, "'"));
 					break;
 				case AggragationFilterTypes.FUT:
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.Future, "'" }));
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.SingleStockFuture, "'" }), true);
+					filter = BuildRowFilterString(filter, string.Concat("SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.Future, "'"));
+					filter = BuildRowFilterString(filter, string.Concat("SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.SingleStockFuture, "'"), true);
 					break;
 				case AggragationFilterTypes.OPT:
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.Option, "'" }));
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture, "'" }), true);
-					filter = BuildRowFilterString(filter, String.Concat(new object[] { "SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex, "'" }), true);
+					filter = BuildRowFilterString(filter, string.Concat("SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.Option, "'"));
+					filter = BuildRowFilterString(filter, string.Concat("SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.OptionFuture, "'"), true);
+					filter = BuildRowFilterString(filter, string.Concat("SecType = '", CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex, "'"), true);
 					break;
 			}
 			return filter;

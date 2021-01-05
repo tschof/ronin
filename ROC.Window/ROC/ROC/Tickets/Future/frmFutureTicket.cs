@@ -14,6 +14,8 @@ using ROMEx;
 using CSVEx;
 using MarketData;
 
+using Price = Common.Price;
+
 namespace ROC
 {
 	[System.ComponentModel.DesignerCategory("Form")]
@@ -41,81 +43,21 @@ namespace ROC
 
 		#region - Local Variable -
 
-		internal Nullable<double> HighPrice
+		private Price? getPrice(LabelEx.LabelBase field)
 		{
-			get
-			{
-				try
-				{
-					if (dspHighPrice.Value != null && dspHighPrice.Value.ToString() != "")
-					{
-						return Convert.ToDouble(dspHighPrice.Value);
-					}
-				}
-				catch (Exception ex)
-				{
-					GLOBAL.HROC.AddToException(ex);
-				}
+			string text = field.Value as string;
+			if (!string.IsNullOrEmpty(text) && double.TryParse(text, out double value)) {
+				return value;
+			} else {
+				GLOBAL.HROC.AddToException($"Bad High Price {text}.");
 				return null;
 			}
 		}
 
-		internal Nullable<double> LowPrice
-		{
-			get
-			{
-				try
-				{
-					if (dspLowPrice.Value != null && dspLowPrice.Value.ToString() != "")
-					{
-						return Convert.ToDouble(dspLowPrice.Value);
-					}
-				}
-				catch (Exception ex)
-				{
-					GLOBAL.HROC.AddToException(ex);
-				}
-				return null;
-			}
-		}
-
-		internal Nullable<double> AskPrice
-		{
-			get
-			{
-				try
-				{
-					if (dspAskPrice.Value != null && dspAskPrice.Value.ToString() != "")
-					{
-						return Convert.ToDouble(dspAskPrice.Value);
-					}
-				}
-				catch (Exception ex)
-				{
-					GLOBAL.HROC.AddToException(ex);
-				}
-				return null;
-			}
-		}
-
-		internal Nullable<double> BidPrice
-		{
-			get
-			{
-				try
-				{
-					if (dspBidPrice.Value != null && dspBidPrice.Value.ToString() != "")
-					{
-						return Convert.ToDouble(dspBidPrice.Value);
-					}
-				}
-				catch (Exception ex)
-				{
-					GLOBAL.HROC.AddToException(ex);
-				}
-				return null;
-			}
-		}
+		internal Price? HighPrice => getPrice(dspHighPrice);
+		internal Price? LowPrice => getPrice(dspLowPrice);
+		internal Price? AskPrice => getPrice(dspAskPrice);
+		internal Price? BidPrice => getPrice(dspBidPrice);
 
 		private const int _defaultBook = 454;
 		private const int _defaultSSF = 354;
@@ -1256,7 +1198,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string _, BaseSecurityInfo secInfo)
 		{
 			HelperSubscriber.Subscribe(secInfo.MDSymbol, secInfo.MDSource, secInfo.SecType);
 			switch (secInfo.SecType)
@@ -1264,10 +1206,8 @@ namespace ROC
 				case CSVFieldIDs.SecurityTypes.Equity:
 					if (secInfo.SSFChain.Count > 0)
 					{
-						foreach (IMSSFutureInfo ssf in secInfo.SSFChain.Values)
-						{
-							HelperSubscriber.SubscribeSSF(ssf.MDSymbol, ssf.MDSource, ssf.SecType);
-						}
+						foreach (var entry in secInfo.SSFChain)
+							HelperSubscriber.SubscribeSSF(entry.Value.MDSymbol, entry.Value.MDSource, entry.Value.SecType);
 					}
 					break;
 				case CSVFieldIDs.SecurityTypes.Future:

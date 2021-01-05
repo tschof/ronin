@@ -55,7 +55,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountMap.cs" />
+    <Compile Include="BaseExecution.cs" />
+    <Compile Include="BaseOptionInfo.cs" />
+    <Compile Include="BaseOrder.cs" />
+    <Compile Include="BasePosition.cs" />
+    <Compile Include="BaseSecurityInfo.cs" />
+    <Compile Include="DestinationMap.cs" />
     <Compile Include="GLOBAL.cs" />
+    <Compile Include="IMOptionInfo.cs" />
+    <Compile Include="IMSecurityInfo.cs" />
+    <Compile Include="IMSSFutureInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -63,9 +73,13 @@
     </Compile>
     <Compile Include="RDS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RDSObjectsBase.cs" />
+    <Compile Include="BaseSSFutureInfo.cs" />
     <Compile Include="RDSFieldIDs.cs" />
-    <Compile Include="RDSObjects.cs" />
+    <Compile Include="TraderMap.cs" />
+    <Compile Include="ROCExecution.cs" />
+    <Compile Include="ROCOrder.cs" />
+    <Compile Include="TPOSExecution.cs" />
+    <Compile Include="TPOSPosition.cs" />
     <Compile Include="Web References\WEB\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

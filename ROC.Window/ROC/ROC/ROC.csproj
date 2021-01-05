@@ -204,7 +204,7 @@
     <Compile Include="HelperProcessMonitor.cs" />
     <Compile Include="HelperResubscribe.cs" />
     <Compile Include="SettingData\HelperQuickButtonSettingData.cs" />
-    <Compile Include="SettingData\HelperSettingDataBase.cs" />
+    <Compile Include="SettingData\Utility.cs" />
     <Compile Include="SettingData\HelperSymbolSettingData.cs" />
     <Compile Include="Tickets\AutoSpread\AutoSpreadSupport.cs" />
     <Compile Include="Tickets\AutoSpread\frmAutoSpreadTicket.cs">
@@ -655,10 +655,6 @@
     <ProjectReference Include="..\..\..\Log\Log.csproj">
       <Project>{203befbd-1f40-421f-8934-8777479ce25b}</Project>
       <Name>Log</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ArrayEx\ArrayEx.csproj">
-      <Project>{DC5D6A82-6E1D-48CF-A572-AB84576B2704}</Project>
-      <Name>ArrayEx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\BenchMarkEx\BenchMarkEx.csproj">
       <Project>{9487B4C3-3188-4B84-AAEB-CE8321EEA38A}</Project>

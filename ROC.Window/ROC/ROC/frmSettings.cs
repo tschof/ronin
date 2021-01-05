@@ -491,7 +491,7 @@ namespace ROC
 						{
 							if (acctMap.account.ToUpper() == account)
 							{
-								foreach (DestinationMap destMap in acctMap.Destinations.Values)
+								foreach (DestinationMap destMap in acctMap.Destinations)
 									items.TryAdd(destMap.shortName, destMap.shortName);
 							}
 						}
@@ -500,7 +500,7 @@ namespace ROC
 						{
 							if (acctMap.account.ToUpper() == account)
 							{
-								foreach (DestinationMap destMap in acctMap.Destinations.Values)
+								foreach (DestinationMap destMap in acctMap.Destinations)
 									items.TryAdd(destMap.shortName, destMap.shortName);
 							}
 						}
@@ -509,7 +509,7 @@ namespace ROC
 						{
 							if (acctMap.account.ToUpper() == account)
 							{
-								foreach (DestinationMap destMap in acctMap.Destinations.Values)
+								foreach (DestinationMap destMap in acctMap.Destinations)
 									items.TryAdd(destMap.shortName, destMap.shortName);
 							}
 						}
@@ -1332,7 +1332,7 @@ namespace ROC
 					Configuration.User.Default.Save();
 
 					Int32 i = 2;
-					if (Int32.TryParse(cboAvgPriceResolution.Text, out i))
+					if (int.TryParse(cboAvgPriceResolution.Text, out i))
 					{
 						if (Configuration.User.Default.OrderAvgPriceResolution != i)
 						{
@@ -1391,10 +1391,10 @@ namespace ROC
 			trackBarUIUpdateRate.Value = Configuration.User.Default.UIUpdateRate;
 			chkUserUIUpdateRate.Checked = Configuration.User.Default.UseUIUpdateRate;
 
-			chkMDS.Checked = !GLOBAL.UseMDSBackup;
+			chkMDS.Checked = true;
 			dspMDS.Text = Configuration.MDS.Default.IP + " : " + Configuration.MDS.Default.Port;
 
-			chkMDSBackup.Checked = GLOBAL.UseMDSBackup;
+			chkMDSBackup.Checked = false;
 			dspMDSBackup.Text = Configuration.MDS.Default.IPBackup + " : " + Configuration.MDS.Default.PortBackup; 
 
 			lblUIUpdateRate.Enabled = panelTrackBarUI.Enabled = chkUserUIUpdateRate.Checked;

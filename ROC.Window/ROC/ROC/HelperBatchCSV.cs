@@ -75,10 +75,10 @@ namespace ROC
 					switch (row["Name"].ToString())
 					{
 						case "CSVStartLine":
-							Int32.TryParse(row["DefaultValue"].ToString(), out _csvStartLine);
+							int.TryParse(row["DefaultValue"].ToString(), out _csvStartLine);
 							break;
 						case "CSVEndLine":
-							Int32.TryParse(row["DefaultValue"].ToString(), out _csvEndLine);
+							int.TryParse(row["DefaultValue"].ToString(), out _csvEndLine);
 							break;
 						default:
 							AddToCSVFormat(row["Col"].ToString(), row["Name"].ToString(), row["DefaultValue"].ToString());
@@ -98,7 +98,7 @@ namespace ROC
 
 			if (col != "")
 			{
-				if (Int32.TryParse(col, out colNumber))
+				if (int.TryParse(col, out colNumber))
 				{
 					AddToCSVFormat(colNumber, name);
 				}

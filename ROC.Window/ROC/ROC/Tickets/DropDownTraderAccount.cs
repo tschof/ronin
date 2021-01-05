@@ -753,7 +753,7 @@ namespace ROC
 		{
 			_currentAccounts.TryAdd(acct.account, acct);
 
-			foreach (DestinationMap dest in acct.Destinations.Values)
+			foreach (DestinationMap dest in acct.Destinations)
 			{
 				_currentDestinations.TryAdd(dest.shortName, dest);
 

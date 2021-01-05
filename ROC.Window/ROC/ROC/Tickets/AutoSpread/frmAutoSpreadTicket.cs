@@ -182,26 +182,9 @@ namespace ROC
 			}
 		}
 
-		//private Nullable<double> _lastTopOfAskPrice;
-		//private Nullable<double> _lastTopOfBidPrice;
-		//private bool refreshSelectedLegPrice
-		//{
-		//    get
-		//    {
-		//        if (_lastTopOfAskPrice != rocAutoSpreadList.TopOfBookAskPrice ||
-		//            _lastTopOfBidPrice != rocAutoSpreadList.TopOfBookBidPrice)
-		//        {
-		//            _lastTopOfAskPrice = rocAutoSpreadList.TopOfBookAskPrice;
-		//            _lastTopOfBidPrice = rocAutoSpreadList.TopOfBookBidPrice;
-		//            return true;
-		//        }
-		//        return false;
-		//    }
-		//}
-
 		// To Keep Trake the Orders that are currently under replacing mode
 		// Tag - Origional Total Qty, when not null split orders needs to be generated.
-		private Dictionary<string, Nullable<long>> _replacingOrders = new Dictionary<string, long?>();
+		private Dictionary<string, long?> _replacingOrders = new Dictionary<string, long?>();
 
 		// To Keep Trake the Locked parent tags
 		private List<string> _lockedParentTags = new List<string>();
@@ -1330,28 +1313,26 @@ namespace ROC
 									}
 									else
 									{
-										Nullable<KeyValuePair<int, double>> largestMultiple = null;
-										Nullable<KeyValuePair<int, double>> smallestMultiple = null;
+										KeyValuePair<int, double>? largestMultiple;
+										KeyValuePair<int, double>? smallestMultiple;
 
 										GetLeaveMultiple(spreadOrders, out largestMultiple, out smallestMultiple);
-										if (largestMultiple != null)
+										if (largestMultiple.HasValue)
 										{
-											KeyValuePair<int, double> sm = (KeyValuePair<int, double>)smallestMultiple;
+											double multiple = smallestMultiple.Value.Value;
 
-											if (Math.Floor(sm.Value) == 0)
-											{
+											if (Math.Floor(multiple) == 0) {
 												// Lock the order
 												LockSpreadOrder(spreadOrders);
-											}
-											else if (Math.Floor(sm.Value) == sm.Value)
-											{
-												// Cancel order then reopen order
-												CancelSpreadOrdersByLeaveMultiple(spreadOrders, Convert.ToInt64(Math.Floor(sm.Value)));
-											}
-											else
-											{
-												// Replace order qty then reopen order
-												ReplaceSpreadOrdersByLeaveMultiple(spreadOrders, Convert.ToInt64(Math.Floor(sm.Value)));
+											} else {
+												long lm = (long)Math.Floor(multiple);
+												if ((multiple - lm) < 0.001) {
+													// Cancel order then reopen order
+													CancelSpreadOrdersByLeaveMultiple(spreadOrders, lm);
+												} else {
+													// Replace order qty then reopen order
+													ReplaceSpreadOrdersByLeaveMultiple(spreadOrders, lm);
+												}
 											}
 										}
 									}
@@ -2857,7 +2838,8 @@ namespace ROC
 
 		private void SplitSpreadOrders(ROCOrder order)
 		{
-			Nullable<long> orgTotalQty = null;
+			long? orgTotalQty = null;
+
 			lock (_replacingOrders)
 			{
 				if (_replacingOrders.TryGetValue(order.Tag, out long? size))
@@ -3803,7 +3785,7 @@ namespace ROC
 							{
 								if (acctMap.account.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
-									foreach (DestinationMap destMap in acctMap.Destinations.Values)
+									foreach (DestinationMap destMap in acctMap.Destinations)
 										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
@@ -3812,7 +3794,7 @@ namespace ROC
 							{
 								if (acctMap.account.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
-									foreach (DestinationMap destMap in acctMap.Destinations.Values)
+									foreach (DestinationMap destMap in acctMap.Destinations)
 										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
@@ -3821,7 +3803,7 @@ namespace ROC
 							{
 								if (acctMap.account.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
-									foreach (DestinationMap destMap in acctMap.Destinations.Values)
+									foreach (DestinationMap destMap in acctMap.Destinations)
 										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
@@ -4068,7 +4050,7 @@ namespace ROC
 				if (order.localAcctAcrn == "")
 				{
 					// User didn't specify an account, use the first destination found
-					foreach (DestinationMap destMap in acctMap.Destinations.Values)
+					foreach (DestinationMap destMap in acctMap.Destinations)
 					{
 						if (destMap.shortName == order.exchangeID)
 						{
@@ -4081,7 +4063,7 @@ namespace ROC
 				{
 					if (acctMap.account == order.localAcctAcrn)
 					{
-						foreach (DestinationMap destMap in acctMap.Destinations.Values)
+						foreach (DestinationMap destMap in acctMap.Destinations)
 						{
 							if (destMap.shortName == order.exchangeID)
 							{

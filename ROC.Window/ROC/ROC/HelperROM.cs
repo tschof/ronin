@@ -306,7 +306,7 @@ namespace ROC
 		{
 			if (_rom != null)
 			{
-				SetStatus(StatusTypes.Stopped, String.Concat(new object[] { "ROM|Disconnect... From ", Configuration.ROM.Default.IP, " : ", Configuration.ROM.Default.Port }));
+				SetStatus(StatusTypes.Stopped, string.Concat("ROM|Disconnect... From ", Configuration.ROM.Default.IP, " : ", Configuration.ROM.Default.Port));
 				_rom.OnClientEvent -= new ClientEventHandler(rom_OnClientEvent);
 				_rom.Stop();
 			}
@@ -328,7 +328,7 @@ namespace ROC
 
 			while (Status != StatusTypes.Stopped) ;
 
-			SetStatus(StatusTypes.Starting, String.Concat(new object[] { "ROM|Connecting... To ", Configuration.ROM.Default.IP, " : ", Configuration.ROM.Default.Port }));
+			SetStatus(StatusTypes.Starting, string.Concat("ROM|Connecting... To ", Configuration.ROM.Default.IP, " : ", Configuration.ROM.Default.Port));
 			_rom.Start();
 
 			_showInternalStatus = Configuration.User.Default.ShowInternalStatus;
@@ -371,7 +371,7 @@ namespace ROC
 			_userName = username;
 			_password = password;
 
-			SetStatus(StatusTypes.LoggingIn, String.Concat(new object[] { "ROM|Logging... For ", _userName }));
+			SetStatus(StatusTypes.LoggingIn, string.Concat("ROM|Logging... For ", _userName));
 
 			string msg = RomMessageMaker.GetLogin(_userName, _password, Configuration.ROM.Default.CancelOnDisconnect, Configuration.ROM.Default.SkipGTCandGTD);
 			AddToRomLogs(msg);
@@ -1029,7 +1029,7 @@ namespace ROC
 								Status = StatusTypes.LoggedIn;
 
 								// Log the event to .log
-								StatusDsp = String.Concat(new object[] { "ROM|LoggedIn ", _userName });
+								StatusDsp = string.Concat("ROM|LoggedIn ", _userName);
 								AddToStatusLogs(StatusDsp);
 
 								RomMsgDsp = StatusDsp;
@@ -1038,7 +1038,7 @@ namespace ROC
 								{
 									_endOfQueuedMsg = true;
 
-									StatusDsp = String.Concat(new object[] { "ROM|EndOfQueuedMsg ", _endOfQueuedMsgCount });
+									StatusDsp = string.Concat("ROM|EndOfQueuedMsg ", _endOfQueuedMsgCount);
 									AddToStatusLogs(StatusDsp);
 								}
 								break;
@@ -1046,7 +1046,7 @@ namespace ROC
 								Status = StatusTypes.LogInFailed;
 
 								// Log the event to .log
-								StatusDsp = String.Concat(new object[] { "ROM|LoginFailed For ", _userName, " : ", csv.Text });
+								StatusDsp = string.Concat("ROM|LoginFailed For ", _userName, " : ", csv.Text);
 								AddToStatusLogs(StatusDsp);
 
 								RomMsgDsp = StatusDsp;
@@ -1055,58 +1055,15 @@ namespace ROC
 								break;
 							case CSVFieldIDs.MessageTypes.Alert:
 								string[] temp = csv.Text.Split(new char[] { '|' }, StringSplitOptions.None);
-								if (temp.Length == 2)
+								
+								if (temp.Length != 2) // MDS vs MDS backup was removed.
 								{
-									// Filter
-									if (temp[1] == "" || temp[1].ToUpper() == UserName.ToUpper())
-									{
-										switch (temp[0].ToUpper())
-										{
-											case "MDS":
-												if (GLOBAL.UseMDSBackup)
-												{
-													GLOBAL.MDSsDisconnect();
-
-													//System.Threading.Thread.Sleep(500);
-
-													GLOBAL.UseMDSBackup = false;
-
-													//System.Threading.Thread.Sleep(500);
-
-													GLOBAL.MDSsReconnect();
-
-													RomMsgDsp = String.Concat(new object[] { "Switched To MDS" });
-													AddToAlerts(RomMsgDsp);
-												}
-												break;
-											case "MDSBACKUP":
-												if (!GLOBAL.UseMDSBackup)
-												{
-													GLOBAL.MDSsDisconnect();
-
-													//System.Threading.Thread.Sleep(500);
-
-													GLOBAL.UseMDSBackup = true;
-
-													//System.Threading.Thread.Sleep(500);
-
-													GLOBAL.MDSsReconnect();
-
-													RomMsgDsp = String.Concat(new object[] { "Switched To MDS Backup" });
-													AddToAlerts(RomMsgDsp);
-												}
-												break;
-										}
-									}
-								}
-								else
-								{
-									RomMsgDsp = String.Concat(new object[] { "ROM|Alert ", csv.Text });
+									RomMsgDsp = string.Concat("ROM|Alert ", csv.Text);
 									AddToAlerts(RomMsgDsp);
 								}
 								break;
 							case CSVFieldIDs.MessageTypes.InvalidField:
-								RomMsgDsp = String.Concat(new object[] { "ROM|InvalidField ", csv.Text });
+								RomMsgDsp = string.Concat("ROM|InvalidField ", csv.Text);
 								AddToAlerts(RomMsgDsp);
 								break;
 							case CSVFieldIDs.MessageTypes.WorkingOrder:
@@ -1140,7 +1097,7 @@ namespace ROC
 							case CSVFieldIDs.MessageTypes.EndOfQueuedMsg:
 								_endOfQueuedMsg = true;
 
-								StatusDsp = String.Concat(new object[] { "ROM|EndOfQueuedMsg ", _endOfQueuedMsgCount });
+								StatusDsp = string.Concat("ROM|EndOfQueuedMsg ", _endOfQueuedMsgCount);
 								AddToStatusLogs(StatusDsp);
 								break;
 							default:
@@ -1161,7 +1118,7 @@ namespace ROC
 			{
 				if (_endOfQueuedMsgCount == 0)
 				{
-					StatusDsp = String.Concat(new object[] { "ROM|FirstROMMessage ", _endOfQueuedMsgCount });
+					StatusDsp = string.Concat("ROM|FirstROMMessage ", _endOfQueuedMsgCount);
 				}
 
 				_endOfQueuedMsgCount = _endOfQueuedMsgCount + 1;
@@ -1176,7 +1133,7 @@ namespace ROC
 		{
 			lock (this)
 			{
-				RomMsgLogs.Add(String.Concat(new object[] { _dtHP.Now.ToString("HH:mm:ss.fffffff"), " ", romMsg }));
+				RomMsgLogs.Add(string.Concat(_dtHP.Now.ToString("HH:mm:ss.fffffff"), " ", romMsg));
 			}
 		}
 
@@ -1265,7 +1222,7 @@ namespace ROC
 				TimeSpan diff = DateTime.Now.Subtract(GLOBAL.HROM.LastHartbeatTime);
 				if (diff.TotalSeconds > _hartBeatRate * 2)
 				{
-					SetStatus(StatusTypes.Error, String.Concat(new object[] { "ROM|HartbeatTimeOut : " + diff.TotalSeconds }), true);
+					SetStatus(StatusTypes.Error, string.Concat("ROM|HartbeatTimeOut : " + diff.TotalSeconds), true);
 					Disconnect();
 					StopHartbeat();
 				}

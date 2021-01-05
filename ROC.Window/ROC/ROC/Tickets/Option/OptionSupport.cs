@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+
+using Common;
 
 namespace ROC
 {
@@ -86,23 +87,6 @@ namespace ROC
 			}
 		}
 
-		//internal string ConvertToDisplayDate(string date)
-		//{
-		//    string result = date;
-
-		//    if (date != "" && MonthToAdd > 0)
-		//    {
-		//        DateTime tDT;
-		//        if (DateTime.TryParseExact(date, "yy MMM dd", System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT))
-		//        {
-		//            tDT = tDT.AddMonths(MonthToAdd);
-		//            result = tDT.ToString("(yy MMM)");
-		//        }
-		//    }
-
-		//    return result;
-		//}
-
 		internal string ConvertToDisplayDate(DateTime date)
 		{
 			string result = "";
@@ -118,25 +102,6 @@ namespace ROC
 			}
 
 			return result;
-		}
-
-		internal Nullable<DateTime> ConvertFromDisplayDate(string date)
-		{
-			if (date.Contains("("))
-			{
-				string[] t = date.Split(new string[] { "(" }, StringSplitOptions.None);
-				if (t.Length >= 2)
-				{
-					date = t[1].Replace(")", "");
-				}
-			}
-			DateTime tDT;
-			if (DateTime.TryParseExact(date, "yy MMM dd", System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out tDT))
-			{
-				return tDT;
-			}
-
-			return null;
 		}
 
 		#endregion
@@ -163,8 +128,7 @@ namespace ROC
 				switch (CurrentSecInfo.SecType)
 				{
 					case CSVEx.CSVFieldIDs.SecurityTypes.Future:
-						string symbol = GLOBAL.HSymbolSettingData.GetBaseSymbol(CurrentSecInfo.Underlying);
-						if (symbol == "")
+						if (SettingData.Utility.TryGetBaseSymbol(CurrentSecInfo.Underlying, out string symbol))
 						{
 							symbol = CurrentSecInfo.Underlying;
 						}
@@ -339,10 +303,10 @@ namespace ROC
 								switch (decimalPlace)
 								{
 									case 0:
-										formatedValue = String.Concat(new object[] { formatedValue, "00" });
+										formatedValue = string.Concat(formatedValue, "00");
 										break;
 									case 1:
-										formatedValue = String.Concat(new object[] { formatedValue, "0" });
+										formatedValue = string.Concat(formatedValue, "0");
 										break;
 									default:
 										break;
@@ -382,7 +346,7 @@ namespace ROC
 
 				if (parts.Length == 2)
 				{
-					Double.TryParse(parts[0], out price);
+					double.TryParse(parts[0], out price);
 					// Fraction Part
 					switch (tickSize.ToString())
 					{
@@ -405,7 +369,7 @@ namespace ROC
 							}
 							if (Is64Th)
 							{
-								Double.TryParse(parts[1], out tempPrice);
+								double.TryParse(parts[1], out tempPrice);
 								if (tempPrice > 64)
 								{
 									price = 0;
@@ -419,7 +383,7 @@ namespace ROC
 							}
 							else
 							{
-								Double.TryParse(parts[1], out tempPrice);
+								double.TryParse(parts[1], out tempPrice);
 								if (tempPrice > 32)
 								{
 									price = 0;
@@ -464,7 +428,7 @@ namespace ROC
 										break;
 								}
 							}
-							Double.TryParse("." + parts[1].TrimEnd(new char[] { '0' }), out tempPrice);
+							double.TryParse("." + parts[1].TrimEnd(new char[] { '0' }), out tempPrice);
 							price = price + tempPrice;
 							break;
 					}
@@ -472,7 +436,7 @@ namespace ROC
 			}
 			else
 			{
-				Double.TryParse(value, out price);
+				double.TryParse(value, out price);
 			}
 
 			return price;

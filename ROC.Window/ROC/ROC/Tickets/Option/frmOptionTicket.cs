@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
+using Common;
 using RDSEx;
 using DataGridViewEx;
 using SerializationEx;
@@ -14,6 +15,7 @@ using ROMEx;
 using CSVEx;
 using DateTimeEx;
 using MarketData;
+using OptionDataSource = MarketData.Constants.OptionDataSource;
 
 namespace ROC
 {
@@ -69,6 +71,14 @@ namespace ROC
 			{
 				_mdsymbol = mdsymbol;
 				_currentSymbolDetail = currentSymbolDetail;
+			}
+		}
+
+		private static class TimeFormats
+		{
+			internal static bool TryParse(string text, out DateTime value)
+			{
+				return DateTime.TryParseExact(text, "yy MMM dd", System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out value);
 			}
 		}
 
@@ -135,7 +145,7 @@ namespace ROC
 			get
 			{
 				int range = 0;
-				if (Int32.TryParse(cboStrikesToShow.Text, out range))
+				if (int.TryParse(cboStrikesToShow.Text, out range))
 				{
 					return range;
 				}
@@ -177,7 +187,7 @@ namespace ROC
 			get
 			{
 				int range = 0;
-				if (Int32.TryParse(cboExpirationToShow.Text, out range))
+				if (int.TryParse(cboExpirationToShow.Text, out range))
 				{
 					return range;
 				}
@@ -1098,20 +1108,20 @@ namespace ROC
 				{
 					if (rocOptionList.MDPutSymbol == rocOptionList.MDPutSymbolOPRA)
 					{
-						SubscribeToVisiable(rocOptionList.MDPutSymbol, Constants.OptionDataSource.OPRANBBO, CSVFieldIDs.SecurityTypes.Option);
+						SubscribeToVisiable(rocOptionList.MDPutSymbol, OptionDataSource.OPRANBBO, CSVFieldIDs.SecurityTypes.Option);
 					}
 					else
 					{
-						SubscribeToVisiable(rocOptionList.MDPutSymbolOPRA, Constants.OptionDataSource.OPRA, CSVFieldIDs.SecurityTypes.Option);
+						SubscribeToVisiable(rocOptionList.MDPutSymbolOPRA, OptionDataSource.OPRA, CSVFieldIDs.SecurityTypes.Option);
 					}
 
 					if (rocOptionList.MDCallSymbol == rocOptionList.MDCallSymbolOPRA)
 					{
-						SubscribeToVisiable(rocOptionList.MDCallSymbol, Constants.OptionDataSource.OPRANBBO, CSVFieldIDs.SecurityTypes.Option);
+						SubscribeToVisiable(rocOptionList.MDCallSymbol, OptionDataSource.OPRANBBO, CSVFieldIDs.SecurityTypes.Option);
 					}
 					else
 					{
-						SubscribeToVisiable(rocOptionList.MDCallSymbolOPRA, Constants.OptionDataSource.OPRA, CSVFieldIDs.SecurityTypes.Option);
+						SubscribeToVisiable(rocOptionList.MDCallSymbolOPRA, OptionDataSource.OPRA, CSVFieldIDs.SecurityTypes.Option);
 					}
 				}
 				else
@@ -2157,7 +2167,7 @@ namespace ROC
 					{
 						idleCount = 0;
 						System.Threading.Thread.Sleep(1);
-						Application.DoEvents();
+						System.Windows.Forms.Application.DoEvents();
 					}
 
 					if (symbolList[index].Contains(mdSymbol))
@@ -2255,32 +2265,19 @@ namespace ROC
 
 			if (GLOBAL.Interrupt && !IsProcessing) {
 				GLOBAL.Interrupt = false;
-				Application.DoEvents();
+				System.Windows.Forms.Application.DoEvents();
 			}
 		}
 
 		// Update with matching market data option chain OPRA and NBBO
 		private void UpdateMarketDataOptionDeltas(Market marketDeltas)
 		{
-			DataRowView[] rows = new DataRowView[0];
+			DataRowView[] rows;
 
 			lock (rocOptionList.RocGridTable)
 			{
 				foreach ((string symbol, Book delta) in marketDeltas)
 					updateBookDataOptionDeltas(symbol, delta);
-			}
-		}
-
-		// Update with matching market data option chain OPRA and NBBO
-		private void UpdateMarketDataOptionDeltas(Market deltas, List<string> symbolList)
-		{
-			lock (rocOptionList.RocGridTable)
-			{
-				foreach (string symbol in symbolList)
-				{
-					if (deltas.TryGet(symbol, out Book delta))
-						updateBookDataOptionDeltas(symbol, delta);
-				}
 			}
 		}
 
@@ -3669,26 +3666,18 @@ namespace ROC
 
 				if (cboExpiration.Text != "")
 				{
-					Nullable<DateTime> tDT = ConvertFromDisplayDate(cboExpiration.Text);
-					if (tDT != null)
-					{
-						if (rocOptionList.CurrentExpDate != (DateTime)tDT)
-						{
-							rocOptionList.CurrentExpDate = (DateTime)tDT;
+					string dateText = cboExpiration.Text;
+					if (dateText.Contains("(")) {
+						string[] t = dateText.Split(new string[] { "(" }, StringSplitOptions.None);
+						if (t.Length >= 2) {
+							dateText = t[1].Replace(")", "");
 						}
-						//else
-						//{
-						//    //GLOBAL.HROC.AddToStatusLogs("Duplicated CurrentExpDate");
-						//    if (((TimeSpan)DateTime.Now.Subtract(_lastValidateTime)).Milliseconds < _validateTicketValuesRate)
-						//    {
-						//        Application.DoEvents();
-						//    }
-						//}
 					}
-					else
-					{
+
+					if (TimeFormats.TryParse(dateText, out DateTime when))
 						GLOBAL.HROC.AddToAlerts("Invalid ExpDate");
-					}
+					else if (rocOptionList.CurrentExpDate != when)
+						rocOptionList.CurrentExpDate = when;
 				}
 
 				if (cboStrike.Text != "")

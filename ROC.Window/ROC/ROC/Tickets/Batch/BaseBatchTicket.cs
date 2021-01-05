@@ -152,7 +152,7 @@ namespace ROC
 							}
 							break;
 						case 1:  // Qty
-							if (Int64.TryParse(txtCells[i].Replace(",", ""), out qty))
+							if (long.TryParse(txtCells[i].Replace(",", ""), out qty))
 							{
 								row["Qty"] = qty;
 							}
@@ -161,7 +161,7 @@ namespace ROC
 							row["Side"] = (string)txtCells[i];
 							break;
 						case 3:  // Price
-							if (Double.TryParse(txtCells[i].Replace(",", ""), out price))
+							if (double.TryParse(txtCells[i].Replace(",", ""), out price))
 							{
 								row["Price"] = price;
 							}
@@ -194,13 +194,13 @@ namespace ROC
 							row["ExecInstruction"] = (string)txtCells[i];
 							break;
 						case 13:  // StopPrice
-							if (Double.TryParse(txtCells[i].Replace(",", ""), out stopPrice))
+							if (double.TryParse(txtCells[i].Replace(",", ""), out stopPrice))
 							{
 								row["StopPrice"] = stopPrice;
 							}
 							break;
 						case 14:  // PegPrice
-							if (Double.TryParse(txtCells[i].Replace(",", ""), out pegPrice))
+							if (double.TryParse(txtCells[i].Replace(",", ""), out pegPrice))
 							{
 								row["PegPrice"] = pegPrice;
 							}
@@ -343,7 +343,7 @@ namespace ROC
 						case "SymbolDetail":
 							break;
 						case "Qty":
-							if (Int64.TryParse(HelperBatchCSV.CSVDefaultValue[colName], out qty))
+							if (long.TryParse(HelperBatchCSV.CSVDefaultValue[colName], out qty))
 							{
 								BatchGrid.RocGridTable.Columns["Qty"].DefaultValue = qty;
 							}
@@ -352,7 +352,7 @@ namespace ROC
 							BatchGrid.RocGridTable.Columns["Side"].DefaultValue = HelperBatchCSV.CSVDefaultValue[colName];
 							break;
 						case "Price":
-							if (Double.TryParse(HelperBatchCSV.CSVDefaultValue[colName], out price))
+							if (double.TryParse(HelperBatchCSV.CSVDefaultValue[colName], out price))
 							{
 								BatchGrid.RocGridTable.Columns["Price"].DefaultValue = price;
 							}
@@ -385,13 +385,13 @@ namespace ROC
 							BatchGrid.RocGridTable.Columns["ExecInstruction"].DefaultValue = HelperBatchCSV.CSVDefaultValue[colName];
 							break;
 						case "StopPrice":
-							if (Double.TryParse(HelperBatchCSV.CSVDefaultValue[colName], out stopPrice))
+							if (double.TryParse(HelperBatchCSV.CSVDefaultValue[colName], out stopPrice))
 							{
 								BatchGrid.RocGridTable.Columns["StopPrice"].DefaultValue = stopPrice;
 							}
 							break;
 						case "PegPrice":
-							if (Double.TryParse(HelperBatchCSV.CSVDefaultValue[colName], out pegPrice))
+							if (double.TryParse(HelperBatchCSV.CSVDefaultValue[colName], out pegPrice))
 							{
 								BatchGrid.RocGridTable.Columns["PegPrice"].DefaultValue = pegPrice;
 							}
@@ -1372,7 +1372,7 @@ namespace ROC
 				if (order.localAcctAcrn == "")
 				{
 					// User didn't specify an account, use the first destination found
-					foreach (DestinationMap destMap in acctMap.Destinations.Values)
+					foreach (DestinationMap destMap in acctMap.Destinations)
 					{
 						if (destMap.shortName == order.exchangeID)
 						{
@@ -1385,7 +1385,7 @@ namespace ROC
 				{
 					if (acctMap.account == order.localAcctAcrn)
 					{
-						foreach (DestinationMap destMap in acctMap.Destinations.Values)
+						foreach (DestinationMap destMap in acctMap.Destinations)
 						{
 							if (destMap.shortName == order.exchangeID)
 							{
@@ -2192,7 +2192,7 @@ namespace ROC
 							{
 								if (acctMap.account.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
-									foreach (DestinationMap destMap in acctMap.Destinations.Values)
+									foreach (DestinationMap destMap in acctMap.Destinations)
 										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
@@ -2201,7 +2201,7 @@ namespace ROC
 							{
 								if (acctMap.account.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
-									foreach (DestinationMap destMap in acctMap.Destinations.Values)
+									foreach (DestinationMap destMap in acctMap.Destinations)
 										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}
@@ -2210,7 +2210,7 @@ namespace ROC
 							{
 								if (acctMap.account.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
-									foreach (DestinationMap destMap in acctMap.Destinations.Values)
+									foreach (DestinationMap destMap in acctMap.Destinations)
 										items.TryAdd(destMap.shortName, destMap.shortName);
 								}
 							}

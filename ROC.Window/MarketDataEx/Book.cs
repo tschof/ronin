@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DateTime = System.DateTime;
 
-using Price = Common.Price;
+using Common;
 
 namespace MarketData
 {
@@ -123,7 +123,13 @@ namespace MarketData
 		public QuoteCollection Asks { get { return _asks; } }
 		public QuoteCollection TradedVolumes { get { return _volumes; } }
 
-		private static string[] _timeFormats = new string[] { "HH:mm:ss.fff" };
+		private static class TimeFormats
+		{
+			internal static bool TryParse(string text, out DateTime value)
+			{
+				return DateTime.TryParseExact(text, "HH:mm:ss.fff", System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out value);
+			}
+		}
 
 		public long Count {
 			get {
@@ -223,8 +229,7 @@ namespace MarketData
 				case FieldEnum.uOnMsgTimeDelta:
 					if (tryGetField(FieldEnum.LineTime, _strings, null, out string lineTimeText, null)) {
 						if (TryGetField(FieldEnum.uOnMsgTime, out DateTime onMsgTime)) {
-							DateTime lineTime;
-							if (DateTime.TryParseExact(lineTimeText, _timeFormats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out lineTime)) {
+							if (TimeFormats.TryParse(lineTimeText, out DateTime lineTime)) {
 								value = onMsgTime.Subtract(lineTime.ToLocalTime()).TotalMilliseconds;
 								return true;
 							}
@@ -321,13 +326,13 @@ namespace MarketData
 			mergeFields(_longs, _indexes, other._longs, other._indexes, FieldEnum.AskSize, FieldEnum.TradeVolume, clobber);
 		}
 
-		public void RoundPrices(int digits, double? askPrice, double? bidPrice, double? highPrice, double? lowPrice)
+		public void RoundPrices(int digits, Price? askPrice, Price? bidPrice, Price? highPrice, Price? lowPrice)
 		{
 			if (askPrice.HasValue)
-				setField(FieldEnum.AskPrice, _doubles, askPrice.Value, false);
+				setField(FieldEnum.AskPrice, _doubles, askPrice.Value.Value, false);
 
 			if (bidPrice.HasValue)
-				setField(FieldEnum.BidPrice, _doubles, askPrice.Value, false);
+				setField(FieldEnum.BidPrice, _doubles, askPrice.Value.Value, false);
 
 			byte i = _indexes[(byte)FieldEnum.TradePrice];
 			if (i != UNSET_INDEX) {
@@ -337,13 +342,13 @@ namespace MarketData
 				_doubles[i] = roundedTradePrice;
 
 				if (highPrice.HasValue) {
-					if ((highPrice == 0) || (roundedTradePrice > highPrice.Value))
-						setField(FieldEnum.HighPrice, _doubles, highPrice.Value, false);
+					if ((highPrice.Value.IsZero) || (highPrice.Value < roundedTradePrice))
+						setField(FieldEnum.HighPrice, _doubles, highPrice.Value.Value, false);
 				}
 
 				if (lowPrice.HasValue) {
-					if ((lowPrice == 0) || (roundedTradePrice < lowPrice.Value))
-						setField(FieldEnum.LowPrice, _doubles, lowPrice.Value, false);
+					if ((lowPrice.Value.IsZero) || (lowPrice.Value > roundedTradePrice))
+						setField(FieldEnum.LowPrice, _doubles, lowPrice.Value.Value, false);
 				}
 			}
 		}

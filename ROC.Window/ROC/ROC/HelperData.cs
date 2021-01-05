@@ -727,7 +727,7 @@ namespace ROC
 		public void Update(TPOSPosition position)
 		{
 			string key = position.PositionKey;
-			double cost = 0;
+			double cost;
 
 			lock (TposItems) {
 				if (TposItems.TryGetValue(key, out TPOSPosition found)) {
