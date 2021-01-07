@@ -58,8 +58,6 @@
     <Compile Include="AccountMap.cs" />
     <Compile Include="BaseExecution.cs" />
     <Compile Include="BaseOptionInfo.cs" />
-    <Compile Include="BaseOrder.cs" />
-    <Compile Include="BasePosition.cs" />
     <Compile Include="BaseSecurityInfo.cs" />
     <Compile Include="DestinationMap.cs" />
     <Compile Include="GLOBAL.cs" />
@@ -79,7 +77,7 @@
     <Compile Include="ROCExecution.cs" />
     <Compile Include="ROCOrder.cs" />
     <Compile Include="TPOSExecution.cs" />
-    <Compile Include="TPOSPosition.cs" />
+    <Compile Include="RDSPosition.cs" />
     <Compile Include="Web References\WEB\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -121,6 +119,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common\Common.csproj">
+      <Project>{b04cd92b-ee29-45f3-99bc-575fda6377f6}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CSVEx\CSVEx.csproj">
       <Project>{35C6744A-3DA9-4E4D-BDDB-C3A9E9474A86}</Project>
       <Name>CSVEx</Name>
@@ -128,6 +130,10 @@
     <ProjectReference Include="..\DictionaryEx\DictionaryEx.csproj">
       <Project>{4075C74D-02B0-48F4-8488-1A6FA79D1DC7}</Project>
       <Name>DictionaryEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarketDataEx\MarketData.csproj">
+      <Project>{3b927e75-c8d6-4fa0-8f65-48db2740bd88}</Project>
+      <Name>MarketData</Name>
     </ProjectReference>
     <ProjectReference Include="..\SerializationEx\SerializationEx.csproj">
       <Project>{BA0B3DF9-6888-42EA-98A7-2CBAB413CB10}</Project>

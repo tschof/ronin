@@ -50,7 +50,7 @@ namespace ROC
 
 		public bool Connect()
 		{
-			return _server.Connect(GLOBAL.HROM.UserName, GLOBAL.HROM.Password);
+			return _server.Connect(GLOBAL.OrderManagers.UserName, GLOBAL.OrderManagers.Password);
 		}
 
 		public void Reconnect()

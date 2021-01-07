@@ -38,6 +38,7 @@ namespace ROC
 
 		// Sounds
 		private bool _playAllStatusSound = false;
+		private object _newROCStatusToPlayLock = new object();
 		private List<long> _newROCStatusToPlay = new List<long>();
 
 		// All Server Delta List
@@ -49,6 +50,7 @@ namespace ROC
 		// Market Data Process Limit
 		private int _newMarketDataProcessLimit = 0;
 
+		private object _currentReplayListLock = new object();
 		private List<string> _currentReplayList = new List<string>();
 
 		private bool _loadIMMarketData = false;
@@ -59,7 +61,7 @@ namespace ROC
 
 		public void AddToReplayList(string symbol)
 		{
-			lock (_currentReplayList)
+			lock (_currentReplayListLock)
 			{
 				if (!_currentReplayList.Contains(symbol))
 				{
@@ -297,7 +299,7 @@ namespace ROC
 		public void ProcessAllMarketData()
 		{
 			//DateTime hpDTStart = DateTime.Now;
-			if (GLOBAL.HROM.EndOfQueuedMsg && GLOBAL.MainForm != null)
+			if (GLOBAL.OrderManagers.EndOfQueuedMsg && GLOBAL.MainForm != null)
 			{
 				if (_newMarketDataProcessLimit != 0)
 				{
@@ -508,7 +510,7 @@ namespace ROC
 			// Process Orders First
 			if (_newCSVs.Length == 0)
 			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 				{
 					Market deltas = mds.GetMarketDeltas();
 					if (deltas != null)
@@ -538,19 +540,16 @@ namespace ROC
 
 				GLOBAL.HMarketData.Current.Merge(_mergedMarketDelta);
 
-				if (_currentReplayList.Count > 0)
-				{
-					lock (_currentReplayList)
-					{
-						string[] replaySymbols = _currentReplayList.ToArray();
-						foreach (string symbol in replaySymbols)
-						{
-							if (GLOBAL.HMarketData.Current.TryGet(symbol, out Book book)) {
-								_mergedMarketDelta.Update(symbol, book);
-								// remove from replay list
-								_currentReplayList.Remove(symbol);
-							}
-						}
+				List<string> replaySymbols;
+				lock (_currentReplayListLock) {
+					replaySymbols = _currentReplayList;
+					_currentReplayList = new List<string>();
+				}
+
+				if ((replaySymbols != null) && (replaySymbols.Count > 0)) {
+					foreach (string symbol in replaySymbols) {
+						if (GLOBAL.HMarketData.Current.TryGet(symbol, out Book book))
+							_mergedMarketDelta.Update(symbol, book);
 					}
 				}
 			}
@@ -564,7 +563,7 @@ namespace ROC
 		{
 			while (!_threadProcessCSVShouldStop)
 			{
-				GLOBAL.HROM.AddToCSVs();
+				GLOBAL.OrderManagers.AddToCSVs();
 
 				if (GLOBAL.MainForm != null)
 				{
@@ -598,7 +597,7 @@ namespace ROC
 		{
 			//DateTime hpDTStart = DateTime.Now;
 
-			if (GLOBAL.HROM.EndOfQueuedMsg && GLOBAL.MainForm != null)
+			if (GLOBAL.OrderManagers.EndOfQueuedMsg && GLOBAL.MainForm != null)
 			{
 				try
 				{
@@ -673,84 +672,32 @@ namespace ROC
 
 		private void GetNewCsvs()
 		{
-			_newCSVs = new CSV[0];
-			lock (GLOBAL.HROM.NewCriticalRomCSVs)
-			{
-				if (GLOBAL.HROM.NewCriticalRomCSVs.Count > 0)
-				{
-					_newCSVs = new CSV[GLOBAL.HROM.NewCriticalRomCSVs.Count];
-					GLOBAL.HROM.NewCriticalRomCSVs.CopyTo(_newCSVs, 0);
-					GLOBAL.HROM.NewCriticalRomCSVs.Clear();
-					return;
-				}
+			List<CSV> csvs = GLOBAL.OrderManagers.TakeNewCriticalRomCSVs();
+			if ((csvs != null) && (csvs.Count > 0)) {
+				_newCSVs = csvs.ToArray();
+				return;
 			}
 
-			lock (GLOBAL.HROM.NewRomCSVs)
-			{
-				if (GLOBAL.HROM.NewRomCSVs.Count > 0)
-				{
-					//if (Configuration.User.Default.DelayUIProcess && GLOBAL.HROM.NewRomCSVs.Count > _newCSVProcessLimit)
-					//{
-					//    _newCSVs = new CSV[_newCSVProcessLimit];
-					//    GLOBAL.HROM.NewRomCSVs.CopyTo(0, _newCSVs, 0, _newCSVProcessLimit);
-					//    GLOBAL.HROM.NewRomCSVs.RemoveRange(0, _newCSVProcessLimit);
-					//}
-					//else
-					//{
-						_newCSVs = new CSV[GLOBAL.HROM.NewRomCSVs.Count];
-						GLOBAL.HROM.NewRomCSVs.CopyTo(_newCSVs, 0);
-						GLOBAL.HROM.NewRomCSVs.Clear();
-					//}
-				}
+			csvs = GLOBAL.OrderManagers.TakeNewROMCSVs();
+			if ((csvs != null) && (csvs.Count > 0)) {
+				_newCSVs = csvs.ToArray();
+				return;
 			}
 		}
 
 		private void GetNewRocOrders()
 		{
-			_newROCOrders = new List<ROCOrder>();
-			lock (GLOBAL.HROM.NewOrders)
-			{
-				if (GLOBAL.HROM.NewOrders.Count > 0)
-				{
-					ROCOrder[] locArray = new ROCOrder[GLOBAL.HROM.NewOrders.Values.Count];
-					GLOBAL.HROM.NewOrders.Values.CopyTo(locArray, 0);
-					_newROCOrders.AddRange(locArray);
-
-					GLOBAL.HROM.NewOrders.Clear();
-				}
-			}
+			_newROCOrders = GLOBAL.OrderManagers.TakeNewOrders();
 		}
 
 		private void GetNewRocExecutions()
 		{
-			_newROCExecutions = new List<ROCExecution>();
-			lock (GLOBAL.HROM.NewExecutions)
-			{
-				if (GLOBAL.HROM.NewExecutions.Count > 0)
-				{
-					ROCExecution[] locArray = new ROCExecution[GLOBAL.HROM.NewExecutions.Values.Count];
-					GLOBAL.HROM.NewExecutions.Values.CopyTo(locArray, 0);
-					_newROCExecutions.AddRange(locArray);
-
-					GLOBAL.HROM.NewExecutions.Clear();
-				}
-			}
+			_newROCExecutions = GLOBAL.OrderManagers.TakeNewExecutions();
 		}
 
 		private void GetNewTposExecutions()
 		{
-			_newTPOSExecutions = new List<TPOSExecution>();
-			if (GLOBAL.HRDS.NewTposExecutions.Count > 0)
-			{
-				lock (GLOBAL.HRDS.NewTposExecutions)
-				{
-					TPOSExecution[] locArray = new TPOSExecution[GLOBAL.HRDS.NewTposExecutions.Values.Count];
-					GLOBAL.HRDS.NewTposExecutions.Values.CopyTo(locArray, 0);
-					_newTPOSExecutions.AddRange(locArray);
-
-					GLOBAL.HRDS.NewTposExecutions.Clear();
-				}
-			}
+			_newTPOSExecutions = GLOBAL.HRDS.TakeNewTposExecutions();
 		}
 
 		#region - Processing CSVs -
@@ -768,17 +715,14 @@ namespace ROC
 							CsvToOrder(csv);
 							break;
 						case CSVFieldIDs.MessageTypes.OrderStatus:
-							if (GLOBAL.HROM.OrginalCSVs.TryGetValue(csv.Tag, out CSV found))
+							if (GLOBAL.OrderManagers.FetchOrginalCSVs(csv.Tag, out CSV found))
 							{
 								#region - Status Check -
 
 								switch (csv.Status)
 								{
 									case CSVEx.CSVFieldIDs.StatusCodes.CancelRejected:
-										if (GLOBAL.HROM.CanceledOrderIDs.Contains(csv.Tag))
-										{
-											GLOBAL.HROM.CanceledOrderIDs.Remove(csv.Tag);
-										}
+										GLOBAL.OrderManagers.RemoveCanceledOrderIDs(csv.Tag);
 										break;
 								}
 
@@ -786,7 +730,7 @@ namespace ROC
 
 								#region - Status Sounds -
 
-								lock (_newROCStatusToPlay)
+								lock (_newROCStatusToPlayLock)
 								{
 									if (_playAllStatusSound || !_newROCStatusToPlay.Contains(csv.Status))
 									{
@@ -1012,8 +956,8 @@ namespace ROC
 
 									if (baseSuffix != null) {
 										_tStopBaseTag = csv.Tag.Substring(0, csv.Tag.Length - 1) + baseSuffix;
-										if (GLOBAL.HROM.OrginalCSVs.TryGetValue(_tStopBaseTag, out CSV original))
-											GLOBAL.HROM.CancelSingleOrder(original);
+										if (GLOBAL.OrderManagers.FetchOrginalCSVs(_tStopBaseTag, out CSV original))
+											GLOBAL.OrderManagers.CancelSingleOrder(original);
 									}
 								}
 
@@ -1119,222 +1063,11 @@ namespace ROC
 				csv.Tag != null && 
 				csv.Tag != "")
 			{
-				ROCOrder order = new ROCOrder();
+				ROCOrder order = new ROCOrder(csv);
 
-				#region - Update Order Fields -
+				order.MakeRocStatus();
 
-				#region - String -
-
-				if (csv.Contains(CSVFieldIDs.CallPut))
-				{
-					order.Set(OrderFieldIDs.ROC.callPut, csv.CallPut);
-				}
-				if (csv.Contains(CSVFieldIDs.ClearingAcct))
-				{
-					order.Set(OrderFieldIDs.ROC.clearingAccount, csv.ClearingAcct);
-				}
-				if (csv.Contains(CSVFieldIDs.ClearingID))
-				{
-					order.Set(OrderFieldIDs.ROC.clearingID, csv.ClearingID);
-				}
-				if (csv.Contains(CSVFieldIDs.ExpDate))
-				{
-					order.Set(OrderFieldIDs.ROC.expDate, csv.ExpDate);
-				}
-				if (csv.Contains(CSVFieldIDs.MaturityDay))
-				{
-					order.Set(OrderFieldIDs.ROC.maturityDay, csv.MaturityDay);
-				}
-				if (csv.Contains(CSVFieldIDs.Firm))
-				{
-					order.Set(OrderFieldIDs.ROC.firm, csv.Firm);
-				}
-				if (csv.Contains(CSVFieldIDs.Instructions))
-				{
-					order.Set(OrderFieldIDs.ROC.instructions, csv.Instructions);
-				}
-				if (csv.Contains(CSVFieldIDs.ExecutionInstruction))
-				{
-					order.Set(OrderFieldIDs.ROC.execInstruction, csv.ExecutionInstruction);
-				}
-				if (csv.Contains(CSVFieldIDs.LocalAcct))
-				{
-					order.Set(OrderFieldIDs.ROC.localAcct, csv.LocalAcct);
-				}
-				if (csv.Contains(CSVFieldIDs.OmTag))
-				{
-					order.Set(OrderFieldIDs.ROC.omTag, csv.OmTag);
-				}
-				if (csv.Contains(CSVFieldIDs.OpenClose))
-				{
-					order.Set(OrderFieldIDs.ROC.openClose, csv.OpenClose);
-				}
-				if (csv.Contains(CSVFieldIDs.Owner))
-				{
-					order.Set(OrderFieldIDs.ROC.owner, csv.Owner);
-				}
-				if (csv.Contains(CSVFieldIDs.SecType))
-				{
-					order.Set(OrderFieldIDs.ROC.secType, csv.SecType);
-				}
-				if (csv.Contains(CSVFieldIDs.Symbol))
-				{
-					order.Set(OrderFieldIDs.ROC.symbol, csv.Symbol);
-				}
-				if (csv.Contains(CSVFieldIDs.Tag))
-				{
-					order.Set(OrderFieldIDs.ROC.tag, csv.Tag);
-				}
-				if (csv.Contains(CSVFieldIDs.Text))
-				{
-					order.Set(OrderFieldIDs.ROC.text, csv.Text);
-				}
-				if (csv.Contains(CSVFieldIDs.TradeFor))
-				{
-					order.Set(OrderFieldIDs.ROC.tradeFor, csv.TradeFor);
-				}
-				if (csv.Contains(CSVFieldIDs.Trader))
-				{
-					order.Set(OrderFieldIDs.ROC.trader, csv.Trader);
-				}
-				if (csv.Contains(CSVFieldIDs.Underlying))
-				{
-					order.Set(OrderFieldIDs.ROC.underlying, csv.Underlying);
-				}
-				if (csv.Contains(CSVFieldIDs.SecurityDefinition))
-				{
-					order.Set(OrderFieldIDs.ROC.securityDefinition, csv.SecurityDefinition);
-				}
-				if (csv.Contains(CSVFieldIDs.ParentTag))
-				{
-					order.Set(OrderFieldIDs.ROC.parentTag, csv.ParentTag);
-				}
-				if (csv.Contains(CSVFieldIDs.ClientEcho))
-				{
-					order.Set(OrderFieldIDs.ROC.clientEcho, csv.ClientEcho);
-				}
-				if (csv.Contains(CSVFieldIDs.ProgramTrade))
-				{
-					order.Set(OrderFieldIDs.ROC.programTrade, csv.ProgramTrade);
-				}
-				if (csv.Contains(CSVFieldIDs.CMTAAccount))
-				{
-					order.Set(OrderFieldIDs.ROC.cmtaFirmID, csv.CMTAAccount);
-				}
-
-				#endregion
-
-				#region - Double -
-
-				if (csv.Contains(CSVFieldIDs.AveragePrice))
-				{
-					order.Set(OrderFieldIDs.ROC.avgPrice, csv.AveragePrice);
-				}
-				if (csv.Contains(CSVFieldIDs.Price))
-				{
-					order.Set(OrderFieldIDs.ROC.price, csv.Price);
-				}
-				if (csv.Contains(CSVFieldIDs.OriginalPrice))
-				{
-					order.Set(OrderFieldIDs.ROC.originalPrice, csv.OriginalPrice);
-				}
-				if (csv.Contains(CSVFieldIDs.ExecPrice))
-				{
-					order.Set(OrderFieldIDs.ROC.execPrice, csv.ExecPrice);
-				}
-				if (csv.Contains(CSVFieldIDs.StopPrice))
-				{
-					order.Set(OrderFieldIDs.ROC.stopPrice, csv.StopPrice);
-				}
-				if (csv.Contains(CSVFieldIDs.PegOffsetPrice))
-				{
-					order.Set(OrderFieldIDs.ROC.pegPrice, csv.PegOffsetPrice);
-				}
-				if (csv.Contains(CSVFieldIDs.StrikePrice))
-				{
-					order.Set(OrderFieldIDs.ROC.strikePrice, csv.StrikePrice);
-				}
-				if (csv.Contains(CSVFieldIDs.ExecutionTime))
-				{
-					order.Set(OrderFieldIDs.ROC.omTime, csv.ExecutionTime.ToOADate());
-				}
-				else
-				{
-					order.Set(OrderFieldIDs.ROC.omTime, csv.OmTime.ToOADate());
-				}
-				if (csv.Contains(CSVFieldIDs.EndTime))
-				{
-					order.Set(OrderFieldIDs.ROC.endTime, csv.EndTime.ToOADate());
-				}
-				if (csv.Contains(CSVFieldIDs.OrderExpirationDateTime))
-				{
-					order.Set(OrderFieldIDs.ROC.orderExpiresDate, csv.OrderExpirationDateTime.ToOADate());
-				}
-
-				#endregion
-
-				#region - Long -
-
-				if (csv.Contains(CSVFieldIDs.CplxOrderType))
-				{
-					order.Set(OrderFieldIDs.ROC.cplxOrderType, csv.CplxOrderType);
-				}
-				if (csv.Contains(CSVFieldIDs.CumShares))
-				{
-					order.Set(OrderFieldIDs.ROC.cumQty, csv.CumShares);
-				}
-				if (csv.Contains(CSVFieldIDs.ExchangeID))
-				{
-					order.Set(OrderFieldIDs.ROC.destID, csv.ExchangeID);
-				}
-				if (csv.Contains(CSVFieldIDs.AlgoExchangeID))
-				{
-					order.Set(OrderFieldIDs.ROC.algoDestID, csv.AlgoExchangeID);
-				}
-				if (csv.Contains(CSVFieldIDs.Floor))
-				{
-					order.Set(OrderFieldIDs.ROC.maxFloor, csv.Floor);
-				}
-				if (csv.Contains(CSVFieldIDs.LeaveShares))
-				{
-					order.Set(OrderFieldIDs.ROC.leavesQty, csv.LeaveShares);
-				}
-				if (csv.Contains(CSVFieldIDs.OriginalShares))
-				{
-					order.Set(OrderFieldIDs.ROC.originalShares, csv.OriginalShares);
-				}
-				if (csv.Contains(CSVFieldIDs.Shares))
-				{
-					order.Set(OrderFieldIDs.ROC.qty, csv.Shares);
-				}
-				if (csv.Contains(CSVFieldIDs.Side))
-				{
-					order.Set(OrderFieldIDs.ROC.side, csv.Side);
-				}
-				if (csv.Contains(CSVFieldIDs.Status))
-				{
-					order.Set(OrderFieldIDs.ROC.status, csv.Status);
-				}
-				if (csv.Contains(CSVFieldIDs.TIF))
-				{
-					order.Set(OrderFieldIDs.ROC.tif, csv.TIF);
-				}
-				if (csv.Contains(CSVFieldIDs.Type))
-				{
-					order.Set(OrderFieldIDs.ROC.orderType, csv.Type);
-				}
-				if (csv.Contains(CSVFieldIDs.AlgoType))
-				{
-					order.Set(OrderFieldIDs.ROC.algoType, csv.AlgoType);
-				}
-
-				#endregion
-
-				GLOBAL.HRDS.MakeRocStatus(ref order);
-
-				#endregion
-
-				if (GLOBAL.HROM.EndOfQueuedMsg)
+				if (GLOBAL.OrderManagers.EndOfQueuedMsg)
 				{
 					AddToRomOrders(order, false);
 
@@ -1357,209 +1090,9 @@ namespace ROC
 				(csv.Status == CSVEx.CSVFieldIDs.StatusCodes.Filled || csv.Status == CSVEx.CSVFieldIDs.StatusCodes.PartiallyFilled))
 				//csv.CplxOrderType != CSVEx.CSVFieldIDs.CplxOrderTypes.Continer && (csv.Status == CSVEx.CSVFieldIDs.StatusCodes.Filled || csv.Status == CSVEx.CSVFieldIDs.StatusCodes.PartiallyFilled))
 			{
-				ROCExecution traded = new ROCExecution();
+				ROCExecution traded = new ROCExecution(csv);
 
-				#region - String -
-
-				if (csv.Contains(CSVFieldIDs.OmTag))
-				{
-					traded.Set(TradedFieldIDs.ROC.omTag, csv.OmTag);
-				}
-				if (csv.Contains(CSVFieldIDs.OmExecTag))
-				{
-					traded.Set(TradedFieldIDs.ROC.omExecTag, csv.OmExecTag);
-				}
-				if (csv.Contains(CSVFieldIDs.ClearingAcct))
-				{
-					traded.Set(TradedFieldIDs.ROC.account, csv.ClearingAcct);
-				}
-				if (csv.Contains(CSVFieldIDs.Trader))
-				{
-					traded.Set(TradedFieldIDs.ROC.trader, csv.Trader);
-				}
-				if (csv.Contains(CSVFieldIDs.LocalAcct))
-				{
-					traded.Set(TradedFieldIDs.ROC.localAcct, csv.LocalAcct);
-				}
-				if (csv.Contains(CSVFieldIDs.Symbol))
-				{
-					traded.Set(TradedFieldIDs.ROC.symbol, csv.Symbol);
-				}
-				if (csv.Contains(CSVFieldIDs.ExpDate))
-				{
-					traded.Set(TradedFieldIDs.ROC.expDate, csv.ExpDate);
-				}
-				if (csv.Contains(CSVFieldIDs.MaturityDay))
-				{
-					traded.Set(TradedFieldIDs.ROC.maturityDay, csv.MaturityDay);
-				}
-				if (csv.Contains(CSVFieldIDs.CallPut))
-				{
-					traded.Set(TradedFieldIDs.ROC.callPut, csv.CallPut);
-				}
-				if (csv.Contains(CSVFieldIDs.Underlying))
-				{
-					traded.Set(TradedFieldIDs.ROC.underlying, csv.Underlying);
-				}
-				if (csv.Contains(CSVFieldIDs.SecType))
-				{
-					traded.Set(TradedFieldIDs.ROC.secType, csv.SecType);
-				}
-				if (csv.Contains(CSVFieldIDs.CplxOrderType))
-				{
-					traded.Set(TradedFieldIDs.ROC.cplxOrderType, csv.CplxOrderType);
-				}
-				if (csv.Contains(CSVFieldIDs.ProgramTrade))
-				{
-					traded.Set(TradedFieldIDs.ROC.programTrade, csv.ProgramTrade);
-				}
-
-				#endregion
-
-				#region - Double -
-
-				if (csv.Contains(CSVFieldIDs.ExecPrice))
-				{
-					traded.Set(TradedFieldIDs.ROC.execPrice, csv.ExecPrice);
-				}
-				if (csv.Contains(CSVFieldIDs.StrikePrice))
-				{
-					traded.Set(TradedFieldIDs.ROC.strikePrice, csv.StrikePrice);
-				}
-				if (csv.Contains(CSVFieldIDs.ExecutionTime))
-				{
-					traded.Set(TradedFieldIDs.ROC.execTime, csv.ExecutionTime.ToOADate());
-				}
-
-				#endregion
-
-				#region - Long -
-
-				if (csv.Contains(CSVFieldIDs.LastShares))
-				{
-					traded.Set(TradedFieldIDs.ROC.execQty, csv.LastShares);
-				}
-				if (csv.Contains(CSVFieldIDs.ExchangeID))
-				{
-					traded.Set(TradedFieldIDs.ROC.destID, csv.ExchangeID);
-				}
-				if (csv.Contains(CSVFieldIDs.AlgoExchangeID))
-				{
-					traded.Set(TradedFieldIDs.ROC.algoDestID, csv.AlgoExchangeID);
-				}
-				if (csv.Contains(CSVFieldIDs.Side))
-				{
-					traded.Set(TradedFieldIDs.ROC.side, csv.Side);
-				}
-				if (csv.Contains(CSVFieldIDs.CplxOrderType))
-				{
-					traded.Set(TradedFieldIDs.ROC.cplxOrderType, csv.CplxOrderType);
-				}
-
-				#endregion
-
-				#region - Not Used -
-
-				#region - Strings -
-
-				//foreach (int key in csv.Strings.Keys)
-				//{
-				//    switch (key)
-				//    {
-				//        case CSVFieldIDs.OmTag:
-				//            traded.Update(TradedFieldIDs.ROC.omTag, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.OmExecTag:
-				//            traded.Update(TradedFieldIDs.ROC.omExecTag, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.ClearingAcct:
-				//            traded.Update(TradedFieldIDs.ROC.account, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.Trader:
-				//            traded.Update(TradedFieldIDs.ROC.trader, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.LocalAcct:
-				//            traded.Update(TradedFieldIDs.ROC.localAcct, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.Symbol:
-				//            traded.Update(TradedFieldIDs.ROC.symbol, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.ExpDate:
-				//            traded.Update(TradedFieldIDs.ROC.expDate, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.MaturityDay:
-				//            traded.Update(TradedFieldIDs.ROC.maturityDay, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.CallPut:
-				//            traded.Update(TradedFieldIDs.ROC.callPut, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.Underlying:
-				//            traded.Update(TradedFieldIDs.ROC.underlying, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.SecType:
-				//            traded.Update(TradedFieldIDs.ROC.secType, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.CplxOrderType:
-				//            traded.Update(TradedFieldIDs.ROC.cplxOrderType, csv.Strings[key]);
-				//            break;
-				//        case CSVFieldIDs.ProgramTrade:
-				//            traded.Update(TradedFieldIDs.ROC.programTrade, csv.Strings[key]);
-				//            break;
-				//    }
-				//}
-
-				#endregion
-
-				#region - Doubles -
-
-				//foreach (int key in csv.Doubles.Keys)
-				//{
-				//    switch (key)
-				//    {
-				//        case CSVFieldIDs.ExecPrice:
-				//            traded.Update(TradedFieldIDs.ROC.execPrice, csv.Doubles[key]);
-				//            break;
-				//        case CSVFieldIDs.StrikePrice:
-				//            traded.Update(TradedFieldIDs.ROC.strikePrice, csv.Doubles[key]);
-				//            break;
-
-				//        case CSVFieldIDs.ExecutionTime:
-				//            traded.Update(TradedFieldIDs.ROC.execTime, csv.Doubles[key]);
-				//            break;
-				//    }
-				//}
-
-				#endregion
-
-				#region - Longs -
-
-				//foreach (int key in csv.Longs.Keys)
-				//{
-				//    switch (key)
-				//    {
-				//        case CSVFieldIDs.LastShares:
-				//            traded.Update(TradedFieldIDs.ROC.execQty, csv.Longs[key]);
-				//            break;
-				//        case CSVFieldIDs.ExchangeID:
-				//            traded.Update(TradedFieldIDs.ROC.destID, csv.Longs[key]);
-				//            break;
-				//        case CSVFieldIDs.AlgoExchangeID:
-				//            traded.Update(TradedFieldIDs.ROC.algoDestID, csv.Longs[key]);
-				//            break;
-				//        case CSVFieldIDs.Side:
-				//            traded.Update(TradedFieldIDs.ROC.side, csv.Longs[key]);
-				//            break;
-				//        case CSVFieldIDs.CplxOrderType:
-				//            traded.Update(TradedFieldIDs.ROC.cplxOrderType, csv.Longs[key]);
-				//            break;
-				//    }
-				//}
-
-				#endregion
-
-				#endregion
-
-				if (GLOBAL.HROM.EndOfQueuedMsg)
+				if (GLOBAL.OrderManagers.EndOfQueuedMsg)
 				{
 					// Do this after ther preprocessing is done, so that its in sync to tops trades
 					AddToRomExecutions(traded, false);
@@ -1599,7 +1132,7 @@ namespace ROC
 					order = GLOBAL.HOrders.Update(order);
 				}
 
-				GLOBAL.HROM.Update(order, addToNew);
+				GLOBAL.OrderManagers.Update(order, addToNew);
 			}
 		}
 
@@ -1607,7 +1140,7 @@ namespace ROC
 		{
 			if (trade != null && trade.OmExecTag != null && trade.OmExecTag != "")
 			{
-				GLOBAL.HROM.Update(trade, addToNew);
+				GLOBAL.OrderManagers.Update(trade, addToNew);
 
 				lock (GLOBAL.HExecutions.Table)
 				{
@@ -1639,22 +1172,16 @@ namespace ROC
 		{
 			while (!_threadProcessSoundShouldStop)
 			{
-				long[] sounds = new long[0];
-				lock (_newROCStatusToPlay)
-				{
-					if (_newROCStatusToPlay.Count > 0)
-					{
-						sounds = _newROCStatusToPlay.ToArray();
-						_newROCStatusToPlay.Clear();
-					}
+				List<long> sounds, reset = new List<long>();
+				lock (_newROCStatusToPlayLock) {
+					sounds = _newROCStatusToPlay;
+					_newROCStatusToPlay = reset;
 				}
 
-				if (sounds.Length > 0)
+				if ((sounds != null) && (sounds.Count > 0))
 				{
 					foreach (long status in sounds)
-					{
 						PlaySoundByStatus(status);
-					}
 				}
 
 				System.Threading.Thread.Sleep(1);
@@ -1916,7 +1443,7 @@ namespace ROC
 					{
 						try
 						{
-							form.UpdateTicketByProcess(loadIM, orders.ToArray(), deltas);
+							form.UpdateTicketByProcess(loadIM, orders, deltas);
 						}
 						catch (Exception ex)
 						{
@@ -1960,7 +1487,7 @@ namespace ROC
 					{
 						try
 						{
-							form.UpdateTicketByProcess(loadIM, orders.ToArray(), deltas);
+							form.UpdateTicketByProcess(loadIM, orders, deltas);
 						}
 						catch (Exception ex)
 						{
@@ -2025,7 +1552,7 @@ namespace ROC
 		{
 			if (orders.Count > 0)
 			{
-				IntPtr[] keys = new IntPtr[0];
+				IntPtr[] keys;
 				lock (GLOBAL.HWindows.BatchTicketWindows)
 				{
 					keys = new IntPtr[GLOBAL.HWindows.BatchTicketWindows.Count];
@@ -2040,7 +1567,7 @@ namespace ROC
 					{
 						try
 						{
-							GLOBAL.HWindows.BatchTicketWindows[key].LoadRocOrders(orders);
+							form.LoadRocOrders(orders);
 						}
 						catch (Exception ex)
 						{
@@ -2067,7 +1594,7 @@ namespace ROC
 		{
 			if (loadIM || orders.Count > 0 || !deltas.Empty)
 			{
-				IntPtr[] keys = new IntPtr[0];
+				IntPtr[] keys;
 				lock (GLOBAL.HWindows.BatchMarketTicketWindows)
 				{
 					keys = new IntPtr[GLOBAL.HWindows.BatchMarketTicketWindows.Count];
@@ -2082,7 +1609,7 @@ namespace ROC
 					{
 						try
 						{
-							form.UpdateBatchMarketByProcess(loadIM, orders.ToArray(), deltas);
+							form.UpdateBatchMarketByProcess(loadIM, orders, deltas);
 						}
 						catch (Exception ex)
 						{
@@ -2090,10 +1617,7 @@ namespace ROC
 						}
 					}
 				}
-
-				keys = null;
 			}
-
 		}
 
 		#endregion
@@ -2127,7 +1651,7 @@ namespace ROC
 					{
 						try
 						{
-							form.AddUpdateOrdersByProcess(loadIM, orders.ToArray(), deltas);
+							form.AddUpdateOrdersByProcess(loadIM, orders, deltas);
 						}
 						catch (Exception ex)
 						{
@@ -2154,7 +1678,7 @@ namespace ROC
 		{
 			if (loadIM || rocExecutions.Count > 0 || tposExecutions.Count > 0)
 			{
-				IntPtr[] keys = new IntPtr[0];
+				IntPtr[] keys;
 				lock (GLOBAL.HWindows.TradeWindows)
 				{
 					keys = new IntPtr[GLOBAL.HWindows.TradeWindows.Count];
@@ -2165,20 +1689,14 @@ namespace ROC
 				{
 					if (_stopping) return;
 
-					if (GLOBAL.HWindows.TradeWindows.TryGetValue(key, out var form) && !form.IsProcessing)
-					{
-						try
-						{
-							form.AddUpdateTradesByProcess(loadIM, rocExecutions.ToArray(), tposExecutions.ToArray());
-						}
-						catch (Exception ex)
-						{
+					if (GLOBAL.HWindows.TradeWindows.TryGetValue(key, out var form)) {
+						try {
+							form.AddUpdateTradesByProcess(loadIM, rocExecutions, tposExecutions);
+						} catch (Exception ex) {
 							GLOBAL.HROC.AddToException(ex);
 						}
 					}
 				}
-
-				keys = null;
 			}
 		}
 
@@ -2198,31 +1716,23 @@ namespace ROC
 		{
 			if (loadIM || rocExecutions.Count > 0 || tposExecutions.Count > 0 || !deltas.Empty)
 			{
-				IntPtr[] keys = new IntPtr[0];
+				IntPtr[] keys;
 				lock (GLOBAL.HWindows.PositionWindows)
 				{
 					keys = new IntPtr[GLOBAL.HWindows.PositionWindows.Count];
 					GLOBAL.HWindows.PositionWindows.Keys.CopyTo(keys, 0);
 				}
 
-				List<TPOSPosition> newROCPositions = new List<TPOSPosition>();
-				List<TPOSPosition> newTPOSPositions = new List<TPOSPosition>();
+				List<RDSPosition> newROCPositions = new List<RDSPosition>();
+				List<RDSPosition> newTPOSPositions = new List<RDSPosition>();
 
 				if (keys.Length > 0)
 				{
 					foreach (ROCExecution rocExecution in rocExecutions)
-					{
-						TPOSPosition position = new TPOSPosition();
-						ConvertRocExecutionToPosition(rocExecution, ref position);
-						newROCPositions.Add(position);
-					}
+						newROCPositions.Add(new RDSPosition(rocExecution));
 
 					foreach (TPOSExecution tposExecution in tposExecutions)
-					{
-						TPOSPosition position = new TPOSPosition();
-						ConvertTposExecutionToPosition(tposExecution, ref position);
-						newTPOSPositions.Add(position);
-					}
+						newTPOSPositions.Add(new RDSPosition(tposExecution));
 				}
 
 				foreach (IntPtr key in keys)
@@ -2241,69 +1751,6 @@ namespace ROC
 						}
 					}
 				}
-
-				keys = new IntPtr[0];
-			}
-		}
-
-		private void ConvertRocExecutionToPosition(ROCExecution rocExecution, ref TPOSPosition position)
-		{
-			position.Symbol = rocExecution.Symbol;
-			position.Underlying = rocExecution.Underlying;
-			position.ExpDate = rocExecution.ExpDate;
-			position.StrikePrice = rocExecution.StrikePrice;
-			position.CallPut = rocExecution.CallPut;
-			position.SecType = rocExecution.SecType;
-			if (rocExecution.Side == CSVEx.CSVFieldIDs.SideCodes.Buy)
-			{
-				position.BuyAvg = rocExecution.Price;
-				position.BuyQty = rocExecution.Qty;
-			}
-			else
-			{
-				position.SellAvg = rocExecution.Price;
-				position.SellQty = rocExecution.Qty;
-			}
-			if (rocExecution.ClearingAcct.Length > 5)
-			{
-				position.ClearingAcct = rocExecution.ClearingAcct.Substring(0, 5);
-			}
-			else
-			{
-				position.ClearingAcct = rocExecution.ClearingAcct;
-			}
-			position.Trader = rocExecution.LocalAcct;
-		}
-
-		private void ConvertTposExecutionToPosition(TPOSExecution tposExecution, ref TPOSPosition position)
-		{
-			if (tposExecution.ModReasonID != 3)
-			{
-				position.Symbol = tposExecution.Symbol;
-				position.Underlying = tposExecution.Underlying;
-				position.ExpDate = tposExecution.ExpDate;
-				position.StrikePrice = tposExecution.StrikePrice;
-				position.CallPut = tposExecution.CallPut;
-				position.SecType = tposExecution.SecType;
-				if (tposExecution.Side == CSVEx.CSVFieldIDs.SideCodes.Buy)
-				{
-					position.BuyAvg = tposExecution.Price;
-					position.BuyQty = tposExecution.Qty;
-				}
-				else
-				{
-					position.SellAvg = tposExecution.Price;
-					position.SellQty = tposExecution.Qty;
-				}
-				if (tposExecution.ClearingAcct.Length > 5)
-				{
-					position.ClearingAcct = tposExecution.ClearingAcct.Substring(0, 5);
-				}
-				else
-				{
-					position.ClearingAcct = tposExecution.ClearingAcct;
-				}
-				position.Trader = tposExecution.Trader;
 			}
 		}
 

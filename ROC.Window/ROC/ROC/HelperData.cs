@@ -286,39 +286,7 @@ namespace ROC
 				RocItems.Add(order.Tag, order);
 			} else {
 				// Update Only Active Orders
-				if (found.IsActive) {
-					found.Status = order.Status;
-					found.LeaveQty = order.LeaveQty;
-					found.CumQty = order.CumQty;
-
-					if (order.UpdateOrder) {
-						found.Qty = order.Qty;
-						found.Price = order.Price;
-						found.StopPrice = order.StopPrice;
-						found.PegPrice = order.PegPrice;
-						found.AvgPrice = order.AvgPrice;
-					} else {
-						// Container back fill
-						order.Symbol = found.Symbol;
-						if (found.Price != 0) {
-							order.Price = found.Price;
-						}
-						if (found.StopPrice != 0) {
-							order.StopPrice = found.StopPrice;
-						}
-						if (found.PegPrice != 0) {
-							order.PegPrice = found.PegPrice;
-						}
-						if (found.AvgPrice != 0) {
-							order.AvgPrice = found.AvgPrice;
-						}
-					}
-
-					found.OrderType = order.OrderType;
-					found.TIF = order.TIF;
-					found.OmTime = order.OmTime;
-					found.Text = order.Text;
-				}
+				ROCOrder.Merge(found, order);
 			}
 
 			if (!Keys.Contains(order.Tag)) {
@@ -390,7 +358,7 @@ namespace ROC
 		public void Import(string username)
 		{
 			try {
-				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.Started) {
+				if (GLOBAL.OrderManagers.Status == HelperROM.StatusTypes.Started) {
 					string data = HelperFile.Load(Configuration.Path.Default.OrderPath, String.Format(@"{0}_{1:G}{2:G3}.orders", username, DateTime.Today.Year, DateTime.Today.DayOfYear));
 
 					if (data != "") {
@@ -411,12 +379,12 @@ namespace ROC
 
 		public void Export()
 		{
-			if (GLOBAL.HROM.UserName != "") {
+			if (GLOBAL.OrderManagers.UserName != "") {
 				if (RocItems != null && RocItems.Count > 0) {
 					byte[] bytes = new ToBinary().Serialize(RocItems, SerializationTypes.Normal);
 					string data = System.Convert.ToBase64String(bytes);
 
-					HelperFile.Save(data, Configuration.Path.Default.OrderPath, String.Format(@"{0}_{1:G}{2:G3}.orders", GLOBAL.HROM.UserName, DateTime.Today.Year, DateTime.Today.DayOfYear));
+					HelperFile.Save(data, Configuration.Path.Default.OrderPath, String.Format(@"{0}_{1:G}{2:G3}.orders", GLOBAL.OrderManagers.UserName, DateTime.Today.Year, DateTime.Today.DayOfYear));
 				}
 			}
 		}
@@ -592,7 +560,7 @@ namespace ROC
 		public void Import(string username)
 		{
 			try {
-				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.Started) {
+				if (GLOBAL.OrderManagers.Status == HelperROM.StatusTypes.Started) {
 					string data = HelperFile.Load(Configuration.Path.Default.TradePath, String.Format(@"{0}_{1:G}{2:G3}.trades", username, DateTime.Today.Year, DateTime.Today.DayOfYear));
 
 					if (data != "") {
@@ -617,12 +585,12 @@ namespace ROC
 
 		public void Export()
 		{
-			if (GLOBAL.HROM.UserName != "") {
+			if (GLOBAL.OrderManagers.UserName != "") {
 				if (RocItems != null && RocItems.Count > 0) {
 					byte[] bytes = new ToBinary().Serialize(RocItems, SerializationTypes.Normal);
 					string data = System.Convert.ToBase64String(bytes);
 
-					HelperFile.Save(data, Configuration.Path.Default.TradePath, String.Format(@"{0}_{1:G}{2:G3}.trades", GLOBAL.HROM.UserName, DateTime.Today.Year, DateTime.Today.DayOfYear));
+					HelperFile.Save(data, Configuration.Path.Default.TradePath, String.Format(@"{0}_{1:G}{2:G3}.trades", GLOBAL.OrderManagers.UserName, DateTime.Today.Year, DateTime.Today.DayOfYear));
 				}
 			}
 		}
@@ -633,11 +601,11 @@ namespace ROC
 	// Main Positions Collection
 	public class HelperPositionsData : HelperDataBase
 	{
-		private Dictionary<string, TPOSPosition> _rocItems;
-		public Dictionary<string, TPOSPosition> RocItems {
+		private Dictionary<string, RDSPosition> _rocItems;
+		public Dictionary<string, RDSPosition> RocItems {
 			get {
 				if (_rocItems == null) {
-					_rocItems = new Dictionary<string, TPOSPosition>();
+					_rocItems = new Dictionary<string, RDSPosition>();
 				}
 				return _rocItems;
 			}
@@ -646,11 +614,11 @@ namespace ROC
 			}
 		}
 
-		private Dictionary<string, TPOSPosition> _tposItems;
-		public Dictionary<string, TPOSPosition> TposItems {
+		private Dictionary<string, RDSPosition> _tposItems;
+		public Dictionary<string, RDSPosition> TposItems {
 			get {
 				if (_tposItems == null) {
-					_tposItems = new Dictionary<string, TPOSPosition>();
+					_tposItems = new Dictionary<string, RDSPosition>();
 				}
 				return _tposItems;
 			}
@@ -664,9 +632,6 @@ namespace ROC
 			Table = new DataTable("Positions");
 
 			Table.Columns.Add(new DataColumn("PositionKey", Type.GetType("System.String")));
-			//List<DataColumn> keyColumns = new List<DataColumn>();
-			//keyColumns.Add(Table.Columns["PositionKey"]);
-
 			Table.Columns.Add(new DataColumn("Symbol", Type.GetType("System.String")));
 			Table.Columns.Add(new DataColumn("SymbolDetail", Type.GetType("System.String")));
 			Table.Columns.Add(new DataColumn("SymbolDisplay", Type.GetType("System.String")));
@@ -713,42 +678,24 @@ namespace ROC
 		#region - TPOS Position -
 
 		// Used by RDS When it first got all positions from TPOS
-		public void Update(Dictionary<string, TPOSPosition> positions)
+		public void Update(Dictionary<string, RDSPosition> positions)
 		{
 			if (GLOBAL.HRDS.GotTposPositions) {
 				lock (Table) {
-					foreach (TPOSPosition position in positions.Values) {
+					foreach (RDSPosition position in positions.Values) {
 						Update(position);
 					}
 				}
 			}
 		}
 
-		public void Update(TPOSPosition position)
+		public void Update(RDSPosition position)
 		{
-			string key = position.PositionKey;
-			double cost;
-
 			lock (TposItems) {
-				if (TposItems.TryGetValue(key, out TPOSPosition found)) {
-					if (position.OpenQty > 0) {
-						found.OpenQty = position.OpenQty;
-						found.OpenAvg = position.OpenAvg;
-					}
-
-					if (position.BuyQty > 0) {
-						cost = (found.BuyQty * found.BuyAvg) + (position.BuyQty * position.BuyAvg);
-						found.BuyQty = found.BuyQty + position.BuyQty;
-						found.BuyAvg = cost / found.BuyQty;
-					}
-
-					if (position.SellQty > 0) {
-						cost = (found.SellQty * found.SellAvg) + (position.SellQty * position.SellAvg);
-						found.SellQty = found.SellQty + position.SellQty;
-						found.SellAvg = cost / found.SellQty;
-					}
+				if (TposItems.TryGetValue(position.PositionKey, out RDSPosition found)) {
+					found.UpdateFromPosition(position, true);
 				} else {
-					TposItems.Add(key, position);
+					TposItems.Add(position.PositionKey, position);
 				}
 			}
 		}
@@ -771,44 +718,12 @@ namespace ROC
 
 		public void Update(ROCExecution trade)
 		{
-			string key = trade.PositionKey;
-			double cost;
-			TPOSPosition position;
-
 			lock (RocItems) {
-				if (!RocItems.TryGetValue(key, out position)) {
-					position = new TPOSPosition();
-
-					position.Symbol = trade.Symbol;
-					position.Underlying = trade.Underlying;
-					position.ExpDate = trade.ExpDate;
-					position.StrikePrice = trade.StrikePrice;
-					position.CallPut = trade.CallPut;
-					position.SecType = trade.SecType;
-
-					if (trade.ClearingAcct.Length > 5) {
-						position.ClearingAcct = trade.ClearingAcct.Substring(0, 5);
-					} else {
-						position.ClearingAcct = trade.ClearingAcct;
-					}
-
-					position.Trader = trade.LocalAcct;
-					RocItems.Add(key, position);
-				}
-
-				switch (trade.Side) {
-					case CSVFieldIDs.SideCodes.Buy:
-						cost = (position.BuyQty * position.BuyAvg) + (trade.Qty * trade.Price);
-						position.BuyQty = position.BuyQty + trade.Qty;
-						position.BuyAvg = cost / position.BuyQty;
-						break;
-					case CSVFieldIDs.SideCodes.Sell:
-					case CSVFieldIDs.SideCodes.Short:
-					default:
-						cost = (position.SellQty * position.SellAvg) + (trade.Qty * trade.Price);
-						position.SellQty = position.SellQty + trade.Qty;
-						position.SellAvg = cost / position.SellQty;
-						break;
+				if (!RocItems.TryGetValue(trade.PositionKey, out RDSPosition position)) {
+					position = new RDSPosition(trade);
+					RocItems.Add(trade.PositionKey, position);
+				} else {
+					position.AddTrade(trade);
 				}
 			}
 		}
@@ -834,41 +749,14 @@ namespace ROC
 			// Filter out Auot Blance Trades from TPOS
 			if (trade.Price > 0) {
 				string key = trade.PositionKey;
-				double cost;
-				TPOSPosition position;
 
 				lock (TposItems) {
-					if (!TposItems.TryGetValue(key, out position))
-						position = new TPOSPosition();
-
-					position.Symbol = trade.Symbol;
-					position.Underlying = trade.Underlying;
-					position.ExpDate = trade.ExpDate;
-					position.StrikePrice = trade.StrikePrice;
-					position.CallPut = trade.CallPut;
-					position.SecType = trade.SecType;
-					if (trade.ClearingAcct.Length > 5) {
-						position.ClearingAcct = trade.ClearingAcct.Substring(0, 5);
+					if (!TposItems.TryGetValue(key, out RDSPosition position)) {
+						position = new RDSPosition(trade);
+						TposItems.Add(key, position);
 					} else {
-						position.ClearingAcct = trade.ClearingAcct;
+						position.AddTrade(trade);
 					}
-					position.Trader = trade.Trader;
-					TposItems.Add(key, position);
-				}
-
-				switch (trade.Side) {
-					case CSVFieldIDs.SideCodes.Buy:
-						cost = (position.BuyQty * position.BuyAvg) + (trade.Qty * trade.Price);
-						position.BuyQty = position.BuyQty + trade.Qty;
-						position.BuyAvg = cost / position.BuyQty;
-						break;
-					case CSVFieldIDs.SideCodes.Sell:
-					case CSVFieldIDs.SideCodes.Short:
-					default:
-						cost = (position.SellQty * position.SellAvg) + (trade.Qty * trade.Price);
-						position.SellQty = position.SellQty + trade.Qty;
-						position.SellAvg = cost / position.SellQty;
-						break;
 				}
 			}
 		}

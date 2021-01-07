@@ -335,7 +335,7 @@ namespace ROC
 		private long _openBuyQty = 0;
 		private long _openSellQty = 0;
 		private long _netFilledQty = 0;
-		private List<ROCOrder> _rocOrders = new List<ROCOrder>();
+		private LockList<ROCOrder> _rocOrders = new LockList<ROCOrder>();
 		private Market _deltas = new Market();
 
 		// Double Mouse Click Time
@@ -1315,19 +1315,15 @@ namespace ROC
 
 		#region - Used By Process Thread -
 
-		private delegate void UpdateTicketByProcessDelegate(bool updateIM, ROCOrder[] orders, Market deltas);
-		internal void UpdateTicketByProcess(bool updateIM, ROCOrder[] orders, Market deltas)
+		private delegate void UpdateTicketByProcessDelegate(bool updateIM, List<ROCOrder> orders, Market deltas);
+		internal void UpdateTicketByProcess(bool updateIM, List<ROCOrder> orders, Market deltas)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
 				try
 				{
 					_flags[FormFlags.ID.UpdateIM] = updateIM;
-					lock (_rocOrders)
-					{
-						_rocOrders.AddRange(orders);
-					}
-
+					_rocOrders.AddRange(orders);
 					_deltas.Merge(deltas);
 				}
 				catch (Exception ex)
@@ -1357,7 +1353,7 @@ namespace ROC
 					}
 					else if (_flags[FormFlags.ID.OrderLoaded])
 					{
-						if (orders.Length > 0)
+						if (orders.Count > 0)
 						{
 							UpdateOrders(CurrentSymbolDetail, orders);
 						}
@@ -1415,20 +1411,9 @@ namespace ROC
 					}
 					else if (_flags[FormFlags.ID.OrderLoaded])
 					{
-						ROCOrder[] orders = new ROCOrder[0];
-						lock (_rocOrders)
-						{
-							if (_rocOrders.Count > 0)
-							{
-								orders = new ROCOrder[_rocOrders.Count];
-								_rocOrders.CopyTo(orders, 0);
-								_rocOrders.Clear();
-							}
-						}
-						if (orders.Length > 0)
-						{
+						List<ROCOrder> orders = _rocOrders.TakeAll();
+						if (orders.Count > 0)
 							UpdateOrders(CurrentSymbolDetail, orders);
-						}
 					}
 
 					Market deltas = null;
@@ -1555,13 +1540,9 @@ namespace ROC
 				UpdateAggregation();
 			}
 		}
-		private void UpdateOrders(string symbolDetail, ROCOrder[] orders)
+		private void UpdateOrders(string symbolDetail, IEnumerable<ROCOrder> orders)
 		{
-			bool hasOrder = false;
-			bool hasBuy = false;
-			bool hasSell = false;
-
-			CheckOrders(symbolDetail, orders, out hasOrder, out hasBuy, out hasSell);
+			CheckOrders(symbolDetail, orders, out bool hasOrder, out bool hasBuy, out bool hasSell);
 			UpdateOrders(hasOrder, hasBuy, hasSell);
 		}
 		private void UpdateOrders(bool hasOrder, bool hasBuy, bool hasSell)
@@ -1583,7 +1564,7 @@ namespace ROC
 			}
 		}
 
-		private void CheckOrders(string symbolDetail, ROCOrder[] orders, out bool hasOrder, out bool hasBuy, out bool hasSell)
+		private void CheckOrders(string symbolDetail, IEnumerable<ROCOrder> orders, out bool hasOrder, out bool hasBuy, out bool hasSell)
 		{
 			hasOrder = false;
 			hasBuy = false;
@@ -2288,7 +2269,7 @@ namespace ROC
 
 				case CSVEx.CSVFieldIDs.OrderTypes.OCO:
 
-					ocoOrderID = GLOBAL.HROM.RomMessageMaker.GetOrderID(GLOBAL.HROM.UserName);
+					ocoOrderID = GLOBAL.OrderManagers.RomMessageMaker.GetOrderID(GLOBAL.OrderManagers.UserName);
 
 					// Limit Price - primary side
 					BuildOrder(side,
@@ -2388,7 +2369,7 @@ namespace ROC
 						}
 					}
 					order.tradeFor = DDAccountDropDown.CurrentTradeFor;
-					order.trader = GLOBAL.HROM.UserName;
+					order.trader = GLOBAL.OrderManagers.UserName;
 					order.shares = numQuantity.Value.ToString();
 					order.price = limitPrice;
 					order.stopPrice = stopPrice;
@@ -2414,7 +2395,7 @@ namespace ROC
 						order.cplxOrderType = "5";
 					}
 
-					GLOBAL.HROM.EnterOrder(order, true);
+					GLOBAL.OrderManagers.EnterOrder(order, true);
 				}
 				else
 				{
@@ -2432,7 +2413,7 @@ namespace ROC
 			Dictionary<string, ROCOrder> orders = GetOpenOrder(side, price);
 			foreach (ROCOrder order in orders.Values)
 			{
-				GLOBAL.HROM.CancelSingleOrder(order.Tag);
+				GLOBAL.OrderManagers.CancelSingleOrder(order.Tag);
 			}
 		}
 
@@ -2441,7 +2422,7 @@ namespace ROC
 			Dictionary<string, ROCOrder> orders = GetOpenOrder(side, null);
 			foreach (ROCOrder order in orders.Values)
 			{
-				GLOBAL.HROM.CancelSingleOrder(order.Tag);
+				GLOBAL.OrderManagers.CancelSingleOrder(order.Tag);
 			}
 		}
 
@@ -2456,10 +2437,10 @@ namespace ROC
 					{
 						case CSVFieldIDs.OrderTypes.Stop:
 						case CSVFieldIDs.OrderTypes.StopLimit:
-							GLOBAL.HROM.ReplaceOrder(order.Tag, "", "", endReplacePrice.ToString(), "", "");
+							GLOBAL.OrderManagers.ReplaceOrder(order.Tag, "", "", endReplacePrice.ToString(), "", "");
 							break;
 						default:
-							GLOBAL.HROM.ReplaceOrder(order.Tag, "", endReplacePrice.ToString(), "", "", "");
+							GLOBAL.OrderManagers.ReplaceOrder(order.Tag, "", endReplacePrice.ToString(), "", "", "");
 							break;
 					}
 				}
@@ -3094,11 +3075,10 @@ namespace ROC
 		{
 			lock (GLOBAL.HWindows.QuickTicketWindows)
 			{
-				frmQuickTicket w = new frmQuickTicket();
-
-				w.Width = this.Width;
-				w.Height = this.Height;
-
+				frmQuickTicket w = new frmQuickTicket() {
+					Width = this.Width,
+					Height = this.Height
+				};
 				w.Clone(new ROCTicketProfile(this), new ROCQuickListProfile(rocQuickListBook));
 
 				GLOBAL.HWindows.OpenWindow(w, true);

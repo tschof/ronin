@@ -34,7 +34,7 @@ namespace ROC
 
 		public void SetStatus()
 		{
-			if (GLOBAL.HROM.Status == HelperROM.StatusTypes.LoggedIn)
+			if (GLOBAL.OrderManagers.Status == HelperROM.StatusTypes.LoggedIn)
 			{
 				lblROMStatus.BackColor = Color.LimeGreen;
 			}

@@ -44,7 +44,7 @@ namespace ROC
 
 				if (mailFrom == "")
 				{
-					_mail.MailFrom = GLOBAL.HROM.UserName + "@ronin-capital.com";
+					_mail.MailFrom = GLOBAL.OrderManagers.UserName + "@ronin-capital.com";
 				}
 				else
 				{

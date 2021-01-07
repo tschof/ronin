@@ -148,8 +148,8 @@ namespace ROC
 					//MessageBox.Show("Cannot Connect to RDS", "Start Up Failed");
 				}
 				
-				GLOBAL.HROM.LogStatusMessages();
-				GLOBAL.HROM.LogRomMessages();
+				GLOBAL.OrderManagers.LogStatusMessages();
+				GLOBAL.OrderManagers.LogRomMessages();
 
 				GLOBAL.HRDS.LogStatusMessages();
 			}
@@ -158,10 +158,10 @@ namespace ROC
 			GLOBAL.HProcess.StopProcess();
 
 			GLOBAL.HROC.AddToStatusLogs("Disconnect from ROM..." );
-			GLOBAL.HROM.Disconnect();
+			GLOBAL.OrderManagers.Disconnect();
 
 			// Log last bit of ROM Messages
-			GLOBAL.HROM.LogStatusMessages();
+			GLOBAL.OrderManagers.LogStatusMessages();
 
 			// Log last bit of ROC Messages
 			GLOBAL.HROC.LogStatusMessages();

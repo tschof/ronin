@@ -60,7 +60,7 @@ namespace ROC
 
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
-		private List<ROCOrder> _rocOrders = new List<ROCOrder>();
+		private LockList<ROCOrder> _rocOrders = new LockList<ROCOrder>();
 		private Market _deltas = new Market();
 
 		#endregion
@@ -291,12 +291,12 @@ namespace ROC
 			{
 				if (MessageBox.Show("Cancel All Open Orders?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
-					GLOBAL.HROM.CancelAllOpenOrders("");
+					GLOBAL.OrderManagers.CancelAllOpenOrders("");
 				}
 			}
 			else
 			{
-				GLOBAL.HROM.CancelAllOpenOrders("");
+				GLOBAL.OrderManagers.CancelAllOpenOrders("");
 			}
 		}
 
@@ -497,18 +497,15 @@ namespace ROC
 
 		#region - Used by Process Thread -
 
-		private delegate void AddUpdateOrdersByProcessDelegate(bool updateIM, ROCOrder[] orders, Market deltas);
-		public void AddUpdateOrdersByProcess(bool updateIM, ROCOrder[] orders, Market deltas)
+		private delegate void AddUpdateOrdersByProcessDelegate(bool updateIM, List<ROCOrder> orders, Market deltas);
+		public void AddUpdateOrdersByProcess(bool updateIM, List<ROCOrder> orders, Market deltas)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
 				try
 				{
 					_updateIM = updateIM;
-					lock (_rocOrders)
-					{
-						_rocOrders.AddRange(orders);
-					}
+					_rocOrders.AddRange(orders);
 					_deltas.Merge(deltas);
 				}
 				catch (Exception ex)
@@ -534,7 +531,7 @@ namespace ROC
 								UpdateSecurityInfo();
 							}
 
-							if (orders.Length > 0)
+							if (orders.Count > 0)
 							{
 								foreach (ROCOrder order in orders)
 								{
@@ -550,7 +547,8 @@ namespace ROC
 							}
 						}
 					}
-					if (orders.Length > 0)
+
+					if (orders.Count > 0)
 					{
 						rocOrdersList.RefreshAggragation = true;
 						rocOrdersList.ShouldScrollToLastRow = _autoFocusLast;
@@ -571,16 +569,8 @@ namespace ROC
 				{
 					_updatingUI = true;
 
-					ROCOrder[] orders = new ROCOrder[0];
-					lock (_rocOrders)
-					{
-						if (_rocOrders.Count > 0)
-						{
-							orders = new ROCOrder[_rocOrders.Count];
-							_rocOrders.CopyTo(orders, 0);
-							_rocOrders.Clear();
-						}
-					}
+					bool haveOrders = false;
+
 					if (!IsProcessing)
 					{
 						bool updateIM = _updateIM;
@@ -592,8 +582,10 @@ namespace ROC
 								UpdateSecurityInfo();
 							}
 
-							if (orders.Length > 0)
+							List<ROCOrder> orders = _rocOrders.TakeAll();
+							if (orders.Count > 0)
 							{
+								haveOrders = true;
 								foreach (ROCOrder order in orders)
 								{
 									LoadRocOrder(order);
@@ -601,6 +593,7 @@ namespace ROC
 								}
 							}
 						}
+
 						Market deltas = new Market();
 						lock (_deltas)
 						{
@@ -618,7 +611,8 @@ namespace ROC
 							}
 						}
 					}
-					if (orders.Length > 0)
+
+					if (haveOrders)
 					{
 						rocOrdersList.RefreshAggragation = true;
 						rocOrdersList.ShouldScrollToLastRow = _autoFocusLast;
@@ -805,13 +799,7 @@ namespace ROC
 
 			if (secInfo != null)
 			{
-				if (order.Symbol == "")
-				{
-					order.Symbol = secInfo.MDSymbol;
-				}
-				order.TickSize = secInfo.TickSize;
-				order.ContractSize = secInfo.ContractSize;
-
+				order.UpdateFromSecinfo(secInfo.MDSymbol, secInfo.TickSize, secInfo.ContractSize);
 				switch (order.SecType)
 				{
 					case CSVFieldIDs.SecurityTypes.Option:
@@ -965,7 +953,7 @@ namespace ROC
 					rocOrdersList.Save(rocOrdersList.Columns["OrderID"].DisplayIndex);
 					break;
 				case "CancelAll":
-					GLOBAL.HROM.CancelAllOpenOrders("");
+					GLOBAL.OrderManagers.CancelAllOpenOrders("");
 					break;
 			}
 		}
@@ -1727,16 +1715,16 @@ namespace ROC
 				case "Close":
 					break;
 				case "Cancel":
-					GLOBAL.HROM.CancelSingleOrder(_menuOrderModification.OrderID);
+					GLOBAL.OrderManagers.CancelSingleOrder(_menuOrderModification.OrderID);
 					break;
 				case "Replace":
-					GLOBAL.HROM.ReplaceOrder(_menuOrderModification.OrderID, _menuOrderModification.DeltaShare, _menuOrderModification.NewPrice, _menuOrderModification.NewStopPrice, _menuOrderModification.NewPegPrice, _menuOrderModification.NewDuration);
+					GLOBAL.OrderManagers.ReplaceOrder(_menuOrderModification.OrderID, _menuOrderModification.DeltaShare, _menuOrderModification.NewPrice, _menuOrderModification.NewStopPrice, _menuOrderModification.NewPegPrice, _menuOrderModification.NewDuration);
 					break;
 				case "CancelAll":
-					GLOBAL.HROM.CancelAllOpenOrders("");
+					GLOBAL.OrderManagers.CancelAllOpenOrders("");
 					break;
 				case "CancelAllOf":
-					GLOBAL.HROM.CancelBySymbol(_menuOrderModification.OrderID);
+					GLOBAL.OrderManagers.CancelBySymbol(_menuOrderModification.OrderID);
 					break;
 			}
 

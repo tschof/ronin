@@ -84,6 +84,7 @@ namespace CSVEx
 		// Used when Sending Enter Commands 
 		public sealed class SideCodes
 		{
+			public const long None = 0;
 			public const long Buy = 1;
 			public const long Sell = 2;
 			public const long Short = 5;

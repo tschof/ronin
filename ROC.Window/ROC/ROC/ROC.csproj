@@ -89,6 +89,8 @@
     </Compile>
     <Compile Include="HelperAutomationTimer.cs" />
     <Compile Include="Lists\Utility.cs" />
+    <Compile Include="LockDictionary.cs" />
+    <Compile Include="LockList.cs" />
     <Compile Include="Tickets\AutoSpread\AutoSpreadItem.cs" />
     <Compile Include="Tickets\AutoSpread\QuickAutoSpreadSupport.cs" />
     <Compile Include="Tickets\AutoSpread\TagKeyItems.cs" />

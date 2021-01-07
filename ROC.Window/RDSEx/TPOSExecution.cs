@@ -6,11 +6,14 @@ namespace RDSEx
 {
 	public class TPOSExecution : BaseExecution
 	{
+		public void Update(RDSEx.WEB.TposTrade tposTrade)
+		{
+			_data.Set(TradedFieldIDs.TPOS.isTPOS, true);
+			base.Update(tposTrade);
+		}
+
 		public override string TradeID => _data.TryGet(TradedFieldIDs.TPOS.tradeID, out string value) ? value : "";
 		internal long Version => _data.TryGet(TradedFieldIDs.TPOS.version, out long value) ? value : 0;
-
-		// 3 means deleted
-		public long ModReasonID => _data.TryGet(TradedFieldIDs.TPOS.lastModReasonID, out long value) ? value : 0;
 
 		public override string Symbol {
 			get => _data.TryGet(TradedFieldIDs.TPOS.symbol, out string value) ? value : "";

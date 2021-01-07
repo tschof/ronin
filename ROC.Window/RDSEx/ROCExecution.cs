@@ -6,6 +6,39 @@ namespace RDSEx
 	[Serializable]
 	public class ROCExecution : BaseExecution
 	{
+		public ROCExecution() : base()
+		{
+		}
+
+		public ROCExecution(CSV csv) : base()
+		{
+			string sval;
+			if (csv.TryGetValue(CSVFieldIDs.OmExecTag, out sval)) setField(TradedFieldIDs.ROC.omExecTag, sval);
+			if (csv.TryGetValue(CSVFieldIDs.ClearingAcct, out sval)) setField(TradedFieldIDs.ROC.account, sval);
+			if (csv.TryGetValue(CSVFieldIDs.Trader, out sval)) setField(TradedFieldIDs.ROC.trader, sval);
+			if (csv.TryGetValue(CSVFieldIDs.LocalAcct, out sval)) setField(TradedFieldIDs.ROC.localAcct, sval);
+			if (csv.TryGetValue(CSVFieldIDs.Symbol, out sval)) setField(TradedFieldIDs.ROC.symbol, sval);
+			if (csv.TryGetValue(CSVFieldIDs.ExpDate, out sval)) setField(TradedFieldIDs.ROC.expDate, sval);
+			if (csv.TryGetValue(CSVFieldIDs.MaturityDay, out sval)) setField(TradedFieldIDs.ROC.maturityDay, sval);
+			if (csv.TryGetValue(CSVFieldIDs.CallPut, out sval)) setField(TradedFieldIDs.ROC.callPut, sval);
+			if (csv.TryGetValue(CSVFieldIDs.Underlying, out sval)) setField(TradedFieldIDs.ROC.underlying, sval);
+			if (csv.TryGetValue(CSVFieldIDs.SecType, out sval)) setField(TradedFieldIDs.ROC.secType, sval);
+			if (csv.TryGetValue(CSVFieldIDs.CplxOrderType, out sval)) setField(TradedFieldIDs.ROC.cplxOrderType, sval);
+			if (csv.TryGetValue(CSVFieldIDs.ProgramTrade, out sval)) setField(TradedFieldIDs.ROC.programTrade, sval);
+
+			double dval;
+			if (csv.TryGetValue(CSVFieldIDs.ExecPrice, out dval)) setField(TradedFieldIDs.ROC.execPrice, dval);
+			if (csv.TryGetValue(CSVFieldIDs.StrikePrice, out dval)) setField(TradedFieldIDs.ROC.strikePrice, dval);
+			if (csv.TryGetValue(CSVFieldIDs.ExecutionTime, out dval)) setField(TradedFieldIDs.ROC.execTime, dval);
+
+			long lval;
+			if (csv.TryGetValue(CSVFieldIDs.LastShares, out lval)) setField(TradedFieldIDs.ROC.execQty, lval);
+			if (csv.TryGetValue(CSVFieldIDs.ExchangeID, out lval)) setField(TradedFieldIDs.ROC.destID, lval);
+			if (csv.TryGetValue(CSVFieldIDs.AlgoExchangeID, out lval)) setField(TradedFieldIDs.ROC.algoDestID, lval);
+			if (csv.TryGetValue(CSVFieldIDs.Side, out lval)) setField(TradedFieldIDs.ROC.side, lval);
+			if (csv.TryGetValue(CSVFieldIDs.CplxOrderType, out lval)) setField(TradedFieldIDs.ROC.cplxOrderType, lval);
+		}
+
 		public override string Symbol {
 			get => _data.TryGet(TradedFieldIDs.ROC.symbol, out string value) ? value : null;
 			set => _data.Set(TradedFieldIDs.ROC.symbol, value);
@@ -115,10 +148,6 @@ namespace RDSEx
 		public long CplxOrderType {
 			get => _data.TryGet(TradedFieldIDs.ROC.cplxOrderType, out long value) ? value : 0;
 			set => _data.Set(TradedFieldIDs.ROC.cplxOrderType, value);
-		}
-
-		public ROCExecution()
-		{
 		}
 	}
 }

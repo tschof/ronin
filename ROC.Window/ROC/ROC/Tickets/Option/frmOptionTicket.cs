@@ -3313,7 +3313,7 @@ namespace ROC
 
 				case CSVEx.CSVFieldIDs.OrderTypes.OCO:
 
-					ocoOrderID = GLOBAL.HROM.RomMessageMaker.GetOrderID(GLOBAL.HROM.UserName);
+					ocoOrderID = GLOBAL.OrderManagers.RomMessageMaker.GetOrderID(GLOBAL.OrderManagers.UserName);
 
 					// Limit Price - primary side
 					BuildOrder(side,
@@ -3450,7 +3450,7 @@ namespace ROC
 					order.openClose = openClose;
 
 					order.tradeFor = DDAccountDropDown.CurrentTradeFor;
-					order.trader = GLOBAL.HROM.UserName;
+					order.trader = GLOBAL.OrderManagers.UserName;
 					order.shares = numQuantity.Value.ToString();
 					order.price = limitPrice;
 					order.stopPrice = stopPrice;
@@ -3470,7 +3470,7 @@ namespace ROC
 						order.homeExchange = acct.homeExchange;
 					}
 
-					GLOBAL.HROM.EnterOrder(order, true);
+					GLOBAL.OrderManagers.EnterOrder(order, true);
 				}
 				else
 				{

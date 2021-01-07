@@ -104,93 +104,106 @@ namespace CSVEx
 
 		#region - Get -
 
-		private string GetAsString(int key)
+		public bool TryGetValue(int key, out string value)
 		{
-			string value;
-
 			if (_data.TryGet(key, out value))
-				return value;
+				return true;
 
 			if (tryGetField(key, out value))
 			{
 				_data.Set(key, value);
-				return value;
+				return true;
 			}
 			
-			return "";
+			return false;
 		}
 
-		private long GetAsLong(int key)
+		public bool TryGetValue(int key, out long value)
 		{
-			if (_data.TryGet(key, out long value))
-				return value;
+			if (_data.TryGet(key, out value))
+				return true;
 
-			if (tryGetField(key, out string field))
-			{
-				if (long.TryParse(field, out long converted))
-				{
+			if (tryGetField(key, out string field)) {
+				if (long.TryParse(field, out long converted)) {
 					_data.Set(key, converted);
-					return converted;
-				}
-				else
-				{
+					value = converted;
+					return true;
+				} else {
 					Debug.Assert(false, key.ToString() + "|" + field);
 				}
 			}
 
-			switch (key)
-			{
-				case CSVFieldIDs.TIF:
-					return -1;
-				default:
-					return 0;
-			}
+			value = 0;
+			return false;
 		}
 
-		private double GetAsDouble(int key)
+		public bool TryGetValue(int key, out double value)
 		{
-			if (_data.TryGet(key, out double value))
-				return value;
+			if (_data.TryGet(key, out value))
+				return true;
 
 			if (tryGetField(key, out string field)) {
+				bool isPasswordText = false;
 				if (double.TryParse(field, out double converted)) {
 					_data.Set(key, converted);
-					return converted;
-				} else if ((key == CSVFieldIDs.Price) &&
-					(Command == CSVFieldIDs.MessageTypes.LoggedIn || Command == CSVFieldIDs.MessageTypes.LoginFailed)) {
+					value = converted;
+					return true;
+				} else if (key == CSVFieldIDs.Price) {
+					string command = Command;
+					isPasswordText = (command == CSVFieldIDs.MessageTypes.LoggedIn) || (command == CSVFieldIDs.MessageTypes.LoginFailed);
 					// Special Case for Loggin mssages L, K, this is the password field
-				} else {
-					Debug.Assert(false, string.Concat(key.ToString(), "|", _fields[key]));
 				}
+
+				if (!isPasswordText)
+					Debug.Assert(false, string.Concat(key.ToString(), "|", _fields[key]));
 			}
 
-			return 0;
+			return false;
 		}
 
-		private DateTime GetAsDateTime(int key)
+		public bool TryGetValue(int key, out DateTime value)
 		{
-			if (_data.TryGet(key, out double value))
-				return DateTime.FromOADate(value);
-			
-			if (tryGetField(key, out string dateText))
-			{
-				if ((dateText != null) && (dateText != "00000000"))
-				{
-					DateTime converted;
-					if (TimeFormats.TryParse(dateText, out converted) || DateTime.TryParse(dateText, out converted))
-					{
-						converted = converted.ToLocalTime();
-						_data.Set(key, converted.ToOADate());
-						return converted;
-					}
-					else
-					{
+			if (_data.TryGet(key, out double dval)) {
+				value = DateTime.FromOADate(dval);
+				return true;
+			}
+
+			if (tryGetField(key, out string dateText)) {
+				if ((dateText != null) && (dateText != "00000000")) {
+					if (TimeFormats.TryParse(dateText, out value) || DateTime.TryParse(dateText, out value)) {
+						value = value.ToLocalTime();
+						_data.Set(key, value.ToOADate());
+						return true;
+					} else {
 						Debug.Assert(false, key.ToString() + "|" + dateText);
 					}
 				}
 			}
 
-			return DateTime.Now;
+			value = default;
+			return false;
+		}
+
+		private string getAsString(int key)
+		{
+			return TryGetValue(key, out string value) ? value : "";
+		}
+
+		private long getAsLong(int key)
+		{
+			if (TryGetValue(key, out long value))
+				return value;
+			return (key == CSVFieldIDs.TIF) ? -1 : 0;
+		}
+
+		private double getAsDouble(int key)
+		{
+			return TryGetValue(key, out double value) ? value : 0;
+		}
+
+		private DateTime getAsDateTime(int key)
+		{
+			return TryGetValue(key, out DateTime value) ? value : DateTime.Now;
 		}
 
 		#endregion
@@ -258,12 +271,14 @@ namespace CSVEx
 
 		#endregion
 
+		/* Use TryGetField instead.
 		public bool Contains(int key)
 		{
-			if (tryGetField(key, out string _))
+			if (TryGetField(key, out string _))
 				return true;
 			return _hasBackFills && _data.Has(key);
 		}
+		*/
 
 		#region - Decoded _fields By Name -
 
@@ -271,7 +286,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.Command);
+				return getAsString(CSVFieldIDs.Command);
 			}
 			set
 			{
@@ -284,7 +299,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsDouble(CSVFieldIDs.AveragePrice));
+				return (getAsDouble(CSVFieldIDs.AveragePrice));
 			}
 			set
 			{
@@ -297,7 +312,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.CallPut);
+				return getAsString(CSVFieldIDs.CallPut);
 			}
 			set
 			{
@@ -310,7 +325,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.ClearingAcct);
+				return getAsString(CSVFieldIDs.ClearingAcct);
 			}
 			set
 			{
@@ -323,7 +338,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.ClearingID);
+				return getAsString(CSVFieldIDs.ClearingID);
 			}
 		}
 
@@ -331,7 +346,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsLong(CSVFieldIDs.CumShares);
+				return getAsLong(CSVFieldIDs.CumShares);
 			}
 		}
 
@@ -339,7 +354,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsLong(CSVFieldIDs.ExchangeID);
+				return getAsLong(CSVFieldIDs.ExchangeID);
 			}
 		}
 
@@ -347,7 +362,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsLong(CSVFieldIDs.AlgoExchangeID);
+				return getAsLong(CSVFieldIDs.AlgoExchangeID);
 			}
 		}
 
@@ -355,7 +370,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsDateTime(CSVFieldIDs.EffectiveTime);
+				return getAsDateTime(CSVFieldIDs.EffectiveTime);
 			}
 		}
 
@@ -363,7 +378,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.ExpDate);
+				return getAsString(CSVFieldIDs.ExpDate);
 			}
 			set
 			{
@@ -376,7 +391,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.Firm);
+				return getAsString(CSVFieldIDs.Firm);
 			}
 		}
 
@@ -384,7 +399,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.Instructions);
+				return getAsString(CSVFieldIDs.Instructions);
 			}
 		}
 
@@ -392,7 +407,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.ExecutionInstruction);
+				return getAsString(CSVFieldIDs.ExecutionInstruction);
 			}
 		}
 
@@ -400,7 +415,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.ProgramTrade);
+				return getAsString(CSVFieldIDs.ProgramTrade);
 			}
 		}
 
@@ -408,7 +423,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsLong(CSVFieldIDs.LeaveShares);
+				return getAsLong(CSVFieldIDs.LeaveShares);
 			}
 		}
 
@@ -416,7 +431,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.LocalAcct);
+				return getAsString(CSVFieldIDs.LocalAcct);
 			}
 			set
 			{
@@ -429,7 +444,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsLong(CSVFieldIDs.Floor);
+				return getAsLong(CSVFieldIDs.Floor);
 			}
 		}
 
@@ -437,7 +452,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.OmExecTag);
+				return getAsString(CSVFieldIDs.OmExecTag);
 			}
 		}
 
@@ -445,7 +460,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.OmTag);
+				return getAsString(CSVFieldIDs.OmTag);
 			}
 		}
 
@@ -453,7 +468,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsDateTime(CSVFieldIDs.OmTime);
+				return getAsDateTime(CSVFieldIDs.OmTime);
 			}
 		}
 
@@ -461,7 +476,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsDateTime(CSVFieldIDs.ExecutionTime);
+				return getAsDateTime(CSVFieldIDs.ExecutionTime);
 			}
 		}
 
@@ -469,7 +484,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.OpenClose);
+				return getAsString(CSVFieldIDs.OpenClose);
 			}
 		}
 
@@ -477,7 +492,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsDateTime(CSVFieldIDs.OrderExpirationDateTime);
+				return getAsDateTime(CSVFieldIDs.OrderExpirationDateTime);
 			}
 		}
 
@@ -485,7 +500,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsLong(CSVFieldIDs.Type);
+				return getAsLong(CSVFieldIDs.Type);
 			}
 			set
 			{
@@ -498,7 +513,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsLong(CSVFieldIDs.AlgoType);
+				return getAsLong(CSVFieldIDs.AlgoType);
 			}
 			set
 			{
@@ -511,7 +526,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsLong(CSVFieldIDs.LastShares);
+				return getAsLong(CSVFieldIDs.LastShares);
 			}
 		}
 
@@ -519,7 +534,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsLong(CSVFieldIDs.OriginalShares);
+				return getAsLong(CSVFieldIDs.OriginalShares);
 			}
 		}
 
@@ -527,7 +542,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.Owner);
+				return getAsString(CSVFieldIDs.Owner);
 			}
 		}
 
@@ -535,7 +550,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsDouble(CSVFieldIDs.Price));
+				return (getAsDouble(CSVFieldIDs.Price));
 			}
 			set
 			{
@@ -548,7 +563,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsDouble(CSVFieldIDs.OriginalPrice));
+				return (getAsDouble(CSVFieldIDs.OriginalPrice));
 			}
 			set
 			{
@@ -561,7 +576,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsDouble(CSVFieldIDs.ExecPrice));
+				return (getAsDouble(CSVFieldIDs.ExecPrice));
 			}
 		}
 
@@ -569,7 +584,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsLong(CSVFieldIDs.Shares));
+				return (getAsLong(CSVFieldIDs.Shares));
 			}
 			set
 			{
@@ -582,7 +597,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.SecType);
+				return getAsString(CSVFieldIDs.SecType);
 			}
 			set
 			{
@@ -595,7 +610,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsLong(CSVFieldIDs.Side));
+				return (getAsLong(CSVFieldIDs.Side));
 			}
 			set
 			{
@@ -608,7 +623,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsLong(CSVFieldIDs.Status));
+				return (getAsLong(CSVFieldIDs.Status));
 			}
 		}
 
@@ -616,7 +631,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsDouble(CSVFieldIDs.StopPrice));
+				return (getAsDouble(CSVFieldIDs.StopPrice));
 			}
 		}
 
@@ -624,7 +639,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsDouble(CSVFieldIDs.PegOffsetPrice));
+				return (getAsDouble(CSVFieldIDs.PegOffsetPrice));
 			}
 		}
 
@@ -632,7 +647,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsDouble(CSVFieldIDs.StrikePrice));
+				return (getAsDouble(CSVFieldIDs.StrikePrice));
 			}
 			set
 			{
@@ -645,7 +660,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.Symbol);
+				return getAsString(CSVFieldIDs.Symbol);
 			}
 		}
 
@@ -653,7 +668,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.Tag);
+				return getAsString(CSVFieldIDs.Tag);
 			}
 		}
 
@@ -661,7 +676,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.Text);
+				return getAsString(CSVFieldIDs.Text);
 			}
 		}
 
@@ -669,7 +684,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsLong(CSVFieldIDs.TIF));
+				return (getAsLong(CSVFieldIDs.TIF));
 			}
 			set
 			{
@@ -682,7 +697,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.TradeFor);
+				return getAsString(CSVFieldIDs.TradeFor);
 			}
 			set
 			{
@@ -695,7 +710,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.Trader);
+				return getAsString(CSVFieldIDs.Trader);
 			}
 			set
 			{
@@ -708,7 +723,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.Underlying);
+				return getAsString(CSVFieldIDs.Underlying);
 			}
 			set
 			{
@@ -721,7 +736,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsString(CSVFieldIDs.ParentTag));
+				return (getAsString(CSVFieldIDs.ParentTag));
 			}
 			set
 			{
@@ -734,7 +749,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsLong(CSVFieldIDs.CplxOrderType));
+				return (getAsLong(CSVFieldIDs.CplxOrderType));
 			}
 		}
 
@@ -742,7 +757,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return (GetAsString(CSVFieldIDs.ClientEcho));
+				return (getAsString(CSVFieldIDs.ClientEcho));
 			}
 			set
 			{
@@ -800,7 +815,7 @@ namespace CSVEx
 			get
 			{
 				_hasBackFills = true;
-				return GetAsString(CSVFieldIDs.SecurityDefinition);
+				return getAsString(CSVFieldIDs.SecurityDefinition);
 			}
 			set
 			{
@@ -813,7 +828,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsDateTime(CSVFieldIDs.EndTime);
+				return getAsDateTime(CSVFieldIDs.EndTime);
 			}
 			set
 			{
@@ -826,7 +841,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.DisplayInstruction);
+				return getAsString(CSVFieldIDs.DisplayInstruction);
 			}
 			set
 			{
@@ -839,7 +854,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.CMTAAccount);
+				return getAsString(CSVFieldIDs.CMTAAccount);
 			}
 			set
 			{
@@ -852,7 +867,7 @@ namespace CSVEx
 		{
 			get
 			{
-				return GetAsString(CSVFieldIDs.MaturityDay);
+				return getAsString(CSVFieldIDs.MaturityDay);
 			}
 			set
 			{

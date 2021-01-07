@@ -279,8 +279,8 @@ namespace ROC
 
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
-		private List<TPOSPosition> _rocPositions = new List<TPOSPosition>();
-		private List<TPOSPosition> _tposPositions = new List<TPOSPosition>();
+		private LockList<RDSPosition> _rocPositions = new LockList<RDSPosition>();
+		private LockList<RDSPosition> _tposPositions = new LockList<RDSPosition>();
 		private Market _deltas = new Market();
 
 		#endregion
@@ -706,62 +706,42 @@ namespace ROC
 		#region - Binding -
 	
 		// Called by Refresh and Load - Main Thread
-		public void RefreshPositions(object input)
+		public void RefreshPositions(object state)
 		{
 			UpdatePositionStart();
 
-			List<TPOSPosition> rocPositions = new List<TPOSPosition>();
-			List<TPOSPosition> tposPositions = new List<TPOSPosition>();
-			if (!rocPositionsList.FilterOutTPOS && !rocPositionsList.FilterOutROC)
-			{
-				rocPositions.AddRange(LoadRocPositions());
-				tposPositions.AddRange(LoadTposPositions());
-			}
-			else if (rocPositionsList.FilterOutTPOS && !rocPositionsList.FilterOutROC)
-			{
-				rocPositions.AddRange(LoadRocPositions());
-			}
-			else if (!rocPositionsList.FilterOutTPOS && rocPositionsList.FilterOutROC)
-			{
-				tposPositions.AddRange(LoadTposPositions());
-			}
-			else
-			{
-				// Load Nothing
-			}
+			List<RDSPosition> rocPositions = null;
+			List<RDSPosition> tposPositions = null;
 
-			AddUpdatePositions(rocPositions, tposPositions);
+			if (!rocPositionsList.FilterOutROC)
+				rocPositions = copyPositionsToList(GLOBAL.HPositions.RocItems);
 
-			UpdatePositionStop();
+			if (!rocPositionsList.FilterOutTPOS)
+				tposPositions = copyPositionsToList(GLOBAL.HPositions.TposItems);
+
+			bool hasRocPositions = (rocPositions != null) && (rocPositions.Count > 0);
+			bool hasTposPositions = (tposPositions != null) && (tposPositions.Count > 0);
+
+			if (hasRocPositions || hasTposPositions) {
+				AddUpdatePositions(rocPositions, tposPositions);
+				UpdatePositionStop();
+			}
 		}
 
-		// Get All ROC Positions from Main Collection
-		private TPOSPosition[] LoadRocPositions()
+		// Get all positions from main collection.
+		private List<RDSPosition> copyPositionsToList(Dictionary<string, RDSPosition> collection)
 		{
-			TPOSPosition[] positions = new TPOSPosition[0];
-			lock (GLOBAL.HPositions.RocItems)
+			List<RDSPosition> positions = new List<RDSPosition>();
+			lock (collection)
 			{
-				positions = new TPOSPosition[GLOBAL.HPositions.RocItems.Values.Count];
-				GLOBAL.HPositions.RocItems.Values.CopyTo(positions, 0);
-			}
-			return positions;
-		}
-
-		// Get All TPOS Positions from Main Collection
-		private TPOSPosition[] LoadTposPositions()
-		{
-			TPOSPosition[] positions = new TPOSPosition[0];
-			lock (GLOBAL.HPositions.TposItems)
-			{
-				positions = new TPOSPosition[GLOBAL.HPositions.TposItems.Values.Count];
-				GLOBAL.HPositions.TposItems.Values.CopyTo(positions, 0);
+				positions.AddRange(collection.Values);
 			}
 			return positions;
 		}
 
 		// Used by Main Refresh and Load Thread
-		private delegate void AddUpdatePositionsDelegate(List<TPOSPosition> rocPositions, List<TPOSPosition> tposPositions);
-		private void AddUpdatePositions(List<TPOSPosition> rocPositions, List<TPOSPosition> tposPositions)
+		private delegate void AddUpdatePositionsDelegate(List<RDSPosition> rocPositions, List<RDSPosition> tposPositions);
+		private void AddUpdatePositions(List<RDSPosition> rocPositions, List<RDSPosition> tposPositions)
 		{
 			if (InvokeRequired)
 			{
@@ -780,8 +760,8 @@ namespace ROC
 					rocPositionsList.Details.Clear();
 					rocPositionsList.Details.Add("");
 
-					LoadRocPositions(rocPositions.ToArray(), true);
-					LoadTposPositions(tposPositions.ToArray(), true);
+					LoadPositions(rocPositions, true);
+					LoadPositions(tposPositions, true);
 				}
 			}
 			catch (Exception ex)
@@ -792,22 +772,16 @@ namespace ROC
 
 		#region - Used by Process Thread -
 
-		private delegate void AddUpdatePositionsByProcessDelegate(bool updateIM, List<TPOSPosition> rocPositions, List<TPOSPosition> tposPositions, Market deltas);
-		public void AddUpdatePositionsByProcess(bool updateIM, List<TPOSPosition> rocPositions, List<TPOSPosition> tposPositions, Market deltas)
+		private delegate void AddUpdatePositionsByProcessDelegate(bool updateIM, List<RDSPosition> rocPositions, List<RDSPosition> tposPositions, Market deltas);
+		public void AddUpdatePositionsByProcess(bool updateIM, List<RDSPosition> rocPositions, List<RDSPosition> tposPositions, Market deltas)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
 				try
 				{
 					_updateIM = updateIM;
-					lock (_rocPositions)
-					{
-						_rocPositions.AddRange(rocPositions.ToArray());
-					}
-					lock (_tposPositions)
-					{
-						_tposPositions.AddRange(tposPositions.ToArray());
-					}
+					_rocPositions.AddRange(rocPositions);
+					_tposPositions.AddRange(tposPositions);
 
 					_deltas.Merge(deltas);
 				}
@@ -831,11 +805,11 @@ namespace ROC
 						{
 							if (rocPositions.Count > 0)
 							{
-								LoadRocPositions(rocPositions.ToArray(), false);
+								LoadPositions(rocPositions, false);
 							}
 							if (tposPositions.Count > 0)
 							{
-								LoadTposPositions(tposPositions.ToArray(), false);
+								LoadPositions(tposPositions, false);
 							}
 							if (updateIM)
 							{
@@ -870,33 +844,15 @@ namespace ROC
 					{
 						lock (rocPositionsList.RocGridTable)
 						{
-							List<TPOSPosition> rocPositions = new List<TPOSPosition>();
-							lock (_rocPositions)
-							{
-								if (_rocPositions.Count > 0)
-								{
-									rocPositions = new List<TPOSPosition>(_rocPositions.ToArray());
-									_rocPositions.Clear();
-								}
-							}
-							if (rocPositions.Count > 0)
-							{
-								LoadRocPositions(rocPositions.ToArray(), false);
-							}
+							List<RDSPosition> created;
 
-							List<TPOSPosition> tposPositions = new List<TPOSPosition>();
-							lock (_tposPositions)
-							{
-								if (_tposPositions.Count > 0)
-								{
-									tposPositions = new List<TPOSPosition>(_tposPositions.ToArray());
-									_tposPositions.Clear();
-								}
-							}
-							if (tposPositions.Count > 0)
-							{
-								LoadTposPositions(tposPositions.ToArray(), false);
-							}
+							List<RDSPosition> rocPositions = _rocPositions.TakeAll();
+							if (rocPositions.Count > 0)
+								LoadPositions(rocPositions, false);
+
+							List<RDSPosition> tposPositions = _tposPositions.TakeAll();
+							if ((tposPositions != null) && (tposPositions.Count > 0))
+								LoadPositions(tposPositions, false);
 
 							if (_updateIM)
 							{
@@ -940,7 +896,7 @@ namespace ROC
 					lcoImSymbolNeeded = new Dictionary<string, string>(ImSymbolNeeded);
 				}
 
-				BaseSecurityInfo secInfo = null;
+				BaseSecurityInfo secInfo;
 				List<string> removeList = new List<string>();
 
 				lock (rocPositionsList.RocGridTable)
@@ -994,14 +950,6 @@ namespace ROC
 				{
 					rocPositionsList.Symbols.Add(secInfo.MDSymbol.Replace("/P", "/PR"));
 				}
-				//else if (!rocPositionsList.Symbols.Contains(secInfo.MDSymbol.Replace("/RT", "/RT")))
-				//{
-				//    rocPositionsList.Symbols.Add(secInfo.MDSymbol.Replace("/RT", "/RT"));
-				//}
-				//else if (!rocPositionsList.Symbols.Contains(secInfo.MDSymbol.Replace("/RTWI", "/RTWI")))
-				//{
-				//    rocPositionsList.Symbols.Add(secInfo.MDSymbol.Replace("/RTWI", "/RTWI"));
-				//}
 
 				row["TickSize"] = secInfo.TickSize;
 				row["ContractSize"] = secInfo.ContractSize;
@@ -1010,8 +958,7 @@ namespace ROC
 
 		private void UpdateMarketDataDeltas(Market deltas)
 		{
-			DataRowView[] rows = new DataRowView[0];
-			TPOSPosition position = new TPOSPosition();
+			DataRowView[] rows;
 
 			lock (rocPositionsList.RocGridTable)
 			{
@@ -1142,94 +1089,47 @@ namespace ROC
 
 		#endregion
 
-		private void LoadRocPositions(TPOSPosition[] positions, bool isRefresh)
+		private void LoadPositions(List<RDSPosition> positions, bool isRefresh)
 		{
-			if (positions.Length > 0)
+			if ((positions != null) && (positions.Count > 0))
 			{
-				if (!isRefresh)
-				{
-					positions = ConsolidateExecutions(positions, 0);
-				}
-
-				foreach (TPOSPosition position in positions)
-				{
-					AddUpdatePosition(position, 0, isRefresh);
+				if (isRefresh) {
+					foreach (RDSPosition position in positions)
+						AddUpdatePosition(position, isRefresh);
+				} else {
+					Dictionary<string, RDSPosition> grouped = GroupPositions(positions);
+					foreach (KeyValuePair<string, RDSPosition> entry in grouped)
+						AddUpdatePosition(entry.Value, isRefresh);
 				}
 			}
 		}
 
-		private void LoadTposPositions(TPOSPosition[] positions, bool isRefresh)
+		// This actually groups positions by criteria (see GetPositionKey()), versus consolidating positions per instrument.
+		private Dictionary<string, RDSPosition> GroupPositions(List<RDSPosition> positions)
 		{
-			if (Extended && positions.Length > 0)
+			Dictionary<string, RDSPosition> consolidated = new Dictionary<string, RDSPosition>();
+
+			foreach (RDSPosition position in positions)
 			{
-				if (!isRefresh)
+				string key = GetPositionKey(position);
+
+				if (consolidated.TryGetValue(key, out RDSPosition found))
 				{
-					positions = ConsolidateExecutions(positions, 1);
-				}
-
-				foreach (TPOSPosition position in positions)
-				{
-					AddUpdatePosition(position, 1, isRefresh);
-				}
-			}
-		}
-
-		private TPOSPosition[] ConsolidateExecutions(TPOSPosition[] newExecs, int flag)
-		{
-			Dictionary<string, TPOSPosition> consolidatedPositions = new Dictionary<string, TPOSPosition>();
-
-			foreach (TPOSPosition newExec in newExecs)
-			{
-				// Make a local copy
-				TPOSPosition locExec = new TPOSPosition();
-				if (flag == 1)
-				{
-					locExec.IsTPOS = true;
-				}
-				locExec.Merge(newExec);
-
-				string key = GetPositionKey(locExec);
-
-				if (consolidatedPositions.TryGetValue(key, out TPOSPosition position))
-				{
-					if (locExec.OpenQty != 0)
-					{
-						position.OpenQty += locExec.OpenQty;
-					}
-
-					if (locExec.BuyQty > 0 && locExec.BuyAvg > 0)
-					{
-						double cost = (position.BuyQty * position.BuyAvg) + (locExec.BuyQty * locExec.BuyAvg);
-						position.BuyQty += locExec.BuyQty;
-						position.BuyAvg = cost / position.BuyQty;
-					}
-
-					if (locExec.SellQty > 0 && locExec.SellAvg > 0)
-					{
-						double cost = (position.SellQty * position.SellAvg) + (locExec.SellQty * locExec.SellAvg);
-						position.SellQty += locExec.SellQty;
-						position.SellAvg = cost / position.SellQty;
-					}
+					found.UpdateFromPosition(position, false);
 				}
 				else
 				{
-					consolidatedPositions.Add(key, locExec);
+					RDSPosition copy = new RDSPosition(position);
+					consolidated.Add(key, copy);
 				}
 			}
 
-			TPOSPosition[] result = new TPOSPosition[consolidatedPositions.Count];
-			consolidatedPositions.Values.CopyTo(result, 0);
-
-			return result;
+			return consolidated;
 		}
 
 		// Single or First Position Load
-		private void AddUpdatePosition(TPOSPosition position, int flag, bool isRefresh)
+		private void AddUpdatePosition(RDSPosition position, bool isRefresh)
 		{
-			if (flag == 1)
-			{
-				position.IsTPOS = true;
-			}
 			if (position.SymbolDetail != "")
 			{
 				string key = GetPositionKey(position);
@@ -1247,8 +1147,8 @@ namespace ROC
 							rocPositionsList.Details.Add(position.SymbolDetail);
 						}
 
-						position = UpdatePositionsWithSecurityInfo(position);
-						position = UpdatePositionsWithCurrentMarketData(position);
+						UpdatePositionsWithSecurityInfo(position);
+						UpdatePositionsWithCurrentMarketData(position);
 
 						rocPositionsList.RocGridTable.Rows.Add(new object[] {
 						key,
@@ -1286,7 +1186,7 @@ namespace ROC
 						position.ExpDate,
 						position.StrikePrice,
 						position.CallPut,
-						flag,
+						position.Source == RDSPosition.SourceEnum.TPOS ? 1 : 0,
 						position.SettlePrice});
 
 						switch (position.SecType)
@@ -1310,8 +1210,8 @@ namespace ROC
 						{
 							if (isRefresh)
 							{
-								position = UpdatePositionsWithSecurityInfo(position);
-								position = UpdatePositionsWithCurrentMarketData(position);
+								UpdatePositionsWithSecurityInfo(position);
+								UpdatePositionsWithCurrentMarketData(position);
 							}
 
 							foreach (DataRow row in rows)
@@ -1325,125 +1225,21 @@ namespace ROC
 		}
 
 		// Update with Play back & onLoad
-		private TPOSPosition UpdatePositionsWithCurrentMarketData(TPOSPosition position)
+		private void UpdatePositionsWithCurrentMarketData(RDSPosition position)
 		{
-			double price;
-			long size;
-
-			if (!string.IsNullOrEmpty(position.SymbolDetail) && GLOBAL.HMarketData.Current.TryGet(position.SymbolDetail, out Book delta)) {
-				if (delta.TryGetField(Book.FieldEnum.NetChange, out price))
-				{
-					position.NetChange = price;
-				}
-				if (delta.TryGetField(Book.FieldEnum.PctChange, out price)) {
-					position.PctChange = price;
-				}
-				if (delta.TryGetField(Book.FieldEnum.TotalVolume, out size))
-				{
-					position.TotalVolume = size;
-				}
-				if (delta.TryGetField(Book.FieldEnum.BidPrice, out price)) {
-					position.BidPrice = price;
-				}
-				if (delta.TryGetField(Book.FieldEnum.BidSize, out size)) {
-					position.BidSize = size;
-				}
-				if (delta.TryGetField(Book.FieldEnum.AskPrice, out price)) {
-					position.AskPrice = price;
-				}
-				if (delta.TryGetField(Book.FieldEnum.AskSize, out size)) {
-					position.AskSize = size;
-				}
-
-				if (delta.TryGetNonZero(Book.FieldEnum.TradePrice, out price)) {
-					position.LastTraded = price;
-				}
-
-				switch (position.SecType)
-				{
-					case "F":
-						if (delta.TryGetNonZero(Book.FieldEnum.SettlePrice, out price)) {
-							if (delta.TryGetField(Book.FieldEnum.SettleDateDT, out DateTime when) && (when.Day < DateTime.Today.Day))
-							{
-								// Previous Day SettlePrice
-								position.OpenAvg = price;
-								position.SettlePrice = price;
-							}
-							else
-							{
-								// Todays SettlePrice
-								if (position.OpenAvg == 0)
-								{
-									// Todays First Load
-									position.OpenAvg = price;
-								}
-								position.SettlePrice = price;
-							}
-						}
-						else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price)) {
-							position.OpenAvg = price;
-						}
-						break;
-					case "E":
-						if (delta.TryGetField(Book.FieldEnum.SecurityStatus, out string status)) {
-							switch (status.ToLower())
-							{
-								case "none":
-									break;
-								case "normal":
-									position.SecurityStatus = "";
-									break;
-								default:
-									position.SecurityStatus = status;
-									break;
-							}
-						}
-
-						if (delta.TryGetNonZero(Book.FieldEnum.AdjPrevClosePrice, out price)) {
-							position.OpenAvg = price;
-							position.SettlePrice = price;
-						}
-						else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price)) {
-							position.OpenAvg = price;
-						}
-						break;
-					default:
-						if (delta.TryGetNonZero(Book.FieldEnum.AdjPrevClosePrice, out price)) {
-							position.OpenAvg = price;
-							position.SettlePrice = price;
-						}
-						else if (delta.TryGetNonZero(Book.FieldEnum.PrevClosePrice, out price)) {
-							position.OpenAvg = price;
-						}
-						break;
-				}
-
-				// Need to build PnL
-				if (position.LastTraded == 0)
-				{
-					position.LastTraded = position.OpenAvg;
-				}
-			}
-
-			return position;
+			if (!string.IsNullOrEmpty(position.SymbolDetail) && GLOBAL.HMarketData.Current.TryGet(position.SymbolDetail, out Book delta))
+				position.UpdateFromMarket(delta);
 		}
 
 		// Update with Security Info On Play back & onLoad
-		private TPOSPosition UpdatePositionsWithSecurityInfo(TPOSPosition position)
+		private void UpdatePositionsWithSecurityInfo(RDSPosition position)
 		{
 			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(position.SymbolDetail);
 
-			if (secInfo != null)
-			{
-				if (position.Symbol == "")
-				{
-					position.Symbol = secInfo.MDSymbol;
-				}
-				position.TickSize = secInfo.TickSize;
-				position.ContractSize = secInfo.ContractSize;
+			if (secInfo != null) {
+				position.UpdateFromSecurity(secInfo.MDSymbol, secInfo.TickSize, secInfo.ContractSize);
 
-				switch (position.SecType)
-				{
+				switch (position.SecType) {
 					case CSVFieldIDs.SecurityTypes.Option:
 						rocPositionsList.UpdateSymbol(position.Symbol);
 						rocPositionsList.UpdateTickSize(position.Symbol, position.TickSize);
@@ -1452,95 +1248,53 @@ namespace ROC
 						rocPositionsList.UpdateTickSize(position.Symbol, position.TickSize);
 						break;
 				}
-			}
-			else
-			{
-				position.Symbol = "";
+			} else {
+				position.UpdateFromSecurity("", 0, 0);
 			}
 
 			lock (ImSymbolNeeded)
 			{
 				ImSymbolNeeded[position.SymbolDetail] = position.Symbol;
 			}
-
-			return position;
 		}
 
-		private void UpdateSinglePosition(DataRow row, TPOSPosition locExec)
+		private void UpdateSinglePosition(DataRow row, RDSPosition locExec)
 		{
-			double cost = 0;
-			TPOSPosition orgPos = new TPOSPosition();
+			RDSPosition rowpos = new RDSPosition(
+				(double)row["ContractSize"],
+				(long)row["OpenQty"],
+				(double)row["OpenAvg"],
+				(long)row["BuyQty"],
+				(double)row["BuyAvg"],
+				(long)row["SellQty"],
+				(double)row["SellAvg"],
+				(double)row["LastTraded"],
+				(double)row["LastTraded"],
+				locExec
+				);
 
-			orgPos.ContractSize = (double)row["ContractSize"];
-			orgPos.OpenQty = (long)row["OpenQty"];
-			orgPos.OpenAvg = (double)row["OpenAvg"];
-			orgPos.SettlePrice = (double)row["SettlePrice"];
+			row["OpenQty"] = rowpos.OpenQty;
+			row["BuyQty"] = rowpos.BuyQty;
+			row["BuyAvg"] = rowpos.BuyAvg;
+			row["SellQty"] = rowpos.SellQty;
+			row["SellAvg"] = rowpos.SellAvg;
+			row["CurrentQty"] = rowpos.CurrentQty;
+			row["OpenPnL"] = rowpos.OpenPnL;
+			row["DayPnL"] = rowpos.DayPnL;
+			row["DayRealizedPnL"] = rowpos.DayRealizedPnL;
+			row["TotalPnL"] = rowpos.TotalPnL;
+			row["MarketValue"] = rowpos.MarketValue;
 
-			orgPos.LastTraded = (double)row["LastTraded"];
-			if (orgPos.LastTraded == 0)
-			{
-				orgPos.LastTraded = orgPos.OpenAvg;
-				row["LastTraded"] = orgPos.LastTraded;
-			}
-			if (orgPos.OpenAvg == 0)
-			{
-				orgPos.OpenAvg = orgPos.LastTraded;
-			}
-
-			if (locExec.OpenQty != 0)
-			{
-				orgPos.OpenQty = orgPos.OpenQty + locExec.OpenQty;
-				row["OpenQty"] = orgPos.OpenQty;
-			}
-
-			orgPos.BuyQty = (long)row["BuyQty"];
-			orgPos.BuyAvg = (double)row["BuyAvg"];
-			if (locExec.BuyQty > 0 && locExec.BuyAvg > 0)
-			{
-				cost = (orgPos.BuyQty * orgPos.BuyAvg) + (locExec.BuyQty * locExec.BuyAvg);
-				orgPos.BuyQty = orgPos.BuyQty + locExec.BuyQty;
-				orgPos.BuyAvg = cost / orgPos.BuyQty;
-
-				row["BuyQty"] = orgPos.BuyQty;
-				row["BuyAvg"] = orgPos.BuyAvg;
-			}
-
-			orgPos.SellQty = (long)row["SellQty"];
-			orgPos.SellAvg = (double)row["SellAvg"];
-			if (locExec.SellQty > 0 && locExec.SellAvg > 0)
-			{
-				cost = (orgPos.SellQty * orgPos.SellAvg) + (locExec.SellQty * locExec.SellAvg);
-				orgPos.SellQty = orgPos.SellQty + locExec.SellQty;
-				orgPos.SellAvg = cost / orgPos.SellQty;
-
-				row["SellQty"] = orgPos.SellQty;
-				row["SellAvg"] = orgPos.SellAvg;
-			}
-
-			row["CurrentQty"] = orgPos.CurrentQty;
-			row["OpenPnL"] = orgPos.OpenPnL;
-			row["DayPnL"] = orgPos.DayPnL;
-			row["DayRealizedPnL"] = orgPos.DayRealizedPnL;
-			row["TotalPnL"] = orgPos.TotalPnL;
-			row["MarketValue"] = orgPos.MarketValue;
-
-			if (GroupBy != 0)
-			{
-				if (row["Trader"] == null || row["Trader"].ToString() == "")
-				{
+			if (GroupBy != 0) {
+				if (row["Trader"] == null || row["Trader"].ToString() == "") {
 					row["Trader"] = locExec.Trader;
-				}
-				else if (locExec.Trader != "" && !row["Trader"].ToString().Contains(locExec.Trader))
-				{
+				} else if (locExec.Trader != "" && !row["Trader"].ToString().Contains(locExec.Trader)) {
 					row["Trader"] = row["Trader"] + "," + locExec.Trader;
 				}
 
-				if (row["ClearingAcct"] == null || row["ClearingAcct"].ToString() == "")
-				{
+				if (row["ClearingAcct"] == null || row["ClearingAcct"].ToString() == "") {
 					row["ClearingAcct"] = locExec.ClearingAcct;
-				}
-				else if (locExec.ClearingAcct != "" && !row["ClearingAcct"].ToString().Contains(locExec.ClearingAcct))
-				{
+				} else if (locExec.ClearingAcct != "" && !row["ClearingAcct"].ToString().Contains(locExec.ClearingAcct)) {
 					row["ClearingAcct"] = row["ClearingAcct"] + "," + locExec.ClearingAcct;
 				}
 			}
@@ -1550,49 +1304,34 @@ namespace ROC
 
 		private string GetPositionKeyFromDataRow(DataRow row)
 		{
-			TPOSPosition pos = new TPOSPosition();
-
-			pos.SymbolDetail = (string)row["SymbolDetail"];
-			pos.Trader = (string)row["Trader"];
-			pos.ClearingAcct = (string)row["ClearingAcct"];
-
-			return pos.PositionKey;
+			return RDSPosition.BuildPositionKey((string)row["ClearingAcct"], (string)row["SymbolDetail"], (string)row["Trader"]);
 		}
 
 		private void UpdateSinglePosition(DataRowView row)
 		{
-			TPOSPosition pos = new TPOSPosition();
-
 			try
 			{
-				pos.ContractSize = (double)row["ContractSize"];
-				pos.OpenQty = (long)row["OpenQty"];
-				pos.OpenAvg = (double)row["OpenAvg"];
-				pos.SettlePrice = (double)row["SettlePrice"];
+				// contractSize, openQty, openAvg, buyQty, buyAvg, sellQty, sellAvg, lastTraded, settlePrice
+				RDSPosition rowpos = new RDSPosition(
+					(double)row["ContractSize"],
+					(long)row["OpenQty"],
+					(double)row["OpenAvg"],
+					(long)row["BuyQty"],
+					(double)row["BuyAvg"],
+					(long)row["SellQty"],
+					(long)row["SellQty"],
+					(double)row["LastTraded"],
+					(double)row["SettlePrice"],
+					null
+					);
 
-				pos.LastTraded = (double)row["LastTraded"];
-				if (pos.LastTraded == 0)
-				{
-					pos.LastTraded = pos.OpenAvg;
-					row["LastTraded"] = pos.LastTraded;
-				}
-				if (pos.OpenAvg == 0)
-				{
-					pos.OpenAvg = pos.LastTraded;
-				}
-
-				pos.BuyQty = (long)row["BuyQty"];
-				pos.BuyAvg = (double)row["BuyAvg"];
-
-				pos.SellQty = (long)row["SellQty"];
-				pos.SellAvg = (double)row["SellAvg"];
-
-				row["CurrentQty"] = pos.CurrentQty;
-				row["OpenPnL"] = pos.OpenPnL;
-				row["DayPnL"] = pos.DayPnL;
-				row["DayRealizedPnL"] = pos.DayRealizedPnL;
-				row["TotalPnL"] = pos.TotalPnL;
-				row["MarketValue"] = pos.MarketValue;
+				row["LastTraded"] = rowpos.LastTraded; // In case it was changed to OpenAvg.
+				row["CurrentQty"] = rowpos.CurrentQty;
+				row["OpenPnL"] = rowpos.OpenPnL;
+				row["DayRealizedPnL"] = rowpos.DayRealizedPnL;
+				row["DayPnL"] = rowpos.DayPnL;
+				row["TotalPnL"] = rowpos.TotalPnL;
+				row["MarketValue"] = rowpos.MarketValue;
 			}
 			catch (Exception ex)
 			{
@@ -1600,7 +1339,7 @@ namespace ROC
 			}
 		}
 
-		private string GetPositionKey(TPOSPosition position)
+		private string GetPositionKey(RDSPosition position)
 		{
 			string key = "";
 
@@ -1609,11 +1348,11 @@ namespace ROC
 				case GroupByTypes.ByAccount:
 					if (position.ClearingAcct.Length > 5)
 					{
-						key = string.Concat(position.ClearingAcct.Substring(0, 5));
+						key = position.ClearingAcct.Substring(0, 5);
 					}
 					else
 					{
-						key = string.Concat(position.ClearingAcct);
+						key = position.ClearingAcct;
 					}
 					break;
 				case GroupByTypes.BySymbol:
@@ -1625,7 +1364,6 @@ namespace ROC
 				case GroupByTypes.None:
 				default:
 					key = position.PositionKey;
-					//key = position.SymbolDetail;
 					break;
 			}
 
@@ -2331,7 +2069,7 @@ namespace ROC
 
 				if (symbols.Count > 1)
 				{
-					return string.Join(",", symbols.ToArray());
+					return string.Join(",", symbols);
 				}
 				else if (symbols.Count == 1)
 				{
@@ -2362,7 +2100,7 @@ namespace ROC
 
 				if (symbols.Count > 1)
 				{
-					return string.Join(",", symbols.ToArray());
+					return string.Join(",", symbols);
 				}
 				else if (symbols.Count == 1)
 				{
@@ -2798,14 +2536,14 @@ namespace ROC
 								// Type (10)
 								rowValues.Add("MKT");
 
-								tableValues.Add(String.Join(rocPositionsList.ColSplit, rowValues.ToArray()));
+								tableValues.Add(string.Join(rocPositionsList.ColSplit, rowValues));
 							}
 						}
 					}
 
 					if (tableValues.Count > 0)
 					{
-						Clipboard.SetDataObject(String.Join(rocPositionsList.RowSplit, tableValues.ToArray()));
+						Clipboard.SetDataObject(string.Join(rocPositionsList.RowSplit, tableValues));
 						lock (GLOBAL.HWindows.BatchMarketTicketWindows)
 						{
 							GLOBAL.HWindows.OpenWindow(new frmBatchMarketTicket(true), true);
@@ -2868,14 +2606,14 @@ namespace ROC
 								// Type (10)
 								rowValues.Add("MKT");
 
-								tableValues.Add(String.Join(rocPositionsList.ColSplit, rowValues.ToArray()));
+								tableValues.Add(string.Join(rocPositionsList.ColSplit, rowValues));
 							}
 						}
 					}
 
 					if (tableValues.Count > 0)
 					{
-						Clipboard.SetDataObject(String.Join(rocPositionsList.RowSplit, tableValues.ToArray()));
+						Clipboard.SetDataObject(string.Join(rocPositionsList.RowSplit, tableValues));
 						lock (GLOBAL.HWindows.BatchMarketTicketWindows)
 						{
 							GLOBAL.HWindows.OpenWindow(new frmBatchMarketTicket(true), true);

@@ -140,9 +140,9 @@ namespace ROC
 
 			if (GLOBAL.HRDS.Status != HelperRDS.StatusTypes.Done)
 			{
-				GLOBAL.HROM = new HelperROM();
+				GLOBAL.OrderManagers = new HelperROM();
 				GLOBAL.HRDS = new HelperRDS();
-				GLOBAL.HMDSs = new System.Collections.Generic.List<HelperMDS>();
+				GLOBAL.MarketDataProviders = new System.Collections.Generic.List<HelperMDS>();
 			}
 		}
 
@@ -150,7 +150,7 @@ namespace ROC
 		{
 			try
 			{
-				switch (GLOBAL.HROM.Status)
+				switch (GLOBAL.OrderManagers.Status)
 				{
 					case HelperROM.StatusTypes.LoggedIn:
 						#region - RDS Logging In -
@@ -178,13 +178,13 @@ namespace ROC
 								StopLoginTimer();
 
 								// Save the User Name after a succesful login
-								Configuration.User.Default.LastUserName = GLOBAL.HROM.UserName;
+								Configuration.User.Default.LastUserName = GLOBAL.OrderManagers.UserName;
 								Configuration.User.Default.Save();
 
 								Close();
 								break;
 							case HelperRDS.StatusTypes.Failed:
-								GLOBAL.HROM.Disconnect();
+								GLOBAL.OrderManagers.Disconnect();
 								StopLoginTimer();
 								break;
 							default:
@@ -198,7 +198,7 @@ namespace ROC
 									case HelperRDS.StatusTypes.GettingVersion:
 										break;
 									case HelperRDS.StatusTypes.GotVersion:
-										GLOBAL.HRDS.GetUserProfile(GLOBAL.HROM.UserName, GLOBAL.HROM.Password);
+										GLOBAL.HRDS.GetUserProfile(GLOBAL.OrderManagers.UserName, GLOBAL.OrderManagers.Password);
 										break;
 									case HelperRDS.StatusTypes.GettingUserprofiles:
 										break;
@@ -234,12 +234,11 @@ namespace ROC
 										if (GLOBAL.ByPassRdsLogin || !Configuration.User.Default.UseTPOS)
 										{
 											GLOBAL.HRDS.ConnectToMDS();
-											GLOBAL.HRDS.Status = HelperRDS.StatusTypes.ConnectingToMDS;
 										}
 										else
 										{
 											GLOBAL.HRDS.LoginFailed();
-											GLOBAL.HROM.Disconnect();
+											GLOBAL.OrderManagers.Disconnect();
 											StopLoginTimer();
 										}
 										break;
@@ -253,19 +252,19 @@ namespace ROC
 					default:
 						#region - ROM Logging In -
 
-						if (GLOBAL.HROM.StatusDsp != "")
+						if (GLOBAL.OrderManagers.StatusDsp != "")
 						{
-							lblROMStatus.Text = GLOBAL.HROM.StatusDsp;
+							lblROMStatus.Text = GLOBAL.OrderManagers.StatusDsp;
 							lblROMStatus.SetToolTip(lblROMStatus.Text);
 						}
 
-						if (GLOBAL.HROM.RomMsgDsp != "")
+						if (GLOBAL.OrderManagers.RomMsgDsp != "")
 						{
-							lblLoginStatus.Text = GLOBAL.HROM.RomMsgDsp;
+							lblLoginStatus.Text = GLOBAL.OrderManagers.RomMsgDsp;
 							lblLoginStatus.SetToolTip(lblLoginStatus.Text);
 						}
 
-						switch (GLOBAL.HROM.Status)
+						switch (GLOBAL.OrderManagers.Status)
 						{
 							case HelperROM.StatusTypes.Stopped:
 								if (_loginClicked)
@@ -274,11 +273,11 @@ namespace ROC
 									if (GLOBAL.ByPassRomLogin)
 										ByPassROMLogin();
 									else
-										GLOBAL.HROM.Connect();
+										GLOBAL.OrderManagers.Connect();
 								}
 								else
 								{
-									GLOBAL.HROM.Disconnect();
+									GLOBAL.OrderManagers.Disconnect();
 									StopLoginTimer();
 								}
 								break;
@@ -286,7 +285,7 @@ namespace ROC
 								break;
 							case HelperROM.StatusTypes.Started:
 								GLOBAL.UserUIProfile.LoadAllOrderInfo(txtUserName.Text);
-								GLOBAL.HROM.Loggin(txtUserName.Text, txtPassword.Text);
+								GLOBAL.OrderManagers.Loggin(txtUserName.Text, txtPassword.Text);
 								break;
 							case HelperROM.StatusTypes.Starting:
 								break;
@@ -303,7 +302,7 @@ namespace ROC
 								}
 								else
 								{
-									GLOBAL.HROM.Disconnect();
+									GLOBAL.OrderManagers.Disconnect();
 									StopLoginTimer();
 								}
 								break;
@@ -313,9 +312,9 @@ namespace ROC
 						break;
 				}
 
-				if (GLOBAL.HROM.AlertList.Count > 0)
+				if (GLOBAL.OrderManagers.AlertList.Count > 0)
 				{
-					GLOBAL.HROM.ShowAlerts();
+					GLOBAL.OrderManagers.ShowAlerts();
 				}
 
 				if (GLOBAL.HRDS.AlertList.Count > 0)
@@ -331,12 +330,12 @@ namespace ROC
 
 		private void ByPassROMLogin()
 		{
-			GLOBAL.HROM.UserName = txtUserName.Text;
-			GLOBAL.HROM.Password = txtPassword.Text;
+			GLOBAL.OrderManagers.UserName = txtUserName.Text;
+			GLOBAL.OrderManagers.Password = txtPassword.Text;
 
 			// When the ROM server is mssing
-			GLOBAL.HROM.Status = HelperROM.StatusTypes.LoggedIn;
-			GLOBAL.HROM.EndOfQueuedMsg = true;
+			GLOBAL.OrderManagers.Status = HelperROM.StatusTypes.LoggedIn;
+			GLOBAL.OrderManagers.EndOfQueuedMsg = true;
 		}
 
 		#endregion

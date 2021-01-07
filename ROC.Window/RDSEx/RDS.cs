@@ -673,14 +673,14 @@ namespace RDSEx
 		private bool _firstTposExecutionCall = true;
 
 		// Tpos Positions nested with Tpos Trades By instrument ID
-		private Dictionary<string, TPOSPosition> _tposPositions;
-		public Dictionary<string, TPOSPosition> TposPositions
+		private Dictionary<string, RDSPosition> _tposPositions;
+		public Dictionary<string, RDSPosition> TposPositions
 		{
 			get
 			{
 				if (_tposPositions == null)
 				{
-					_tposPositions = new Dictionary<string, TPOSPosition>();
+					_tposPositions = new Dictionary<string, RDSPosition>();
 				}
 				return _tposPositions;
 			}
@@ -690,14 +690,14 @@ namespace RDSEx
 			}
 		}
 
-		private Dictionary<string, TPOSPosition> _newTposPositions;
-		public Dictionary<string, TPOSPosition> NewTposPositions
+		private Dictionary<string, RDSPosition> _newTposPositions;
+		public Dictionary<string, RDSPosition> NewTposPositions
 		{
 			get
 			{
 				if (_newTposPositions == null)
 				{
-					_newTposPositions = new Dictionary<string, TPOSPosition>();
+					_newTposPositions = new Dictionary<string, RDSPosition>();
 				}
 				return _newTposPositions;
 			}
@@ -742,22 +742,8 @@ namespace RDSEx
 			}
 		}
 
-		private Dictionary<string, TPOSExecution> _newTposExecutions;
-		public Dictionary<string, TPOSExecution> NewTposExecutions
-		{
-			get
-			{
-				if (_newTposExecutions == null)
-				{
-					_newTposExecutions = new Dictionary<string, TPOSExecution>();
-				}
-				return _newTposExecutions;
-			}
-			set
-			{
-				_newTposExecutions = value;
-			}
-		}
+		private object _newTposExecutionsLock = new object();
+		private Dictionary<string, TPOSExecution> _newTposExecutions = new Dictionary<string, TPOSExecution>();
 
 		private bool _gotTposExecutions = false;
 		public bool GotTposExecutions
@@ -1410,74 +1396,22 @@ namespace RDSEx
 		private void DecodeUserOrder(Order userOrder)
 		{
 			ROCOrder ord;
-			if (!RocOrders.TryGetValue(userOrder.omTag, out ord))
-			{
-				ord = new ROCOrder();
+			if (!RocOrders.TryGetValue(userOrder.omTag, out ord)) {
+				ord = new ROCOrder(userOrder);
 				RocOrders.Add(userOrder.omTag, ord);
+			} else {
+				ord.Update(userOrder);
 			}
-
-			ord.Set(OrderFieldIDs.ROC.avgPrice, userOrder.avgPrice);
-			ord.Set(OrderFieldIDs.ROC.callPut, userOrder.callPut);
-			ord.Set(OrderFieldIDs.ROC.clearingAccount, userOrder.clearingAccount);
-			ord.Set(OrderFieldIDs.ROC.clearingID, userOrder.clearingID);
-			ord.Set(OrderFieldIDs.ROC.cumQty, userOrder.cumQty);
-			ord.Set(OrderFieldIDs.ROC.destID, userOrder.destID);
-			
-			//ord.Update(OrderFieldIDs.ROC.effectiveTime, userOrder.effectiveTime);
-			
-			ord.Set(OrderFieldIDs.ROC.ex_short_name, userOrder.ex_short_name);
-			ord.Set(OrderFieldIDs.ROC.expDate, userOrder.expDate);
-			ord.Set(OrderFieldIDs.ROC.firm, userOrder.firm);
-			ord.Set(OrderFieldIDs.ROC.instructions, userOrder.instructions);
-			ord.Set(OrderFieldIDs.ROC.leavesQty, userOrder.leavesQty);
-			ord.Set(OrderFieldIDs.ROC.localAcct, userOrder.localAcct);
-			ord.Set(OrderFieldIDs.ROC.maxFloor, userOrder.maxFloor);
-			
-			//ord.Update(OrderFieldIDs.ROC.multiplier, userOrder.multiplier);
-			
-			ord.Set(OrderFieldIDs.ROC.omTag, userOrder.omTag);
-			ord.Set(OrderFieldIDs.ROC.omTime, userOrder.omTime.ToLocalTime().ToOADate());
-			ord.Set(OrderFieldIDs.ROC.openClose, userOrder.openClose);
-			ord.Set(OrderFieldIDs.ROC.orderExpiresDate, userOrder.orderExpiresDate.ToOADate());
-			ord.Set(OrderFieldIDs.ROC.orderType, userOrder.orderType);
-			ord.Set(OrderFieldIDs.ROC.originalShares, userOrder.originalShares);
-			ord.Set(OrderFieldIDs.ROC.owner, userOrder.owner);
-			ord.Set(OrderFieldIDs.ROC.price, userOrder.price);
-			ord.Set(OrderFieldIDs.ROC.qty, userOrder.qty);
-			ord.Set(OrderFieldIDs.ROC.secType, userOrder.secType);
-			ord.Set(OrderFieldIDs.ROC.side, userOrder.side);
-			ord.Set(OrderFieldIDs.ROC.status, userOrder.status);
-			ord.Set(OrderFieldIDs.ROC.stopPrice, userOrder.stopPrice);
-			ord.Set(OrderFieldIDs.ROC.strikePrice, userOrder.strikePrice);
-			ord.Set(OrderFieldIDs.ROC.symbol, userOrder.symbol);
-			ord.Set(OrderFieldIDs.ROC.tag, userOrder.tag);
-			ord.Set(OrderFieldIDs.ROC.text, userOrder.text);
-			ord.Set(OrderFieldIDs.ROC.tif, userOrder.tif);
-			ord.Set(OrderFieldIDs.ROC.tradeFor, userOrder.tradeFor);
-			ord.Set(OrderFieldIDs.ROC.trader, userOrder.trader);
-			ord.Set(OrderFieldIDs.ROC.underlying, userOrder.underlying);
 
 			UpdateRocOrders(userOrder.omTag, ord);
 		}
 
 		public void UpdateRocOrders(string key, ROCOrder ord)
 		{
+			ord.MakeRocStatus();
 			lock (RocOrders)
 			{
-				MakeRocStatus(ref ord);
 				RocOrders[key] = ord;
-			}
-		}
-
-		public void MakeRocStatus(ref ROCOrder ord)
-		{
-			if (ord.Status == CSVFieldIDs.StatusCodes.Canceled && ord.CumQty > 0) // Cancelled and had some filled already
-			{
-				ord.Status = CSVFieldIDs.StatusCodes.FilledAndCancelled;  //Filled & Cancelled
-			}
-			else if (ord.Status == CSVFieldIDs.StatusCodes.Replaced && ord.LeaveQty == 0) // Replaced to 0 LeaveQty
-			{
-				ord.Status = CSVFieldIDs.StatusCodes.ReplacedAndFilled;  //Replaced and Filled
 			}
 		}
 
@@ -1550,7 +1484,7 @@ namespace RDSEx
 			if (omExecTag != "" && omTag != "" && RocOrders.TryGetValue(omTag, out ROCOrder order))
 			{
 				ROCExecution traded;
-				if (order.Trades.TryGetValue(omExecTag, out traded))
+				if (order.TryGetTrade(omExecTag, out traded))
 				{
 					// trade again?
 					ErrorMsg = string.Concat("DecodeUserExecution|Duplication ", omExecTag);
@@ -1558,32 +1492,10 @@ namespace RDSEx
 				else
 				{
 					traded = new ROCExecution();
-					order.Trades.Add(omExecTag, traded);
+					order.AddTrade(omExecTag, traded);
 				}
 
-				traded.Set(TradedFieldIDs.ROC.omTag, userExecution.omTag);
-				traded.Set(TradedFieldIDs.ROC.omExecTag, userExecution.omExecTag);
-				traded.Set(TradedFieldIDs.ROC.execTime, userExecution.execTime.ToLocalTime().ToOADate());
-				traded.Set(TradedFieldIDs.ROC.execQty, (long)userExecution.execQty);
-				traded.Set(TradedFieldIDs.ROC.execPrice, userExecution.execPrice);
-
-				// Attach some of the order info with the trade
-				traded.Set(TradedFieldIDs.ROC.symbol, order.Symbol);
-				traded.Set(TradedFieldIDs.ROC.underlying, order.Underlying);
-				traded.Set(TradedFieldIDs.ROC.expDate, order.ExpDate);
-				traded.Set(TradedFieldIDs.ROC.strikePrice, order.StrikePrice);
-				traded.Set(TradedFieldIDs.ROC.callPut, order.CallPut);
-				traded.Set(TradedFieldIDs.ROC.secType, order.SecType);
-				traded.Set(TradedFieldIDs.ROC.trader, order.Trader);
-				traded.Set(TradedFieldIDs.ROC.localAcct, order.LocalAcct);
-				traded.Set(TradedFieldIDs.ROC.account, order.ClearingAcct);
-				traded.Set(TradedFieldIDs.ROC.openClose, order.OpenClose);
-				traded.Set(TradedFieldIDs.ROC.side, (long)order.Side);
-				traded.Set(TradedFieldIDs.ROC.destID, order.DestID);
-
-				order.Set(OrderFieldIDs.hasTrades, true);
-				order.Trades[omExecTag] = traded;
-
+				traded.Update(userExecution, order);
 				RocExecutions[omExecTag] = traded;
 			}
 		}
@@ -1654,45 +1566,13 @@ namespace RDSEx
 		{
 			try
 			{
-				if (VarifyTposPosition(pos))
+				if (VerifyTposPosition(pos))
 				{
-					TPOSPosition position = new TPOSPosition();
-					position.Set(PositionFieldIDs.TPOS.isTPOS, true);
-					position.Set(PositionFieldIDs.TPOS.asOfDate, pos.m_AsOfDate);
-					position.Set(PositionFieldIDs.TPOS.avgCost, pos.m_AvgCost);
-					position.Set(PositionFieldIDs.TPOS.clearingAccount, pos.m_ClearingAccount);
-					position.Set(PositionFieldIDs.TPOS.curQty, pos.m_CurQty);
-					position.Set(PositionFieldIDs.TPOS.displayFormat, pos.m_DisplayFormat);
-					position.Set(PositionFieldIDs.TPOS.expDate, pos.m_ExpDate);
-					position.Set(PositionFieldIDs.TPOS.instrumentID, pos.m_InstrumentID);
-					position.Set(PositionFieldIDs.TPOS.multiplier, pos.m_Multiplier);
-					position.Set(PositionFieldIDs.TPOS.notionalAmount, pos.m_NotionalAmount);
-					position.Set(PositionFieldIDs.TPOS.openMark, pos.m_OpenMark);
-					position.Set(PositionFieldIDs.TPOS.openQty, pos.m_OpenQty);
-					position.Set(PositionFieldIDs.TPOS.portfolio, pos.m_Portfolio);
-					position.Set(PositionFieldIDs.TPOS.putCall, pos.m_PutCall);
-					position.Set(PositionFieldIDs.TPOS.realizedPnL, pos.m_RealizedPnL);
-					position.Set(PositionFieldIDs.TPOS.secType, pos.m_SecType);
-					position.Set(PositionFieldIDs.TPOS.strike, pos.m_Strike.ToString());
-					position.Set(PositionFieldIDs.TPOS.symbol, pos.m_Symbol);
-					position.Set(PositionFieldIDs.TPOS.tradeGroup, pos.m_TradeGroup);
-					position.Set(PositionFieldIDs.TPOS.traderAcronym, pos.m_TraderAcronym);
-					//position.Update(PositionFieldIDs.TPOS.traderAcronym, pos.m_Portfolio);
-					position.Set(PositionFieldIDs.TPOS.undSecType, pos.m_UndSecType);
-					if (pos.m_UndSecType == CSVFieldIDs.SecurityTypes.Equity)
-					{
-						position.Set(PositionFieldIDs.TPOS.undSymbol, pos.m_Symbol);
-					}
-					else
-					{
-						position.Set(PositionFieldIDs.TPOS.undSymbol, pos.m_UndSymbol);
-					}
-					position.Set(PositionFieldIDs.TPOS.validTraderKey, pos.m_ValidTraderKey);
-					position.Set(PositionFieldIDs.TPOS.version, pos.m_Version);
+					RDSPosition position = new RDSPosition(pos);
 
 					lock (TposPositions)
 					{
-						if (!TposPositions.TryGetValue(position.PositionKey, out TPOSPosition found) || (found.Version != pos.m_Version)) {
+						if (!TposPositions.TryGetValue(position.PositionKey, out RDSPosition found) || (found.Version != pos.m_Version)) {
 							TposPositions[position.PositionKey] = position;
 							AddToNewPositions(position);
 						}
@@ -1705,12 +1585,12 @@ namespace RDSEx
 			}
 		}
 
-		private bool VarifyTposPosition(TposPosition pos)
+		private bool VerifyTposPosition(TposPosition pos)
 		{
 			return AccountFilterMap.Contains(pos.m_ClearingAccount);
 		}
 
-		private void AddToNewPositions(TPOSPosition position)
+		private void AddToNewPositions(RDSPosition position)
 		{
 			if (!_firstTposPositionCall)
 			{
@@ -1732,6 +1612,22 @@ namespace RDSEx
 				_gotTposExecutionsRefresh = false;
 				_rdsService.RtrvTposTradesByTraderAsync(_user, "", true);
 			}
+		}
+
+		public List<TPOSExecution> TakeNewTPosExecutions()
+		{
+			Dictionary<string, TPOSExecution> taken, reset = new Dictionary<string, TPOSExecution>();
+			lock (_newTposExecutionsLock) {
+				taken = _tposExecutions;
+				_tposExecutions = reset;
+			}
+
+			if ((taken != null) && (taken.Count > 0)) {
+				List<TPOSExecution> result = new List<TPOSExecution>();
+				result.AddRange(taken.Values);
+				return result;
+			}
+			return null;
 		}
 
 		private void rdsService_GetTposTradesByTraderCompleted(object sender, RtrvTposTradesByTraderCompletedEventArgs e)
@@ -1790,75 +1686,18 @@ namespace RDSEx
 				if (VarifyTposTrade(tposTrade))
 				{
 					TPOSExecution exec = new TPOSExecution();
-					exec.Set(TradedFieldIDs.TPOS.isTPOS, true);
 					lock (TposExecutions)
 					{
 						if (!TposExecutions.TryGetValue(tposTrade.m_TradeID, out TPOSExecution found)) {
 							TposExecutions.Add(tposTrade.m_TradeID, exec);
 						} else if ((found.Version != tposTrade.m_Version) || (found.ModReasonID != tposTrade.m_LastModReasonID)) {
-							exec = TposExecutions[tposTrade.m_TradeID];
+							exec = found; // Needs updating.
 						} else {
-							// Same trade, exit.
-							return;
+							return; // Same trade, exit.
 						}
 					}
 
-					exec.Set(TradedFieldIDs.TPOS.activeState, tposTrade.m_ActiveState);
-					exec.Set(TradedFieldIDs.TPOS.clearingAccount, tposTrade.m_ClearingAccount);
-					exec.Set(TradedFieldIDs.TPOS.clearingStatus, tposTrade.m_ClearingStatus);
-					exec.Set(TradedFieldIDs.TPOS.commission, tposTrade.m_Commission);
-					exec.Set(TradedFieldIDs.TPOS.contraBroker, tposTrade.m_ContraBroker);
-					exec.Set(TradedFieldIDs.TPOS.contraFirm, tposTrade.m_ContraFirm);
-					exec.Set(TradedFieldIDs.TPOS.exchange, tposTrade.m_Exchange);
-					exec.Set(TradedFieldIDs.TPOS.expDate, tposTrade.m_ExpDate);
-					exec.Set(TradedFieldIDs.TPOS.extDescription, tposTrade.m_ExtDescription);
-					exec.Set(TradedFieldIDs.TPOS.extTradeID, tposTrade.m_ExtTradeID);
-					exec.Set(TradedFieldIDs.TPOS.lastModDate, tposTrade.m_LastModDate);
-					exec.Set(TradedFieldIDs.TPOS.lastModeReason, tposTrade.m_LastModReason);
-					if (tposTrade.m_LastModReason.Contains("Deleted"))
-					{
-						exec.Set(TradedFieldIDs.TPOS.lastModReasonID, 3);
-					}
-					else
-					{
-						exec.Set(TradedFieldIDs.TPOS.lastModReasonID, tposTrade.m_LastModReasonID);
-					}
-					exec.Set(TradedFieldIDs.TPOS.lastModTime, tposTrade.m_LastModTime);
-					exec.Set(TradedFieldIDs.TPOS.note, tposTrade.m_Note);
-					exec.Set(TradedFieldIDs.TPOS.portfolio, tposTrade.m_Portfolio);
-					exec.Set(TradedFieldIDs.TPOS.putCall, tposTrade.m_PutCall);
-					if (exec.ModReasonID == 3)
-					{
-						exec.Set(TradedFieldIDs.TPOS.qty, 0);
-						exec.Set(TradedFieldIDs.TPOS.price, 0);
-					}
-					else
-					{
-						exec.Set(TradedFieldIDs.TPOS.qty, tposTrade.m_Qty);
-						exec.Set(TradedFieldIDs.TPOS.price, tposTrade.m_Price);
-					}
-					exec.Set(TradedFieldIDs.TPOS.secType, tposTrade.m_SecType);
-					exec.Set(TradedFieldIDs.TPOS.settleDate, tposTrade.m_SettleDate);
-					exec.Set(TradedFieldIDs.TPOS.shortSaleFlag, tposTrade.m_ShortSaleFlag);
-					exec.Set(TradedFieldIDs.TPOS.strike, tposTrade.m_Strike);
-					exec.Set(TradedFieldIDs.TPOS.symbol, tposTrade.m_Symbol);
-					exec.Set(TradedFieldIDs.TPOS.ticker, tposTrade.m_Ticker);
-					exec.Set(TradedFieldIDs.TPOS.tradeDate, tposTrade.m_TradeDate);
-					exec.Set(TradedFieldIDs.TPOS.tradeGroup, tposTrade.m_TradeGroup);
-					exec.Set(TradedFieldIDs.TPOS.tradeID, tposTrade.m_TradeID);
-					exec.Set(TradedFieldIDs.TPOS.traderAcronym, tposTrade.m_TraderAcronym);
-					//exec.Update(TradedFieldIDs.TPOS.traderAcronym, tposTrade.m_Portfolio);
-					exec.Set(TradedFieldIDs.TPOS.tradeSource, tposTrade.m_TradeSource);
-					exec.Set(TradedFieldIDs.TPOS.tradeTime, tposTrade.m_TradeTime);
-					exec.Set(TradedFieldIDs.TPOS.undSecType, tposTrade.m_UndSecType);
-					exec.Set(TradedFieldIDs.TPOS.undSymbol, tposTrade.m_UndSymbol);
-					exec.Set(TradedFieldIDs.TPOS.version, tposTrade.m_Version);
-
-					if (exec.SymbolDetail == "")
-					{
-						// Force a Symbol Reload
-						exec.Set(TradedFieldIDs.symbolDetail, exec.SymbolDetail);
-					}
+					exec.Update(tposTrade);
 
 					lock (TposExecutions)
 					{
@@ -1880,9 +1719,9 @@ namespace RDSEx
 		{
 			if (!_firstTposExecutionCall)
 			{
-				lock (NewTposExecutions)
+				lock (_newTposExecutionsLock)
 				{
-					NewTposExecutions[exec.TradeID] = exec;
+					_newTposExecutions[exec.TradeID] = exec;
 				}
 			}
 		}

@@ -89,10 +89,10 @@ namespace ROC
 			{
 				lblCaption.BackColor = Color.LimeGreen;
 				lblCaptionEnd.BackColor = Color.LimeGreen;
-				lblCaptionEnd.Text = GLOBAL.HROM.UserName;
+				lblCaptionEnd.Text = GLOBAL.OrderManagers.UserName;
 			}
 
-			Caption = Configuration.User.Default.InstanceName + ": " + GLOBAL.HROM.UserName;
+			Caption = Configuration.User.Default.InstanceName + ": " + GLOBAL.OrderManagers.UserName;
 			Text = Caption;
 
 			notifyIconROC.Text = Configuration.User.Default.InstanceName;
@@ -187,25 +187,25 @@ namespace ROC
 
 			#region - ROM -
 
-			GLOBAL.HROM.LogStatusMessages();
-			GLOBAL.HROM.LogRomMessages();
+			GLOBAL.OrderManagers.LogStatusMessages();
+			GLOBAL.OrderManagers.LogRomMessages();
 
-			if (GLOBAL.HROM.EndOfQueuedMsg)
+			if (GLOBAL.OrderManagers.EndOfQueuedMsg)
 			{
 				HideWaitWindow();
 
 				if (GLOBAL.ROCLoginCompleted)
 				{
-					if (_lastROMStatus != GLOBAL.HROM.Status)
+					if (_lastROMStatus != GLOBAL.OrderManagers.Status)
 					{
-						_lastROMStatus = GLOBAL.HROM.Status;
+						_lastROMStatus = GLOBAL.OrderManagers.Status;
 						if (_lastROMStatus == HelperROM.StatusTypes.LoggedIn && !GLOBAL.ByPassRomLogin)
 						{
-							GLOBAL.HROM.StartHartbeat();
+							GLOBAL.OrderManagers.StartHartbeat();
 						}
 					}
 
-					if (GLOBAL.HROM.Status == HelperROM.StatusTypes.LoggedIn && !GLOBAL.ByPassRomLogin)
+					if (GLOBAL.OrderManagers.Status == HelperROM.StatusTypes.LoggedIn && !GLOBAL.ByPassRomLogin)
 					{
 						//GLOBAL.HROM.HartbeatTimeOutCheck();
 					}
@@ -213,22 +213,22 @@ namespace ROC
 			}
 			else
 			{
-				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.LoggedIn)
+				if (GLOBAL.OrderManagers.Status == HelperROM.StatusTypes.LoggedIn)
 				{
-					ShowWaitWindow(string.Concat("Processing ROM Messages... ", GLOBAL.HROM.EndOfQueuedMsgCount.ToString()));
+					ShowWaitWindow(string.Concat("Processing ROM Messages... ", GLOBAL.OrderManagers.EndOfQueuedMsgCount.ToString()));
 				}
 			}
 
-			if (GLOBAL.HROM.AlertList.Count > 0)
+			if (GLOBAL.OrderManagers.AlertList.Count > 0)
 			{
-				GLOBAL.HROM.ShowAlerts();
+				GLOBAL.OrderManagers.ShowAlerts();
 			}
 
 			#endregion
 
 			#region - MDS -
 
-			foreach (HelperMDS mds in GLOBAL.HMDSs)
+			foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 			{
 				if (GLOBAL.ROCLoginCompleted)
 				{
@@ -334,7 +334,7 @@ namespace ROC
 			bool rdsInError = false;
 			bool mdsInError = false;
 
-			if (GLOBAL.HROM.Status != HelperROM.StatusTypes.LoggedIn)
+			if (GLOBAL.OrderManagers.Status != HelperROM.StatusTypes.LoggedIn)
 			{
 				romInError = true;
 			}
@@ -563,13 +563,13 @@ namespace ROC
 			switch (e.PropertyName)
 			{
 				case AutomationType.AutoCancelStock:
-					GLOBAL.HROM.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecurityTypes.Equity);
+					GLOBAL.OrderManagers.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecurityTypes.Equity);
 					break;
 				case AutomationType.AutoCancelFuture:
-					GLOBAL.HROM.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecurityTypes.Future);
+					GLOBAL.OrderManagers.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecurityTypes.Future);
 					break;
 				case AutomationType.AutoCancelOption:
-					GLOBAL.HROM.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecurityTypes.Option);
+					GLOBAL.OrderManagers.CancelAllOpenOrders(CSVEx.CSVFieldIDs.SecurityTypes.Option);
 					break;
 				case AutomationType.AutoStop:
 					AutoExitApplication();
@@ -757,7 +757,7 @@ namespace ROC
 				case "ROM":
 					if (MessageBox.Show("Reconnect To ROM?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
 					{
-						GLOBAL.HROM.Reconnect();
+						GLOBAL.OrderManagers.Reconnect();
 					}
 					break;
 				case "RDS":
@@ -767,7 +767,7 @@ namespace ROC
 						GLOBAL.UserUIProfile.ReLoad();
 
 						// Reset the RDS Status
-						GLOBAL.HRDS.Status = HelperRDS.StatusTypes.Done;
+						GLOBAL.HRDS.ResetStatus();
 					}
 					break;
 				case "MDS":
@@ -1127,7 +1127,7 @@ namespace ROC
 			Application.DoEvents();
 
 			// Disconnect From ROM
-			GLOBAL.HROM.Disconnect();
+			GLOBAL.OrderManagers.Disconnect();
 
 			// Save the Orders and Trades Locally
 			GLOBAL.UserUIProfile.SaveAllOrderInfo();
@@ -1158,7 +1158,7 @@ namespace ROC
 				Application.DoEvents();
 
 				// Disconnect From ROM
-				GLOBAL.HROM.Disconnect();
+				GLOBAL.OrderManagers.Disconnect();
 
 				// Save the Orders and Trades Locally
 				GLOBAL.UserUIProfile.SaveAllOrderInfo();
@@ -1176,18 +1176,18 @@ namespace ROC
 			{
 				//DataRow[] rows = GLOBAL.HOrders.Table.Select(String.Format("Status = {0} Or Status = {1} Or Status = {2} Or Status = {3}", CSVEx.CSVFieldIDs.StatusCodes.Filled, CSVEx.CSVFieldIDs.StatusCodes.FilledAndCancelled, CSVEx.CSVFieldIDs.StatusCodes.Rejected, CSVEx.CSVFieldIDs.StatusCodes.Canceled));
 				//if (GLOBAL.HOrders.Table.Rows.Count != rows.Length)
-				if (GLOBAL.HROM.HasOpenOrders())
+				if (GLOBAL.OrderManagers.HasOpenOrders())
 				{
 					if (isAuto)
 					{
-						GLOBAL.HROM.CancelAllOpenOrders("");
+						GLOBAL.OrderManagers.CancelAllOpenOrders("");
 					}
 					else
 					{
 						if (MessageBox.Show("Cancel All Open Orders?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
 						{
 							//GLOBAL.HROM.CancelAllOrder(false, "");
-							GLOBAL.HROM.CancelAllOpenOrders("");
+							GLOBAL.OrderManagers.CancelAllOpenOrders("");
 						}
 					}
 				}

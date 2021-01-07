@@ -600,8 +600,8 @@ namespace ROC
 
 		#region - Used By Process Thread Update Market Data -
 
-		private delegate void UpdateBatchMarketByProcessDelegate(bool updateIM, ROCOrder[] orders, Market deltas);
-		public void UpdateBatchMarketByProcess(bool updateIM, ROCOrder[] orders, Market deltas)
+		private delegate void UpdateBatchMarketByProcessDelegate(bool updateIM, List<ROCOrder> orders, Market deltas);
+		public void UpdateBatchMarketByProcess(bool updateIM, List<ROCOrder> orders, Market deltas)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
@@ -637,7 +637,7 @@ namespace ROC
 								UpdateSecurityInfo();
 							}
 
-							if (orders.Length > 0)
+							if (orders.Count > 0)
 							{
 								foreach (ROCOrder order in orders)
 								{

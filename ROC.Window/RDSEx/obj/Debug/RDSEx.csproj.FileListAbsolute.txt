@@ -14,3 +14,11 @@ C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\obj\Debug\RDSEx.csproj.CoreCo
 C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\obj\Debug\RDSEx.csproj.CopyComplete
 C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\obj\Debug\RDSEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\obj\Debug\RDSEx.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\Common.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\Common.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\MarketData.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\Log.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\log4net.dll
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\MarketData.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\Log.pdb
+C:\Users\clangan\source\repos\ROC\ROC.Window\RDSEx\bin\Debug\log4net.xml

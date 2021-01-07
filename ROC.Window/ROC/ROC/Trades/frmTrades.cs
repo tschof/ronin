@@ -2,19 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
 
-using FormEx;
 using RDSEx;
 using DataGridViewEx;
 using SerializationEx;
 using ContextMenuEx;
 using ButtonEx;
-using BindingListEx;
-using LabelEx;
 using CSVEx;
 
 namespace ROC
@@ -42,8 +36,8 @@ namespace ROC
 
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
-		private List<ROCExecution> _rocTrades = new List<ROCExecution>();
-		private List<TPOSExecution> _tposTrades = new List<TPOSExecution>();
+		private LockList<ROCExecution> _rocTrades = new LockList<ROCExecution>();
+		private LockList<TPOSExecution> _tposTrades = new LockList<TPOSExecution>();
 
 		#endregion
 
@@ -377,8 +371,8 @@ namespace ROC
 		{
 			UpdateTradeStart();
 
-			ROCExecution[] rocTrades = new ROCExecution[0];
-			TPOSExecution[] tposTrades = new TPOSExecution[0];
+			ROCExecution[] rocTrades;
+			TPOSExecution[] tposTrades;
 
 			lock (GLOBAL.HExecutions)
 			{
@@ -446,22 +440,16 @@ namespace ROC
 
 		#region - Used by Process Thread -
 
-		private delegate void AddUpdateTradesByProcessDelegate(bool updateIM, ROCExecution[] rocTrades, TPOSExecution[] tposTrades);
-		public void AddUpdateTradesByProcess(bool updateIM, ROCExecution[] rocTrades, TPOSExecution[] tposTrades)
+		private delegate void AddUpdateTradesByProcessDelegate(bool updateIM, List<ROCExecution> rocTrades, List<TPOSExecution> tposTrades);
+		public void AddUpdateTradesByProcess(bool updateIM, List<ROCExecution> rocTrades, List<TPOSExecution> tposTrades)
 		{
 			if (GLOBAL.UseDelayedUpdate)
 			{
 				try
 				{
 					_updateIM = updateIM;
-					lock (_rocTrades)
-					{
-						_rocTrades.AddRange(rocTrades);
-					}
-					lock (_tposTrades)
-					{
-						_tposTrades.AddRange(tposTrades);
-					}
+					_rocTrades.AddRange(rocTrades);
+					_tposTrades.AddRange(tposTrades);
 				}
 				catch (Exception ex)
 				{
@@ -486,14 +474,14 @@ namespace ROC
 							{
 								UpdateSecurityInfo();
 							}
-							if (rocTrades.Length > 0)
+							if (rocTrades.Count > 0)
 							{
 								foreach (ROCExecution rocTrade in rocTrades)
 								{
 									LoadRocTrade(rocTrade);
 								}
 							}
-							if (Extended && tposTrades.Length > 0)
+							if (Extended && tposTrades.Count > 0)
 							{
 								foreach (TPOSExecution tposTrade in tposTrades)
 								{
@@ -502,7 +490,7 @@ namespace ROC
 							}
 						}
 					}
-					if (updateIM || rocTrades.Length > 0 || tposTrades.Length > 0)
+					if (updateIM || rocTrades.Count > 0 || tposTrades.Count > 0)
 					{
 						rocTradesList.RefreshAggragation = true;
 						rocTradesList.ShouldScrollToLastRow = true;
@@ -523,11 +511,8 @@ namespace ROC
 				{
 					_updatingUI = true;
 
-					bool updateIM = _updateIM;
+					bool updateIM = _updateIM, haveRocTrades = false, haveTposTrades = false;
 					_updateIM = false;
-
-					ROCExecution[] rocTrades = new ROCExecution[0];
-					TPOSExecution[] tposTrades = new TPOSExecution[0];
 
 					if (!IsProcessing)
 					{
@@ -538,43 +523,26 @@ namespace ROC
 								UpdateSecurityInfo();
 							}
 
-							lock (_rocTrades)
+							List<ROCExecution> rocTrades = _rocTrades.TakeAll();
+							if (rocTrades.Count > 0)
 							{
-								if (_rocTrades.Count > 0)
-								{
-									rocTrades = new ROCExecution[_rocTrades.Count];
-									_rocTrades.CopyTo(rocTrades, 0);
-									_rocTrades.Clear();
-								}
-							}
-							if (rocTrades.Length > 0)
-							{
+								haveRocTrades = true;
 								foreach (ROCExecution rocTrade in rocTrades)
-								{
 									LoadRocTrade(rocTrade);
-								}
 							}
 
-							lock (_tposTrades)
-							{
-								if (_tposTrades.Count > 0)
-								{
-									tposTrades = new TPOSExecution[_tposTrades.Count];
-									_tposTrades.CopyTo(tposTrades, 0);
-									_tposTrades.Clear();
-								}
-							}
-							if (Extended && tposTrades.Length > 0)
-							{
-								foreach (TPOSExecution tposTrade in tposTrades)
-								{
-									LoadTposTrade(tposTrade);
+							if (Extended) {
+								List<TPOSExecution> tposTrades = _tposTrades.TakeAll();
+								if (tposTrades.Count > 0) {
+									haveTposTrades = true;
+									foreach (TPOSExecution tposTrade in tposTrades)
+										LoadTposTrade(tposTrade);
 								}
 							}
 						}
 					}
 
-					if (updateIM || rocTrades.Length > 0 || tposTrades.Length > 0)
+					if (updateIM || haveRocTrades || haveTposTrades)
 					{
 						rocTradesList.RefreshAggragation = true;
 						rocTradesList.ShouldScrollToLastRow = true;

@@ -39,21 +39,7 @@ namespace ROC
 
 		#region - Property -
 
-		private StatusTypes _status = StatusTypes.None;
-		internal StatusTypes Status
-		{
-			get
-			{
-				return _status;
-			}
-			set
-			{
-				if (_status != value)
-				{
-					_status = value;
-				}
-			}
-		}
+		internal StatusTypes Status { get; private set; } = StatusTypes.None;
 
 		private bool _extended = false;
 		internal bool Extended
@@ -442,15 +428,6 @@ namespace ROC
 			}
 		}
 
-		internal Dictionary<string, TPOSExecution> NewTposExecutions
-		{
-			get
-			{
-
-				return _rds.NewTposExecutions;
-			}
-		}
-
 		internal bool GotTposPositions
 		{
 			get
@@ -466,7 +443,7 @@ namespace ROC
 			}
 		}
 
-		internal Dictionary<string, TPOSPosition> TposPositions
+		internal Dictionary<string, RDSPosition> TposPositions
 		{
 			get
 			{
@@ -474,7 +451,7 @@ namespace ROC
 			}
 		}
 
-		internal Dictionary<string, TPOSPosition> NewTposPositions
+		internal Dictionary<string, RDSPosition> NewTposPositions
 		{
 			get
 			{
@@ -637,6 +614,8 @@ namespace ROC
 			_rds.UpdateUserPassword(username, oldPassword, newPassword);
 		}
 
+		internal List<TPOSExecution> TakeNewTposExecutions() => _rds.TakeNewTPosExecutions();
+
 		internal void TPOSRefresh()
 		{
 			lock (TposPositions)
@@ -659,7 +638,7 @@ namespace ROC
 			if (Configuration.User.Default.UseMarketData)
 			{
 				SetStatus(StatusTypes.ConnectingToMDS, string.Concat("MDS|Connection Connecting... ", Configuration.MDS.Default.IP, " Port: ", Configuration.MDS.Default.Port));
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 				{
 					mds.Connect();
 				}
@@ -674,14 +653,14 @@ namespace ROC
 		{
 			bool ready = true;
 
-			foreach (HelperMDS mds in GLOBAL.HMDSs) {
+			foreach (HelperMDS mds in GLOBAL.MarketDataProviders) {
 				if (!mds.IsConnected)
 					ready = false;
 			}
 
 			if (ready) {
 				// All mds are connected
-				foreach (HelperMDS mds in GLOBAL.HMDSs) {
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders) {
 					SetStatus(StatusTypes.ConnectedToMDS, string.Concat("MDS|Connection Connected ", mds.ServerIP, " Port: ", mds.ServerPort));
 				}
 			} else {
@@ -697,11 +676,6 @@ namespace ROC
 		internal void LoginFailed()
 		{
 			SetStatus(StatusTypes.Failed, string.Concat("RDS|Login Failed "), true);
-		}
-
-		internal void MakeRocStatus(ref ROCOrder ord)
-		{
-			_rds.MakeRocStatus(ref ord);
 		}
 
 		internal void ResetSecurityInfo()
@@ -895,7 +869,7 @@ namespace ROC
 			List<string> symbols = new List<string>();
 			symbols.AddRange(chainSymbols);
 
-			foreach (HelperMDS mds in GLOBAL.HMDSs)
+			foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 			{
 				mds.SubscribeToOptionChain(symbols, e.Info.MDSymbol, e.Info.MDSource, CSVFieldIDs.SecurityTypes.OptionFuture);
 			}
@@ -922,7 +896,7 @@ namespace ROC
 				nbboSymbols.Add(opraSymbol);
 			}
 
-			foreach (HelperMDS mds in GLOBAL.HMDSs)
+			foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 			{
 				mds.SubscribeToOptionChain(symbols, e.Info.MDSymbol, Constants.OptionDataSource.OPRA, CSVFieldIDs.SecurityTypes.Option);
 				mds.SubscribeToOptionChain(nbboSymbols, e.Info.MDSymbol, Constants.OptionDataSource.OPRANBBO, CSVFieldIDs.SecurityTypes.Option);
@@ -960,6 +934,10 @@ namespace ROC
 				//Status = StatusTypes.Done;
 				//AddToAlerts(statusDsp);
 			}
+		}
+		internal void ResetStatus()
+		{
+			Status = StatusTypes.Done;
 		}
 
 		#endregion

@@ -87,158 +87,15 @@ namespace ROC
 			}
 		}
 
-		private List<string> _rawMessages;
-		public List<string> RawMessages
-		{
-			get
-			{
-				if (_rawMessages == null)
-				{
-					_rawMessages = new List<string>();
-				}
-				return _rawMessages;
-			}
-			set
-			{
-				_rawMessages = value;
-			}
-		}
-
-		private List<string> _romMsgLogs;
-		public List<string> RomMsgLogs
-		{
-			get
-			{
-				if (_romMsgLogs == null)
-				{
-					_romMsgLogs = new List<string>();
-				}
-				return _romMsgLogs;
-			}
-			set
-			{
-				_romMsgLogs = value;
-			}
-		}
-
-		private List<CSV> _newCriticalRomCSVs;
-		public List<CSV> NewCriticalRomCSVs
-		{
-			get
-			{
-				if (_newCriticalRomCSVs == null)
-				{
-					_newCriticalRomCSVs = new List<CSV>();
-				}
-				return _newCriticalRomCSVs;
-			}
-			set
-			{
-				_newCriticalRomCSVs = value;
-			}
-		}
-
-		private List<CSV> _newRomCSVs;
-		public List<CSV> NewRomCSVs
-		{
-			get
-			{
-				if (_newRomCSVs == null)
-				{
-					_newRomCSVs = new List<CSV>();
-				}
-				return _newRomCSVs;
-			}
-			set
-			{
-				_newRomCSVs = value;
-			}
-		}
-
-		private Dictionary<string, CSV> _orginalCSVs;
-		public Dictionary<string, CSV> OrginalCSVs
-		{
-			get
-			{
-				if (_orginalCSVs == null)
-				{
-					_orginalCSVs = new Dictionary<string, CSV>();
-				}
-				return _orginalCSVs;
-			}
-			set
-			{
-				_orginalCSVs = value;
-			}
-		}
-
-		private List<string> _criticalOrderIDs;
-		public List<string> CriticalOrderIDs
-		{
-			get
-			{
-				if (_criticalOrderIDs == null)
-				{
-					_criticalOrderIDs = new List<string>();
-				}
-				return _criticalOrderIDs;
-			}
-			set
-			{
-				_criticalOrderIDs = value;
-			}
-		}
-
-		private List<string> _canceledOrderIDs;
-		public List<string> CanceledOrderIDs
-		{
-			get
-			{
-				if (_canceledOrderIDs == null)
-				{
-					_canceledOrderIDs = new List<string>();
-				}
-				return _canceledOrderIDs;
-			}
-			set
-			{
-				_canceledOrderIDs = value;
-			}
-		}
-
-		private Dictionary<string, ROCOrder> _newOrders;
-		public Dictionary<string, ROCOrder> NewOrders
-		{
-			get
-			{
-				if (_newOrders == null)
-				{
-					_newOrders = new Dictionary<string, ROCOrder>();
-				}
-				return _newOrders;
-			}
-			set
-			{
-				_newOrders = value;
-			}
-		}
-
-		private Dictionary<string, ROCExecution> _newExecutions;
-		public Dictionary<string, ROCExecution> NewExecutions
-		{
-			get
-			{
-				if (_newExecutions == null)
-				{
-					_newExecutions = new Dictionary<string, ROCExecution>();
-				}
-				return _newExecutions;
-			}
-			set
-			{
-				_newExecutions = value;
-			}
-		}
+		private LockList<string> _rawMessages = new LockList<string>();
+		private LockList<string> _romMsgLogs = new LockList<string>();
+		private LockList<CSV> _newCriticalRomCSVs = new LockList<CSV>();
+		private LockList<CSV> _newRomCSVs = new LockList<CSV>();
+		private LockList<string> _criticalOrderIDs = new LockList<string>();
+		private List<string> _canceledOrderIDs = new List<string>();
+		private LockDictionary<string, CSV> _originalCSVs = new LockDictionary<string, CSV>();
+		private LockDictionary<string, ROCOrder> _newOrders = new LockDictionary<string, ROCOrder>();
+		private LockDictionary<string, ROCExecution> _newExecutions = new LockDictionary<string, ROCExecution>();
 
 		private DateTime _lastHartbeatTime = DateTime.Now;
 		public DateTime LastHartbeatTime
@@ -395,44 +252,67 @@ namespace ROC
 			}
 		}
 
+		public List<CSV> TakeNewCriticalRomCSVs()
+		{
+			return _newCriticalRomCSVs.TakeAll();
+		}
+
+		public List<CSV> TakeNewROMCSVs()
+		{
+			return _newRomCSVs.TakeAll();
+		}
+
+		public List<ROCOrder> TakeNewOrders()
+		{
+			Dictionary<string, ROCOrder> taken = _newOrders.TakeAll();
+			if ((taken != null) && (taken.Count > 0)) {
+				List<ROCOrder> result = new List<ROCOrder>();
+				result.AddRange(taken.Values);
+				return result;
+			}
+			return null;
+		}
+
+		public List<ROCExecution> TakeNewExecutions()
+		{
+			Dictionary<string, ROCExecution> taken = _newExecutions.TakeAll();
+			if ((taken != null) && (taken.Count > 0)) {
+				List<ROCExecution> result = new List<ROCExecution>();
+				result.AddRange(taken.Values);
+				return result;
+			}
+			return null;
+		}
+
+		public bool FetchOrginalCSVs(string tag, out CSV found)
+		{
+			return _originalCSVs.TryGetValue(tag, out found);
+		}
+
+		public void RemoveCanceledOrderIDs(string tag)
+		{
+			_canceledOrderIDs.Remove(tag);
+		}
+
 		// Store the E messages because it has all the fields
 		private void AddToOrginalOrders(CSV csv, string msg)
 		{
-			lock (OrginalCSVs)
-			{
-				// New Orders
-				if (OrginalCSVs.TryAdd(csv.Tag, csv))
-				{
-					// Display Sent Orders
-					if (msg != "")
-					{
-						lock (NewRomCSVs)
-						{
-							NewRomCSVs.Add(new CSV(msg));
-						}
-					}
+			// New Orders
+			if (_originalCSVs.TryAdd(csv.Tag, csv)) {
+				// Display Sent Orders
+				if (msg != "") {
+					CSV add = new CSV(msg); // Create outside of lock.
+					_newRomCSVs.Add(add);
 				}
-				else
-				{
-					GLOBAL.HROC.AddToStatusLogs("Duplicated Tag" + csv.Tag);
-					//GLOBAL.HROC.AddToAlerts("Duplicated Tag " + csv.Tag);
-				}
+			} else {
+				GLOBAL.HROC.AddToStatusLogs("Duplicated Tag" + csv.Tag);
 			}
 		}
 
 		private void AddToCriticalOrders(CSV csv)
 		{
-			lock (CriticalOrderIDs)
-			{
-				if (!CriticalOrderIDs.Contains(csv.Tag))
-				{
-					CriticalOrderIDs.Add(csv.Tag);
-				}
-				else
-				{
-					GLOBAL.HROC.AddToStatusLogs("Duplicated Critical Tag" + csv.Tag);
-				}
-			}
+			if (!_criticalOrderIDs.TryAdd(csv.Tag))
+				GLOBAL.HROC.AddToStatusLogs("Duplicated Critical Tag" + csv.Tag);
 		}
 
 		public void EnterOrder(RomBasicOrder order, bool isCritical)
@@ -545,7 +425,7 @@ namespace ROC
 					replace.duration = newDuration;
 					replace.tradeFor = order.TradeFor;
 
-					GLOBAL.HROM.ReplaceOrder(replace);
+					GLOBAL.OrderManagers.ReplaceOrder(replace);
 				}
 			}
 			catch (Exception ex)
@@ -583,7 +463,7 @@ namespace ROC
 						cancel.price = order.Price.ToString();
 					}
 
-					GLOBAL.HROM.CancelSingleOrder(cancel);
+					GLOBAL.OrderManagers.CancelSingleOrder(cancel);
 				}
 			}
 			catch (Exception ex)
@@ -611,7 +491,7 @@ namespace ROC
 					cancel.price = csv.Price.ToString();
 				}
 
-				GLOBAL.HROM.CancelSingleOrder(cancel);
+				GLOBAL.OrderManagers.CancelSingleOrder(cancel);
 			}
 			catch (Exception ex)
 			{
@@ -676,7 +556,7 @@ namespace ROC
 				{
 					if (row["Tag"] != null)
 					{
-						GLOBAL.HROM.CancelSingleOrder(row["Tag"].ToString());
+						GLOBAL.OrderManagers.CancelSingleOrder(row["Tag"].ToString());
 					}
 				}
 			}
@@ -711,7 +591,7 @@ namespace ROC
 				{
 					if (row["Tag"] != null)
 					{
-						GLOBAL.HROM.CancelSingleOrder(row["Tag"].ToString());
+						GLOBAL.OrderManagers.CancelSingleOrder(row["Tag"].ToString());
 					}
 				}
 			}
@@ -725,7 +605,7 @@ namespace ROC
 			{
 				case "M":
 				case "S":
-					if (!CanceledOrderIDs.Contains(cancel.orderID))
+					if (!_canceledOrderIDs.Contains(cancel.orderID))
 					{
 						okToSend = true;
 					}
@@ -742,9 +622,9 @@ namespace ROC
 
 				_rom.Send(msg);
 
-				if (!CanceledOrderIDs.Contains(cancel.orderID))
+				if (!_canceledOrderIDs.Contains(cancel.orderID))
 				{
-					CanceledOrderIDs.Add(cancel.orderID);
+					_canceledOrderIDs.Add(cancel.orderID);
 				}
 			}
 		}
@@ -894,7 +774,7 @@ namespace ROC
 			{
 				if (row["Tag"] != null)
 				{
-					GLOBAL.HROM.CancelSingleOrder(row["Tag"].ToString());
+					GLOBAL.OrderManagers.CancelSingleOrder(row["Tag"].ToString());
 				}
 			}
 		}
@@ -929,17 +809,10 @@ namespace ROC
 				case ClientEventTypes.OnRawReceive:
 					break;
 				case ClientEventTypes.OnReceive:
-					lock (RawMessages)
-					{
-						RawMessages.AddRange(e.Messages);
-					}
-					//AddToCSVs(e.Messages);
+					_rawMessages.AddRange(e.Messages);
 					break;
 				case ClientEventTypes.OnDebug:
-					lock (this)
-					{
-						RomMsgLogs.Add(_dtHP.Now.ToString("HH:mm:ss.fffffff") + " " + e.Message);
-					}
+					_romMsgLogs.Add(_dtHP.Now.ToString("HH:mm:ss.fffffff") + " " + e.Message);
 					break;
 				case ClientEventTypes.OnSend:
 					break;
@@ -991,23 +864,12 @@ namespace ROC
 
 		public void AddToCSVs()
 		{
-			List<string> locRawMessages = new List<string>();
-			lock (RawMessages)
-			{
-				if (RawMessages.Count > 0)
-				{
-					locRawMessages.AddRange(RawMessages.ToArray());
-					RawMessages.Clear();
-				}
-			}
-
+			List<string> locRawMessages = _rawMessages.TakeAll();
 			if (locRawMessages.Count > 0)
-			{
-				AddToCSVs(locRawMessages.ToArray());
-			}
+				AddToCSVs(locRawMessages);
 		}
 
-		private void AddToCSVs(string[] messages)
+		private void AddToCSVs(IEnumerable<string> messages)
 		{
 			CSV csv;
 			
@@ -1076,23 +938,14 @@ namespace ROC
 									AddToOrginalOrders(csv, "");
 								}
 
-								lock (CriticalOrderIDs)
+								// Store the Manual Orders before the Batch Orders
+								if (_criticalOrderIDs.Has(csv.Tag))
 								{
-									// Store the Manual Orders before the Batch Orders
-									if (CriticalOrderIDs.Contains(csv.Tag))
-									{
-										lock (NewCriticalRomCSVs)
-										{
-											NewCriticalRomCSVs.Add(csv);
-										}
-										break;
-									}
+									_newCriticalRomCSVs.Add(csv);
+									break;
 								}
 
-								lock (NewRomCSVs)
-								{
-									NewRomCSVs.Add(csv);
-								}
+								_newRomCSVs.Add(csv);
 								break;
 							case CSVFieldIDs.MessageTypes.EndOfQueuedMsg:
 								_endOfQueuedMsg = true;
@@ -1131,28 +984,14 @@ namespace ROC
 
 		private void AddToRomLogs(string romMsg)
 		{
-			lock (this)
-			{
-				RomMsgLogs.Add(string.Concat(_dtHP.Now.ToString("HH:mm:ss.fffffff"), " ", romMsg));
-			}
+			_romMsgLogs.Add(string.Concat(_dtHP.Now.ToString("HH:mm:ss.fffffff"), " ", romMsg));
 		}
 
 		public void LogRomMessages()
 		{
-			string[] msgs = new string[0];
-			lock (this)
-			{
-				if (RomMsgLogs.Count > 0)
-				{
-					msgs = RomMsgLogs.ToArray();
-					RomMsgLogs = null;
-				}
-			}
-
+			List<string> msgs = _romMsgLogs.TakeAll();
 			foreach (string msg in msgs)
-			{
 				Common.Log.Info(Common.Log.Target.ROM, msg);
-			}
 		}
 
 		#endregion
@@ -1162,23 +1001,13 @@ namespace ROC
 		public void Update(ROCOrder order, bool addToNew)
 		{
 			if (addToNew)
-			{
-				lock (NewOrders)
-				{
-					NewOrders[order.Tag] = order;
-				}
-			}
+				_newOrders.Add(order.Tag, order);
 		}
 
 		public void Update(ROCExecution trade, bool addToNew)
 		{
 			if (addToNew)
-			{
-				lock (NewExecutions)
-				{
-					GLOBAL.HROM.NewExecutions[trade.OmExecTag] = trade;
-				}
-			}
+				_newExecutions.Add(trade.OmExecTag, trade);
 		}
 
 		#endregion
@@ -1219,7 +1048,7 @@ namespace ROC
 		{
 			if (_rom != null)
 			{
-				TimeSpan diff = DateTime.Now.Subtract(GLOBAL.HROM.LastHartbeatTime);
+				TimeSpan diff = DateTime.Now.Subtract(GLOBAL.OrderManagers.LastHartbeatTime);
 				if (diff.TotalSeconds > _hartBeatRate * 2)
 				{
 					SetStatus(StatusTypes.Error, string.Concat("ROM|HartbeatTimeOut : " + diff.TotalSeconds), true);

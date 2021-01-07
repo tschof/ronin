@@ -11,10 +11,89 @@ namespace RDSEx
 	{
 		protected readonly MultiTypedDictionary _data = new MultiTypedDictionary();
 
-		public void Set<T>(int key, T value)
+		public void Update(RDSEx.WEB.Execution trade, ROCOrder order)
+		{
+			setField(TradedFieldIDs.ROC.omTag, trade.omTag);
+			setField(TradedFieldIDs.ROC.omExecTag, trade.omExecTag);
+			setField(TradedFieldIDs.ROC.execTime, trade.execTime.ToLocalTime().ToOADate());
+			setField(TradedFieldIDs.ROC.execQty, (long)trade.execQty);
+			setField(TradedFieldIDs.ROC.execPrice, trade.execPrice);
+
+			// Attach some of the order info with the trade
+			setField(TradedFieldIDs.ROC.symbol, order.Symbol);
+			setField(TradedFieldIDs.ROC.underlying, order.Underlying);
+			setField(TradedFieldIDs.ROC.expDate, order.ExpDate);
+			setField(TradedFieldIDs.ROC.strikePrice, order.StrikePrice);
+			setField(TradedFieldIDs.ROC.callPut, order.CallPut);
+			setField(TradedFieldIDs.ROC.secType, order.SecType);
+			setField(TradedFieldIDs.ROC.trader, order.Trader);
+			setField(TradedFieldIDs.ROC.localAcct, order.LocalAcct);
+			setField(TradedFieldIDs.ROC.account, order.ClearingAcct);
+			setField(TradedFieldIDs.ROC.openClose, order.OpenClose);
+			setField(TradedFieldIDs.ROC.side, (long)order.Side);
+			setField(TradedFieldIDs.ROC.destID, order.DestID);
+		}
+
+		protected void Update(RDSEx.WEB.TposTrade tposTrade)
+		{
+			setField(TradedFieldIDs.TPOS.activeState, tposTrade.m_ActiveState);
+			setField(TradedFieldIDs.TPOS.clearingAccount, tposTrade.m_ClearingAccount);
+			setField(TradedFieldIDs.TPOS.clearingStatus, tposTrade.m_ClearingStatus);
+			setField(TradedFieldIDs.TPOS.commission, tposTrade.m_Commission);
+			setField(TradedFieldIDs.TPOS.contraBroker, tposTrade.m_ContraBroker);
+			setField(TradedFieldIDs.TPOS.contraFirm, tposTrade.m_ContraFirm);
+			setField(TradedFieldIDs.TPOS.exchange, tposTrade.m_Exchange);
+			setField(TradedFieldIDs.TPOS.expDate, tposTrade.m_ExpDate);
+			setField(TradedFieldIDs.TPOS.extDescription, tposTrade.m_ExtDescription);
+			setField(TradedFieldIDs.TPOS.extTradeID, tposTrade.m_ExtTradeID);
+			setField(TradedFieldIDs.TPOS.lastModDate, tposTrade.m_LastModDate);
+			setField(TradedFieldIDs.TPOS.lastModeReason, tposTrade.m_LastModReason);
+			if (tposTrade.m_LastModReason.Contains("Deleted")) {
+				setField(TradedFieldIDs.TPOS.lastModReasonID, 3);
+			} else {
+				setField(TradedFieldIDs.TPOS.lastModReasonID, tposTrade.m_LastModReasonID);
+			}
+			setField(TradedFieldIDs.TPOS.lastModTime, tposTrade.m_LastModTime);
+			setField(TradedFieldIDs.TPOS.note, tposTrade.m_Note);
+			setField(TradedFieldIDs.TPOS.portfolio, tposTrade.m_Portfolio);
+			setField(TradedFieldIDs.TPOS.putCall, tposTrade.m_PutCall);
+			if (ModReasonID == 3) {
+				setField(TradedFieldIDs.TPOS.qty, 0);
+				setField(TradedFieldIDs.TPOS.price, 0);
+			} else {
+				setField(TradedFieldIDs.TPOS.qty, tposTrade.m_Qty);
+				setField(TradedFieldIDs.TPOS.price, tposTrade.m_Price);
+			}
+			setField(TradedFieldIDs.TPOS.secType, tposTrade.m_SecType);
+			setField(TradedFieldIDs.TPOS.settleDate, tposTrade.m_SettleDate);
+			setField(TradedFieldIDs.TPOS.shortSaleFlag, tposTrade.m_ShortSaleFlag);
+			setField(TradedFieldIDs.TPOS.strike, tposTrade.m_Strike);
+			setField(TradedFieldIDs.TPOS.symbol, tposTrade.m_Symbol);
+			setField(TradedFieldIDs.TPOS.ticker, tposTrade.m_Ticker);
+			setField(TradedFieldIDs.TPOS.tradeDate, tposTrade.m_TradeDate);
+			setField(TradedFieldIDs.TPOS.tradeGroup, tposTrade.m_TradeGroup);
+			setField(TradedFieldIDs.TPOS.tradeID, tposTrade.m_TradeID);
+			setField(TradedFieldIDs.TPOS.traderAcronym, tposTrade.m_TraderAcronym);
+			setField(TradedFieldIDs.TPOS.tradeSource, tposTrade.m_TradeSource);
+			setField(TradedFieldIDs.TPOS.tradeTime, tposTrade.m_TradeTime);
+			setField(TradedFieldIDs.TPOS.undSecType, tposTrade.m_UndSecType);
+			setField(TradedFieldIDs.TPOS.undSymbol, tposTrade.m_UndSymbol);
+			setField(TradedFieldIDs.TPOS.version, tposTrade.m_Version);
+
+			if (SymbolDetail == "") {
+				// Force a Symbol Reload
+				_data.Remove(TradedFieldIDs.symbolDetail);
+				setField(TradedFieldIDs.symbolDetail, SymbolDetail);
+			}
+		}
+
+		protected void setField<T>(int key, T value)
 		{
 			_data.Set(key, value);
 		}
+
+		// 3 means deleted
+		public long ModReasonID => _data.TryGet(TradedFieldIDs.TPOS.lastModReasonID, out long value) ? value : 0;
 
 		public abstract string TradeID {
 			get;
@@ -97,10 +176,9 @@ namespace RDSEx
 
 		public string SymbolDetail {
 			get {
-				string value;
 				DateTime when;
 
-				if (!_data.TryGet(TradedFieldIDs.symbolDetail, out value)) {
+				if (!_data.TryGet(TradedFieldIDs.symbolDetail, out string value)) {
 					switch (SecType) {
 						case CSVFieldIDs.SecurityTypes.Option:
 						case CSVFieldIDs.SecurityTypes.OptionFuture:

@@ -621,13 +621,13 @@ namespace ROC
 				case "Close":
 					break;
 				case "Cancel":
-					GLOBAL.HROM.CancelSingleOrder(_menuOrderModification.OrderID);
+					GLOBAL.OrderManagers.CancelSingleOrder(_menuOrderModification.OrderID);
 					break;
 				case "Replace":
-					GLOBAL.HROM.ReplaceOrder(_menuOrderModification.OrderID, _menuOrderModification.DeltaShare, _menuOrderModification.NewPrice, _menuOrderModification.NewStopPrice, _menuOrderModification.NewPegPrice, _menuOrderModification.NewDuration);
+					GLOBAL.OrderManagers.ReplaceOrder(_menuOrderModification.OrderID, _menuOrderModification.DeltaShare, _menuOrderModification.NewPrice, _menuOrderModification.NewStopPrice, _menuOrderModification.NewPegPrice, _menuOrderModification.NewDuration);
 					break;
 				case "CancelAll":
-					GLOBAL.HROM.CancelAllBySide(_menuOrderModification.OrderID, _menuOrderModification.Side);
+					GLOBAL.OrderManagers.CancelAllBySide(_menuOrderModification.OrderID, _menuOrderModification.Side);
 					break;
 			}
 
@@ -1933,7 +1933,7 @@ namespace ROC
 
 				case CSVEx.CSVFieldIDs.OrderTypes.OCO:
 
-					ocoOrderID = GLOBAL.HROM.RomMessageMaker.GetOrderID(GLOBAL.HROM.UserName);
+					ocoOrderID = GLOBAL.OrderManagers.RomMessageMaker.GetOrderID(GLOBAL.OrderManagers.UserName);
 
 					// Limit Price - primary side
 					BuildOrder(side,
@@ -2036,7 +2036,7 @@ namespace ROC
 						order.expDate = _currentSSFExpiration;
 					}
 					order.tradeFor = DDAccountDropDown.CurrentTradeFor;
-					order.trader = GLOBAL.HROM.UserName;
+					order.trader = GLOBAL.OrderManagers.UserName;
 					order.shares = numQuantity.Value.ToString();
 					order.price = limitPrice;
 					order.stopPrice = stopPrice;
@@ -2061,7 +2061,7 @@ namespace ROC
 						order.cplxOrderType = "5";
 					}
 
-					GLOBAL.HROM.EnterOrder(order, true);
+					GLOBAL.OrderManagers.EnterOrder(order, true);
 				}
 				else
 				{

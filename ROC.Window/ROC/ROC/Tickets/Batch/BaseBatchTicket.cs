@@ -710,7 +710,7 @@ namespace ROC
 				#endregion
 
 				order.show = GetValue(row, "Display");
-				order.trader = GLOBAL.HROM.UserName;
+				order.trader = GLOBAL.OrderManagers.UserName;
 
 				order.algoType = GetAlgoType(row);
 
@@ -860,7 +860,7 @@ namespace ROC
 
 				if (multiple == 1)
 				{
-					order.orderID = GLOBAL.HROM.GetOrderID(order.orderID);
+					order.orderID = GLOBAL.OrderManagers.GetOrderID(order.orderID);
 					_orders.Add(order);
 				}
 				else
@@ -869,7 +869,7 @@ namespace ROC
 					{
 						// Get the new OrderID for each orders
 						order = new RomBasicOrder(order);
-						order.orderID = string.Concat(GLOBAL.HROM.GetOrderID(), "-", i);
+						order.orderID = string.Concat(GLOBAL.OrderManagers.GetOrderID(), "-", i);
 						_orders.Add(order);
 					}
 				}
@@ -1135,11 +1135,11 @@ namespace ROC
 					order.orderType = orderType.ToString();
 
 					order.show = GetValueFromDataTable(row, "Display");
-					order.trader = GLOBAL.HROM.UserName;
+					order.trader = GLOBAL.OrderManagers.UserName;
 
 					if (multiple == 1)
 					{
-						order.orderID = GLOBAL.HROM.GetOrderID();
+						order.orderID = GLOBAL.OrderManagers.GetOrderID();
 						_orders.Add(order);
 					}
 					else
@@ -1148,7 +1148,7 @@ namespace ROC
 						{
 							// Get the new OrderID for each orders
 							order = new RomBasicOrder(order);
-							order.orderID = GLOBAL.HROM.GetOrderID();
+							order.orderID = GLOBAL.OrderManagers.GetOrderID();
 							_orders.Add(order);
 						}
 					}
@@ -1286,7 +1286,7 @@ namespace ROC
 		{
 			foreach (RomBasicOrder order in _orders)
 			{
-				GLOBAL.HROM.EnterOrder(order, false);
+				GLOBAL.OrderManagers.EnterOrder(order, false);
 			}
 		}
 

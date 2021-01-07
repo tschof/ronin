@@ -9,7 +9,7 @@ namespace ROC
 
 		public static void ReSubscribe(string symbol, string source, string subscriptionType, string secType)
 		{
-			foreach (HelperMDS mds in GLOBAL.HMDSs)
+			foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 			{
 				mds.Resubscribe(symbol, source, subscriptionType, secType);
 			}
@@ -19,7 +19,7 @@ namespace ROC
 		{
 			if (GLOBAL.HRDS.CheckSource(source))
 			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 				{
 					switch (secType)
 					{
@@ -53,7 +53,7 @@ namespace ROC
 		{
 			if (GLOBAL.HRDS.CheckSource(source))
 			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 				{
 					if (_useGroupSubscription)
 					{
@@ -85,7 +85,7 @@ namespace ROC
 		{
 			if (GLOBAL.HRDS.CheckSource(source))
 			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 				{
 					mds.Subscribe("b" + symbol, source, "BOOK", secType);
 				}
@@ -96,7 +96,7 @@ namespace ROC
 		{
 			if (GLOBAL.HRDS.CheckSource(source))
 			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 				{
 					mds.Subscribe(symbol, source, "", secType);
 				}
@@ -116,7 +116,7 @@ namespace ROC
 		{
 			if (GLOBAL.HRDS.CheckSource("OPRA"))
 			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 				{
 					if (symbolDetail != "" && GLOBAL.OptionToExchangeMaps.TryGetValue(symbolDetail, out var exchanges))
 					{
@@ -162,7 +162,7 @@ namespace ROC
 		{
 			if (GLOBAL.HRDS.CheckSource("OPRANBBO"))
 			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 				{
 					if (Configuration.Override.Default.UseOverridNBBO)
 					{
@@ -179,7 +179,7 @@ namespace ROC
 		{
 			if (GLOBAL.HRDS.CheckSource(source))
 			{
-				foreach (HelperMDS mds in GLOBAL.HMDSs)
+				foreach (HelperMDS mds in GLOBAL.MarketDataProviders)
 				{
 					mds.Subscribe(symbol, source, "", CSVFieldIDs.SecurityTypes.OptionFuture);
 				}

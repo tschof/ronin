@@ -655,9 +655,9 @@ namespace ROC
 
 		public double? GetNewSpreadPrice(Dictionary<int, ROCOrder> orders, int currentLegNumber, bool useStopPrice)
 		{
-			if (orders.TryGetValue(PrimeLegNumber, out ROCOrder primeOrder) && (primeOrder.Side.HasValue))
+			if (orders.TryGetValue(PrimeLegNumber, out ROCOrder primeOrder) && primeOrder.HasSide)
 			{
-				string side = GetOrderSide(primeOrder.Side.Value);
+				string side = GetOrderSide(primeOrder.Side);
 				if ((side != "") && TryGetLeg(currentLegNumber, out var currentLegItem) && orders.TryGetValue(currentLegNumber, out var currentOrder))
 				{
 					double price = (useStopPrice ? currentOrder.StopPrice : currentOrder.Price) * currentLegItem.Ratio;

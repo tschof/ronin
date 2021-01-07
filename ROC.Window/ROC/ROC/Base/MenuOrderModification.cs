@@ -1051,14 +1051,14 @@ namespace ROC
 			numQuantity.Value = _initialLeaveQty;
 
 			// 0 Mean Hide All, '' Mean Show All
-			if (_currentOrder.MaxFloor == null || CurrentOrder.MaxFloor == "")
-			{
-				chkShow.Checked = false;
-			}
-			else
+			if (_currentOrder.HasMaxFloor)
 			{
 				chkShow.Checked = true;
 				numShow.Value = Convert.ToDecimal(CurrentOrder.MaxFloor);
+			} 
+			else
+			{
+				chkShow.Checked = false;
 			}
 
 			numLimitPrice.Value = Convert.ToDecimal(CurrentOrder.Price);

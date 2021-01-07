@@ -573,13 +573,13 @@ namespace ROC
 
 		private string FileName()
 		{
-			if (GLOBAL.HROM.UserName == "")
+			if (GLOBAL.OrderManagers.UserName == "")
 			{
 				return "Default.xml";
 			}
 			else
 			{
-				return string.Concat(new object[] { GLOBAL.HROM.UserName + ".xml" });
+				return string.Concat(new object[] { GLOBAL.OrderManagers.UserName + ".xml" });
 			}
 		}
 

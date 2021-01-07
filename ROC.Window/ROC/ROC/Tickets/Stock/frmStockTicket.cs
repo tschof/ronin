@@ -534,11 +534,11 @@ namespace ROC
 					{
 						if (grid.NewPrice != grid.OrgPrice)
 						{
-							GLOBAL.HROM.ReplaceOrder(grid.WorkingOrderID, grid.NewPrice.ToString("F2"));
+							GLOBAL.OrderManagers.ReplaceOrder(grid.WorkingOrderID, grid.NewPrice.ToString("F2"));
 						}
 						else
 						{
-							GLOBAL.HROM.CancelSingleOrder(grid.WorkingOrderID);
+							GLOBAL.OrderManagers.CancelSingleOrder(grid.WorkingOrderID);
 						}
 						rocLevel2ListBid.ReplaceOrderCleanUp();
 						rocLevel2ListAsk.ReplaceOrderCleanUp();
@@ -569,11 +569,11 @@ namespace ROC
 							double newPrice = (double)rocLevel2ListAsk.Rows[rowIndex].Cells["Price"].Value;
 							if (rocLevel2ListAsk.PairDGV.OrgPrice != newPrice)
 							{
-								GLOBAL.HROM.ReplaceOrder(rocLevel2ListAsk.PairDGV.WorkingOrderID, newPrice.ToString("F2"));
+								GLOBAL.OrderManagers.ReplaceOrder(rocLevel2ListAsk.PairDGV.WorkingOrderID, newPrice.ToString("F2"));
 							}
 							else
 							{
-								GLOBAL.HROM.CancelSingleOrder(rocLevel2ListAsk.PairDGV.WorkingOrderID);
+								GLOBAL.OrderManagers.CancelSingleOrder(rocLevel2ListAsk.PairDGV.WorkingOrderID);
 							}
 						}
 					}
@@ -614,11 +614,11 @@ namespace ROC
 							double newPrice = (double)rocLevel2ListBid.Rows[rowIndex].Cells["Price"].Value;
 							if (rocLevel2ListBid.PairDGV.OrgPrice != newPrice)
 							{
-								GLOBAL.HROM.ReplaceOrder(rocLevel2ListBid.PairDGV.WorkingOrderID, newPrice.ToString("F2"));
+								GLOBAL.OrderManagers.ReplaceOrder(rocLevel2ListBid.PairDGV.WorkingOrderID, newPrice.ToString("F2"));
 							}
 							else
 							{
-								GLOBAL.HROM.CancelSingleOrder(rocLevel2ListBid.PairDGV.WorkingOrderID);
+								GLOBAL.OrderManagers.CancelSingleOrder(rocLevel2ListBid.PairDGV.WorkingOrderID);
 							}
 						}
 					}
@@ -736,13 +736,13 @@ namespace ROC
 				case "Close":
 					break;
 				case "Cancel":
-					GLOBAL.HROM.CancelSingleOrder(_menuOrderModification.OrderID);
+					GLOBAL.OrderManagers.CancelSingleOrder(_menuOrderModification.OrderID);
 					break;
 				case "Replace":
-					GLOBAL.HROM.ReplaceOrder(_menuOrderModification.OrderID, _menuOrderModification.DeltaShare, _menuOrderModification.NewPrice, _menuOrderModification.NewStopPrice, _menuOrderModification.NewPegPrice, _menuOrderModification.NewDuration);
+					GLOBAL.OrderManagers.ReplaceOrder(_menuOrderModification.OrderID, _menuOrderModification.DeltaShare, _menuOrderModification.NewPrice, _menuOrderModification.NewStopPrice, _menuOrderModification.NewPegPrice, _menuOrderModification.NewDuration);
 					break;
 				case "CancelAll":
-					GLOBAL.HROM.CancelAllBySide(_menuOrderModification.OrderID, _menuOrderModification.Side);
+					GLOBAL.OrderManagers.CancelAllBySide(_menuOrderModification.OrderID, _menuOrderModification.Side);
 					break;
 			}
 
@@ -2054,7 +2054,7 @@ namespace ROC
 
 				case CSVEx.CSVFieldIDs.OrderTypes.OCO:
 
-					ocoOrderID = GLOBAL.HROM.RomMessageMaker.GetOrderID(GLOBAL.HROM.UserName);
+					ocoOrderID = GLOBAL.OrderManagers.RomMessageMaker.GetOrderID(GLOBAL.OrderManagers.UserName);
 
 					// Limit Price - primary side
 					BuildOcoOrder(side,
@@ -2169,7 +2169,7 @@ namespace ROC
 					order.secType = CurrentSecInfo.SecType;
 					//order.multiplier = CurrentSecInfo.ContractSize.ToString();
 					order.tradeFor = DDAccountDropDown.CurrentTradeFor;
-					order.trader = GLOBAL.HROM.UserName;
+					order.trader = GLOBAL.OrderManagers.UserName;
 					order.shares = numQuantity.Value.ToString();
 					order.price = limitPrice;
 					order.stopPrice = stopPrice;
@@ -2246,7 +2246,7 @@ namespace ROC
 						order.homeExchange = acct.homeExchange;
 					}
 
-					GLOBAL.HROM.EnterOrder(order, true);
+					GLOBAL.OrderManagers.EnterOrder(order, true);
 				}
 				else
 				{

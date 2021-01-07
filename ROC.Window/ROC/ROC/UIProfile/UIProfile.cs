@@ -373,9 +373,9 @@ namespace ROC
 
 			if (fileName == "")
 			{
-				if (GLOBAL.HROM.UserName != "")
+				if (GLOBAL.OrderManagers.UserName != "")
 				{
-					fileName = GLOBAL.HROM.UserName + ".profile";
+					fileName = GLOBAL.OrderManagers.UserName + ".profile";
 				}
 				else
 				{
@@ -606,7 +606,7 @@ namespace ROC
 				filePath = Configuration.Path.Default.ProfilePath;
 			}
 
-			if (GLOBAL.HROM.Status == HelperROM.StatusTypes.LoggedIn)
+			if (GLOBAL.OrderManagers.Status == HelperROM.StatusTypes.LoggedIn)
 			{
 				if (fileName != "")
 				{
@@ -619,7 +619,7 @@ namespace ROC
 				}
 				else
 				{
-					fileName = GLOBAL.HROM.UserName + ".profile";
+					fileName = GLOBAL.OrderManagers.UserName + ".profile";
 					result = HelperFile.Load(filePath, fileName);
 
 					if (result == "")

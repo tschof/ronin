@@ -255,7 +255,7 @@ namespace ROC
 		{
 			get
 			{
-				if (GLOBAL.HROM.Status == HelperROM.StatusTypes.LoggedIn &&
+				if (GLOBAL.OrderManagers.Status == HelperROM.StatusTypes.LoggedIn &&
 					GLOBAL.HRDS.Status == HelperRDS.StatusTypes.Done)
 				{
 					// Login is completed even if MDS is not connected
@@ -269,7 +269,7 @@ namespace ROC
 
 		internal static void InitializeROM()
 		{
-			if (GLOBAL.HROM.Status != HelperROM.StatusTypes.Started)
+			if (GLOBAL.OrderManagers.Status != HelperROM.StatusTypes.Started)
 			{
 				GLOBAL.LoginForm.StartPosition = FormStartPosition.CenterScreen;
 
@@ -318,7 +318,7 @@ namespace ROC
 		internal static HelperEMail HMail = new HelperEMail();
 
 		private static List<HelperMDS> _hMDSs;
-		internal static List<HelperMDS> HMDSs {
+		internal static List<HelperMDS> MarketDataProviders {
 			get {
 
 				if (_hMDSs == null || _hMDSs.Count == 0) {
@@ -363,20 +363,20 @@ namespace ROC
 			}
 		}
 
-		internal static bool MDSsConnected => !GLOBAL.HMDSs.Any(n => !n.IsConnected); // true if all connected, false if any not connected
+		internal static bool MDSsConnected => !GLOBAL.MarketDataProviders.Any(n => !n.IsConnected); // true if all connected, false if any not connected
 
 		internal static void MDSsDisconnect()
 		{
-			GLOBAL.HMDSs.ForEach(n => n.Disconnect());
+			GLOBAL.MarketDataProviders.ForEach(n => n.Disconnect());
 		}
 
 		internal static void MDSsReconnect()
 		{
-			GLOBAL.HMDSs.ForEach(n => n.Reconnect());
+			GLOBAL.MarketDataProviders.ForEach(n => n.Reconnect());
 		}
 
 		private static HelperROM _hROM;
-		internal static HelperROM HROM
+		internal static HelperROM OrderManagers
 		{
 			get
 			{
