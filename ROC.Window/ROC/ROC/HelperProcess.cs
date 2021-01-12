@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using CSVEx;
 using RDSEx;
@@ -32,9 +33,8 @@ namespace ROC
 
 		// New
 		private CSV[] _newCSVs = new CSV[0];
-		private List<ROCOrder> _newROCOrders = new List<ROCOrder>();
-		private List<ROCExecution> _newROCExecutions = new List<ROCExecution>();
-		private List<TPOSExecution> _newTPOSExecutions = new List<TPOSExecution>();
+		private List<ROCOrder> _newOrders = new List<ROCOrder>();
+		private List<ROCTrade> _newTrades = new List<ROCTrade>();
 
 		// Sounds
 		private bool _playAllStatusSound = false;
@@ -305,9 +305,9 @@ namespace ROC
 				{
 					#region - Process Market Data With Limit -
 
-					Market mergedCopy = null;
 
 					#region - Process IM -
+					Market mergedCopy = _mergedMarketDelta.Release();
 
 					// Process IM
 					if (_loadIMMarketData)
@@ -331,7 +331,7 @@ namespace ROC
 						//ProcessTposExecutions(_newTPOSExecutions);
 						GLOBAL.HProcess.ProcessOrderWindows(_loadIMMarketData, mergedCopy);
 						GLOBAL.HProcess.ProcessTradeWindows(_loadIMMarketData);
-						GLOBAL.HProcess.ProcessPositionWindows(_loadIMMarketData, mergedCopy);
+						GLOBAL.HProcess.ProcessPositionWindows(_loadIMMarketData, null, mergedCopy);
 
 						// Update Market Datas
 						GLOBAL.HProcess.ProcessWatchListWindows(_loadIMMarketData, mergedCopy);
@@ -342,15 +342,7 @@ namespace ROC
 
 					#endregion
 
-					lock (_mergedMarketDelta)
-					{
-						if (!_mergedMarketDelta.Empty) {
-							mergedCopy = Market.Replace(_mergedMarketDelta);
-							//System.Threading.Thread.Sleep(1);
-						}
-					}
-
-					if (mergedCopy != null)
+					if (!mergedCopy.Empty)
 					{
 						Market tempMarketdataDelta = new Market();
 						int count = 0;
@@ -382,7 +374,7 @@ namespace ROC
 									//ProcessTposExecutions(_newTPOSExecutions);
 									GLOBAL.HProcess.ProcessOrderWindows(false, tempMarketdataDelta);
 									GLOBAL.HProcess.ProcessTradeWindows(false);
-									GLOBAL.HProcess.ProcessPositionWindows(false, tempMarketdataDelta);
+									GLOBAL.HProcess.ProcessPositionWindows(false, null, tempMarketdataDelta);
 
 									// Update Market Datas
 									GLOBAL.HProcess.ProcessWatchListWindows(false, tempMarketdataDelta);
@@ -429,7 +421,7 @@ namespace ROC
 							//ProcessTposExecutions(_newTPOSExecutions);
 							GLOBAL.HProcess.ProcessOrderWindows(false, tempMarketdataDelta);
 							GLOBAL.HProcess.ProcessTradeWindows(false);
-							GLOBAL.HProcess.ProcessPositionWindows(false, tempMarketdataDelta);
+							GLOBAL.HProcess.ProcessPositionWindows(false, null, tempMarketdataDelta);
 
 							// Update Market Datas
 							GLOBAL.HProcess.ProcessWatchListWindows(false, tempMarketdataDelta);
@@ -467,7 +459,7 @@ namespace ROC
 					//ProcessTposExecutions(_newTPOSExecutions);
 					GLOBAL.HProcess.ProcessOrderWindows(_loadIMMarketData, _mergedMarketDelta);
 					GLOBAL.HProcess.ProcessTradeWindows(_loadIMMarketData);
-					GLOBAL.HProcess.ProcessPositionWindows(_loadIMMarketData, _mergedMarketDelta);
+					GLOBAL.HProcess.ProcessPositionWindows(_loadIMMarketData, null, _mergedMarketDelta);
 
 					// Update Market Datas
 					GLOBAL.HProcess.ProcessWatchListWindows(_loadIMMarketData, _mergedMarketDelta);
@@ -569,7 +561,7 @@ namespace ROC
 				{
 					PreCSVProcess();
 
-					if (_newROCOrders.Count > 0 || _newROCExecutions.Count > 0 || _newTPOSExecutions.Count > 0)
+					if (_newOrders.Count > 0 || _newTrades.Count > 0)
 					{
 						GLOBAL.MainForm.ProcessingCSV = true;						
 						GLOBAL.MainForm.ProcessCSV();
@@ -602,12 +594,11 @@ namespace ROC
 				try
 				{
 					// Update Tickets
-					GLOBAL.HProcess.ProcessBatchMarketTicketWindows(_newROCOrders);
-					GLOBAL.HProcess.ProcessAutoSpreadTicketWindows(_newROCOrders);
-					GLOBAL.HProcess.ProcessQuickTicketWindows(_newROCOrders);
-					GLOBAL.HProcess.ProcessFutureTicketWindows(_newROCOrders);
-					//GLOBAL.HProcess.ProcessOptionTicketWindows(_newROCOrders);
-					GLOBAL.HProcess.ProcessStockTicketWindows(_newROCOrders);
+					GLOBAL.HProcess.ProcessBatchMarketTicketWindows(_newOrders);
+					GLOBAL.HProcess.ProcessAutoSpreadTicketWindows(_newOrders);
+					GLOBAL.HProcess.ProcessQuickTicketWindows(_newOrders);
+					GLOBAL.HProcess.ProcessFutureTicketWindows(_newOrders);
+					GLOBAL.HProcess.ProcessStockTicketWindows(_newOrders);
 				}
 				catch (Exception ex)
 				{
@@ -617,57 +608,34 @@ namespace ROC
 				// Update Orders and Trades
 				if (_updateBatchTicketStatus)
 				{
-					GLOBAL.HProcess.ProcessBatchTicketWindows(_newROCOrders);
+					GLOBAL.HProcess.ProcessBatchTicketWindows(_newOrders);
 				}
-				GLOBAL.HProcess.ProcessOrderWindows(_newROCOrders);
+				GLOBAL.HProcess.ProcessOrderWindows(_newOrders);
 
-				ProcessTposExecutions(_newTPOSExecutions);
-				GLOBAL.HProcess.ProcessTradeWindows(_newROCExecutions, _newTPOSExecutions);
-				GLOBAL.HProcess.ProcessPositionWindows(_newROCExecutions, _newTPOSExecutions);
+				ProcessTrades(_newTrades);
+				GLOBAL.HProcess.ProcessTradeWindows(_newTrades);
+				GLOBAL.HProcess.ProcessPositionWindows(false, _newTrades, null);
 
 				_newCSVs = new CSV[0];
-
-				_newROCOrders.Clear();
-
-				_newROCExecutions.Clear();
-				_newTPOSExecutions.Clear();
-
-				//_newROCPositions.Clear();
-				//_newTPOSPositions.Clear();
+				_newOrders.Clear();
+				_newTrades.Clear();
 
 				if (!_useSoundTread)
 				{
 					foreach (long status in _newROCStatusToPlay)
-					{
 						PlaySoundByStatus(status);
-					}
 					_newROCStatusToPlay.Clear();
 				}
 			}
-			//DateTimeEx.DateTimeHP hpDTEnd = new DateTimeEx.DateTimeHP();
-
-			//TimeSpan ts = hpDTEnd.Now.Subtract(hpDTStart);
-			//GLOBAL.HROC.AddToStatusLogs("CSV - " + ts.TotalMilliseconds.ToString("N4"));
 		}
 
 		private void PreCSVProcess()
 		{
 			GetNewCsvs();
 			GetNewRocOrders();
-			GetNewRocExecutions();
-			GetNewTposExecutions();
+			GetNewTrades();
 
 			ProcessCSVs(_newCSVs);
-
-			// Check to see if IM needs to be refreshed or not
-			//lock (GLOBAL.HRDS)
-			//{
-			//    if (GLOBAL.HRDS.NewSecufityInfo)
-			//    {
-			//        GLOBAL.HRDS.NewSecufityInfo = false;
-			//        _loadIMCSV = true;
-			//    }
-			//}
 		}
 
 		private void GetNewCsvs()
@@ -687,17 +655,12 @@ namespace ROC
 
 		private void GetNewRocOrders()
 		{
-			_newROCOrders = GLOBAL.OrderManagers.TakeNewOrders();
+			_newOrders = GLOBAL.OrderManagers.TakeNewOrders();
 		}
 
-		private void GetNewRocExecutions()
+		private void GetNewTrades()
 		{
-			_newROCExecutions = GLOBAL.OrderManagers.TakeNewExecutions();
-		}
-
-		private void GetNewTposExecutions()
-		{
-			_newTPOSExecutions = GLOBAL.HRDS.TakeNewTposExecutions();
+			_newTrades = GLOBAL.OrderManagers.TakeNewExecutions();
 		}
 
 		#region - Processing CSVs -
@@ -1071,7 +1034,7 @@ namespace ROC
 				{
 					AddToRomOrders(order, false);
 
-					_newROCOrders.Add(order);
+					_newOrders.Add(order);
 				}
 				else
 				{
@@ -1090,19 +1053,17 @@ namespace ROC
 				(csv.Status == CSVEx.CSVFieldIDs.StatusCodes.Filled || csv.Status == CSVEx.CSVFieldIDs.StatusCodes.PartiallyFilled))
 				//csv.CplxOrderType != CSVEx.CSVFieldIDs.CplxOrderTypes.Continer && (csv.Status == CSVEx.CSVFieldIDs.StatusCodes.Filled || csv.Status == CSVEx.CSVFieldIDs.StatusCodes.PartiallyFilled))
 			{
-				ROCExecution traded = new ROCExecution(csv);
+				ROCTrade traded = new ROCTrade(csv);
 
 				if (GLOBAL.OrderManagers.EndOfQueuedMsg)
 				{
 					// Do this after ther preprocessing is done, so that its in sync to tops trades
-					AddToRomExecutions(traded, false);
-
-					// New CSV
-					_newROCExecutions.Add(traded);
+					AddTrade(traded, false);
+					_newTrades.Add(traded);
 				}
 				else
 				{
-					AddToRomExecutions(traded, true);
+					AddTrade(traded, true);
 				}
 			}
 		}
@@ -1111,11 +1072,11 @@ namespace ROC
 
 		#region - Processing Executions -
 
-		private void ProcessTposExecutions(List<TPOSExecution> tposExecutions)
+		private void ProcessTrades(List<ROCTrade> trades)
 		{
-			foreach (TPOSExecution tposExecution in tposExecutions)
+			foreach (ROCTrade trade in trades)
 			{
-				AddToTposExecutions(tposExecution);
+				AddTrade(trade);
 			}
 		}
 
@@ -1129,35 +1090,24 @@ namespace ROC
 			{
 				lock (GLOBAL.HOrders.Table)
 				{
-					order = GLOBAL.HOrders.Update(order);
+					order = GLOBAL.HOrders.DisplayOrder(order);
 				}
 
 				GLOBAL.OrderManagers.Update(order, addToNew);
 			}
 		}
 
-		private void AddToRomExecutions(ROCExecution trade, bool addToNew)
+		private void AddTrade(ROCTrade trade, bool addToNew = false)
 		{
-			if (trade != null && trade.OmExecTag != null && trade.OmExecTag != "")
+			if ((trade != null) && !string.IsNullOrEmpty(trade.TradeID) && !trade.IsCanceled)
 			{
-				GLOBAL.OrderManagers.Update(trade, addToNew);
+				if (trade.Source == AssetShared.SourceEnum.ROC)
+					GLOBAL.OrderManagers.Update(trade, addToNew);
 
 				lock (GLOBAL.HExecutions.Table)
 				{
-					GLOBAL.HExecutions.Update(trade);
-					GLOBAL.HPositions.Update(trade);
-				}
-			}
-		}
-
-		private void AddToTposExecutions(TPOSExecution trade)
-		{
-			if (trade != null && trade.TradeID != null && trade.TradeID != "" && trade.ModReasonID != 3)
-			{
-				lock (GLOBAL.HExecutions.Table)
-				{
-					GLOBAL.HExecutions.Update(trade);
-					GLOBAL.HPositions.Update(trade);
+					GLOBAL.HExecutions.AddTrade(trade);
+					GLOBAL.HPositions.AddTrade(trade);
 				}
 			}
 		}
@@ -1668,15 +1618,17 @@ namespace ROC
 
 		public void ProcessTradeWindows(bool loadIM)
 		{
-			ProcessTradeWindows(loadIM, new List<ROCExecution>(), new List<TPOSExecution>());
+			ProcessTradeWindows(loadIM, new List<ROCTrade>());
 		}
-		public void ProcessTradeWindows(List<ROCExecution> rocExecutions, List<TPOSExecution> tposExecutions)
+
+		public void ProcessTradeWindows(List<ROCTrade> rocExecutions)
 		{
-			ProcessTradeWindows(false, rocExecutions, tposExecutions);
+			ProcessTradeWindows(false, rocExecutions);
 		}
-		public void ProcessTradeWindows(bool loadIM, List<ROCExecution> rocExecutions, List<TPOSExecution> tposExecutions)
+
+		public void ProcessTradeWindows(bool loadIM, List<ROCTrade> trades)
 		{
-			if (loadIM || rocExecutions.Count > 0 || tposExecutions.Count > 0)
+			if (loadIM || (trades.Count > 0))
 			{
 				IntPtr[] keys;
 				lock (GLOBAL.HWindows.TradeWindows)
@@ -1691,7 +1643,7 @@ namespace ROC
 
 					if (GLOBAL.HWindows.TradeWindows.TryGetValue(key, out var form)) {
 						try {
-							form.AddUpdateTradesByProcess(loadIM, rocExecutions, tposExecutions);
+							form.AddUpdateTradesByProcess(loadIM, trades);
 						} catch (Exception ex) {
 							GLOBAL.HROC.AddToException(ex);
 						}
@@ -1704,50 +1656,32 @@ namespace ROC
 
 		#region - Process Position Windows -
 
-		public void ProcessPositionWindows(bool loadIM, Market deltas)
+		public void ProcessPositionWindows(bool loadIM, List<ROCTrade> trades, Market deltas)
 		{
-			ProcessPositionWindows(loadIM, new List<ROCExecution>(), new List<TPOSExecution>(), deltas);
-		}
-		public void ProcessPositionWindows(List<ROCExecution> rocExecutions, List<TPOSExecution> tposExecutions)
-		{
-			ProcessPositionWindows(false, rocExecutions, tposExecutions, new Market());
-		}
-		public void ProcessPositionWindows(bool loadIM, List<ROCExecution> rocExecutions, List<TPOSExecution> tposExecutions, Market deltas)
-		{
-			if (loadIM || rocExecutions.Count > 0 || tposExecutions.Count > 0 || !deltas.Empty)
+			bool haveTrades = (trades != null) && (trades.Count > 0);
+			bool haveMarket = (deltas != null) && !deltas.Empty;
+
+			if (loadIM || haveTrades || haveMarket)
 			{
-				IntPtr[] keys;
-				lock (GLOBAL.HWindows.PositionWindows)
-				{
-					keys = new IntPtr[GLOBAL.HWindows.PositionWindows.Count];
-					GLOBAL.HWindows.PositionWindows.Keys.CopyTo(keys, 0);
-				}
+				if (GLOBAL.HWindows.PositionWindows.Count > 0) {
+					IntPtr[] keys;
+					lock (GLOBAL.HWindows.PositionWindows) {
+						keys = GLOBAL.HWindows.PositionWindows.Select(n => n.Key).ToArray();
+					}
 
-				List<RDSPosition> newROCPositions = new List<RDSPosition>();
-				List<RDSPosition> newTPOSPositions = new List<RDSPosition>();
+					List<ROCPosition> positionsToAdd = null;
+					if (haveTrades)
+						positionsToAdd = new List<ROCPosition>(trades.Select(n => new ROCPosition(n)));
 
-				if (keys.Length > 0)
-				{
-					foreach (ROCExecution rocExecution in rocExecutions)
-						newROCPositions.Add(new RDSPosition(rocExecution));
+					foreach (IntPtr key in keys) {
+						if (_stopping) return;
 
-					foreach (TPOSExecution tposExecution in tposExecutions)
-						newTPOSPositions.Add(new RDSPosition(tposExecution));
-				}
-
-				foreach (IntPtr key in keys)
-				{
-					if (_stopping) return;
-
-					if (GLOBAL.HWindows.PositionWindows.TryGetValue(key, out var form) && !form.IsProcessing)
-					{
-						try
-						{
-							form.AddUpdatePositionsByProcess(loadIM, newROCPositions, newTPOSPositions, deltas);
-						}
-						catch (Exception ex)
-						{
-							GLOBAL.HROC.AddToException(ex);
+						if (GLOBAL.HWindows.PositionWindows.TryGetValue(key, out var form) && !form.IsProcessing) {
+							try {
+								form.AddUpdatePositionsByProcess(loadIM, positionsToAdd, deltas);
+							} catch (Exception ex) {
+								GLOBAL.HROC.AddToException(ex);
+							}
 						}
 					}
 				}

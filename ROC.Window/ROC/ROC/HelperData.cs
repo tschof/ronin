@@ -3,7 +3,6 @@ using System.Data;
 using System.Collections.Generic;
 
 using RDSEx;
-using CSVEx;
 using SerializationEx;
 using MarketData;
 
@@ -16,17 +15,8 @@ namespace ROC
 		public DataTable OptionTypes {
 			get {
 				if (_optionTypes == null) {
-					_optionTypes = new DataTable();
-
-					_optionTypes.Columns.Add(new DataColumn("Type", Type.GetType("System.String")));
-
-					List<DataColumn> keyColumns = new List<DataColumn>();
-					keyColumns.Add(_optionTypes.Columns["Type"]);
-					_optionTypes.PrimaryKey = keyColumns.ToArray();
-
-					_optionTypes.Rows.Add(_optionTypes.NewRow()["Type"] = "Call");
-					_optionTypes.Rows.Add(_optionTypes.NewRow()["Type"] = "Put");
-
+					_optionTypes = CreateSimpleTable("Type", typeof(string), "Call", "Put");
+					_optionTypes.PrimaryKey = new DataColumn[] { _optionTypes.Columns[0] };
 					_optionTypes.DefaultView.Sort = "Type";
 				}
 				return _optionTypes;
@@ -40,22 +30,7 @@ namespace ROC
 		public DataTable BaseOrderTypes {
 			get {
 				if (_baseOrderTypes == null) {
-					_baseOrderTypes = new DataTable();
-
-					_baseOrderTypes.Columns.Add(new DataColumn("Type", Type.GetType("System.String")));
-
-					List<DataColumn> keyColumns = new List<DataColumn>();
-					keyColumns.Add(_baseOrderTypes.Columns["Type"]);
-					_baseOrderTypes.PrimaryKey = keyColumns.ToArray();
-
-					_baseOrderTypes.Rows.Add(_baseOrderTypes.NewRow()["Type"] = "MARKET");
-					_baseOrderTypes.Rows.Add(_baseOrderTypes.NewRow()["Type"] = "LIMIT");
-					_baseOrderTypes.Rows.Add(_baseOrderTypes.NewRow()["Type"] = "MOC");
-					_baseOrderTypes.Rows.Add(_baseOrderTypes.NewRow()["Type"] = "MOO");
-					_baseOrderTypes.Rows.Add(_baseOrderTypes.NewRow()["Type"] = "LOC");
-					_baseOrderTypes.Rows.Add(_baseOrderTypes.NewRow()["Type"] = "STOP");
-					_baseOrderTypes.Rows.Add(_baseOrderTypes.NewRow()["Type"] = "STOPLIMIT");
-
+					_baseOrderTypes = CreateSimpleTable("Type", typeof(string), "MARKET", "LIMIT", "MOC", "MOO", "LOC", "STOP", "STOPLIMIT");
 					_baseOrderTypes.DefaultView.Sort = "Type";
 				}
 				return _baseOrderTypes;
@@ -66,23 +41,10 @@ namespace ROC
 		public DataTable StockOrderTypes {
 			get {
 				if (_stockOrderTypes == null) {
-					_stockOrderTypes = BaseOrderTypes.Copy();
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "OCO");
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "PEG MKT");
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "PEG PRI");
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "PEG MID");
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "IMBOO");
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "IMBOC");
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "IMBOI");
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "VWAP MKT");
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "VWAP LIM");
-					_stockOrderTypes.Rows.Add(_stockOrderTypes.NewRow()["Type"] = "GVWAP");
+					_stockOrderTypes = CopySimpleTable(BaseOrderTypes, true, "OCO", "PEG MKT", "PEG PRI", "PEG MID", "IMBOO", "IMBOC", "IMBOI", "VWAP MKT", "VWAP LIM", "GVWAP");
 					_stockOrderTypes.TableName = "STK";
 				}
 				return _stockOrderTypes;
-			}
-			set {
-				_stockOrderTypes = value;
 			}
 		}
 
@@ -90,14 +52,10 @@ namespace ROC
 		public DataTable FutureOrderTypes {
 			get {
 				if (_futureOrderTypes == null) {
-					_futureOrderTypes = BaseOrderTypes.Copy();
-					_futureOrderTypes.Rows.Add(_futureOrderTypes.NewRow()["Type"] = "OCO");
+					_futureOrderTypes = CopySimpleTable(BaseOrderTypes, true, "OCO");
 					_futureOrderTypes.TableName = "FUT";
 				}
 				return _futureOrderTypes;
-			}
-			set {
-				_futureOrderTypes = value;
 			}
 		}
 
@@ -105,13 +63,9 @@ namespace ROC
 		public DataTable AutoSpreadOrderTypes {
 			get {
 				if (_autoSpreadOrderTypes == null) {
-					_autoSpreadOrderTypes = BaseOrderTypes.Clone();
-					_autoSpreadOrderTypes.Rows.Add(_autoSpreadOrderTypes.NewRow()["Type"] = "LIMIT");
+					_autoSpreadOrderTypes = CopySimpleTable(BaseOrderTypes, false, "LIMIT");
 				}
 				return _autoSpreadOrderTypes;
-			}
-			set {
-				_autoSpreadOrderTypes = value;
 			}
 		}
 
@@ -123,29 +77,13 @@ namespace ROC
 				}
 				return _optionOrderTypes;
 			}
-			set {
-				_optionOrderTypes = value;
-			}
 		}
 
 		private DataTable _durations;
 		public DataTable Durations {
 			get {
 				if (_durations == null) {
-					_durations = new DataTable();
-
-					_durations.Columns.Add(new DataColumn("Duration", Type.GetType("System.String")));
-
-					List<DataColumn> keyColumns = new List<DataColumn>();
-					keyColumns.Add(_durations.Columns["Duration"]);
-					_durations.PrimaryKey = keyColumns.ToArray();
-
-					_durations.Rows.Add(_durations.NewRow()["Duration"] = "DAY");
-					_durations.Rows.Add(_durations.NewRow()["Duration"] = "GTC");
-					_durations.Rows.Add(_durations.NewRow()["Duration"] = "IOC");
-					_durations.Rows.Add(_durations.NewRow()["Duration"] = "FOK");
-					_durations.Rows.Add(_durations.NewRow()["Duration"] = "OPG");
-
+					_durations = CreateSimpleTable("Duration", typeof(string), "DAY", "GTC", "IOC", "FOK", "OPG");
 					_durations.DefaultView.Sort = "Duration";
 				}
 				return _durations;
@@ -163,22 +101,15 @@ namespace ROC
 				}
 				return _stockDurations;
 			}
-			set {
-				_stockDurations = value;
-			}
 		}
 
 		private DataTable _autoSpreadDurations;
 		public DataTable AutoSpreadDurations {
 			get {
 				if (_autoSpreadDurations == null) {
-					_autoSpreadDurations = Durations.Clone();
-					_autoSpreadDurations.Rows.Add(_durations.NewRow()["Duration"] = "DAY");
+					_autoSpreadDurations = CopySimpleTable(Durations, false, "DAY");
 				}
 				return _autoSpreadDurations;
-			}
-			set {
-				_autoSpreadDurations = value;
 			}
 		}
 
@@ -186,25 +117,11 @@ namespace ROC
 		public DataTable StokAlgoTypes {
 			get {
 				if (_stokAlgoTypes == null) {
-					_stokAlgoTypes = new DataTable();
-
-					_stokAlgoTypes.Columns.Add(new DataColumn("AlgoType", Type.GetType("System.String")));
-
-					List<DataColumn> keyColumns = new List<DataColumn>();
-					keyColumns.Add(_durations.Columns["AlgoType"]);
-					_stokAlgoTypes.PrimaryKey = keyColumns.ToArray();
-
-					_stokAlgoTypes.Rows.Add(_stokAlgoTypes.NewRow()["AlgoType"] = "");
-					_stokAlgoTypes.Rows.Add(_stokAlgoTypes.NewRow()["AlgoType"] = "TWAP");
-					_stokAlgoTypes.Rows.Add(_stokAlgoTypes.NewRow()["AlgoType"] = "VWAP");
-					_stokAlgoTypes.Rows.Add(_stokAlgoTypes.NewRow()["AlgoType"] = "GVWAP");
-
+					_stokAlgoTypes = CreateSimpleTable("AlgoType", typeof(string), "", "TWAP", "VWAP", "GVWAP");
+					_stokAlgoTypes.PrimaryKey = new DataColumn[] { _durations.Columns["AlgoType"] };
 					_stokAlgoTypes.DefaultView.Sort = "AlgoType";
 				}
 				return _stokAlgoTypes;
-			}
-			set {
-				_stokAlgoTypes = value;
 			}
 		}
 
@@ -216,71 +133,70 @@ namespace ROC
 				}
 				return _rocItems;
 			}
-			set {
-				_rocItems = value;
-			}
 		}
 
-		public override void SetTable()
+		protected override string GetTableTitle() => "Orders";
+
+		protected override string GetKeyColumnName() => "Tag";
+
+		protected override (string, Type)[] GetTableColumns()
 		{
-			Table = new DataTable("Orders");
+			return new (string, Type)[] {
+				("Tag", typeof(string)),
+				("Symbol", typeof(string)),
+				("SymbolDetail", typeof(string)),
+				("SymbolDisplay", typeof(string)),
+				("Status", typeof(long)),
+				("Side", typeof(long)),
+				("Qty", typeof(long)),
+				("Price", typeof(double)),
+				("StopPrice", typeof(double)),
+				("PegPrice", typeof(double)),
+				("LeaveQty", typeof(long)),
+				("CumQty", typeof(long)),
+				("AvgPrice", typeof(double)),
+				("OrderType", typeof(long)),
+				("TIF", typeof(long)),
+				("AlgoType", typeof(long)),
+				("AlgoEndTime", typeof(string)),
+				("DestID", typeof(long)),
+				("OmTime", typeof(DateTime)),
+				("ClearingAcct", typeof(string)),
+				("ContractSize", typeof(double)),
+				("TickSize", typeof(double)),
+				("DisplayFactor", typeof(double)),
+				("OMTag", typeof(string)),
+				("SecType", typeof(string)),
+				("Text", typeof(string)),
+				("ParentTag", typeof(string)),
+				("Echo", typeof(string)),
+				("CplxOrderType", typeof(long))
+			};
+		}
 
-			Table.Columns.Add(new DataColumn("Tag", Type.GetType("System.String")));
-			List<DataColumn> keyColumns = new List<DataColumn>();
-			keyColumns.Add(Table.Columns["Tag"]);
-			Table.Columns.Add(new DataColumn("Symbol", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SymbolDetail", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SymbolDisplay", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("Status", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("Side", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("Qty", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("Price", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("StopPrice", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("PegPrice", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("LeaveQty", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("CumQty", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("AvgPrice", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("OrderType", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("TIF", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("AlgoType", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("AlgoEndTime", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("DestID", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("OmTime", Type.GetType("System.DateTime")));
-			Table.Columns.Add(new DataColumn("ClearingAcct", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("ContractSize", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("TickSize", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("DisplayFactor", Type.GetType("System.Double")));
-
-			Table.Columns.Add(new DataColumn("OMTag", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SecType", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("Text", Type.GetType("System.String")));
-
-			Table.Columns.Add(new DataColumn("ParentTag", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("Echo", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("CplxOrderType", Type.GetType("System.Int64")));
-
-			Table.PrimaryKey = keyColumns.ToArray();
-			Table.CaseSensitive = true;
-
-			SearchView = new DataView(Table);
-			SearchView.Sort = "Tag";
+		protected override void OnCreateTable(DataTable table)
+		{
+			table.CaseSensitive = true;
 		}
 
 		// Used by RDS When it first got all the orders from DB
-		public void Update(Dictionary<string, ROCOrder> orders)
+		public void DisplayOrders(Dictionary<string, ROCOrder> orders)
 		{
 			if (GLOBAL.HRDS.GotRocOrders) {
 				lock (Table) {
+					foreach (KeyValuePair<string, ROCOrder> entry in orders)
+						DisplayOrder(entry.Value);
+					
 					string[] keys = new string[orders.Count];
 					orders.Keys.CopyTo(keys, 0);
 					foreach (string key in keys) {
-						orders[key] = Update(orders[key]);
+						orders[key] = DisplayOrder(orders[key]);
 					}
 				}
 			}
 		}
 
-		public ROCOrder Update(ROCOrder order)
+		public ROCOrder DisplayOrder(ROCOrder order)
 		{
 			if (!RocItems.TryGetValue(order.Tag, out ROCOrder found)) {
 				RocItems.Add(order.Tag, order);
@@ -289,9 +205,7 @@ namespace ROC
 				ROCOrder.Merge(found, order);
 			}
 
-			if (!Keys.Contains(order.Tag)) {
-				Keys.Add(order.Tag);
-
+			if (TryAddKey(order.Tag)) {
 				Table.Rows.Add(new object[] {
 					order.Tag,
 					order.Symbol,
@@ -300,7 +214,7 @@ namespace ROC
 					order.Status,
 					order.Side,
 					order.Qty,
-					order.Price,
+					order.OrderPrice.Value,
 					order.StopPrice,
 					order.PegPrice,
 					order.LeaveQty,
@@ -331,7 +245,7 @@ namespace ROC
 
 					if (RocItems[order.Tag].UpdateOrder) {
 						row["Qty"] = order.Qty;
-						row["Price"] = order.Price;
+						row["Price"] = order.OrderPrice.Value;
 						row["StopPrice"] = order.StopPrice;
 						row["PegPrice"] = order.PegPrice;
 						row["AvgPrice"] = order.AvgPrice;
@@ -365,11 +279,11 @@ namespace ROC
 						byte[] bytes = System.Convert.FromBase64String(data);
 						Dictionary<string, ROCOrder> orders = (Dictionary<string, ROCOrder>)new ToBinary().Deserialize(bytes, SerializationTypes.Normal);
 
-						Keys.Clear();
+						ClearKeys();
 						RocItems.Clear();
 						Table.Clear();
 
-						Update(orders);
+						DisplayOrders(orders);
 					}
 				}
 			} catch (Exception ex) {
@@ -395,11 +309,11 @@ namespace ROC
 	// Main Executions Collection
 	public class HelperExecutionsData : HelperDataBase
 	{
-		private Dictionary<string, ROCExecution> _rocItems;
-		public Dictionary<string, ROCExecution> RocItems {
+		private Dictionary<string, ROCTrade> _rocItems;
+		public Dictionary<string, ROCTrade> RocItems {
 			get {
 				if (_rocItems == null) {
-					_rocItems = new Dictionary<string, ROCExecution>();
+					_rocItems = new Dictionary<string, ROCTrade>();
 				}
 				return _rocItems;
 			}
@@ -408,11 +322,11 @@ namespace ROC
 			}
 		}
 
-		private Dictionary<string, TPOSExecution> _tposItems;
-		public Dictionary<string, TPOSExecution> TposItems {
+		private Dictionary<string, ROCTrade> _tposItems;
+		public Dictionary<string, ROCTrade> TposItems {
 			get {
 				if (_tposItems == null) {
-					_tposItems = new Dictionary<string, TPOSExecution>();
+					_tposItems = new Dictionary<string, ROCTrade>();
 				}
 				return _tposItems;
 			}
@@ -421,111 +335,81 @@ namespace ROC
 			}
 		}
 
-		public override void SetTable()
+		protected override string GetTableTitle() => "Trades";
+		protected override string GetKeyColumnName() => "ExecID";
+		protected override (string, Type)[] GetTableColumns()
 		{
-			Table = new DataTable("Trades");
+			return new (string, Type)[] {
+				("ExecID", typeof(string)),
+				("Symbol", typeof(string)),
+				("SymbolDetail", typeof(string)),
+				("SymbolDisplay", typeof(string)),
+				("Side", typeof(long)),
+				("Qty", typeof(long)),
+				("Price", typeof(double)),
+				("TradeValue", typeof(double)),
+				("DestID", typeof(long)),
+				("OmTime", typeof(DateTime)),
+				("ClearingAcct", typeof(string)),
+				("ContractSize", typeof(double)),
+				("TickSize", typeof(double)),
+				("DisplayFactor", typeof(double)),
+				("OMTag", typeof(string)),
+				("SecType", typeof(string)),
+				("Source", typeof(string)),
+				("CplxOrderType", typeof(long))
+			};
+		}
 
-			Table.Columns.Add(new DataColumn("ExecID", Type.GetType("System.String")));
-			List<DataColumn> keyColumns = new List<DataColumn>();
-			keyColumns.Add(Table.Columns["ExecID"]);
-			Table.Columns.Add(new DataColumn("Symbol", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SymbolDetail", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SymbolDisplay", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("Side", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("Qty", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("Price", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("TradeValue", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("DestID", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("OmTime", Type.GetType("System.DateTime")));
-			Table.Columns.Add(new DataColumn("ClearingAcct", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("ContractSize", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("TickSize", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("DisplayFactor", Type.GetType("System.Double")));
-
-			Table.Columns.Add(new DataColumn("OMTag", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SecType", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("TPOS", Type.GetType("System.Int64")));
-
-			Table.Columns.Add(new DataColumn("CplxOrderType", Type.GetType("System.Int64")));
-
-			Table.PrimaryKey = keyColumns.ToArray();
-
-			SearchView = new DataView(Table);
-			SearchView.Sort = "ExecID";
+		protected override void OnCreateTable(DataTable table)
+		{
+			// No additional setup for this table.
 		}
 
 		// Used by RDS When it first got all the roc executions from DB
-		public void Update(Dictionary<string, ROCExecution> trades)
+		public void AddRocTrades(Dictionary<string, ROCTrade> trades) // Was Update()
 		{
 			if (GLOBAL.HRDS.GotRocExecutions) {
 				lock (Table) {
-					foreach (ROCExecution trade in trades.Values) {
-						Update(trade);
-					}
-				}
-			}
-		}
-
-		public void Update(ROCExecution trade)
-		{
-			if (trade.UpdateTrade) {
-				RocItems[trade.OmExecTag] = trade;
-
-				if (!Keys.Contains(trade.OmExecTag)) {
-					Keys.Add(trade.OmExecTag);
-
-					Table.Rows.Add(new object[] {
-					trade.OmExecTag,
-					trade.Symbol,
-					trade.SymbolDetail,
-					trade.SymbolDisplay,
-					trade.Side,
-					trade.Qty,
-					trade.Price,
-					trade.TradeValue,
-					trade.DestID,
-					trade.TradeTime,
-					trade.ClearingAcct,
-					trade.ContractSize,
-					trade.TickSize,
-					trade.DisplayFactor,
-					trade.OmTag,
-					trade.SecType,
-					0,
-					trade.CplxOrderType });
-				} else {
-					DataRowView[] rows = SearchView.FindRows(trade.OmExecTag);
-					foreach (DataRowView row in rows) {
-						row["Qty"] = trade.Qty;
-						row["Price"] = trade.Price;
-						row["TradeValue"] = trade.TradeValue;
-						if (trade.TradeTime != null) {
-							row["OmTime"] = trade.TradeTime;
+					foreach (KeyValuePair<string, ROCTrade> entry in trades) {
+						ROCTrade trade = entry.Value;
+						if (trade.UpdateTrade) {
+							RocItems[trade.TradeID] = trade;
+							addTradeToTable(trade);
 						}
 					}
 				}
 			}
 		}
 
+		// Add a single trade.  Use AddRocTrades() instead for collections of trades.
+		public void AddTrade(ROCTrade trade)
+		{
+			if (trade.UpdateTrade) {
+				RocItems[trade.TradeID] = trade;
+				lock (Table) {
+					addTradeToTable(trade);
+				}
+			}
+		}
+
 		// Used by RDS When it first got all the executions tpos
-		public void Update(Dictionary<string, TPOSExecution> trades)
+		public void AddTposTrades(Dictionary<string, ROCTrade> trades)
 		{
 			if (GLOBAL.HRDS.GotTposExecutions) {
 				lock (Table) {
-					foreach (TPOSExecution trade in trades.Values) {
-						Update(trade);
+					foreach (KeyValuePair<string, ROCTrade> entry in trades) {
+						ROCTrade trade = entry.Value;
+						TposItems[trade.TradeID] = trade;
+						addTradeToTable(trade);
 					}
 				}
 			}
 		}
 
-		public void Update(TPOSExecution trade)
+		private void addTradeToTable(ROCTrade trade)
 		{
-			TposItems[trade.TradeID] = trade;
-
-			if (!Keys.Contains(trade.TradeID)) {
-				Keys.Add(trade.TradeID);
-
+			if (TryAddKey(trade.TradeID)) {
 				Table.Rows.Add(new object[] {
 					trade.TradeID,
 					trade.Symbol,
@@ -533,7 +417,7 @@ namespace ROC
 					trade.SymbolDisplay,
 					trade.Side,
 					trade.Qty,
-					trade.Price,
+					trade.ExecPrice.Value,
 					trade.TradeValue,
 					trade.DestID,
 					trade.TradeTime,
@@ -543,14 +427,16 @@ namespace ROC
 					trade.DisplayFactor,
 					trade.OmTag,
 					trade.SecType,
-					1});
+					trade.Source,
+					trade.CplxOrderType });
 			} else {
 				DataRowView[] rows = SearchView.FindRows(trade.TradeID);
 				foreach (DataRowView row in rows) {
 					row["Qty"] = trade.Qty;
-					row["Price"] = trade.Price;
+					row["Price"] = trade.ExecPrice.Value;
 					row["TradeValue"] = trade.TradeValue;
-					row["OmTime"] = trade.TradeTime;
+					if (!string.IsNullOrEmpty(trade.TradeTime))
+						row["OmTime"] = trade.TradeTime;
 				}
 			}
 		}
@@ -561,21 +447,21 @@ namespace ROC
 		{
 			try {
 				if (GLOBAL.OrderManagers.Status == HelperROM.StatusTypes.Started) {
-					string data = HelperFile.Load(Configuration.Path.Default.TradePath, String.Format(@"{0}_{1:G}{2:G3}.trades", username, DateTime.Today.Year, DateTime.Today.DayOfYear));
+					string data = HelperFile.Load(Configuration.Path.Default.TradePath, string.Format(@"{0}_{1:G}{2:G3}.trades", username, DateTime.Today.Year, DateTime.Today.DayOfYear));
 
 					if (data != "") {
 						byte[] bytes = System.Convert.FromBase64String(data);
-						Dictionary<string, ROCExecution> trades = (Dictionary<string, ROCExecution>)new ToBinary().Deserialize(bytes, SerializationTypes.Normal);
+						Dictionary<string, ROCTrade> trades = (Dictionary<string, ROCTrade>)new ToBinary().Deserialize(bytes, SerializationTypes.Normal);
 
 						// Don't clear the Trade Table, because trades are duplicated.
 						//Keys.Clear();
 						RocItems.Clear();
 						//Table.Clear();
 
-						Update(trades);
+						AddRocTrades(trades);
 
 						// Update ROC Trades when loading from local file
-						GLOBAL.HPositions.Update(trades);
+						GLOBAL.HPositions.AddRocTrades(trades);
 					}
 				}
 			} catch (Exception ex) {
@@ -590,7 +476,7 @@ namespace ROC
 					byte[] bytes = new ToBinary().Serialize(RocItems, SerializationTypes.Normal);
 					string data = System.Convert.ToBase64String(bytes);
 
-					HelperFile.Save(data, Configuration.Path.Default.TradePath, String.Format(@"{0}_{1:G}{2:G3}.trades", GLOBAL.OrderManagers.UserName, DateTime.Today.Year, DateTime.Today.DayOfYear));
+					HelperFile.Save(data, Configuration.Path.Default.TradePath, string.Format(@"{0}_{1:G}{2:G3}.trades", GLOBAL.OrderManagers.UserName, DateTime.Today.Year, DateTime.Today.DayOfYear));
 				}
 			}
 		}
@@ -601,11 +487,11 @@ namespace ROC
 	// Main Positions Collection
 	public class HelperPositionsData : HelperDataBase
 	{
-		private Dictionary<string, RDSPosition> _rocItems;
-		public Dictionary<string, RDSPosition> RocItems {
+		private Dictionary<string, ROCPosition> _rocItems;
+		public Dictionary<string, ROCPosition> RocItems {
 			get {
 				if (_rocItems == null) {
-					_rocItems = new Dictionary<string, RDSPosition>();
+					_rocItems = new Dictionary<string, ROCPosition>();
 				}
 				return _rocItems;
 			}
@@ -614,11 +500,11 @@ namespace ROC
 			}
 		}
 
-		private Dictionary<string, RDSPosition> _tposItems;
-		public Dictionary<string, RDSPosition> TposItems {
+		private Dictionary<string, ROCPosition> _tposItems;
+		public Dictionary<string, ROCPosition> TposItems {
 			get {
 				if (_tposItems == null) {
-					_tposItems = new Dictionary<string, RDSPosition>();
+					_tposItems = new Dictionary<string, ROCPosition>();
 				}
 				return _tposItems;
 			}
@@ -627,72 +513,76 @@ namespace ROC
 			}
 		}
 
-		public override void SetTable()
+		protected override string GetTableTitle() => "Positions";
+
+		protected override string GetKeyColumnName() => null;
+
+		protected override (string, Type)[] GetTableColumns()
 		{
-			Table = new DataTable("Positions");
+			return new (string, Type)[] {
+				("PositionKey", typeof(string)),
+				("Symbol", typeof(string)),
+				("SymbolDetail", typeof(string)),
+				("SymbolDisplay", typeof(string)),
+				("BidPrice", typeof(double)),
+				("BidSize", typeof(long)),
+				("AskPrice", typeof(double)),
+				("AskSize", typeof(long)),
+				("LastTraded", typeof(double)),
+				("NetChange", typeof(double)),
+				("PctChange", typeof(double)),
+				("Volume", typeof(long)),
+				("ClearingAcct", typeof(string)),
+				("Trader", typeof(string)),
+				("OpenQty", typeof(long)),
+				("OpenAvg", typeof(double)),
+				("BuyQty", typeof(long)),
+				("BuyAvg", typeof(double)),
+				("SellQty", typeof(long)),
+				("SellAvg", typeof(double)),
+				("CurrentQty", typeof(long)),
+				("ContractSize", typeof(double)),
+				("TickSize", typeof(double)),
+				("DisplayFactor", typeof(double)),
+				("OpenPnL", typeof(double)),
+				("DayPnL", typeof(double)),
+				("DayRealizedPnL", typeof(double)),
+				("TotalPnL", typeof(double)),
+				("MarketValue", typeof(double)),
+				("SecType", typeof(string)),
+				("SecurityStatus", typeof(string)),
+				("Underlying", typeof(string)),
+				("ExpDate", typeof(string)),
+				("StrikePrice", typeof(string)),
+				("CallPut", typeof(string)),
+				("Source", typeof(string)),
+				("SettlePrice", typeof(double))
+			};
+		}
 
-			Table.Columns.Add(new DataColumn("PositionKey", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("Symbol", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SymbolDetail", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SymbolDisplay", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("BidPrice", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("BidSize", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("AskPrice", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("AskSize", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("LastTraded", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("NetChange", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("PctChange", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("Volume", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("ClearingAcct", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("Trader", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("OpenQty", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("OpenAvg", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("BuyQty", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("BuyAvg", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("SellQty", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("SellAvg", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("CurrentQty", Type.GetType("System.Int64")));
-			Table.Columns.Add(new DataColumn("ContractSize", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("TickSize", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("DisplayFactor", Type.GetType("System.Double")));
-
-			Table.Columns.Add(new DataColumn("OpenPnL", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("DayPnL", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("DayRealizedPnL", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("TotalPnL", Type.GetType("System.Double")));
-			Table.Columns.Add(new DataColumn("MarketValue", Type.GetType("System.Double")));
-
-			Table.Columns.Add(new DataColumn("SecType", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SecurityStatus", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("Underlying", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("ExpDate", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("StrikePrice", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("CallPut", Type.GetType("System.String")));
-
-			Table.Columns.Add(new DataColumn("TPOS", Type.GetType("System.String")));
-			Table.Columns.Add(new DataColumn("SettlePrice", Type.GetType("System.Double")));
-
-			//Table.PrimaryKey = keyColumns.ToArray();
+		protected override void OnCreateTable(DataTable table)
+		{
+			// No additional setup for this table.
 		}
 
 		#region - TPOS Position -
 
 		// Used by RDS When it first got all positions from TPOS
-		public void Update(Dictionary<string, RDSPosition> positions)
+		public void Update(Dictionary<string, ROCPosition> positions)
 		{
 			if (GLOBAL.HRDS.GotTposPositions) {
 				lock (Table) {
-					foreach (RDSPosition position in positions.Values) {
+					foreach (ROCPosition position in positions.Values) {
 						Update(position);
 					}
 				}
 			}
 		}
 
-		public void Update(RDSPosition position)
+		public void Update(ROCPosition position)
 		{
 			lock (TposItems) {
-				if (TposItems.TryGetValue(position.PositionKey, out RDSPosition found)) {
+				if (TposItems.TryGetValue(position.PositionKey, out ROCPosition found)) {
 					found.UpdateFromPosition(position, true);
 				} else {
 					TposItems.Add(position.PositionKey, position);
@@ -702,67 +592,63 @@ namespace ROC
 
 		#endregion
 
-		#region - ROC Trades -
-
-		// Used by RDS When it first got all the roc executions from DB
-		public void Update(Dictionary<string, ROCExecution> trades)
+		private void updatePositions(Dictionary<string, ROCPosition> positions, Dictionary<string, ROCTrade> trades, Converter<ROCTrade, bool> filter = null)
 		{
-			if (GLOBAL.HRDS.GotRocExecutions) {
-				lock (Table) {
-					foreach (ROCExecution trade in trades.Values) {
-						Update(trade);
+			lock (Table) {
+				lock (positions) {
+					foreach (KeyValuePair<string, ROCTrade> entry in trades) {
+						ROCTrade trade = entry.Value;
+						if ((filter == null) || filter(trade)) {
+							if (positions.TryGetValue(trade.PositionKey, out ROCPosition position)) {
+								position.AddTrade(trade);
+							} else {
+								position = new ROCPosition(trade);
+								positions.Add(trade.PositionKey, position);
+							}
+						}
 					}
 				}
 			}
 		}
 
-		public void Update(ROCExecution trade)
+		public void AddTrade(ROCTrade trade)
 		{
-			lock (RocItems) {
-				if (!RocItems.TryGetValue(trade.PositionKey, out RDSPosition position)) {
-					position = new RDSPosition(trade);
-					RocItems.Add(trade.PositionKey, position);
-				} else {
+			Dictionary<string, ROCPosition> positions = null;
+			if (trade != null) {
+				if (trade.Source == AssetShared.SourceEnum.ROC) {
+					positions = RocItems;
+				} else if (trade.Source == AssetShared.SourceEnum.TPOS) {
+					// Filter out Auto Balance Trades from TPOS
+					if (trade.ExecPrice > 0)
+						positions = TposItems;
+				}
+			}
+
+			if (positions != null) {
+				lock (positions) {
+					if (!positions.TryGetValue(trade.PositionKey, out ROCPosition position)) {
+						position = new ROCPosition(trade);
+						positions.Add(trade.PositionKey, position);
+					}
 					position.AddTrade(trade);
 				}
 			}
 		}
 
-		#endregion
-
-		#region - TPOS Trades -
+		// Used by RDS When it first got all the roc executions from DB
+		public void AddRocTrades(Dictionary<string, ROCTrade> trades)
+		{
+			if (GLOBAL.HRDS.GotRocExecutions)
+				updatePositions(RocItems, trades);
+		}
 
 		// Used by RDS When it first got all the executions from Tpos
-		public void Update(Dictionary<string, TPOSExecution> trades)
+		public void AddTposTrades(Dictionary<string, ROCTrade> trades)
 		{
-			if (GLOBAL.HRDS.GotTposExecutions) {
-				lock (Table) {
-					foreach (TPOSExecution trade in trades.Values) {
-						Update(trade);
-					}
-				}
-			}
-		}
-
-		public void Update(TPOSExecution trade)
-		{
-			// Filter out Auot Blance Trades from TPOS
-			if (trade.Price > 0) {
-				string key = trade.PositionKey;
-
-				lock (TposItems) {
-					if (!TposItems.TryGetValue(key, out RDSPosition position)) {
-						position = new RDSPosition(trade);
-						TposItems.Add(key, position);
-					} else {
-						position.AddTrade(trade);
-					}
-				}
-			}
+			if (GLOBAL.HRDS.GotTposExecutions)
+				updatePositions(TposItems, trades, n => n.ExecPrice > 0);
 		}
 	}
-
-	#endregion
 
 	#region - Main Market Data -
 

@@ -634,14 +634,14 @@ namespace RDSEx
 			}
 		}
 
-		private Dictionary<string, ROCExecution> _rocExecutions;
-		public Dictionary<string, ROCExecution> RocExecutions
+		private Dictionary<string, ROCTrade> _rocExecutions;
+		public Dictionary<string, ROCTrade> RocExecutions
 		{
 			get
 			{
 				if (_rocExecutions == null)
 				{
-					_rocExecutions = new Dictionary<string, ROCExecution>();
+					_rocExecutions = new Dictionary<string, ROCTrade>();
 				}
 				return _rocExecutions;
 			}
@@ -673,14 +673,14 @@ namespace RDSEx
 		private bool _firstTposExecutionCall = true;
 
 		// Tpos Positions nested with Tpos Trades By instrument ID
-		private Dictionary<string, RDSPosition> _tposPositions;
-		public Dictionary<string, RDSPosition> TposPositions
+		private Dictionary<string, ROCPosition> _tposPositions;
+		public Dictionary<string, ROCPosition> TposPositions
 		{
 			get
 			{
 				if (_tposPositions == null)
 				{
-					_tposPositions = new Dictionary<string, RDSPosition>();
+					_tposPositions = new Dictionary<string, ROCPosition>();
 				}
 				return _tposPositions;
 			}
@@ -690,14 +690,14 @@ namespace RDSEx
 			}
 		}
 
-		private Dictionary<string, RDSPosition> _newTposPositions;
-		public Dictionary<string, RDSPosition> NewTposPositions
+		private Dictionary<string, ROCPosition> _newTposPositions;
+		public Dictionary<string, ROCPosition> NewTposPositions
 		{
 			get
 			{
 				if (_newTposPositions == null)
 				{
-					_newTposPositions = new Dictionary<string, RDSPosition>();
+					_newTposPositions = new Dictionary<string, ROCPosition>();
 				}
 				return _newTposPositions;
 			}
@@ -725,14 +725,14 @@ namespace RDSEx
 		}
 
 		// Tpos Traded Only
-		private Dictionary<string, TPOSExecution> _tposExecutions;
-		public Dictionary<string, TPOSExecution> TposExecutions
+		private Dictionary<string, ROCTrade> _tposExecutions;
+		public Dictionary<string, ROCTrade> TposExecutions
 		{
 			get
 			{
 				if (_tposExecutions == null)
 				{
-					_tposExecutions = new Dictionary<string, TPOSExecution>();
+					_tposExecutions = new Dictionary<string, ROCTrade>();
 				}
 				return _tposExecutions;
 			}
@@ -743,7 +743,7 @@ namespace RDSEx
 		}
 
 		private object _newTposExecutionsLock = new object();
-		private Dictionary<string, TPOSExecution> _newTposExecutions = new Dictionary<string, TPOSExecution>();
+		private Dictionary<string, ROCTrade> _newTposExecutions = new Dictionary<string, ROCTrade>();
 
 		private bool _gotTposExecutions = false;
 		public bool GotTposExecutions
@@ -1483,20 +1483,18 @@ namespace RDSEx
 
 			if (omExecTag != "" && omTag != "" && RocOrders.TryGetValue(omTag, out ROCOrder order))
 			{
-				ROCExecution traded;
+				ROCTrade traded;
 				if (order.TryGetTrade(omExecTag, out traded))
 				{
 					// trade again?
 					ErrorMsg = string.Concat("DecodeUserExecution|Duplication ", omExecTag);
-				}
-				else
+					traded.Update(userExecution, order);
+				} else
 				{
-					traded = new ROCExecution();
+					traded = new ROCTrade(userExecution, order);
 					order.AddTrade(omExecTag, traded);
 				}
-
-				traded.Update(userExecution, order);
-				RocExecutions[omExecTag] = traded;
+				RocExecutions.Add(omExecTag, traded);
 			}
 		}
 
@@ -1568,11 +1566,11 @@ namespace RDSEx
 			{
 				if (VerifyTposPosition(pos))
 				{
-					RDSPosition position = new RDSPosition(pos);
+					ROCPosition position = new ROCPosition(pos);
 
 					lock (TposPositions)
 					{
-						if (!TposPositions.TryGetValue(position.PositionKey, out RDSPosition found) || (found.Version != pos.m_Version)) {
+						if (!TposPositions.TryGetValue(position.PositionKey, out ROCPosition found) || (found.Version != pos.m_Version)) {
 							TposPositions[position.PositionKey] = position;
 							AddToNewPositions(position);
 						}
@@ -1590,7 +1588,7 @@ namespace RDSEx
 			return AccountFilterMap.Contains(pos.m_ClearingAccount);
 		}
 
-		private void AddToNewPositions(RDSPosition position)
+		private void AddToNewPositions(ROCPosition position)
 		{
 			if (!_firstTposPositionCall)
 			{
@@ -1614,16 +1612,16 @@ namespace RDSEx
 			}
 		}
 
-		public List<TPOSExecution> TakeNewTPosExecutions()
+		public List<ROCTrade> TakeNewTPosExecutions()
 		{
-			Dictionary<string, TPOSExecution> taken, reset = new Dictionary<string, TPOSExecution>();
+			Dictionary<string, ROCTrade> taken, reset = new Dictionary<string, ROCTrade>();
 			lock (_newTposExecutionsLock) {
 				taken = _tposExecutions;
 				_tposExecutions = reset;
 			}
 
 			if ((taken != null) && (taken.Count > 0)) {
-				List<TPOSExecution> result = new List<TPOSExecution>();
+				List<ROCTrade> result = new List<ROCTrade>();
 				result.AddRange(taken.Values);
 				return result;
 			}
@@ -1685,19 +1683,18 @@ namespace RDSEx
 			{
 				if (VarifyTposTrade(tposTrade))
 				{
-					TPOSExecution exec = new TPOSExecution();
+					ROCTrade exec;
 					lock (TposExecutions)
 					{
-						if (!TposExecutions.TryGetValue(tposTrade.m_TradeID, out TPOSExecution found)) {
+						if (!TposExecutions.TryGetValue(tposTrade.m_TradeID, out exec)) {
+							exec = new ROCTrade(tposTrade);
 							TposExecutions.Add(tposTrade.m_TradeID, exec);
-						} else if ((found.Version != tposTrade.m_Version) || (found.ModReasonID != tposTrade.m_LastModReasonID)) {
-							exec = found; // Needs updating.
+						} else if ((exec.Version != tposTrade.m_Version) || (exec.LastModReasonID != tposTrade.m_LastModReasonID)) {
+							exec.Update(tposTrade);
 						} else {
 							return; // Same trade, exit.
 						}
 					}
-
-					exec.Update(tposTrade);
 
 					lock (TposExecutions)
 					{
@@ -1715,7 +1712,7 @@ namespace RDSEx
 			}
 		}
 
-		private void AddToNewExecutions(TPOSExecution exec)
+		private void AddToNewExecutions(ROCTrade exec)
 		{
 			if (!_firstTposExecutionCall)
 			{

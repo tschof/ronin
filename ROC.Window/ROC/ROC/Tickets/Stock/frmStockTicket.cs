@@ -1190,7 +1190,7 @@ namespace ROC
 						UpdateSecurityInfo();
 					}
 
-					Market deltas = Market.Replace(_deltas);
+					Market deltas = _deltas.Release();
 					if (!deltas.Empty)
 					{
 						_updateL2BidAggregation = false;
@@ -1674,9 +1674,9 @@ namespace ROC
 					row["TickSize"] = CurrentSecInfo.TickSize;
 					row["DisplayFactor"] = 1;
 
-					row["Price"] = (double)order.Price;
-					row["Size"] = (long)order.LeaveQty;
-					row["RealSize"] = (long)order.LeaveQty;
+					row["Price"] = (double)order.OrderPrice.Value;
+					row["Size"] = order.LeaveQty;
+					row["RealSize"] = order.LeaveQty;
 
 					row["OrderStatus"] = order.Status;
 					row["SecType"] = CSVEx.CSVFieldIDs.SecurityTypes.Equity;
@@ -1687,9 +1687,9 @@ namespace ROC
 				{
 					foreach (DataRowView row in rows)
 					{
-						row["Price"] = (double)order.Price;
-						row["Size"] = (long)order.LeaveQty;
-						row["RealSize"] = (long)order.LeaveQty;
+						row["Price"] = (double)order.OrderPrice.Value;
+						row["Size"] = order.LeaveQty;
+						row["RealSize"] = order.LeaveQty;
 
 						row["OrderStatus"] = order.Status;
 					}

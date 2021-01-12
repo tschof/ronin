@@ -392,7 +392,7 @@ namespace ROC
 			}
 		}
 
-		internal Dictionary<string, ROCExecution> RocExecutions
+		internal Dictionary<string, ROCTrade> RocExecutions
 		{
 			get
 			{
@@ -420,7 +420,7 @@ namespace ROC
 			}
 		}
 
-		internal Dictionary<string, TPOSExecution> TposExecutions
+		internal Dictionary<string, ROCTrade> TposExecutions
 		{
 			get
 			{
@@ -443,7 +443,7 @@ namespace ROC
 			}
 		}
 
-		internal Dictionary<string, RDSPosition> TposPositions
+		internal Dictionary<string, ROCPosition> TposPositions
 		{
 			get
 			{
@@ -451,7 +451,7 @@ namespace ROC
 			}
 		}
 
-		internal Dictionary<string, RDSPosition> NewTposPositions
+		internal Dictionary<string, ROCPosition> NewTposPositions
 		{
 			get
 			{
@@ -614,7 +614,7 @@ namespace ROC
 			_rds.UpdateUserPassword(username, oldPassword, newPassword);
 		}
 
-		internal List<TPOSExecution> TakeNewTposExecutions() => _rds.TakeNewTPosExecutions();
+		internal List<ROCTrade> TakeNewTposExecutions() => _rds.TakeNewTPosExecutions();
 
 		internal void TPOSRefresh()
 		{
@@ -787,19 +787,19 @@ namespace ROC
 				case "GotRocOrders":
 					SetStatus(StatusTypes.GotUserOrders, string.Concat("RDS|GotUserOrders = ", RocOrders.Count));
 					// Put all the RDS(old) orders into the main orders collection
-					GLOBAL.HOrders.Update(RocOrders);
+					GLOBAL.HOrders.DisplayOrders(RocOrders);
 					break;
 				case "GotRocExecutions":
 					SetStatus(StatusTypes.GotUserExecutions, string.Concat("RDS|GotUserExecutions = ", RocExecutions.Count));
 					// Put all the RDS(old) executions into the main executions collection
-					GLOBAL.HExecutions.Update(RocExecutions);
-					GLOBAL.HPositions.Update(RocExecutions);
+					GLOBAL.HExecutions.AddRocTrades(RocExecutions);
+					GLOBAL.HPositions.AddRocTrades(RocExecutions);
 					break;
 				case "GotTposExecutions":
 					SetStatus(StatusTypes.GotTPOSTrades, string.Concat("RDS|GotTposExecutions = ", TposExecutions.Count));
 					// Put all the tpos executions into the main executions collection
-					GLOBAL.HExecutions.Update(TposExecutions);
-					GLOBAL.HPositions.Update(TposExecutions);
+					GLOBAL.HExecutions.AddTposTrades(TposExecutions);
+					GLOBAL.HPositions.AddTposTrades(TposExecutions);
 					break;
 				case "GotTposPositions":
 					SetStatus(StatusTypes.GotTPOSPositions, string.Concat("RDS|GotTposPositions = ", TposPositions.Count));

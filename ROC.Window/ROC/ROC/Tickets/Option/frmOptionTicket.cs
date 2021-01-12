@@ -1547,14 +1547,7 @@ namespace ROC
 					}
 					if (rocOptionList.OptionLoaded && !IsProcessing)
 					{
-						Market deltas = new Market();
-						lock (_deltas)
-						{
-							if (!_deltas.Empty) {
-								deltas = Market.Replace(_deltas);
-							}
-						}
-
+						Market deltas = _deltas.Release();
 						if (!deltas.Empty && !IsProcessing)
 						{
 							//List<string> symbolList = new List<string>();
@@ -2272,8 +2265,6 @@ namespace ROC
 		// Update with matching market data option chain OPRA and NBBO
 		private void UpdateMarketDataOptionDeltas(Market marketDeltas)
 		{
-			DataRowView[] rows;
-
 			lock (rocOptionList.RocGridTable)
 			{
 				foreach ((string symbol, Book delta) in marketDeltas)

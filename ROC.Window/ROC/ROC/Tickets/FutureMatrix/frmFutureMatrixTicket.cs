@@ -383,7 +383,8 @@ namespace ROC
 						_updateIM = false;
 						UpdateSecurityInfo();
 					}
-					Market deltas = Market.Replace(_deltas);
+
+					Market deltas = _deltas.Release();
 					if (!deltas.Empty && !IsProcessing)
 					{
 						UpdateMarketDataDeltas(CurrentSecInfo.MDSymbol, deltas);

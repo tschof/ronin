@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace CSVEx
 {
 	public sealed class CSVFieldIDs

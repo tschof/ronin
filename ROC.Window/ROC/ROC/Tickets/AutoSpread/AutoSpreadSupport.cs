@@ -660,7 +660,7 @@ namespace ROC
 				string side = GetOrderSide(primeOrder.Side);
 				if ((side != "") && TryGetLeg(currentLegNumber, out var currentLegItem) && orders.TryGetValue(currentLegNumber, out var currentOrder))
 				{
-					double price = (useStopPrice ? currentOrder.StopPrice : currentOrder.Price) * currentLegItem.Ratio;
+					double price = (useStopPrice ? currentOrder.StopPrice : currentOrder.OrderPrice.Value) * currentLegItem.Ratio;
 
 					if (TryGetPrimeLeg(out var primeLeg)) {
 						foreach (KeyValuePair<int, AutoSpreadItem> entry in _legs) {

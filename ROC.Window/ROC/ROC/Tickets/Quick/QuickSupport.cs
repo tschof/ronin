@@ -110,18 +110,18 @@ namespace ROC
 				case "Buy":
 					foreach (ROCOrder order in orders.Values)
 					{
-						if (!stopLimitPrice.HasValue || (stopLimitPrice.Value < order.Price))
+						if (!stopLimitPrice.HasValue || (stopLimitPrice.Value < order.OrderPrice))
 						{
-							stopLimitPrice = order.Price;
+							stopLimitPrice = order.OrderPrice;
 						}
 					}
 					break;
 				case "Sell":
 					foreach (ROCOrder order in orders.Values)
 					{
-						if (!stopLimitPrice.HasValue || (stopLimitPrice.Value > order.Price))
+						if (!stopLimitPrice.HasValue || (stopLimitPrice.Value > order.OrderPrice))
 						{
-							stopLimitPrice = order.Price;
+							stopLimitPrice = order.OrderPrice;
 						}
 					}
 					break;

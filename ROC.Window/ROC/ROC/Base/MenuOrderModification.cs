@@ -735,7 +735,7 @@ namespace ROC
 			_currentOrder = GLOBAL.HOrders.GetOrderByOrderID(orderID);
 			if (CurrentOrder != null)
 			{
-				if (CurrentOrder.Side == null)
+				if (CurrentOrder.Side == CSVFieldIDs.SideCodes.None)
 				{
 					orderMsg = string.Concat(new object[] { "Missing Side For Order " + CurrentOrder.Tag });
 				}
@@ -1061,7 +1061,7 @@ namespace ROC
 				chkShow.Checked = false;
 			}
 
-			numLimitPrice.Value = Convert.ToDecimal(CurrentOrder.Price);
+			numLimitPrice.Value = Convert.ToDecimal(CurrentOrder.OrderPrice.Value);
 			numStopPrice.Value = Convert.ToDecimal(CurrentOrder.StopPrice);
 			numPegPrice.Value = Convert.ToDecimal(CurrentOrder.PegPrice);
 			switch (CurrentOrder.SecType)
@@ -1073,7 +1073,7 @@ namespace ROC
 					break;
 			}
 
-			orderMsg = string.Concat(new object[] { CurrentOrder.Tag, " ", CurrentOrder.LeaveQty, "@", CurrentOrder.Price, " ", CurrentOrder.StopPrice, " ", CurrentOrder.OmTime });
+			orderMsg = $"{CurrentOrder.Tag} {CurrentOrder.LeaveQty}@{CurrentOrder.OrderPrice} {CurrentOrder.StopPrice} {CurrentOrder.OmTime}";
 		}
 
 		internal void SetOptionPriceIncrement(NumericUpDown num, LabelEx.LabelBase lblTick)

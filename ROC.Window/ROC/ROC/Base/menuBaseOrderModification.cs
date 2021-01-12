@@ -1,13 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using RDSEx;
 using CSVEx;
-using LabelEx;
 
 namespace ROC
 {
@@ -20,124 +13,35 @@ namespace ROC
 
 		protected virtual void onPropertyChanged(PropertyChangedEventArgs e)
 		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, e);
-			}
+			PropertyChanged?.Invoke(this, e);
 		}
 
 		#endregion
-		
-		#region - Local Variable -
 
 		private MenuOrderModification _menu;
 
-		#endregion
+		public string OrderID => _menu == null ? "" : _menu.CurrentOrder.Tag;
 
-		public string OrderID
-		{
-			get
-			{
-				if (_menu != null)
-				{
-					return _menu.CurrentOrder.Tag;
-				}
-				return "";
-			}
-		}
+		public long Side => (_menu != null) ? _menu.CurrentOrder.Side : CSVFieldIDs.SideCodes.None;
 
-		public long Side
-		{
-			get
-			{
-				if (_menu != null && _menu.CurrentOrder.Side != null)
-				{
-					return (long)_menu.CurrentOrder.Side;
-				}
-				return 0;
-			}
-		}
-
-		public string NewShare
-		{
-			get
-			{
-				return numQuantity.Value.ToString();
-			}
-		}
+		public string NewShare => numQuantity.Value.ToString();
 
 		public string DeltaShare
 		{
 			get
 			{
 				decimal delta = numQuantity.Value - _menu.InitialLeaveQty;
-				if (delta == 0)
-				{
-					return "";
-				}
-				else
-				{
-					return Convert.ToString(delta);
-				}
+				return delta == 0 ? "" : delta.ToString();
 			}
 		}
 
-		public string NewPrice
-		{
-			get
-			{
-				if (numLimitPrice.Value == 0)
-				{
-					return "";
-				}
-				else
-				{
-					return numLimitPrice.Value.ToString();
-				}
-			}
-		}
+		public string NewPrice => numLimitPrice.Value == 0 ? "" : numLimitPrice.Value.ToString();
 
-		public string NewStopPrice
-		{
-			get
-			{
-				if (numStopPrice.Value == 0)
-				{
-					return "";
-				}
-				else
-				{
-					return numStopPrice.Value.ToString();
-				}
-			}
-		}
+		public string NewStopPrice => numStopPrice.Value == 0 ? "" : numStopPrice.Value.ToString();
 
-		public string NewPegPrice
-		{
-			get
-			{
-				if (numPegPrice.Value == 0)
-				{
-					return "";
-				}
-				else
-				{
-					return numPegPrice.Value.ToString();
-				}
-			}
-		}
+		public string NewPegPrice => numPegPrice.Value == 0 ? "" : numPegPrice.Value.ToString();
 
-		public string NewDuration
-		{
-			get
-			{
-				if (_menu != null)
-				{
-					return _menu.NewDuration;
-				}
-				return CSVFieldIDs.TIFCodes.Day.ToString();
-			}
-		}
+		public string NewDuration => (_menu == null) ? CSVFieldIDs.TIFCodes.Day.ToString() : _menu.NewDuration;
 
 		public menuBaseOrderModification(
 			string orderID,

@@ -1416,17 +1416,8 @@ namespace ROC
 							UpdateOrders(CurrentSymbolDetail, orders);
 					}
 
-					Market deltas = null;
-
-					lock (_deltas)
-					{
-						if (!_deltas.Empty)
-						{
-							deltas = Market.Replace(_deltas);
-						}
-					}
-
-					if (deltas != null)
+					Market deltas = _deltas.Release();
+					if (!deltas.Empty)
 					{
 						try
 						{

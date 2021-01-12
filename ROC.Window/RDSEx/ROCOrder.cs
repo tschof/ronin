@@ -1,71 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Runtime.Serialization;
+using MemoryStream = System.IO.MemoryStream;
+using BinaryFormatter = System.Runtime.Serialization.Formatters.Binary.BinaryFormatter;
 
 using CSVEx;
+using Price = Common.Price;
 
 namespace RDSEx
 {
 	[Serializable]
-	public class ROCOrder
+	public class ROCOrder : AssetShared, ISerializable
 	{
-		public long AlgoType { get; private set; } = 0;
-		public long AlgoDestID { get; private set; } = 0;
+		public readonly long AlgoType = 0;
+		public readonly long AlgoDestID = 0;
 		public double AvgPrice { get; private set; } = 0;
-		public string BaseSymbol {
-			get {
-				switch (SecType) {
-					case CSVFieldIDs.SecurityTypes.Option:
-					case CSVFieldIDs.SecurityTypes.OptionFuture:
-					case CSVFieldIDs.SecurityTypes.OptionIndex:
-						if (Underlying != "") {
-							if (int.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out int _)) {
-								switch (Underlying.Substring(Underlying.Length - 2, 1)) {
-									case GLOBAL.MonthCodes.January:
-									case GLOBAL.MonthCodes.February:
-									case GLOBAL.MonthCodes.March:
-									case GLOBAL.MonthCodes.April:
-									case GLOBAL.MonthCodes.May:
-									case GLOBAL.MonthCodes.June:
-									case GLOBAL.MonthCodes.July:
-									case GLOBAL.MonthCodes.August:
-									case GLOBAL.MonthCodes.September:
-									case GLOBAL.MonthCodes.October:
-									case GLOBAL.MonthCodes.November:
-									case GLOBAL.MonthCodes.December:
-										return Underlying.Substring(0, Underlying.Length - 2);
-								}
-							}
-						}
-						break;
-				}
-				return "";
-			}
-		}
-		public string CallPut { get; private set; } = "";
-		public string ClearingAcct { get; private set; } = "";
 		public string ClearingID { get; private set; } = "";
-		public string ClientEcho { get; private set; } = null;
-		public string CMTAFirmID { get; private set; } = "";
-		public double ContractSize {
-			get {
-				switch (SecType) {
-					case CSVFieldIDs.SecurityTypes.Option:
-					case CSVFieldIDs.SecurityTypes.OptionFuture:
-					case CSVFieldIDs.SecurityTypes.OptionIndex:
-						return 100;
-					case CSVFieldIDs.SecurityTypes.Equity:
-						return 1;
-					default:
-						return _contractSize;
-				}
-			}
-			set => _contractSize = value;
-		}
-		public long CplxOrderType { get; private set; } = 0;
+		public readonly string ClientEcho = null;
+		public readonly string CMTAFirmID = "";
+		public readonly long CplxOrderType = 0;
 		public long CumQty { get; private set; } = 0;
 		public long DestID { get; private set; } = 0;
-		public double DisplayFactor { get; private set; } = 1;
 		public string EndTime {
 			get {
 				if (_endTime != DateTime.MinValue)
@@ -73,50 +28,12 @@ namespace RDSEx
 				return "";
 			}
 		}
-		public string ExecInstruction { get; private set; } = "";
-		public double ExecPrice { get; private set; } = 0;
-		public string ExpDate {
-			get {
-				if (_expDate == null)
-					return "";
-				else if ((Underlying != null) && (MaturityDay != null))
-					return _expDate + MaturityDay;
-				return _expDate;
-			}
-		}
+		public readonly string ExecInstruction = "";
 		public string ExShortName { get; private set; } = "";
 		public string Firm { get; private set; } = "";
 		public bool HasMaxFloor => !double.IsNaN(MaxFloor);
 		public bool HasSide => Side != CSVFieldIDs.SideCodes.None;
 		public bool HasTrades => (_trades != null) && (_trades.Count > 0);
-		public string IMSymbolDetail {
-			// ROC to IM, Use this to check againist SecInfo
-			get {
-				if (_imSymbolDetail == null) {
-					switch (SecType) {
-						case CSVFieldIDs.SecurityTypes.Option:
-						case CSVFieldIDs.SecurityTypes.OptionFuture:
-						case CSVFieldIDs.SecurityTypes.OptionIndex:
-							if (TimeFormats.TryParse(ExpDate, out DateTime when)) {
-								_imSymbolDetail = string.Join(" ",
-									Underlying,
-									when.ToString("yy MMM dd").ToUpper(),
-									StrikePrice,
-									CallPut);
-							} else {
-								Debug.Assert(!Debugger.IsAttached, ExpDate);
-							}
-							break;
-					}
-
-					if (_imSymbolDetail == null)
-						_imSymbolDetail = Symbol;
-
-				}
-
-				return _imSymbolDetail;
-			}
-		}
 		public string Instructions { get; private set; } = "";
 		public bool IsActive {
 			get {
@@ -144,145 +61,31 @@ namespace RDSEx
 				return false;
 			}
 		}
-		public bool IsOptionOnFuture {
-			get {
-				try {
-					if ((Underlying != null) && (Underlying.Length > 3)) {
-						if (int.TryParse(Underlying.Substring(Underlying.Length - 1, 1), out _)) {
-							switch (Underlying.Substring(Underlying.Length - 2, 1)) {
-								case GLOBAL.MonthCodes.January:
-								case GLOBAL.MonthCodes.February:
-								case GLOBAL.MonthCodes.March:
-								case GLOBAL.MonthCodes.April:
-								case GLOBAL.MonthCodes.May:
-								case GLOBAL.MonthCodes.June:
-								case GLOBAL.MonthCodes.July:
-								case GLOBAL.MonthCodes.August:
-								case GLOBAL.MonthCodes.September:
-								case GLOBAL.MonthCodes.October:
-								case GLOBAL.MonthCodes.November:
-								case GLOBAL.MonthCodes.December:
-									return true;
-								default:
-									break;
-							}
-						}
-					}
-				} catch (Exception ex) {
-					if (Debugger.IsAttached) {
-						Debug.Print(ex.Message);
-						Debug.Print(ex.StackTrace);
-					}
-				}
-
-				return false;
-			}
-		}
 		public long LeaveQty { get; private set; } = 0;
 		public string LocalAcct { get; private set; } = "";
-		public string MaturityDay { get; private set; } = "";
+		protected override string MaturityDay => _maturityDay;
 		public double MaxFloor { get; private set; } = double.NaN;
 		public string OmTag { get; private set; } = "";
 		public DateTime OmTime { get; private set; } = DateTime.Today;
 		public string OpenClose { get; private set; } = "";
 		public DateTime OrderExpiresDate { get; private set; } = DateTime.MaxValue;
+		public Price OrderPrice { get; private set; } = 0;
 		public long OrderType { get; private set; } = 0;
-		public double OriginalPrice { get; private set; } = 0;
+		public readonly double OriginalPrice = 0;
 		public long OriginalShares { get; private set; } = 0;
 		public string Owner { get; private set; } = "";
-		public string ParentTag { get; private set; } = null;
+		public readonly string ParentTag = null;
 		public double PegPrice { get; private set; } = 0;
-		public double Price { get; private set; } = 0;
-		public string ProgramTrade { get; private set; } = "";
-		public string PositionKey {
-			get {
-				if (_positionKey == null) {
-					if (ClearingAcct.Length > 5)
-						_positionKey = string.Join("|", SymbolDetail, Trader, ClearingAcct.Substring(0, 5));
-					else
-						_positionKey = string.Join("|", SymbolDetail, Trader, ClearingAcct);
-				}
-				return _positionKey;
-			}
-		}
+		public readonly string ProgramTrade = "";
 		public long Qty { get; private set; } = 0;
-		public string SecType { get; private set; } = "";
-		public string SecurityDefinition { get; private set; } = "";
+		public readonly string SecurityDefinition = "";
 		public long Side { get; private set; } = CSVFieldIDs.SideCodes.None;
 		public long Status { get; private set; } = 0;
 		public double StopPrice { get; private set; } = 0;
-		public double StrikePrice { get; private set; } = 0;
-		public string Symbol { get; private set; } = "";
-		public string SymbolDetail {
-			get {
-				if (_symbolDetail == null) {
-					switch (SecType) {
-						case CSVFieldIDs.SecurityTypes.Option:
-						case CSVFieldIDs.SecurityTypes.OptionFuture:
-						case CSVFieldIDs.SecurityTypes.OptionIndex:
-							if (!TimeFormats.TryParse(ExpDate, out DateTime when)) {
-								Debug.Assert(!Debugger.IsAttached, ExpDate);
-							} else {
-								string prefix;
-								if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol)) {
-									prefix = Underlying;
-									when = when.AddMonths(1);
-								} else if (Underlying.Length == Symbol.Length - 1 && Underlying == Symbol.Substring(0, Symbol.Length - 1)) {
-									prefix = Symbol;
-								} else {
-									prefix = Underlying;
-								}
-
-								_symbolDetail = string.Join(" ", prefix,
-									when.AddMonths(1).ToString("yy MMM dd").ToUpper(),
-									StrikePrice,
-									CallPut);
-							}
-
-							break;
-					}
-
-					if (_symbolDetail == null)
-						_symbolDetail = Symbol;
-				}
-
-				return _symbolDetail;
-			}
-		}
-		public string SymbolDisplay {
-			get {
-				if (_symbolDisplay == null) {
-					switch (SecType) {
-						case CSVFieldIDs.SecurityTypes.Option:
-						case CSVFieldIDs.SecurityTypes.OptionFuture:
-						case CSVFieldIDs.SecurityTypes.OptionIndex:
-							if (!TimeFormats.TryParse(ExpDate, out DateTime when)) {
-								Debug.Assert(!Debugger.IsAttached, ExpDate);
-							} else if (GLOBAL.OptionOnFuture.PlusOne.Contains(BaseSymbol)) {
-								_symbolDisplay = string.Format("{0} {1}({2}) {3} {4}",
-									Underlying,
-									when.AddMonths(1).ToString("yy MMM").ToUpper(),
-									when.ToString("yy MMM dd").ToUpper(),
-									StrikePrice,
-									CallPut);
-							}
-							break;
-					}
-
-					if (_symbolDisplay == null)
-						_symbolDisplay = SymbolDetail;
-				}
-
-				return _symbolDisplay;
-			}
-		}
 		public string Tag { get; private set; } = "";
 		public string Text { get; private set; } = "";
-		public double TickSize { get; private set; } = 0.01;
 		public long TIF { get; private set; } = 0;
 		public string TradeFor { get; private set; } = "";
-		public string Trader { get; private set; } = "";
-		public string Underlying { get; private set; } = "";
 		public bool UpdateOrder => CplxOrderType == CSVFieldIDs.CplxOrderTypes.Container;
 
 		public ROCOrder(CSV csv) : base()
@@ -295,9 +98,9 @@ namespace RDSEx
 			if (csv.TryGetValue(CSVFieldIDs.ClearingID, out sval))
 				ClearingID = sval;
 			if (csv.TryGetValue(CSVFieldIDs.ExpDate, out sval))
-				_expDate = sval;
+				ExpDate = sval;
 			if (csv.TryGetValue(CSVFieldIDs.MaturityDay, out sval))
-				MaturityDay = sval;
+				_maturityDay = sval;
 			if (csv.TryGetValue(CSVFieldIDs.Firm, out sval))
 				Firm = sval;
 			if (csv.TryGetValue(CSVFieldIDs.Instructions, out sval))
@@ -341,11 +144,11 @@ namespace RDSEx
 			if (csv.TryGetValue(CSVFieldIDs.AveragePrice, out dval))
 				AvgPrice = dval;
 			if (csv.TryGetValue(CSVFieldIDs.Price, out dval))
-				Price = dval;
+				OrderPrice = dval;
 			if (csv.TryGetValue(CSVFieldIDs.OriginalPrice, out dval))
 				OriginalPrice = dval;
 			if (csv.TryGetValue(CSVFieldIDs.ExecPrice, out dval))
-				ExecPrice = dval;
+				OrderPrice = dval;
 			if (csv.TryGetValue(CSVFieldIDs.StopPrice, out dval))
 				StopPrice = dval;
 			if (csv.TryGetValue(CSVFieldIDs.PegOffsetPrice, out dval))
@@ -397,46 +200,46 @@ namespace RDSEx
 			Update(order);
 		}
 
-		public void Update(RDSEx.WEB.Order order)
+		public void Update(RDSEx.WEB.Order webOrder)
 		{
-			AvgPrice = order.avgPrice;
-			CallPut = order.callPut;
-			ClearingAcct = order.clearingAccount;
-			ClearingID = order.clearingID;
-			CumQty = order.cumQty;
-			DestID = order.destID;
-			ExShortName = order.ex_short_name;
-			_expDate = order.expDate;
-			Firm = order.firm;
-			Instructions = order.instructions;
-			LeaveQty = order.leavesQty;
-			LocalAcct = order.localAcct;
-			if (double.TryParse(order.maxFloor, out double dval))
+			AvgPrice = webOrder.avgPrice;
+			CallPut = webOrder.callPut;
+			ClearingAcct = webOrder.clearingAccount;
+			ClearingID = webOrder.clearingID;
+			CumQty = webOrder.cumQty;
+			DestID = webOrder.destID;
+			ExShortName = webOrder.ex_short_name;
+			ExpDate = webOrder.expDate;
+			Firm = webOrder.firm;
+			Instructions = webOrder.instructions;
+			LeaveQty = webOrder.leavesQty;
+			LocalAcct = webOrder.localAcct;
+			if (double.TryParse(webOrder.maxFloor, out double dval))
 				MaxFloor = dval;
-			OmTag = order.omTag;
-			OmTime = order.omTime.ToLocalTime();
-			OpenClose = order.openClose;
-			OrderExpiresDate = order.orderExpiresDate;
-			OrderType = order.orderType;
-			OriginalShares = order.originalShares;
-			Owner = order.owner;
-			Price = order.price;
-			Qty = order.qty;
-			SecType = order.secType;
-			Side = order.side;
-			Status = order.status;
-			StopPrice = order.stopPrice;
-			StrikePrice = order.strikePrice;
-			Symbol = order.symbol;
-			Tag = order.tag;
-			Text = order.text;
-			TIF = order.tif;
-			TradeFor = order.tradeFor;
-			Trader = order.trader;
-			Underlying = order.underlying;
+			OmTag = webOrder.omTag;
+			OmTime = webOrder.omTime.ToLocalTime();
+			OpenClose = webOrder.openClose;
+			OrderExpiresDate = webOrder.orderExpiresDate;
+			OrderPrice = webOrder.price;
+			OrderType = webOrder.orderType;
+			OriginalShares = webOrder.originalShares;
+			Owner = webOrder.owner;
+			Qty = webOrder.qty;
+			SecType = webOrder.secType;
+			Side = webOrder.side;
+			Status = webOrder.status;
+			StopPrice = webOrder.stopPrice;
+			StrikePrice = webOrder.strikePrice;
+			Symbol = webOrder.symbol;
+			Tag = webOrder.tag;
+			Text = webOrder.text;
+			TIF = webOrder.tif;
+			TradeFor = webOrder.tradeFor;
+			Trader = webOrder.trader;
+			Underlying = webOrder.underlying;
 		}
 
-		public void UpdateFromSecinfo(string symbol, double tickSize, double contractSize)
+		public void ApplySecinfo(string symbol, double tickSize, double contractSize)
 		{
 			if (string.IsNullOrEmpty(Symbol))
 				Symbol = symbol;
@@ -444,17 +247,17 @@ namespace RDSEx
 			ContractSize = contractSize;
 		}
 
-		public void AddTrade(string key, ROCExecution trade)
+		public void AddTrade(string key, ROCTrade trade)
 		{
 			if (_trades == null) {
-				_trades = new Dictionary<string, ROCExecution>();
+				_trades = new Dictionary<string, ROCTrade>();
 				_trades.Add(key, trade);
 			} else {
 				_trades[key] = trade;
 			}
 		}
 
-		public bool TryGetTrade(string key, out ROCExecution trade)
+		public bool TryGetTrade(string key, out ROCTrade trade)
 		{
 			if (_trades == null) {
 				trade = null;
@@ -480,16 +283,16 @@ namespace RDSEx
 				original.CumQty = update.CumQty;
 
 				if (update.UpdateOrder) {
+					original.OrderPrice = update.OrderPrice;
 					original.Qty = update.Qty;
-					original.Price = update.Price;
 					original.StopPrice = update.StopPrice;
 					original.PegPrice = update.PegPrice;
 					original.AvgPrice = update.AvgPrice;
 				} else {
 					// Container back fill
 					update.Symbol = original.Symbol;
-					if (original.Price != 0) {
-						update.Price = original.Price;
+					if (original.OrderPrice != 0) {
+						update.OrderPrice = original.OrderPrice;
 					}
 					if (original.StopPrice != 0) {
 						update.StopPrice = original.StopPrice;
@@ -509,6 +312,121 @@ namespace RDSEx
 			}
 		}
 
+		#region - ISerialization -
+
+		// Deserialization constructor.
+		protected ROCOrder(SerializationInfo info, StreamingContext context) : base(info, context)
+		{
+			AlgoType = info.GetInt64("AlgoType");
+			AlgoDestID = info.GetInt64("AlgoDestID");
+			AvgPrice = info.GetDouble("AvgPrice");
+			ClearingID = info.GetString("ClearingID");
+			ClientEcho = info.GetString("ClientEcho");
+			CMTAFirmID = info.GetString("CMTAFirmID");
+			CplxOrderType = info.GetInt64("CplxOrderType");
+			CumQty = info.GetInt64("CumQty");
+			DestID = info.GetInt64("DestID");
+			_endTime = info.GetDateTime("EndTime");
+			ExecInstruction = info.GetString("ExecInstruction");
+			ExShortName = info.GetString("ExShortName");
+			Firm = info.GetString("Firm");
+			Instructions = info.GetString("Instructions");
+			LeaveQty = info.GetInt64("LeaveQty");
+			LocalAcct = info.GetString("LocalAcct");
+			_maturityDay = info.GetString("MaturityDay");
+			MaxFloor = info.GetDouble("MaxFloor");
+			OmTag = info.GetString("OmTag");
+			OmTime = info.GetDateTime("OmTime");
+			OpenClose = info.GetString("OpenClose");
+			OrderExpiresDate = info.GetDateTime("OrderExpiresDate");
+			OrderPrice = info.GetDouble("OrderPrice");
+			OrderType = info.GetInt64("OrderType");
+			OriginalPrice = info.GetDouble("OriginalPrice");
+			OriginalShares = info.GetInt64("OriginalShares");
+			Owner = info.GetString("Owner");
+			ParentTag = info.GetString("ParentTag");
+			PegPrice = info.GetDouble("PegPrice");
+			ProgramTrade = info.GetString("ProgramTrade");
+			Qty = info.GetInt64("Qty");
+			SecurityDefinition = info.GetString("SecurityDefinition");
+			Side = info.GetInt64("Side");
+			Status = info.GetInt64("Status");
+			StopPrice = info.GetDouble("StopPrice");
+			Tag = info.GetString("Tag");
+			Text = info.GetString("Text");
+			TIF = info.GetInt64("TIF");
+			TradeFor = info.GetString("TradeFor");
+
+			int count = info.GetInt32("TradeCount");
+			if (count > 0) {
+				byte[] data = (byte[])info.GetValue("Trades", typeof(byte[]));
+				MemoryStream stream = new MemoryStream(data);
+				BinaryFormatter formatter = new BinaryFormatter(null, context);
+				_trades = (Dictionary<string, ROCTrade>)formatter.Deserialize(stream);
+			}
+		}
+
+		// Serialization.
+		public new void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			base.GetObjectData(info, context); // Serialize AssetShared first.
+
+			info.AddValue("AlgoType", AlgoType);
+			info.AddValue("AlgoDestID", AlgoDestID);
+			info.AddValue("AvgPrice", AvgPrice);
+			info.AddValue("ClearingID", ClearingID);
+			info.AddValue("ClientEcho", ClientEcho);
+			info.AddValue("CMTAFirmID", CMTAFirmID);
+			info.AddValue("CplxOrderType", CplxOrderType);
+			info.AddValue("CumQty", CumQty);
+			info.AddValue("DestID", DestID);
+			info.AddValue("EndTime", _endTime);
+			info.AddValue("ExecInstruction", ExecInstruction);
+			info.AddValue("ExShortName", ExShortName);
+			info.AddValue("Firm", Firm);
+			info.AddValue("Instructions", Instructions);
+			info.AddValue("LeaveQty", LeaveQty);
+			info.AddValue("LocalAcct", LocalAcct);
+			info.AddValue("MaturityDay", _maturityDay);
+			info.AddValue("MaxFloor", MaxFloor);
+			info.AddValue("OmTag", OmTag);
+			info.AddValue("OmTime", OmTime);
+			info.AddValue("OpenClose", OpenClose);
+			info.AddValue("OrderExpiresDate", OrderExpiresDate);
+			info.AddValue("OrderPrice", OrderPrice);
+			info.AddValue("OrderType", OrderType);
+			info.AddValue("OriginalPrice", OriginalPrice);
+			info.AddValue("OriginalShares", OriginalShares);
+			info.AddValue("Owner", Owner);
+			info.AddValue("ParentTag", ParentTag);
+			info.AddValue("PegPrice", PegPrice);
+			info.AddValue("ProgramTrade", ProgramTrade);
+			info.AddValue("Qty", Qty);
+			info.AddValue("SecurityDefinition", SecurityDefinition);
+			info.AddValue("Side", Side);
+			info.AddValue("Status", Status);
+			info.AddValue("StopPrice", StopPrice);
+			info.AddValue("Tag", Tag);
+			info.AddValue("Text", Text);
+			info.AddValue("TIF", TIF);
+			info.AddValue("TradeFor", TradeFor);
+
+			// Serialize _trades.
+			if ((_trades == null) || (_trades.Count == 0)) {
+				info.AddValue("TradeCount", 0, typeof(int));
+			} else {
+				info.AddValue("TradeCount", _trades.Count);
+
+				int capacity = _trades.Count * 512; // 1/2k should about cover string key + TOCTrade value.
+				MemoryStream stream = new MemoryStream(capacity);
+				BinaryFormatter formatter = new BinaryFormatter(null, context);
+				formatter.Serialize(stream, _trades);
+				info.AddValue("Trades", stream.ToArray());
+			}
+		}
+
+		#endregion // - ISerialization -
+
 		public static string GetStrikFormat(double strikePrice)
 		{
 			string str = strikePrice.ToString("F7");
@@ -521,15 +439,9 @@ namespace RDSEx
 		}
 
 		#region - private members -
-
-		private double _contractSize = 0;
 		private DateTime _endTime = DateTime.MinValue;
-		private string _expDate = null;
-		private string _imSymbolDetail = null;
-		private string _positionKey = null;
-		private string _symbolDetail = null;
-		private string _symbolDisplay = null;
-		private Dictionary<string, ROCExecution> _trades;
+		private string _maturityDay= "";
+		private Dictionary<string, ROCTrade> _trades = null;
 
 		#endregion // - private members -
 	}

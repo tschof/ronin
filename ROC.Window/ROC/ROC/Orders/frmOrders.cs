@@ -594,16 +594,8 @@ namespace ROC
 							}
 						}
 
-						Market deltas = new Market();
-						lock (_deltas)
-						{
-							if (!_deltas.Empty)
-							{
-								deltas = Market.Replace(_deltas);
-							}
-						}
-
-						if (_menuOrderModification != null && (updateIM || !deltas.Empty))
+						Market deltas = _deltas.Release();
+						if ((_menuOrderModification != null) && (updateIM || !deltas.Empty))
 						{
 							lock (_menuOrderModification)
 							{
@@ -708,7 +700,7 @@ namespace ROC
 						order.Status,
 						order.Side,
 						order.Qty,
-						order.Price,
+						order.OrderPrice.Value,
 						order.StopPrice,
 						order.PegPrice,
 						order.LeaveQty,
@@ -772,7 +764,7 @@ namespace ROC
 								default:
 									row["Status"] = order.Status;
 									row["Qty"] = order.Qty;
-									row["Price"] = order.Price;
+									row["Price"] = order.OrderPrice.Value;
 									row["StopPrice"] = order.StopPrice;
 									row["PegPrice"] = order.PegPrice;
 									row["LeaveQty"] = order.LeaveQty;
@@ -799,7 +791,7 @@ namespace ROC
 
 			if (secInfo != null)
 			{
-				order.UpdateFromSecinfo(secInfo.MDSymbol, secInfo.TickSize, secInfo.ContractSize);
+				order.ApplySecinfo(secInfo.MDSymbol, secInfo.TickSize, secInfo.ContractSize);
 				switch (order.SecType)
 				{
 					case CSVFieldIDs.SecurityTypes.Option:
@@ -1674,7 +1666,7 @@ namespace ROC
 		{
 			ROCOrder order = GLOBAL.HOrders.RocItems[rocOrdersList.ShowMenuSymbol.orderID];
 
-			if (order.Side != null)
+			if (order.Side != CSVFieldIDs.SideCodes.None)
 			{
 				SymbolSettingData data = GLOBAL.HSymbolSettingData.GetSymbolDefaults(order.SymbolDetail, order.SecType);
 				if (_menuOrderModification == null)

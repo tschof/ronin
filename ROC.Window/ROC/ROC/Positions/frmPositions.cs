@@ -279,8 +279,7 @@ namespace ROC
 
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
-		private LockList<RDSPosition> _rocPositions = new LockList<RDSPosition>();
-		private LockList<RDSPosition> _tposPositions = new LockList<RDSPosition>();
+		private LockList<ROCPosition> _positions = new LockList<ROCPosition>();
 		private Market _deltas = new Market();
 
 		#endregion
@@ -710,8 +709,8 @@ namespace ROC
 		{
 			UpdatePositionStart();
 
-			List<RDSPosition> rocPositions = null;
-			List<RDSPosition> tposPositions = null;
+			List<ROCPosition> rocPositions = null;
+			List<ROCPosition> tposPositions = null;
 
 			if (!rocPositionsList.FilterOutROC)
 				rocPositions = copyPositionsToList(GLOBAL.HPositions.RocItems);
@@ -729,9 +728,9 @@ namespace ROC
 		}
 
 		// Get all positions from main collection.
-		private List<RDSPosition> copyPositionsToList(Dictionary<string, RDSPosition> collection)
+		private List<ROCPosition> copyPositionsToList(Dictionary<string, ROCPosition> collection)
 		{
-			List<RDSPosition> positions = new List<RDSPosition>();
+			List<ROCPosition> positions = new List<ROCPosition>();
 			lock (collection)
 			{
 				positions.AddRange(collection.Values);
@@ -740,8 +739,8 @@ namespace ROC
 		}
 
 		// Used by Main Refresh and Load Thread
-		private delegate void AddUpdatePositionsDelegate(List<RDSPosition> rocPositions, List<RDSPosition> tposPositions);
-		private void AddUpdatePositions(List<RDSPosition> rocPositions, List<RDSPosition> tposPositions)
+		private delegate void AddUpdatePositionsDelegate(List<ROCPosition> rocPositions, List<ROCPosition> tposPositions);
+		private void AddUpdatePositions(List<ROCPosition> rocPositions, List<ROCPosition> tposPositions)
 		{
 			if (InvokeRequired)
 			{
@@ -772,17 +771,21 @@ namespace ROC
 
 		#region - Used by Process Thread -
 
-		private delegate void AddUpdatePositionsByProcessDelegate(bool updateIM, List<RDSPosition> rocPositions, List<RDSPosition> tposPositions, Market deltas);
-		public void AddUpdatePositionsByProcess(bool updateIM, List<RDSPosition> rocPositions, List<RDSPosition> tposPositions, Market deltas)
+		private delegate void AddUpdatePositionsByProcessDelegate(bool updateIM, List<ROCPosition> rocPositions, Market deltas);
+		public void AddUpdatePositionsByProcess(bool updateIM, List<ROCPosition> positions, Market deltas)
 		{
+			bool havePositions = (positions != null) && (positions.Count > 0);
+			bool haveMarket = (deltas != null) && !deltas.Empty;
+
 			if (GLOBAL.UseDelayedUpdate)
 			{
 				try
 				{
 					_updateIM = updateIM;
-					_rocPositions.AddRange(rocPositions);
-					_tposPositions.AddRange(tposPositions);
+					if (havePositions)
+						_positions.AddRange(positions);
 
+					if (haveMarket)
 					_deltas.Merge(deltas);
 				}
 				catch (Exception ex)
@@ -794,7 +797,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new AddUpdatePositionsByProcessDelegate(AddUpdatePositionsByProcess), new object[] { updateIM, rocPositions, tposPositions, deltas });
+					BeginInvoke(new AddUpdatePositionsByProcessDelegate(AddUpdatePositionsByProcess), new object[] { updateIM, positions, deltas });
 					return;
 				}
 				try
@@ -803,26 +806,17 @@ namespace ROC
 					{
 						lock (rocPositionsList.RocGridTable)
 						{
-							if (rocPositions.Count > 0)
-							{
-								LoadPositions(rocPositions, false);
-							}
-							if (tposPositions.Count > 0)
-							{
-								LoadPositions(tposPositions, false);
-							}
+							if (havePositions)
+								LoadPositions(positions, false);
+
 							if (updateIM)
-							{
 								UpdateSecurityInfo();
-							}
+
 							if (!deltas.Empty)
-							{
 								UpdateMarketDataDeltas(deltas);
-							}
-							if (rocPositions.Count > 0 || tposPositions.Count > 0 || !deltas.Empty)
-							{
+
+							if (havePositions || haveMarket)
 								rocPositionsList.RefreshAggragation = true;
-							}
 						}
 					}
 				}
@@ -844,15 +838,9 @@ namespace ROC
 					{
 						lock (rocPositionsList.RocGridTable)
 						{
-							List<RDSPosition> created;
-
-							List<RDSPosition> rocPositions = _rocPositions.TakeAll();
-							if (rocPositions.Count > 0)
-								LoadPositions(rocPositions, false);
-
-							List<RDSPosition> tposPositions = _tposPositions.TakeAll();
-							if ((tposPositions != null) && (tposPositions.Count > 0))
-								LoadPositions(tposPositions, false);
+							List<ROCPosition> positions = _positions.TakeAll();
+							if (positions.Count > 0)
+								LoadPositions(positions, false);
 
 							if (_updateIM)
 							{
@@ -860,18 +848,11 @@ namespace ROC
 								UpdateSecurityInfo();
 							}
 
-							Market deltas = new Market();
-							lock (_deltas)
-							{
-								if (!deltas.Empty)
-									deltas = Market.Replace(_deltas);
-							}
+							Market deltas = _deltas.Release();
 							if (!deltas.Empty)
-							{
 								UpdateMarketDataDeltas(deltas);
-							}
 
-							if (rocPositions.Count > 0 || tposPositions.Count > 0 || !deltas.Empty)
+							if ((positions.Count > 0) || !deltas.Empty)
 							{
 								rocPositionsList.RefreshAggragation = true;
 							}
@@ -1089,37 +1070,37 @@ namespace ROC
 
 		#endregion
 
-		private void LoadPositions(List<RDSPosition> positions, bool isRefresh)
+		private void LoadPositions(List<ROCPosition> positions, bool isRefresh)
 		{
 			if ((positions != null) && (positions.Count > 0))
 			{
 				if (isRefresh) {
-					foreach (RDSPosition position in positions)
+					foreach (ROCPosition position in positions)
 						AddUpdatePosition(position, isRefresh);
 				} else {
-					Dictionary<string, RDSPosition> grouped = GroupPositions(positions);
-					foreach (KeyValuePair<string, RDSPosition> entry in grouped)
+					Dictionary<string, ROCPosition> grouped = GroupPositions(positions);
+					foreach (KeyValuePair<string, ROCPosition> entry in grouped)
 						AddUpdatePosition(entry.Value, isRefresh);
 				}
 			}
 		}
 
 		// This actually groups positions by criteria (see GetPositionKey()), versus consolidating positions per instrument.
-		private Dictionary<string, RDSPosition> GroupPositions(List<RDSPosition> positions)
+		private Dictionary<string, ROCPosition> GroupPositions(List<ROCPosition> positions)
 		{
-			Dictionary<string, RDSPosition> consolidated = new Dictionary<string, RDSPosition>();
+			Dictionary<string, ROCPosition> consolidated = new Dictionary<string, ROCPosition>();
 
-			foreach (RDSPosition position in positions)
+			foreach (ROCPosition position in positions)
 			{
 				string key = GetPositionKey(position);
 
-				if (consolidated.TryGetValue(key, out RDSPosition found))
+				if (consolidated.TryGetValue(key, out ROCPosition found))
 				{
 					found.UpdateFromPosition(position, false);
 				}
 				else
 				{
-					RDSPosition copy = new RDSPosition(position);
+					ROCPosition copy = new ROCPosition(position);
 					consolidated.Add(key, copy);
 				}
 			}
@@ -1128,7 +1109,7 @@ namespace ROC
 		}
 
 		// Single or First Position Load
-		private void AddUpdatePosition(RDSPosition position, bool isRefresh)
+		private void AddUpdatePosition(ROCPosition position, bool isRefresh)
 		{
 			if (position.SymbolDetail != "")
 			{
@@ -1186,7 +1167,7 @@ namespace ROC
 						position.ExpDate,
 						position.StrikePrice,
 						position.CallPut,
-						position.Source == RDSPosition.SourceEnum.TPOS ? 1 : 0,
+						position.Source == ROCPosition.SourceEnum.TPOS ? 1 : 0,
 						position.SettlePrice});
 
 						switch (position.SecType)
@@ -1225,14 +1206,14 @@ namespace ROC
 		}
 
 		// Update with Play back & onLoad
-		private void UpdatePositionsWithCurrentMarketData(RDSPosition position)
+		private void UpdatePositionsWithCurrentMarketData(ROCPosition position)
 		{
 			if (!string.IsNullOrEmpty(position.SymbolDetail) && GLOBAL.HMarketData.Current.TryGet(position.SymbolDetail, out Book delta))
 				position.UpdateFromMarket(delta);
 		}
 
 		// Update with Security Info On Play back & onLoad
-		private void UpdatePositionsWithSecurityInfo(RDSPosition position)
+		private void UpdatePositionsWithSecurityInfo(ROCPosition position)
 		{
 			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(position.SymbolDetail);
 
@@ -1258,9 +1239,9 @@ namespace ROC
 			}
 		}
 
-		private void UpdateSinglePosition(DataRow row, RDSPosition locExec)
+		private void UpdateSinglePosition(DataRow row, ROCPosition locExec)
 		{
-			RDSPosition rowpos = new RDSPosition(
+			ROCPosition rowpos = new ROCPosition(
 				(double)row["ContractSize"],
 				(long)row["OpenQty"],
 				(double)row["OpenAvg"],
@@ -1304,7 +1285,7 @@ namespace ROC
 
 		private string GetPositionKeyFromDataRow(DataRow row)
 		{
-			return RDSPosition.BuildPositionKey((string)row["ClearingAcct"], (string)row["SymbolDetail"], (string)row["Trader"]);
+			return ROCPosition.BuildPositionKey((string)row["ClearingAcct"], (string)row["SymbolDetail"], (string)row["Trader"]);
 		}
 
 		private void UpdateSinglePosition(DataRowView row)
@@ -1312,7 +1293,7 @@ namespace ROC
 			try
 			{
 				// contractSize, openQty, openAvg, buyQty, buyAvg, sellQty, sellAvg, lastTraded, settlePrice
-				RDSPosition rowpos = new RDSPosition(
+				ROCPosition rowpos = new ROCPosition(
 					(double)row["ContractSize"],
 					(long)row["OpenQty"],
 					(double)row["OpenAvg"],
@@ -1339,7 +1320,7 @@ namespace ROC
 			}
 		}
 
-		private string GetPositionKey(RDSPosition position)
+		private string GetPositionKey(ROCPosition position)
 		{
 			string key = "";
 

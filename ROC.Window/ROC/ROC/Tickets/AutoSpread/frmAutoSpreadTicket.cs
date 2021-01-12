@@ -96,9 +96,6 @@ namespace ROC
 
 		private NumericUpDown _crrentPriceObj;
 
-		private bool _updateBuyAggregation = false;
-		private bool _updateSellAggregation = false;
-
 		private bool _orderLoaded = false;
 
 		private Dictionary<string, ROCOrder> _buyOrdersByTag = new Dictionary<string, ROCOrder>();
@@ -1019,9 +1016,6 @@ namespace ROC
 						UpdateSecurityInfo();
 					}
 
-					_updateBuyAggregation = false;
-					_updateSellAggregation = false;
-
 					if (!_orderLoaded && rocAutoSpreadList.ReadyForTickTable && rocAutoSpreadList.Rows.Count > 0)
 					{
 						InitialOrderLoad();
@@ -1059,9 +1053,6 @@ namespace ROC
 						UpdateSecurityInfo();
 					}
 
-					_updateBuyAggregation = false;
-					_updateSellAggregation = false;
-
 					if (!_orderLoaded && rocAutoSpreadList.ReadyForTickTable && rocAutoSpreadList.Rows.Count > 0)
 					{
 						InitialOrderLoad();
@@ -1073,18 +1064,9 @@ namespace ROC
 							UpdateOrders(orders);
 					}
 
-					Market deltas = new Market();
-					lock (_deltas)
-					{
-						if (!_deltas.Empty)
-						{
-							deltas = Market.Replace(_deltas);
-						}
-					}
+					Market deltas = _deltas.Release();
 					if (!deltas.Empty)
-					{
 						UpdateMarketDataDeltas(deltas);
-					}
 				}
 				_updatingUI = false;
 			}
@@ -1216,13 +1198,11 @@ namespace ROC
 				if (hasBuy)
 				{
 					UpdateOpenOrders("Buy", GetOpenPriceQty("Buy"));
-					_updateBuyAggregation = true;
 				}
 
 				if (hasSell)
 				{
 					UpdateOpenOrders("Sell", GetOpenPriceQty("Sell"));
-					_updateSellAggregation = true;
 				}
 			}
 		}
@@ -1793,7 +1773,7 @@ namespace ROC
 						break;
 				}
 				order.shares = splitOffQty;
-				order.price = orgOrder.Price.ToString();
+				order.price = orgOrder.OrderPrice.ToString();
 				order.stopPrice = orgOrder.StopPrice.ToString();
 				order.orderType = orgOrder.OrderType.ToString();
 				order.duration = orgOrder.TIF.ToString();
@@ -2616,7 +2596,7 @@ namespace ROC
 						break;
 					default:
 						TagKeyItems tagItems = new TagKeyItems(order.Tag);
-						if (order.Price.ToString() != tagItems.LimitMarketPriceText || order.StopPrice.ToString() != tagItems.StopMarketPriceText)
+						if (order.OrderPrice.ToString() != tagItems.LimitMarketPriceText || order.StopPrice.ToString() != tagItems.StopMarketPriceText)
 						{
 							lock (_replacingOrders)
 							{

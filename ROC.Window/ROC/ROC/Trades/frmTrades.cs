@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
+using System.Linq;
 
 using RDSEx;
 using DataGridViewEx;
@@ -36,8 +37,7 @@ namespace ROC
 
 		private bool _updatingUI = false;
 		private bool _updateIM = false;
-		private LockList<ROCExecution> _rocTrades = new LockList<ROCExecution>();
-		private LockList<TPOSExecution> _tposTrades = new LockList<TPOSExecution>();
+		private LockList<ROCTrade> _trades = new LockList<ROCTrade>();
 
 		#endregion
 
@@ -371,32 +371,24 @@ namespace ROC
 		{
 			UpdateTradeStart();
 
-			ROCExecution[] rocTrades;
-			TPOSExecution[] tposTrades;
-
-			lock (GLOBAL.HExecutions)
-			{
-				rocTrades = new ROCExecution[GLOBAL.HExecutions.RocItems.Values.Count];
-				GLOBAL.HExecutions.RocItems.Values.CopyTo(rocTrades, 0);
-
-				tposTrades = new TPOSExecution[GLOBAL.HExecutions.TposItems.Values.Count];
-				GLOBAL.HExecutions.TposItems.Values.CopyTo(tposTrades, 0);
+			List<ROCTrade> trades;
+			lock (GLOBAL.HExecutions) {
+				trades = new List<ROCTrade>(GLOBAL.HExecutions.RocItems.Select(n => n.Value));
 			}
-
-			AddUpdateTrades(rocTrades, tposTrades);
-			
+			AddUpdateTrades(trades);
 			UpdateTradeStop();
 		}
 
 		// Used by Main Refresh and Load Thread
-		private delegate void AddUpdateTradesDelegate(ROCExecution[] rocTrades, TPOSExecution[] tposTrades);
-		private void AddUpdateTrades(ROCExecution[] rocTrades, TPOSExecution[] tposTrades)
+		private delegate void AddUpdateTradesDelegate(List<ROCTrade> trades);
+		private void AddUpdateTrades(List<ROCTrade> trades)
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new AddUpdateTradesDelegate(AddUpdateTrades), new object[] { rocTrades, tposTrades });
+				BeginInvoke(new AddUpdateTradesDelegate(AddUpdateTrades), new object[] { trades });
 				return;
 			}
+
 
 			try
 			{
@@ -412,21 +404,9 @@ namespace ROC
 					rocTradesList.Details.Clear();
 					rocTradesList.Details.Add("");
 
-					if (rocTrades.Length > 0)
-					{
-						foreach (ROCExecution rocTrade in rocTrades)
-						{
-							LoadRocTrade(rocTrade);
-						}
-					}
-
-					if (Extended && tposTrades.Length > 0)
-					{
-						foreach (TPOSExecution tposTrade in tposTrades)
-						{
-							LoadTposTrade(tposTrade);
-						}
-					}
+					List<ROCTrade> subset = new List<ROCTrade>(trades.Where(n => n.Source == AssetShared.SourceEnum.ROC));
+					foreach (ROCTrade trade in subset)
+						AddTradeToGrid(trade);
 
 					rocTradesList.RocGridTable.EndLoadData();
 					rocTradesList.ResumeLayout();
@@ -440,64 +420,45 @@ namespace ROC
 
 		#region - Used by Process Thread -
 
-		private delegate void AddUpdateTradesByProcessDelegate(bool updateIM, List<ROCExecution> rocTrades, List<TPOSExecution> tposTrades);
-		public void AddUpdateTradesByProcess(bool updateIM, List<ROCExecution> rocTrades, List<TPOSExecution> tposTrades)
+		private delegate void AddUpdateTradesByProcessDelegate(bool updateIM, List<ROCTrade> trades);
+		public void AddUpdateTradesByProcess(bool updateIM, List<ROCTrade> trades)
 		{
-			if (GLOBAL.UseDelayedUpdate)
-			{
-				try
-				{
+			if ((trades == null) || (trades.Count == 0)) {
+				return;
+			} else if (GLOBAL.UseDelayedUpdate) {
+				try {
 					_updateIM = updateIM;
-					_rocTrades.AddRange(rocTrades);
-					_tposTrades.AddRange(tposTrades);
-				}
-				catch (Exception ex)
-				{
+					_trades.AddRange(trades);
+				} catch (Exception ex) {
 					GLOBAL.HROC.AddToException(ex);
 				}
-			}
-			else
-			{
-				if (InvokeRequired)
-				{
-					BeginInvoke(new AddUpdateTradesByProcessDelegate(AddUpdateTradesByProcess), new object[] { updateIM, rocTrades, tposTrades });
+			} else {
+				if (InvokeRequired) {
+					BeginInvoke(new AddUpdateTradesByProcessDelegate(AddUpdateTradesByProcess), new object[] { updateIM, trades });
 					return;
 				}
 
-				try
-				{
-					if (!IsProcessing)
-					{
-						lock (rocTradesList.RocGridTable)
-						{
+				try {
+					bool haveTrades = false;
+
+					if (!IsProcessing) {
+						lock (rocTradesList.RocGridTable) {
 							if (updateIM)
-							{
 								UpdateSecurityInfo();
-							}
-							if (rocTrades.Count > 0)
-							{
-								foreach (ROCExecution rocTrade in rocTrades)
-								{
-									LoadRocTrade(rocTrade);
-								}
-							}
-							if (Extended && tposTrades.Count > 0)
-							{
-								foreach (TPOSExecution tposTrade in tposTrades)
-								{
-									LoadTposTrade(tposTrade);
-								}
+
+							if (trades.Count > 0) {
+								haveTrades = true;
+								foreach (ROCTrade rocTrade in trades)
+									AddTradeToGrid(rocTrade);
 							}
 						}
 					}
-					if (updateIM || rocTrades.Count > 0 || tposTrades.Count > 0)
-					{
+
+					if (updateIM || haveTrades) {
 						rocTradesList.RefreshAggragation = true;
 						rocTradesList.ShouldScrollToLastRow = true;
 					}
-				}
-				catch (Exception ex)
-				{
+				} catch (Exception ex) {
 					GLOBAL.HROC.AddToException(ex);
 				}
 			}
@@ -511,7 +472,7 @@ namespace ROC
 				{
 					_updatingUI = true;
 
-					bool updateIM = _updateIM, haveRocTrades = false, haveTposTrades = false;
+					bool updateIM = _updateIM, haveTrades = false;
 					_updateIM = false;
 
 					if (!IsProcessing)
@@ -523,26 +484,19 @@ namespace ROC
 								UpdateSecurityInfo();
 							}
 
-							List<ROCExecution> rocTrades = _rocTrades.TakeAll();
-							if (rocTrades.Count > 0)
-							{
-								haveRocTrades = true;
-								foreach (ROCExecution rocTrade in rocTrades)
-									LoadRocTrade(rocTrade);
-							}
+							List<ROCTrade> trades = _trades.TakeAll();
 
-							if (Extended) {
-								List<TPOSExecution> tposTrades = _tposTrades.TakeAll();
-								if (tposTrades.Count > 0) {
-									haveTposTrades = true;
-									foreach (TPOSExecution tposTrade in tposTrades)
-										LoadTposTrade(tposTrade);
-								}
+							List<ROCTrade> selected = new List<ROCTrade>(trades.Where(n => n.Source == AssetShared.SourceEnum.ROC));
+							if (selected.Count > 0)
+							{
+								haveTrades = true;
+								foreach (ROCTrade rocTrade in selected)
+									AddTradeToGrid(rocTrade);
 							}
 						}
 					}
 
-					if (updateIM || haveRocTrades || haveTposTrades)
+					if (updateIM || haveTrades)
 					{
 						rocTradesList.RefreshAggragation = true;
 						rocTradesList.ShouldScrollToLastRow = true;
@@ -636,7 +590,7 @@ namespace ROC
 
 		#endregion
 
-		private void LoadRocTrade(ROCExecution trade)
+		private void AddTradeToGrid(ROCTrade trade)
 		{
 			lock (rocTradesList)
 			{
@@ -650,20 +604,16 @@ namespace ROC
 					rocTradesList.Details.Add(trade.SymbolDetail);
 				}
 
-				trade = UpdateRocTradeWithSecurityInfo(trade);
+				UpdateTradeWithSecurityInfo(trade);
 
-				if (!rocTradesList.GridKeys.Contains(trade.OmExecTag))
-				{
-					rocTradesList.GridKeys.Add(trade.OmExecTag);
-				
-					rocTradesList.RocGridTable.Rows.Add(new object[] {
-						trade.OmExecTag,
+				object[] rowData = new object[] {
+						trade.TradeID,
 						trade.Symbol,
 						trade.SymbolDetail,
 						trade.SymbolDisplay,
 						trade.Side,
 						trade.Qty,
-						trade.Price,
+						trade.ExecPrice.Value,
 						trade.TradeValue,
 						trade.DestID,
 						trade.TradeTime,
@@ -673,7 +623,14 @@ namespace ROC
 						trade.DisplayFactor,
 						trade.OmTag,
 						trade.SecType,
-						0});
+						trade.Source
+				};
+
+				if (!rocTradesList.GridKeys.Contains(trade.TradeID))
+				{
+					rocTradesList.GridKeys.Add(trade.TradeID);
+				
+					rocTradesList.RocGridTable.Rows.Add(rowData);
 
 					switch (trade.SecType)
 					{
@@ -690,42 +647,18 @@ namespace ROC
 				}
 				else
 				{
-					trade = UpdateRocTradeWithSecurityInfo(trade);
-
-					rocTradesList.RocGridTable.LoadDataRow(new object[] {
-						trade.OmExecTag,
-						trade.Symbol,
-						trade.SymbolDetail,
-						trade.SymbolDisplay,
-						trade.Side,
-						trade.Qty,
-						trade.Price,
-						trade.TradeValue,
-						trade.DestID,
-						trade.TradeTime,
-						trade.ClearingAcct,
-						trade.ContractSize,
-						trade.TickSize,
-						trade.DisplayFactor,
-						trade.OmTag,
-						trade.SecType,
-						0},  LoadOption.OverwriteChanges);
+					rocTradesList.RocGridTable.LoadDataRow(rowData,  LoadOption.OverwriteChanges);
 				}
 			}
 		}
 
-		private ROCExecution UpdateRocTradeWithSecurityInfo(ROCExecution trade)
+		private void UpdateTradeWithSecurityInfo(ROCTrade trade)
 		{
 			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(trade.SymbolDetail);
 
 			if (secInfo != null)
 			{
-				if (trade.Symbol == "")
-				{
-					trade.Symbol = secInfo.MDSymbol;
-				}
-				trade.TickSize = secInfo.TickSize;
-				trade.ContractSize = secInfo.ContractSize;
+				trade.UpdateFromSecurity(secInfo.MDSymbol, secInfo.TickSize, secInfo.ContractSize);
 
 				switch (trade.SecType)
 				{
@@ -743,123 +676,6 @@ namespace ROC
 			{
 				ImSymbolNeeded[trade.SymbolDetail] = trade.Symbol;
 			}
-
-			return trade;
-		}
-
-		private void LoadTposTrade(TPOSExecution trade)
-		{
-			lock (rocTradesList)
-			{
-				if (!rocTradesList.Symbols.Contains(trade.Symbol))
-				{
-					rocTradesList.Symbols.Add(trade.Symbol);
-				}
-
-				if (!rocTradesList.Details.Contains(trade.SymbolDetail))
-				{
-					rocTradesList.Details.Add(trade.SymbolDetail);
-				}
-
-				trade = UpdateTposTradeWithSecurityInfo(trade);
-
-				if (!rocTradesList.GridKeys.Contains(trade.TradeID))
-				{
-					rocTradesList.GridKeys.Add(trade.TradeID);
-
-					rocTradesList.RocGridTable.Rows.Add(new object[] {
-						trade.TradeID,
-						trade.Symbol,
-						trade.SymbolDetail,
-						trade.SymbolDisplay,
-						trade.Side,
-						trade.Qty,
-						trade.Price,
-						trade.TradeValue,
-						trade.DestID,
-						trade.TradeTime,
-						trade.ClearingAcct,
-						trade.ContractSize,
-						trade.TickSize,
-						trade.DisplayFactor,
-						trade.OmTag,
-						trade.SecType,
-						1});
-
-					switch (trade.SecType)
-					{
-						case CSVFieldIDs.SecurityTypes.Option:
-							GLOBAL.HRDS.GetOptionChain(trade.Underlying);
-							break;
-						case CSVFieldIDs.SecurityTypes.SingleStockFuture:
-							GLOBAL.HRDS.GetSSFutureChain(trade.Underlying);
-							break;
-						default:
-							GLOBAL.HRDS.GetSecurityByTicker(trade.SymbolDetail);
-							break;
-					}
-				}
-				else
-				{
-					trade = UpdateTposTradeWithSecurityInfo(trade);
-				
-					rocTradesList.RocGridTable.LoadDataRow(new object[] {
-						trade.TradeID,
-						trade.Symbol,
-						trade.SymbolDetail,
-						trade.SymbolDisplay,
-						trade.Side,
-						trade.Qty,
-						trade.Price,
-						trade.TradeValue,
-						trade.DestID,
-						trade.TradeTime,
-						trade.ClearingAcct,
-						trade.ContractSize,
-						trade.TickSize,
-						trade.DisplayFactor,
-						trade.OmTag,
-						trade.SecType,
-						1}, LoadOption.OverwriteChanges);
-				}
-			}
-		}
-
-		private TPOSExecution UpdateTposTradeWithSecurityInfo(TPOSExecution trade)
-		{
-			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(trade.SymbolDetail);
-
-			if (secInfo != null)
-			{
-				if (trade.Symbol == "")
-				{
-					trade.Symbol = secInfo.MDSymbol;
-				}
-				trade.TickSize = secInfo.TickSize;
-				trade.ContractSize = secInfo.ContractSize;
-
-				switch (trade.SecType)
-				{
-					case CSVFieldIDs.SecurityTypes.Option:
-						rocTradesList.UpdateSymbol(trade.Symbol);
-						rocTradesList.UpdateTickSize(trade.Symbol, trade.TickSize);
-						break;
-					case CSVFieldIDs.SecurityTypes.Future:
-						rocTradesList.UpdateTickSize(trade.Symbol, trade.TickSize);
-						break;
-				}
-			}
-			else
-			{
-				trade.Symbol = "";
-			}
-
-			lock (ImSymbolNeeded)
-			{
-				ImSymbolNeeded[trade.SymbolDetail] = trade.Symbol;
-			}
-
-			return trade;
 		}
 
 		private delegate void UpdateTradeStartDelegate();

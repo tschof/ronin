@@ -42,8 +42,6 @@ namespace CSVEx
 		private string[] _fields;
 		public string[] Fields => _fields;
 
-		private bool _hasBackFills = false;
-
 		public CSV()
 		{
 			_fields = new string[0];
@@ -271,15 +269,6 @@ namespace CSVEx
 
 		#endregion
 
-		/* Use TryGetField instead.
-		public bool Contains(int key)
-		{
-			if (TryGetField(key, out string _))
-				return true;
-			return _hasBackFills && _data.Has(key);
-		}
-		*/
-
 		#region - Decoded _fields By Name -
 
 		public string Command
@@ -290,7 +279,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.Command, value);
 			}
 		}
@@ -303,7 +291,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.AveragePrice, value);
 			}
 		}
@@ -316,7 +303,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.CallPut, value);
 			}
 		}
@@ -329,7 +315,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.ClearingAcct, value);
 			}
 		}
@@ -382,7 +367,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.ExpDate, value);
 			}
 		}
@@ -435,7 +419,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.LocalAcct, value);
 			}
 		}
@@ -504,7 +487,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.Type, value);
 			}
 		}
@@ -517,7 +499,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.AlgoType, value);
 			}
 		}
@@ -554,7 +535,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.Price, value);
 			}
 		}
@@ -567,7 +547,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.OriginalPrice, value);
 			}
 		}
@@ -588,7 +567,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.Shares, value);
 			}
 		}
@@ -601,7 +579,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.SecType, value);
 			}
 		}
@@ -614,7 +591,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.Side, value);
 			}
 		}
@@ -651,7 +627,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.StrikePrice, value);
 			}
 		}
@@ -688,7 +663,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.TIF, value);
 			}
 		}
@@ -701,7 +675,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.TradeFor, value);
 			}
 		}
@@ -714,7 +687,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.Trader, value);
 			}
 		}
@@ -727,7 +699,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.Underlying, value);
 			}
 		}
@@ -740,7 +711,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.ParentTag, value);
 			}
 		}
@@ -761,7 +731,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.ClientEcho, value);
 			}
 		}
@@ -814,12 +783,10 @@ namespace CSVEx
 		{
 			get
 			{
-				_hasBackFills = true;
 				return getAsString(CSVFieldIDs.SecurityDefinition);
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.SecurityDefinition, value);
 			}
 		}
@@ -832,7 +799,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.EndTime, value.ToOADate());
 			}
 		}
@@ -845,7 +811,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.DisplayInstruction, value);
 			}
 		}
@@ -858,7 +823,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.CMTAAccount, value);
 			}
 		}
@@ -871,7 +835,6 @@ namespace CSVEx
 			}
 			set
 			{
-				_hasBackFills = true;
 				_data.Set(CSVFieldIDs.MaturityDay, value);
 			}
 		}

@@ -100,10 +100,14 @@ namespace MarketData
 			}
 		}
 
-		public static Market Replace(Market other)
+		// Give the contents of this Market to a newly created one,
+		// leaving this Market empty.
+		public Market Release()
 		{
-			Dictionary<string, Book> viscera = other._market;
-			other._market = new Dictionary<string, Book>();
+			Dictionary<string, Book> viscera = _market, replace = new Dictionary<string, Book>();
+			lock (this) {
+				_market = replace;
+			}
 			return new Market(viscera);
 		}
 

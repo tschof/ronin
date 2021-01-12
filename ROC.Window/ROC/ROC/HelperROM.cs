@@ -95,7 +95,7 @@ namespace ROC
 		private List<string> _canceledOrderIDs = new List<string>();
 		private LockDictionary<string, CSV> _originalCSVs = new LockDictionary<string, CSV>();
 		private LockDictionary<string, ROCOrder> _newOrders = new LockDictionary<string, ROCOrder>();
-		private LockDictionary<string, ROCExecution> _newExecutions = new LockDictionary<string, ROCExecution>();
+		private LockDictionary<string, ROCTrade> _newTrades = new LockDictionary<string, ROCTrade>();
 
 		private DateTime _lastHartbeatTime = DateTime.Now;
 		public DateTime LastHartbeatTime
@@ -199,7 +199,7 @@ namespace ROC
 
 			if (!ConnectTimeOut())
 			{
-				Loggin(UserName, Password);
+				Login(UserName, Password);
 			}
 		}
 
@@ -223,7 +223,7 @@ namespace ROC
 			return connectTimeOut;
 		}
 
-		public void Loggin(string username, string password)
+		public void Login(string username, string password)
 		{
 			_userName = username;
 			_password = password;
@@ -273,11 +273,11 @@ namespace ROC
 			return null;
 		}
 
-		public List<ROCExecution> TakeNewExecutions()
+		public List<ROCTrade> TakeNewExecutions()
 		{
-			Dictionary<string, ROCExecution> taken = _newExecutions.TakeAll();
+			Dictionary<string, ROCTrade> taken = _newTrades.TakeAll();
 			if ((taken != null) && (taken.Count > 0)) {
-				List<ROCExecution> result = new List<ROCExecution>();
+				List<ROCTrade> result = new List<ROCTrade>();
 				result.AddRange(taken.Values);
 				return result;
 			}
@@ -454,13 +454,13 @@ namespace ROC
 					cancel.side = order.Side.ToString();
 					cancel.mdSymbol = order.Symbol;
 					cancel.shares = order.LeaveQty.ToString();
-					if (order.Price == 0)
+					if (order.OrderPrice.IsZero)
 					{
 						cancel.price = "";
 					}
 					else
 					{
-						cancel.price = order.Price.ToString();
+						cancel.price = order.OrderPrice.ToString();
 					}
 
 					GLOBAL.OrderManagers.CancelSingleOrder(cancel);
@@ -1004,10 +1004,10 @@ namespace ROC
 				_newOrders.Add(order.Tag, order);
 		}
 
-		public void Update(ROCExecution trade, bool addToNew)
+		public void Update(ROCTrade trade, bool addToNew)
 		{
 			if (addToNew)
-				_newExecutions.Add(trade.OmExecTag, trade);
+				_newTrades.Add(trade.TradeID, trade);
 		}
 
 		#endregion

@@ -112,9 +112,10 @@ namespace ROC.Tickets.AutoSpread
 			return result;
 		}
 
-		internal double? GetStopLimitPrice(string side, double price)
+		/* Not used.
+		internal Price? GetStopLimitPrice(string side, double price)
 		{
-			double? stopLimitPrice = null;
+			Price? stopLimitPrice = null;
 
 			OrderCollection orders = new OrderCollection();
 
@@ -141,15 +142,15 @@ namespace ROC.Tickets.AutoSpread
 			switch (side) {
 				case "Buy":
 					foreach (ROCOrder order in orders.Values) {
-						if (stopLimitPrice == null || (double)stopLimitPrice < order.Price) {
-							stopLimitPrice = order.Price;
+						if (!stopLimitPrice.HasValue || (stopLimitPrice < order.OrderPrice)) {
+							stopLimitPrice = order.OrderPrice;
 						}
 					}
 					break;
 				case "Sell":
 					foreach (ROCOrder order in orders.Values) {
-						if (stopLimitPrice == null || (double)stopLimitPrice > order.Price) {
-							stopLimitPrice = order.Price;
+						if (!stopLimitPrice.HasValue || (stopLimitPrice > order.OrderPrice)) {
+							stopLimitPrice = order.OrderPrice;
 						}
 					}
 					break;
@@ -157,6 +158,7 @@ namespace ROC.Tickets.AutoSpread
 
 			return stopLimitPrice;
 		}
+		*/
 
 		internal OrderCollection GetOpenOrder(string side, double price)
 		{

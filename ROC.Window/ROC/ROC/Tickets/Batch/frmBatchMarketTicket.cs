@@ -695,11 +695,9 @@ namespace ROC
 								}
 							}
 
-							Market deltas = Market.Replace(_deltas);
+							Market deltas = _deltas.Release();
 							if (!deltas.Empty)
-							{
 								UpdateMarketDataDeltas(deltas);
-							}
 						}
 					}
 				}

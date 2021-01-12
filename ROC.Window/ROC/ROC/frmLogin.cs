@@ -285,7 +285,7 @@ namespace ROC
 								break;
 							case HelperROM.StatusTypes.Started:
 								GLOBAL.UserUIProfile.LoadAllOrderInfo(txtUserName.Text);
-								GLOBAL.OrderManagers.Loggin(txtUserName.Text, txtPassword.Text);
+								GLOBAL.OrderManagers.Login(txtUserName.Text, txtPassword.Text);
 								break;
 							case HelperROM.StatusTypes.Starting:
 								break;
