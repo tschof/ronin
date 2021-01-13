@@ -579,7 +579,7 @@ namespace ROC
 			}
 			else
 			{
-				return string.Concat(new object[] { GLOBAL.OrderManagers.UserName + ".xml" });
+				return GLOBAL.OrderManagers.UserName + ".xml";
 			}
 		}
 

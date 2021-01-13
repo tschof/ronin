@@ -350,7 +350,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), new object[] { updateIM, orders, deltas });
+					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), updateIM, orders, deltas);
 					return;
 				}
 				try
@@ -540,7 +540,7 @@ namespace ROC
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new RefreshFutureMatrixDelegate(RefreshFutureMatrix), new object[] { input });
+				BeginInvoke(new RefreshFutureMatrixDelegate(RefreshFutureMatrix), input);
 				return;
 			}
 

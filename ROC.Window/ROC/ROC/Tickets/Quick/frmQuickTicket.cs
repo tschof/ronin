@@ -1335,7 +1335,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), new object[] { updateIM, orders, deltas });
+					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), updateIM, orders, deltas);
 					return;
 				}
 				try
@@ -2801,28 +2801,23 @@ namespace ROC
 			}
 		}
 
+		private string GetPriceText(NumericUpDownEx.NumericUpDownBase priceControl, TextBox textBox)
+		{
+			string priceText = priceControl.Value.ToString("######0.00#####");
+
+			if (textBox.Text != priceText)
+				return string.Format("{0} ({1})", textBox.Text, priceText);
+			return priceText;
+		}
+
 		private string GetDisplayLimitPrice()
 		{
-			if (dspLimitPrice.Text != numLimitPrice.Value.ToString("######0.00#####"))
-			{
-				return string.Format("{0} ({1})", new object[] { dspLimitPrice.Text, numLimitPrice.Value.ToString("######0.00#####") });
-			}
-			else
-			{
-				return numLimitPrice.Value.ToString("######0.00#####");
-			}
+			return GetPriceText(numLimitPrice, dspLimitPrice);
 		}
 
 		private string GetDisplayStopPrice()
 		{
-			if (dspStopPrice.Text != numStopPrice.Value.ToString("######0.00#####"))
-			{
-				return string.Format("{0} ({1})", new object[] { dspStopPrice.Text, numStopPrice.Value.ToString("######0.00#####") });
-			}
-			else
-			{
-				return numStopPrice.Value.ToString("######0.00#####");
-			}
+			return GetPriceText(numStopPrice, dspStopPrice);
 		}
 
 		private void ResetTicketValues()

@@ -206,7 +206,7 @@ namespace ROC
 			}
 
 			if (TryAddKey(order.Tag)) {
-				Table.Rows.Add(new object[] {
+				Table.Rows.Add(
 					order.Tag,
 					order.Symbol,
 					order.SymbolDetail,
@@ -235,7 +235,8 @@ namespace ROC
 					order.Text,
 					order.ParentTag,
 					order.ClientEcho,
-					order.CplxOrderType });
+					order.CplxOrderType
+					);
 			} else {
 				DataRowView[] rows = SearchView.FindRows(order.Tag);
 				foreach (DataRowView row in rows) {
@@ -410,7 +411,7 @@ namespace ROC
 		private void addTradeToTable(ROCTrade trade)
 		{
 			if (TryAddKey(trade.TradeID)) {
-				Table.Rows.Add(new object[] {
+				Table.Rows.Add(
 					trade.TradeID,
 					trade.Symbol,
 					trade.SymbolDetail,
@@ -428,7 +429,8 @@ namespace ROC
 					trade.OmTag,
 					trade.SecType,
 					trade.Source,
-					trade.CplxOrderType });
+					trade.CplxOrderType
+					);
 			} else {
 				DataRowView[] rows = SearchView.FindRows(trade.TradeID);
 				foreach (DataRowView row in rows) {

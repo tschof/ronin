@@ -917,7 +917,7 @@ namespace ROC
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new UpdatePlotListByProcessDelegate(UpdatePlotListByProcess), new object[] { updateIM, deltas });
+				BeginInvoke(new UpdatePlotListByProcessDelegate(UpdatePlotListByProcess), updateIM, deltas);
 				return;
 			}
 
@@ -1011,7 +1011,7 @@ namespace ROC
 					break;
 			}
 
-			DataRow[] rows = rocPlotList.RocGridTable.Select(string.Concat(new object[] { "SymbolDetail = '", symbolDetail, "'" }));
+			DataRow[] rows = rocPlotList.RocGridTable.Select($"SymbolDetail = '{symbolDetail}'");
 			foreach (DataRow row in rows)
 			{
 				row["Symbol"] = secInfo.MDSymbol.Replace("/P", "/PR");

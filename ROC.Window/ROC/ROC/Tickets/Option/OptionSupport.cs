@@ -89,16 +89,16 @@ namespace ROC
 
 		internal string ConvertToDisplayDate(DateTime date)
 		{
-			string result = "";
+			string result;
 
 			if (MonthToAdd > 0)
 			{
 				DateTime tDT = date.AddMonths(MonthToAdd);
-				result = String.Format("{0} ({1})", new object[] { tDT.ToString("yy MMM").ToUpper(), date.ToString("yy MMM dd").ToUpper() });
+				result = string.Format("{0} ({1})", tDT.ToString("yy MMM").ToUpper(), date.ToString("yy MMM dd").ToUpper());
 			}
 			else
 			{
-				result = String.Format("{0}", new object[] { date.ToString("yy MMM dd").ToUpper() });
+				result = date.ToString("yy MMM dd").ToUpper();
 			}
 
 			return result;

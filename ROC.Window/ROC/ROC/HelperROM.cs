@@ -513,20 +513,18 @@ namespace ROC
 						{
 							rows = GLOBAL.HOrders.Table.Select(
 								string.Format("Symbol = '{0}' And ({1}) And ({2})",
-									new object[] { 
 										orgSymbol, 
 										CSVFieldIDs.StatusCodes.ActiveStatusFilter, 
-										CSVFieldIDs.SideCodes.BuySideFilter }));
+										CSVFieldIDs.SideCodes.BuySideFilter));
 						}
 						else
 						{
 							rows = GLOBAL.HOrders.Table.Select(
 								string.Format("Symbol = '{0}' And ({1}) And ({2}) And ({3})",
-									new object[] { 
 										orgSymbol, 
 										CSVFieldIDs.StatusCodes.ActiveStatusFilter, 
 										CSVFieldIDs.SideCodes.BuySideFilter,
-										CSVFieldIDs.TIFCodes.TIFDayFilter }));
+										CSVFieldIDs.TIFCodes.TIFDayFilter));
 						}
 						break;
 					default:
@@ -534,20 +532,18 @@ namespace ROC
 						{
 							rows = GLOBAL.HOrders.Table.Select(
 								string.Format("Symbol = '{0}' And ({1}) And ({2})",
-									new object[] { 
 										orgSymbol, 
 										CSVFieldIDs.StatusCodes.ActiveStatusFilter, 
-										CSVFieldIDs.SideCodes.SellSideFilter }));
+										CSVFieldIDs.SideCodes.SellSideFilter));
 						}
 						else
 						{
 							rows = GLOBAL.HOrders.Table.Select(
 								string.Format("Symbol = '{0}' And ({1}) And ({2}) And ({3})",
-									new object[] { 
 										orgSymbol, 
 										CSVFieldIDs.StatusCodes.ActiveStatusFilter, 
 										CSVFieldIDs.SideCodes.SellSideFilter,
-										CSVFieldIDs.TIFCodes.TIFDayFilter }));
+										CSVFieldIDs.TIFCodes.TIFDayFilter));
 						}
 						break;
 				}
@@ -573,18 +569,16 @@ namespace ROC
 				{
 					rows = GLOBAL.HOrders.Table.Select(
 						string.Format("SymbolDetail = '{0}' And ({1})",
-							new object[] { 
 								orgSymbolDetail, 
-								CSVFieldIDs.StatusCodes.ActiveStatusFilter }));
+								CSVFieldIDs.StatusCodes.ActiveStatusFilter));
 				}
 				else
 				{
 					rows = GLOBAL.HOrders.Table.Select(
 						string.Format("SymbolDetail = '{0}' And ({1}) And ({2})",
-							new object[] { 
 								orgSymbolDetail, 
 								CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-								CSVFieldIDs.TIFCodes.TIFDayFilter }));
+								CSVFieldIDs.TIFCodes.TIFDayFilter));
 				}
 
 				foreach (DataRow row in rows)
@@ -639,52 +633,20 @@ namespace ROC
 			_rom.Send(msg);
 		}
 
-		//public void CancelAllOpenOrders()
-		//{
-		//    DataRow[] rows = new DataRow[0];
-		//    if (!Configuration.User.Default.SkipGTCandGTDonAuto)
-		//    {
-		//        rows = GLOBAL.HOrders.Table.Select(
-		//            string.Format("{0}",
-		//                new object[] { 
-		//                    CSVFieldIDs.StatusCodes.ActiveStatusFilter }));
-		//    }
-		//    else
-		//    {
-		//        // Day Order Only
-		//        rows = GLOBAL.HOrders.Table.Select(
-		//            string.Format("{0} And {1}",
-		//                new object[] { 
-		//                    CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-		//                    CSVFieldIDs.TIFCodes.TIFDayFilter }));
-		//    }
-			
-		//    foreach (DataRow row in rows)
-		//    {
-		//        if (row["Tag"] != null)
-		//        {
-		//            GLOBAL.HROM.CancelSingleOrder(row["Tag"].ToString());
-		//        }
-		//    }
-		//}
-
 		public bool HasOpenOrders()
 		{
 			DataRow[] rows = new DataRow[0];
 			if (!Configuration.User.Default.SkipGTCandGTDonAuto)
 			{
 				rows = GLOBAL.HOrders.Table.Select(
-					string.Format("{0}",
-						new object[] { 
-							CSVFieldIDs.StatusCodes.ActiveStatusFilter }));
+					string.Format("{0}", CSVFieldIDs.StatusCodes.ActiveStatusFilter));
 			}
 			else
 			{
 				rows = GLOBAL.HOrders.Table.Select(
-					string.Format("{0} And {1}",
-						new object[] { 
+					string.Format("{0} And {1}", 
 							CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-							CSVFieldIDs.TIFCodes.TIFDayFilter }));
+							CSVFieldIDs.TIFCodes.TIFDayFilter));
 			}
 
 			if (rows.Length > 0)
@@ -705,29 +667,25 @@ namespace ROC
 					case CSVFieldIDs.SecurityTypes.Future:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1}",
-								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.SecurityTypes.FutureFilter }));
+									CSVFieldIDs.SecurityTypes.FutureFilter));
 						break;
 					case CSVFieldIDs.SecurityTypes.Option:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1}",
-								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.SecurityTypes.OptionFilter }));
+									CSVFieldIDs.SecurityTypes.OptionFilter));
 						break;
 					case CSVFieldIDs.SecurityTypes.Equity:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1}",
-								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.SecurityTypes.EquityFilter }));
+									CSVFieldIDs.SecurityTypes.EquityFilter));
 						break;
 					default:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0}",
-								new object[] { 
-									CSVFieldIDs.StatusCodes.ActiveStatusFilter }));
+									CSVFieldIDs.StatusCodes.ActiveStatusFilter));
 						break;
 				}
 			}
@@ -739,33 +697,29 @@ namespace ROC
 					case CSVFieldIDs.SecurityTypes.Future:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1} And {2}",
-								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
 									CSVFieldIDs.SecurityTypes.FutureFilter,
-									CSVFieldIDs.TIFCodes.TIFDayFilter }));
+									CSVFieldIDs.TIFCodes.TIFDayFilter));
 						break;
 					case CSVFieldIDs.SecurityTypes.Option:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1} And {2}",
-								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
 									CSVFieldIDs.SecurityTypes.OptionFilter,
-									CSVFieldIDs.TIFCodes.TIFDayFilter }));
+									CSVFieldIDs.TIFCodes.TIFDayFilter));
 						break;
 					case CSVFieldIDs.SecurityTypes.Equity:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1} And {2}",
-								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
 									CSVFieldIDs.SecurityTypes.EquityFilter,
-									CSVFieldIDs.TIFCodes.TIFDayFilter }));
+									CSVFieldIDs.TIFCodes.TIFDayFilter));
 						break;
 					default:
 						rows = GLOBAL.HOrders.Table.Select(
 							string.Format("{0} And {1}",
-								new object[] { 
 									CSVFieldIDs.StatusCodes.ActiveStatusFilter,
-									CSVFieldIDs.TIFCodes.TIFDayFilter }));
+									CSVFieldIDs.TIFCodes.TIFDayFilter));
 						break;
 				}
 			}

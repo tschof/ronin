@@ -744,7 +744,7 @@ namespace ROC
 		{
 			if (InvokeRequired)
 			{
-			    BeginInvoke(new AddUpdatePositionsDelegate(AddUpdatePositions), new object[] { rocPositions, tposPositions });
+			    BeginInvoke(new AddUpdatePositionsDelegate(AddUpdatePositions), rocPositions, tposPositions);
 			    return;
 			}
 
@@ -797,7 +797,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new AddUpdatePositionsByProcessDelegate(AddUpdatePositionsByProcess), new object[] { updateIM, positions, deltas });
+					BeginInvoke(new AddUpdatePositionsByProcessDelegate(AddUpdatePositionsByProcess), updateIM, positions, deltas);
 					return;
 				}
 				try
@@ -1131,7 +1131,7 @@ namespace ROC
 						UpdatePositionsWithSecurityInfo(position);
 						UpdatePositionsWithCurrentMarketData(position);
 
-						rocPositionsList.RocGridTable.Rows.Add(new object[] {
+						rocPositionsList.RocGridTable.Rows.Add(
 						key,
 						position.Symbol,
 						position.SymbolDetail,
@@ -1168,7 +1168,8 @@ namespace ROC
 						position.StrikePrice,
 						position.CallPut,
 						position.Source == ROCPosition.SourceEnum.TPOS ? 1 : 0,
-						position.SettlePrice});
+						position.SettlePrice
+						);
 
 						switch (position.SecType)
 						{

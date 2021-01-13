@@ -32,24 +32,24 @@ namespace ROC
 						case CSVFieldIDs.SecurityTypes.Equity:
 							if (basePriceOffset == 0)
 							{
-								result = string.Format("{0} {1}", new object[] { qty, basePriceSource });
+								result = string.Join(" ", qty, basePriceSource);
 							}
 							else
 							{
-								result = string.Format("{0} {1} {2}", new object[] { qty, basePriceSource, basePriceOffset });
+								result = string.Join(" ", qty, basePriceSource, basePriceOffset);
 							}
 							break;
 						case CSVFieldIDs.SecurityTypes.Option:
-							result = string.Format("{0}", new object[] { qty });
+							result = qty.ToString();
 							break;
 						case CSVFieldIDs.SecurityTypes.Future:
 							if (basePriceOffset == 0)
 							{
-								result = string.Format("{0} {1}", new object[] { qty, basePriceSource });
+								result = string.Join(" ", qty, basePriceSource);
 							}
 							else
 							{
-								result = string.Format("{0} {1} {2}", new object[] { qty, basePriceSource, basePriceOffset });
+								result = string.Join(" ", qty, basePriceSource, basePriceOffset);
 							}
 							break;
 					}
@@ -334,7 +334,7 @@ namespace ROC
 			}
 			else
 			{
-				return string.Concat(new object[] { GLOBAL.OrderManagers.UserName + ".xml" });
+				return GLOBAL.OrderManagers.UserName + ".xml";
 			}
 		}
 

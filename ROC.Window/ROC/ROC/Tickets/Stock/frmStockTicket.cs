@@ -1134,7 +1134,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), new object[] { updateIM, orders, deltas });
+					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), updateIM, orders, deltas);
 					return;
 				}
 				try
@@ -2204,7 +2204,7 @@ namespace ROC
 								order.endTime = TWAPEndTime;
 								if (numMVP.Enabled)
 								{
-									order.instructions = string.Format("MVP={0}", new object[] { Math.Round(numMVP.Value, 0) / 100 });
+									order.instructions = string.Format("MVP={0}", Math.Round(numMVP.Value, 0) / 100);
 								}
 								break;
 							case CSVEx.CSVFieldIDs.OrderTypes.VWAPLIM:
@@ -2214,7 +2214,7 @@ namespace ROC
 								order.endTime = TWAPEndTime;
 								if (numMVP.Enabled)
 								{
-									order.instructions = string.Format("MVP={0}", new object[] { Math.Round(numMVP.Value, 0) / 100 });
+									order.instructions = string.Format("MVP={0}", Math.Round(numMVP.Value, 0) / 100);
 								}
 								break;
 							case CSVEx.CSVFieldIDs.OrderTypes.GVWAP:

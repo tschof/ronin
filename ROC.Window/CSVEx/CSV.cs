@@ -39,12 +39,11 @@ namespace CSVEx
 		public string Message { get; private set; } = "";
 		public string EncodeMessage { get; private set; }
 
-		private string[] _fields;
+		private string[] _fields = null;
 		public string[] Fields => _fields;
 
 		public CSV()
 		{
-			_fields = new string[0];
 		}
 
 		public CSV(int capacity)
@@ -54,14 +53,13 @@ namespace CSVEx
 
 		public CSV(string message)
 		{
-			_fields = new string[0];
 			Message = message;
 			Decode();
 		}
 
 		private bool tryGetField(int key, out string value)
 		{
-			if ((_fields != null) && (key < _fields.Length)) {
+			if ((_fields != null) && (key >= 0) && (key < _fields.Length)) {
 				value = _fields[key];
 				return !string.IsNullOrEmpty(value);
 			}
@@ -73,7 +71,7 @@ namespace CSVEx
 
 		public void Decode()
 		{
-			if (Message != null && Message != "\n" && Message != "")
+			if (!string.IsNullOrEmpty(Message) && (Message != "\n"))
 			{
 				Decode(Message);
 			}
@@ -81,7 +79,7 @@ namespace CSVEx
 		private void Decode(string message)
 		{
 			// Split For Children
-			string[] childrenMsg = Message.Split(new string[] { "!#!" }, StringSplitOptions.None);
+			string[] childrenMsg = message.Split(new string[] { "!#!" }, StringSplitOptions.None);
 
 			if (childrenMsg.Length > 1)
 			{
@@ -94,7 +92,7 @@ namespace CSVEx
 			else
 			{
 				// No Children
-				_fields = Message.Split(new char[] { ',' }, StringSplitOptions.None);
+				_fields = message.Split(new char[] { ',' }, StringSplitOptions.None);
 			}
 		}
 
@@ -216,11 +214,11 @@ namespace CSVEx
 				Encode(_fields);
 			}
 		}
-		private void Encode(string[] input_fields)
+		private void Encode(string[] fields)
 		{
 			SetAt(CSVFieldIDs.CurrentTimeStamp, DateTime.Now.ToString("HHmmss"));
 
-			EncodeMessage = string.Join(",", input_fields);
+			EncodeMessage = string.Join(",", fields);
 
 			// If have child convert them to string too
 			foreach (CSV child in Children)

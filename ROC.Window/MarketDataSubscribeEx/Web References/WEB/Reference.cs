@@ -358,9 +358,7 @@ namespace MarketDataSubscribeEx.WEB {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://ronin.com/GetUserProfile", RequestNamespace="http://ronin.com/", ResponseNamespace="http://ronin.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ReturnStatus GetUserProfile(string user, string pass) {
-            object[] results = this.Invoke("GetUserProfile", new object[] {
-                        user,
-                        pass});
+            object[] results = this.Invoke("GetUserProfile", new object[] { user, pass });
             return ((ReturnStatus)(results[0]));
         }
         

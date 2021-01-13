@@ -447,219 +447,219 @@ namespace ROC
 				var table = getSettingsTable();
 				table.Rows.Clear();
 
-				table.Rows.Add(new object[] { 
+				table.Rows.Add(
 					"ROC.ExchangesSupportExtendedMarketOrderType", 
-					Configuration.ROC.Default.ExchangesSupportExtendedMarketOrderType } );
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.ExchangesSupportExtendedMarketOrderType);
+				table.Rows.Add(
 					"ROC.ExchangesSupportExtendedLimitOrderType", 
-					Configuration.ROC.Default.ExchangesSupportExtendedLimitOrderType });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.ExchangesSupportExtendedLimitOrderType);
+				table.Rows.Add(
 					"ROC.ExchangesSupportStopOrderType", 
-					Configuration.ROC.Default.ExchangesSupportStopOrderType });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.ExchangesSupportStopOrderType);
+				table.Rows.Add(
 					"ROC.ExchangesSupportLimitStopOrderType", 
-					Configuration.ROC.Default.ExchangesSupportLimitStopOrderType });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.ExchangesSupportLimitStopOrderType);
+				table.Rows.Add(
 					"ROC.ExchangesSupportPegMidOrderType", 
-					Configuration.ROC.Default.ExchangesSupportPegMidOrderType });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.ExchangesSupportPegMidOrderType);
+				table.Rows.Add(
 					"ROC.ExchangesSupportPegMktOrderType", 
-					Configuration.ROC.Default.ExchangesSupportPegMktOrderType });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.ExchangesSupportPegMktOrderType);
+				table.Rows.Add(
 					"ROC.ExchangesSupportPegPriOrderType", 
-					Configuration.ROC.Default.ExchangesSupportPegPriOrderType });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.ExchangesSupportPegPriOrderType);
+				table.Rows.Add(
 					"ROC.UseGroupSubscription", 
-					Configuration.ROC.Default.UseGroupSubscription });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.UseGroupSubscription);
+				table.Rows.Add(
 					"ROC.BookDepthLimit", 
-					Configuration.ROC.Default.BookDepthLimit });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.BookDepthLimit);
+				table.Rows.Add(
 					"ROC.MemoryFlushInterval", 
-					Configuration.ROC.Default.MemoryFlushInterval });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.MemoryFlushInterval);
+				table.Rows.Add(
 					"ROC.MemoryFlushLimit", 
-					Configuration.ROC.Default.MemoryFlushLimit });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.MemoryFlushLimit);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusAutoSpreadTicket", 
-					Configuration.ROC.Default.EnableAutoFocusAutoSpreadTicket });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusAutoSpreadTicket);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusPlotList", 
-					Configuration.ROC.Default.EnableAutoFocusPlotList });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusPlotList);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusWatchList", 
-					Configuration.ROC.Default.EnableAutoFocusWatchList });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusWatchList);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusOrders", 
-					Configuration.ROC.Default.EnableAutoFocusOrders });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusOrders);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusPositions", 
-					Configuration.ROC.Default.EnableAutoFocusPositions });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusPositions);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusBatchTicket", 
-					Configuration.ROC.Default.EnableAutoFocusBatchTicket });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusBatchTicket);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusMarketDataBatchTicket", 
-					Configuration.ROC.Default.EnableAutoFocusMarketDataBatchTicket });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusMarketDataBatchTicket);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusFutureTicket", 
-					Configuration.ROC.Default.EnableAutoFocusFutureTicket });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusFutureTicket);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusOptionTicket", 
-					Configuration.ROC.Default.EnableAutoFocusOptionTicket });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusOptionTicket);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusQuickTicket", 
-					Configuration.ROC.Default.EnableAutoFocusQuickTicket });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusQuickTicket);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusStockTicket", 
-					Configuration.ROC.Default.EnableAutoFocusStockTicket });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusStockTicket);
+				table.Rows.Add(
 					"ROC.EnableAutoFocusTrades", 
-					Configuration.ROC.Default.EnableAutoFocusTrades });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableAutoFocusTrades);
+				table.Rows.Add(
 					"ROC.LargeScreenSize", 
-					Configuration.ROC.Default.LargeScreenSize });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.LargeScreenSize);
+				table.Rows.Add(
 					"ROC.ShowLevel2AsDefault", 
-					Configuration.ROC.Default.ShowLevel2AsDefault });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.ShowLevel2AsDefault);
+				table.Rows.Add(
 					"ROC.ShowQuickTicketAsDefault", 
-					Configuration.ROC.Default.ShowQuickTicketAsDefault });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.ShowQuickTicketAsDefault);
+				table.Rows.Add(
 					"ROC.EnableQuickTicketAutoCenter", 
-					Configuration.ROC.Default.EnableQuickTicketAutoCenter });
-				table.Rows.Add(new object[] { 
+					Configuration.ROC.Default.EnableQuickTicketAutoCenter);
+				table.Rows.Add(
 					"ROC.QuickTicketAutoCenterRange", 
-					Configuration.ROC.Default.QuickTicketAutoCenterRange });
+					Configuration.ROC.Default.QuickTicketAutoCenterRange);
 
-				table.Rows.Add(new object[] { 
+				table.Rows.Add(
 					"ROM.CancelOnDisconnect", 
-					Configuration.ROM.Default.CancelOnDisconnect });
+					Configuration.ROM.Default.CancelOnDisconnect);
 
-				table.Rows.Add(new object[] { 
+				table.Rows.Add(
 					"SOUND.Open", 
-					Configuration.SOUND.Default.Open });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.Open);
+				table.Rows.Add(
 					"SOUND.Filled", 
-					Configuration.SOUND.Default.Filled });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.Filled);
+				table.Rows.Add(
 					"SOUND.Rejected", 
-					Configuration.SOUND.Default.Rejected });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.Rejected);
+				table.Rows.Add(
 					"SOUND.Canceled", 
-					Configuration.SOUND.Default.Canceled });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.Canceled);
+				table.Rows.Add(
 					"SOUND.FilledAndCanceled", 
-					Configuration.SOUND.Default.FilledAndCanceled });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.FilledAndCanceled);
+				table.Rows.Add(
 					"SOUND.PartiallyFilled", 
-					Configuration.SOUND.Default.PartiallyFilled });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.PartiallyFilled);
+				table.Rows.Add(
 					"SOUND.Replaced", 
-					Configuration.SOUND.Default.Replaced });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.Replaced);
+				table.Rows.Add(
 					"SOUND.EnableOpen", 
-					Configuration.SOUND.Default.EnableOpen });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.EnableOpen);
+				table.Rows.Add(
 					"SOUND.EnableFilled", 
-					Configuration.SOUND.Default.EnableFilled });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.EnableFilled);
+				table.Rows.Add(
 					"SOUND.EnableRejected", 
-					Configuration.SOUND.Default.EnableRejected });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.EnableRejected);
+				table.Rows.Add(
 					"SOUND.EnableCanceled", 
-					Configuration.SOUND.Default.EnableCanceled });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.EnableCanceled);
+				table.Rows.Add(
 					"SOUND.EnablePartiallyFilled", 
-					Configuration.SOUND.Default.EnablePartiallyFilled });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.EnablePartiallyFilled);
+				table.Rows.Add(
 					"SOUND.EnableReplaced", 
-					Configuration.SOUND.Default.EnableReplaced });
-				table.Rows.Add(new object[] { 
+					Configuration.SOUND.Default.EnableReplaced);
+				table.Rows.Add(
 					"SOUND.EnableFilledAndCanceled", 
-					Configuration.SOUND.Default.EnableFilledAndCanceled });
+					Configuration.SOUND.Default.EnableFilledAndCanceled);
 
-				table.Rows.Add(new object[] { 
+				table.Rows.Add(
 					"USER.DesktopHeight", 
-					Configuration.User.Default.DesktopHeight });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.DesktopHeight);
+				table.Rows.Add(
 					"USER.DesktopWidth", 
-					Configuration.User.Default.DesktopWidth });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.DesktopWidth);
+				table.Rows.Add(
 					"USER.UseMarketData", 
-					Configuration.User.Default.UseMarketData });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.UseMarketData);
+				table.Rows.Add(
 					"USER.UseTPOS", 
-					Configuration.User.Default.UseTPOS });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.UseTPOS);
+				table.Rows.Add(
 					"USER.UseROMDatabase", 
-					Configuration.User.Default.UseROMDatabase });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.UseROMDatabase);
+				table.Rows.Add(
 					"USER.ShowOnlySelectedExchange", 
-					Configuration.User.Default.ShowOnlySelectedExchange });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.ShowOnlySelectedExchange);
+				table.Rows.Add(
 					"USER.DoNotLoadOPRAParticipant", 
-					Configuration.User.Default.DoNotLoadOPRAParticipant });
-				//userTable.Rows.Add(new object[] { 
+					Configuration.User.Default.DoNotLoadOPRAParticipant);
+				//userTable.Rows.Add(
 				//    "USER.PlayAllStatusSound", 
-				//    Configuration.User.Default.PlayAllStatusSound });
-				table.Rows.Add(new object[] { 
+				//    Configuration.User.Default.PlayAllStatusSound);
+				table.Rows.Add(
 					"USER.LastUserName", 
-					Configuration.User.Default.LastUserName });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.LastUserName);
+				table.Rows.Add(
 					"USER.ConfirmOnCancellAll", 
-					Configuration.User.Default.ConfirmOnCancellAll });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.ConfirmOnCancellAll);
+				table.Rows.Add(
 					"USER.LastCSVFile", 
-					Configuration.User.Default.LastCSVFile });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.LastCSVFile);
+				table.Rows.Add(
 					"USER.CSVThreadPriority", 
-					Configuration.User.Default.CSVThreadPriority });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.CSVThreadPriority);
+				table.Rows.Add(
 					"USER.MDThreadPriority", 
-					Configuration.User.Default.MDThreadPriority });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.MDThreadPriority);
+				table.Rows.Add(
 					"USER.UIUpdateRate", 
-					Configuration.User.Default.UIUpdateRate });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.UIUpdateRate);
+				table.Rows.Add(
 					"USER.UseUIUpdateRate", 
-					Configuration.User.Default.UseUIUpdateRate });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.UseUIUpdateRate);
+				table.Rows.Add(
 					"USER.UseStockAutoCancel", 
-					Configuration.User.Default.UseStockAutoCancel });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.UseStockAutoCancel);
+				table.Rows.Add(
 					"USER.StockAutoCancelTime", 
-					Configuration.User.Default.StockAutoCancelTime });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.StockAutoCancelTime);
+				table.Rows.Add(
 					"USER.UseFutureAutoCancel", 
-					Configuration.User.Default.UseFutureAutoCancel });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.UseFutureAutoCancel);
+				table.Rows.Add(
 					"USER.FutureAutoCancelTime", 
-					Configuration.User.Default.FutureAutoCancelTime });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.FutureAutoCancelTime);
+				table.Rows.Add(
 					"USER.UseOptionAutoCancel", 
-					Configuration.User.Default.UseOptionAutoCancel });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.UseOptionAutoCancel);
+				table.Rows.Add(
 					"USER.OptionAutoCancelTime", 
-					Configuration.User.Default.OptionAutoCancelTime });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.OptionAutoCancelTime);
+				table.Rows.Add(
 					"USER.SkipGTCandGTDonAuto", 
-					Configuration.User.Default.SkipGTCandGTDonAuto });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.SkipGTCandGTDonAuto);
+				table.Rows.Add(
 					"USER.OrderAutoFocusLast", 
-					Configuration.User.Default.OrderAutoFocusLast });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.OrderAutoFocusLast);
+				table.Rows.Add(
 					"USER.OrderAvgPriceResolution", 
-					Configuration.User.Default.OrderAvgPriceResolution });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.OrderAvgPriceResolution);
+				table.Rows.Add(
 					"USER.ShowInternalStatus", 
-					Configuration.User.Default.ShowInternalStatus });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.ShowInternalStatus);
+				table.Rows.Add(
 					"USER.DelayUIProcess", 
-					Configuration.User.Default.DelayUIProcess });
-				table.Rows.Add(new object[] { 
+					Configuration.User.Default.DelayUIProcess);
+				table.Rows.Add(
 					"USER.AutoFocusOnControls", 
-					Configuration.User.Default.AutoFocusOnControls });
+					Configuration.User.Default.AutoFocusOnControls);
 
 				if (!Configuration.Path.Default.SettingPath.Contains(Configuration.Path.Default.ProfilePath))
 				{

@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 
 using LabelEx;
@@ -84,21 +82,21 @@ namespace ROC
 		{
 			get
 			{
-				if (_futureDateCodeByMonth == null)
-				{
-					_futureDateCodeByMonth = new Dictionary<int, string>();
-					_futureDateCodeByMonth.Add(1, "F");
-					_futureDateCodeByMonth.Add(2, "G");
-					_futureDateCodeByMonth.Add(3, "H");
-					_futureDateCodeByMonth.Add(4, "J");
-					_futureDateCodeByMonth.Add(5, "K");
-					_futureDateCodeByMonth.Add(6, "M");
-					_futureDateCodeByMonth.Add(7, "N");
-					_futureDateCodeByMonth.Add(8, "Q");
-					_futureDateCodeByMonth.Add(9, "U");
-					_futureDateCodeByMonth.Add(10, "V");
-					_futureDateCodeByMonth.Add(11, "X");
-					_futureDateCodeByMonth.Add(12, "Z");
+				if (_futureDateCodeByMonth == null) {
+					_futureDateCodeByMonth = new Dictionary<int, string>() {
+						{ 1, "F" },
+						{ 2, "G" },
+						{ 3, "H" },
+						{ 4, "J" },
+						{ 5, "K" },
+						{ 6, "M" },
+						{ 7, "N" },
+						{ 8, "Q" },
+						{ 9, "U" },
+						{ 10, "V" },
+						{ 11, "X" },
+						{ 12, "Z" }
+					};
 				}
 				return _futureDateCodeByMonth;
 			}
@@ -110,21 +108,21 @@ namespace ROC
 		{
 			get
 			{
-				if (_futureDateCodeByCode == null)
-				{
-					_futureDateCodeByCode = new Dictionary<string, int>();
-					_futureDateCodeByCode.Add("F", 1);
-					_futureDateCodeByCode.Add("G", 2);
-					_futureDateCodeByCode.Add("H", 3);
-					_futureDateCodeByCode.Add("J", 4);
-					_futureDateCodeByCode.Add("K", 5);
-					_futureDateCodeByCode.Add("M", 6);
-					_futureDateCodeByCode.Add("N", 7);
-					_futureDateCodeByCode.Add("Q", 8);
-					_futureDateCodeByCode.Add("U", 9);
-					_futureDateCodeByCode.Add("V", 10);
-					_futureDateCodeByCode.Add("X", 11);
-					_futureDateCodeByCode.Add("Z", 12);
+				if (_futureDateCodeByCode == null) {
+					_futureDateCodeByCode = new Dictionary<string, int>() {
+						{ "F", 1 },
+						{ "G", 2 },
+						{ "H", 3 },
+						{ "J", 4 },
+						{ "K", 5 },
+						{ "M", 6 },
+						{ "N", 7 },
+						{ "Q", 8 },
+						{ "U", 9 },
+						{ "V", 10 },
+						{ "X", 11 },
+						{ "Z", 12 }
+					};
 				}
 				return _futureDateCodeByCode;
 			}
@@ -134,7 +132,7 @@ namespace ROC
 		{
 			if (FutureDateCodeByMonth.TryGetValue(expDate.Month, out string value))
 			{
-				return string.Concat(new object[] { value, expDate.Year.ToString().Substring(3, 1) });
+				return value + expDate.Year.ToString().Substring(3, 1);
 			}
 
 			return "";
@@ -227,10 +225,10 @@ namespace ROC
 				switch (index)
 				{
 					case 0:
-						tempSymbol = string.Format("{0}{1}", new object[] { _baseSymbol, ConvertToFutureDateCode(_expiration) });
+						tempSymbol = _baseSymbol + ConvertToFutureDateCode(_expiration);
 						break;
 					default:
-						tempSymbol = string.Format("{0}{1}-{0}{2}", new object[] { _baseSymbol, ConvertToFutureDateCode(_expiration), ConvertToFutureDateCode(_expiration.AddMonths(index)) });
+						tempSymbol = string.Format("{0}{1}-{0}{2}", _baseSymbol, ConvertToFutureDateCode(_expiration), ConvertToFutureDateCode(_expiration.AddMonths(index)));
 						break;
 				}
 				_futuresMatrixObjects.Add(new FutureMatrixObjects(tempSymbol, BackColor, _expiration));

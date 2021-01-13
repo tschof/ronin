@@ -460,7 +460,7 @@ namespace ROC
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new UpdateOrderDelegate(AddUpdateOrders), new object[] { orders });
+				BeginInvoke(new UpdateOrderDelegate(AddUpdateOrders), orders);
 				return;
 			}
 
@@ -517,7 +517,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new AddUpdateOrdersByProcessDelegate(AddUpdateOrdersByProcess), new object[] { updateIM, orders, deltas });
+					BeginInvoke(new AddUpdateOrdersByProcessDelegate(AddUpdateOrdersByProcess), updateIM, orders, deltas);
 					return;
 				}
 				try
@@ -641,7 +641,7 @@ namespace ROC
 						secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 						if (secInfo != null)
 						{
-							rows = rocOrdersList.RocGridTable.Select(string.Concat(new object[] { "SymbolDetail = '", symbolDetail, "'" }));
+							rows = rocOrdersList.RocGridTable.Select($"SymbolDetail = '{symbolDetail}'");
 							foreach (DataRow row in rows)
 							{
 								row["TickSize"] = secInfo.TickSize;
@@ -692,7 +692,7 @@ namespace ROC
 
 					order = UpdateOrdersWithSecurityInfo(order);
 
-					rocOrdersList.RocGridTable.Rows.Add(new object[] {
+					rocOrdersList.RocGridTable.Rows.Add(
 						order.Tag,
 						order.Symbol,
 						order.SymbolDetail,
@@ -720,7 +720,8 @@ namespace ROC
 						order.SecType,
 						order.Text,
 						order.ParentTag,
-						order.ClientEcho });
+						order.ClientEcho
+						);
 
 						switch (order.SecType)
 						{

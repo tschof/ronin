@@ -441,6 +441,7 @@ namespace MarketData
 			}
 		}
 
+		// Adds and overwrites fields only, won't remove fields.
 		private static void mergeFields<T>(List<T> targetFields, byte[] targetIndexes, List<T> sourceFields, byte[] sourceIndexes, FieldEnum start, FieldEnum stop, bool clobber)
 		{
 			for (byte fieldId = (byte)start; fieldId < (byte)stop; ++fieldId) {

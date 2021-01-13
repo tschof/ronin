@@ -82,7 +82,7 @@ namespace ROC
 				{
 					foreach (var sector in symbols) {
 						foreach (string symbol in sector) {
-							table.Rows.Add(new object[] { symbol });
+							table.Rows.Add(symbol);
 						}
 					}
 					HelperFile.Save(table, Configuration.Path.Default.OptionConfigPath, PLUS_ONE_MONTH_FILE);
@@ -157,10 +157,10 @@ namespace ROC
 				if (showAs64Table.Rows.Count == 0)
 				{
 					// Energy
-					showAs64Table.Rows.Add(new object[] { "ZB" });
-					showAs64Table.Rows.Add(new object[] { "ZN" });
-					showAs64Table.Rows.Add(new object[] { "ZF" });
-					showAs64Table.Rows.Add(new object[] { "ZT" });
+					showAs64Table.Rows.Add("ZB");
+					showAs64Table.Rows.Add("ZN");
+					showAs64Table.Rows.Add("ZF");
+					showAs64Table.Rows.Add("ZT");
 
 					HelperFile.Save(showAs64Table, Configuration.Path.Default.OptionConfigPath, _showAs64FileName);
 				}
@@ -289,15 +289,15 @@ namespace ROC
 				if (exchangeTable.Rows.Count == 0)
 				{
 
-					exchangeTable.Rows.Add(new object[] { "NYSE AMEX", "AMEX", "A", "#FFFF00" });
-					exchangeTable.Rows.Add(new object[] { "Boston Stock Exchange", "BOX", "B", "#FF4500" });
-					exchangeTable.Rows.Add(new object[] { "Chicago Board Options Exchange", "CBOE", "C", "#ADFF2F" });
-					exchangeTable.Rows.Add(new object[] { "International Securities Exchange", "ISE", "I", "#00BFFF" });
-					exchangeTable.Rows.Add(new object[] { "NYSE ARCA", "PCX", "N", "#FFA500" });
-					exchangeTable.Rows.Add(new object[] { "NASDAQ Stock Market", "NSDQ", "Q", "#FFFFFF" });
-					exchangeTable.Rows.Add(new object[] { "C2", "C2", "W", "#BDB76B" });
-					exchangeTable.Rows.Add(new object[] { "NASDAQ OMX PHLX", "AMEX", "X", "#9370D8" });
-					exchangeTable.Rows.Add(new object[] { "BATS", "BATS", "Z", "#EE82EE" });
+					exchangeTable.Rows.Add("NYSE AMEX", "AMEX", "A", "#FFFF00");
+					exchangeTable.Rows.Add("Boston Stock Exchange", "BOX", "B", "#FF4500");
+					exchangeTable.Rows.Add("Chicago Board Options Exchange", "CBOE", "C", "#ADFF2F");
+					exchangeTable.Rows.Add("International Securities Exchange", "ISE", "I", "#00BFFF");
+					exchangeTable.Rows.Add("NYSE ARCA", "PCX", "N", "#FFA500");
+					exchangeTable.Rows.Add("NASDAQ Stock Market", "NSDQ", "Q", "#FFFFFF");
+					exchangeTable.Rows.Add("C2", "C2", "W", "#BDB76B");
+					exchangeTable.Rows.Add("NASDAQ OMX PHLX", "AMEX", "X", "#9370D8");
+					exchangeTable.Rows.Add("BATS", "BATS", "Z", "#EE82EE");
 
 					HelperFile.Save(exchangeTable, Configuration.Path.Default.OptionConfigPath, _exchangeConfigFileName);
 				}

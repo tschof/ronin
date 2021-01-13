@@ -385,7 +385,7 @@ namespace ROC
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new AddUpdateTradesDelegate(AddUpdateTrades), new object[] { trades });
+				BeginInvoke(new AddUpdateTradesDelegate(AddUpdateTrades), trades);
 				return;
 			}
 
@@ -434,7 +434,7 @@ namespace ROC
 				}
 			} else {
 				if (InvokeRequired) {
-					BeginInvoke(new AddUpdateTradesByProcessDelegate(AddUpdateTradesByProcess), new object[] { updateIM, trades });
+					BeginInvoke(new AddUpdateTradesByProcessDelegate(AddUpdateTradesByProcess), updateIM, trades);
 					return;
 				}
 
@@ -554,7 +554,7 @@ namespace ROC
 
 		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
 		{
-			DataRow[] rows = rocTradesList.RocGridTable.Select(string.Concat(new object[] { "SymbolDetail = '", symbolDetail, "'" }));
+			DataRow[] rows = rocTradesList.RocGridTable.Select($"SymbolDetail = '{symbolDetail}'");
 			foreach (DataRow row in rows)
 			{
 				row["Symbol"] = secInfo.MDSymbol;
@@ -1115,11 +1115,11 @@ namespace ROC
 				default:
 					if (rocTradesList.FilterOutAccounts.Contains(e.PropertyName))
 					{
-						rocTradesList.FilterOutAccounts = rocTradesList.FilterOutAccounts.Replace(string.Concat(new object[] { e.PropertyName }), "");
+						rocTradesList.FilterOutAccounts = rocTradesList.FilterOutAccounts.Replace(e.PropertyName, "");
 					}
 					else
 					{
-						rocTradesList.FilterOutAccounts = string.Concat(new object[] { rocTradesList.FilterOutAccounts, " ", e.PropertyName });
+						rocTradesList.FilterOutAccounts = string.Concat(rocTradesList.FilterOutAccounts, " ", e.PropertyName);
 					}
 					break;
 			}
@@ -1168,8 +1168,6 @@ namespace ROC
 			}
 
 			cmdAccounts.Text = filters;
-
-			//cmdAccounts.Text = string.Concat(new object[] { "Acct Filtered:", " ", rocTradesList.FilterOutAccounts });
 		}
 
 		private string SetAccountFilters(Dictionary<string, AccountMap> accts, string filters)
@@ -1184,7 +1182,7 @@ namespace ROC
 					}
 					else if (!filters.Contains(acct.clearingAcIDShort))
 					{
-						filters = string.Concat(new object[] { filters, " ", acct.clearingAcIDShort });
+						filters = string.Concat(filters, " ", acct.clearingAcIDShort);
 					}
 				}
 			}

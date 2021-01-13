@@ -427,17 +427,6 @@ namespace RDSEx
 
 		#endregion // - ISerialization -
 
-		public static string GetStrikFormat(double strikePrice)
-		{
-			string str = strikePrice.ToString("F7");
-			string[] strs = str.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-
-			if (strs.Length == 2) {
-				return "F" + strs[1].TrimEnd(new char[] { '0' }).Length.ToString();
-			}
-			return "F2";
-		}
-
 		#region - private members -
 		private DateTime _endTime = DateTime.MinValue;
 		private string _maturityDay= "";

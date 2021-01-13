@@ -539,7 +539,7 @@ namespace ROC
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new System.Action<bool, Market>(UpdateWatchListByProcess), new object[] { updateIM, deltas });
+				BeginInvoke(new System.Action<bool, Market>(UpdateWatchListByProcess), updateIM, deltas);
 				return;
 			}
 
@@ -633,7 +633,7 @@ namespace ROC
 					break;
 			}
 
-			DataRow[] rows = rocWatchList.RocGridTable.Select(string.Concat(new object[] { "SymbolDetail = '", symbolDetail, "'" }));
+			DataRow[] rows = rocWatchList.RocGridTable.Select($"SymbolDetail = '{symbolDetail}'");
 			foreach (DataRow row in rows)
 			{
 				row["Symbol"] = secInfo.MDSymbol.Replace("/P", "/PR");

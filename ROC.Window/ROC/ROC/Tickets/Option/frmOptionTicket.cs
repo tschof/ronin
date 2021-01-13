@@ -347,7 +347,7 @@ namespace ROC
 
 		private bool _showOnlySelectedExchange = false;
 
-		private char[] _trimZero = new char[] { '0' };
+		private const string STRIKE_FORMAT = "0.00#####";
 
 		//DataTable _localTable = new DataTable();
 		private double _strikeHigh;
@@ -871,7 +871,7 @@ namespace ROC
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new rocOptionList_ProcessingChangedDelegate(rocOptionList_ProcessingChanged), new object[] { sender, e });
+				BeginInvoke(new rocOptionList_ProcessingChangedDelegate(rocOptionList_ProcessingChanged), sender, e);
 				return;
 			}
 
@@ -974,7 +974,7 @@ namespace ROC
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new rocOptionList_RefreshSharedRowsChangedDelegate(rocOptionList_RefreshSharedRowsChanged), new object[] { sender, e });
+				BeginInvoke(new rocOptionList_RefreshSharedRowsChangedDelegate(rocOptionList_RefreshSharedRowsChanged), sender, e);
 				return;
 			}
 
@@ -1021,7 +1021,7 @@ namespace ROC
 
 				if (StrikeKeys.Contains(rocOptionList.OptionStrike))
 				{
-					cboStrike.Text = rocOptionList.OptionStrike.ToString(GetStrikFormat(rocOptionList.OptionStrike));
+					cboStrike.Text = rocOptionList.OptionStrike.ToString(STRIKE_FORMAT);
 				}
 			}
 		}
@@ -1069,7 +1069,7 @@ namespace ROC
 
 			if (StrikeKeys.Contains(rocOptionList.OptionStrike))
 			{
-				cboStrike.Text = rocOptionList.OptionStrike.ToString(GetStrikFormat(rocOptionList.OptionStrike));
+				cboStrike.Text = rocOptionList.OptionStrike.ToString(STRIKE_FORMAT);
 			}
 
 			if (ExpDateKeys.Contains(rocOptionList.OptionExpiration))
@@ -1503,7 +1503,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), new object[] { updateIM, orders, deltas, symbolList });
+					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), updateIM, orders, deltas, symbolList);
 					return;
 				}
 				try
@@ -2725,7 +2725,7 @@ namespace ROC
 								if (!_resetExpirationOnly) {
 									if (!ExpDateKeys.Contains(expDate)) {
 										ExpDateKeys.Add(expDate);
-										expirationTable.Rows.Add(new object[] { expDate, opt.ExpDate, ConvertToDisplayDate(expDate) });
+										expirationTable.Rows.Add(expDate, opt.ExpDate, ConvertToDisplayDate(expDate));
 									}
 								}
 
@@ -2737,7 +2737,7 @@ namespace ROC
 								//{
 								if (!StrikeKeys.Contains(stkPrice)) {
 									StrikeKeys.Add(stkPrice);
-									strikeTable.Rows.Add(new object[] { stkPrice, (stkPrice).ToString(GetStrikFormat(stkPrice)) });
+									strikeTable.Rows.Add(stkPrice, (stkPrice).ToString(STRIKE_FORMAT));
 								}
 								//}
 
@@ -3044,18 +3044,6 @@ namespace ROC
 			{
 				GLOBAL.HROC.AddToException(ex);
 			}
-		}
-
-		private string GetStrikFormat(double strikePrice)
-		{
-			string str = strikePrice.ToString("F7");
-			string[] strs = str.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-
-			if (strs.Length == 2)
-			{
-				return "F" + strs[1].TrimEnd(_trimZero).Length.ToString();
-			}
-			return "F2";
 		}
 
 		private void UpdateOptionChainStart()
@@ -4052,28 +4040,23 @@ namespace ROC
 			}
 		}
 
+		private string GetPriceText(NumericUpDownEx.NumericUpDownBase priceControl, TextBox textBox)
+		{
+			string priceText = priceControl.Value.ToString("######0.00#####");
+
+			if (textBox.Text != priceText)
+				return string.Format("{0} ({1})", textBox.Text, priceText);
+			return priceText;
+		}
+
 		private string GetDisplayLimitPrice()
 		{
-			if (dspLimitPrice.Text != numLimitPrice.Value.ToString("######0.00#####"))
-			{
-				return string.Format("{0} ({1})", new object[] { dspLimitPrice.Text, numLimitPrice.Value.ToString("######0.00#####") });
-			}
-			else
-			{
-				return numLimitPrice.Value.ToString("######0.00#####");
-			}
+			return GetPriceText(numLimitPrice, dspLimitPrice);
 		}
 
 		private string GetDisplayStopPrice()
 		{
-			if (dspStopPrice.Text != numStopPrice.Value.ToString("######0.00#####"))
-			{
-				return string.Format("{0} ({1})", new object[] { dspStopPrice.Text, numStopPrice.Value.ToString("######0.00#####") });
-			}
-			else
-			{
-				return numStopPrice.Value.ToString("######0.00#####");
-			}
+			return GetPriceText(numStopPrice, dspStopPrice);
 		}
 
 		private void ResetTicketValues()

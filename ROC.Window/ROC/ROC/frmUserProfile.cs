@@ -1,11 +1,10 @@
 using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using FormEx;
 using DataGridViewEx;
 using RDSEx;
-using System.Drawing;
-using System.Collections.Generic;
 
 namespace ROC
 {
@@ -69,11 +68,11 @@ namespace ROC
 			{
 				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
 				{
-					node = grid.Nodes.Add(new object[] { "Trader", trader.tradeFor });
+					node = grid.Nodes.Add("Trader", trader.tradeFor);
 					node.DefaultCellStyle.Font = rocUserProfile.NodeFont;
 
-					node.Nodes.Add(new object[] { "TradeFor", trader.tradeFor });
-					node.Nodes.Add(new object[] { "LocalAcAcrn", trader.localAcAcrn });
+					node.Nodes.Add("TradeFor", trader.tradeFor);
+					node.Nodes.Add("LocalAcAcrn", trader.localAcAcrn );
 
 					LoadAccounts(AccountTypes.Stock, node, trader.CSAccounts);
 					LoadAccounts(AccountTypes.Option, node, trader.OPTAccounts);
@@ -89,32 +88,32 @@ namespace ROC
 
 			foreach (AccountMap acctMap in accounts.Values)
 			{
-				acctNode = node.Nodes.Add(new object[] { type, acctMap.localAcAcrn });
+				acctNode = node.Nodes.Add(type, acctMap.localAcAcrn);
 				acctNode.DefaultCellStyle.Font = rocUserProfile.NodeFont;
 
-				acctNode.Nodes.Add(new object[] { "InterfaceID", acctMap.interfaceID });
-				acctNode.Nodes.Add(new object[] { "account", acctMap.account });
-				acctNode.Nodes.Add(new object[] { "type", acctMap.type });
-				acctNode.Nodes.Add(new object[] { "clearingAcID", acctMap.clearingAcID });
-				acctNode.Nodes.Add(new object[] { "localAcAcrn", acctMap.localAcAcrn });
-				acctNode.Nodes.Add(new object[] { "firmAcr", acctMap.firmAcr });
-				acctNode.Nodes.Add(new object[] { "omAcctType", acctMap.omAcctType });
-				acctNode.Nodes.Add(new object[] { "capacity", acctMap.capacity });
-				acctNode.Nodes.Add(new object[] { "clearingFirmID", acctMap.clearingFirmID });
-				acctNode.Nodes.Add(new object[] { "occAcr", acctMap.occAcr });
-				acctNode.Nodes.Add(new object[] { "homeExchange", acctMap.homeExchange });
+				acctNode.Nodes.Add("InterfaceID", acctMap.interfaceID);
+				acctNode.Nodes.Add("account", acctMap.account);
+				acctNode.Nodes.Add("type", acctMap.type);
+				acctNode.Nodes.Add("clearingAcID", acctMap.clearingAcID);
+				acctNode.Nodes.Add("localAcAcrn", acctMap.localAcAcrn);
+				acctNode.Nodes.Add("firmAcr", acctMap.firmAcr);
+				acctNode.Nodes.Add("omAcctType", acctMap.omAcctType);
+				acctNode.Nodes.Add("capacity", acctMap.capacity);
+				acctNode.Nodes.Add("clearingFirmID", acctMap.clearingFirmID);
+				acctNode.Nodes.Add("occAcr", acctMap.occAcr);
+				acctNode.Nodes.Add("homeExchange", acctMap.homeExchange);
 
 				foreach (DestinationMap destMap in acctMap.Destinations)
 				{
-					destNode = acctNode.Nodes.Add(new object[] { "Dest", destMap.shortName });
+					destNode = acctNode.Nodes.Add("Dest", destMap.shortName);
 					destNode.DefaultCellStyle.Font = rocUserProfile.NodeFont;
 
-					destNode.Nodes.Add(new object[] { "destID", destMap.destID });
-					destNode.Nodes.Add(new object[] { "secType", destMap.secType });
-					destNode.Nodes.Add(new object[] { "shortName", destMap.shortName });
-					destNode.Nodes.Add(new object[] { "giveupFirmID", destMap.giveupFirmID });
-					destNode.Nodes.Add(new object[] { "descmtaFirmIDtID", destMap.cmtaFirmID });
-					destNode.Nodes.Add(new object[] { "algoFlag", destMap.algoFlag });
+					destNode.Nodes.Add("destID", destMap.destID);
+					destNode.Nodes.Add("secType", destMap.secType);
+					destNode.Nodes.Add("shortName", destMap.shortName);
+					destNode.Nodes.Add("giveupFirmID", destMap.giveupFirmID);
+					destNode.Nodes.Add("descmtaFirmIDtID", destMap.cmtaFirmID);
+					destNode.Nodes.Add("algoFlag", destMap.algoFlag);
 				}
 			}
 		}

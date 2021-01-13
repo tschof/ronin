@@ -737,7 +737,7 @@ namespace ROC
 			{
 				if (CurrentOrder.Side == CSVFieldIDs.SideCodes.None)
 				{
-					orderMsg = string.Concat(new object[] { "Missing Side For Order " + CurrentOrder.Tag });
+					orderMsg = "Missing Side For Order " + CurrentOrder.Tag;
 				}
 
 				_settingData = GLOBAL.HSymbolSettingData.GetSymbolDefaults(CurrentOrder.SecType);
@@ -758,7 +758,7 @@ namespace ROC
 			}
 			else
 			{
-				orderMsg = string.Concat(new object[] { "Order Not Found " + orderID });
+				orderMsg = "Order Not Found " + orderID;
 			}
 		}
 

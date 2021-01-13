@@ -126,28 +126,28 @@ namespace ROC
 			{
 				if (csvConfigTable.Rows.Count == 0)
 				{
-					csvConfigTable.Rows.Add(new object[] { "Symbol", "0", "" });
-					csvConfigTable.Rows.Add(new object[] { "Qty", "1", "" });
-					csvConfigTable.Rows.Add(new object[] { "Side", "2", "" });
-					csvConfigTable.Rows.Add(new object[] { "Price", "3", "" });
-					csvConfigTable.Rows.Add(new object[] { "Exchange", "4", "" });
-					csvConfigTable.Rows.Add(new object[] { "LocalAccountAcrn", "5", "" });
-					csvConfigTable.Rows.Add(new object[] { "TraderFor", "6", "" });
-					csvConfigTable.Rows.Add(new object[] { "Display", "7", "" });
-					csvConfigTable.Rows.Add(new object[] { "ShortLender", "8", "" });
-					csvConfigTable.Rows.Add(new object[] { "Duration", "9", "" });
-					csvConfigTable.Rows.Add(new object[] { "OrderType", "10", "" });
-					csvConfigTable.Rows.Add(new object[] { "Instruction", "11", "" });
-					csvConfigTable.Rows.Add(new object[] { "AlgoType", "12", "" });
-					csvConfigTable.Rows.Add(new object[] { "ExecInstruction", "13", "" });
-					csvConfigTable.Rows.Add(new object[] { "StopPrice", "14", "" });
-					csvConfigTable.Rows.Add(new object[] { "StartTime", "15", "" });
-					csvConfigTable.Rows.Add(new object[] { "EndTime", "16", "" });
-					csvConfigTable.Rows.Add(new object[] { "Note", "", "" });
-					csvConfigTable.Rows.Add(new object[] { "PegPrice", "", "" });
-					csvConfigTable.Rows.Add(new object[] { "ProgramTrade", "", "" });
-					csvConfigTable.Rows.Add(new object[] { "CSVStartLine", "", "0" });
-					csvConfigTable.Rows.Add(new object[] { "CSVEndLine", "", "0" });
+					csvConfigTable.Rows.Add("Symbol", "0", "");
+					csvConfigTable.Rows.Add("Qty", "1", "");
+					csvConfigTable.Rows.Add("Side", "2", "");
+					csvConfigTable.Rows.Add("Price", "3", "");
+					csvConfigTable.Rows.Add("Exchange", "4", "");
+					csvConfigTable.Rows.Add("LocalAccountAcrn", "5", "");
+					csvConfigTable.Rows.Add("TraderFor", "6", "");
+					csvConfigTable.Rows.Add("Display", "7", "");
+					csvConfigTable.Rows.Add("ShortLender", "8", "");
+					csvConfigTable.Rows.Add("Duration", "9", "");
+					csvConfigTable.Rows.Add("OrderType", "10", "");
+					csvConfigTable.Rows.Add("Instruction", "11", "");
+					csvConfigTable.Rows.Add("AlgoType", "12", "");
+					csvConfigTable.Rows.Add("ExecInstruction", "13", "");
+					csvConfigTable.Rows.Add("StopPrice", "14", "");
+					csvConfigTable.Rows.Add("StartTime", "15", "");
+					csvConfigTable.Rows.Add("EndTime", "16", "");
+					csvConfigTable.Rows.Add("Note", "", "");
+					csvConfigTable.Rows.Add("PegPrice", "", "");
+					csvConfigTable.Rows.Add("ProgramTrade", "", "");
+					csvConfigTable.Rows.Add("CSVStartLine", "", "0");
+					csvConfigTable.Rows.Add("CSVEndLine", "", "0");
 
 					HelperFile.Save(csvConfigTable, Configuration.Path.Default.CSVConfigPath, _filename);
 				}

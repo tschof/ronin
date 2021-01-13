@@ -1499,7 +1499,7 @@ namespace ROC
 						}
 						count = count + 1;
 
-						resubscribeStatus = string.Format("{0}/{1}/{2}", new object[] { total, count, resubCount });
+						resubscribeStatus = string.Format("{0}/{1}/{2}", total, count, resubCount);
 					}
 				}
 			}

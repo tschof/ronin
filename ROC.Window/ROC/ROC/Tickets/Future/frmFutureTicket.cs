@@ -969,7 +969,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), new object[] { updateIM, orders, deltas });
+					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), updateIM, orders, deltas);
 					return;
 				}
 
@@ -2414,7 +2414,7 @@ namespace ROC
 		{
 			if (dspLimitPrice.Text != numLimitPrice.Value.ToString("######0.00#####"))
 			{
-				return string.Format("{0} ({1})", new object[] { dspLimitPrice.Text, numLimitPrice.Value.ToString("######0.00#####") });
+				return string.Format("{0} ({1:######0.00#####})", dspLimitPrice.Text, numLimitPrice.Value);
 			}
 			else
 			{
@@ -2426,7 +2426,7 @@ namespace ROC
 		{
 			if (dspStopPrice.Text != numStopPrice.Value.ToString("######0.00#####"))
 			{
-				return string.Format("{0} ({1})", new object[] { dspStopPrice.Text, numStopPrice.Value.ToString("######0.00#####") });
+				return string.Format("{0} ({1:######0.00#####})", dspStopPrice.Text, numStopPrice.Value);
 			}
 			else
 			{

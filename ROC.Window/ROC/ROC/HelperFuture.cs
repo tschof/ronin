@@ -68,14 +68,14 @@ namespace ROC
 				if (plusOneMonthTable.Rows.Count == 0)
 				{
 					// Energy
-					plusOneMonthTable.Rows.Add(new object[] { "QM" });
-					plusOneMonthTable.Rows.Add(new object[] { "XGN" });
-					plusOneMonthTable.Rows.Add(new object[] { "QO" });
-					plusOneMonthTable.Rows.Add(new object[] { "EN" });
-					plusOneMonthTable.Rows.Add(new object[] { "CO" });
-					plusOneMonthTable.Rows.Add(new object[] { "QG" });
-					plusOneMonthTable.Rows.Add(new object[] { "QI" });
-					plusOneMonthTable.Rows.Add(new object[] { "SB" });
+					plusOneMonthTable.Rows.Add("QM");
+					plusOneMonthTable.Rows.Add("XGN");
+					plusOneMonthTable.Rows.Add("QO");
+					plusOneMonthTable.Rows.Add("EN");
+					plusOneMonthTable.Rows.Add("CO");
+					plusOneMonthTable.Rows.Add("QG");
+					plusOneMonthTable.Rows.Add("QI");
+					plusOneMonthTable.Rows.Add("SB");
 
 					HelperFile.Save(plusOneMonthTable, Configuration.Path.Default.FutureConfigPath, _plusOneMonthFileName);
 				}
@@ -144,23 +144,23 @@ namespace ROC
 			{
 				if (doNotTranslateTable.Rows.Count == 0)
 				{
-					doNotTranslateTable.Rows.Add(new object[] { "FF" });
-					doNotTranslateTable.Rows.Add(new object[] { "MW" });
-					doNotTranslateTable.Rows.Add(new object[] { "US" });
-					doNotTranslateTable.Rows.Add(new object[] { "TY" });
-					doNotTranslateTable.Rows.Add(new object[] { "FV" });
-					doNotTranslateTable.Rows.Add(new object[] { "TU" });
-					doNotTranslateTable.Rows.Add(new object[] { "ER" });
-					doNotTranslateTable.Rows.Add(new object[] { "AD" });
-					doNotTranslateTable.Rows.Add(new object[] { "BP" });
-					doNotTranslateTable.Rows.Add(new object[] { "CD" });
-					doNotTranslateTable.Rows.Add(new object[] { "EC" });
-					doNotTranslateTable.Rows.Add(new object[] { "JY" });
-					doNotTranslateTable.Rows.Add(new object[] { "SF" });
-					doNotTranslateTable.Rows.Add(new object[] { "NK" });
-					doNotTranslateTable.Rows.Add(new object[] { "JE" });
-					doNotTranslateTable.Rows.Add(new object[] { "ED" });
-					doNotTranslateTable.Rows.Add(new object[] { "UL" });
+					doNotTranslateTable.Rows.Add("FF");
+					doNotTranslateTable.Rows.Add("MW");
+					doNotTranslateTable.Rows.Add("US");
+					doNotTranslateTable.Rows.Add("TY");
+					doNotTranslateTable.Rows.Add("FV");
+					doNotTranslateTable.Rows.Add("TU");
+					doNotTranslateTable.Rows.Add("ER");
+					doNotTranslateTable.Rows.Add("AD");
+					doNotTranslateTable.Rows.Add("BP");
+					doNotTranslateTable.Rows.Add("CD");
+					doNotTranslateTable.Rows.Add("EC");
+					doNotTranslateTable.Rows.Add("JY");
+					doNotTranslateTable.Rows.Add("SF");
+					doNotTranslateTable.Rows.Add("NK");
+					doNotTranslateTable.Rows.Add("JE");
+					doNotTranslateTable.Rows.Add("ED");
+					doNotTranslateTable.Rows.Add("UL");
 
 					HelperFile.Save(doNotTranslateTable, Configuration.Path.Default.FutureConfigPath, _doNotTranslateFileName);
 				}

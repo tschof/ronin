@@ -623,7 +623,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new UpdateBatchMarketByProcessDelegate(UpdateBatchMarketByProcess), new object[] { updateIM, orders, deltas });
+					BeginInvoke(new UpdateBatchMarketByProcessDelegate(UpdateBatchMarketByProcess), updateIM, orders, deltas);
 					return;
 				}
 				try
@@ -767,7 +767,7 @@ namespace ROC
 					break;
 			}
 
-			DataRow[] rows = rocBatchMarket.RocGridTable.Select(string.Concat(new object[] { "SymbolDetail = '", symbolDetail, "'" }));
+			DataRow[] rows = rocBatchMarket.RocGridTable.Select($"SymbolDetail = '{symbolDetail}'");
 			foreach (DataRow row in rows)
 			{
 				row["Symbol"] = secInfo.MDSymbol;

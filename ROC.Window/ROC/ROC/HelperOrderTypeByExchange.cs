@@ -22,13 +22,13 @@ namespace ROC
 
 					if (HelperFile.Load(_orderTypeByExchangeTable, Configuration.Path.Default.OrderTypeConfigPath, _orderTypeByExchangeFileName))
 					{
-						_orderTypeByExchangeTable.Rows.Add(new object[] { "ExchangesSupportExtendedMarketOrderType", "ARCA,INET,NYSE,BATS,EDG" });
-						_orderTypeByExchangeTable.Rows.Add(new object[] { "ExchangesSupportExtendedLimitOrderType", "ARCA,INET,NYSE,BATS,EDG" });
-						_orderTypeByExchangeTable.Rows.Add(new object[] { "ExchangesSupportStopOrderType", "NYSE,GLBX,GLOBEX" });
-						_orderTypeByExchangeTable.Rows.Add(new object[] { "ExchangesSupportLimitStopOrderType", "NYSE,GLBX,GLOBEX" });
-						_orderTypeByExchangeTable.Rows.Add(new object[] { "ExchangesSupportPegMktOrderType", "ARCA,INET,BATS,EDG" });
-						_orderTypeByExchangeTable.Rows.Add(new object[] { "ExchangesSupportPegPriOrderType", "ARCA,INET,BATS,EDG" });
-						_orderTypeByExchangeTable.Rows.Add(new object[] { "ExchangesSupportPegMidOrderType", "INET,BATS,EDG" });
+						_orderTypeByExchangeTable.Rows.Add("ExchangesSupportExtendedMarketOrderType", "ARCA,INET,NYSE,BATS,EDG");
+						_orderTypeByExchangeTable.Rows.Add("ExchangesSupportExtendedLimitOrderType", "ARCA,INET,NYSE,BATS,EDG");
+						_orderTypeByExchangeTable.Rows.Add("ExchangesSupportStopOrderType", "NYSE,GLBX,GLOBEX");
+						_orderTypeByExchangeTable.Rows.Add("ExchangesSupportLimitStopOrderType", "NYSE,GLBX,GLOBEX");
+						_orderTypeByExchangeTable.Rows.Add("ExchangesSupportPegMktOrderType", "ARCA,INET,BATS,EDG");
+						_orderTypeByExchangeTable.Rows.Add("ExchangesSupportPegPriOrderType", "ARCA,INET,BATS,EDG");
+						_orderTypeByExchangeTable.Rows.Add("ExchangesSupportPegMidOrderType", "INET,BATS,EDG");
 						HelperFile.Save(_orderTypeByExchangeTable, Configuration.Path.Default.OrderTypeConfigPath, _orderTypeByExchangeFileName);
 					}
 				}

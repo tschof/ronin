@@ -1005,7 +1005,7 @@ namespace ROC
 			{
 				if (InvokeRequired)
 				{
-					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), new object[] { updateIM, orders, deltas });
+					BeginInvoke(new UpdateTicketByProcessDelegate(UpdateTicketByProcess), updateIM, orders, deltas);
 					return;
 				}
 
@@ -1151,7 +1151,7 @@ namespace ROC
 					break;
 			}
 
-			DataRow[] rows = rocAutoSpreadListSettings.RocGridTable.Select(string.Concat(new object[] { "SymbolDetail = '", symbolDetail, "'" }));
+			DataRow[] rows = rocAutoSpreadListSettings.RocGridTable.Select($"SymbolDetail = '{symbolDetail}'");
 
 			if (rows.Length > 0)
 			{
@@ -2905,21 +2905,21 @@ namespace ROC
 
 				if (item.LegNumber == _autoSpreadSupport.PrimeLegNumber)
 				{
-					legPrices = legPrices + string.Format("{0, -6}  BID {1, 8}  ASK {2, 8} Last {3, 8} \r\n", new object[] { item.SymbolDetail, item.BidPriceSTR, item.AskPriceSTR, item.TradedPriceSTR });
-					legPrices = legPrices + string.Format("{0, -6}  BUY {1, 8} SELL {2, 8} \r\n", new object[] { "", item.BuyLimitPriceSTR, item.SellLimitPriceSTR });
-					legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", new object[] { item.TickLimit, item.BuyLimitPriceFromBidPrice, item.SellLimitPriceFromAskPrice });
+					legPrices = legPrices + string.Format("{0, -6}  BID {1, 8}  ASK {2, 8} Last {3, 8} \r\n", item.SymbolDetail, item.BidPriceSTR, item.AskPriceSTR, item.TradedPriceSTR);
+					legPrices = legPrices + string.Format("{0, -6}  BUY {1, 8} SELL {2, 8} \r\n", "", item.BuyLimitPriceSTR, item.SellLimitPriceSTR);
+					legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", item.TickLimit, item.BuyLimitPriceFromBidPrice, item.SellLimitPriceFromAskPrice);
 				}
 				else if (_autoSpreadSupport.IsFlipped(_autoSpreadSupport.PrimeFactor, item.Factor))
 				{
-					legPrices = legPrices + string.Format("{0, -6}  ASK {1, 8}  BID {2, 8} Last {3, 8} \r\n", new object[] { item.SymbolDetail, item.AskPriceSTR, item.BidPriceSTR, item.TradedPriceSTR });
-					legPrices = legPrices + string.Format("{0, -6} SELL {1, 8}  BUY {2, 8} \r\n", new object[] { "", item.SellLimitPriceSTR, item.BuyLimitPriceSTR });
-					legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", new object[] { item.TickLimit, item.SellLimitPriceFromAskPrice, item.BuyLimitPriceFromBidPrice });
+					legPrices = legPrices + string.Format("{0, -6}  ASK {1, 8}  BID {2, 8} Last {3, 8} \r\n", item.SymbolDetail, item.AskPriceSTR, item.BidPriceSTR, item.TradedPriceSTR);
+					legPrices = legPrices + string.Format("{0, -6} SELL {1, 8}  BUY {2, 8} \r\n", "", item.SellLimitPriceSTR, item.BuyLimitPriceSTR);
+					legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", item.TickLimit, item.SellLimitPriceFromAskPrice, item.BuyLimitPriceFromBidPrice);
 				}
 				else
 				{
-					legPrices = legPrices + string.Format("{0, -6}  BID {1, 8}  ASK {2, 8} Last {3, 8} \r\n", new object[] { item.SymbolDetail, item.BidPriceSTR, item.AskPriceSTR, item.TradedPriceSTR });
-					legPrices = legPrices + string.Format("{0, -6}  BUY {1, 8} SELL {2, 8} \r\n", new object[] { "", item.BuyLimitPriceSTR, item.SellLimitPriceSTR });
-					legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", new object[] { item.TickLimit, item.BuyLimitPriceFromBidPrice, item.SellLimitPriceFromAskPrice });
+					legPrices = legPrices + string.Format("{0, -6}  BID {1, 8}  ASK {2, 8} Last {3, 8} \r\n", item.SymbolDetail, item.BidPriceSTR, item.AskPriceSTR, item.TradedPriceSTR);
+					legPrices = legPrices + string.Format("{0, -6}  BUY {1, 8} SELL {2, 8} \r\n", "", item.BuyLimitPriceSTR, item.SellLimitPriceSTR);
+					legPrices = legPrices + string.Format("({0, 4}) TICK {1, 8} TICK {2, 8} \r\n", item.TickLimit, item.BuyLimitPriceFromBidPrice, item.SellLimitPriceFromAskPrice);
 				}
 			}
 

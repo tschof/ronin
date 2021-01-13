@@ -66,13 +66,13 @@ namespace ROC
 							case "CTA":
 								foreach (string key in Constants.L2PartipcantCodeCTA.Codes)
 								{
-									mds.Subscribe(string.Concat(new object[] { symbol, ".", key }), source, "", secType);
+									mds.Subscribe(string.Concat(symbol, ".", key), source, "", secType);
 								}
 								break;
 							case "NASDAQ":
 								foreach (string key in Constants.L2PartipcantCodeNasdaq.Codes)
 								{
-									mds.Subscribe(string.Concat(new object[] { symbol, ".", key }), source, "", secType);
+									mds.Subscribe(string.Concat(symbol, ".", key), source, "", secType);
 								}
 								break;
 						}
@@ -123,7 +123,7 @@ namespace ROC
 						OptionExchangeCode.ForEach((code, name) => {
 							if (exchanges.Contains(code)) {
 								mds.Subscribe(
-									string.Concat(new object[] { symbol, ".", code }), 
+									string.Concat(symbol, ".", code), 
 									Constants.OptionDataSource.OPRA, 
 									"", 
 									CSVFieldIDs.SecurityTypes.Option);
@@ -133,7 +133,7 @@ namespace ROC
 					else
 					{
 						OptionExchangeCode.ForEach((code, name) => {
-							mds.Subscribe(string.Concat(new object[] { symbol, ".", code }), Constants.OptionDataSource.OPRA, "", CSVFieldIDs.SecurityTypes.Option);
+							mds.Subscribe(string.Concat(symbol, ".", code), Constants.OptionDataSource.OPRA, "", CSVFieldIDs.SecurityTypes.Option);
 						});
 					}
 

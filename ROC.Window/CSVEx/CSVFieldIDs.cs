@@ -309,19 +309,6 @@ namespace CSVEx
 
 			public const string Close = "0";
 			public const string Open = "1";
-
-			public static string GetDescription(string which)
-			{
-				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
-				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
-			}
-
-			private static (string, string)[] _descriptions = new (string, string)[] {
-				(Put, "Put"),
-				(Call, "Call"),
-				(Close, "Close"),
-				(Open, "Open")
-			};
 		}
 
 		public sealed class SecurityTypes
@@ -336,25 +323,6 @@ namespace CSVEx
 			public const string OptionFuture = "M";
 			public const string Spread = "S";
 			public const string Forex = "X";
-
-			public static string GetDescription(string which)
-			{
-				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
-				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
-			}
-
-			private static (string, string)[] _descriptions = new (string, string)[] {
-				(Equity, "Equity"),
-				(Future, "Future"),
-				(Option, "Option"),
-				(OptionIndex, "OptionIndex"),
-				(SingleStockFuture, "SingleStockFuture"),
-				(FutureIndex, "FutureIndex"),
-				(FutureCurrency, "FutureCurrency"),
-				(OptionFuture, "OptionFuture"),
-				(Spread, "Spread"),
-				(Forex, "Forex")
-			};
 
 			public static string EquityFilter { get; } = $"SecType = '{Equity}'";
 			public static string FutureFilter { get; } = $"SecType = '{Future}'";
@@ -392,61 +360,12 @@ namespace CSVEx
 			public const string CustDisp = "U";
 			public const string Netting = "V";
 			public const string VWAPPeg = "W";
-
-			public static string GetDescription(string which)
-			{
-				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
-				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
-			}
-
-			private static (string, string)[] _descriptions = new (string, string)[] {
-				(NotHeld, "NotHeld"),
-				(Work, "Work"),
-				(GoAlong, "GoAlong"),
-				(OverTheDay, "OverTheDay"),
-				(Held, "Held"),
-				(PartNoInit, "PartNoInit"),
-				(StrictScale, "StrictScale"),
-				(TryScale, "TryScale"),
-				(StayOnBid, "StayOnBid"),
-				(StayOnOffer, "StayOnOffer"),
-				(NoCross, "NoCross"),
-				(OkToCross, "OkToCross"),
-				(CallFirst, "CallFirst"),
-				(PctOfVol, "PctOfVol"),
-				(DNI, "DNI"),
-				(DNR, "DNR"),
-				(AON, "AON"),
-				(InstOnly, "InstOnly"),
-				(LastPeg, "LastPeg"),
-				(MidPricePeg, "MidPricePeg"),
-				(NonNegot, "NonNegot"),
-				(OpeningPeg, "OpeningPeg"),
-				(MarketPeg, "MarketPeg"),
-				(PrimaryPeg, "PrimaryPeg"),
-				(Suspend, "Suspend"),
-				(FixedPeg, "FixedPeg"),
-				(CustDisp, "CustDisp"),
-				(Netting, "Netting"),
-				(VWAPPeg, "VWAPPeg")
-			};
 		}
 
 		public sealed class CplxOrderTypes
 		{
 			public const int Container = 5;
 			public const int Leg = 6;
-
-			public static string GetDescription(int which)
-			{
-				int i = System.Array.FindIndex(_descriptions, n => n.Item1 == which);
-				return (i < 0) ? which.ToString() : _descriptions[i].Item2;
-			}
-
-			private static (int, string)[] _descriptions = new (int, string)[] {
-				(Container, "Continer"),
-				(Leg, "Leg")
-			};
 		}
 
 		public sealed class PegOrderExecInstructions

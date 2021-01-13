@@ -68,7 +68,7 @@ namespace ROC.Tickets.AutoSpread
 
 		internal string GetOrderID(string orderIDBase, string legNumber, string limitPrice, string stopPrice)
 		{
-			return string.Format("{0};{1};{2};{3}", new object[] { orderIDBase, legNumber, limitPrice, stopPrice });
+			return string.Join(";", orderIDBase, legNumber, limitPrice, stopPrice);
 		}
 
 		internal string GetParentTag(string orderIDBase, ParentTagKeyItems ptagItems)
@@ -77,7 +77,7 @@ namespace ROC.Tickets.AutoSpread
 		}
 		internal string GetParentTag(string orderIDBase, string limitPrice, string stopPrice, string sideCode, string qty)
 		{
-			return string.Format("{0};{1};{2};{3};{4}", new object[] { orderIDBase, limitPrice, stopPrice, sideCode, qty });
+			return string.Join(";", orderIDBase, limitPrice, stopPrice, sideCode, qty);
 		}
 
 		#endregion
@@ -111,54 +111,6 @@ namespace ROC.Tickets.AutoSpread
 
 			return result;
 		}
-
-		/* Not used.
-		internal Price? GetStopLimitPrice(string side, double price)
-		{
-			Price? stopLimitPrice = null;
-
-			OrderCollection orders = new OrderCollection();
-
-			DataRow[] rows = new DataRow[0];
-			switch (side) {
-				case "Buy":
-					rows = GetOpenOrderRows(CSVFieldIDs.SideCodes.Buy, FilterType.OnlyStopOrder, price);
-					break;
-				case "Sell":
-					rows = GetOpenOrderRows(CSVFieldIDs.SideCodes.Sell, FilterType.OnlyStopOrder, price);
-					break;
-			}
-
-			foreach (DataRow row in rows) {
-				string tag = "";
-				if (row["Tag"] != System.DBNull.Value && row["Tag"].ToString() != "") {
-					tag = row["Tag"].ToString();
-					if (GLOBAL.HOrders.RocItems.TryGetValue(tag, out var found) && !orders.ContainsKey(tag)) {
-						orders.Add(tag, found);
-					}
-				}
-			}
-
-			switch (side) {
-				case "Buy":
-					foreach (ROCOrder order in orders.Values) {
-						if (!stopLimitPrice.HasValue || (stopLimitPrice < order.OrderPrice)) {
-							stopLimitPrice = order.OrderPrice;
-						}
-					}
-					break;
-				case "Sell":
-					foreach (ROCOrder order in orders.Values) {
-						if (!stopLimitPrice.HasValue || (stopLimitPrice > order.OrderPrice)) {
-							stopLimitPrice = order.OrderPrice;
-						}
-					}
-					break;
-			}
-
-			return stopLimitPrice;
-		}
-		*/
 
 		internal OrderCollection GetOpenOrder(string side, double price)
 		{
