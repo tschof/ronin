@@ -1,10 +1,8 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-using DictionaryEx;
-using System.Data;
+using Common;
 
 namespace DataGridViewEx
 {
@@ -205,7 +203,7 @@ namespace DataGridViewEx
 
 			#region - Profile Columns -
 
-			foreach (DGVColumnProfile val in ProfileColumns.Values)
+			foreach ((string _, DGVColumnProfile val) in ProfileColumns)
 			{
 				switch (val.ColumnName)
 				{
@@ -231,7 +229,7 @@ namespace DataGridViewEx
 					case "TraderFor":
 					case "ShortLender":
 					default:
-						SetProfile((DataGridViewColumn)grid.Columns[val.ColumnName], val);
+						SetProfile(grid.Columns[val.ColumnName], val);
 						break;
 				}
 			}
@@ -239,7 +237,7 @@ namespace DataGridViewEx
 			// TODO MSFT Behavior, when display index is duplicated, it defaults to index
 			// http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=115233
 			// Need to set displayindex twice to really set it.
-			foreach (DGVColumnProfile val in ProfileColumns.Values)
+			foreach ((string _, DGVColumnProfile val) in ProfileColumns)
 			{
 				if (grid.Columns.Contains(val.ColumnName))
 				{

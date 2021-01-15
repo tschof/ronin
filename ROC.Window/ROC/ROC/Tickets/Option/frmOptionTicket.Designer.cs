@@ -2219,7 +2219,6 @@ namespace ROC
 			this.rocOptionList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.rocOptionList.ExchangeColors = ((System.Collections.Generic.Dictionary<string, System.Drawing.Color>)(resources.GetObject("rocOptionList.ExchangeColors")));
 			this.rocOptionList.ExpirationRange = 1;
-			this.rocOptionList.Expirations = ((System.Collections.Generic.List<System.DateTime>)(resources.GetObject("rocOptionList.Expirations")));
 			this.rocOptionList.FilterOutAll = false;
 			this.rocOptionList.FilterOutAllWithoutFilter = false;
 			this.rocOptionList.GreenDefault = 243;
@@ -2332,7 +2331,6 @@ namespace ROC
 			this.rocOptionList.ShowOptionSymbolColumn = false;
 			this.rocOptionList.Size = new System.Drawing.Size(604, 209);
 			this.rocOptionList.StrikeRange = 20;
-			this.rocOptionList.Strikes = ((System.Collections.Generic.List<double>)(resources.GetObject("rocOptionList.Strikes")));
 			this.rocOptionList.Subscribe = false;
 			new BindingListEx.ROCBindingList<string>().Add("");
 			this.rocOptionList.TabIndex = 0;

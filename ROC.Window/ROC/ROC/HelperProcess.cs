@@ -1101,7 +1101,7 @@ namespace ROC
 		{
 			if ((trade != null) && !string.IsNullOrEmpty(trade.TradeID) && !trade.IsCanceled)
 			{
-				if (trade.Source == AssetShared.SourceEnum.ROC)
+				if (trade.Source == ROCSecurity.SourceEnum.ROC)
 					GLOBAL.OrderManagers.Update(trade, addToNew);
 
 				lock (GLOBAL.HExecutions.Table)

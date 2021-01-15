@@ -1,10 +1,7 @@
 using System;
-using System.Text;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.Data;
 using System.Globalization;
 using System.Windows.Forms;
 
@@ -23,7 +20,7 @@ namespace DataGridViewEx
 				margins = (Margins)m.Clone();
 			}
 
-			public IList colstoprint;
+			public System.Collections.IList colstoprint;
 			public List<float> colwidths;
 			public List<float> colwidthsoverride;
 			public float coltotalwidth;
@@ -51,19 +48,19 @@ namespace DataGridViewEx
 		PrintDocument printDoc = null;
 
 		// print status items
-		IList rowstoprint;
-		IList colstoprint;          // divided into pagesets for printing
-		int lastrowprinted = -1;
-		int fromPage = 0;
-		int toPage = -1;
+		private List<DataGridViewRow> _rowsToPrint;
+		private List<DataGridViewColumn> _colsToPrint;          // divided into pagesets for printing
+		private int _lastRowPrinted = -1;
+		private int _fromPage = 0;
+		private int _toPage = -1;
 
 		// page formatting options
-		int pageHeight = 0;
-		int pageWidth = 0;
-		int printWidth = 0;
-		float rowheaderwidth = 0;
-		int CurrentPage = 0;
-		PrintRange printRange;
+		private int pageHeight = 0;
+		private int pageWidth = 0;
+		private int printWidth = 0;
+		private float rowheaderwidth = 0;
+		private int CurrentPage = 0;
+		private PrintRange printRange;
 
 		// calculated values
 		private float headerHeight = 0;
@@ -791,14 +788,14 @@ namespace DataGridViewEx
 			if (PrintRange.SomePages == printRange)
 			{
 				// set limits to only print some pages
-				fromPage = printDoc.PrinterSettings.FromPage;
-				toPage = printDoc.PrinterSettings.ToPage;
+				_fromPage = printDoc.PrinterSettings.FromPage;
+				_toPage = printDoc.PrinterSettings.ToPage;
 			}
 			else
 			{
 				// set extremes so that we'll print all pages
-				fromPage = 0;
-				toPage = 2147483647;
+				_fromPage = 0;
+				_toPage = 2147483647;
 			}
 
 			//-----------------------------------------------------------------
@@ -812,44 +809,40 @@ namespace DataGridViewEx
 			// rows to print (handles "selection" and "current page" options
 			if (PrintRange.Selection == printRange)
 			{
-				SortedList temprowstoprint;
-				SortedList tempcolstoprint;
-
 				//if DGV has rows selected, it's easy, selected rows and all visible columns
 				if (0 != _dgv.SelectedRows.Count)
 				{
 					// sort the rows into index order
-					temprowstoprint = new SortedList(_dgv.SelectedRows.Count);
+					_rowsToPrint = new List<DataGridViewRow>(_dgv.SelectedRows.Count);
 					foreach (DataGridViewRow row in _dgv.SelectedRows)
-						temprowstoprint.Add(row.Index, row);
+						_rowsToPrint.Add(row);
+					_rowsToPrint.Sort((a, b) => a.Index.CompareTo(b.Index));
 
-					IEnumerator ie = temprowstoprint.Values.GetEnumerator();
-
-					rowstoprint = new List<object>(temprowstoprint.Count);
-					foreach (object item in temprowstoprint.Values) rowstoprint.Add(item);
-
-					colstoprint = new List<object>(_dgv.Columns.Count);
-					foreach (DataGridViewColumn col in _dgv.Columns) if (col.Visible) colstoprint.Add(col);
+					_colsToPrint = new List<DataGridViewColumn>(_dgv.Columns.Count);
+					foreach (DataGridViewColumn col in _dgv.Columns) {
+						if (col.Visible)
+							_colsToPrint.Add(col);
+					}
 				}
 				// if selected columns, then all rows, and selected columns
 				else if (0 != _dgv.SelectedColumns.Count)
 				{
-					rowstoprint = _dgv.Rows;
+					_rowsToPrint = new List<DataGridViewRow>(_dgv.Rows.Count);
+					foreach (DataGridViewRow row in _dgv.Rows)
+						_rowsToPrint.Add(row);
 
-					tempcolstoprint = new SortedList(_dgv.SelectedColumns.Count);
-					foreach (DataGridViewRow row in _dgv.SelectedColumns)
-						tempcolstoprint.Add(row.Index, row);
-
-					colstoprint = new List<object>(tempcolstoprint.Count);
-					foreach (object item in tempcolstoprint.Values) colstoprint.Add(item);
+					_colsToPrint = new List<DataGridViewColumn>(_dgv.SelectedColumns.Count);
+					foreach (DataGridViewColumn col in _dgv.SelectedColumns)
+						_colsToPrint.Add(col);
+					_colsToPrint.Sort((a, b) => a.Index.CompareTo(b.Index));
 				}
 				// we just have a bunch of selected cells so we have to do some work
 				else
 				{
 					// set up sorted lists. the selectedcells method does not guarantee
 					// that the cells will always be in left-right top-bottom order. 
-					temprowstoprint = new SortedList(_dgv.SelectedCells.Count);
-					tempcolstoprint = new SortedList(_dgv.SelectedCells.Count);
+					_rowsToPrint = new List<DataGridViewRow>();
+					_colsToPrint = new List<DataGridViewColumn>();
 
 					// for each selected cell, add unique rows and columns
 					int colindex, rowindex;
@@ -859,19 +852,16 @@ namespace DataGridViewEx
 						rowindex = cell.RowIndex;
 
 						// add unique rows
-						if (!temprowstoprint.Contains(rowindex))
-							temprowstoprint.Add(rowindex, _dgv.Rows[rowindex]);
+						if (!_rowsToPrint.Exists(n => n.Index == rowindex))
+							_rowsToPrint.Add(_dgv.Rows[rowindex]);
 
 						// add unique columns
-						if (!tempcolstoprint.Contains(colindex))
-							tempcolstoprint.Add(colindex, _dgv.Columns[colindex]);
+						if (!_colsToPrint.Exists(n => n.Index == colindex))
+							_colsToPrint.Add(_dgv.Columns[colindex]);
 					}
 
-					// Move the now-duplicate free columns and rows to our list of what to print
-					rowstoprint = new List<object>(temprowstoprint.Count);
-					foreach (object item in temprowstoprint.Values) rowstoprint.Add(item);
-					colstoprint = new List<object>(tempcolstoprint.Count);
-					foreach (object item in tempcolstoprint.Values) colstoprint.Add(item);
+					_rowsToPrint.Sort((a, b) => a.Index.CompareTo(b.Index));
+					_colsToPrint.Sort((a, b) => a.Index.CompareTo(b.Index));
 				}
 			}
 			// if current page was selected, print visible columns for the
@@ -879,42 +869,42 @@ namespace DataGridViewEx
 			else if (PrintRange.CurrentPage == printRange)
 			{
 				// create lists
-				rowstoprint = new List<object>(_dgv.DisplayedRowCount(true));
-				colstoprint = new List<object>(_dgv.Columns.Count);
+				_rowsToPrint = new List<DataGridViewRow>(_dgv.DisplayedRowCount(true));
+				_colsToPrint = new List<DataGridViewColumn>(_dgv.Columns.Count);
 
 				// select all visible rows on displayed page
 				for (int i = _dgv.FirstDisplayedScrollingRowIndex;
 					i < _dgv.FirstDisplayedScrollingRowIndex + _dgv.DisplayedRowCount(true);
-					i++)
+					++i)
 				{
 					DataGridViewRow row = _dgv.Rows[i];
-					if (row.Visible) rowstoprint.Add(row);
+					if (row.Visible) 
+						_rowsToPrint.Add(row);
 				}
 
 				// select all visible columns
-				colstoprint = new List<object>(_dgv.Columns.Count);
-				foreach (DataGridViewColumn col in _dgv.Columns) if (col.Visible) colstoprint.Add(col);
+				foreach (DataGridViewColumn col in _dgv.Columns) {
+					if (col.Visible) 
+						_colsToPrint.Add(col);
+				}
 			}
 			// this is the default for print all - everything marked visible will be printed
 			else
 			{
 				// select all visible rows and all visible columns
-				rowstoprint = new List<object>(_dgv.Rows.Count);
-				foreach (DataGridViewRow row in _dgv.Rows) if (row.Visible) rowstoprint.Add(row);
+				_rowsToPrint = new List<DataGridViewRow>(_dgv.Rows.Count);
+				foreach (DataGridViewRow row in _dgv.Rows) if (row.Visible) _rowsToPrint.Add(row);
 
-				colstoprint = new List<object>(_dgv.Columns.Count);
-				foreach (DataGridViewColumn col in _dgv.Columns) if (col.Visible) colstoprint.Add(col);
+				_colsToPrint = new List<DataGridViewColumn>(_dgv.Columns.Count);
+				foreach (DataGridViewColumn col in _dgv.Columns) if (col.Visible) _colsToPrint.Add(col);
 			}
 
 			// Reorder columns based on Display Index (if the programmer or user has
 			// changed the column display order we want to respect it in the printout)
-			SortedList displayorderlist = new SortedList(colstoprint.Count);
-			foreach (DataGridViewColumn col in colstoprint) displayorderlist.Add(col.DisplayIndex, col);
-			colstoprint.Clear();
-			foreach (object item in displayorderlist.Values) colstoprint.Add(item);
+			_colsToPrint.Sort((a, b) => a.DisplayIndex.CompareTo(b.DisplayIndex));
 
 			// Adjust override list to have the same number of entries as colstoprint
-			foreach (DataGridViewColumn col in colstoprint)
+			foreach (DataGridViewColumn col in _colsToPrint)
 				if (_publicwidthoverrides.TryGetValue(col.Name, out float value))
 					_colwidthsoverride.Add(value);
 				else
@@ -969,8 +959,8 @@ namespace DataGridViewEx
 		private void measureprintarea(Graphics g)
 		{
 			int i, j;
-			rowheights = new List<float>(rowstoprint.Count);
-			colwidths = new List<float>(colstoprint.Count);
+			rowheights = new List<float>(_rowsToPrint.Count);
+			colwidths = new List<float>(_colsToPrint.Count);
 			headerHeight = 0;
 			footerHeight = 0;
 
@@ -988,9 +978,9 @@ namespace DataGridViewEx
 				headerfont = _dgv.DefaultCellStyle.Font;
 
 			// set initial column sizes based on column titles
-			for (i = 0; i < colstoprint.Count; i++)
+			for (i = 0; i < _colsToPrint.Count; i++)
 			{
-				col = (DataGridViewColumn)colstoprint[i];
+				col = (DataGridViewColumn)_colsToPrint[i];
 
 				// deal with overridden col widths
 				float usewidth = 0;
@@ -1062,9 +1052,9 @@ namespace DataGridViewEx
 			// and an accurate measure of column widths for the printed area
 			//-----------------------------------------------------------------
 
-			for (i = 0; i < rowstoprint.Count; i++)
+			for (i = 0; i < _rowsToPrint.Count; i++)
 			{
-				row = (DataGridViewRow)rowstoprint[i];
+				row = (DataGridViewRow)_rowsToPrint[i];
 				rowheights.Add(0);
 
 				// add row headers if they're visible
@@ -1077,9 +1067,9 @@ namespace DataGridViewEx
 
 				// calculate widths for each column. We're looking for the largest width needed for
 				// all the rows of data.
-				for (j = 0; j < colstoprint.Count; j++)
+				for (j = 0; j < _colsToPrint.Count; j++)
 				{
-					col = (DataGridViewColumn)colstoprint[j];
+					col = (DataGridViewColumn)_colsToPrint[j];
 
 					// access the data to be printed - weird bug: had to move this up here since
 					// doing this access actually changes the cell's style. ???
@@ -1148,7 +1138,7 @@ namespace DataGridViewEx
 
 			// assume everything will fit on one page
 			pagesets = new List<PageDef>();
-			pagesets.Add(new PageDef(_printmargins, colstoprint.Count));
+			pagesets.Add(new PageDef(_printmargins, _colsToPrint.Count));
 			int pset = 0;
 
 			// Account for row headers 
@@ -1156,7 +1146,7 @@ namespace DataGridViewEx
 
 			// split columns into page sets
 			float columnwidth;
-			for (i = 0; i < colstoprint.Count; i++)
+			for (i = 0; i < _colsToPrint.Count; i++)
 			{
 				// get initial column width
 				columnwidth = (_colwidthsoverride[i] >= 0)
@@ -1167,7 +1157,7 @@ namespace DataGridViewEx
 				// columns longer than the page width are printed on their own page
 				if (printWidth < (pagesets[pset].coltotalwidth + columnwidth) && i != 0)
 				{
-					pagesets.Add(new PageDef(_printmargins, colstoprint.Count));
+					pagesets.Add(new PageDef(_printmargins, _colsToPrint.Count));
 					pset++;
 
 					// Account for row headers 
@@ -1175,7 +1165,7 @@ namespace DataGridViewEx
 				}
 
 				// update page set definition 
-				pagesets[pset].colstoprint.Add(colstoprint[i]);
+				pagesets[pset].colstoprint.Add(_colsToPrint[i]);
 				pagesets[pset].colwidths.Add(colwidths[i]);
 				pagesets[pset].colwidthsoverride.Add(_colwidthsoverride[i]);
 				pagesets[pset].coltotalwidth += columnwidth;
@@ -1302,7 +1292,7 @@ namespace DataGridViewEx
 		{
 			// reset counters since we'll go through this twice if we print from preview
 			currentpageset = 0;
-			lastrowprinted = -1;
+			_lastRowPrinted = -1;
 			CurrentPage = 0;
 		}
 
@@ -1318,7 +1308,7 @@ namespace DataGridViewEx
 
 			// increment page number & check page range
 			CurrentPage++;
-			if ((CurrentPage >= fromPage) && (CurrentPage <= toPage))
+			if ((CurrentPage >= _fromPage) && (CurrentPage <= _toPage))
 				printthispage = true;
 
 			// calculate the static vertical space available - this is where we stop printing rows
@@ -1340,11 +1330,11 @@ namespace DataGridViewEx
 				bool pagecomplete = false;
 
 				// do one row look-ahead to see if we have room on the page
-				nextrowheight = (lastrowprinted < rowheights.Count) ? rowheights[lastrowprinted + 1] : 0;
+				nextrowheight = (_lastRowPrinted < rowheights.Count) ? rowheights[_lastRowPrinted + 1] : 0;
 				while (!pagecomplete)
 				{
 					// this page is complete if we run out of data
-					if (lastrowprinted >= rowstoprint.Count - 1)
+					if (_lastRowPrinted >= _rowsToPrint.Count - 1)
 						pagecomplete = true;
 					// ... or off the bottom of the page
 					else if ((printpos + nextrowheight) >= staticheight)
@@ -1352,25 +1342,25 @@ namespace DataGridViewEx
 					else
 					{
 						// not done yet so consume space
-						lastrowprinted++;
-						printpos += rowheights[lastrowprinted];
-						nextrowheight = (lastrowprinted + 1 < rowheights.Count) ? rowheights[lastrowprinted + 1] : 0;
+						_lastRowPrinted++;
+						printpos += rowheights[_lastRowPrinted];
+						nextrowheight = (_lastRowPrinted + 1 < rowheights.Count) ? rowheights[_lastRowPrinted + 1] : 0;
 					}
 				}
 
 				// skip to the next page & see if it's in the print range
 				CurrentPage++;
-				if ((CurrentPage >= fromPage) && (CurrentPage <= toPage))
+				if ((CurrentPage >= _fromPage) && (CurrentPage <= _toPage))
 					printthispage = true;
 
 				// bottom check~ out of data or out of pages
-				if ((lastrowprinted >= rowstoprint.Count - 1) || (CurrentPage > toPage))
+				if ((_lastRowPrinted >= _rowsToPrint.Count - 1) || (CurrentPage > _toPage))
 				{
 					// reset for next pageset or tell the caller we're complete
 					e.HasMorePages = HasMorePages();
 
 					// reset counters since we'll go through this twice if we print from preview
-					lastrowprinted = -1;
+					_lastRowPrinted = -1;
 					CurrentPage = 0;
 
 					return;
@@ -1429,15 +1419,15 @@ namespace DataGridViewEx
 			//-----------------------------------------------------------------
 
 			// do one row look-ahead to see if we have room on the page
-			nextrowheight = (lastrowprinted < rowheights.Count) ? rowheights[lastrowprinted + 1] : 0;
+			nextrowheight = (_lastRowPrinted < rowheights.Count) ? rowheights[_lastRowPrinted + 1] : 0;
 			while ((printpos + nextrowheight) < staticheight)
 			{
-				lastrowprinted++;
-				printrow(e.Graphics, ref printpos, (DataGridViewRow)(rowstoprint[lastrowprinted]),
+				_lastRowPrinted++;
+				printrow(e.Graphics, ref printpos, (DataGridViewRow)(_rowsToPrint[_lastRowPrinted]),
 					pagesets[currentpageset]);
 
 				// bottom check, we're really really done when there's no more data
-				if (lastrowprinted >= rowstoprint.Count - 1)
+				if (_lastRowPrinted >= _rowsToPrint.Count - 1)
 				{
 					// print a footer for this page
 					printfooter(e.Graphics, ref printpos, pagesets[currentpageset].margins);
@@ -1446,14 +1436,14 @@ namespace DataGridViewEx
 					e.HasMorePages = HasMorePages();
 
 					// reset counters since we'll go through this twice if we print from preview
-					lastrowprinted = -1;
+					_lastRowPrinted = -1;
 					CurrentPage = 0;
 
 					// return
 					return;
 				}
 				else
-					nextrowheight = (lastrowprinted < rowheights.Count) ? rowheights[lastrowprinted + 1] : 0;
+					nextrowheight = (_lastRowPrinted < rowheights.Count) ? rowheights[_lastRowPrinted + 1] : 0;
 			}
 
 			//-----------------------------------------------------------------
@@ -1465,13 +1455,13 @@ namespace DataGridViewEx
 			// bottom check, see if this is the last page to print
 			//-----------------------------------------------------------------
 
-			if (CurrentPage >= toPage)
+			if (CurrentPage >= _toPage)
 			{
 				// reset for next pageset or tell the caller we're complete
 				e.HasMorePages = HasMorePages();
 
 				// reset counters since we'll go through this twice if we print from preview
-				lastrowprinted = -1;
+				_lastRowPrinted = -1;
 				CurrentPage = 0;
 			}
 			else
@@ -1633,7 +1623,7 @@ namespace DataGridViewEx
 				xcoord, 
 				pos, 
 				rowwidth,
-				rowheights[lastrowprinted]);
+				rowheights[_lastRowPrinted]);
 
 			// fill in the row background as the default color
 			if (BlackWhite)
@@ -1662,7 +1652,7 @@ namespace DataGridViewEx
 
 				// set print area for this individual cell
 				RectangleF headercellprintarea = new RectangleF(xcoord, pos, rowheaderwidth,
-					rowheights[lastrowprinted]);
+					rowheights[_lastRowPrinted]);
 
 				// fill in the row header background
 				g.FillRectangle(new SolidBrush(headerstyle.BackColor), headercellprintarea);
@@ -1674,7 +1664,7 @@ namespace DataGridViewEx
 
 				// draw the borders - default to the dgv's border setting
 				if (_dgv.RowHeadersBorderStyle != DataGridViewHeaderBorderStyle.None)
-					g.DrawRectangle(lines, xcoord, pos, rowheaderwidth, rowheights[lastrowprinted]);
+					g.DrawRectangle(lines, xcoord, pos, rowheaderwidth, rowheights[_lastRowPrinted]);
 
 				// track horizontal space used
 				xcoord += rowheaderwidth;
@@ -1727,7 +1717,7 @@ namespace DataGridViewEx
 					xcoord, 
 					pos, 
 					cellwidth,
-					rowheights[lastrowprinted]);
+					rowheights[_lastRowPrinted]);
 
 				// fill in the cell background - using the selected style
 				if (BlackWhite)
@@ -1760,7 +1750,7 @@ namespace DataGridViewEx
 
 				// draw the borders - default to the dgv's border setting
 				if (_dgv.CellBorderStyle != DataGridViewCellBorderStyle.None)
-					g.DrawRectangle(lines, xcoord, pos, cellwidth, rowheights[lastrowprinted]);
+					g.DrawRectangle(lines, xcoord, pos, cellwidth, rowheights[_lastRowPrinted]);
 
 				// track horizontal space used
 				xcoord += pageset.colwidths[i];
@@ -1769,7 +1759,7 @@ namespace DataGridViewEx
 			//-----------------------------------------------------------------
 			// All done with this row, consume "used" vertical space
 			//-----------------------------------------------------------------
-			pos += rowheights[lastrowprinted];
+			pos += rowheights[_lastRowPrinted];
 		}
 	}
 }

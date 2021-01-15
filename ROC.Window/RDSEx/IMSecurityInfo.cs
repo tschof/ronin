@@ -1,121 +1,57 @@
-﻿using DictionaryEx;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RDSEx
 {
-	public class IMSecurityInfo : BaseSecurityInfo
+	public class IMSecurityInfo : IMSecurityBase
 	{
-		private readonly MultiTypedDictionary _data = new MultiTypedDictionary();
+		public string BaseSymbol { get; private set; } = "";
+		public string CallPut { get; private set; } = "";
+		public string DataSourceInfo { get; private set; } = "";
+		public int DecimalPrecision { get; private set; } = 0;
+		public string DisplayFormat { get; private set; } = "";
+		public string Exchange { get; private set; } = "";
+		public int ExpDay { get; private set; } = 0;
+		public int ExpMonth { get; private set; } = 0;
+		public int ExpYear { get; private set; } = 0;
+		public string FullSymbol { get; private set; } = "";
+		public string GenericMDSymbol { get; private set; } = "";
+		public string RocSymbol { get; private set; } = "";
+		public double Strike { get; private set; } = 0;
+		public string Ticker { get; private set; } = "";
+		public string UndExpirationDate { get; private set; } = "";
+		public string UndInstrumentId { get; private set; } = "";
 
-		internal void Set<T>(int key, T value)
+		public IMSecurityInfo(RDSEx.WEB.SecurityDesc sec, string rocSymbol) : base()
 		{
-			_data.Set(key, value);
-		}
+			RocSymbol = rocSymbol;
+			BaseSymbol = sec.baseSymbol;
+			ContractSize = sec.contractSize;
+			DataSourceInfo = sec.dataSourceInfo;
+			DecimalPrecision = sec.DecimalPrecision;
+			DisplayFormat = sec.DisplayFormat;
+			Exchange = sec.exchange;
+			ExpDay = sec.ExpDay;
+			ExpirationText = sec.expirationDate;
+			ExpMonth = sec.ExpMonth;
+			ExpYear = sec.ExpYear;
+			FullSymbol = sec.fullSymbol;
+			GenericMDSymbol = sec.genericMDSymbol;
+			LongName = sec.longName;
+			CallPut = sec.PutCall;
 
-		public override string MDSource {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Security.dataSourceInfo, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
+			if (sec.genericMDSymbol.Contains(".IDX")) {
+				// This from IM means it is an option index
+				SecType = CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex;
+			} else {
+				SecType = sec.securityType;
 			}
-		}
-
-		public override string MDSymbol {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Security.genericMDSymbol, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
+			Strike = sec.Strike;
+			Ticker = sec.Ticker;
+			if (sec.tickSize != 0) {
+				TickSize = sec.tickSize;
 			}
-		}
-
-		public override double ContractSize {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Security.contractSize, out double value)) {
-					return value;
-				} else {
-					return 1;
-				}
-			}
-		}
-
-		public override double TickSize {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Security.tickSize, out double value)) {
-					return value;
-				} else {
-					return 0.01;
-				}
-			}
-		}
-
-		public override string SecType {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Security.securityType, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-		}
-
-		public override string LongName {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Security.longName, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-		}
-
-		public string Underlying {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Security.baseSymbol, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-		}
-
-		public string Expiration {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Security.expirationDate, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-		}
-
-		private Dictionary<string, IMOptionInfo> _optionChain;
-		public Dictionary<string, IMOptionInfo> OptionChain {
-			get {
-				if (_optionChain == null) {
-					_optionChain = new Dictionary<string, IMOptionInfo>();
-				}
-				return _optionChain;
-			}
-			set {
-				_optionChain = value;
-			}
-		}
-
-		private Dictionary<string, IMSSFutureInfo> _ssfutureChain;
-		public Dictionary<string, IMSSFutureInfo> SSFutureChain {
-			get {
-				if (_ssfutureChain == null) {
-					_ssfutureChain = new Dictionary<string, IMSSFutureInfo>();
-				}
-				return _ssfutureChain;
-			}
-			set {
-				_ssfutureChain = value;
-			}
+			UndExpirationDate = sec.UndExpirationDate;
+			UndInstrumentId = sec.UndInstrumentId;
 		}
 	}
 }

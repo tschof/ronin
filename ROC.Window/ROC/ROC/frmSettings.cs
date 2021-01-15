@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
+using System.Linq;
 
 using Common;
 using FormEx;
@@ -363,9 +364,9 @@ namespace ROC
 			{
 				Dictionary<string, string> items = new Dictionary<string, string>();
 				items.Add("", "");
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					items.Add(trader.tradeFor.ToUpper(), trader.tradeFor.ToUpper());
+					items.Add(trader.TradeFor.ToUpper(), trader.TradeFor.ToUpper());
 				}
 
 				_menuTraderActions = new menuBaseAction(items, true);
@@ -417,17 +418,17 @@ namespace ROC
 			{
 				Dictionary<string, string> items = new Dictionary<string, string>();
 				items.Add("", "");
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					if (trader.tradeFor.ToUpper() == tradeFor)
+					if (trader.TradeFor.ToUpper() == tradeFor)
 					{
-						foreach (AccountMap acctMap in trader.CSAccounts.Values)
+						foreach ((string _, AccountMap acctMap) in trader.CSAccounts)
 							items.TryAdd(acctMap.account, acctMap.account);
 
-						foreach (AccountMap acctMap in trader.FUTAccounts.Values)
+						foreach ((string _, AccountMap acctMap) in trader.FUTAccounts)
 							items.TryAdd(acctMap.account, acctMap.account);
 
-						foreach (AccountMap acctMap in trader.OPTAccounts.Values)
+						foreach ((string _, AccountMap acctMap) in trader.OPTAccounts)
 							items.TryAdd(acctMap.account, acctMap.account);
 
 						break;
@@ -483,11 +484,11 @@ namespace ROC
 			{
 				Dictionary<string, string> items = new Dictionary<string, string>();
 				items.Add("", "");
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					if (trader.tradeFor.ToUpper() == tradeFor)
+					if (trader.TradeFor == tradeFor)
 					{
-						foreach (AccountMap acctMap in trader.CSAccounts.Values)
+						foreach (AccountMap acctMap in trader.CSAccounts.Select(n => n.Value))
 						{
 							if (acctMap.account.ToUpper() == account)
 							{
@@ -496,7 +497,7 @@ namespace ROC
 							}
 						}
 
-						foreach (AccountMap acctMap in trader.FUTAccounts.Values)
+						foreach (AccountMap acctMap in trader.FUTAccounts.Select(n => n.Value))
 						{
 							if (acctMap.account.ToUpper() == account)
 							{
@@ -505,7 +506,7 @@ namespace ROC
 							}
 						}
 
-						foreach (AccountMap acctMap in trader.OPTAccounts.Values)
+						foreach (AccountMap acctMap in trader.OPTAccounts.Select(n => n.Value))
 						{
 							if (acctMap.account.ToUpper() == account)
 							{

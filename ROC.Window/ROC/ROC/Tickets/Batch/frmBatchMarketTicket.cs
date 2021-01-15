@@ -719,7 +719,7 @@ namespace ROC
 					lcoImSymbolNeeded = new Dictionary<string, string>(ImSymbolNeeded);
 				}
 
-				BaseSecurityInfo secInfo = null;
+				IMSecurityBase secInfo = null;
 				List<string> removeList = new List<string>();
 
 				lock (rocBatchMarket.RocGridTable)
@@ -755,7 +755,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, IMSecurityBase secInfo)
 		{
 			switch (secInfo.SecType)
 			{
@@ -785,9 +785,9 @@ namespace ROC
 						string[] optionDetails = symbolDetail.Split(symbolDetailSpliter);
 						row["CallPut"] = optionDetails[5];
 
-						if (secInfo.TryGetExpiration(out DateTime when))
+						if (secInfo.Expiration.HasValue)
 						{
-							DateTime tempDT = when;
+							DateTime tempDT = secInfo.Expiration.Value;
 							row["ExpDate"] = tempDT.ToString("yyyyMM");
 							row["MaturityDay"] = tempDT.ToString("dd");
 						}
@@ -1065,7 +1065,7 @@ namespace ROC
 		// Update with Security Info On Play back & onLoad
 		private void UpdateBatchMarketTicketWithSecurityInfo(string symbolDetail, ref string mdSymbol, ref double tickSize, ref string secType, ref string name, ref string callput, ref string expDate, ref string maturityDay, ref string strike, ref string underlying)
 		{
-			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
+			IMSecurityBase secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 			if (secInfo != null)
 			{
 				mdSymbol = secInfo.MDSymbol;
@@ -1084,9 +1084,9 @@ namespace ROC
 						string[] optionDetails = symbolDetail.Split(symbolDetailSpliter);
 						callput = optionDetails[5];
 
-						if (secInfo.TryGetExpiration(out DateTime when)) {
-							expDate = when.ToString("yyyyMM");
-							maturityDay = when.ToString("dd");
+						if (secInfo.Expiration.HasValue) {
+							expDate = secInfo.Expiration.Value.ToString("yyyyMM");
+							maturityDay = secInfo.Expiration.Value.ToString("dd");
 						}
 
 						strike = optionDetails[4];

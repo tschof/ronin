@@ -43,7 +43,37 @@ namespace RDSEx
 			}
 		}
 
-		public string tradeFor = null;
-		public string localAcAcrn = null;
+		public string TradeFor {
+			get => _tradeFor;
+			set => _tradeFor = value.ToUpper();
+		}
+		public string LocalAcAcrn {
+			get => _localAcAcrn;
+			set => _localAcAcrn = value.ToUpper();
+		}
+
+		public AccountMap FindOrAddAccountMap(string accountName, string accountType)
+		{
+			Dictionary<string, AccountMap> accounts;
+
+			if (accountType == AccountTypes.Stock)
+				accounts = CSAccounts;
+			else if (accountType == AccountTypes.Option)
+				accounts = OPTAccounts;
+			else if (accountType == AccountTypes.Future)
+				accounts = FUTAccounts;
+			else
+				return null;
+
+			if (!accounts.TryGetValue(accountName, out AccountMap acctMap)) {
+				acctMap = new AccountMap();
+				accounts.Add(accountName, acctMap);
+			}
+
+			return acctMap;
+		}
+
+		private string _localAcAcrn = null;
+		private string _tradeFor = null;
 	}
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using Common;
 using DataGridViewEx;
 using SerializationEx;
 using ContextMenuEx;
@@ -249,7 +250,7 @@ namespace ROC
 					break;
 				case "ApplyToAll":
 					ROCWatchListProfile prof = watchListDisplay.GetProfile(new ROCWatchListProfile(rocWatchList));
-					foreach (frmWatchList w in GLOBAL.HWindows.WatchListWindows.Values)
+					foreach ((IntPtr _, frmWatchList w) in GLOBAL.HWindows.WatchListWindows)
 					{
 						w.SetProfile(watchListDisplay.GetProfile(prof));
 					}
@@ -583,7 +584,7 @@ namespace ROC
 					lcoImSymbolNeeded = new Dictionary<string, string>(ImSymbolNeeded);
 				}
 
-				BaseSecurityInfo secInfo = null;
+				RDSEx.IMSecurityBase secInfo;
 				List<string> removeList = new List<string>();
 
 				lock (rocWatchList.RocGridTable)
@@ -621,7 +622,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, RDSEx.IMSecurityBase secInfo)
 		{
 			switch (secInfo.SecType)
 			{
@@ -930,7 +931,7 @@ namespace ROC
 		// Update with Security Info On Play back & onLoad
 		private void UpdateWatchListWithSecurityInfo(string symbolDetail, ref string mdSymbol, ref double tickSize, ref string secType, ref string name)
 		{
-			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
+			RDSEx.IMSecurityBase secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 			if (secInfo != null)
 			{
 				mdSymbol = secInfo.MDSymbol;

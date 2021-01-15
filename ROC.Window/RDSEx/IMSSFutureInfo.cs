@@ -1,6 +1,6 @@
 ﻿namespace RDSEx
 {
-	public class IMSSFutureInfo : BaseSSFutureInfo
+	public class IMSSFutureInfo : IMSSFutureBase
 	{
 		public string FullSymbol { get; private set; } = "";
 		public string Exchange { get; private set; } = "";

@@ -6,7 +6,7 @@ using CSVEx;
 namespace RDSEx
 {
 	[System.Serializable]
-	public abstract class AssetShared : ISerializable
+	public abstract class ROCSecurity : ISerializable
 	{
 		public enum SourceEnum { None, TPOS, ROC };
 
@@ -271,11 +271,11 @@ namespace RDSEx
 			}
 		}
 
-		protected AssetShared()
+		protected ROCSecurity()
 		{
 		}
 
-		protected AssetShared(AssetShared other)
+		protected ROCSecurity(ROCSecurity other)
 		{
 			_baseSymbol = other._baseSymbol;
 			_callPut = other._callPut;
@@ -298,7 +298,7 @@ namespace RDSEx
 		#region - ISerialization -
 
 		// Deserialization.
-		protected AssetShared(SerializationInfo info, StreamingContext context)
+		protected ROCSecurity(SerializationInfo info, StreamingContext context)
 		{
 			_callPut = info.GetString("CallPut");
 			_clearingAcct = info.GetString("ClearingAcct");

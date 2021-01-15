@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Linq;
 
 using Common;
 using RDSEx;
@@ -394,74 +395,39 @@ namespace ROC
 			TicketSupport.SetState(lblExchange, true);
 		}
 
+		private void addTradeForDropDownItem(string tradeFor, Dictionary<string, AccountMap> accounts)
+		{
+			if (accounts.Count > 0) {
+				_tradeForList.Add(tradeFor);
+				cmdTradeFor.DropDownItems.Add(tradeFor, null, new EventHandler(TradeFor_Changed));
+			}
+		}
+
 		private void LoadTradeFors()
 		{
 			if (cmdTradeFor != null)
 			{
 				cmdTradeFor.DropDownItems.Clear();
 				_tradeForList.Clear();
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
-				{
-					if (!_tradeForList.Contains(trader.tradeFor))
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles) {
+					if (!_tradeForList.Contains(trader.TradeFor))
 					{
 						switch (_ticketType)
 						{
 							case TicketTypes.Future:
-								if (trader.FUTAccounts.Count > 0)
-								{
-									_tradeForList.Add(trader.tradeFor);
-									cmdTradeFor.DropDownItems.Add(trader.tradeFor, null, new EventHandler(TradeFor_Changed));
-								}
+								addTradeForDropDownItem(trader.TradeFor, trader.FUTAccounts);
 								break;
 							case TicketTypes.Option:
-								//if (_optionTicket.IsFuture)
-								//{
-								//    if (trader.FUTAccounts.Count > 0)
-								//    {
-								//        _tradeForList.Add(trader.tradeFor);
-								//        cmdTradeFor.DropDownItems.Add(trader.tradeFor, null, new EventHandler(TradeFor_Changed));
-								//    }
-								//}
-								//else
-								//{
-									if (trader.OPTAccounts.Count > 0)
-									{
-										_tradeForList.Add(trader.tradeFor);
-										cmdTradeFor.DropDownItems.Add(trader.tradeFor, null, new EventHandler(TradeFor_Changed));
-									}
-								//}
+								addTradeForDropDownItem(trader.TradeFor, trader.OPTAccounts);
 								break;
 							case TicketTypes.Stock:
-								if (trader.CSAccounts.Count > 0)
-								{
-									_tradeForList.Add(trader.tradeFor);
-									cmdTradeFor.DropDownItems.Add(trader.tradeFor, null, new EventHandler(TradeFor_Changed));
-								}
+								addTradeForDropDownItem(trader.TradeFor, trader.CSAccounts);
 								break;
 							case TicketTypes.Quick:
-								if (_quickTicket.IsStock)
-								{
-									if (trader.CSAccounts.Count > 0)
-									{
-										_tradeForList.Add(trader.tradeFor);
-										cmdTradeFor.DropDownItems.Add(trader.tradeFor, null, new EventHandler(TradeFor_Changed));
-									}
-								}
-								else
-								{
-									if (trader.FUTAccounts.Count > 0)
-									{
-										_tradeForList.Add(trader.tradeFor);
-										cmdTradeFor.DropDownItems.Add(trader.tradeFor, null, new EventHandler(TradeFor_Changed));
-									}
-								}
+								addTradeForDropDownItem(trader.TradeFor, _quickTicket.IsStock ? trader.CSAccounts : trader.FUTAccounts);
 								break;
 							case TicketTypes.AutoSpread:
-								if (trader.FUTAccounts.Count > 0)
-								{
-									_tradeForList.Add(trader.tradeFor);
-									cmdTradeFor.DropDownItems.Add(trader.tradeFor, null, new EventHandler(TradeFor_Changed));
-								}
+								addTradeForDropDownItem(trader.TradeFor, trader.FUTAccounts);
 								break;
 						}
 					}
@@ -511,9 +477,9 @@ namespace ROC
 			{
 				cmdAccount.DropDownItems.Clear();
 				_accountList.Clear();
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					if (trader.tradeFor == tradeFor)
+					if (trader.TradeFor == tradeFor)
 					{
 						_currentTraders.TryAdd(tradeFor, trader);
 						SetAccountByTicketType(trader);
@@ -549,70 +515,13 @@ namespace ROC
 
 		private void SetAccountByTicketType(TraderMap trader)
 		{
-			if (cmdAccount != null)
-			{
-				switch (_ticketType)
-				{
-					case TicketTypes.Stock:
-						foreach (AccountMap acct in trader.CSAccounts.Values)
-						{
-							AddAccountToDropDown(acct);
-						}
-						break;
-					case TicketTypes.Future:
-						foreach (AccountMap acct in trader.FUTAccounts.Values)
-						{
-							AddAccountToDropDown(acct);
-						}
-						break;
-					case TicketTypes.Option:
-						//if (_optionTicket.IsFuture)
-						//{
-						//    foreach (AccountMap acct in trader.FUTAccounts.Values)
-						//    {
-						//        AddAccountToDropDown(acct);
-						//    }
-						//}
-						//else
-						//{
-							foreach (AccountMap acct in trader.OPTAccounts.Values)
-							{
-								AddAccountToDropDown(acct);
-							}
-						//}
-						break;
-					case TicketTypes.Quick:
-						if (_quickTicket.IsStock)
-						{
-							foreach (AccountMap acct in trader.CSAccounts.Values)
-							{
-								AddAccountToDropDown(acct);
-							}
-						}
-						else
-						{
-							foreach (AccountMap acct in trader.FUTAccounts.Values)
-							{
-								AddAccountToDropDown(acct);
-							}
-						}
-						break;
-					case TicketTypes.AutoSpread:
-						foreach (AccountMap acct in trader.FUTAccounts.Values)
-						{
-							AddAccountToDropDown(acct);
-						}
-						break;
-				}
-			}
-		}
-
-		private void AddAccountToDropDown(AccountMap acct)
-		{
-			if (!_accountList.Contains(acct.account))
-			{
-				_accountList.Add(acct.account);
-				cmdAccount.DropDownItems.Add(acct.account, null, new EventHandler(Account_Changed));
+			if (cmdAccount != null) {
+				forEachAccountByTicketType(trader, n => {
+					if (!_accountList.Contains(n.account)) {
+						_accountList.Add(n.account);
+						cmdAccount.DropDownItems.Add(n.account, null, new EventHandler(Account_Changed));
+					}
+				});
 			}
 		}
 
@@ -625,128 +534,58 @@ namespace ROC
 		private void LoadExchange(string account)
 		{
 			if (cmdAccount != null)
-			{
 				cmdAccount.Text = account;
-			}
 
 			string lastSelectedExchange = "";
 			if (cboExchange != null)
 			{
-				if (_selectedExchange != "")
-				{
-					lastSelectedExchange = _selectedExchange;
-				}
-				else
-				{
-					lastSelectedExchange = cboExchange.Text;
-				}
+				lastSelectedExchange = (_selectedExchange != "") ? _selectedExchange : cboExchange.Text;
 				cboExchange.Items.Clear();
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					if (_currentTraders.ContainsKey(trader.tradeFor))
-					{
+					if (_currentTraders.ContainsKey(trader.TradeFor))
 						SetExchangeByTicketType(trader, account);
-					}
 				}
 			}
 
 			if (cboExchange != null && cboExchange.Items.Count > 0)
 			{
 				if (cboExchange.Items.Contains(lastSelectedExchange))
-				{
 					cboExchange.Text = lastSelectedExchange;
-				}
 				else
-				{
 					cboExchange.SelectedIndex = 0;
-				}
-			}
-			else
+			} else
 			{
 				if (cboExchange != null)
-				{
 					cboExchange.Text = "";
-				}
 				UserProfileFailed();
+			}
+		}
+
+		private void forEachAccountByTicketType(TraderMap trader, System.Action<AccountMap> action)
+		{
+			Dictionary<string, AccountMap> accounts = null;
+			if (_ticketType == TicketTypes.Stock)
+				accounts = trader.CSAccounts;
+			else if ((_ticketType == TicketTypes.Future) || (_ticketType == TicketTypes.AutoSpread))
+				accounts = trader.FUTAccounts;
+			else if (_ticketType == TicketTypes.Option)
+				accounts = trader.OPTAccounts;
+			else if (_ticketType == TicketTypes.Quick)
+				accounts = _quickTicket.IsStock ? trader.CSAccounts : trader.FUTAccounts;
+
+			if (accounts != null) {
+				foreach ((string _, AccountMap account) in accounts)
+					action(account);
 			}
 		}
 
 		private void SetExchangeByTicketType(TraderMap trader, string account)
 		{
-			switch (_ticketType)
-			{
-				case TicketTypes.Stock:
-					foreach (AccountMap acct in trader.CSAccounts.Values)
-					{
-						if (acct.account == account)
-						{
-							SetDestinationsByAccount(acct);
-						}
-					}
-					break;
-				case TicketTypes.Future:
-					foreach (AccountMap acct in trader.FUTAccounts.Values)
-					{
-						if (acct.account == account)
-						{
-							SetDestinationsByAccount(acct);
-						}
-					}
-					break;
-				case TicketTypes.Option:
-					//if (_optionTicket.IsFuture)
-					//{
-					//    foreach (AccountMap acct in trader.FUTAccounts.Values)
-					//    {
-					//        if (acct.account == account)
-					//        {
-					//            SetDestinationsByAccount(acct);
-					//        }
-					//    }
-					//}
-					//else
-					//{
-						foreach (AccountMap acct in trader.OPTAccounts.Values)
-						{
-							if (acct.account == account)
-							{
-								SetDestinationsByAccount(acct);
-							}
-						}
-					//}
-					break;
-				case TicketTypes.Quick:
-					if (_quickTicket.IsStock)
-					{
-						foreach (AccountMap acct in trader.CSAccounts.Values)
-						{
-							if (acct.account == account)
-							{
-								SetDestinationsByAccount(acct);
-							}
-						}
-					}
-					else
-					{
-						foreach (AccountMap acct in trader.FUTAccounts.Values)
-						{
-							if (acct.account == account)
-							{
-								SetDestinationsByAccount(acct);
-							}
-						}
-					}
-					break;
-				case TicketTypes.AutoSpread:
-					foreach (AccountMap acct in trader.FUTAccounts.Values)
-					{
-						if (acct.account == account)
-						{
-							SetDestinationsByAccount(acct);
-						}
-					}
-					break;
-			}
+			forEachAccountByTicketType(trader, n => {
+				if (n.account == account)
+					SetDestinationsByAccount(n);
+			});
 		}
 
 		private void SetDestinationsByAccount(AccountMap acct)

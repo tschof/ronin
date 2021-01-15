@@ -91,8 +91,8 @@ namespace ROC
 
 		internal string GetDoubleFormat(double value)
 		{
-			double fromatedDouble;
-			string formatedValue = "";
+			double formatDouble;
+			string formatValue = "";
 
 			if (IsFuture)
 			{
@@ -118,7 +118,7 @@ namespace ROC
 						floorDouble = Math.Floor(Math.Abs(value));
 						remainderDouble = Math.Abs(value) - floorDouble;
 						remainderDouble = remainderDouble / 0.03125;
-						formatedValue = string.Format("{0}'{1}", floorDouble.ToString("N0"), remainderDouble.ToString("00.00").Replace(".", "").Substring(0, 3));
+						formatValue = string.Format("{0}'{1}", floorDouble.ToString("N0"), remainderDouble.ToString("00.00").Replace(".", "").Substring(0, 3));
 						normal = false;
 						break;
 					case "0.0025":			// 1/400
@@ -129,19 +129,19 @@ namespace ROC
 						switch (remainderDouble.ToString("F2"))
 						{
 							case "0.25":
-								formatedValue = string.Format("{0}{1}", floorDouble.ToString("F2"), 2);
+								formatValue = string.Format("{0}{1}", floorDouble.ToString("F2"), 2);
 								break;
 							case "0.50":
-								formatedValue = string.Format("{0}{1}", floorDouble.ToString("F2"), 4);
+								formatValue = string.Format("{0}{1}", floorDouble.ToString("F2"), 4);
 								break;
 							case "0.75":
-								formatedValue = string.Format("{0}{1}", floorDouble.ToString("F2"), 6);
+								formatValue = string.Format("{0}{1}", floorDouble.ToString("F2"), 6);
 								break;
 							default:
-								formatedValue = string.Format("{0}{1}", floorDouble.ToString("F2"), 0);
+								formatValue = string.Format("{0}{1}", floorDouble.ToString("F2"), 0);
 								break;
 						}
-						formatedValue = formatedValue.Replace(".", "'");
+						formatValue = formatValue.Replace(".", "'");
 						normal = false;
 						break;
 					default:
@@ -154,8 +154,7 @@ namespace ROC
 
 				if (normal)
 				{
-					fromatedDouble = Math.Round(value, CurrentSecInfo.DecimalPlaces);
-					//_fromatedDouble = _fromatedDouble * DisplayFactor;
+					formatDouble = Math.Round(value, CurrentSecInfo.DecimalPlaces);
 					switch (CurrentSecInfo.DecimalPlaces)
 					{
 						case 0:
@@ -165,11 +164,11 @@ namespace ROC
 						case 4:
 							if (DefaultPriceFormat == "F")
 							{
-								formatedValue = fromatedDouble.ToString("F" + CurrentSecInfo.DecimalPlaces.ToString());
+								formatValue = formatDouble.ToString("F" + CurrentSecInfo.DecimalPlaces.ToString());
 							}
 							else
 							{
-								formatedValue = fromatedDouble.ToString("N" + CurrentSecInfo.DecimalPlaces.ToString());
+								formatValue = formatDouble.ToString("N" + CurrentSecInfo.DecimalPlaces.ToString());
 							}
 							break;
 						default:
@@ -177,11 +176,11 @@ namespace ROC
 							{
 								if (DefaultPriceFormat == "F")
 								{
-									formatedValue = fromatedDouble.ToString("F0");
+									formatValue = formatDouble.ToString("F0");
 								}
 								else
 								{
-									formatedValue = fromatedDouble.ToString("N0");
+									formatValue = formatDouble.ToString("N0");
 								}
 								done = true;
 							}
@@ -189,11 +188,11 @@ namespace ROC
 							{
 								if (DefaultPriceFormat == "F")
 								{
-									formatedValue = fromatedDouble.ToString("F1");
+									formatValue = formatDouble.ToString("F1");
 								}
 								else
 								{
-									formatedValue = fromatedDouble.ToString("N1");
+									formatValue = formatDouble.ToString("N1");
 								}
 								done = true;
 							}
@@ -202,22 +201,22 @@ namespace ROC
 							{
 								if (DefaultPriceFormat == "F")
 								{
-									formatedValue = fromatedDouble.ToString("F7").TrimEnd(new char[] { '0' });
+									formatValue = formatDouble.ToString("F7").TrimEnd(new char[] { '0' });
 								}
 								else
 								{
-									formatedValue = fromatedDouble.ToString("N7").TrimEnd(new char[] { '0' });
+									formatValue = formatDouble.ToString("N7").TrimEnd(new char[] { '0' });
 								}
-								decimalPlace = formatedValue.IndexOf('.');
-								decimalPlace = (formatedValue.Substring(decimalPlace + 1)).Length;
+								decimalPlace = formatValue.IndexOf('.');
+								decimalPlace = (formatValue.Substring(decimalPlace + 1)).Length;
 
 								switch (decimalPlace)
 								{
 									case 0:
-										formatedValue = string.Concat(formatedValue, "00");
+										formatValue = string.Concat(formatValue, "00");
 										break;
 									case 1:
-										formatedValue = string.Concat(formatedValue, "0");
+										formatValue = string.Concat(formatValue, "0");
 										break;
 									default:
 										break;
@@ -231,18 +230,18 @@ namespace ROC
 			}
 			else
 			{
-				fromatedDouble = value;
+				formatDouble = value;
 				if (DefaultPriceFormat == "F")
 				{
-					formatedValue = fromatedDouble.ToString("F2");
+					formatValue = formatDouble.ToString("F2");
 				}
 				else
 				{
-					formatedValue = fromatedDouble.ToString("N2");
+					formatValue = formatDouble.ToString("N2");
 				}
 			}
 
-			return formatedValue;
+			return formatValue;
 		}
 
 		internal double GetPriceFromUserInput(string value)

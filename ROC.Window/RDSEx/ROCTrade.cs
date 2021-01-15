@@ -7,7 +7,7 @@ using Price = Common.Price;
 namespace RDSEx
 {
 	[Serializable]
-	public class ROCTrade : AssetShared, ISerializable
+	public class ROCTrade : ROCSecurity, ISerializable
 	{
 		public readonly long AlgoDestID = 0;
 		public string Account { get; private set; } = "";

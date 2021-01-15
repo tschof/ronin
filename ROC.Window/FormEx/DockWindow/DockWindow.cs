@@ -1,7 +1,6 @@
 using System;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace FormEx
@@ -386,8 +385,9 @@ namespace FormEx
 			if (stickToOther)
 			{
 				// now try to stick to other forms
-				foreach (Form sw in GlobalStickyWindows.Values)
+				foreach (KeyValuePair<IntPtr, Form> entry in GlobalStickyWindows)
 				{
+					Form sw = entry.Value;
 					if (sw != this.originalForm)
 						Resize_Stick(sw.Bounds, true);
 				}
@@ -568,8 +568,9 @@ namespace FormEx
 			// Now try to snap to other windows
 			if (stickToOther)
 			{
-				foreach (Form sw in GlobalStickyWindows.Values)
+				foreach (KeyValuePair<IntPtr, Form> entry in GlobalStickyWindows)
 				{
+					Form sw = entry.Value;
 					if (sw != this.originalForm)
 						Move_Stick(sw.Bounds, true);
 				}

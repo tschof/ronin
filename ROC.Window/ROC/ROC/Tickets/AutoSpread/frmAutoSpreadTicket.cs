@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Linq;
 
 using Common;
 using SerializationEx;
@@ -614,7 +615,7 @@ namespace ROC
 
 			if (rows.Length > 0)
 			{
-				BaseSecurityInfo secInfo = null;
+				IMSecurityBase secInfo = null;
 
 				foreach (DataRow row in rows)
 				{
@@ -1086,7 +1087,7 @@ namespace ROC
 					lcoImSymbolNeeded = new Dictionary<string, string>(ImSymbolNeeded);
 				}
 
-				BaseSecurityInfo secInfo = null;
+				IMSecurityBase secInfo = null;
 				List<string> removeList = new List<string>();
 
 				lock (rocAutoSpreadListSettings.RocGridTable)
@@ -1124,7 +1125,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, IMSecurityBase secInfo)
 		{
 			HelperSubscriber.Subscribe(secInfo.MDSymbol, secInfo.MDSource, secInfo.SecType);
 			switch (secInfo.SecType)
@@ -1247,7 +1248,7 @@ namespace ROC
 							case CSVFieldIDs.StatusCodes.Open:
 								break;
 							case CSVFieldIDs.StatusCodes.Rejected:
-								foreach (ROCOrder spreadOrder in spreadOrders.Values)
+								foreach ((int _, ROCOrder spreadOrder) in spreadOrders)
 								{
 									if (spreadOrder.Tag != order.Tag)
 									{
@@ -1656,7 +1657,7 @@ namespace ROC
 								order.mdSymbol = item.SecInfo.MDSymbol;
 								order.secType = item.SecInfo.SecType;
 								order.underlying = item.SecInfo.Underlying;
-								order.expDate = item.SecInfo.Expiration;
+								order.expDate = item.SecInfo.ExpirationText;
 								break;
 							case CSVEx.CSVFieldIDs.SecurityTypes.Equity:
 							default:
@@ -1837,7 +1838,7 @@ namespace ROC
 						(price == spreadPrice) &&
 						(pTagItems.MasterSideSpreadName == side))
 					{
-						foreach (ROCOrder order in orders.Values)
+						foreach ((int _, ROCOrder order) in orders)
 						{
 							GLOBAL.OrderManagers.CancelSingleOrder(order.Tag);
 						}
@@ -2104,7 +2105,7 @@ namespace ROC
 			_buyOrdersByTag.Clear();
 			_sellOrdersByTag.Clear();
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			LongName = "Auto Spread Ticket";
 			EchoID = 0;
@@ -2562,7 +2563,7 @@ namespace ROC
 			// If filled then lock down the entire spread order.
 			bool result = false;
 
-			foreach (ROCOrder order in orders.Values)
+			foreach ((int _, ROCOrder order) in orders)
 			{
 				switch (order.Status)
 				{
@@ -2585,7 +2586,7 @@ namespace ROC
 		}
 		private void LockSpreadOrder(Dictionary<int, ROCOrder> orders)
 		{
-			foreach (ROCOrder order in orders.Values)
+			foreach ((int _, ROCOrder order) in orders)
 			{
 				switch (order.Status)
 				{
@@ -2616,7 +2617,7 @@ namespace ROC
 		private void GetLeaveMultiple(Dictionary<int, ROCOrder> orders, out KeyValuePair<int, double>? largestMultiple, out KeyValuePair<int, double>? smallestMultiple)
 		{
 			Dictionary<int, double> leaveMultiples = new Dictionary<int,double>();
-			foreach (ROCOrder order in orders.Values)
+			foreach ((int _, ROCOrder order) in orders)
 			{
 				TagKeyItems tagItems = new TagKeyItems(order.Tag);
 
@@ -3169,7 +3170,7 @@ namespace ROC
 		{
 			bool result = false;
 
-			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
+			IMSecurityBase secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 			if (secInfo != null)
 			{
 				mdSymbol = secInfo.MDSymbol;
@@ -3422,9 +3423,9 @@ namespace ROC
 			if (_menuTraderActions == null)
 			{
 				Dictionary<string, string> items = new Dictionary<string, string>();
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					items.Add(trader.tradeFor.ToUpper(), trader.tradeFor.ToUpper());
+					items.Add(trader.TradeFor, trader.TradeFor);
 				}
 				items.Add("", "");
 
@@ -3485,9 +3486,9 @@ namespace ROC
 				}
 				else
 				{
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
-						if (trader.tradeFor == e.PropertyName)
+						if (trader.TradeFor == e.PropertyName)
 						{
 							if (VerifyExchange(ref order, trader.CSAccounts) || VerifyExchange(ref order, trader.FUTAccounts) || VerifyExchange(ref order, trader.OPTAccounts))
 							{
@@ -3568,15 +3569,15 @@ namespace ROC
 				if (_menuAccountActions == null)
 				{
 					Dictionary<string, string> items = new Dictionary<string, string>();
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
-						if (trader.tradeFor.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
+						if (trader.TradeFor.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
 						{
-							foreach (AccountMap acctMap in trader.CSAccounts.Values)
-								items.TryAdd(acctMap.account, acctMap.account);
+							foreach (string account in trader.CSAccounts.Select(n => n.Value.account))
+								items.TryAdd(account, account);
 
-							foreach (AccountMap acctMap in trader.FUTAccounts.Values)
-								items.TryAdd(acctMap.account, acctMap.account);
+							foreach (string account in trader.FUTAccounts.Select(n => n.Value.account))
+								items.TryAdd(account, account);
 
 							break;
 						}
@@ -3638,9 +3639,9 @@ namespace ROC
 			}
 			else
 			{
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					if (trader.tradeFor == e.PropertyName)
+					if (trader.TradeFor == e.PropertyName)
 					{
 						if (VerifyExchange(ref order, trader.CSAccounts) || VerifyExchange(ref order, trader.FUTAccounts) || VerifyExchange(ref order, trader.OPTAccounts))
 						{
@@ -3703,11 +3704,11 @@ namespace ROC
 				if (_menuExchangeActions == null)
 				{
 					Dictionary<string, string> items = new Dictionary<string, string>();
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
-						if (trader.tradeFor.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
+						if (trader.TradeFor.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
 						{
-							foreach (AccountMap acctMap in trader.CSAccounts.Values)
+							foreach (AccountMap acctMap in trader.CSAccounts.Select(n => n.Value))
 							{
 								if (acctMap.account.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
@@ -3716,7 +3717,7 @@ namespace ROC
 								}
 							}
 
-							foreach (AccountMap acctMap in trader.FUTAccounts.Values)
+							foreach (AccountMap acctMap in trader.FUTAccounts.Select(n => n.Value))
 							{
 								if (acctMap.account.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
@@ -3725,7 +3726,7 @@ namespace ROC
 								}
 							}
 
-							foreach (AccountMap acctMap in trader.OPTAccounts.Values)
+							foreach (AccountMap acctMap in trader.OPTAccounts.Select(n => n.Value))
 							{
 								if (acctMap.account.ToUpper() == rocAutoSpreadListSettings.Rows[rocAutoSpreadListSettings.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
@@ -3794,9 +3795,9 @@ namespace ROC
 			}
 			else
 			{
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					if (trader.tradeFor == e.PropertyName)
+					if (trader.TradeFor == e.PropertyName)
 					{
 						if (VerifyExchange(ref order, trader.CSAccounts) || VerifyExchange(ref order, trader.FUTAccounts) || VerifyExchange(ref order, trader.OPTAccounts))
 						{
@@ -3917,9 +3918,9 @@ namespace ROC
 				else
 				{
 					// Search for a match
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
-						if (trader.tradeFor == order.tradeFor)
+						if (trader.TradeFor == order.tradeFor)
 						{
 							switch (order.secType)
 							{
@@ -3971,7 +3972,7 @@ namespace ROC
 
 		private bool VerifyExchange(ref RomBasicOrder order, Dictionary<string, AccountMap> accounts)
 		{
-			foreach (AccountMap acctMap in accounts.Values)
+			foreach ((string _, AccountMap acctMap) in accounts)
 			{
 				if (order.localAcctAcrn == "")
 				{

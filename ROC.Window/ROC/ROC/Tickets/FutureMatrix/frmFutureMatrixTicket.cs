@@ -135,7 +135,7 @@ namespace ROC
 		{
 			DDSymbolDetails = new DropDownSymbolDetails(this);
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			_isLoadingValue = true;
 
@@ -432,7 +432,7 @@ namespace ROC
 					// Matrix Symbol
 					if (SymbolDetailMatrix.TryGetValue(symbolDetail, out MatrixPosition position))
 					{
-						BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
+						IMSecurityBase secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 						if (secInfo != null && secInfo.SecType != "")
 						{
 							UpdateMatrixIMInfo(position.ColumnIndex, position.RowIndex, secInfo);
@@ -454,7 +454,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, IMSecurityBase secInfo)
 		{
 			if (!IsProcessing)
 			{
@@ -471,7 +471,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateMatrixIMInfo(int colIndex, int rowIndex, BaseSecurityInfo secInfo)
+		private void UpdateMatrixIMInfo(int colIndex, int rowIndex, IMSecurityBase secInfo)
 		{
 			MatrixColumns[colIndex].FuturesMatrixObjects[rowIndex].SecInfo = secInfo;
 
@@ -659,17 +659,17 @@ namespace ROC
 			panelGrid.Controls.Clear();
 		}
 
-		private void ProcessFutureMatrix(BaseSecurityInfo secInfo)
+		private void ProcessFutureMatrix(IMSecurityBase secInfo)
 		{
 			try
 			{
-				if (GLOBAL.TimeFormats.TryParse(secInfo.Expiration, out DateTime when))
+				if (secInfo.Expiration.HasValue)
 				{
 					string _baseSymbol = CurrentSymbolDetailBase;
 					int range = MatrixRange * MatrixInterval;
 					for (int index = 0; index < range; index++)
 					{
-						MatrixColumns.Add(new FutureMatrixColumn(range - index, MatrixInterval, _baseSymbol, when.AddMonths(index)));
+						MatrixColumns.Add(new FutureMatrixColumn(range - index, MatrixInterval, _baseSymbol, secInfo.Expiration.Value.AddMonths(index)));
 						index = index + MatrixInterval - 1;
 					}
 
@@ -948,7 +948,7 @@ namespace ROC
 			_isLoadingValue = true;
 
 			ClearFutureMatrix();
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			LongName = CurrentSecInfo.LongName;
 

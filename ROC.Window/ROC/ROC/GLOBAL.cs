@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Common;
-using RDSEx;
 
 namespace ROC
 {
@@ -67,92 +66,6 @@ namespace ROC
 			CS = cs;
 			FUT = fut;
 			OPT = opt;
-		}
-	}
-
-	internal sealed class BaseSecurityInfo
-	{
-		internal string MDSymbol = "";
-		internal string MDSource = "";
-		internal double TickSize = 0.01;
-		internal double ContractSize = 1.0;
-		internal string SecType = "";
-		internal string Underlying = "";
-		internal string LongName = "";
-		internal string Expiration = "";
-
-		internal BaseSecurityInfo()
-		{
-			_ssfChain = null;
-			_optionChain = null;
-		}
-
-		internal decimal TickSizeDec
-		{
-			get
-			{
-				return Convert.ToDecimal(TickSize);
-			}
-		}
-
-		internal int DecimalPlaces
-		{
-			get
-			{
-				string[] strs = TickSizeDec.ToString().Split(new char[] { '.' }, StringSplitOptions.None);
-				if (strs.Length > 1)
-				{
-					return strs[1].Trim().Length;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-		}
-
-
-		internal bool TryGetExpiration(out DateTime expiration)
-		{
-			if (string.IsNullOrEmpty(Expiration)) {
-				expiration = default;
-				return false;
-			}
-			return GLOBAL.TimeFormats.TryParse(Expiration, out expiration, "yyyyMMdd");
-		}
-
-		private Dictionary<string, IMSSFutureInfo> _ssfChain;
-		internal Dictionary<string, IMSSFutureInfo> SSFChain
-		{
-			get
-			{
-				if (_ssfChain == null)
-				{
-					_ssfChain = new Dictionary<string, IMSSFutureInfo>();
-				}
-				return _ssfChain;
-			}
-			set
-			{
-				_ssfChain = value;
-			}
-		}
-
-		private Dictionary<string, IMOptionInfo> _optionChain;
-		internal Dictionary<string, IMOptionInfo> OptionChain
-		{
-			get
-			{
-				if (_optionChain == null)
-				{
-					_optionChain = new Dictionary<string, IMOptionInfo>();
-				}
-				return _optionChain;
-			}
-			set
-			{
-				_optionChain = value;
-			}
 		}
 	}
 

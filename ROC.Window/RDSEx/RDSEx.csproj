@@ -56,8 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountMap.cs" />
-    <Compile Include="BaseOptionInfo.cs" />
-    <Compile Include="BaseSecurityInfo.cs" />
+    <Compile Include="IMSecurityBase.cs" />
     <Compile Include="DestinationMap.cs" />
     <Compile Include="GLOBAL.cs" />
     <Compile Include="IMOptionInfo.cs" />
@@ -70,13 +69,13 @@
     </Compile>
     <Compile Include="RDS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BaseSSFutureInfo.cs" />
+    <Compile Include="IMSSFutureBase.cs" />
     <Compile Include="RDSFieldIDs.cs" />
     <Compile Include="ROCTrade.cs" />
     <Compile Include="TraderMap.cs" />
     <Compile Include="ROCOrder.cs" />
     <Compile Include="ROCPosition.cs" />
-    <Compile Include="AssetShared.cs" />
+    <Compile Include="ROCSecurity.cs" />
     <Compile Include="Web References\WEB\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

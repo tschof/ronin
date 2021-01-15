@@ -6,6 +6,9 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
 using MarketData;
+using System.Linq;
+
+using Price = Common.Price;
 
 namespace DataGridViewEx
 {
@@ -2331,22 +2334,34 @@ namespace DataGridViewEx
 
 		#region - Option Grid Functions -
 
-		private List<double> _strikes;
-		[Browsable(false)]
-		public List<double> Strikes
+		private SortedSet<Price> _strikes = new SortedSet<Price>();
+		public void ClearStrikes()
 		{
-			get
-			{
-				if (_strikes == null)
-				{
-					_strikes = new List<double>();
-				}
-				return _strikes;
+			lock (_strikes) {
+				_strikes.Clear();
 			}
-			set
-			{
-				_strikes = value;
+		}
+		public bool TryAddStrike(Price strike)
+		{
+			lock (_strikes) {
+				if (_strikes.Contains(strike))
+					return false;
+				_strikes.Add(strike);
+				return true;
 			}
+		}
+		public Price LowStrike => _strikes.Count > 0 ? _strikes.Min : Price.UnsetPrice;
+		public Price HighStrike => _strikes.Count > 0 ? _strikes.Max : Price.UnsetPrice;
+		public double MidStrike =>  _strikes.Count > 0 ? (_strikes.Max.Value + _strikes.Min.Value) / 2.0 : 0;
+		public int StrikeCount => _strikes.Count;
+		public IEnumerator<Price> GetStrikeEnumerator() => _strikes.GetEnumerator();
+		public Price GetStrikeAt(int index)
+		{
+			foreach (Price strike in _strikes) {
+				if (index-- == 0)
+					return strike;
+			}
+			return Price.UnsetPrice;
 		}
 
 		private int _strikeRange = 20;
@@ -2377,24 +2392,34 @@ namespace DataGridViewEx
 			}
 		}
 
-		private List<DateTime> _expirations;
-		[Browsable(false)]
-		public List<DateTime> Expirations
+		private SortedSet<DateTime> _expirations = new SortedSet<DateTime>();
+		public bool HasExpiration(DateTime when) => _expirations.Contains(when);
+		public void AddExpiration(DateTime when)
 		{
-			get
-			{
-				if (_expirations == null)
-				{
-					_expirations = new List<DateTime>();
-				}
-				return _expirations;
-			}
-			set
-			{
-				_expirations = value;
+			lock (_expirations) {
+				if (!_expirations.Contains(when))
+					_expirations.Add(when);
 			}
 		}
-		
+		public void ClearExpirations()
+		{
+			lock (_expirations) {
+				_expirations.Clear();
+			}
+		}
+		public int ExpirationCount => _expirations.Count;
+		public DateTime HighExpiration => _expirations.Max;
+		public DateTime LowExpiration => _expirations.Min;
+		public IEnumerator<DateTime> GetExpirationEnumerator() => _expirations.GetEnumerator();
+		public DateTime GetExpirationAt(int index)
+		{
+			foreach (DateTime when in _expirations) {
+				if (index-- == 0)
+					return when;
+			}
+			return default;
+		}
+
 		private bool _optionLoaded = false;
 		[Browsable(false)]
 		public bool OptionLoaded

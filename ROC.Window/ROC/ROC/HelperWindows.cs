@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
+
+using Common;
 using ContextMenuEx;
 
 namespace ROC
@@ -412,7 +414,7 @@ namespace ROC
 		{
 			get
 			{
-				foreach (frmTrades w in TradeWindows.Values)
+				foreach ((IntPtr _, frmTrades w) in TradeWindows)
 				{
 					if (w.Extended)
 					{
@@ -420,7 +422,7 @@ namespace ROC
 					}
 				}
 
-				foreach (frmPositions w in PositionWindows.Values)
+				foreach ((IntPtr _, frmPositions w) in PositionWindows)
 				{
 					if (w.Extended)
 					{
@@ -704,109 +706,86 @@ namespace ROC
 			{
 				_busyShowAll = true;
 
-				foreach (frmWatchList w in WatchListWindows.Values)
+				foreach ((IntPtr _, frmWatchList w) in WatchListWindows)
 				{
 					if (!w.IsProcessing)
 					{
-						ShowWindow((Form)w);
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmPlotList w in PlotListWindows.Values)
-				{
-					if (!w.IsProcessing)
-					{
-						ShowWindow((Form)w);
+				foreach ((IntPtr _, frmPlotList w) in PlotListWindows) {
+					if (!w.IsProcessing) {
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmStockTicket w in StockTicketWindows.Values)
-				{
-					ShowWindow((Form)w);
+				foreach ((IntPtr _, frmStockTicket w) in StockTicketWindows) {
+					ShowWindow(w);
 				}
 
-				foreach (frmOptionTicket w in OptionTicketWindows.Values)
-				{
-					if (!w.IsProcessing)
-					{
-						ShowWindow((Form)w);
+				foreach ((IntPtr _, frmOptionTicket w) in OptionTicketWindows) {
+					if (!w.IsProcessing) {
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmFutureTicket w in FutureTicketWindows.Values)
-				{
-					ShowWindow((Form)w);
+				foreach ((IntPtr _, frmFutureTicket w) in FutureTicketWindows) {
+					ShowWindow(w);
 				}
 
-				foreach (frmQuickTicket w in QuickTicketWindows.Values)
-				{
-					ShowWindow((Form)w);
+				foreach ((IntPtr _, frmQuickTicket w) in QuickTicketWindows) {
+					ShowWindow(w);
 				}
 
-				foreach (frmAutoSpreadTicket w in AutoSpreadTicketWindows.Values)
-				{
-					if (!w.IsProcessing)
-					{
-						ShowWindow((Form)w);
+				foreach ((IntPtr _, frmAutoSpreadTicket w) in AutoSpreadTicketWindows) {
+					if (!w.IsProcessing) {
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmFutureMatrixTicket w in FutureMatrixTicketWindows.Values)
-				{
-					if (!w.IsProcessing)
-					{
-						ShowWindow((Form)w);
+				foreach ((IntPtr _, frmFutureMatrixTicket w) in FutureMatrixTicketWindows) {
+					if (!w.IsProcessing) {
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmBatchTicket w in BatchTicketWindows.Values)
-				{
-					if (!w.IsProcessing)
-					{
-						ShowWindow((Form)w);
+				foreach ((IntPtr _, frmBatchTicket w) in BatchTicketWindows) {
+					if (!w.IsProcessing) {
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmBatchMarketTicket w in BatchMarketTicketWindows.Values)
-				{
-					if (!w.IsProcessing)
-					{
-						ShowWindow((Form)w);
+				foreach ((IntPtr _, frmBatchMarketTicket w) in BatchMarketTicketWindows) {
+					if (!w.IsProcessing) {
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmOrders w in OrderWindows.Values)
-				{
-					if (!w.IsProcessing)
-					{
-						ShowWindow((Form)w);
+				foreach ((IntPtr _, frmOrders w) in OrderWindows) {
+					if (!w.IsProcessing) {
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmTrades w in TradeWindows.Values)
-				{
-					if (!w.IsProcessing)
-					{
-						ShowWindow((Form)w);
+				foreach ((IntPtr _, frmTrades w) in TradeWindows) {
+					if (!w.IsProcessing) {
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmPositions w in PositionWindows.Values)
-				{
-					if (!w.IsProcessing)
-					{
-						ShowWindow((Form)w);
+				foreach ((IntPtr _, frmPositions w) in PositionWindows) {
+					if (!w.IsProcessing) {
+						ShowWindow(w);
 					}
 				}
 
-				foreach (frmAlert w in AlertWindows.Values)
-				{
-					ShowWindow((Form)w);
+				foreach ((IntPtr _, frmAlert w) in AlertWindows) {
+					ShowWindow(w);
 				}
 
-				foreach (frmClock w in ClockWindows.Values)
-				{
-					ShowWindow((Form)w);
+				foreach ((IntPtr _, frmClock w) in ClockWindows) {
+					ShowWindow(w);
 				}
 
 				_busyShowAll = false;
@@ -815,78 +794,63 @@ namespace ROC
 
 		private void HideAll()
 		{
-			foreach (frmAlert w in AlertWindows.Values)
-			{
+			foreach ((IntPtr _, frmAlert w) in AlertWindows) {
 				w.Hide();
 			}
 
-			foreach (frmClock w in ClockWindows.Values)
-			{
+			foreach ((IntPtr _, frmClock w) in ClockWindows) {
 				w.Hide();
 			}
 
-			foreach (frmWatchList w in WatchListWindows.Values)
-			{
+			foreach ((IntPtr _, frmWatchList w) in WatchListWindows) {
 				w.Hide();
 			}
 
-			foreach (frmPlotList w in PlotListWindows.Values)
-			{
+			foreach ((IntPtr _, frmPlotList w) in PlotListWindows) {
 				w.Hide();
 			}
 
-			foreach (frmStockTicket w in StockTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmStockTicket w) in StockTicketWindows) {
 				w.Hide();
 			}
 
-			foreach (frmOptionTicket w in OptionTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmOptionTicket w) in OptionTicketWindows) {
 				w.Hide();
 			}
 
-			foreach (frmFutureTicket w in FutureTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmFutureTicket w) in FutureTicketWindows) {
 				w.Hide();
 			}
 
-			foreach (frmQuickTicket w in QuickTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmQuickTicket w) in QuickTicketWindows) {
 				w.Hide();
 			}
 
-			foreach (frmAutoSpreadTicket w in AutoSpreadTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmAutoSpreadTicket w) in AutoSpreadTicketWindows) {
 				w.Hide();
 			}
 
-			foreach (frmFutureMatrixTicket w in FutureMatrixTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmFutureMatrixTicket w) in FutureMatrixTicketWindows) {
 				w.Hide();
 			}
 
-			foreach (frmBatchTicket w in BatchTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmBatchTicket w) in BatchTicketWindows) {
 				w.Hide();
 			}
 
-			foreach (frmBatchMarketTicket w in BatchMarketTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmBatchMarketTicket w) in BatchMarketTicketWindows) {
 				w.Hide();
 			}
 
-			foreach (frmOrders w in OrderWindows.Values)
-			{
+			foreach ((IntPtr _, frmOrders w) in OrderWindows) {
 				w.Hide();
 			}
 
-			foreach (frmTrades w in TradeWindows.Values)
-			{
+			foreach ((IntPtr _, frmTrades w) in TradeWindows) {
 				w.Hide();
 			}
 
-			foreach (frmPositions w in PositionWindows.Values)
-			{
+			foreach ((IntPtr _, frmPositions w) in PositionWindows) {
 				w.Hide();
 			}
 		}
@@ -894,20 +858,17 @@ namespace ROC
 		private void LoadWatchLists(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmWatchList w in WatchListWindows.Values)
-			{
+			foreach ((IntPtr _, frmWatchList w) in WatchListWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(WatchLists_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void WatchLists_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmWatchList w in WatchListWindows.Values)
-			{
-				if (w.Caption == ((ToolStripMenuItem)sender).Text && 
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+			foreach ((IntPtr _, frmWatchList w) in WatchListWindows) {
+				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -915,20 +876,17 @@ namespace ROC
 		private void LoadPlotLists(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmPlotList w in PlotListWindows.Values)
-			{
+			foreach ((IntPtr _, frmPlotList w) in PlotListWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(PlotLists_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void PlotLists_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmPlotList w in PlotListWindows.Values)
-			{
-				if (w.Caption == ((ToolStripMenuItem)sender).Text && 
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+			foreach ((IntPtr _, frmPlotList w) in PlotListWindows) {
+				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -936,20 +894,17 @@ namespace ROC
 		private void LoadStockTickets(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmStockTicket w in StockTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmStockTicket w) in StockTicketWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(StockTickets_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void StockTickets_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmStockTicket w in StockTicketWindows.Values)
-			{
-				if (w.Caption == ((ToolStripMenuItem)sender).Text && 
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+			foreach ((IntPtr _, frmStockTicket w) in StockTicketWindows) {
+				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -957,20 +912,17 @@ namespace ROC
 		private void LoadOptionTickets(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmOptionTicket w in OptionTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmOptionTicket w) in OptionTicketWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(OptionTickets_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void OptionTickets_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmOptionTicket w in OptionTicketWindows.Values)
-			{
-				if (w.Caption == ((ToolStripMenuItem)sender).Text && 
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+			foreach ((IntPtr _, frmOptionTicket w) in OptionTicketWindows) {
+				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -978,20 +930,17 @@ namespace ROC
 		private void LoadFutureTickets(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmFutureTicket w in FutureTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmFutureTicket w) in FutureTicketWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(FutureTickets_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void FutureTickets_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmFutureTicket w in FutureTicketWindows.Values)
-			{
-				if (w.Caption == ((ToolStripMenuItem)sender).Text && 
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+			foreach ((IntPtr _, frmFutureTicket w) in FutureTicketWindows) {
+				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -999,20 +948,17 @@ namespace ROC
 		private void LoadQuickTickets(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmQuickTicket w in QuickTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmQuickTicket w) in QuickTicketWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(QuickTickets_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void QuickTickets_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmQuickTicket w in QuickTicketWindows.Values)
-			{
-				if (w.Caption == ((ToolStripMenuItem)sender).Text && 
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+			foreach ((IntPtr _, frmQuickTicket w) in QuickTicketWindows) {
+				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -1020,20 +966,17 @@ namespace ROC
 		private void LoadBatchTickets(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmBatchTicket w in BatchTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmBatchTicket w) in BatchTicketWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(BatchTickets_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void BatchTickets_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmBatchTicket w in BatchTicketWindows.Values)
-			{
-				if (w.Caption == ((ToolStripMenuItem)sender).Text && 
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+			foreach ((IntPtr _, frmBatchTicket w) in BatchTicketWindows) {
+				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -1041,20 +984,17 @@ namespace ROC
 		private void LoadBatchMarketTickets(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmBatchMarketTicket w in BatchMarketTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmBatchMarketTicket w) in BatchMarketTicketWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(BatchMarketTickets_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void BatchMarketTickets_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmBatchMarketTicket w in BatchMarketTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmBatchMarketTicket w) in BatchMarketTicketWindows) {
 				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -1062,20 +1002,17 @@ namespace ROC
 		private void LoadAutoSpreadTickets(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmAutoSpreadTicket w in AutoSpreadTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmAutoSpreadTicket w) in AutoSpreadTicketWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(AutoSpreadTickets_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void AutoSpreadTickets_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmAutoSpreadTicket w in AutoSpreadTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmAutoSpreadTicket w) in AutoSpreadTicketWindows) {
 				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -1083,20 +1020,17 @@ namespace ROC
 		private void LoadFutureMatrixTickets(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmFutureMatrixTicket w in FutureMatrixTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmFutureMatrixTicket w) in FutureMatrixTicketWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(FutureMatrixTickets_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void FutureMatrixTickets_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmFutureMatrixTicket w in FutureMatrixTicketWindows.Values)
-			{
+			foreach ((IntPtr _, frmFutureMatrixTicket w) in FutureMatrixTicketWindows) {
 				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -1104,20 +1038,17 @@ namespace ROC
 		private void LoadOrderWindows(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmOrders w in OrderWindows.Values)
-			{
+			foreach ((IntPtr _, frmOrders w) in OrderWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(Order_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void Order_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmOrders w in OrderWindows.Values)
-			{
+			foreach ((IntPtr _, frmOrders w) in OrderWindows) {
 				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -1125,20 +1056,17 @@ namespace ROC
 		private void LoadTradeWindows(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmTrades w in TradeWindows.Values)
-			{
+			foreach ((IntPtr _, frmTrades w) in TradeWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(Trade_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void Trade_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmTrades w in TradeWindows.Values)
-			{
-				if (w.Caption == ((ToolStripMenuItem)sender).Text && 
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+			foreach ((IntPtr _, frmTrades w) in TradeWindows) {
+				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -1146,20 +1074,17 @@ namespace ROC
 		private void LoadPositionWindows(ToolStripMenuItem menu)
 		{
 			menu.DropDownItems.Clear();
-			foreach (frmPositions w in PositionWindows.Values)
-			{
+			foreach ((IntPtr _, frmPositions w) in PositionWindows) {
 				menu.DropDownItems.Add(new ToolStripMenuItem(w.Caption, null, new EventHandler(Position_MenuEvent), w.Handle.ToString()));
 			}
 		}
 
 		private void Position_MenuEvent(object sender, EventArgs e)
 		{
-			foreach (frmPositions w in PositionWindows.Values)
-			{
-				if (w.Caption == ((ToolStripMenuItem)sender).Text && 
-					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name)
-				{
-					ShowWindow((Form)w);
+			foreach ((IntPtr _, frmPositions w) in PositionWindows) {
+				if (w.Caption == ((ToolStripMenuItem)sender).Text &&
+					w.Handle.ToString() == ((ToolStripMenuItem)sender).Name) {
+					ShowWindow(w);
 				}
 			}
 		}
@@ -1233,17 +1158,13 @@ namespace ROC
 
 		internal frmAlert OpenWindow(frmAlert w)
 		{
-			if (AlertWindows.Count > 0)
-			{
-				foreach (frmAlert wOld in AlertWindows.Values)
-				{
-					ShowWindow((Form)wOld);
+			if (AlertWindows.Count > 0) {
+				foreach ((IntPtr _, frmAlert wOld) in AlertWindows) {
+					ShowWindow(wOld);
 					w = wOld;
 				}
-			}
-			else
-			{
-				OpenWindow((Form)w);
+			} else {
+				OpenWindow(w);
 				AlertWindows.Add(w.Handle, w);
 			}
 
@@ -1252,17 +1173,13 @@ namespace ROC
 
 		internal frmClock OpenWindow(frmClock w)
 		{
-			if (ClockWindows.Count > 0)
-			{
-				foreach (frmClock wOld in ClockWindows.Values)
-				{
-					ShowWindow((Form)wOld);
+			if (ClockWindows.Count > 0) {
+				foreach ((IntPtr _, frmClock wOld) in ClockWindows) {
+					ShowWindow(wOld);
 					w = wOld;
 				}
-			}
-			else
-			{
-				OpenWindow((Form)w);
+			} else {
+				OpenWindow(w);
 				ClockWindows.Add(w.Handle, w);
 			}
 
@@ -1271,17 +1188,13 @@ namespace ROC
 
 		internal frmUserProfile OpenWindow(frmUserProfile w)
 		{
-			if (UserProfileWindows.Count > 0)
-			{
-				foreach (frmUserProfile wOld in UserProfileWindows.Values)
-				{
-					ShowWindow((Form)wOld);
+			if (UserProfileWindows.Count > 0) {
+				foreach ((IntPtr _, frmUserProfile wOld) in UserProfileWindows) {
+					ShowWindow(wOld);
 					w = wOld;
 				}
-			}
-			else
-			{
-				OpenWindow((Form)w);
+			} else {
+				OpenWindow(w);
 				UserProfileWindows.Add(w.Handle, w);
 			}
 
@@ -1290,17 +1203,13 @@ namespace ROC
 
 		internal frmSettings OpenWindow(frmSettings w)
 		{
-			if (SettingsWindows.Count > 0)
-			{
-				foreach (frmSettings wOld in SettingsWindows.Values)
-				{
-					ShowWindow((Form)wOld);
+			if (SettingsWindows.Count > 0) {
+				foreach ((IntPtr _, frmSettings wOld) in SettingsWindows) {
+					ShowWindow(wOld);
 					w = wOld;
 				}
-			}
-			else
-			{
-				OpenWindow((Form)w);
+			} else {
+				OpenWindow(w);
 				SettingsWindows.Add(w.Handle, w);
 			}
 
@@ -1309,17 +1218,13 @@ namespace ROC
 
 		internal frmEMail OpenWindow(frmEMail w)
 		{
-			if (SettingsWindows.Count > 0)
-			{
-				foreach (frmEMail wOld in EMailWindows.Values)
-				{
-					ShowWindow((Form)wOld);
+			if (SettingsWindows.Count > 0) {
+				foreach ((IntPtr _, frmEMail wOld) in EMailWindows) {
+					ShowWindow(wOld);
 					w = wOld;
 				}
-			}
-			else
-			{
-				OpenWindow((Form)w);
+			} else {
+				OpenWindow(w);
 				EMailWindows.Add(w.Handle, w);
 			}
 
@@ -1328,17 +1233,13 @@ namespace ROC
 
 		internal frmAbout OpenWindow(frmAbout w)
 		{
-			if (AboutWindows.Count > 0)
-			{
-				foreach (frmAbout wOld in AboutWindows.Values)
-				{
-					ShowWindow((Form)wOld);
+			if (AboutWindows.Count > 0) {
+				foreach ((IntPtr _, frmAbout wOld) in AboutWindows) {
+					ShowWindow(wOld);
 					w = wOld;
 				}
-			}
-			else
-			{
-				OpenWindow((Form)w);
+			} else {
+				OpenWindow(w);
 				AboutWindows.Add(w.Handle, w);
 			}
 
@@ -1357,13 +1258,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			WatchListWindows.Add(w.Handle, w);
@@ -1373,13 +1274,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			PlotListWindows.Add(w.Handle, w);
@@ -1389,11 +1290,11 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
-				ShowWindow((Form)w);
+				ShowWindow(w);
 			}
 			StockTicketWindows.Add(w.Handle, w);
 		}
@@ -1402,13 +1303,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			OptionTicketWindows.Add(w.Handle, w);
@@ -1418,11 +1319,11 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
-				ShowWindow((Form)w);
+				ShowWindow(w);
 			}
 			FutureTicketWindows.Add(w.Handle, w);
 		}
@@ -1431,11 +1332,11 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
-				ShowWindow((Form)w);
+				ShowWindow(w);
 			}
 			QuickTicketWindows.Add(w.Handle, w);
 		}
@@ -1444,13 +1345,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			AutoSpreadTicketWindows.Add(w.Handle, w);
@@ -1460,13 +1361,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			FutureMatrixTicketWindows.Add(w.Handle, w);
@@ -1476,13 +1377,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			BatchTicketWindows.Add(w.Handle, w);
@@ -1492,13 +1393,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			BatchMarketTicketWindows.Add(w.Handle, w);
@@ -1508,13 +1409,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			OrderWindows.Add(w.Handle, w);
@@ -1524,13 +1425,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			TradeWindows.Add(w.Handle, w);
@@ -1540,13 +1441,13 @@ namespace ROC
 		{
 			if (isNew)
 			{
-				OpenWindow((Form)w);
+				OpenWindow(w);
 			}
 			else
 			{
 				if (!w.IsProcessing)
 				{
-					ShowWindow((Form)w);
+					ShowWindow(w);
 				}
 			}
 			PositionWindows.Add(w.Handle, w);
@@ -1600,11 +1501,11 @@ namespace ROC
 			switch (secType)
 			{
 				case CSVEx.CSVFieldIDs.SecurityTypes.Equity:
-					foreach (frmStockTicket w in StockTicketWindows.Values)
+					foreach ((IntPtr _, frmStockTicket w) in StockTicketWindows)
 					{
 						if (w.CurrentSymbolDetail == symbolDetail)
 						{
-							ShowWindow((Form)w);
+							ShowWindow(w);
 							found = true;
 							break;
 						}
@@ -1614,11 +1515,11 @@ namespace ROC
 					string[] opts = symbolDetail.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 					if (opts.Length > 0)
 					{
-						foreach (frmOptionTicket w in OptionTicketWindows.Values)
+						foreach ((IntPtr _, frmOptionTicket w) in OptionTicketWindows)
 						{
 							if (w.CurrentSymbolDetail == opts[0])
 							{
-								ShowWindow((Form)w);
+								ShowWindow(w);
 								found = true;
 								break;
 							}
@@ -1626,11 +1527,11 @@ namespace ROC
 					}
 					break;
 				case CSVEx.CSVFieldIDs.SecurityTypes.Future:
-					foreach (frmFutureTicket w in FutureTicketWindows.Values)
+					foreach ((IntPtr _, frmFutureTicket w) in FutureTicketWindows)
 					{
 						if (w.CurrentSymbolDetail == symbolDetail)
 						{
-							ShowWindow((Form)w);
+							ShowWindow(w);
 							found = true;
 							break;
 						}
@@ -1652,115 +1553,115 @@ namespace ROC
 
 		internal void CloseWindow(frmAlert w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			AlertWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmClock w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			ClockWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmAbout w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			AboutWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmUserProfile w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			UserProfileWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmSettings w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			SettingsWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmEMail w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			EMailWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmWatchList w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			WatchListWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmPlotList w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			PlotListWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmStockTicket w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			StockTicketWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmOptionTicket w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			OptionTicketWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmFutureTicket w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			FutureTicketWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmQuickTicket w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			QuickTicketWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmAutoSpreadTicket w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			AutoSpreadTicketWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmFutureMatrixTicket w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			FutureMatrixTicketWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmBatchTicket w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			BatchTicketWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmBatchMarketTicket w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			BatchMarketTicketWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmOrders w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			OrderWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmTrades w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			TradeWindows.Remove(w.Handle);
 		}
 
 		internal void CloseWindow(frmPositions w)
 		{
-			CloseWindow((Form)w);
+			CloseWindow(w);
 			PositionWindows.Remove(w.Handle);
 		}
 
@@ -1774,89 +1675,72 @@ namespace ROC
 			{
 				ZeroPosition(MainWindow);
 
-				foreach (frmAlert w in AlertWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmAlert w) in AlertWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmClock w in ClockWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmClock w) in ClockWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmUserProfile w in UserProfileWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmUserProfile w) in UserProfileWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmAbout w in AboutWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmAbout w) in AboutWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmWatchList w in WatchListWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmWatchList w) in WatchListWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmPlotList w in PlotListWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmPlotList w) in PlotListWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmStockTicket w in StockTicketWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmStockTicket w) in StockTicketWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmOptionTicket w in OptionTicketWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmOptionTicket w) in OptionTicketWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmFutureTicket w in FutureTicketWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmFutureTicket w) in FutureTicketWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmQuickTicket w in QuickTicketWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmQuickTicket w) in QuickTicketWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmAutoSpreadTicket w in AutoSpreadTicketWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmAutoSpreadTicket w) in AutoSpreadTicketWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmFutureMatrixTicket w in FutureMatrixTicketWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmFutureMatrixTicket w) in FutureMatrixTicketWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmBatchTicket w in BatchTicketWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmBatchTicket w) in BatchTicketWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmBatchMarketTicket w in BatchMarketTicketWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmBatchMarketTicket w) in BatchMarketTicketWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmOrders w in OrderWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmOrders w) in OrderWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmTrades w in TradeWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmTrades w) in TradeWindows) {
+					ZeroPosition(w);
 				}
 
-				foreach (frmPositions w in PositionWindows.Values)
-				{
-					ZeroPosition((Form)w);
+				foreach ((IntPtr _, frmPositions w) in PositionWindows) {
+					ZeroPosition(w);
 				}
 			}
 			catch (Exception ex)

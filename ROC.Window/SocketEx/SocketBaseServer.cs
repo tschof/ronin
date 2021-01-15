@@ -24,15 +24,6 @@ namespace SocketEx
 
 	public abstract class SocketBaseServer : IDisposable
 	{
-		private object _syncObj = new object();
-		public object SyncObj
-		{
-			get
-			{
-				return _syncObj;
-			}
-		}
-
 		#region - Events -
 
 		public event ServerEventHandler OnServerEvent;
@@ -65,7 +56,6 @@ namespace SocketEx
 		private string _ip;
 		private int _port;
 		private int _maxBackLog;
-		private Byte[] _buffer;
 		private int _clientBufferSizeLimit = 1;
 		public int ClientBufferSizeLimit
 		{
@@ -111,21 +101,16 @@ namespace SocketEx
 
 		public SocketBaseServer()
 		{
-			Initialize("10.103.102.29", 3456, 64, new byte[0x4000], 1);
-		}
-		public SocketBaseServer(string ip, int port, int maxBackLog, Byte[] buffer, int clientBufferSizeLimit)
-		{
-			Initialize(ip, port, maxBackLog, buffer, clientBufferSizeLimit);
+			Initialize("10.103.102.29", 3456, 64, 1);
 		}
 
 		#endregion
 
-		private void Initialize(string serverIP, int port, int maxBackLog, Byte[] buffer, int clilentBufferSizeLimit)
+		private void Initialize(string serverIP, int port, int maxBackLog, int clilentBufferSizeLimit)
 		{
 			_ip = serverIP;
 			_port = port;
 			_maxBackLog = maxBackLog;
-			_buffer = buffer;
 			_clientBufferSizeLimit = clilentBufferSizeLimit;
 		}
 
@@ -171,25 +156,20 @@ namespace SocketEx
 
 		public void Stop()
 		{
-			Dictionary<IntPtr, SocketBaseClient> locCopy = new Dictionary<IntPtr, SocketBaseClient>();
-			if (_clients.Count > 0)
+			List<SocketBaseClient> toStop = null;
+
+			lock (this)
 			{
-				lock (SyncObj)
-				{
-					locCopy = new Dictionary<IntPtr, SocketBaseClient>(_clients);
-				}
+				if (_clients.Count > 0)
+					toStop = new List<SocketBaseClient>(_clients.Values);
 			}
 
-			foreach (SocketBaseClient client in locCopy.Values)
-			{
-				client.Stop();
-			}
+			if (toStop != null)
+				toStop.ForEach(n => n.Stop());
 
 			_listenerRunning = false;
 			if (_listener != null)
-			{
 				_listener.Stop();
-			}
 
 			OnSocketEvent(new ServerEventArgs(ServerEventTypes.OnListenerStop, "Listener|Stop: Server Stopped."));
 		}
@@ -231,7 +211,7 @@ namespace SocketEx
 				if (client != null)
 				{
 					IntPtr key = client.Handle;
-					lock (SyncObj)
+					lock (this)
 					{
 						if (Clients.TryGetValue(key, out SocketBaseClient found))
 						{

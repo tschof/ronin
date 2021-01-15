@@ -371,14 +371,14 @@ namespace ROC
 
 		#region - Current SecInfo -
 
-		private BaseSecurityInfo _currentSecInfo;
-		internal BaseSecurityInfo CurrentSecInfo
+		private RDSEx.IMSecurityBase _currentSecInfo = null;
+		internal RDSEx.IMSecurityBase CurrentSecInfo
 		{
 			get
 			{
 				if (_currentSecInfo == null)
 				{
-					_currentSecInfo = new BaseSecurityInfo();
+					_currentSecInfo = new RDSEx.IMSecurityBase();
 				}
 				return _currentSecInfo;
 			}
@@ -699,12 +699,12 @@ namespace ROC
 
 		private void SetActivePanelColor()
 		{
-			foreach (Control ctl in _controls.Values)
+			foreach ((string _, Control ctl) in _controls)
 			{
 				ctl.BackColor = Color.LightSteelBlue;
 			}
 
-			foreach (PanelEx.PanelManager ctl in _panelManagers.Values)
+			foreach ((string _, PanelEx.PanelManager ctl) in _panelManagers)
 			{
 				foreach (PanelEx.ManagedPanel mpanel in ctl.ManagedPanels)
 				{
@@ -715,12 +715,12 @@ namespace ROC
 
 		private void SetDeactivePanelColor()
 		{
-			foreach (Control ctl in _controls.Values)
+			foreach ((string _, Control ctl) in _controls)
 			{
 				ctl.BackColor = Color.LightGray;
 			}
 
-			foreach (PanelEx.PanelManager ctl in _panelManagers.Values)
+			foreach ((string _, PanelEx.PanelManager ctl) in _panelManagers)
 			{
 				foreach (PanelEx.ManagedPanel mpanel in ctl.ManagedPanels)
 				{

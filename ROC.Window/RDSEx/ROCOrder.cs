@@ -10,7 +10,7 @@ using Price = Common.Price;
 namespace RDSEx
 {
 	[Serializable]
-	public class ROCOrder : AssetShared, ISerializable
+	public class ROCOrder : ROCSecurity, ISerializable
 	{
 		public readonly long AlgoType = 0;
 		public readonly long AlgoDestID = 0;

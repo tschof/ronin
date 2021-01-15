@@ -1,6 +1,6 @@
 namespace RDSEx
 {
-	public class BaseSSFutureInfo
+	public class IMSSFutureBase
 	{
 		public string SecType { get; } = CSVEx.CSVFieldIDs.SecurityTypes.Future;
 		public string MDSource = "ONEC"; // SecurityFieldIDs.SSFuture.dataSource

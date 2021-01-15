@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
 
+using Common;
 using RDSEx;
 using DataGridViewEx;
 using SerializationEx;
@@ -466,7 +467,7 @@ namespace ROC
 					break;
 				case "ApplyToAll":
 					ROCPositionProfile prof = positionsDisplay.GetProfile(new ROCPositionProfile(rocPositionsList));
-					foreach (frmPositions w in GLOBAL.HWindows.PositionWindows.Values)
+					foreach ((IntPtr _, frmPositions w) in GLOBAL.HWindows.PositionWindows)
 					{
 						w.SetProfile(positionsDisplay.GetProfile(prof));
 					}
@@ -877,7 +878,7 @@ namespace ROC
 					lcoImSymbolNeeded = new Dictionary<string, string>(ImSymbolNeeded);
 				}
 
-				BaseSecurityInfo secInfo;
+				IMSecurityBase secInfo;
 				List<string> removeList = new List<string>();
 
 				lock (rocPositionsList.RocGridTable)
@@ -911,7 +912,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, IMSecurityBase secInfo)
 		{
 			switch (secInfo.SecType)
 			{
@@ -1060,7 +1061,7 @@ namespace ROC
 							if (GLOBAL.Interrupt)
 							{
 								GLOBAL.Interrupt = false;
-								Application.DoEvents();
+								System.Windows.Forms.Application.DoEvents();
 							}
 						}
 					}
@@ -1216,7 +1217,7 @@ namespace ROC
 		// Update with Security Info On Play back & onLoad
 		private void UpdatePositionsWithSecurityInfo(ROCPosition position)
 		{
-			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(position.SymbolDetail);
+			IMSecurityBase secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(position.SymbolDetail);
 
 			if (secInfo != null) {
 				position.UpdateFromSecurity(secInfo.MDSymbol, secInfo.TickSize, secInfo.ContractSize);
@@ -1862,11 +1863,10 @@ namespace ROC
 				if (_menuAccounts == null)
 				{
 					Dictionary<string, FilterItem> items = new Dictionary<string, FilterItem>();
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
-					{
-						SetAccounts(trader.CSAccounts, ref items);
-						SetAccounts(trader.FUTAccounts, ref items);
-						SetAccounts(trader.OPTAccounts, ref items);
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles) {
+						SetAccounts(trader.CSAccounts, items);
+						SetAccounts(trader.FUTAccounts, items);
+						SetAccounts(trader.OPTAccounts, items);
 					}
 
 					_menuAccounts = new menuBaseFilter(items);
@@ -1910,9 +1910,9 @@ namespace ROC
 			_menuAccounts = null;
 		}
 
-		private void SetAccounts(Dictionary<string, AccountMap> accts, ref Dictionary<string, FilterItem> items)
+		private void SetAccounts(Dictionary<string, AccountMap> accts, Dictionary<string, FilterItem> items)
 		{
-			foreach (AccountMap acct in accts.Values)
+			foreach ((string _, AccountMap acct) in accts)
 			{
 				if (rocPositionsList.FilterOutAccounts.Contains(acct.clearingAcIDShort))
 				{
@@ -1935,7 +1935,7 @@ namespace ROC
 		{
 			string filters = "Accounts:";
 
-			foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+			foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 			{
 				filters = SetAccountFilters(trader.CSAccounts, filters);
 				filters = SetAccountFilters(trader.FUTAccounts, filters);
@@ -1947,7 +1947,7 @@ namespace ROC
 
 		private string SetAccountFilters(Dictionary<string, AccountMap> accts, string filters)
 		{
-			foreach (AccountMap acct in accts.Values)
+			foreach ((string _, AccountMap acct) in accts)
 			{
 				if (!rocPositionsList.FilterOutAccounts.Contains(acct.clearingAcIDShort))
 				{
@@ -2236,7 +2236,7 @@ namespace ROC
 				symbolDetail = (string)row["symbolDetail"];
 				secType = (string)row["SecType"];
 
-				BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
+				IMSecurityBase secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 
 				if (secInfo != null)
 				{

@@ -683,61 +683,17 @@ namespace ROC
 			_rds.ResetSecurityInfo();
 		}
 
-		internal BaseSecurityInfo GetSecurityInfoBySymbolDetail(string symbolDetail)
+		internal IMSecurityBase GetSecurityInfoBySymbolDetail(string symbolDetail)
 		{
-			BaseSecurityInfo secInfo = new BaseSecurityInfo();
-
 			if (SymbolDetailToRocSymbolMap.TryGetValue(symbolDetail, out string rocSymbol) && !string.IsNullOrEmpty(rocSymbol))
 			{
 				// Future and Stock
 				if (SymbolSecurityInfos.TryGetValue(rocSymbol, out IMSecurityInfo securityInfo))
-				{
-					secInfo.MDSymbol = securityInfo.MDSymbol;
-					secInfo.MDSource = securityInfo.MDSource;
-					secInfo.TickSize = securityInfo.TickSize;
-					secInfo.SecType = securityInfo.SecType;
-
-					secInfo.LongName = securityInfo.LongName;
-					secInfo.ContractSize = securityInfo.ContractSize;
-
-					secInfo.Underlying = securityInfo.Underlying;
-					secInfo.Expiration = securityInfo.Expiration;
-
-					if (securityInfo.SSFutureChain.Count > 0)
-					{
-						secInfo.SSFChain = new Dictionary<string, IMSSFutureInfo>(securityInfo.SSFutureChain);
-					}
-
-					if (securityInfo.OptionChain.Count > 0)
-					{
-						secInfo.OptionChain = new Dictionary<string, IMOptionInfo>(securityInfo.OptionChain);
-					}
-					return secInfo;
-				}
+					return new IMSecurityBase(securityInfo);
 
 				// Option
 				if (SymbolToOptionInfoMap.TryGetValue(rocSymbol, out IMOptionInfo optionInfo))
-				{
-				    secInfo.MDSymbol = optionInfo.MDSymbol;
-				    secInfo.MDSource = optionInfo.MDSource;
-				    secInfo.TickSize = optionInfo.TickSize;
-				    secInfo.SecType = optionInfo.SecType;
-
-				    secInfo.LongName = optionInfo.SymbolDetail;
-					if (optionInfo.ContractSize > 0)
-					{
-						secInfo.ContractSize = optionInfo.ContractSize;
-					}
-					else
-					{
-						secInfo.ContractSize = 100;
-					}
-
-				    secInfo.Underlying = optionInfo.Underlying;
-				    secInfo.Expiration = optionInfo.ExpDate;
-
-				    return secInfo;
-				}
+					return new IMSecurityBase(optionInfo);
 			}
 
 			return null;

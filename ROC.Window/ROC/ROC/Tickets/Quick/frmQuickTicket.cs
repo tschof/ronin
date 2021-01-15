@@ -371,7 +371,7 @@ namespace ROC
 			QuickButtonSupprot = new QuickButtonSupport(this);
 			QuickButtonSupprot.QuickButtonClicked += new QuickButtonClickedEventHandler(QuickButtonSupport_QuickButtonClicked);
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			BookDepthLimit = Configuration.ROC.Default.BookDepthLimit;
 
@@ -642,7 +642,7 @@ namespace ROC
 				case "ApplyToAll":
 					ROCQuickListProfile gridProf = quickTicketDisplay.GetProfile(new ROCQuickListProfile(rocQuickListBook));
 					ROCTicketProfile ticketProf = quickTicketDisplay.GetProfile(new ROCTicketProfile(this));
-					foreach (frmQuickTicket w in GLOBAL.HWindows.QuickTicketWindows.Values)
+					foreach ((IntPtr _, frmQuickTicket w) in GLOBAL.HWindows.QuickTicketWindows)
 					{
 						w.SetProfile(quickTicketDisplay.GetProfile(gridProf));
 						w.SetProfile(quickTicketDisplay.GetProfile(ticketProf), false);
@@ -1306,8 +1306,7 @@ namespace ROC
 		{
 			_flags[FormFlags.ID.OrderLoaded] = true;
 
-			ROCOrder[] orders = new ROCOrder[GLOBAL.HOrders.RocItems.Count];
-			GLOBAL.HOrders.RocItems.Values.CopyTo(orders, 0);
+			List<ROCOrder> orders = new List<ROCOrder>(GLOBAL.HOrders.RocItems.Values);
 			UpdateOrders(symbolDetail, orders);
 		}
 
@@ -1496,7 +1495,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, IMSecurityBase secInfo)
 		{
 			switch (secInfo.SecType)
 			{
@@ -2346,7 +2345,7 @@ namespace ROC
 						order.mdSymbol = CurrentSecInfo.MDSymbol;
 						order.secType = CurrentSecInfo.SecType;
 						order.underlying = CurrentSecInfo.Underlying;
-						order.expDate = CurrentSecInfo.Expiration;
+						order.expDate = CurrentSecInfo.ExpirationText;
 						order.multiplier = CurrentSecInfo.ContractSize.ToString();
 					}
 					else if (IsStock)
@@ -2402,19 +2401,15 @@ namespace ROC
 		private void CancelOrderByPrice(string side, double price)
 		{
 			Dictionary<string, ROCOrder> orders = GetOpenOrder(side, price);
-			foreach (ROCOrder order in orders.Values)
-			{
+			foreach ((string _, ROCOrder order) in orders)
 				GLOBAL.OrderManagers.CancelSingleOrder(order.Tag);
-			}
 		}
 
 		private void CancelOrderBySide(long side)
 		{
 			Dictionary<string, ROCOrder> orders = GetOpenOrder(side, null);
-			foreach (ROCOrder order in orders.Values)
-			{
+			foreach ((string _, ROCOrder order) in orders)
 				GLOBAL.OrderManagers.CancelSingleOrder(order.Tag);
-			}
 		}
 
 		private void ReplaceOrderByPrice(string side, double startReplacePrice, double endReplacePrice)
@@ -2422,8 +2417,7 @@ namespace ROC
 			if (startReplacePrice != endReplacePrice)
 			{
 				Dictionary<string, ROCOrder> orders = GetOpenOrder(side, startReplacePrice);
-				foreach (ROCOrder order in orders.Values)
-				{
+				foreach ((string _, ROCOrder order) in orders) {
 					switch (order.OrderType)
 					{
 						case CSVFieldIDs.OrderTypes.Stop:
@@ -2831,7 +2825,7 @@ namespace ROC
 
 			HasFirstUpdate = false;
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			LongName = CurrentSecInfo.LongName;
 

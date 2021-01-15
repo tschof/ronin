@@ -1,6 +1,5 @@
 C:\Users\clangan\source\repos\ROC\ROC.Window\NumberEx\bin\Debug\NumberEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\NumberEx\bin\Debug\NumberEx.pdb
-C:\Users\clangan\source\repos\ROC\ROC.Window\NumberEx\obj\Debug\NumberEx.csprojAssemblyReference.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\NumberEx\obj\Debug\NumberEx.csproj.CoreCompileInputs.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\NumberEx\obj\Debug\NumberEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\NumberEx\obj\Debug\NumberEx.pdb

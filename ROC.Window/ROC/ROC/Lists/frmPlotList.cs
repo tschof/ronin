@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
+using Common;
 using PlotEx;
 using DataGridViewEx;
 using ContextMenuEx;
@@ -273,7 +274,7 @@ namespace ROC
 					break;
 				case "ApplyToAll":
 					ROCWatchListProfile prof = plotListDisplay.GetProfile(new ROCWatchListProfile(rocPlotList));
-					foreach (frmPlotList w in GLOBAL.HWindows.PlotListWindows.Values)
+					foreach ((IntPtr _, frmPlotList w) in GLOBAL.HWindows.PlotListWindows)
 					{
 						w.SetProfile(plotListDisplay.GetProfile(prof));
 					}
@@ -512,7 +513,7 @@ namespace ROC
 			switch (((ToolStripMenuItem)sender).Tag.ToString())
 			{
 				case "show_data_points":
-					foreach (HelperPlot.LineGraphValues lineValues in _symbolLines.Values)
+					foreach ((string _, HelperPlot.LineGraphValues lineValues) in _symbolLines)
 					{
 						lineValues.ShowDataPoints = true;
 
@@ -524,7 +525,7 @@ namespace ROC
 					}
 					break;
 				case "hide_data_points":
-					foreach (HelperPlot.LineGraphValues lineValues in _symbolLines.Values)
+					foreach ((string _, HelperPlot.LineGraphValues lineValues) in _symbolLines)
 					{
 						lineValues.ShowDataPoints = false;
 
@@ -534,7 +535,7 @@ namespace ROC
 					}
 					break;
 				case "show_line":
-					foreach (HelperPlot.LineGraphValues lineValues in _symbolLines.Values)
+					foreach ((string _, HelperPlot.LineGraphValues lineValues) in _symbolLines)
 					{
 						if (lineValues.ShowDataPoints)
 						{
@@ -552,7 +553,7 @@ namespace ROC
 					}
 					break;
 				case "hide_line":
-					foreach (HelperPlot.LineGraphValues lineValues in _symbolLines.Values)
+					foreach ((string _, HelperPlot.LineGraphValues lineValues) in _symbolLines)
 					{
 						if (lineValues.ShowDataPoints)
 						{
@@ -961,7 +962,7 @@ namespace ROC
 					lcoImSymbolNeeded = new Dictionary<string, string>(ImSymbolNeeded);
 				}
 
-				BaseSecurityInfo secInfo = null;
+				IMSecurityBase secInfo;
 				List<string> removeList = new List<string>();
 
 				lock (rocPlotList.RocGridTable)
@@ -999,7 +1000,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, IMSecurityBase secInfo)
 		{
 			switch (secInfo.SecType)
 			{
@@ -1228,7 +1229,7 @@ namespace ROC
 		// Update with Security Info On Play back & onLoad
 		private void UpdatePlotListWithSecurityInfo(string symbolDetail, ref string mdSymbol, ref double tickSize, ref string secType, ref string name)
 		{
-			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
+			IMSecurityBase secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 			if (secInfo != null)
 			{
 				mdSymbol = secInfo.MDSymbol;

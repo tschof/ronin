@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
+using Common;
 using RDSEx;
 using SerializationEx;
 using LabelEx;
@@ -189,7 +190,7 @@ namespace ROC
 			QuickButtonSupprot = new QuickButtonSupport(this);
 			QuickButtonSupprot.QuickButtonClicked += new QuickButtonClickedEventHandler(QuickButtonSupprot_QuickButtonClicked);
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			_isLoadingValue = true;
 
@@ -1084,7 +1085,7 @@ namespace ROC
 
 		private void UpdateOrders(string symbolDetail, Dictionary<string, ROCOrder> orders)
 		{
-			foreach (ROCOrder order in orders.Values)
+			foreach ((string _, ROCOrder order) in orders)
 			{
 				if (order.SymbolDetail == symbolDetail)
 				{
@@ -1276,7 +1277,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, IMSecurityBase secInfo)
 		{
 			switch (secInfo.SecType)
 			{
@@ -1360,7 +1361,7 @@ namespace ROC
 					switch (CurrentSecInfo.MDSource.ToUpper())
 					{
 						case "CTA":
-							foreach (string key in Constants.L2PartipcantCodeCTA.Codes)
+							foreach (string key in MarketData.Constants.L2PartipcantCodeCTA.Codes)
 							{
 								symbolDetailL2 = symbolDetail + "." + key;
 								if (deltas.TryGet(symbolDetailL2, out Book found))
@@ -1370,7 +1371,7 @@ namespace ROC
 							}
 							break;
 						case "NASDAQ":
-							foreach (string key in Constants.L2PartipcantCodeNasdaq.Codes)
+							foreach (string key in MarketData.Constants.L2PartipcantCodeNasdaq.Codes)
 							{
 								symbolDetailL2 = symbolDetail + "." + key;
 								if (deltas.TryGet(symbolDetailL2, out Book found))
@@ -1569,10 +1570,10 @@ namespace ROC
 						switch (CurrentSecInfo.MDSource.ToUpper())
 						{
 							case "CTA":
-								row["PartName"] = Constants.L2PartipcantCodeCTA.TryGetName(participantSymbol, out name) ? name : "";
+								row["PartName"] = MarketData.Constants.L2PartipcantCodeCTA.TryGetName(participantSymbol, out name) ? name : "";
 								break;
 							case "NASDAQ":
-								row["PartName"] = Constants.L2PartipcantCodeNasdaq.TryGetName(participantSymbol, out name) ? name : "";
+								row["PartName"] = MarketData.Constants.L2PartipcantCodeNasdaq.TryGetName(participantSymbol, out name) ? name : "";
 								break;
 						}
 					}
@@ -2812,7 +2813,7 @@ namespace ROC
 
 			HasFirstUpdate = false;
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			LongName = CurrentSecInfo.LongName;
 

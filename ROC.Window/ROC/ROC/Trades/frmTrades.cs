@@ -5,6 +5,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.Linq;
 
+using Common;
 using RDSEx;
 using DataGridViewEx;
 using SerializationEx;
@@ -194,7 +195,7 @@ namespace ROC
 					break;
 				case "ApplyToAll":
 					ROCTradeProfile prof = tradesDisplay.GetProfile(new ROCTradeProfile(rocTradesList));
-					foreach (frmTrades w in GLOBAL.HWindows.TradeWindows.Values)
+					foreach ((IntPtr _, frmTrades w) in GLOBAL.HWindows.TradeWindows)
 					{
 						w.SetProfile(tradesDisplay.GetProfile(prof));
 					}
@@ -404,7 +405,7 @@ namespace ROC
 					rocTradesList.Details.Clear();
 					rocTradesList.Details.Add("");
 
-					List<ROCTrade> subset = new List<ROCTrade>(trades.Where(n => n.Source == AssetShared.SourceEnum.ROC));
+					List<ROCTrade> subset = new List<ROCTrade>(trades.Where(n => n.Source == ROCSecurity.SourceEnum.ROC));
 					foreach (ROCTrade trade in subset)
 						AddTradeToGrid(trade);
 
@@ -486,7 +487,7 @@ namespace ROC
 
 							List<ROCTrade> trades = _trades.TakeAll();
 
-							List<ROCTrade> selected = new List<ROCTrade>(trades.Where(n => n.Source == AssetShared.SourceEnum.ROC));
+							List<ROCTrade> selected = new List<ROCTrade>(trades.Where(n => n.Source == ROCSecurity.SourceEnum.ROC));
 							if (selected.Count > 0)
 							{
 								haveTrades = true;
@@ -520,7 +521,7 @@ namespace ROC
 					lcoImSymbolNeeded = new Dictionary<string, string>(ImSymbolNeeded);
 				}
 
-				BaseSecurityInfo secInfo = null;
+				IMSecurityBase secInfo;
 				List<string> removeList = new List<string>();
 
 				lock (rocTradesList.RocGridTable)
@@ -552,7 +553,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, IMSecurityBase secInfo)
 		{
 			DataRow[] rows = rocTradesList.RocGridTable.Select($"SymbolDetail = '{symbolDetail}'");
 			foreach (DataRow row in rows)
@@ -654,7 +655,7 @@ namespace ROC
 
 		private void UpdateTradeWithSecurityInfo(ROCTrade trade)
 		{
-			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(trade.SymbolDetail);
+			IMSecurityBase secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(trade.SymbolDetail);
 
 			if (secInfo != null)
 			{
@@ -1087,7 +1088,7 @@ namespace ROC
 				if (_menuAccounts == null)
 				{
 					Dictionary<string, FilterItem> items = new Dictionary<string, FilterItem>();
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
 						SetAccounts(trader.CSAccounts, ref items);
 						SetAccounts(trader.FUTAccounts, ref items);
@@ -1137,7 +1138,7 @@ namespace ROC
 
 		private void SetAccounts(Dictionary<string, AccountMap> accts, ref Dictionary<string, FilterItem> items)
 		{
-			foreach (AccountMap acct in accts.Values)
+			foreach ((string _, AccountMap acct) in accts)
 			{
 				if (rocTradesList.FilterOutAccounts.Contains(acct.clearingAcIDShort))
 				{
@@ -1160,7 +1161,7 @@ namespace ROC
 		{
 			string filters = "Accounts:";
 
-			foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+			foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 			{
 				filters = SetAccountFilters(trader.CSAccounts, filters);
 				filters = SetAccountFilters(trader.FUTAccounts, filters);
@@ -1172,7 +1173,7 @@ namespace ROC
 
 		private string SetAccountFilters(Dictionary<string, AccountMap> accts, string filters)
 		{
-			foreach (AccountMap acct in accts.Values)
+			foreach ((string _, AccountMap acct) in accts)
 			{
 				if (!rocTradesList.FilterOutAccounts.Contains(acct.clearingAcIDShort))
 				{

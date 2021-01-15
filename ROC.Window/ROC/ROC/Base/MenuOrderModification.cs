@@ -14,8 +14,8 @@ namespace ROC
 
 		#region - Property -
 
-		private BaseSecurityInfo _currentSecInfo = null;
-		internal BaseSecurityInfo CurrentSecInfo
+		private RDSEx.IMSecurityBase _currentSecInfo = null;
+		internal RDSEx.IMSecurityBase CurrentSecInfo
 		{
 			get
 			{
@@ -1154,7 +1154,17 @@ namespace ROC
 					CurrentSecInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 					if (CurrentSecInfo != null)
 					{
-						UpdateIMInfo(symbolDetail, CurrentSecInfo);
+						switch (CurrentSecInfo.SecType) {
+							case CSVFieldIDs.SecurityTypes.Option:
+								HelperSubscriber.SubscribeOptionNBBO(CurrentSecInfo.MDSymbol, CurrentSecInfo.MDSource);
+								break;
+							default:
+								HelperSubscriber.Subscribe(CurrentSecInfo.MDSymbol, CurrentSecInfo.MDSource, CurrentSecInfo.SecType);
+								break;
+						}
+
+						if (!MDSymbols.Contains(CurrentSecInfo.MDSymbol))
+							MDSymbols.Add(CurrentSecInfo.MDSymbol);
 
 						if (!removeList.Contains(symbolDetail))
 						{
@@ -1177,24 +1187,6 @@ namespace ROC
 							ImSymbolNeeded.Remove(symbolDetail);
 					}
 				}
-			}
-		}
-
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
-		{
-			switch (secInfo.SecType)
-			{
-				case CSVFieldIDs.SecurityTypes.Option:
-					HelperSubscriber.SubscribeOptionNBBO(secInfo.MDSymbol, secInfo.MDSource);
-					break;
-				default:
-					HelperSubscriber.Subscribe(secInfo.MDSymbol, secInfo.MDSource, secInfo.SecType);
-					break;
-			}
-
-			if (!MDSymbols.Contains(secInfo.MDSymbol))
-			{
-				MDSymbols.Add(secInfo.MDSymbol);
 			}
 		}
 

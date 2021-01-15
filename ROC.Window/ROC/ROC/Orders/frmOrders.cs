@@ -242,7 +242,7 @@ namespace ROC
 					break;
 				case "ApplyToAll":
 					ROCOrderProfile prof = ordersDisplay.GetProfile(new ROCOrderProfile(rocOrdersList));
-					foreach (frmOrders w in GLOBAL.HWindows.OrderWindows.Values)
+					foreach ((IntPtr _, frmOrders w) in GLOBAL.HWindows.OrderWindows)
 					{
 						w.SetProfile(ordersDisplay.GetProfile(prof));
 					}
@@ -442,11 +442,10 @@ namespace ROC
 		{
 			UpdateOrderStart();
 
-			ROCOrder[] orders = new ROCOrder[0];
+			List<ROCOrder> orders;
 			lock (GLOBAL.HOrders.RocItems)
 			{
-				orders = new ROCOrder[GLOBAL.HOrders.RocItems.Values.Count];
-				GLOBAL.HOrders.RocItems.Values.CopyTo(orders, 0);
+				orders = new List<ROCOrder>(GLOBAL.HOrders.RocItems.Values);
 			}
 
 			AddUpdateOrders(orders);
@@ -455,8 +454,8 @@ namespace ROC
 		}
 
 		// Used by Main Refresh and Load Thread
-		private delegate void UpdateOrderDelegate(ROCOrder[] orders);
-		private void AddUpdateOrders(ROCOrder[] orders)
+		private delegate void UpdateOrderDelegate(List<ROCOrder> orders);
+		private void AddUpdateOrders(List<ROCOrder> orders)
 		{
 			if (InvokeRequired)
 			{
@@ -478,7 +477,7 @@ namespace ROC
 					rocOrdersList.Details.Clear();
 					rocOrdersList.Details.Add("");
 
-					if (orders.Length > 0)
+					if (orders.Count > 0)
 					{
 						foreach (ROCOrder order in orders)
 						{
@@ -631,7 +630,7 @@ namespace ROC
 				DataRow[] rows = new DataRow[0];
 				List<string> removeList = new List<string>();
 
-				BaseSecurityInfo secInfo = null;
+				IMSecurityBase secInfo;
 				lock (rocOrdersList.RocGridTable)
 				{
 					rocOrdersList.RocGridTable.BeginLoadData();
@@ -788,7 +787,7 @@ namespace ROC
 
 		private ROCOrder UpdateOrdersWithSecurityInfo(ROCOrder order)
 		{
-			BaseSecurityInfo secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(order.SymbolDetail);
+			IMSecurityBase secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(order.SymbolDetail);
 
 			if (secInfo != null)
 			{
@@ -1457,7 +1456,7 @@ namespace ROC
 				if (_menuAccounts == null)
 				{
 					Dictionary<string, FilterItem> items = new Dictionary<string, FilterItem>();
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
 						SetAccounts(trader.CSAccounts, ref items);
 						SetAccounts(trader.FUTAccounts, ref items);
@@ -1507,7 +1506,7 @@ namespace ROC
 
 		private void SetAccounts(Dictionary<string, AccountMap> accts, ref Dictionary<string, FilterItem> items)
 		{
-			foreach (AccountMap acct in accts.Values)
+			foreach ((string _, AccountMap acct) in accts)
 			{
 				if (rocOrdersList.FilterOutAccounts.Contains(acct.clearingAcIDShort))
 				{
@@ -1524,7 +1523,7 @@ namespace ROC
 		{
 			string filters = "Accounts:";
 
-			foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+			foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 			{
 				filters = SetAccountFilters(trader.CSAccounts, filters);
 				filters = SetAccountFilters(trader.FUTAccounts, filters);
@@ -1536,7 +1535,7 @@ namespace ROC
 
 		private string SetAccountFilters(Dictionary<string, AccountMap> accts, string filters)
 		{
-			foreach (AccountMap acct in accts.Values)
+			foreach ((string _, AccountMap acct) in accts)
 			{
 				if (!rocOrdersList.FilterOutAccounts.Contains(acct.clearingAcIDShort))
 				{

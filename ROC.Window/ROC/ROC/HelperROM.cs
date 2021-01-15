@@ -265,22 +265,16 @@ namespace ROC
 		public List<ROCOrder> TakeNewOrders()
 		{
 			Dictionary<string, ROCOrder> taken = _newOrders.TakeAll();
-			if ((taken != null) && (taken.Count > 0)) {
-				List<ROCOrder> result = new List<ROCOrder>();
-				result.AddRange(taken.Values);
-				return result;
-			}
+			if ((taken != null) && (taken.Count > 0))
+				return new List<ROCOrder>(taken.Values);
 			return null;
 		}
 
 		public List<ROCTrade> TakeNewExecutions()
 		{
 			Dictionary<string, ROCTrade> taken = _newTrades.TakeAll();
-			if ((taken != null) && (taken.Count > 0)) {
-				List<ROCTrade> result = new List<ROCTrade>();
-				result.AddRange(taken.Values);
-				return result;
-			}
+			if ((taken != null) && (taken.Count > 0))
+				return new List<ROCTrade>(taken.Values);
 			return null;
 		}
 
@@ -317,8 +311,6 @@ namespace ROC
 
 		public void EnterOrder(RomBasicOrder order, bool isCritical)
 		{
-			CSV csv = new CSV();
-
 			switch (Convert.ToInt64(order.orderType))
 			{
 				case CSVEx.CSVFieldIDs.OrderTypes.MarketOnClose:
@@ -333,7 +325,7 @@ namespace ROC
 					break;
 			}
 
-			string msg = RomMessageMaker.GetOrder(order, ref csv);
+			string msg = RomMessageMaker.GetOrder(order, out CSV csv);
 
 			// Store the E Msg
 			if (_showInternalStatus)
@@ -735,7 +727,7 @@ namespace ROC
 
 		public void Hartbeat()
 		{
-			string msg = RomMessageMaker.GetHartbeat();
+			string msg = RomMessageMaker.GetHeartbeat();
 			AddToRomLogs(msg);
 
 			_rom.Send(msg);

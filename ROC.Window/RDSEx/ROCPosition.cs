@@ -7,7 +7,7 @@ using Price = Common.Price;
 
 namespace RDSEx
 {
-	public class ROCPosition : AssetShared
+	public class ROCPosition : ROCSecurity
 	{
 		public Price AskPrice { get; private set; }
 		public long AskSize { get; private set; }

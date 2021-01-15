@@ -1,160 +1,88 @@
 ﻿using System;
 
+using CSVEx;
+
 namespace RDSEx
 {
-	public class IMOptionInfo : BaseOptionInfo
+	public class IMOptionInfo : ROCSecurity
 	{
-		public string Exchange {
+		public string DataSource { get; private set; }
+		public string Exchange { get; private set; }
+		public override string ExpDate { // yyyyMMdd
 			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.exchange, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-		}
-
-		public override string SecType {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.secType, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-			set {
-				_data.Set(SecurityFieldIDs.Option.secType, value);
-			}
-		}
-
-		public string MDSource {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.dataSource, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-			set {
-				_data.Set(SecurityFieldIDs.Option.dataSource, value);
-			}
-		}
-
-		public override string MDSymbol {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.genericMDSymbol, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-		}
-
-		public override double ContractSize {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.contractSize, out double value)) {
-					return value;
-				} else {
-					return 100;
-				}
-			}
-		}
-
-		public override double TickSize {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.tickSize, out double value)) {
-					return value;
-				} else {
-					return 0.01;
-				}
-			}
-			set {
-				_data.Set(SecurityFieldIDs.Option.tickSize, value);
-			}
-		}
-
-		public override string ExpDate {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.expirationDate, out string value)) {
-					if (TimeFormats.TryParse(value, out DateTime when)) {
-						return when.ToString("yyyyMMdd");
-					}
-				}
-
+				if (_expDateText != null)
+					return _expDateText;
+				if (_expDateDate.HasValue)
+					return _expDateDate.Value.ToString("yyyyMMdd");
 				return "";
 			}
+			protected set {
+				_expDateText = value;
+				_expDateDate = null;
+			}
 		}
-
 		public DateTime? ExpDateDT {
 			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.expirationDate, out string value)) {
-					if (TimeFormats.TryParse(value, out DateTime when)) {
-						return when;
-					} else {
-						return null;
-					}
-				} else {
-					return null;
-				}
-			}
-		}
+				if (_expDateDate.HasValue)
+					return _expDateDate;
 
-		public override string StrikePrice {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.strikPrice, out string value)) {
-					return value;
-				} else if (_data.TryGet(SecurityFieldIDs.Option.strikPrice, out double dval)) {
-					value = dval.ToString();
-					_data.Set(SecurityFieldIDs.Option.strikPrice, value);
-					return value;
-				}
-
-				return "";
-			}
-		}
-
-		public double? StrikePriceD {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.strikPrice, out double value)) {
-					return value;
-				} else if (_data.TryGet(SecurityFieldIDs.Option.strikPrice, out string sval)) {
-					value = Convert.ToDouble(sval);
-					_data.Set(SecurityFieldIDs.Option.strikPrice, value);
-					return value;
+				if ((_expDateText != null) && DateTime.TryParse(_expDateText, out DateTime when)) {
+					_expDateDate = when;
+					return when;
 				}
 
 				return null;
 			}
+			set {
+				_expDateDate = value;
+				_expDateText = null;
+			}
 		}
+		public string GenericMDSymbol { get; private set; }
+		public string LongName { get; private set; }
+		protected override string MaturityDay => "";
+		public string MDSource { get; private set; } = "";
+		public string MDSymbol { get => Symbol; set => Symbol = value; }
+		public string OpraSymbol { get; private set; }
+		public string OptionSymbol { get; private set; }
+		public string RoninSymbol { get; private set; }
+		public string StockSymbol { get; private set; }
+		public string UndExpirationDate { get; private set; }
 
-		public override string CallPut {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.putCall, out string value)) {
-					return value;
+		public IMOptionInfo(RDSEx.WEB.OptionDesc option, IMSecurityInfo secinfo, string rocSymbol)
+		{
+			StockSymbol = option.stockSymbol;
+			OptionSymbol = option.optionSymbol;
+			OpraSymbol = option.opraSymbol;
+			DataSource = option.exchange;
+			StrikePrice = option.strike;
+			ExpDate = option.expirationDate;
+			ContractSize = option.contractSize;
+			CallPut = option.putCall;
+			if (option.tickSize != 0)
+				TickSize = option.tickSize;
+			LongName = option.longName;
+			GenericMDSymbol = option.genericMDSymbol;
+			UndExpirationDate = option.undExpirationDate;
+			RoninSymbol = option.roninSymbol;
+			Underlying = rocSymbol;
+
+			if (secinfo != null) {
+				MDSource = secinfo.MDSource;
+				if (secinfo.SecType == CSVFieldIDs.SecurityTypes.Future) {
+					SecType = CSVFieldIDs.SecurityTypes.OptionFuture;
+					TickSize = secinfo.TickSize;
 				} else {
-					return "";
+					SecType = CSVFieldIDs.SecurityTypes.Option;
 				}
 			}
 		}
 
-		public override string Underlying {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.underlying, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-		}
+		#region - private members -
 
-		public override string OptionSymbol {
-			get {
-				if (_data.TryGet(SecurityFieldIDs.Option.optionSymbol, out string value)) {
-					return value;
-				} else {
-					return "";
-				}
-			}
-		}
+		private string _expDateText = null;
+		private DateTime? _expDateDate = null;
+
+		#endregion // - private members -
 	}
 }

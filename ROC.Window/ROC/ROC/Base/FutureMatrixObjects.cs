@@ -24,14 +24,14 @@ namespace ROC
 			}
 		}
 
-		private BaseSecurityInfo _secInfo;
-		internal BaseSecurityInfo SecInfo
+		private RDSEx.IMSecurityBase _secInfo;
+		internal RDSEx.IMSecurityBase SecInfo
 		{
 			get
 			{
 				if (_secInfo == null)
 				{
-					_secInfo = new BaseSecurityInfo();
+					_secInfo = new RDSEx.IMSecurityBase();
 				}
 				return _secInfo;
 			}

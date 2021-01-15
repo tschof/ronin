@@ -209,12 +209,11 @@ namespace ROMEx
 			}
 			csv.SetAt(CSVFieldIDs.CMD.L.Password, password);
 			
-			csv.Encode();
-			return csv.EncodeMessage;
+			return csv.Encode();
 			//return string.Format(_baseLoginMsg, DateTime.Now.ToString("HHmmss"), username, password);
 		}
 
-		public string GetOrder(RomBasicOrder order, ref CSV csv)
+		public string GetOrder(RomBasicOrder order, out CSV csv)
 		{
 			csv = new CSV(78);
 
@@ -345,8 +344,7 @@ namespace ROMEx
 			//    csv.SetAt(CSVFieldIDs.CMD.E.ExecutionInstruction, "X");
 			//}
 
-			csv.Encode();
-			return csv.EncodeMessage;
+			return csv.Encode();
 		}
 
 		private long _orderIDSeed = 0;
@@ -379,8 +377,7 @@ namespace ROMEx
 			csv.SetAt(CSVFieldIDs.CMD.R.NewPrice, replace.newPrice);
 			csv.SetAt(CSVFieldIDs.CMD.R.NewPegPrice, replace.newPagPrice);
 
-			csv.Encode();
-			return csv.EncodeMessage;
+			return csv.Encode();
 		}
 
 		public string GetCancel(string trader, RomBasicCancel cancel)
@@ -395,8 +392,7 @@ namespace ROMEx
 			csv.SetAt(CSVFieldIDs.CMD.C.OriginalShares, cancel.shares);
 			csv.SetAt(CSVFieldIDs.CMD.C.Price, cancel.price);
 
-			csv.Encode();
-			return csv.EncodeMessage;
+			return csv.Encode();
 		}
 
 		public string GetCancelAll(string trader, bool dayOrderOnly, string exchange)
@@ -416,11 +412,10 @@ namespace ROMEx
 			csv.SetAt(CSVFieldIDs.CMD.c.Exchange, exchange);
 			csv.SetAt(CSVFieldIDs.CMD.c.LoginName, trader);
 
-			csv.Encode();
-			return csv.EncodeMessage;
+			return csv.Encode();
 		}
 
-		public string GetHartbeat()
+		public string GetHeartbeat()
 		{
 			return "H,\n";
 		}

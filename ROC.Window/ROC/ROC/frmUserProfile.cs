@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using Common;
 using FormEx;
 using DataGridViewEx;
 using RDSEx;
@@ -66,13 +67,13 @@ namespace ROC
 
 			if (GLOBAL.HRDS.GotUserProfiles)
 			{
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					node = grid.Nodes.Add("Trader", trader.tradeFor);
+					node = grid.Nodes.Add("Trader", trader.TradeFor);
 					node.DefaultCellStyle.Font = rocUserProfile.NodeFont;
 
-					node.Nodes.Add("TradeFor", trader.tradeFor);
-					node.Nodes.Add("LocalAcAcrn", trader.localAcAcrn );
+					node.Nodes.Add("TradeFor", trader.TradeFor);
+					node.Nodes.Add("LocalAcAcrn", trader.LocalAcAcrn );
 
 					LoadAccounts(AccountTypes.Stock, node, trader.CSAccounts);
 					LoadAccounts(AccountTypes.Option, node, trader.OPTAccounts);
@@ -86,7 +87,7 @@ namespace ROC
 			DGVTreeNode acctNode;
 			DGVTreeNode destNode;
 
-			foreach (AccountMap acctMap in accounts.Values)
+			foreach ((string _, AccountMap acctMap) in accounts)
 			{
 				acctNode = node.Nodes.Add(type, acctMap.localAcAcrn);
 				acctNode.DefaultCellStyle.Font = rocUserProfile.NodeFont;

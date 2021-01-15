@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using DictionaryEx;
 
 namespace CSVEx
 {
 	public class CSV
 	{
 		private const int MAX_FIELD_COUNT = ushort.MaxValue;
-
-		private readonly MultiTypedDictionary _data = new MultiTypedDictionary();
+		private const string MESSAGE_SEPARATOR = "!#!";
 
 		private static class TimeFormats
 		{
@@ -26,21 +24,20 @@ namespace CSVEx
 			}
 		}
 
-		private List<CSV> _children;
-		public List<CSV> Children {
-			get {
-				if (_children == null) {
-					_children = new List<CSV>();
-				}
-				return _children;
-			}
+		// _fields set by Properties, missing from or overriding _fields values.
+		private class CacheEntry
+		{
+			internal readonly int Key;
+			internal object Value;
+			internal CacheEntry(int key, object value) { Key = key; Value = value; }
+
 		}
 
-		public string Message { get; private set; } = "";
-		public string EncodeMessage { get; private set; }
-
+		private List<CacheEntry> _cache = new List<CacheEntry>();
 		private string[] _fields = null;
-		public string[] Fields => _fields;
+		private string _children = null;
+		private string _encoded = null;
+		private int _maxCacheKey = -1;
 
 		public CSV()
 		{
@@ -48,794 +45,329 @@ namespace CSVEx
 
 		public CSV(int capacity)
 		{
-			_fields = new string[capacity];
+			if (capacity < MAX_FIELD_COUNT)
+				_fields = new string[capacity];
 		}
 
 		public CSV(string message)
 		{
-			Message = message;
-			Decode();
-		}
+			// Decode the CSV message collection.
+			if (!string.IsNullOrEmpty(message) && (message != "\n")) {
+				// Child CSVs may be included in the received message but are
+				// never accessed, we so don't bother parsing them.  Just save
+				// them for when we reserialize this CSV message.
+				string[] messages = message.Split(new string[] { MESSAGE_SEPARATOR }, 2, StringSplitOptions.RemoveEmptyEntries);
 
-		private bool tryGetField(int key, out string value)
-		{
-			if ((_fields != null) && (key >= 0) && (key < _fields.Length)) {
-				value = _fields[key];
-				return !string.IsNullOrEmpty(value);
-			}
-			value = null;
-			return false;
-		}
-
-		#region - Decode -
-
-		public void Decode()
-		{
-			if (!string.IsNullOrEmpty(Message) && (Message != "\n"))
-			{
-				Decode(Message);
-			}
-		}
-		private void Decode(string message)
-		{
-			// Split For Children
-			string[] childrenMsg = message.Split(new string[] { "!#!" }, StringSplitOptions.None);
-
-			if (childrenMsg.Length > 1)
-			{
-				foreach (string childMsg in childrenMsg)
-				{
-					CSV childCSV = new CSV(childMsg);
-					Children.Add(childCSV);
+				int messageCount = (messages == null) ? 0 : messages.GetLength(0);
+				if (messageCount > 0) {
+					_fields = messages[0].Split(new char[] { ',' }, StringSplitOptions.None);
+					if (messageCount > 1)
+						_children = messages[1]; // Save for Encode().
 				}
 			}
-			else
-			{
-				// No Children
-				_fields = message.Split(new char[] { ',' }, StringSplitOptions.None);
-			}
 		}
-
-		#endregion
 
 		#region - Get -
 
-		public bool TryGetValue(int key, out string value)
-		{
-			if (_data.TryGet(key, out value))
-				return true;
+		private delegate bool TryConvertFromText<T>(string text, out T value);
 
-			if (tryGetField(key, out value))
-			{
-				_data.Set(key, value);
+		private bool convertDate(string text, out DateTime when)
+		{
+			if ((text != "00000000") && DateTime.TryParse(text, out when)) {
+				when = when.ToLocalTime();
 				return true;
 			}
-			
+			when = default;
 			return false;
 		}
 
-		public bool TryGetValue(int key, out long value)
+		private bool tryGetValue<T>(int key, out T value, out string csvFieldText, TryConvertFromText<T> xform)
 		{
-			if (_data.TryGet(key, out value))
-				return true;
+			CacheEntry found = _cache.Find(n => n.Key == key);
 
-			if (tryGetField(key, out string field)) {
-				if (long.TryParse(field, out long converted)) {
-					_data.Set(key, converted);
-					value = converted;
+			// First check the cache.
+			if ((found != null) && (found.Value is T v)) {
+				value = v;
+				csvFieldText = null;
+				return true;
+			}
+
+			// Then check the csv fields.
+			if ((_fields != null) && (key >= 0) && (key < _fields.Length)) {
+				csvFieldText = _fields[key];
+				if (!string.IsNullOrEmpty(csvFieldText) && xform(csvFieldText, out value)) {
+					// Cache the transformed value, but also keep the CSV field.
+					_cache.Add(new CacheEntry(key, value));
 					return true;
-				} else {
-					Debug.Assert(false, key.ToString() + "|" + field);
 				}
 			}
 
-			value = 0;
-			return false;
-		}
-
-		public bool TryGetValue(int key, out double value)
-		{
-			if (_data.TryGet(key, out value))
-				return true;
-
-			if (tryGetField(key, out string field)) {
-				bool isPasswordText = false;
-				if (double.TryParse(field, out double converted)) {
-					_data.Set(key, converted);
-					value = converted;
-					return true;
-				} else if (key == CSVFieldIDs.Price) {
-					string command = Command;
-					isPasswordText = (command == CSVFieldIDs.MessageTypes.LoggedIn) || (command == CSVFieldIDs.MessageTypes.LoginFailed);
-					// Special Case for Loggin mssages L, K, this is the password field
-				}
-
-				if (!isPasswordText)
-					Debug.Assert(false, string.Concat(key.ToString(), "|", _fields[key]));
-			}
-
-			return false;
-		}
-
-		public bool TryGetValue(int key, out DateTime value)
-		{
-			if (_data.TryGet(key, out double dval)) {
-				value = DateTime.FromOADate(dval);
-				return true;
-			}
-
-			if (tryGetField(key, out string dateText)) {
-				if ((dateText != null) && (dateText != "00000000")) {
-					if (TimeFormats.TryParse(dateText, out value) || DateTime.TryParse(dateText, out value)) {
-						value = value.ToLocalTime();
-						_data.Set(key, value.ToOADate());
-						return true;
-					} else {
-						Debug.Assert(false, key.ToString() + "|" + dateText);
-					}
-				}
-			}
-
+			// Not found or could not convert from string.
+			csvFieldText = null;
 			value = default;
 			return false;
 		}
 
-		private string getAsString(int key)
+		public bool TryGetValue(int key, out string value)
 		{
-			return TryGetValue(key, out string value) ? value : "";
-		}
+			CacheEntry found = _cache.Find(n => n.Key == key);
 
-		private long getAsLong(int key)
-		{
-			if (TryGetValue(key, out long value))
-				return value;
-			return (key == CSVFieldIDs.TIF) ? -1 : 0;
-		}
+			if (found != null) {
+				value = (found.Value is string s) ? s : found.Value.ToString();
+				return true;
+			}
 
-		private double getAsDouble(int key)
-		{
-			return TryGetValue(key, out double value) ? value : 0;
-		}
+			if ((_fields != null) && (key >= 0) && (key < _fields.Length)) {
+				value = _fields[key];
+				return !string.IsNullOrEmpty(value);
+			}
 
-		private DateTime getAsDateTime(int key)
+			value = null;
+			return false;
+		}
+		public bool TryGetValue(int key, out int value) => tryGetValue(key, out value, out _, int.TryParse);
+		public bool TryGetValue(int key, out long value) => tryGetValue(key, out value, out _, long.TryParse);
+		public bool TryGetValue(int key, out double value)
 		{
-			return TryGetValue(key, out DateTime value) ? value : DateTime.Now;
+			if (!tryGetValue(key, out value, out string text, double.TryParse) && (key == CSVFieldIDs.Price)) {
+				if (!string.IsNullOrEmpty(text)) {
+					// Special Case for Loggin mssages L, K, this is the password field
+					string command = Command;
+					bool isPasswordText = (command == CSVFieldIDs.MessageTypes.LoggedIn) || (command == CSVFieldIDs.MessageTypes.LoginFailed);
+					Debug.Assert(!isPasswordText, string.Concat(key.ToString(), "|", text));
+				}
+			}
+			return false;
+		}
+		public bool TryGetValue(int key, out DateTime value)
+		{
+			if (!tryGetValue(key, out value, out string csvFieldText, convertDate)) {
+				Debug.Assert(string.IsNullOrEmpty(csvFieldText), key.ToString() + "|" + csvFieldText);
+				return false;
+			}
+			return true;
 		}
 
 		#endregion
 
-		#region - Encode -
-
-		public void Encode()
+		public string Encode()
 		{
-			EncodeMessage = "";
-			if (_fields != null && _fields.Length > 0)
-			{
-				Encode(_fields);
+			// Rebuild the encoded CSV if any fields have changed.
+			if (_encoded == null) {
+				int maxFieldKey = (_fields == null) ? -1 : _fields.Length - 1;
+				string message = null;
+
+				if ((maxFieldKey >= 0) || (_maxCacheKey >= 0)) {
+					int maxKey = System.Math.Max(maxFieldKey, _maxCacheKey);
+					string[] values = new string[maxKey + 1];
+
+					// Add original values.
+					for (int i = 0; i <= maxFieldKey; ++i)
+						values[i] = _fields[i];
+
+					// Add cached values over the originals.
+					foreach (CacheEntry entry in _cache) {
+						switch (entry.Value) {
+							case double dval:
+								values[entry.Key] = Math.Round(dval, 7).ToString();
+								break;
+							case DateTime wval:
+								values[entry.Key] = wval.ToString("yyyyMMdd-HH:mm:ss");
+								break;
+							case string sval:
+								values[entry.Key] = sval;
+								break;
+							default:
+								values[entry.Key] = entry.Value.ToString();
+								break;
+						}
+					}
+
+					// Add timestamp.
+					if (CSVFieldIDs.CurrentTimeStamp <= maxKey)
+						values[CSVFieldIDs.CurrentTimeStamp] = DateTime.Now.ToString("HHmmss");
+
+					// Encode.
+					message = string.Join(",", values);
+				}
+
+				// Append child CSVs if applicable and assign.
+				if (string.IsNullOrEmpty(_children)) {
+					_encoded = message ?? ""; // Empty string, not null, so we don't rebuild unnecessarily.
+				} else if (message == null) {
+					_encoded = MESSAGE_SEPARATOR + _children;
+				} else {
+					// Oddly, the parent also gets the messages separator prefix.
+					_encoded = MESSAGE_SEPARATOR + message + MESSAGE_SEPARATOR + _children;
+				}
 			}
+
+			return _encoded;
 		}
-		private void Encode(string[] fields)
-		{
-			SetAt(CSVFieldIDs.CurrentTimeStamp, DateTime.Now.ToString("HHmmss"));
-
-			EncodeMessage = string.Join(",", fields);
-
-			// If have child convert them to string too
-			foreach (CSV child in Children)
-			{
-				child.Encode();
-				EncodeMessage = "!#!" + EncodeMessage + child.EncodeMessage;
-				EncodeMessage.Replace('\n', ' ');
-			}
-
-			if (Children.Count != 0)
-			{
-				EncodeMessage += "!#!";
-			}
-
-			EncodeMessage += '\n';
-		}
-
-		#endregion
 
 		#region - Set -
 
-		// Expands the array as necessary and inserts the value.
-		private void insert(int key, string value)
+		public void SetAt<T>(int key, T value)
 		{
-			if (key < MAX_FIELD_COUNT) {
-				if (_fields.Length < (key + 1))
-					System.Array.Resize(ref _fields, key + 1);
-				_fields[key] = value;
-			}
-		}
+			// Add values to the cache, not the original csv.  The cache is
+			// merged with the original csv during encoding.
+			CacheEntry found = _cache.Find(n => n.Key == key);
+			if (found == null)
+				_cache.Add(new CacheEntry(key, value));
+			else
+				found.Value = value;
 
-		public void SetAt(int key, double val)
-		{
-			insert(key, Math.Round(val, 7).ToString());
-		}
+			// Remember the largest key for building the encoded CSV message.
+			if (key > _maxCacheKey)
+				_maxCacheKey = key;
 
-		public void SetAt(int key, DateTime val)
-		{
-			insert(key, val.ToString("yyyyMMdd-HH:mm:ss"));
-		}
-
-		public void SetAt<T>(int key, T val)
-		{
-			insert(key, val.ToString());
+			// Force rebuild of encoded CSV message.
+			_encoded = null;
 		}
 
 		#endregion
 
 		#region - Decoded _fields By Name -
 
-		public string Command
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.Command);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.Command, value);
-			}
+		public long AlgoExchangeID => TryGetValue(CSVFieldIDs.AlgoExchangeID, out long value) ? value : 0;
+		public long AlgoType {
+			get => TryGetValue(CSVFieldIDs.AlgoType, out long value) ? value : 0;
+			set => SetAt(CSVFieldIDs.AlgoType, value);
 		}
-
-		public double AveragePrice
-		{
-			get
-			{
-				return (getAsDouble(CSVFieldIDs.AveragePrice));
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.AveragePrice, value);
-			}
+		public double AveragePrice {
+			get => TryGetValue(CSVFieldIDs.AveragePrice, out double value) ? value : 0;
+			set => SetAt(CSVFieldIDs.AveragePrice, value);
 		}
-
-		public string CallPut
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.CallPut);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.CallPut, value);
-			}
+		public string CallPut {
+			get => TryGetValue(CSVFieldIDs.CallPut, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.CallPut, value);
 		}
-
 		public string ClearingAcct
 		{
-			get
-			{
-				return getAsString(CSVFieldIDs.ClearingAcct);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.ClearingAcct, value);
-			}
+			get => TryGetValue(CSVFieldIDs.ClearingAcct, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.ClearingAcct, value);
 		}
-
-		public string ClearingID
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.ClearingID);
-			}
+		public string ClearingID => TryGetValue(CSVFieldIDs.ClearingID, out string value) ? value : "";
+		public string ClientEcho {
+			get => TryGetValue(CSVFieldIDs.ClientEcho, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.ClientEcho, value);
 		}
-
-		public long CumShares
-		{
-			get
-			{
-				return getAsLong(CSVFieldIDs.CumShares);
-			}
+		public string CMTAAccount {
+			get => TryGetValue(CSVFieldIDs.CMTAAccount, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.CMTAAccount, value);
 		}
-
-		public long ExchangeID
-		{
-			get
-			{
-				return getAsLong(CSVFieldIDs.ExchangeID);
-			}
+		public string Command {
+			get => TryGetValue(CSVFieldIDs.Command, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.Command, value);
 		}
-
-		public long AlgoExchangeID
-		{
-			get
-			{
-				return getAsLong(CSVFieldIDs.AlgoExchangeID);
-			}
+		public long CplxOrderType => TryGetValue(CSVFieldIDs.CplxOrderType, out long value) ? value : 0;
+		public long CumShares => TryGetValue(CSVFieldIDs.CumShares, out long value) ? value : 0;
+		public string DisplayInstruction {
+			get => TryGetValue(CSVFieldIDs.DisplayInstruction, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.DisplayInstruction, value);
 		}
-
-		public DateTime EffectiveTime
-		{
-			get
-			{
-				return getAsDateTime(CSVFieldIDs.EffectiveTime);
-			}
+		public DateTime EffectiveTime => TryGetValue(CSVFieldIDs.EffectiveTime, out DateTime value) ? value : default;
+		public DateTime EndTime {
+			get => TryGetValue(CSVFieldIDs.EndTime, out DateTime value) ? value : default;
+			set => SetAt(CSVFieldIDs.EndTime, value);
 		}
-
+		public long ExchangeID => TryGetValue(CSVFieldIDs.ExchangeID, out long value) ? value : 0;
+		public double ExecPrice => TryGetValue(CSVFieldIDs.ExecPrice, out double value) ? value : 0;
+		public string ExecutionInstruction => TryGetValue(CSVFieldIDs.ExecutionInstruction, out string value) ? value : "";
+		public DateTime ExecutionTime => TryGetValue(CSVFieldIDs.ExecutionTime, out DateTime value) ? value : default;
 		public string ExpDate
 		{
-			get
-			{
-				return getAsString(CSVFieldIDs.ExpDate);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.ExpDate, value);
-			}
+			get => TryGetValue(CSVFieldIDs.ExpDate, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.ExpDate, value);
 		}
-
-		public string Firm
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.Firm);
-			}
+		public string Firm => TryGetValue(CSVFieldIDs.Firm, out string value) ? value : "";
+		public long Floor => TryGetValue(CSVFieldIDs.Floor, out long value) ? value : 0;
+		public string Instructions => TryGetValue(CSVFieldIDs.Instructions, out string value) ? value : "";
+		public long LastShares => TryGetValue(CSVFieldIDs.LastShares, out long value) ? value : 0;
+		public long LeaveShares => TryGetValue(CSVFieldIDs.LeaveShares, out long value) ? value : 0;
+		public string LocalAcct {
+			get => TryGetValue(CSVFieldIDs.LocalAcct, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.LocalAcct, value);
 		}
-
-		public string Instructions
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.Instructions);
-			}
+		public string MaturityDay {
+			get => TryGetValue(CSVFieldIDs.MaturityDay, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.MaturityDay, value);
 		}
-
-		public string ExecutionInstruction
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.ExecutionInstruction);
-			}
+		public string OmExecTag => TryGetValue(CSVFieldIDs.OmExecTag, out string value) ? value : "";
+		public string OmTag => TryGetValue(CSVFieldIDs.OmTag, out string value) ? value : "";
+		public DateTime OmTime => TryGetValue(CSVFieldIDs.OmTime, out DateTime value) ? value : default;
+		public string OpenClose => TryGetValue(CSVFieldIDs.OpenClose, out string value) ? value : "";
+		public DateTime OrderExpirationDateTime => TryGetValue(CSVFieldIDs.OrderExpirationDateTime, out DateTime value) ? value : default;
+		public double OriginalPrice {
+			get => TryGetValue(CSVFieldIDs.OriginalPrice, out double value) ? value : 0;
+			set => SetAt(CSVFieldIDs.OriginalPrice, value);
 		}
-
-		public string ProgramTrade
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.ProgramTrade);
-			}
+		public long OriginalShares => TryGetValue(CSVFieldIDs.OriginalShares, out long value) ? value : 0;
+		public string Owner => TryGetValue(CSVFieldIDs.Owner, out string value) ? value : "";
+		public string ParentTag {
+			get => TryGetValue(CSVFieldIDs.ParentTag, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.ParentTag, value);
 		}
-
-		public long LeaveShares
-		{
-			get
-			{
-				return getAsLong(CSVFieldIDs.LeaveShares);
-			}
+		public double PegOffsetPrice => TryGetValue(CSVFieldIDs.PegOffsetPrice, out double value) ? value : 0;
+		public double Price {
+			get => TryGetValue(CSVFieldIDs.Price, out double value) ? value : 0;
+			set => SetAt(CSVFieldIDs.Price, value);
 		}
-
-		public string LocalAcct
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.LocalAcct);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.LocalAcct, value);
-			}
+		public string ProgramTrade => TryGetValue(CSVFieldIDs.ProgramTrade, out string value) ? value : "";
+		public string SecType {
+			get => TryGetValue(CSVFieldIDs.SecType, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.SecType, value);
 		}
-
-		public long Floor
-		{
-			get
-			{
-				return getAsLong(CSVFieldIDs.Floor);
-			}
+		public string SecurityDefinition {
+			get => TryGetValue(CSVFieldIDs.SecurityDefinition, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.SecurityDefinition, value);
 		}
-
-		public string OmExecTag
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.OmExecTag);
-			}
-		}
-
-		public string OmTag
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.OmTag);
-			}
-		}
-
-		public DateTime OmTime
-		{
-			get
-			{
-				return getAsDateTime(CSVFieldIDs.OmTime);
-			}
-		}
-
-		public DateTime ExecutionTime
-		{
-			get
-			{
-				return getAsDateTime(CSVFieldIDs.ExecutionTime);
-			}
-		}
-
-		public string OpenClose
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.OpenClose);
-			}
-		}
-
-		public DateTime OrderExpirationDateTime
-		{
-			get
-			{
-				return getAsDateTime(CSVFieldIDs.OrderExpirationDateTime);
-			}
-		}
-
-		public long Type
-		{
-			get
-			{
-				return getAsLong(CSVFieldIDs.Type);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.Type, value);
-			}
-		}
-
-		public long AlgoType
-		{
-			get
-			{
-				return getAsLong(CSVFieldIDs.AlgoType);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.AlgoType, value);
-			}
-		}
-
-		public long LastShares
-		{
-			get
-			{
-				return getAsLong(CSVFieldIDs.LastShares);
-			}
-		}
-
-		public long OriginalShares
-		{
-			get
-			{
-				return getAsLong(CSVFieldIDs.OriginalShares);
-			}
-		}
-
-		public string Owner
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.Owner);
-			}
-		}
-
-		public double Price
-		{
-			get
-			{
-				return (getAsDouble(CSVFieldIDs.Price));
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.Price, value);
-			}
-		}
-
-		public double OriginalPrice
-		{
-			get
-			{
-				return (getAsDouble(CSVFieldIDs.OriginalPrice));
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.OriginalPrice, value);
-			}
-		}
-
-		public double ExecPrice
-		{
-			get
-			{
-				return (getAsDouble(CSVFieldIDs.ExecPrice));
-			}
-		}
-
 		public long Shares
 		{
-			get
-			{
-				return (getAsLong(CSVFieldIDs.Shares));
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.Shares, value);
-			}
+			get => TryGetValue(CSVFieldIDs.Shares, out long value) ? value : 0;
+			set => SetAt(CSVFieldIDs.Shares, value);
 		}
-
-		public string SecType
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.SecType);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.SecType, value);
-			}
-		}
-
 		public long Side
 		{
-			get
-			{
-				return (getAsLong(CSVFieldIDs.Side));
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.Side, value);
-			}
+			get => TryGetValue(CSVFieldIDs.Side, out long value) ? value : 0;
+			set => SetAt(CSVFieldIDs.Side, value);
 		}
-
-		public long Status
-		{
-			get
-			{
-				return (getAsLong(CSVFieldIDs.Status));
-			}
-		}
-
-		public double StopPrice
-		{
-			get
-			{
-				return (getAsDouble(CSVFieldIDs.StopPrice));
-			}
-		}
-
-		public double PegOffsetPrice
-		{
-			get
-			{
-				return (getAsDouble(CSVFieldIDs.PegOffsetPrice));
-			}
-		}
-
+		public long Status => TryGetValue(CSVFieldIDs.Status, out long value) ? value : 0;
+		public double StopPrice => TryGetValue(CSVFieldIDs.StopPrice, out double value) ? value : 0;
 		public double StrikePrice
 		{
-			get
-			{
-				return (getAsDouble(CSVFieldIDs.StrikePrice));
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.StrikePrice, value);
-			}
+			get => TryGetValue(CSVFieldIDs.StrikePrice, out double value) ? value : 0;
+			set => SetAt(CSVFieldIDs.StrikePrice, value);
 		}
-
-		public string Symbol
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.Symbol);
-			}
-		}
-
-		public string Tag
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.Tag);
-			}
-		}
-
-		public string Text
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.Text);
-			}
-		}
-
+		public string Symbol => TryGetValue(CSVFieldIDs.Symbol, out string value) ? value : "";
+		public string Tag => TryGetValue(CSVFieldIDs.Tag, out string value) ? value : "";
+		public string Text => TryGetValue(CSVFieldIDs.Text, out string value) ? value : "";
 		public long TIF
 		{
-			get
-			{
-				return (getAsLong(CSVFieldIDs.TIF));
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.TIF, value);
-			}
+			get => TryGetValue(CSVFieldIDs.TIF, out long value) ? value : 0;
+			set => SetAt(CSVFieldIDs.TIF, value);
 		}
-
 		public string TradeFor
 		{
-			get
-			{
-				return getAsString(CSVFieldIDs.TradeFor);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.TradeFor, value);
-			}
+			get => TryGetValue(CSVFieldIDs.TradeFor, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.TradeFor, value);
 		}
-
 		public string Trader
 		{
-			get
-			{
-				return getAsString(CSVFieldIDs.Trader);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.Trader, value);
-			}
+			get => TryGetValue(CSVFieldIDs.Trader, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.Trader, value);
 		}
-
+		public long Type {
+			get => TryGetValue(CSVFieldIDs.Type, out long value) ? value : 0;
+			set => SetAt(CSVFieldIDs.Type, value);
+		}
 		public string Underlying
 		{
-			get
-			{
-				return getAsString(CSVFieldIDs.Underlying);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.Underlying, value);
-			}
+			get => TryGetValue(CSVFieldIDs.Underlying, out string value) ? value : "";
+			set => SetAt(CSVFieldIDs.Underlying, value);
 		}
-
-		public string ParentTag
-		{
-			get
-			{
-				return (getAsString(CSVFieldIDs.ParentTag));
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.ParentTag, value);
-			}
-		}
-
-		public long CplxOrderType
-		{
-			get
-			{
-				return (getAsLong(CSVFieldIDs.CplxOrderType));
-			}
-		}
-
-		public string ClientEcho
-		{
-			get
-			{
-				return (getAsString(CSVFieldIDs.ClientEcho));
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.ClientEcho, value);
-			}
-		}
-
-		public bool UpdateOrder
-		{
-			get
-			{
-				switch (CplxOrderType)
-				{
-					/*
-					case 6:
-						return false;
-					case 5:
-					default:
-						return true;
-					*/
-					case CSVFieldIDs.CplxOrderTypes.Container:
-						return true;
-					case CSVFieldIDs.CplxOrderTypes.Leg:
-					default:
-						return false;
-				}
-			}
-		}
-
-		public bool UpdateTrade
-		{
-			get
-			{
-				switch (CplxOrderType)
-				{
-					/*
-					case 5:
-						return false;
-					case 6:
-					default:
-						return true;
-					*/
-					case CSVFieldIDs.CplxOrderTypes.Leg:
-					    return true;
-					case CSVFieldIDs.CplxOrderTypes.Container:
-					default:
-					    return false;
-				}
-			}
-		}
-
-		public string SecurityDefinition
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.SecurityDefinition);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.SecurityDefinition, value);
-			}
-		}
-
-		public DateTime EndTime
-		{
-			get
-			{
-				return getAsDateTime(CSVFieldIDs.EndTime);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.EndTime, value.ToOADate());
-			}
-		}
-
-		public string DisplayInstruction
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.DisplayInstruction);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.DisplayInstruction, value);
-			}
-		}
-
-		public string CMTAAccount
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.CMTAAccount);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.CMTAAccount, value);
-			}
-		}
-
-		public string MaturityDay
-		{
-			get
-			{
-				return getAsString(CSVFieldIDs.MaturityDay);
-			}
-			set
-			{
-				_data.Set(CSVFieldIDs.MaturityDay, value);
-			}
-		}
+		public bool UpdateOrder => CplxOrderType == CSVFieldIDs.CplxOrderTypes.Container;
+		public bool UpdateTrade => CplxOrderType == CSVFieldIDs.CplxOrderTypes.Leg;
 
 		#endregion
 	}

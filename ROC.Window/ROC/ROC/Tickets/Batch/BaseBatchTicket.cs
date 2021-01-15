@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
+using System.Linq;
 using Path = System.IO.Path;
 
 using Common;
@@ -516,7 +517,7 @@ namespace ROC
 				}
 				order.localAcctAcrn = GetValue(row, "LocalAccountAcrn");
 
-				if (!VerifyTrader(ref order))
+				if (!VerifyTrader(order))
 				{
 					SetOrderID(row, "Invalid User Info", true);
 					return false;
@@ -1075,7 +1076,7 @@ namespace ROC
 					}
 					order.localAcctAcrn = GetValueFromDataTable(row, "LocalAccountAcrn");
 
-					if (!VerifyTrader(ref order))
+					if (!VerifyTrader(order))
 					{
 						SetOrderIDFromDataTable(row, "Invalid User Info");
 						continue;
@@ -1290,7 +1291,7 @@ namespace ROC
 			}
 		}
 
-		private bool VerifyTrader(ref RomBasicOrder order)
+		private bool VerifyTrader(RomBasicOrder order)
 		{
 			if (GLOBAL.HRDS.GotUserProfiles)
 			{
@@ -1313,49 +1314,30 @@ namespace ROC
 				else
 				{
 					// Search for a match
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
-						if (trader.tradeFor == order.tradeFor)
+						if (trader.TradeFor == order.tradeFor)
 						{
 							switch (order.secType)
 							{
 								case CSVFieldIDs.SecurityTypes.Option:
-									if (VerifyExchange(ref order, trader.OPTAccounts))
-									{
+									if (VerifyExchange(order, trader.OPTAccounts))
 										return true;
-									}
 									break;
 								case CSVFieldIDs.SecurityTypes.OptionFuture:
-									if (VerifyExchange(ref order, trader.OPTAccounts))
-									{
+									if (VerifyExchange(order, trader.OPTAccounts) || VerifyExchange(order, trader.FUTAccounts))
 										return true;
-									}
-									if (VerifyExchange(ref order, trader.FUTAccounts))
-									{
-										return true;
-									}
 									break;
 								case CSVFieldIDs.SecurityTypes.Future:
-									if (VerifyExchange(ref order, trader.FUTAccounts))
-									{
+									if (VerifyExchange(order, trader.FUTAccounts))
 										return true;
-									}
 									break;
 								default:
-									if (VerifyExchange(ref order, trader.CSAccounts))
-									{
+									if (VerifyExchange(order, trader.CSAccounts) || 
+										VerifyExchange(order, trader.FUTAccounts) ||
+										VerifyExchange(order, trader.OPTAccounts)
+										)
 										return true;
-									}
-
-									if (VerifyExchange(ref order, trader.FUTAccounts))
-									{
-										return true;
-									}
-
-									if (VerifyExchange(ref order, trader.OPTAccounts))
-									{
-										return true;
-									}
 									break;
 							}
 						}
@@ -1365,41 +1347,30 @@ namespace ROC
 			return false;
 		}
 
-		private bool VerifyExchange(ref RomBasicOrder order, Dictionary<string, AccountMap> accounts)
+		private bool VerifyExchange(RomBasicOrder order, Dictionary<string, AccountMap> accounts)
 		{
-			foreach (AccountMap acctMap in accounts.Values)
-			{
-				if (order.localAcctAcrn == "")
-				{
+			foreach ((string _, AccountMap acctMap) in accounts) {
+				if (order.localAcctAcrn == "") {
 					// User didn't specify an account, use the first destination found
-					foreach (DestinationMap destMap in acctMap.Destinations)
-					{
-						if (destMap.shortName == order.exchangeID)
-						{
-							StoreUserInfo(ref order, acctMap, destMap);
+					foreach (DestinationMap destMap in acctMap.Destinations) {
+						if (destMap.shortName == order.exchangeID) {
+							StoreUserInfo(order, acctMap, destMap);
+							return true;
+						}
+					}
+				} else if (acctMap.account == order.localAcctAcrn) {
+					foreach (DestinationMap destMap in acctMap.Destinations) {
+						if (destMap.shortName == order.exchangeID) {
+							StoreUserInfo(order, acctMap, destMap);
 							return true;
 						}
 					}
 				}
-				else
-				{
-					if (acctMap.account == order.localAcctAcrn)
-					{
-						foreach (DestinationMap destMap in acctMap.Destinations)
-						{
-							if (destMap.shortName == order.exchangeID)
-							{
-								StoreUserInfo(ref order, acctMap, destMap);
-								return true;
-							}
-						}
-					}
-				}
 			}
 			return false;
 		}
 
-		private void StoreUserInfo(ref RomBasicOrder order, AccountMap acctMap, DestinationMap destMap)
+		private void StoreUserInfo(RomBasicOrder order, AccountMap acctMap, DestinationMap destMap)
 		{
 			order.capacity = acctMap.capacity;
 			order.clearingAcctID = acctMap.clearingAcID;
@@ -1857,9 +1828,9 @@ namespace ROC
 			if (_menuTraderActions == null)
 			{
 				Dictionary<string, string> items = new Dictionary<string, string>();
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					items.Add(trader.tradeFor.ToUpper(), trader.tradeFor.ToUpper());
+					items.Add(trader.TradeFor.ToUpper(), trader.TradeFor.ToUpper());
 				}
 
 				_menuTraderActions = new menuBaseAction(items, true);
@@ -1916,11 +1887,11 @@ namespace ROC
 			}
 			else
 			{
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					if (trader.tradeFor == e.PropertyName)
+					if (trader.TradeFor == e.PropertyName)
 					{
-						if (VerifyExchange(ref order, trader.CSAccounts) || VerifyExchange(ref order, trader.FUTAccounts) || VerifyExchange(ref order, trader.OPTAccounts))
+						if (VerifyExchange(order, trader.CSAccounts) || VerifyExchange(order, trader.FUTAccounts) || VerifyExchange(order, trader.OPTAccounts))
 						{
 							found = true;
 							break;
@@ -1987,19 +1958,19 @@ namespace ROC
 				if (_menuAccountActions == null)
 				{
 					Dictionary<string, string> items = new Dictionary<string, string>();
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
-						if (trader.tradeFor.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
+						if (trader.TradeFor.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
 						{
-							foreach (AccountMap acctMap in trader.CSAccounts.Values)
+							foreach (AccountMap acctMap in trader.CSAccounts.Select(n => n.Value))
 								items.TryAdd(acctMap.account, acctMap.account);
 
-							foreach (AccountMap acctMap in trader.FUTAccounts.Values)
+							foreach (AccountMap acctMap in trader.FUTAccounts.Select(n => n.Value))
 								items.TryAdd(acctMap.account, acctMap.account);
 
 							if (BatchGrid.IsMarketDataBatchGrid)
 							{
-								foreach (AccountMap acctMap in trader.OPTAccounts.Values)
+								foreach (AccountMap acctMap in trader.OPTAccounts.Select(n => n.Value))
 									items.TryAdd(acctMap.account, acctMap.account);
 							}
 
@@ -2064,11 +2035,11 @@ namespace ROC
 			}
 			else
 			{
-				foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+				foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 				{
-					if (trader.tradeFor == e.PropertyName)
+					if (trader.TradeFor == e.PropertyName)
 					{
-						if (VerifyExchange(ref order, trader.CSAccounts) || VerifyExchange(ref order, trader.FUTAccounts) || VerifyExchange(ref order, trader.OPTAccounts))
+						if (VerifyExchange(order, trader.CSAccounts) || VerifyExchange(order, trader.FUTAccounts) || VerifyExchange(order, trader.OPTAccounts))
 						{
 							found = true;
 							break;
@@ -2184,11 +2155,11 @@ namespace ROC
 				if (_menuExchangeActions == null)
 				{
 					Dictionary<string, string> items = new Dictionary<string, string>();
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
-						if (trader.tradeFor.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
+						if (trader.TradeFor.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["TraderFor"].Value.ToString().ToUpper())
 						{
-							foreach (AccountMap acctMap in trader.CSAccounts.Values)
+							foreach ((string _, AccountMap acctMap) in trader.CSAccounts)
 							{
 								if (acctMap.account.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
@@ -2197,7 +2168,7 @@ namespace ROC
 								}
 							}
 
-							foreach (AccountMap acctMap in trader.FUTAccounts.Values)
+							foreach ((string _, AccountMap acctMap) in trader.FUTAccounts)
 							{
 								if (acctMap.account.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
@@ -2206,7 +2177,7 @@ namespace ROC
 								}
 							}
 
-							foreach (AccountMap acctMap in trader.OPTAccounts.Values)
+							foreach ((string _, AccountMap acctMap) in trader.OPTAccounts)
 							{
 								if (acctMap.account.ToUpper() == BatchGrid.Rows[BatchGrid.RowLocation].Cells["LocalAccountAcrn"].Value.ToString().ToUpper())
 								{
@@ -2277,11 +2248,11 @@ namespace ROC
 				}
 				else
 				{
-					foreach (TraderMap trader in GLOBAL.HRDS.UserProfiles.Values)
+					foreach ((string _, TraderMap trader) in GLOBAL.HRDS.UserProfiles)
 					{
-						if (trader.tradeFor == e.PropertyName)
+						if (trader.TradeFor == e.PropertyName)
 						{
-							if (VerifyExchange(ref order, trader.CSAccounts) || VerifyExchange(ref order, trader.FUTAccounts) || VerifyExchange(ref order, trader.OPTAccounts))
+							if (VerifyExchange(order, trader.CSAccounts) || VerifyExchange(order, trader.FUTAccounts) || VerifyExchange(order, trader.OPTAccounts))
 							{
 								found = true;
 								break;

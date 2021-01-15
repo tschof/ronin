@@ -398,7 +398,7 @@ namespace ROC
 			QuickButtonSupprot = new QuickButtonSupport(this);
 			QuickButtonSupprot.QuickButtonClicked += new QuickButtonClickedEventHandler(QuickButtonSupport_QuickButtonClicked);
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			_showOnlySelectedExchange = Configuration.User.Default.ShowOnlySelectedExchange;
 
@@ -996,7 +996,7 @@ namespace ROC
 							DateTime monthlyExpDate = WeekHelper.GetMonthlyExpirationDay((DateTime)row["ExpDateTime"]);
 							if (IsFuture)
 							{
-								if (rocOptionList.Expirations.Contains((DateTime)row["ExpDateTime"]) || WeekHelper.IsThridWeek((DateTime)row["ExpDateTime"]) || WeekHelper.IsEndOfMonth((DateTime)row["ExpDateTime"]))
+								if (rocOptionList.HasExpiration((DateTime)row["ExpDateTime"]) || WeekHelper.IsThridWeek((DateTime)row["ExpDateTime"]) || WeekHelper.IsEndOfMonth((DateTime)row["ExpDateTime"]))
 								{
 									// Monthly and Quaterly
 									cboExpiration.Text = row["ExpDisplay"].ToString();
@@ -1622,7 +1622,7 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string symbolDetail, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(string symbolDetail, IMSecurityBase secInfo)
 		{
 			HelperSubscriber.Subscribe(secInfo.MDSymbol, secInfo.MDSource, secInfo.SecType);
 			switch (secInfo.SecType)
@@ -1631,32 +1631,6 @@ namespace ROC
 				case CSVFieldIDs.SecurityTypes.Future:
 				case CSVFieldIDs.SecurityTypes.OptionIndex:
 				case CSVFieldIDs.SecurityTypes.OptionFuture:
-					// Only subscribe to visiable options
-					//if (secInfo.OptionChain.Count > 0)
-					//{
-					//    foreach (IMOptionInfo opt in secInfo.OptionChain.Values)
-					//    {
-					//        // Subscribe to the first two month by default;
-					//        if (opt.ExpDateDT != null &&
-					//            (opt.ExpDateDT.Value.Month == DateTime.Now.Month ||
-					//            opt.ExpDateDT.Value.Month == nextMonth.Month))
-					//        {
-					//            if (IsFuture)
-					//            {
-					//                HelperSubscriber.Subscribe(opt.MDSymbol, opt.MDSource, opt.SecType);
-					//            }
-					//            else
-					//            {
-					//                HelperSubscriber.SubscribeOption(opt.MDSymbol);
-					//            }
-
-					//            if (!MDSymbols.Contains(opt.MDSymbol))
-					//            {
-					//                MDSymbols.Add(opt.MDSymbol);
-					//            }
-					//        }
-					//    }
-					//}
 					break;
 				default:
 					DDSymbolDetails.DeleteSymbolDetail(CurrentSymbolDetail);
@@ -2613,17 +2587,9 @@ namespace ROC
 			}
 
 			rocOptionList.CommonFactor = 1;
-			lock (rocOptionList.Strikes)
-			{
-				rocOptionList.Strikes.Clear();
-			}
-			lock (rocOptionList.Expirations)
-			{
-				rocOptionList.Expirations.Clear();
-			}
+			rocOptionList.ClearStrikes();
+			rocOptionList.ClearExpirations();
 			rocOptionList.OptionLoaded = false;
-			//rocOptionList.StrikeRange = 5;
-			//rocOptionList.ExpirationRange = 1;
 
 			rocOptionList.AtMoney = 0;
 			rocOptionList.OptionSymbols.Clear();
@@ -2700,97 +2666,67 @@ namespace ROC
 
 						DataRowView[] rows = new DataRowView[0];
 
-						foreach (IMOptionInfo opt in CurrentSecInfo.OptionChain.Values) {
-							if (_ticketClosed) break;
-							if (opt.ExpDateDT != null && opt.StrikePriceD != null) {
+						foreach ((string _, IMOptionInfo opt) in CurrentSecInfo.OptionChain) {
+							if (_ticketClosed)
+								break;
+							if (opt.ExpDateDT != null && opt.StrikePrice != 0) {
 								expDate = (DateTime)opt.ExpDateDT;
-								stkPrice = (double)opt.StrikePriceD;
-
-								//if (!IsFuture && ShowMonthlyExpirationsOnly)
+								stkPrice = (double)opt.StrikePrice;
 								if (ShowMonthlyExpirationsOnly) {
 									monthlyExpDate = WeekHelper.GetMonthlyExpirationDay((DateTime)opt.ExpDateDT);
 									if (IsFuture) {
-										if (rocOptionList.Expirations.Contains((DateTime)opt.ExpDateDT) || WeekHelper.IsThridWeek((DateTime)opt.ExpDateDT) || WeekHelper.IsEndOfMonth((DateTime)opt.ExpDateDT)) {
-											// Monthly and Quaterly
-										} else {
+										bool isExpire = rocOptionList.HasExpiration((DateTime)opt.ExpDateDT) || WeekHelper.IsThridWeek((DateTime)opt.ExpDateDT) || WeekHelper.IsEndOfMonth((DateTime)opt.ExpDateDT);
+										if (!isExpire)
 											continue;
-										}
-									} else {
-										if (monthlyExpDate != (DateTime)opt.ExpDateDT) {
-											continue;
-										}
+									} else if (monthlyExpDate != (DateTime)opt.ExpDateDT) {
+										continue;
 									}
 								}
-
 								if (!_resetExpirationOnly) {
 									if (!ExpDateKeys.Contains(expDate)) {
 										ExpDateKeys.Add(expDate);
 										expirationTable.Rows.Add(expDate, opt.ExpDate, ConvertToDisplayDate(expDate));
 									}
 								}
-
 								if (stkPrice < _strikeLow || stkPrice > _strikeHigh || expDate < _expDateLow || expDate > _expDateHigh) {
 									continue;
 								}
-
-								//if (!_resetExpirationOnly)
-								//{
 								if (!StrikeKeys.Contains(stkPrice)) {
 									StrikeKeys.Add(stkPrice);
 									strikeTable.Rows.Add(stkPrice, (stkPrice).ToString(STRIKE_FORMAT));
 								}
-								//}
-
 								if (!optionSymbols.Contains(opt.OptionSymbol)) {
 									optionSymbols.Add(opt.OptionSymbol);
 								}
-
 								rows = new DataRowView[0];
 								switch (opt.CallPut) {
 									case CSVFieldIDs.OptionTypes.Put:
-										#region - Put -
 										if (!putKeys.Contains(opt.MDSymbol)) {
 											putKeys.Add(opt.MDSymbol);
-
-											//try
-											//{
-											rows = searchView.FindRows(new object[] { opt.ExpDateDT, opt.StrikePriceD, opt.OptionSymbol });
+											rows = searchView.FindRows(new object[] { opt.ExpDateDT, opt.StrikePrice, opt.OptionSymbol });
 											if (rows.Length == 0) {
 												table.Rows.Add(SetOptionRow(opt, table.NewRow(), "Put"));
 												if (!IsFuture && !_doNotLoadOPRAParticipant) {
-													OptionExchangeCode.ForEach((code, name) =>
-														table.Rows.Add(SetOptionRow(opt, table.NewRow(), code, "Put")));
+													OptionExchangeCode.ForEach((code, name) => table.Rows.Add(SetOptionRow(opt, table.NewRow(), code, "Put")));
 												}
 											} else {
 												SetOptionRow(opt, rows, "Put");
 											}
-											//}
-											//catch (Exception ex)
-											//{
-											//    GLOBAL.HROC.AddToStatusLogs("Put: " + ex.Message);
-											//    GLOBAL.HROC.AddToStatusLogs(ex.StackTrace);
-											//}
 										}
-										#endregion
 										break;
 									case CSVFieldIDs.OptionTypes.Call:
-										#region - Call -
 										if (!callKeys.Contains(opt.MDSymbol)) {
 											callKeys.Add(opt.MDSymbol);
-
-											rows = searchView.FindRows(new object[] { opt.ExpDateDT, opt.StrikePriceD, opt.OptionSymbol });
+											rows = searchView.FindRows(new object[] { opt.ExpDateDT, opt.StrikePrice, opt.OptionSymbol });
 											if (rows.Length == 0) {
 												table.Rows.Add(SetOptionRow(opt, table.NewRow(), "Call"));
 												if (!IsFuture && !_doNotLoadOPRAParticipant) {
-													OptionExchangeCode.ForEach((code, name) => {
-														table.Rows.Add(SetOptionRow(opt, table.NewRow(), code, "Call"));
-													});
+													OptionExchangeCode.ForEach((code, name) => { table.Rows.Add(SetOptionRow(opt, table.NewRow(), code, "Call")); });
 												}
 											} else {
 												SetOptionRow(opt, rows, "Call");
 											}
 										}
-										#endregion
 										break;
 								}
 							}
@@ -2829,82 +2765,45 @@ namespace ROC
 			strikeLow = 0;
 			expDateHigh = DateTime.Now.AddYears(10);
 			expDateLow = DateTime.Now;
-			try
-			{
-				lock (rocOptionList.Strikes)
-				{
-					List<DateTime> _expirations = new List<DateTime>();
-					foreach (IMOptionInfo opt in CurrentSecInfo.OptionChain.Values)
-					{
-						if (opt.StrikePriceD != null)
-						{
-							if (!rocOptionList.Strikes.Contains((double)opt.StrikePriceD))
-							{
-								rocOptionList.Strikes.Add((double)opt.StrikePriceD);
-							}
-						}
+			try {
+				List<DateTime> _expirations = new List<DateTime>();
+				foreach ((string _, IMOptionInfo opt) in CurrentSecInfo.OptionChain) {
+					if (opt.StrikePrice != 0)
+						rocOptionList.TryAddStrike(opt.StrikePrice);
 
-						if (opt.ExpDateDT != null)
-						{
-							if (!rocOptionList.Expirations.Contains((DateTime)opt.ExpDateDT))
-							{
-								//if (!IsFuture && ShowMonthlyExpirationsOnly)
-								if (ShowMonthlyExpirationsOnly)
-								{
-									DateTime monthlyExpDate = WeekHelper.GetMonthlyExpirationDay((DateTime)opt.ExpDateDT);
-									if (IsFuture)
-									{
-										if (WeekHelper.IsThridWeek((DateTime)opt.ExpDateDT) || WeekHelper.IsEndOfMonth((DateTime)opt.ExpDateDT))
-										{
-											// Monthly and Quaterly (or Its the only one avaliable)
-											rocOptionList.Expirations.Add((DateTime)opt.ExpDateDT);
-										}
+					if (opt.ExpDateDT.HasValue && !rocOptionList.HasExpiration(opt.ExpDateDT.Value)) {
+						if (ShowMonthlyExpirationsOnly) {
+							DateTime monthlyExpDate = WeekHelper.GetMonthlyExpirationDay(opt.ExpDateDT.Value);
+							if (IsFuture) {
+								if (WeekHelper.IsThridWeek(opt.ExpDateDT.Value) || WeekHelper.IsEndOfMonth(opt.ExpDateDT.Value)) {
+									// Monthly and Quaterly (or Its the only one avaliable)
+									rocOptionList.AddExpiration(opt.ExpDateDT.Value);
+								}
 
-										if (!_expirations.Contains((DateTime)opt.ExpDateDT))
-										{
-											_expirations.Add((DateTime)opt.ExpDateDT);
-										}
-									}
-									else
-									{
-										if (monthlyExpDate == (DateTime)opt.ExpDateDT)
-										{
-											rocOptionList.Expirations.Add((DateTime)opt.ExpDateDT);
-										}
-									}
+								if (!_expirations.Contains(opt.ExpDateDT.Value)) {
+									_expirations.Add(opt.ExpDateDT.Value);
 								}
-								else
-								{
-									rocOptionList.Expirations.Add((DateTime)opt.ExpDateDT);
-								}
+							} else if (monthlyExpDate == opt.ExpDateDT.Value) {
+								rocOptionList.AddExpiration(opt.ExpDateDT.Value);
 							}
+						} else {
+							rocOptionList.AddExpiration(opt.ExpDateDT.Value);
 						}
 					}
 
-					if (IsFuture)
-					{
+					if (IsFuture) {
 						// TODO Just in case some future don't expire on the thrid week or at the end of month
-						if (rocOptionList.Expirations.Count == 0)
-						{
-							rocOptionList.Expirations = new List<DateTime>(_expirations);
-						}
 						_expirations.Clear();
 					}
-
-					rocOptionList.Strikes.Sort();
-					rocOptionList.Expirations.Sort();
 				}
 
 				#region - Get Strike Range -
 
-				if (rocOptionList.StrikeRange == 0)
-				{
+				if (rocOptionList.StrikeRange == 0) {
 					// Show All
-					strikeHigh = rocOptionList.Strikes[rocOptionList.Strikes.Count - 1];
-					strikeLow = rocOptionList.Strikes[0];
-				}
-				else
-				{
+					strikeHigh = rocOptionList.HighStrike.Value;
+					strikeLow = rocOptionList.LowStrike.Value;
+				} else {
 					double money = GetCurrentMoney();
 
 					long withoutDecimalMoney = 0;
@@ -2912,126 +2811,85 @@ namespace ROC
 
 					// Find Common Factor Between Market Data and Strik Price
 					rocOptionList.CommonFactor = 1;
-					if (money != 0)
-					{
-						if (IsFuture)
-						{
-							// Find Common Factor Between Market Data and Strik Price
-							rocOptionList.CommonFactor = Math.Round(rocOptionList.Strikes[rocOptionList.Strikes.Count / 2] / money, 0);
-							if (rocOptionList.CommonFactor > 900000 && rocOptionList.CommonFactor < 1100000)
-							{
-								rocOptionList.CommonFactor = 1000000;
-							}
-							else if (rocOptionList.CommonFactor > 90000 && rocOptionList.CommonFactor < 11000)
-							{
-								rocOptionList.CommonFactor = 100000;
-							}
-							else if (rocOptionList.CommonFactor > 9000 && rocOptionList.CommonFactor < 11000)
-							{
-								rocOptionList.CommonFactor = 10000;
-							}
-							else if (rocOptionList.CommonFactor > 900 && rocOptionList.CommonFactor < 1100)
-							{
-								rocOptionList.CommonFactor = 1000;
-							}
-							else if (rocOptionList.CommonFactor > 90 && rocOptionList.CommonFactor < 110)
-							{
-								rocOptionList.CommonFactor = 100;
-							}
-							else if (rocOptionList.CommonFactor > 9 && rocOptionList.CommonFactor < 11)
-							{
-								rocOptionList.CommonFactor = 10;
-							}
-							else
-							{
-								rocOptionList.CommonFactor = 1;
-							}
-						}
-						money = money * rocOptionList.CommonFactor;
-
-						withoutDecimalMoney = Convert.ToInt64(money.ToString("F7").Replace(".", ""));
-						long withoutDecimalsp = Convert.ToInt64(rocOptionList.Strikes[0].ToString("F7").Replace(".", ""));
-						long smallestDelta = Math.Abs(withoutDecimalMoney - withoutDecimalsp);
-						long delta = 0;
-
-						int largerCount = 0;
-						for (int index = 1; index < rocOptionList.Strikes.Count; index++)
-						{
-							withoutDecimalsp = Convert.ToInt64(rocOptionList.Strikes[index].ToString("F7").Replace(".", ""));
-							delta = Math.Abs(withoutDecimalMoney - withoutDecimalsp);
-							if (delta < smallestDelta)
-							{
-								midIndex = index;
-								smallestDelta = delta;
-								largerCount = 0;
-							}
-							else if (delta > smallestDelta)
-							{
-								largerCount = largerCount + 1;
-								if (largerCount > 5)
-								{
-									// Already Passed mid point
+					if (money != 0) {
+						if (IsFuture) {
+							// Find Common Factor Between Market Data and Strike Price
+							double calclulated = Math.Round(rocOptionList.MidStrike / money, 0);
+							for (int i = 0, factor = 1; i < 6; ++i, factor *= 10) {
+								if ((calclulated > (9 * factor)) && (calclulated < (11 * factor))) {
+									rocOptionList.CommonFactor = 10 * factor;
 									break;
 								}
 							}
 						}
-					}
-					else
-					{
-						midIndex = rocOptionList.Strikes.Count / 2;
+						money *= rocOptionList.CommonFactor;
+
+						withoutDecimalMoney = Convert.ToInt64(money.ToString("F7").Replace(".", ""));
+						long withoutDecimalStrike = Convert.ToInt64(rocOptionList.LowStrike.Value.ToString("F7").Replace(".", ""));
+						long smallestDelta = Math.Abs(withoutDecimalMoney - withoutDecimalStrike);
+						long delta = 0;
+
+						int largerCount = 0;
+						IEnumerator<Price> enumerator = rocOptionList.GetStrikeEnumerator();
+						for (int index = 0; enumerator.MoveNext(); ++index) {
+							if (index > 0) {
+								withoutDecimalStrike = Convert.ToInt64(enumerator.Current.Value.ToString("F7").Replace(".", ""));
+								delta = Math.Abs(withoutDecimalMoney - withoutDecimalStrike);
+								if (delta < smallestDelta) {
+									midIndex = index;
+									smallestDelta = delta;
+									largerCount = 0;
+								} else if (delta > smallestDelta) {
+									largerCount += 1;
+									if (largerCount > 5) {
+										// Already Passed mid point
+										break;
+									}
+								}
+							}
+						}
+					} else {
+						midIndex = rocOptionList.StrikeCount / 2;
 					}
 
-					int highIndex = rocOptionList.Strikes.Count - 1;
+					int highIndex = rocOptionList.StrikeCount - 1;
 					int lowIndex = 0;
 
-					if (rocOptionList.StrikeRange > 0)
-					{
-						// Get High Strik Limit
-						if (midIndex + rocOptionList.StrikeRange < rocOptionList.Strikes.Count)
-						{
+					if (rocOptionList.StrikeRange > 0) {
+						// Get High Strike Limit
+						if (midIndex + rocOptionList.StrikeRange < rocOptionList.StrikeCount) {
 							highIndex = midIndex + rocOptionList.StrikeRange;
 						}
 
-						if (midIndex - rocOptionList.StrikeRange > 0)
-						{
+						if (midIndex - rocOptionList.StrikeRange > 0) {
 							lowIndex = midIndex - rocOptionList.StrikeRange;
 						}
 					}
 
-					strikeHigh = rocOptionList.Strikes[highIndex];
-					strikeLow = rocOptionList.Strikes[lowIndex];
+					strikeHigh = rocOptionList.GetStrikeAt(highIndex).Value;
+					strikeLow = rocOptionList.GetStrikeAt(lowIndex).Value;
 				}
 
 				#endregion
 
 				#region - ExpDate Range -
 
-				if (rocOptionList.ExpirationRange == 0)
-				{
-					// Show All
-					expDateHigh = rocOptionList.Expirations[rocOptionList.Expirations.Count - 1];
-					expDateLow = rocOptionList.Expirations[0];
-				}
-				else
-				{
-					expDateLow = rocOptionList.CurrentExpDate;
-					if (expDateLow <= rocOptionList.Expirations[0])
-					{
-						expDateLow = rocOptionList.Expirations[0];
-					}
-					expDateHigh = rocOptionList.Expirations[rocOptionList.Expirations.Count - 1];
-					for (int expLowCount = 0; expLowCount < rocOptionList.Expirations.Count; expLowCount++)
-					{
-						if (rocOptionList.Expirations[expLowCount] >= expDateLow)
-						{
+				expDateHigh = rocOptionList.HighExpiration;
+				expDateLow = rocOptionList.LowExpiration;
+
+				if (rocOptionList.ExpirationRange != 0) {
+					if (expDateLow <= rocOptionList.LowExpiration)
+						expDateLow = rocOptionList.LowExpiration;
+
+					IEnumerator<DateTime> i = rocOptionList.GetExpirationEnumerator();
+					for (int expLowCount = 0; i.MoveNext(); expLowCount++) {
+						if (i.Current >= expDateLow) {
 							int expHighCount = expLowCount + (rocOptionList.ExpirationRange - 1);
-							if (expHighCount < 0)
-							{
+							if (expHighCount < 0) {
 								expHighCount = 0;
 							}
-							if (rocOptionList.Expirations.Count > expHighCount)
-							{
-								expDateHigh = rocOptionList.Expirations[expHighCount];
+							if (rocOptionList.ExpirationCount > expHighCount) {
+								expDateHigh = rocOptionList.GetExpirationAt(expHighCount);
 								break;
 							}
 						}
@@ -3039,9 +2897,7 @@ namespace ROC
 				}
 
 				#endregion
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				GLOBAL.HROC.AddToException(ex);
 			}
 		}
@@ -3075,12 +2931,12 @@ namespace ROC
 		{
 			try
 			{
-				if (opt.ExpDateDT != null && opt.StrikePriceD != null)
+				if (opt.ExpDateDT != null && (opt.StrikePrice != 0))
 				{
 					row["OptionSymbol"] = opt.OptionSymbol;
 					row[callPut + "Symbol"] = opt.MDSymbol;
 					row[callPut + "PartID"] = "";
-					row["Strike"] = opt.StrikePriceD;
+					row["Strike"] = opt.StrikePrice;
 					row["Expiration"] = opt.ExpDateDT;
 					row["DisplayExpiration"] = ((DateTime)opt.ExpDateDT).AddMonths(MonthToAdd);
 
@@ -3104,13 +2960,13 @@ namespace ROC
 		{
 			try
 			{
-				if (opt.ExpDateDT != null && opt.StrikePriceD != null)
+				if (opt.ExpDateDT != null && (opt.StrikePrice != 0))
 				{
 					row["OptionSymbol"] = opt.OptionSymbol;
 					row[callPut + "Symbol"] = opt.MDSymbol;
 					row[callPut + "PartID"] = optKey;
-					row["Strike"] = opt.StrikePriceD;
-					row["StringStrike"] = opt.StrikePrice.Replace(".", "");
+					row["Strike"] = opt.StrikePrice;
+					row["StringStrike"] = opt.StrikePrice.ToString().Replace(".", "");
 					row["Expiration"] = opt.ExpDateDT;
 					row["DisplayExpiration"] = ((DateTime)opt.ExpDateDT).AddMonths(MonthToAdd);
 
@@ -4070,7 +3926,7 @@ namespace ROC
 			HasFirstUpdate = false;
 			_resetExpirationOnly = false;
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			LongName = CurrentSecInfo.LongName;
 

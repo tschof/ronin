@@ -833,14 +833,14 @@ namespace RDSEx
 		}
 
 		// <symbol, IMSSFutureInfo>
-		private Dictionary<string, BaseSSFutureInfo> _symbolToSSFInfos;
-		public Dictionary<string, BaseSSFutureInfo> SymbolToSSFInfos
+		private Dictionary<string, IMSSFutureBase> _symbolToSSFInfos;
+		public Dictionary<string, IMSSFutureBase> SymbolToSSFInfos
 		{
 			get
 			{
 				if (_symbolToSSFInfos == null)
 				{
-					_symbolToSSFInfos = new Dictionary<string, BaseSSFutureInfo>();
+					_symbolToSSFInfos = new Dictionary<string, IMSSFutureBase>();
 				}
 				return _symbolToSSFInfos;
 			}
@@ -1103,8 +1103,8 @@ namespace RDSEx
 				UserProfiles.Add(tradeFor, traderMap);
 			}
 
-			traderMap.tradeFor = traderAcr.tradeFor.ToUpper();
-			traderMap.localAcAcrn = traderAcr.localAcAcrn.ToUpper();
+			traderMap.TradeFor = traderAcr.tradeFor;
+			traderMap.LocalAcAcrn = traderAcr.localAcAcrn;
 
 			return traderAcr.acctProfiles;
 		}
@@ -1118,7 +1118,7 @@ namespace RDSEx
 			foreach (object acctProfileObj in acctProfileObjs)
 			{
 				if (acctProfileObj is AcctProfile acctProfile) {
-					AccountMap acctMap = GetAcctMapByType(acctProfile, ref traderMap);
+					AccountMap acctMap = traderMap.FindOrAddAccountMap(acctProfile.account, acctProfile.type);
 					acctMap.Update(acctProfile);
 
 					if (acctProfile.accountDestinations != null) {
@@ -1126,37 +1126,6 @@ namespace RDSEx
 					}
 				}
 			}
-		}
-
-		private AccountMap GetAcctMapByType(AcctProfile acctProfile, ref TraderMap traderMap)
-		{
-			Dictionary<string, AccountMap> accounts;
-			AccountMap acctMap;
-
-			switch (acctProfile.type)
-			{
-				case AccountTypes.Stock:
-					accounts = traderMap.CSAccounts;
-					break;
-				case AccountTypes.Option:
-					accounts = traderMap.OPTAccounts;
-					break;
-				case AccountTypes.Future:
-					accounts = traderMap.FUTAccounts;
-					break;
-				default:
-					accounts = null;
-					break;
-			}
-
-			if (accounts == null) {
-				return null;
-			} else if (!accounts.TryGetValue(acctProfile.account, out acctMap)) {
-				acctMap = new AccountMap();
-				accounts.Add(acctProfile.account, acctMap);
-			}
-
-			return acctMap;
 		}
 
 		#endregion
@@ -1252,7 +1221,7 @@ namespace RDSEx
 
 					// Stock Maps
 					buildAccounts(
-						tm.tradeFor,
+						tm.TradeFor,
 						tm.CSAccounts,
 						TraderToStockAccts,
 						TraderToStockAcctNames,
@@ -1262,7 +1231,7 @@ namespace RDSEx
 
 					// Future Maps
 					buildAccounts(
-						tm.tradeFor,
+						tm.TradeFor,
 						tm.FUTAccounts,
 						TraderToFutureAccts,
 						TraderToFutureAcctNames,
@@ -1272,7 +1241,7 @@ namespace RDSEx
 
 					// Option Maps
 					buildAccounts(
-						tm.tradeFor,
+						tm.TradeFor,
 						tm.OPTAccounts,
 						TraderToOptionAccts,
 						TraderToOptionAcctNames,
@@ -1620,11 +1589,8 @@ namespace RDSEx
 				_tposExecutions = reset;
 			}
 
-			if ((taken != null) && (taken.Count > 0)) {
-				List<ROCTrade> result = new List<ROCTrade>();
-				result.AddRange(taken.Values);
-				return result;
-			}
+			if ((taken != null) && (taken.Count > 0))
+				return new List<ROCTrade>(taken.Values);
 			return null;
 		}
 
@@ -1869,54 +1835,7 @@ namespace RDSEx
 
 		private void SubDecodeSecurityDesc(SecurityDesc sec, string rocSymbol)
 		{
-			IMSecurityInfo info = new IMSecurityInfo();
-
-			info.Set(SecurityFieldIDs.Security.rocSymbol, rocSymbol);
-			info.Set(SecurityFieldIDs.Security.baseSymbol, sec.baseSymbol);
-			info.Set(SecurityFieldIDs.Security.contractSize, sec.contractSize);
-			//info.Update(SecurityFieldIDs.Security.conversion, sec.Conversion);
-			//info.Update(SecurityFieldIDs.Security.coupon, sec.Coupon);
-			//info.Update(SecurityFieldIDs.Security.couponFreq, sec.CouponFreq);
-			//info.Update(SecurityFieldIDs.Security.curCode, sec.CurCode);
-			//info.Update(SecurityFieldIDs.Security.cusip, sec.Cusip);
-			info.Set(SecurityFieldIDs.Security.dataSourceInfo, sec.dataSourceInfo);
-			info.Set(SecurityFieldIDs.Security.decimalPrecision, sec.DecimalPrecision);
-			info.Set(SecurityFieldIDs.Security.displayFormat, sec.DisplayFormat);
-			info.Set(SecurityFieldIDs.Security.exchange, sec.exchange);
-			//info.Update(SecurityFieldIDs.Security.exerType, sec.ExerType);
-			info.Set(SecurityFieldIDs.Security.expDay, sec.ExpDay);
-			info.Set(SecurityFieldIDs.Security.expirationDate, sec.expirationDate);
-			info.Set(SecurityFieldIDs.Security.expMonth, sec.ExpMonth);
-			info.Set(SecurityFieldIDs.Security.expYear, sec.ExpYear);
-			//info.Update(SecurityFieldIDs.Security.firstCouponDate, sec.FirstCouponDate);
-			info.Set(SecurityFieldIDs.Security.fullSymbol, sec.fullSymbol);
-			info.Set(SecurityFieldIDs.Security.genericMDSymbol, sec.genericMDSymbol);
-			//info.Update(SecurityFieldIDs.Security.inrstAccuralDate, sec.InrstAccuralDate);
-			//info.Update(SecurityFieldIDs.Security.instrumentId, sec.InstrumentId);
-			//info.Update(SecurityFieldIDs.Security.issueDate, sec.IssueDate);
-			info.Set(SecurityFieldIDs.Security.longName, sec.longName);
-			//info.Update(SecurityFieldIDs.Security.notionalAmount, sec.NotionalAmount);
-			//info.Update(SecurityFieldIDs.Security.obsoleteDateTime, sec.ObsoleteDateTime);
-			info.Set(SecurityFieldIDs.Security.putCall, sec.PutCall);
-			//info.Update(SecurityFieldIDs.Security.redemption, sec.Redemption);
-			if (sec.genericMDSymbol.Contains(".IDX"))
-			{
-				// This from IM means it is an option index
-				info.Set(SecurityFieldIDs.Security.securityType, CSVEx.CSVFieldIDs.SecurityTypes.OptionIndex);
-			}
-			else
-			{
-				info.Set(SecurityFieldIDs.Security.securityType, sec.securityType);
-			}
-			//info.Update(SecurityFieldIDs.Security.spcStlFlag, sec.SpcStlFlag);
-			info.Set(SecurityFieldIDs.Security.strike, sec.Strike);
-			info.Set(SecurityFieldIDs.Security.ticker, sec.Ticker);
-			if (sec.tickSize != 0)
-			{
-				info.Set(SecurityFieldIDs.Security.tickSize, sec.tickSize);
-			}
-			info.Set(SecurityFieldIDs.Security.undExpirationDate, sec.UndExpirationDate);
-			info.Set(SecurityFieldIDs.Security.undInstrumentId, sec.UndInstrumentId);
+			IMSecurityInfo info = new IMSecurityInfo(sec, rocSymbol);
 
 			lock (SymbolSecurityInfos)
 			{
@@ -2036,61 +1955,24 @@ namespace RDSEx
 
 		private void DecodeOption(OptionDesc option, string rocSymbol)
 		{
-			IMOptionInfo info = new IMOptionInfo();
-
-			info.Set(SecurityFieldIDs.Option.stockSymbol, option.stockSymbol);
-			info.Set(SecurityFieldIDs.Option.optionSymbol, option.optionSymbol);
-			info.Set(SecurityFieldIDs.Option.opraSymbol, option.opraSymbol);
-			//info.Update(SecurityFieldIDs.Option.exchange, option.exchange);
-			info.Set(SecurityFieldIDs.Option.dataSource, option.exchange);
-			info.Set(SecurityFieldIDs.Option.strikPrice, option.strike);
-			info.Set(SecurityFieldIDs.Option.expirationDate, option.expirationDate);
-			info.Set(SecurityFieldIDs.Option.contractSize, option.contractSize);
-			info.Set(SecurityFieldIDs.Option.putCall, option.putCall);
-			//info.Update(SecurityFieldIDs.Option.spcStlFlag, option.spcStlFlag);
-			if (option.tickSize != 0)
-			{
-				info.Set(SecurityFieldIDs.Option.tickSize, option.tickSize);
-			}
-			//info.Update(SecurityFieldIDs.Option.curCode, option.curCode);
-			//info.Update(SecurityFieldIDs.Option.exerType, option.exerType);
-			//info.Update(SecurityFieldIDs.Option.instrumentId, option.instrumentId);
-			//info.Update(SecurityFieldIDs.Option.undInstrumentId, option.undInstrumentId);
-			info.Set(SecurityFieldIDs.Option.longName, option.longName);
-			info.Set(SecurityFieldIDs.Option.genericMDSymbol, option.genericMDSymbol);
-			//info.Update(SecurityFieldIDs.Option.obsoleteDateTime, option.obsoleteDateTime);
-			info.Set(SecurityFieldIDs.Option.undExpirationDate, option.undExpirationDate);
-			info.Set(SecurityFieldIDs.Option.roninSymbol, option.roninSymbol);
-			info.Set(SecurityFieldIDs.Option.underlying, rocSymbol);
+			IMSecurityInfo secinfo = null;
 
 			lock (SymbolSecurityInfos)
 			{
-				if (SymbolSecurityInfos.TryGetValue(rocSymbol, out IMSecurityInfo secinfo))
-				{
-					info.MDSource = secinfo.MDSource;
-					if (secinfo.SecType == CSVFieldIDs.SecurityTypes.Future)
-					{
-						info.SecType = CSVFieldIDs.SecurityTypes.OptionFuture;
-						info.TickSize = secinfo.TickSize;
-					}
-					else
-					{
-						info.SecType = CSVFieldIDs.SecurityTypes.Option;
-					}
-
-					secinfo.OptionChain[info.MDSymbol] = info;
-				} else
-				{
-					Debug.Assert(!Debugger.IsAttached, "Missing Symbol For Option Chain");
-				}
+				if (!SymbolSecurityInfos.TryGetValue(rocSymbol, out secinfo))
+					secinfo = null;
 			}
+
+			IMOptionInfo optionInfo = new IMOptionInfo(option, secinfo, rocSymbol);
+			if (secinfo != null)
+				secinfo.OptionChain[optionInfo.MDSymbol] = optionInfo;
 
 			lock (SymbolToOptionInfos)
 			{
-				SymbolToOptionInfos[info.MDSymbol] = info;
+				SymbolToOptionInfos[optionInfo.MDSymbol] = optionInfo;
 			}
 
-			AddToSymbolDetailToRocSymbolMap(info.SymbolDetail, info.MDSymbol);
+			AddToSymbolDetailToRocSymbolMap(optionInfo.SymbolDetail, optionInfo.MDSymbol);
 		}
 
 		#endregion
@@ -2107,7 +1989,7 @@ namespace RDSEx
 			{
 				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.SingleStockFuture);
 			}
-			else if (!SymbolSecurityInfos.TryGetValue(rocSymbol, out var found) || (found.SSFutureChain.Count == 0))
+			else if (!SymbolSecurityInfos.TryGetValue(rocSymbol, out var found) || (found.SSFuturesChain.Count == 0))
 			{
 				AddToSecurityInfoWaitingList(rocSymbol, CSVFieldIDs.SecurityTypes.SingleStockFuture);
 			}
@@ -2211,7 +2093,7 @@ namespace RDSEx
 				{
 					if (SymbolSecurityInfos.TryGetValue(rocSymbol, out var found))
 					{
-						found.SSFutureChain[info.MDSymbol] = info;
+						found.SSFuturesChain[info.MDSymbol] = info;
 					} else
 					{
 						Debug.Assert(!Debugger.IsAttached, "Missing Symbol For SSFuture Chain");

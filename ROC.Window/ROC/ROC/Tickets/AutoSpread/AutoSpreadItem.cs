@@ -49,11 +49,11 @@ namespace ROC.Tickets.AutoSpread
 		internal string TradedPriceSTR => toText(TradedPrice);
 		internal bool HasOriginInfo => (Exchange != "") && (LocalAcctAcrn != "") && (TradeFor != "");
 
-		private BaseSecurityInfo _secInfo = null;
-		internal BaseSecurityInfo SecInfo {
+		private RDSEx.IMSecurityBase _secInfo = null;
+		internal RDSEx.IMSecurityBase SecInfo {
 			get {
 				if (_secInfo == null)
-					_secInfo = new BaseSecurityInfo();
+					_secInfo = new RDSEx.IMSecurityBase();
 				return _secInfo;
 			}
 		}
@@ -69,7 +69,7 @@ namespace ROC.Tickets.AutoSpread
 					if (_symbolDetail != "") {
 						_secInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(_symbolDetail);
 					} else {
-						_secInfo = new BaseSecurityInfo();
+						_secInfo = new RDSEx.IMSecurityBase();
 					}
 				}
 			}

@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 
+using Common;
 using RDSEx;
 using SerializationEx;
 using MarketData;
@@ -574,7 +575,7 @@ namespace ROC
 		{
 			if (GLOBAL.HRDS.GotTposPositions) {
 				lock (Table) {
-					foreach (ROCPosition position in positions.Values) {
+					foreach ((string _, ROCPosition position) in positions) {
 						Update(position);
 					}
 				}
@@ -617,9 +618,9 @@ namespace ROC
 		{
 			Dictionary<string, ROCPosition> positions = null;
 			if (trade != null) {
-				if (trade.Source == AssetShared.SourceEnum.ROC) {
+				if (trade.Source == ROCSecurity.SourceEnum.ROC) {
 					positions = RocItems;
-				} else if (trade.Source == AssetShared.SourceEnum.TPOS) {
+				} else if (trade.Source == ROCSecurity.SourceEnum.TPOS) {
 					// Filter out Auto Balance Trades from TPOS
 					if (trade.ExecPrice > 0)
 						positions = TposItems;

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using RDSEx;
 using System.Data;
+
+using Common;
+using RDSEx;
 using CSVEx;
-using Price = Common.Price;
 
 namespace ROC
 {
@@ -104,27 +105,18 @@ namespace ROC
 			}
 
 			Price? stopLimitPrice = null;
+			System.Func<Price, Price, bool> compare = null;
 
-			switch (side)
-			{
-				case "Buy":
-					foreach (ROCOrder order in orders.Values)
-					{
-						if (!stopLimitPrice.HasValue || (stopLimitPrice.Value < order.OrderPrice))
-						{
-							stopLimitPrice = order.OrderPrice;
-						}
-					}
-					break;
-				case "Sell":
-					foreach (ROCOrder order in orders.Values)
-					{
-						if (!stopLimitPrice.HasValue || (stopLimitPrice.Value > order.OrderPrice))
-						{
-							stopLimitPrice = order.OrderPrice;
-						}
-					}
-					break;
+			if (side == "Buy")
+				compare = (a, b) => a < b;
+			else if (side == "Sell")
+				compare = (a, b) => a > b;
+
+			if (compare != null) {
+				foreach ((string _, ROCOrder order) in orders) {
+					if (!stopLimitPrice.HasValue || compare(stopLimitPrice.Value, order.OrderPrice))
+						stopLimitPrice = order.OrderPrice;
+				}
 			}
 
 			return stopLimitPrice;
@@ -155,10 +147,9 @@ namespace ROC
 
 			foreach (DataRow row in rows)
 			{
-				string tag = "";
 				if (row["Tag"] != DBNull.Value && row["Tag"].ToString() != "")
 				{
-					tag = row["Tag"].ToString();
+					string tag = row["Tag"].ToString();
 					if (GLOBAL.HOrders.RocItems.TryGetValue(tag, out ROCOrder found) && !result.ContainsKey(tag))
 					{
 						result.Add(tag, found);

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
+using Common;
 using RDSEx;
 using DataGridViewEx;
 using SerializationEx;
@@ -28,7 +29,7 @@ namespace ROC
 			get
 			{
 				if (CurrentSecInfo != null &&
-					CurrentSecInfo.SSFChain.Count > 0)
+					CurrentSecInfo.SSFuturesChain.Count > 0)
 				{
 					return true;
 				}
@@ -177,7 +178,7 @@ namespace ROC
 			QuickButtonSupprot = new QuickButtonSupport(this);
 			QuickButtonSupprot.QuickButtonClicked += new QuickButtonClickedEventHandler(QuickButtonSupprot_QuickButtonClicked);
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			BookDepthLimit = Configuration.ROC.Default.BookDepthLimit;
 
@@ -922,7 +923,7 @@ namespace ROC
 
 		private void UpdateOrders(string symbolDetail, Dictionary<string, ROCOrder> orders)
 		{
-			foreach (ROCOrder order in orders.Values)
+			foreach ((string _, ROCOrder order) in orders)
 			{
 				if (order.SymbolDetail == symbolDetail)
 				{
@@ -1145,7 +1146,7 @@ namespace ROC
 					CurrentSecInfo = GLOBAL.HRDS.GetSecurityInfoBySymbolDetail(symbolDetail);
 					if (CurrentSecInfo != null && CurrentSecInfo.SecType != "")
 					{
-						UpdateIMInfo(symbolDetail, CurrentSecInfo);
+						UpdateIMInfo(CurrentSecInfo);
 
 						if (!IsFuture && !gotSSFChain)
 						{
@@ -1198,15 +1199,15 @@ namespace ROC
 			}
 		}
 
-		private void UpdateIMInfo(string _, BaseSecurityInfo secInfo)
+		private void UpdateIMInfo(IMSecurityBase secInfo)
 		{
 			HelperSubscriber.Subscribe(secInfo.MDSymbol, secInfo.MDSource, secInfo.SecType);
 			switch (secInfo.SecType)
 			{
 				case CSVFieldIDs.SecurityTypes.Equity:
-					if (secInfo.SSFChain.Count > 0)
+					if (secInfo.SSFuturesChain.Count > 0)
 					{
-						foreach (var entry in secInfo.SSFChain)
+						foreach (var entry in secInfo.SSFuturesChain)
 							HelperSubscriber.SubscribeSSF(entry.Value.MDSymbol, entry.Value.MDSource, entry.Value.SecType);
 					}
 					break;
@@ -1722,7 +1723,7 @@ namespace ROC
 				panelManagerFuture.SelectedPanel = managedPanelSSF;
 				MinimumSize = new Size(MinimumSize.Width, _defaultSSF);
 
-				foreach (IMSSFutureInfo ssf in CurrentSecInfo.SSFChain.Values)
+				foreach ((string _, IMSSFutureInfo ssf) in CurrentSecInfo.SSFuturesChain)
 				{
 					lock (rocSSFList.RocGridTable)
 					{
@@ -2024,7 +2025,7 @@ namespace ROC
 						order.mdSymbol = CurrentSecInfo.MDSymbol;
 						order.secType = CurrentSecInfo.SecType;
 						order.underlying = CurrentSecInfo.Underlying;
-						order.expDate = CurrentSecInfo.Expiration;
+						order.expDate = CurrentSecInfo.ExpirationText;
 						order.multiplier = CurrentSecInfo.ContractSize.ToString();
 					}
 					else
@@ -2440,7 +2441,7 @@ namespace ROC
 
 			HasFirstUpdate = false;
 
-			CurrentSecInfo = new BaseSecurityInfo();
+			CurrentSecInfo = new IMSecurityBase();
 
 			LongName = CurrentSecInfo.LongName;
 

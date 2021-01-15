@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 
+using Common;
 using LabelEx;
 
 namespace ROC
@@ -57,7 +56,7 @@ namespace ROC
 			_vertical = vertical;
 			_items = items;
 
-			foreach (FilterItem item in _items.Values)
+			foreach ((string _, FilterItem item) in _items)
 			{
 				item.PropertyChanged += new PropertyChangedEventHandler(item_PropertyChanged);
 				AddLabel(item);
