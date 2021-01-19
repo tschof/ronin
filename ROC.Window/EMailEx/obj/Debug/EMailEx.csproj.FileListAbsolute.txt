@@ -1,6 +1,5 @@
 C:\Users\clangan\source\repos\ROC\ROC.Window\EMailEx\bin\Debug\EMailEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\EMailEx\bin\Debug\EMailEx.pdb
-C:\Users\clangan\source\repos\ROC\ROC.Window\EMailEx\obj\Debug\EMailEx.csprojAssemblyReference.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\EMailEx\obj\Debug\EMailEx.csproj.CoreCompileInputs.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\EMailEx\obj\Debug\EMailEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\EMailEx\obj\Debug\EMailEx.pdb

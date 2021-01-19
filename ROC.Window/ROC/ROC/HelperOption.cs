@@ -36,7 +36,7 @@ namespace ROC
 
 					// TODO Make the DataGridView Object Aware of the product
 					DataGridViewEx.GLOBAL.OptionOnFuture.PlusOne = _plusOne;
-					RDSEx.GLOBAL.OptionOnFuture.PlusOne = _plusOne;
+					RDSEx.ROCSecurity.SetPlusOnesOnFuturesOptions(_plusOne);
 				}
 				return _plusOne;
 			}
@@ -129,7 +129,6 @@ namespace ROC
 
 					// TODO Make the DataGridView Object Aware of the product
 					DataGridViewEx.GLOBAL.OptionOnFuture.ShowAs64TH = _showAs64th;
-					RDSEx.GLOBAL.OptionOnFuture.ShowAs64TH = _showAs64th;
 				}
 				return _showAs64th;
 			}

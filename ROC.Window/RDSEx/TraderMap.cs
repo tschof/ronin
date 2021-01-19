@@ -4,6 +4,13 @@ namespace RDSEx
 {
 	public class TraderMap
 	{
+		public static class AccountTypes
+		{
+			public const string Stock = "CS";
+			public const string Option = "OPT";
+			public const string Future = "FUT";
+		}
+
 		private Dictionary<string, AccountMap> _csAccounts;
 		public Dictionary<string, AccountMap> CSAccounts {
 			get {

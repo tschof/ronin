@@ -40,7 +40,7 @@ namespace ROC
 
 					// TODO Make the DataGridView Object Aware of the product
 					DataGridViewEx.GLOBAL.Future.PlusOne = _plusOne;
-					RDSEx.GLOBAL.Future.PlusOne = _plusOne;
+					RDSEx.ROCSecurity.SetPlusOnesOnFutures(_plusOne);
 				}
 				return _plusOne;
 			}

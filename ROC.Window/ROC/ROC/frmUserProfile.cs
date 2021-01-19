@@ -75,9 +75,9 @@ namespace ROC
 					node.Nodes.Add("TradeFor", trader.TradeFor);
 					node.Nodes.Add("LocalAcAcrn", trader.LocalAcAcrn );
 
-					LoadAccounts(AccountTypes.Stock, node, trader.CSAccounts);
-					LoadAccounts(AccountTypes.Option, node, trader.OPTAccounts);
-					LoadAccounts(AccountTypes.Future, node, trader.FUTAccounts);
+					LoadAccounts(TraderMap.AccountTypes.Stock, node, trader.CSAccounts);
+					LoadAccounts(TraderMap.AccountTypes.Option, node, trader.OPTAccounts);
+					LoadAccounts(TraderMap.AccountTypes.Future, node, trader.FUTAccounts);
 				}
 			}
 		}

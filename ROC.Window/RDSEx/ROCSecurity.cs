@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using DateTime = System.DateTime;
 
 using CSVEx;
@@ -119,24 +120,11 @@ namespace RDSEx
 			get {
 				if (!_isOptionFuture.HasValue || isDirty(DirtyEnum.IsOptionFuture)) {
 					if ((Underlying != null) && (Underlying.Length > 3)) {
+						// It looks like a futures option if the last character is a digit...
 						if (char.IsDigit(Underlying[Underlying.Length - 1])) {
-							switch (Underlying.Substring(Underlying.Length - 2, 1)) {
-								case GLOBAL.MonthCodes.January:
-								case GLOBAL.MonthCodes.February:
-								case GLOBAL.MonthCodes.March:
-								case GLOBAL.MonthCodes.April:
-								case GLOBAL.MonthCodes.May:
-								case GLOBAL.MonthCodes.June:
-								case GLOBAL.MonthCodes.July:
-								case GLOBAL.MonthCodes.August:
-								case GLOBAL.MonthCodes.September:
-								case GLOBAL.MonthCodes.October:
-								case GLOBAL.MonthCodes.November:
-								case GLOBAL.MonthCodes.December:
-									return true;
-								default:
-									break;
-							}
+							// ...and the penultimate character is a futures month code.
+							char monthCode = Underlying[Underlying.Length - 2];
+							return Common.Constants.FuturesMonthCodes.IsMonthCode(monthCode);
 						}
 					}
 
@@ -191,7 +179,7 @@ namespace RDSEx
 						case CSVFieldIDs.SecurityTypes.OptionIndex:
 							if (TimeFormats.TryParse(ExpDate, out when)) {
 								string prefix;
-								if (GLOBAL.OptionOnFuture.PlusOne.Contains(baseSymbol)) {
+								if (_plusOnesFuturesOptions.Contains(baseSymbol)) {
 									prefix = Underlying;
 									when = when.AddMonths(1);
 								} else if ((Underlying.Length == Symbol.Length - 1) && (string.Compare(Underlying, 0, _symbol, 0, Underlying.Length) == 0)) {
@@ -205,11 +193,12 @@ namespace RDSEx
 							}
 							break;
 						case CSVFieldIDs.SecurityTypes.Future:
-							if ((Source == SourceEnum.TPOS) && GLOBAL.Future.PlusOne.Contains(baseSymbol)) {
+							if ((Source == SourceEnum.TPOS) && ((_plusOnesFutures == null) || _plusOnesFutures.Contains(baseSymbol))) {
 								if (TimeFormats.TryParse(ExpDate, out when)) {
 									when = when.AddMonths(1);
-									if (GLOBAL.MonthCodes.Map.TryGetValue(when.Month, out string name))
-										_symbolDetail = baseSymbol + name + _symbol;
+									char monthCode = Common.Constants.FuturesMonthCodes.GetMonthCode(when.Month);
+									if (monthCode != 0)
+										_symbolDetail = baseSymbol + monthCode + _symbol;
 								}
 							}
 							break;
@@ -234,7 +223,7 @@ namespace RDSEx
 						case CSVFieldIDs.SecurityTypes.Option:
 						case CSVFieldIDs.SecurityTypes.OptionFuture:
 						case CSVFieldIDs.SecurityTypes.OptionIndex:
-							if (GLOBAL.OptionOnFuture.PlusOne.Contains(baseSymbol) &&
+							if (((_plusOnesFuturesOptions == null) || _plusOnesFuturesOptions.Contains(baseSymbol)) &&
 								TimeFormats.TryParse(ExpDate, out DateTime when))
 							{
 								_symbolDisplay = string.Format("{0} {1}({2}) {3} {4}",
@@ -331,6 +320,32 @@ namespace RDSEx
 		{
 			string acct = (clearingAcct.Length > 5) ? clearingAcct.Substring(0, 5) : clearingAcct;
 			return string.Join("|", symbolDetail, trader, acct);
+		}
+
+		private static List<string> _plusOnesFuturesOptions = null;
+		public static void SetPlusOnesOnFuturesOptions(List<string> plusOnes)
+		{
+			if (_plusOnesFuturesOptions == null)
+				_plusOnesFuturesOptions = new List<string>();
+			_plusOnesFuturesOptions = plusOnes;
+		}
+
+		private static List<string> _plusOnesFutures = null;
+		public static void SetPlusOnesOnFutures(List<string> plusOnes)
+		{
+			if (_plusOnesFutures == null)
+				_plusOnesFutures = new List<string>();
+			_plusOnesFutures = plusOnes;
+		}
+
+		private static class TimeFormats
+		{
+			private static string[] _formats = { "yyyyMM", "yyyyMMdd", "yyyy-MM-dd" };
+
+			public static bool TryParse(string text, out System.DateTime when)
+			{
+				return System.DateTime.TryParseExact(text, _formats, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, out when);
+			}
 		}
 
 		#region - private members -

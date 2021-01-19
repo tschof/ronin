@@ -1,3 +1,5 @@
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.itemBaseDateTimePicker.resources
+C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.pdb
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\bin\Debug\ROC.exe.config
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\bin\Debug\ROC.exe
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\bin\Debug\ROC.pdb
@@ -75,7 +77,6 @@ C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.csprojAssembl
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.BaseTicket.resources
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.FutureMatrixColumn.resources
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.FutureMatrixObjects.resources
-C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.itemBaseDateTimePicker.resources
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.menuFullOrderModification.resources
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.menuBaseFilter.resources
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.frmAbout.resources
@@ -118,4 +119,3 @@ C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.csproj.Genera
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.csproj.CoreCompileInputs.cache
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.csproj.CopyComplete
 C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.exe
-C:\Users\clangan\source\repos\ROC\ROC.Window\ROC\ROC\obj\Debug\ROC.pdb

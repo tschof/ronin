@@ -46,4 +46,3 @@ C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\zh-cn\PlotEx.resou
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\zh-tw\PlotEx.resources.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.dll
 C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.pdb
-C:\Users\clangan\source\repos\ROC\ROC.Window\PlotEx\obj\Debug\PlotEx.csprojAssemblyReference.cache

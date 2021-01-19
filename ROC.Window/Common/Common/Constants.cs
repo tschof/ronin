@@ -27,6 +27,11 @@
 			{
 				return _codes.IndexOf(code);
 			}
+
+			public static char GetMonthCode(int monthIndex) // 1-based
+			{
+				return ((monthIndex > 0) && (monthIndex < 13)) ? _codes[monthIndex - 1] : (char)0;
+			}
 		}
 	}
 }
