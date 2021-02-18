@@ -464,7 +464,10 @@ uint64_t set_pillar_bitfields(dart_order_obj* doj)
             bitfield |= on <<54UL;
         } else if(exinst[0] == '8') {
             bitfield |= on <<55UL;
-        } 
+        } else if(exlen == 1 && exinst[0] == '1') {
+            bitfield |= on <<45UL;
+        }
+
     } else if(destlen == 3 && dest[0] == '5'
             && dest[1] == '0' && (dest[2] == '3' || dest[2] == '4')) {
             bitfield |= on <<44UL;

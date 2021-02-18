@@ -53,7 +53,7 @@ static void trans_gsopt_cap(trans_t* t, ofp* fix_obj, char* cap,
 
 static void set_ex_dest(trans_t* t, ofp* fix_obj, char* instr, int instrlen)
 {
-    if(instrlen >= 4) {
+    if(instrlen >= 1) {
         set_fix_val(t, fix_obj, 100, instr, instrlen);
     } else {
         set_fix_val(t, fix_obj, 100, "Z", 1);
